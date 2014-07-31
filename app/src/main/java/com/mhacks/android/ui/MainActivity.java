@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.bugsnag.android.Bugsnag;
 import com.mhacks.android.R;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.nav.NavItem;
@@ -49,6 +50,8 @@ public class MainActivity extends Activity
     if (mUser == null) {
       startActivity(new Intent(this, LoginActivity.class));
       finish();
+    } else {
+      Bugsnag.setUser(mUser.getObjectId(), mUser.getEmail(), mUser.getFullName());
     }
   }
 
