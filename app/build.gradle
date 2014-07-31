@@ -1,0 +1,58 @@
+apply plugin: 'com.android.application'
+
+ext {
+  parse_application_id = ext.MHACKS_PARSE_APP_ID
+  parse_client_key = ext.MHACKS_PARSE_CLIENT_KEY
+  firebase_url = ext.MHACKS_FIREBASE_URL
+}
+
+android {
+  compileSdkVersion 20
+  buildToolsVersion "20.0.0"
+
+  packagingOptions {
+    exclude 'META-INF/LICENSE'
+    exclude 'META-INF/NOTICE'
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_7
+    targetCompatibility JavaVersion.VERSION_1_7
+  }
+
+  defaultConfig {
+    applicationId "com.mhacks.android"
+    minSdkVersion 14
+    targetSdkVersion 20
+    versionCode 1
+    versionName "1.0"
+    resValue "string", "parse_application_id", parse_application_id
+    resValue "string", "parse_client_key", parse_client_key
+    resValue "string", "firebase_url", firebase_url
+  }
+  buildTypes {
+    release {
+      debuggable false
+      runProguard false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      resValue "string", "parse_application_id", parse_application_id
+      resValue "string", "parse_client_key", parse_client_key
+      resValue "string", "firebase_url", firebase_url
+    }
+    debug {
+      debuggable true
+      runProguard false
+      resValue "string", "parse_application_id", parse_application_id
+      resValue "string", "parse_client_key", parse_client_key
+      resValue "string", "firebase_url", firebase_url
+    }
+  }
+}
+
+dependencies {
+  compile fileTree(dir: 'libs', include: ['*.jar'])
+  compile 'com.android.support:support-v4:20+'
+  compile 'com.firebase:firebase-client:1.0.16+'
+  compile 'com.google.guava:guava:+'
+  compile 'com.squareup.picasso:picasso:2.3.3'
+}
