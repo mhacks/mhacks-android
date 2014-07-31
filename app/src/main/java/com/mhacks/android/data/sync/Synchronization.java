@@ -7,6 +7,7 @@ package com.mhacks.android.data.sync;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 
+import com.bugsnag.android.Bugsnag;
 import com.google.common.base.Optional;
 import com.mhacks.android.data.model.User;
 
@@ -54,6 +55,7 @@ public class Synchronization extends AsyncTask<Void, Void, Void> {
 
   protected Void error(Synchronize.SyncException e) {
     e.printStackTrace();
+    Bugsnag.notify(e);
     sSyncing = false;
     if (mCallbacks.isPresent()) mCallbacks.get().onSyncError(e);
     if (mLayout.isPresent()) mLayout.get().setRefreshing(false);

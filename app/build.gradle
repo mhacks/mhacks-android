@@ -4,6 +4,7 @@ ext {
   parse_application_id = ext.MHACKS_PARSE_APP_ID
   parse_client_key = ext.MHACKS_PARSE_CLIENT_KEY
   firebase_url = ext.MHACKS_FIREBASE_URL
+  bugsnag_key = ext.MHACKS_BUGSNAG_KEY
 }
 
 android {
@@ -29,6 +30,7 @@ android {
     resValue "string", "parse_application_id", parse_application_id
     resValue "string", "parse_client_key", parse_client_key
     resValue "string", "firebase_url", firebase_url
+    resValue "string", "bugsnag_key", bugsnag_key
   }
   buildTypes {
     release {
@@ -38,6 +40,7 @@ android {
       resValue "string", "parse_application_id", parse_application_id
       resValue "string", "parse_client_key", parse_client_key
       resValue "string", "firebase_url", firebase_url
+      resValue "string", "bugsnag_key", bugsnag_key
     }
     debug {
       debuggable true
@@ -45,6 +48,7 @@ android {
       resValue "string", "parse_application_id", parse_application_id
       resValue "string", "parse_client_key", parse_client_key
       resValue "string", "firebase_url", firebase_url
+      resValue "string", "bugsnag_key", bugsnag_key
     }
   }
 }

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.bugsnag.android.Bugsnag;
 import com.mhacks.android.data.sync.Synchronize;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -139,6 +140,7 @@ public class User extends ParseUser implements Parcelable {
         return query().fromLocalDatastore().get(parcel.readString());
       } catch (ParseException e) {
         e.printStackTrace();
+        Bugsnag.notify(e);
       }
       return null;
     }

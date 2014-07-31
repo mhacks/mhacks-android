@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.bugsnag.android.Bugsnag;
 import com.mhacks.android.data.sync.Synchronization;
 import com.mhacks.android.data.sync.Synchronize;
 import com.parse.FindCallback;
@@ -67,6 +68,7 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements 
       public void done(List<T> ts, ParseException e) {
         if (e != null) {
           e.printStackTrace();
+          Bugsnag.notify(e);
           return;
         }
         clear();

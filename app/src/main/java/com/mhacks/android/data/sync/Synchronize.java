@@ -1,5 +1,6 @@
 package com.mhacks.android.data.sync;
 
+import com.bugsnag.android.Bugsnag;
 import com.google.common.collect.MapDifference;
 import com.google.common.collect.Maps;
 import com.mhacks.android.data.model.DataClass;
@@ -47,6 +48,7 @@ public class Synchronize<T extends ParseObject> {
 
     } catch (ParseException e) {
       e.printStackTrace();
+      Bugsnag.notify(e);
       throw new SyncException(e);
     }
 

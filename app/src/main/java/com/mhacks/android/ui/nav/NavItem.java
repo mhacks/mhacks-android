@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 
+import com.bugsnag.android.Bugsnag;
+
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/27/14.
  */
@@ -38,6 +40,7 @@ public class NavItem {
           mFragment = mClazz.getConstructor().newInstance();
         } catch (Exception e) {
           e.printStackTrace();
+          Bugsnag.notify(e);
         }
       }
     }

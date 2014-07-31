@@ -3,6 +3,7 @@ package com.mhacks.android.ui.common;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.bugsnag.android.Bugsnag;
 import com.google.common.base.Function;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -61,6 +62,7 @@ public abstract class Util {
           return BitmapFactory.decodeByteArray(data, 0, data.length);
         } catch (ParseException e) {
           e.printStackTrace();
+          Bugsnag.notify(e);
         }
         return null;
       }

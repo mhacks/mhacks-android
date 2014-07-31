@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bugsnag.android.Bugsnag;
 import com.mhacks.android.R;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -68,6 +69,7 @@ public class LoginActivity extends Activity implements
       public void done(ParseUser parseUser, ParseException e) {
         if (e != null) {
           e.printStackTrace();
+          Bugsnag.notify(e);
           Toast.makeText(LoginActivity.this, R.string.error_logging_in, Toast.LENGTH_SHORT).show();
           dialog.cancel();
           return;
