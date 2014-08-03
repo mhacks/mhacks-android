@@ -8,6 +8,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
 
 /**
@@ -19,20 +20,28 @@ public abstract class DataClass<T extends DataClass<T>> extends ParseObject impl
   public static final String UPDATED_AT = "updatedAt";
   public static final String ACL = "ACL";
 
+  public final boolean mUserCreated;
+
   public DataClass(boolean userCreated) {
-    if (userCreated) {
-      pinInBackground(null);
-    }
+    mUserCreated = userCreated;
   }
 
   public T builderPut(String key, Object value) {
+//    if (!getACL().getWriteAccess(User.getCurrentUser())) {
+//      throw new UnauthorizedException();
+//    }
     put(key, value);
-    saveEventually();
     return (T) this;
   }
 
   public User getUser(String key) {
     return (User) getParseUser(key);
+  }
+
+  @Override
+  public void saveEventually(SaveCallback callback) {
+    pinInBackground(null);
+    super.saveEventually(callback);
   }
 
   @Override

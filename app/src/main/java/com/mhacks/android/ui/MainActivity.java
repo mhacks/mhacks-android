@@ -35,7 +35,14 @@ public class MainActivity extends Activity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-//    getActionBar().setTitle(mUser.getFullName());
+    mUser = User.getCurrentUser();
+    if (mUser == null) {
+      startActivity(new Intent(this, LoginActivity.class));
+      finish();
+      return;
+    } else {
+      Bugsnag.setUser(mUser.getObjectId(), mUser.getEmail(), mUser.getFullName());
+    }
 
     mNavigationDrawerFragment = (NavigationDrawerFragment)
       getFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -45,14 +52,6 @@ public class MainActivity extends Activity
     mNavigationDrawerFragment.setUp(
       R.id.navigation_drawer,
       (DrawerLayout) findViewById(R.id.drawer_layout));
-
-    mUser = User.getCurrentUser();
-    if (mUser == null) {
-      startActivity(new Intent(this, LoginActivity.class));
-      finish();
-    } else {
-      Bugsnag.setUser(mUser.getObjectId(), mUser.getEmail(), mUser.getFullName());
-    }
   }
 
   @Override
@@ -87,6 +86,7 @@ public class MainActivity extends Activity
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
+    if (mUser == null) return false;
     if (!mNavigationDrawerFragment.isDrawerOpen()) {
       getMenuInflater().inflate(R.menu.main, menu);
       restoreActionBar();

@@ -9,7 +9,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.bugsnag.android.Bugsnag;
 import com.google.common.base.Optional;
-import com.mhacks.android.data.model.User;
+import com.mhacks.android.data.model.Announcement;
+import com.mhacks.android.data.model.Award;
+import com.mhacks.android.data.model.Event;
+import com.mhacks.android.data.model.MapLocation;
+import com.mhacks.android.data.model.Sponsor;
+import com.parse.ParseQuery;
+import com.parse.ParseQueryAdapter;
+import com.parse.ParseRole;
 
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/28/14.
@@ -45,7 +52,18 @@ public class Synchronization extends AsyncTask<Void, Void, Void> {
     if (mLayout.isPresent()) mLayout.get().setRefreshing(true);
 
     try {
-      User.getSync().sync();
+      Announcement.getSync().sync();
+      Award.getSync().sync();
+      Event.getSync().sync();
+      MapLocation.getSync().sync();
+      Sponsor.getSync().sync();
+
+      new Synchronize<>(new ParseQueryAdapter.QueryFactory<ParseRole>() {
+        @Override
+        public ParseQuery<ParseRole> create() {
+          return ParseRole.getQuery();
+        }
+      }).sync();
     } catch (Synchronize.SyncException e) {
       return error(e);
     }

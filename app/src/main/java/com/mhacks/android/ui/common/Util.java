@@ -2,6 +2,8 @@ package com.mhacks.android.ui.common;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 
 import com.bugsnag.android.Bugsnag;
 import com.google.common.base.Function;
@@ -19,7 +21,7 @@ import java.util.GregorianCalendar;
 public abstract class Util {
 
   // Various formatting tools for Date, String, etc
-  public static abstract class Format {
+  public static abstract class Time {
 
     public static final double MINUTES_PER_HOUR = 60;
 
@@ -46,6 +48,19 @@ public abstract class Util {
       calendar.setTime(date);
 
       calendar.set(Calendar.MINUTE, (int) (Math.floor(calendar.get(Calendar.MINUTE) * partsPerHour / MINUTES_PER_HOUR + 0.5) * (MINUTES_PER_HOUR / partsPerHour)));
+      return calendar;
+    }
+
+    public static Calendar fromPickers(DatePicker datePicker, TimePicker timePicker) {
+      Calendar calendar = GregorianCalendar.getInstance();
+
+      calendar.set(Calendar.YEAR, datePicker.getYear());
+      calendar.set(Calendar.MONTH, datePicker.getMonth());
+      calendar.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
+
+      calendar.set(Calendar.HOUR_OF_DAY, timePicker.getCurrentHour());
+      calendar.set(Calendar.MINUTE, timePicker.getCurrentMinute());
+
       return calendar;
     }
 

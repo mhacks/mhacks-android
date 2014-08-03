@@ -21,6 +21,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.mhacks.android.R;
+import com.mhacks.android.ui.announcements.AnnouncementsFragment;
+import com.mhacks.android.ui.schedule.ScheduleFragment;
 
 import java.util.Arrays;
 import java.util.List;
@@ -58,7 +60,8 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     List<NavItem> items = Arrays.asList(
-      // TODO: build fragments for the app
+      new NavItem(getFragmentManager(), AnnouncementsFragment.class, getString(R.string.announcements), R.drawable.ic_newspaper, AnnouncementsFragment.TAG),
+      new NavItem(getFragmentManager(), ScheduleFragment.class, getString(R.string.schedule), R.drawable.ic_calendar, ScheduleFragment.TAG)
     );
 
     mAdapter = new NavItemAdapter(getActivity(), items);

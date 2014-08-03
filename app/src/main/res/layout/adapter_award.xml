@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/list_item_padding">
+
+  <TextView
+    android:id="@+id/award_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+
+    android:textAppearance="?android:attr/textAppearanceLarge"
+    android:singleLine="true"
+    android:ellipsize="marquee"
+    android:text="@string/lorem_award_title"/>
+
+  <TextView
+    android:id="@+id/award_sponsor"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:layout_below="@id/award_title"
+    android:layout_marginTop="@dimen/intra_list_item_padding"
+
+    android:textAppearance="?android:textAppearanceSmall"
+    android:text="@string/lorem_sponsor"
+    android:singleLine="true"
+    android:textStyle="bold"/>
+
+  <TextView
+    android:id="@+id/date_time_divider"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:layout_toRightOf="@id/award_sponsor"
+    android:layout_alignBottom="@id/award_sponsor"
+    android:layout_marginLeft="@dimen/intra_list_item_padding"
+    android:layout_marginRight="@dimen/intra_list_item_padding"
+
+    android:text="@string/divider_pipe"
+    android:textAppearance="?android:textAppearanceSmall"
+    android:singleLine="true"
+    android:textStyle="bold"/>
+
+  <TextView
+    android:id="@+id/award_prize"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:layout_toRightOf="@id/date_time_divider"
+    android:layout_alignBottom="@id/date_time_divider"
+
+    android:text="@string/lorem_award_prize"
+    android:textAppearance="?android:textAppearanceSmall"
+    android:singleLine="true"
+    android:textStyle="bold"/>
+
+  <TextView
+    android:id="@+id/award_details"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:layout_below="@id/award_sponsor"
+    android:layout_marginTop="@dimen/intra_list_item_padding"
+
+    android:singleLine="false"
+    android:maxLines="4"
+    android:ellipsize="end"
+    android:textAppearance="?android:textAppearanceMedium"
+    android:text="@string/lorem_ipsum_standard"/>
+
+</RelativeLayout>

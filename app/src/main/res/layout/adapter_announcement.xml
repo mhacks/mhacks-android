@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/list_item_padding">
+
+  <ImageView
+    android:id="@+id/announcement_pinned_icon"
+    android:layout_width="24dp"
+    android:layout_height="24dp"
+
+    android:layout_alignParentTop="true"
+    android:layout_alignParentRight="true"
+
+    android:src="@drawable/ic_pin"
+    android:contentDescription="@string/icon"/>
+
+  <TextView
+    android:id="@+id/announcement_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_toLeftOf="@id/announcement_pinned_icon"
+
+    android:textAppearance="?android:attr/textAppearanceLarge"
+    android:singleLine="true"
+    android:ellipsize="marquee"
+    android:text="@string/lorem_announcement_title"/>
+
+  <TextView
+    android:id="@+id/announcement_poster"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:layout_below="@id/announcement_title"
+    android:layout_marginTop="@dimen/intra_list_item_padding"
+
+    android:textAppearance="?android:textAppearanceSmall"
+    android:text="@string/lorem_sponsor"
+    android:singleLine="true"
+    android:textStyle="bold"/>
+
+  <TextView
+    android:id="@+id/announcement_details"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:layout_below="@id/announcement_poster"
+    android:layout_marginTop="@dimen/intra_list_item_padding"
+
+    android:singleLine="false"
+    android:maxLines="4"
+    android:ellipsize="end"
+    android:text="@string/lorem_ipsum_standard"/>
+
+</RelativeLayout>

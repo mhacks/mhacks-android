@@ -115,6 +115,10 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements 
     mItems.clear();
   }
 
+  public int positionOf(T t) {
+    return mItems.indexOf(t);
+  }
+
   public void load(ParseQueryAdapter.QueryFactory<T> queryFactory) {
     mQueryFactory = queryFactory;
     load();

@@ -14,5 +14,19 @@
   <string name="error_logging_in">Login failed. Please check your username and password.</string>
   <string name="icon">Icon</string>
   <string name="divider_pipe">|</string>
+  <string name="announcements">Announcements</string>
+  <string name="schedule">Schedule</string>
+  <string name="lorem_award_prize">Over 9000 Pairs of Google Glass</string>
+  <string name="announcements_new">New Announcement</string>
+  <string name="awards_new">New Award</string>
+  <string name="events_new">New Event</string>
+  <string name="event_title">Event Title</string>
+  <string name="event_title_hint">MHacks Begins</string>
+  <string name="event_details">Event Details</string>
+  <string name="event_details_hint">Come join us for some awesome stuff!</string>
+  <string name="host">Host</string>
+  <string name="ordering">Ordering</string>
+  <string name="location">Location</string>
+  <string name="time">Time</string>
 
 </resources>

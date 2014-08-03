@@ -13,6 +13,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseRole;
 import com.parse.ParseUser;
 
 /**
@@ -21,6 +22,10 @@ import com.parse.ParseUser;
 @ParseClassName(User.CLASS)
 public class User extends ParseUser implements Parcelable {
   public static final String CLASS = "_User";
+
+  public static final String ROLE_NAME = "name";
+  public static final String ROLE_USERS = "users";
+  public static final String ADMINISTRATOR = "Administrator";
 
   public static final String OBJECT_ID = "objectId";
   public static final String FIRST_NAME = "firstName";
@@ -34,6 +39,8 @@ public class User extends ParseUser implements Parcelable {
   public static final String PHONE = "phone";
   public static final String SEX = "sex";
 
+  private Boolean mAdmin = null;
+
   public User() {
     super();
   }
@@ -43,11 +50,25 @@ public class User extends ParseUser implements Parcelable {
   }
 
   public static ParseQuery<User> query() {
-    return ParseQuery.getQuery(User.class).fromLocalDatastore();
+    return remoteQuery();
   }
 
   public static ParseQuery<User> remoteQuery() {
     return ParseQuery.getQuery(User.class);
+  }
+
+  public boolean isAdmin() {
+    if (mAdmin != null) return mAdmin;
+    try {
+      ParseRole role = ParseRole.getQuery().fromLocalDatastore()
+        .whereEqualTo(ROLE_NAME, ADMINISTRATOR).getFirst();
+      mAdmin = role.getRelation(ROLE_USERS).getQuery()
+        .whereEqualTo(OBJECT_ID, this.getObjectId()).count() == 1;
+    } catch (ParseException e) {
+      e.printStackTrace();
+      Bugsnag.notify(e);
+    }
+    return false;
   }
 
   public String getFirstName() {
