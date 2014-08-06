@@ -57,6 +57,10 @@ public class User extends ParseUser implements Parcelable {
     return ParseQuery.getQuery(User.class);
   }
 
+  public static boolean canAdmin() {
+    return getCurrentUser() != null && getCurrentUser().isAdmin();
+  }
+
   public boolean isAdmin() {
     if (mAdmin != null) return mAdmin;
     try {

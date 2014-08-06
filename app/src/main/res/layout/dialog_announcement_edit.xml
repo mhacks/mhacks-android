@@ -14,76 +14,57 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="@dimen/intra_list_item_padding"
-      android:text="@string/event_title"/>
+      android:text="@string/announcement_title"/>
 
     <EditText
-      android:id="@+id/event_title"
+      android:id="@+id/announcement_title"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
 
       android:layout_marginTop="@dimen/intra_list_item_padding"
-      android:hint="@string/event_title_hint"
+      android:hint="@string/announcement_title_hint"
       android:inputType="textCapWords"/>
 
     <TextView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="@dimen/intra_list_item_padding"
-      android:text="@string/event_details"/>
+      android:text="@string/announcement_details"/>
 
     <EditText
-      android:id="@+id/event_details"
+      android:id="@+id/announcement_details"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
 
       android:layout_marginTop="@dimen/intra_list_item_padding"
-      android:hint="@string/event_details_hint"
+      android:hint="@string/announcement_details_hint"
       android:inputType="textMultiLine"/>
 
     <TextView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="@dimen/intra_list_item_padding"
-      android:text="@string/host"/>
+      android:text="@string/poster"/>
 
     <Spinner
-      android:id="@+id/event_host"
+      android:id="@+id/announcement_poster"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="@dimen/intra_list_item_padding"/>
 
-    <TextView
+    <CheckBox
+      android:id="@+id/announcement_pinned"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/intra_list_item_padding"
 
-      android:text="@string/location"/>
+      android:text="@string/announcement_pinned"/>
 
-    <Spinner
-      android:id="@+id/event_location"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/intra_list_item_padding"/>
-
-    <TextView
+    <CheckBox
+      android:id="@+id/announcement_push"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/intra_list_item_padding"
-      android:text="@string/time"/>
 
-    <DatePicker
-      android:id="@+id/event_date"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/intra_list_item_padding"
-
-      android:calendarViewShown="false"/>
-
-    <TimePicker
-      android:id="@+id/event_time"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/intra_list_item_padding"/>
+      android:text="@string/announcement_push_now"/>
 
   </LinearLayout>
 

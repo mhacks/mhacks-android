@@ -28,5 +28,14 @@
   <string name="ordering">Ordering</string>
   <string name="location">Location</string>
   <string name="time">Time</string>
+  <string name="announcement_title">Announcement Title</string>
+  <string name="announcement_title_hint">Come get your food!</string>
+  <string name="announcement_details">Announcement Details</string>
+  <string name="announcement_details_hint">Zingerman\'s for everybody!</string>
+  <string name="poster">Poster</string>
+  <string name="announcement_pinned">Pinned</string>
+  <string name="announcement_push_now">Push (Now)</string>
+  <string name="confirm_delete">Confirm Delete</string>
+  <string name="confirm_delete_message">Are you sure you want to delete this?</string>
 
 </resources>

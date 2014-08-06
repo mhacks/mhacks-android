@@ -28,8 +28,7 @@ public class Synchronization extends AsyncTask<Void, Void, Void> {
   private Optional<SyncCallbacks> mCallbacks = Optional.absent();
   private Optional<SwipeRefreshLayout> mLayout = Optional.absent();
 
-  public Synchronization() {
-  }
+  public Synchronization() {}
 
   public Synchronization(SyncCallbacks callbacks) {
     mCallbacks = Optional.fromNullable(callbacks);
@@ -52,6 +51,7 @@ public class Synchronization extends AsyncTask<Void, Void, Void> {
     if (mLayout.isPresent()) mLayout.get().setRefreshing(true);
 
     try {
+
       Announcement.getSync().sync();
       Award.getSync().sync();
       Event.getSync().sync();

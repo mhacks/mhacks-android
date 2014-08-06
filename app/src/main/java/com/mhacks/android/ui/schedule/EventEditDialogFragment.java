@@ -30,7 +30,7 @@ import java.util.GregorianCalendar;
  * Created by Damian Wieczorek <damianw@umich.edu> on 8/2/14.
  */
 public class EventEditDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
-  public static final String TAG = "NewEventDialogFragment";
+  public static final String TAG = "EventEditDialogFragment";
 
   private Optional<Event> mEvent = Optional.absent();
 
@@ -124,12 +124,14 @@ public class EventEditDialogFragment extends DialogFragment implements DialogInt
     switch (i) {
       case DialogInterface.BUTTON_POSITIVE:
         Event event = mEvent.isPresent() ? mEvent.get() : new Event();
-        event.setTitle(mTitle.getText().toString());
-        event.setDetails(mDetails.getText().toString());
-        event.setHost(mSponsorAdapter.getItem(mHost.getSelectedItemPosition()));
-        event.setLocation(mLocationAdapter.getItem(mLocation.getSelectedItemPosition()));
-        event.setTime(Util.Time.fromPickers(mDate, mTime).getTime());
-        event.saveEventually();
+        event
+          .setTitle(mTitle.getText().toString())
+          .setDetails(mDetails.getText().toString())
+          .setHost(mSponsorAdapter.getItem(mHost.getSelectedItemPosition()))
+          .setLocation(mLocationAdapter.getItem(mLocation.getSelectedItemPosition()))
+          .setTime(Util.Time.fromPickers(mDate, mTime).getTime())
+          .saveEventually();
+
         dismiss();
         break;
       case DialogInterface.BUTTON_NEGATIVE:

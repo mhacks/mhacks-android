@@ -1,6 +1,8 @@
 package com.mhacks.android.ui.schedule;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,7 +29,10 @@ import java.text.SimpleDateFormat;
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/27/14.
  */
-public class ScheduleFragment extends Fragment implements ParseAdapter.ListCallbacks<Event> {
+public class ScheduleFragment extends Fragment implements
+  ParseAdapter.ListCallbacks<Event>,
+  AdapterView.OnItemClickListener,
+  AdapterView.OnItemLongClickListener {
   public static final String TAG = "ScheduleFragment";
 
   private ListView mListView;
@@ -59,6 +65,11 @@ public class ScheduleFragment extends Fragment implements ParseAdapter.ListCallb
     mListView = (ListView) mLayout.findViewById(R.id.events_list);
     mListView.setAdapter(mAdapter);
 
+    if (User.canAdmin()) {
+      mListView.setOnItemClickListener(this);
+      mListView.setOnItemLongClickListener(this);
+    }
+
     mAdapter.bindSync(mLayout);
     if (getArguments().getBoolean(MainActivity.SHOULD_SYNC, false)) mAdapter.onRefresh();
 
@@ -67,7 +78,7 @@ public class ScheduleFragment extends Fragment implements ParseAdapter.ListCallb
 
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    if (User.getCurrentUser().isAdmin()) {
+    if (User.canAdmin()) {
       inflater.inflate(R.menu.fragment_schedule, menu);
     }
     super.onCreateOptionsMenu(menu, inflater);
@@ -97,5 +108,26 @@ public class ScheduleFragment extends Fragment implements ParseAdapter.ListCallb
     time.setText(new SimpleDateFormat("EEEE").format(event.getTime()) + " " + Util.Time.roundTimeAndFormat(event.getTime(), 2));
   }
 
+  @Override
+  public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    EventEditDialogFragment.newInstance(mAdapter.getItem(i)).show(getFragmentManager(), EventEditDialogFragment.TAG);
+  }
+
+  @Override
+  public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long l) {
+    new AlertDialog.Builder(getActivity())
+      .setTitle(R.string.confirm_delete)
+      .setMessage(R.string.confirm_delete_message)
+      .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+          mAdapter.getItem(position).deleteEventually();
+          dialogInterface.dismiss();
+        }
+      })
+      .setNegativeButton(android.R.string.cancel, null)
+      .show();
+    return true;
+  }
 }
 

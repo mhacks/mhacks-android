@@ -5,6 +5,8 @@ import android.os.Parcel;
 import com.mhacks.android.data.sync.Synchronize;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
@@ -20,6 +22,7 @@ public class Announcement extends DataClass<Announcement> {
   public static final String DETAILS = "details";
   public static final String POSTER = "poster";
   public static final String PINNED = "pinned";
+  public static final String PUSHED = "pushed";
 
   public Announcement() {
     super(false);
@@ -66,6 +69,15 @@ public class Announcement extends DataClass<Announcement> {
 
   public Announcement setPinned(boolean pinned) {
     return builderPut(PINNED, pinned);
+  }
+
+  public boolean isPushed() {
+    return getBoolean(PUSHED);
+  }
+
+  public Announcement push() {
+    ParsePush.sendMessageInBackground(getTitle(), ParseInstallation.getQuery());
+    return this;
   }
 
   public Sponsor getPoster() {

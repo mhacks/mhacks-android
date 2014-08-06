@@ -26,6 +26,7 @@ public abstract class DataClass<T extends DataClass<T>> extends ParseObject impl
     mUserCreated = userCreated;
   }
 
+  @SuppressWarnings("unchecked")
   public T builderPut(String key, Object value) {
 //    if (!getACL().getWriteAccess(User.getCurrentUser())) {
 //      throw new UnauthorizedException();
@@ -54,6 +55,7 @@ public abstract class DataClass<T extends DataClass<T>> extends ParseObject impl
     parcel.writeString(getString(OBJECT_ID));
   }
 
+  @SuppressWarnings("unchecked")
   public static <T extends ParseObject, V> Function<T, V> getter(final String key) {
     switch (key) {
       case OBJECT_ID:
@@ -98,6 +100,7 @@ public abstract class DataClass<T extends DataClass<T>> extends ParseObject impl
     }
   }
 
+  @SuppressWarnings("unchecked")
   public static <T extends ParseObject> Equivalence<T> equivalentOn(String key) {
     return (Equivalence<T>) Equivalence.equals().onResultOf(getter(key));
   }

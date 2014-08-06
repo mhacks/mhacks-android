@@ -9,8 +9,10 @@ import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.MapLocation;
 import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.android.data.model.User;
+import com.mhacks.android.ui.MainActivity;
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.parse.PushService;
 
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/27/14.
@@ -30,6 +32,7 @@ public class MHacksApplication extends Application {
 
     Parse.enableLocalDatastore(this);
     Parse.initialize(this, getString(R.string.parse_application_id), getString(R.string.parse_client_key));
+    PushService.setDefaultPushCallback(this, MainActivity.class);
 
     Bugsnag.register(this, getString(R.string.bugsnag_key));
   }
