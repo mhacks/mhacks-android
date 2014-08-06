@@ -2,6 +2,10 @@ package com.mhacks.android.data.model;
 
 import android.os.Parcel;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.mhacks.android.data.sync.Synchronize;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -70,19 +74,34 @@ public class MapLocation extends DataClass<MapLocation> {
     return builderPut(COLOR, color);
   }
 
-  public ParseGeoPoint getLocation() {
-    return getParseGeoPoint(LOCATION);
+  public LatLng getLocation() {
+    ParseGeoPoint point = getParseGeoPoint(LOCATION);
+    return new LatLng(point.getLatitude(), point.getLongitude());
   }
 
   public MapLocation setLocation(ParseGeoPoint location) {
     return builderPut(LOCATION, location);
   }
 
-  public List<ParseGeoPoint> getBounds() {
-    return getList(BOUNDS);
+  public LatLngBounds getBounds() {
+    List<ParseGeoPoint> points = getList(BOUNDS);
+    LatLngBounds.Builder builder = LatLngBounds.builder();
+    for (ParseGeoPoint point : points) {
+      builder.include(new LatLng(point.getLatitude(), point.getLongitude()));
+    }
+    return builder.build();
   }
 
-  public MapLocation setBounds(List<ParseGeoPoint> bounds) {
+  public List<LatLng> getGeometry() {
+    return Lists.transform(this.<ParseGeoPoint>getList(BOUNDS), new Function<ParseGeoPoint, LatLng>() {
+      @Override
+      public LatLng apply(ParseGeoPoint input) {
+        return new LatLng(input.getLatitude() - 1e-5, input.getLongitude() + 8e-5);
+      }
+    });
+  }
+
+  public MapLocation setGeometry(List<ParseGeoPoint> bounds) {
     return builderPut(BOUNDS, bounds);
   }
 

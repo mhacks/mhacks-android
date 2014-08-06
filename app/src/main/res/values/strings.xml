@@ -37,5 +37,6 @@
   <string name="announcement_push_now">Push (Now)</string>
   <string name="confirm_delete">Confirm Delete</string>
   <string name="confirm_delete_message">Are you sure you want to delete this?</string>
+  <string name="map">Map</string>
 
 </resources>

@@ -5,6 +5,7 @@ ext {
   parse_client_key = ext.MHACKS_PARSE_CLIENT_KEY
   firebase_url = ext.MHACKS_FIREBASE_URL
   bugsnag_key = ext.MHACKS_BUGSNAG_KEY
+  google_maps_api_key = ext.MHACKS_GOOGLE_MAPS_API_KEY
 }
 
 android {
@@ -31,6 +32,7 @@ android {
     resValue "string", "parse_client_key", parse_client_key
     resValue "string", "firebase_url", firebase_url
     resValue "string", "bugsnag_key", bugsnag_key
+    resValue "string", "google_maps_api_key", google_maps_api_key
   }
   buildTypes {
     release {
@@ -41,6 +43,7 @@ android {
       resValue "string", "parse_client_key", parse_client_key
       resValue "string", "firebase_url", firebase_url
       resValue "string", "bugsnag_key", bugsnag_key
+      resValue "string", "google_maps_api_key", google_maps_api_key
     }
     debug {
       debuggable true
@@ -49,6 +52,7 @@ android {
       resValue "string", "parse_client_key", parse_client_key
       resValue "string", "firebase_url", firebase_url
       resValue "string", "bugsnag_key", bugsnag_key
+      resValue "string", "google_maps_api_key", google_maps_api_key
     }
   }
 }
@@ -59,4 +63,5 @@ dependencies {
   compile 'com.firebase:firebase-client:1.0.16+'
   compile 'com.google.guava:guava:+'
   compile 'com.squareup.picasso:picasso:2.3.3'
+  compile 'com.google.android.gms:play-services:5.0.77'
 }
