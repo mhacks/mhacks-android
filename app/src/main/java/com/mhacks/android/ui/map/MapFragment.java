@@ -50,7 +50,7 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
     new BoundsBuilderTask() {
       @Override
       protected void onPostExecute(CameraUpdate cameraUpdate) {
-        getMap().moveCamera(cameraUpdate);
+        if (getMap() != null) getMap().moveCamera(cameraUpdate);
       }
     }.execute(mLocations.toArray(new MapLocation[mLocations.size()]));
   }

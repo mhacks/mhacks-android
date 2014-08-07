@@ -16,8 +16,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bugsnag.android.Bugsnag;
 import com.mhacks.android.R;
+import com.mhacks.android.data.model.Installation;
+import com.mhacks.android.data.model.User;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -34,7 +35,7 @@ public class LoginActivity extends Activity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
 
-    ParseUser.logOut();
+    User.logOut();
 
     mUsername = (EditText) findViewById(R.id.username_field);
     mPassword = (EditText) findViewById(R.id.password_field);
@@ -75,6 +76,7 @@ public class LoginActivity extends Activity implements
         }
         dialog.dismiss();
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        Installation.getCurrentInstallation().setCurrentUser().saveEventually();
         finish();
       }
     });

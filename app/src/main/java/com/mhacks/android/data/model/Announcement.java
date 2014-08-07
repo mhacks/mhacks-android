@@ -10,6 +10,9 @@ import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/26/14.
@@ -76,7 +79,15 @@ public class Announcement extends DataClass<Announcement> {
   }
 
   public Announcement push() {
-    ParsePush.sendMessageInBackground(getTitle(), ParseInstallation.getQuery());
+    JSONObject data = new JSONObject();
+    try {
+      data.put("foo", "bar");
+      data.put("spam", "eggs");
+      data.put("one", 1);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+    ParsePush.sendDataInBackground(data, ParseInstallation.getQuery());
     return this;
   }
 
