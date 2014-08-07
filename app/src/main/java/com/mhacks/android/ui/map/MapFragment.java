@@ -23,6 +23,8 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
   public static final String TAG = "MapFragment";
 
   private List<MapLocation> mLocations = new ArrayList<>();
+  private CameraUpdate mCenter;
+  private boolean mLoaded = false;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,11 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
     new BoundsBuilderTask() {
       @Override
       protected void onPostExecute(CameraUpdate cameraUpdate) {
-        if (getMap() != null) getMap().moveCamera(cameraUpdate);
+        mCenter = cameraUpdate;
+        if (getMap() != null) {
+          getMap().moveCamera(cameraUpdate);
+          mLoaded = true;
+        }
       }
     }.execute(mLocations.toArray(new MapLocation[mLocations.size()]));
   }
@@ -58,6 +64,8 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
   @Override
   public void onMapLoaded() {
     GoogleMap map = getMap();
+
+    if (!mLoaded && mCenter != null) map.moveCamera(mCenter);
 
     for (MapLocation location : mLocations) {
       PolygonOptions polygon = new PolygonOptions();
