@@ -59,7 +59,7 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     mLayout = (FrameLayout) inflater.inflate(R.layout.fragment_chat, null);
     mListView = (ListView) mLayout.findViewById(R.id.chat_list);
-    
+
     return mLayout;
   }
 
@@ -104,7 +104,7 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
 
   @Override
   public boolean onNavigationItemSelected(int i, long l) {
-    mChatAdapter = new ChatAdapter(mFirebase.child(MESSAGES).child(mRoomsAdapter.getItem(i).getTitle()), getActivity());
+    mChatAdapter = new ChatAdapter(mFirebase.child(MESSAGES).child(mRoomsAdapter.getItem(i).getTitle()).limit(50), getActivity());
     mListView.setAdapter(mChatAdapter);
     return true;
   }
