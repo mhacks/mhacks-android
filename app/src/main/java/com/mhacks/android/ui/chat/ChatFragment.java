@@ -118,7 +118,6 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
     @Override
     protected void populateView(ViewHolder holder, ChatRoom chatRoom) {
       TextView title = holder.get(android.R.id.text1);
-
       title.setText(chatRoom.getTitle());
     }
 
@@ -133,7 +132,6 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
     @Override
     protected void populateView(ViewHolder holder, ChatMessage message) {
       TextView title = holder.get(android.R.id.text1);
-
       title.setText(message.getMessage());
     }
 
