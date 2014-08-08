@@ -65,7 +65,10 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
   public void onMapLoaded() {
     GoogleMap map = getMap();
 
-    if (!mLoaded && mCenter != null) map.moveCamera(mCenter);
+    if (!mLoaded && mCenter != null){
+      map.moveCamera(mCenter);
+      mLoaded = true;
+    }
 
     for (MapLocation location : mLocations) {
       PolygonOptions polygon = new PolygonOptions();
