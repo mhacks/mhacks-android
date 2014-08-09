@@ -123,6 +123,7 @@ public class Venue extends DataClass<Venue> {
         Geofence.GEOFENCE_TRANSITION_ENTER |
         Geofence.GEOFENCE_TRANSITION_DWELL |
         Geofence.GEOFENCE_TRANSITION_EXIT)
+      .setExpirationDuration(LOITERING_DELAY)
       .build();
   }
 

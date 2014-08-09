@@ -65,6 +65,10 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
     public void onConnected(Bundle bundle) {
       try {
         List<Geofence> geofences = getGeofences();
+        if (geofences.isEmpty()) {
+          mmLocationClient.disconnect();
+          return;
+        }
         Intent intent = new Intent(mmContext, GeofenceBroadcastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mmContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         mmLocationClient.addGeofences(geofences, pendingIntent, this);
