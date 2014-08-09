@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.bugsnag.android.Bugsnag;
+import com.mhacks.android.GeofenceBroadcastReceiver;
 import com.mhacks.android.R;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.nav.NavItem;
@@ -42,6 +43,7 @@ public class MainActivity extends Activity
       return;
     } else {
       Bugsnag.setUser(mUser.getObjectId(), mUser.getEmail(), mUser.getFullName());
+      GeofenceBroadcastReceiver.initialize(this);
     }
 
     mNavigationDrawerFragment = (NavigationDrawerFragment)

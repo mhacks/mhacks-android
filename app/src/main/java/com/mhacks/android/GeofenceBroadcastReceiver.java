@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.bugsnag.android.Bugsnag;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.Geofence;
@@ -14,6 +15,7 @@ import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationStatusCodes;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.model.Venue;
 import com.parse.ParseException;
 
@@ -31,7 +33,21 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
 
   @Override
   public void onReceive(Context context, Intent intent) {
+    if(LocationClient.hasError(intent)){
+      int errorCode = LocationClient.getErrorCode(intent);
+      Log.e(TAG, "Location Services error: " + Integer.toString(errorCode));
+      Bugsnag.notify(new Exception(Integer.toString(errorCode)));
+      return;
+    }
 
+    List<Geofence> geofences = LocationClient.getTriggeringGeofences(intent);
+    if (geofences.isEmpty()) return;
+    try {
+      User.updateVenue(LocationClient.getGeofenceTransition(intent) == Geofence.GEOFENCE_TRANSITION_EXIT ? null : geofences.get(0).getRequestId());
+    } catch (ParseException e) {
+      e.printStackTrace();
+      Bugsnag.notify(e);
+    }
   }
 
   private static class GeofenceInitializer implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener, LocationClient.OnAddGeofencesResultListener {

@@ -38,6 +38,7 @@ public class User extends ParseUser implements Parcelable {
   public static final String SELFIE = "selfie";
   public static final String PHONE = "phone";
   public static final String SEX = "sex";
+  public static final String CURRENT_VENUE = "currentVenue";
 
   private Boolean mAdmin = null;
 
@@ -55,6 +56,14 @@ public class User extends ParseUser implements Parcelable {
 
   public static ParseQuery<User> remoteQuery() {
     return ParseQuery.getQuery(User.class);
+  }
+
+  public static void updateVenue(String venueObjectId) throws ParseException {
+    User user = getCurrentUser();
+    if (user == null) return;
+    if (venueObjectId == null) user.remove(CURRENT_VENUE);
+    else user.put(CURRENT_VENUE, Venue.query().get(venueObjectId));
+    user.saveEventually();
   }
 
   public static boolean canAdmin() {
