@@ -7,7 +7,7 @@ import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.Award;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.Installation;
-import com.mhacks.android.data.model.MapLocation;
+import com.mhacks.android.data.model.Venue;
 import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.MainActivity;
@@ -28,7 +28,7 @@ public class MHacksApplication extends Application {
     ParseObject.registerSubclass(Award.class);
     ParseObject.registerSubclass(Event.class);
     ParseObject.registerSubclass(Installation.class);
-    ParseObject.registerSubclass(MapLocation.class);
+    ParseObject.registerSubclass(Venue.class);
     ParseObject.registerSubclass(Sponsor.class);
     ParseObject.registerSubclass(User.class);
 

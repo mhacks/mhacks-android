@@ -12,7 +12,7 @@ import com.google.common.base.Optional;
 import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.Award;
 import com.mhacks.android.data.model.Event;
-import com.mhacks.android.data.model.MapLocation;
+import com.mhacks.android.data.model.Venue;
 import com.mhacks.android.data.model.Sponsor;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -55,7 +55,7 @@ public class Synchronization extends AsyncTask<Void, Void, Void> {
       Announcement.getSync().sync();
       Award.getSync().sync();
       Event.getSync().sync();
-      MapLocation.getSync().sync();
+      Venue.getSync().sync();
       Sponsor.getSync().sync();
 
       new Synchronize<>(new ParseQueryAdapter.QueryFactory<ParseRole>() {

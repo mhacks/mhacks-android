@@ -30,7 +30,7 @@ public class Event extends DataClass<Event> {
     super(false);
   }
 
-  public Event(String title, String details, Sponsor host, Date time, MapLocation location) {
+  public Event(String title, String details, Sponsor host, Date time, Venue location) {
     super(true);
 
     setTitle(title);
@@ -87,11 +87,11 @@ public class Event extends DataClass<Event> {
     return builderPut(TIME, time);
   }
 
-  public MapLocation getLocation() {
-    return (MapLocation) getParseObject(LOCATION);
+  public Venue getLocation() {
+    return (Venue) getParseObject(LOCATION);
   }
 
-  public Event setLocation(MapLocation location) {
+  public Event setLocation(Venue location) {
     return builderPut(LOCATION, location);
   }
   

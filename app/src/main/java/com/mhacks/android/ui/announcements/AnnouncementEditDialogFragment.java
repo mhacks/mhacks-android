@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.google.common.base.Optional;
 import com.mhacks.android.R;
 import com.mhacks.android.data.model.Announcement;
-import com.mhacks.android.data.model.MapLocation;
+import com.mhacks.android.data.model.Venue;
 import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.android.ui.common.ParseAdapter;
 import com.parse.ParseQuery;
@@ -30,7 +30,7 @@ public class AnnouncementEditDialogFragment extends DialogFragment implements Di
   private Optional<Announcement> mAnnouncement = Optional.absent();
 
   private ParseAdapter<Sponsor> mSponsorAdapter;
-  private ParseAdapter<MapLocation> mLocationAdapter;
+  private ParseAdapter<Venue> mLocationAdapter;
 
   private EditText mTitle;
   private EditText mDetails;

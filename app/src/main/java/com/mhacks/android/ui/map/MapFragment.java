@@ -10,7 +10,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.PolygonOptions;
-import com.mhacks.android.data.model.MapLocation;
+import com.mhacks.android.data.model.Venue;
 import com.parse.ParseException;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import java.util.List;
 public class MapFragment extends com.google.android.gms.maps.MapFragment implements GoogleMap.OnMapLoadedCallback {
   public static final String TAG = "MapFragment";
 
-  private List<MapLocation> mLocations = new ArrayList<>();
+  private List<Venue> mLocations = new ArrayList<>();
   private CameraUpdate mCenter;
   private boolean mLoaded = false;
 
@@ -31,7 +31,7 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
     super.onCreate(savedInstanceState);
 
     try {
-      mLocations = MapLocation.query().find();
+      mLocations = Venue.query().find();
     } catch (ParseException e) {
       e.printStackTrace();
     }
@@ -58,7 +58,7 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
           mLoaded = true;
         }
       }
-    }.execute(mLocations.toArray(new MapLocation[mLocations.size()]));
+    }.execute(mLocations.toArray(new Venue[mLocations.size()]));
   }
 
   @Override
@@ -70,7 +70,7 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
       mLoaded = true;
     }
 
-    for (MapLocation location : mLocations) {
+    for (Venue location : mLocations) {
       PolygonOptions polygon = new PolygonOptions();
       polygon.addAll(location.getGeometry());
 
@@ -78,12 +78,12 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
     }
   }
 
-  private static class BoundsBuilderTask extends AsyncTask<MapLocation, Void, CameraUpdate> {
+  private static class BoundsBuilderTask extends AsyncTask<Venue, Void, CameraUpdate> {
 
     @Override
-    protected CameraUpdate doInBackground(MapLocation... mapLocations) {
+    protected CameraUpdate doInBackground(Venue... venues) {
       final LatLngBounds.Builder builder = LatLngBounds.builder();
-      for (MapLocation location : mapLocations) {
+      for (Venue location : venues) {
         for (LatLng latLng : location.getGeometry()) {
           builder.include(latLng);
         }

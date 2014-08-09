@@ -16,7 +16,7 @@ import android.widget.TimePicker;
 import com.google.common.base.Optional;
 import com.mhacks.android.R;
 import com.mhacks.android.data.model.Event;
-import com.mhacks.android.data.model.MapLocation;
+import com.mhacks.android.data.model.Venue;
 import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.android.ui.common.ParseAdapter;
 import com.mhacks.android.ui.common.Util;
@@ -35,7 +35,7 @@ public class EventEditDialogFragment extends DialogFragment implements DialogInt
   private Optional<Event> mEvent = Optional.absent();
 
   private ParseAdapter<Sponsor> mSponsorAdapter;
-  private ParseAdapter<MapLocation> mLocationAdapter;
+  private ParseAdapter<Venue> mLocationAdapter;
 
   private EditText mTitle;
   private EditText mDetails;
@@ -72,10 +72,10 @@ public class EventEditDialogFragment extends DialogFragment implements DialogInt
     };
     mSponsorAdapter = new ParseAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, mSponsorFiller, sponsorFactory);
 
-    ParseQueryAdapter.QueryFactory<MapLocation> locationFactory = new ParseQueryAdapter.QueryFactory<MapLocation>() {
+    ParseQueryAdapter.QueryFactory<Venue> locationFactory = new ParseQueryAdapter.QueryFactory<Venue>() {
       @Override
-      public ParseQuery<MapLocation> create() {
-        return MapLocation.query();
+      public ParseQuery<Venue> create() {
+        return Venue.query();
       }
     };
     mLocationAdapter = new ParseAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, mLocationFiller, locationFactory);
@@ -148,11 +148,11 @@ public class EventEditDialogFragment extends DialogFragment implements DialogInt
     }
   };
 
-  private ParseAdapter.ListCallbacks<MapLocation> mLocationFiller = new ParseAdapter.ListCallbacks<MapLocation>() {
+  private ParseAdapter.ListCallbacks<Venue> mLocationFiller = new ParseAdapter.ListCallbacks<Venue>() {
     @Override
-    public void fillView(ParseAdapter.ViewHolder holder, MapLocation mapLocation) {
+    public void fillView(ParseAdapter.ViewHolder holder, Venue venue) {
       TextView text = holder.get(android.R.id.text1);
-      text.setText(mapLocation.getTitle());
+      text.setText(venue.getTitle());
     }
   };
 }
