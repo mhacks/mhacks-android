@@ -22,6 +22,7 @@ import android.widget.ListView;
 
 import com.mhacks.android.R;
 import com.mhacks.android.ui.announcements.AnnouncementsFragment;
+import com.mhacks.android.ui.awards.AwardsFragment;
 import com.mhacks.android.ui.chat.ChatFragment;
 import com.mhacks.android.ui.map.MapFragment;
 import com.mhacks.android.ui.schedule.ScheduleFragment;
@@ -64,6 +65,7 @@ public class NavigationDrawerFragment extends Fragment {
     List<NavItem> items = Arrays.asList(
       new NavItem(getFragmentManager(), AnnouncementsFragment.class, getString(R.string.announcements), R.drawable.ic_newspaper, AnnouncementsFragment.TAG),
       new NavItem(getFragmentManager(), ScheduleFragment.class, getString(R.string.schedule), R.drawable.ic_calendar, ScheduleFragment.TAG),
+      new NavItem(getFragmentManager(), AwardsFragment.class, getString(R.string.awards), R.drawable.ic_calendar, AwardsFragment.TAG),
       new NavItem(getFragmentManager(), ChatFragment.class, getString(R.string.chat), R.drawable.ic_member, ChatFragment.TAG),
       new NavItem(getFragmentManager(), MapFragment.class, getString(R.string.map), R.drawable.ic_member, MapFragment.TAG)
     );

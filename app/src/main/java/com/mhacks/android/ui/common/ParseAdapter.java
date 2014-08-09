@@ -178,6 +178,7 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements 
       return holder;
     }
 
+    @SuppressWarnings("unchecked")
     public <T extends View> T get(int id) {
       if (!mMap.containsKey(id)) {
         mMap.put(id, root.findViewById(id));

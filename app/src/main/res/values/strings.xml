@@ -39,5 +39,6 @@
   <string name="confirm_delete_message">Are you sure you want to delete this?</string>
   <string name="map">Map</string>
   <string name="chat">Lounge</string>
+  <string name="awards">Awards</string>
 
 </resources>
