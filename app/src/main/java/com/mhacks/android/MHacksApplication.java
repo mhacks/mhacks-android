@@ -7,9 +7,9 @@ import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.Award;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.Installation;
-import com.mhacks.android.data.model.Venue;
 import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.android.data.model.User;
+import com.mhacks.android.data.model.Venue;
 import com.mhacks.android.ui.MainActivity;
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -28,9 +28,9 @@ public class MHacksApplication extends Application {
     ParseObject.registerSubclass(Award.class);
     ParseObject.registerSubclass(Event.class);
     ParseObject.registerSubclass(Installation.class);
-    ParseObject.registerSubclass(Venue.class);
     ParseObject.registerSubclass(Sponsor.class);
     ParseObject.registerSubclass(User.class);
+    ParseObject.registerSubclass(Venue.class);
 
     Parse.enableLocalDatastore(this);
     Parse.initialize(this, getString(R.string.parse_application_id), getString(R.string.parse_client_key));
