@@ -77,6 +77,7 @@ public class User extends ParseUser implements Parcelable {
         .whereEqualTo(ROLE_NAME, ADMINISTRATOR).getFirst();
       mAdmin = role.getRelation(ROLE_USERS).getQuery()
         .whereEqualTo(OBJECT_ID, this.getObjectId()).count() == 1;
+      return mAdmin;
     } catch (ParseException e) {
       e.printStackTrace();
       Bugsnag.notify(e);

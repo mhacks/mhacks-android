@@ -6,43 +6,65 @@ package com.mhacks.android.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mhacks.android.R;
-import com.mhacks.android.data.model.Installation;
 import com.mhacks.android.data.model.User;
-import com.parse.LogInCallback;
-import com.parse.ParseException;
-import com.parse.ParseUser;
+
+import java.util.Random;
 
 public class LoginActivity extends Activity implements
   TextView.OnEditorActionListener, View.OnClickListener {
 
-  private EditText mUsername;
-  private EditText mPassword;
+  public static final int[] BACKGROUNDS = {
+    R.drawable.poly1,
+    R.drawable.poly2,
+    R.drawable.poly3,
+    R.drawable.poly4,
+    R.drawable.poly5,
+    R.drawable.poly6,
+    R.drawable.poly7,
+    R.drawable.poly8,
+    R.drawable.poly9,
+    R.drawable.poly10,
+    R.drawable.poly11,
+    R.drawable.poly12,
+    R.drawable.poly13,
+    R.drawable.poly14,
+    R.drawable.poly15,
+    R.drawable.poly16,
+    R.drawable.poly17,
+    R.drawable.poly18,
+    R.drawable.poly19,
+    R.drawable.poly20,
+    R.drawable.poly21
+  };
+
   private Button mLoginButton;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    requestWindowFeature(Window.FEATURE_NO_TITLE);
     setContentView(R.layout.activity_login);
 
     User.logOut();
 
-    mUsername = (EditText) findViewById(R.id.username_field);
-    mPassword = (EditText) findViewById(R.id.password_field);
     mLoginButton = (Button) findViewById(R.id.login_button);
-
-    mPassword.setOnEditorActionListener(this);
     mLoginButton.setOnClickListener(this);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    ((ImageView)findViewById(R.id.login_background)).setImageResource(BACKGROUNDS[new Random().nextInt(BACKGROUNDS.length)]);
   }
 
   @Override
@@ -65,21 +87,21 @@ public class LoginActivity extends Activity implements
     dialog.setMessage(getString(R.string.logging_in));
     dialog.show();
 
-    ParseUser.logInInBackground(mUsername.getText().toString(), mPassword.getText().toString(), new LogInCallback() {
-      @Override
-      public void done(ParseUser parseUser, ParseException e) {
-        if (e != null) {
-          e.printStackTrace();
-          Toast.makeText(LoginActivity.this, R.string.error_logging_in, Toast.LENGTH_SHORT).show();
-          dialog.cancel();
-          return;
-        }
-        dialog.dismiss();
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        Installation.getCurrentInstallation().setCurrentUser().saveEventually();
-        finish();
-      }
-    });
+//    ParseUser.logInInBackground(mUsername.getText().toString(), mPassword.getText().toString(), new LogInCallback() {
+//      @Override
+//      public void done(ParseUser parseUser, ParseException e) {
+//        if (e != null) {
+//          e.printStackTrace();
+//          Toast.makeText(LoginActivity.this, R.string.error_logging_in, Toast.LENGTH_SHORT).show();
+//          dialog.cancel();
+//          return;
+//        }
+//        dialog.dismiss();
+//        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//        Installation.getCurrentInstallation().setCurrentUser().saveEventually();
+//        finish();
+//      }
+//    });
   }
 
 }

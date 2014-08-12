@@ -101,7 +101,7 @@ public class Venue extends DataClass<Venue> {
     return Lists.transform(this.<ParseGeoPoint>getList(BOUNDS), new Function<ParseGeoPoint, LatLng>() {
       @Override
       public LatLng apply(ParseGeoPoint input) {
-        return new LatLng(input.getLatitude() - 1e-5, input.getLongitude() + 8e-5);
+        return new LatLng(input.getLatitude(), input.getLongitude());
       }
     });
   }
