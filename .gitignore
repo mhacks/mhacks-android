@@ -1,0 +1,30 @@
+# Local configuration
+local.properties
+.git
+.gradle
+.idea
+
+# Android Build-time
+*.iml
+MHacks-Android.iml
+*.apk
+*.ap_
+.gradle
+build/
+*.dex
+
+# Java Build-time
+*.class
+
+# generated files
+bin/
+gen/
+
+# Windows files
+Thumbs.db
+
+# OSX files
+.DS_Store
+
+# Keystore(s)
+*.keystore
