@@ -40,8 +40,7 @@
       android:id="@+id/login_button"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:visibility="gone"
-      android:text="@string/log_in"/>
+      android:text="@string/log_in_facebook"/>
 
   </LinearLayout>
 

@@ -6,11 +6,12 @@ ext {
   firebase_url = ext.MHACKS_FIREBASE_URL
   bugsnag_key = ext.MHACKS_BUGSNAG_KEY
   google_maps_api_key = ext.MHACKS_GOOGLE_MAPS_API_KEY
+  fb_app_id = ext.MHACKS_FACEBOOK_APP_ID
 }
 
 android {
   compileSdkVersion 20
-  buildToolsVersion "20.0.0"
+  buildToolsVersion '20.0.0'
 
   packagingOptions {
     exclude 'META-INF/LICENSE'
@@ -33,6 +34,7 @@ android {
     resValue "string", "firebase_url", firebase_url
     resValue "string", "bugsnag_key", bugsnag_key
     resValue "string", "google_maps_api_key", google_maps_api_key
+    resValue "string", "fb_app_id", fb_app_id
   }
   buildTypes {
     release {
@@ -44,6 +46,7 @@ android {
       resValue "string", "firebase_url", firebase_url
       resValue "string", "bugsnag_key", bugsnag_key
       resValue "string", "google_maps_api_key", google_maps_api_key
+      resValue "string", "fb__app_id", fb_app_id
     }
     debug {
       debuggable true
@@ -53,6 +56,7 @@ android {
       resValue "string", "firebase_url", firebase_url
       resValue "string", "bugsnag_key", bugsnag_key
       resValue "string", "google_maps_api_key", google_maps_api_key
+      resValue "string", "fb_app_id", fb_app_id
     }
   }
 }
@@ -65,4 +69,5 @@ dependencies {
   compile 'com.squareup.picasso:picasso:2.3.3'
   compile 'com.google.android.gms:play-services:5.0.77'
   compile 'com.google.maps.android:android-maps-utils:0.3+'
+  compile project(':facebook')
 }

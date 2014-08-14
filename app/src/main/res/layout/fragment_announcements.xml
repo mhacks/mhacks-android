@@ -9,6 +9,11 @@
   <ListView
     android:id="@+id/announcements_list"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/adapter_card_padding"
+    android:paddingRight="@dimen/adapter_card_padding"
+    android:divider="@android:color/transparent"
+    android:dividerHeight="@dimen/intra_list_item_padding"
+    android:scrollbarStyle="outsideOverlay"/>
 
 </android.support.v4.widget.SwipeRefreshLayout>

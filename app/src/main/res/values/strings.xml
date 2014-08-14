@@ -42,5 +42,6 @@
   <string name="awards">Awards</string>
   <string name="login_background_description">Login Background</string>
   <string name="mhacks_logo">MHacks Logo</string>
+  <string name="log_in_facebook">Log in with Facebook</string>
 
 </resources>

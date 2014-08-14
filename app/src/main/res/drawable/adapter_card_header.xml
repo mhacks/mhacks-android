@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <item android:drawable="@drawable/adapter_card_header_shadow"/>
+
+  <item android:id="@+id/adapter_card_header_shape">
+    <shape
+      android:dither="true"
+      android:shape="rectangle">
+      <corners
+        android:topLeftRadius="2dp"
+        android:topRightRadius="2dp"/>
+      <solid android:color="@color/mhacks_yellow"/>
+    </shape>
+  </item>
+
+</layer-list>

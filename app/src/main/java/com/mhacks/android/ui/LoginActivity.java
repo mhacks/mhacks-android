@@ -6,22 +6,27 @@ package com.mhacks.android.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.bugsnag.android.Bugsnag;
+import com.google.common.collect.ImmutableList;
 import com.mhacks.android.R;
 import com.mhacks.android.data.model.User;
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseUser;
 
 import java.util.Random;
 
-public class LoginActivity extends Activity implements
-  TextView.OnEditorActionListener, View.OnClickListener {
+public class LoginActivity extends Activity implements View.OnClickListener {
+  public static final String TAG = "LoginActivity";
 
   public static final int[] BACKGROUNDS = {
     R.drawable.poly1,
@@ -47,6 +52,14 @@ public class LoginActivity extends Activity implements
     R.drawable.poly21
   };
 
+  public static final ImmutableList<String> FB_PERMISSIONS = ImmutableList.<String>builder()
+    .add("public_profile")
+    .add("user_friends")
+    .add("user_about_me")
+    .add("user_relationships")
+    .add("user_birthday")
+    .add("user_location").build();
+
   private Button mLoginButton;
 
   @Override
@@ -68,10 +81,9 @@ public class LoginActivity extends Activity implements
   }
 
   @Override
-  public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-    if (i != EditorInfo.IME_ACTION_DONE) return false;
-    attemptLogin();
-    return true;
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
   }
 
   @Override
@@ -87,21 +99,18 @@ public class LoginActivity extends Activity implements
     dialog.setMessage(getString(R.string.logging_in));
     dialog.show();
 
-//    ParseUser.logInInBackground(mUsername.getText().toString(), mPassword.getText().toString(), new LogInCallback() {
-//      @Override
-//      public void done(ParseUser parseUser, ParseException e) {
-//        if (e != null) {
-//          e.printStackTrace();
-//          Toast.makeText(LoginActivity.this, R.string.error_logging_in, Toast.LENGTH_SHORT).show();
-//          dialog.cancel();
-//          return;
-//        }
-//        dialog.dismiss();
-//        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//        Installation.getCurrentInstallation().setCurrentUser().saveEventually();
-//        finish();
-//      }
-//    });
+    ParseFacebookUtils.logIn(FB_PERMISSIONS, this, new LogInCallback() {
+      @Override
+      public void done(ParseUser user, ParseException e) {
+        if (e != null) {
+          Log.d(TAG, "Facebook login failed.");
+          Bugsnag.notify(e);
+          return;
+        }
+        finish();
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+      }
+    });
   }
 
 }
