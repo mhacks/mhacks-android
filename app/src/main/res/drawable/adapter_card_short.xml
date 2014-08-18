@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <item
+    android:id="@+id/adapter_card_layer_header"
+    android:bottom="@dimen/adapter_card_shadow_bottom">
+    <shape
+      android:dither="true"
+      android:shape="rectangle">
+      <corners android:radius="@dimen/adapter_card_radius"/>
+      <solid android:color="@android:color/holo_red_light"/>
+    </shape>
+  </item>
+
+  <item
+    android:id="@+id/adapter_card_layer_shadow"
+    android:top="@dimen/adapter_card_shadow_top">
+    <shape
+      android:dither="true"
+      android:shape="rectangle">
+      <corners android:radius="@dimen/adapter_card_radius"/>
+      <solid android:color="@color/adapter_card_shadow_color"/>
+    </shape>
+  </item>
+
+  <item
+    android:top="@dimen/adapter_card_shadow_top"
+    android:bottom="@dimen/adapter_card_shadow_bottom">
+    <shape
+      android:dither="true"
+      android:shape="rectangle">
+      <corners android:radius="2dp"/>
+      <solid android:color="@color/adapter_card_color"/>
+      <padding
+        android:bottom="@dimen/adapter_card_padding"
+        android:left="@dimen/adapter_card_padding"
+        android:right="@dimen/adapter_card_padding"
+        android:top="@dimen/adapter_card_padding"/>
+    </shape>
+  </item>
+
+</layer-list>

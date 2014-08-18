@@ -1,0 +1,20 @@
+<resources>
+
+  <style name="MHacksTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+    <item name="android:actionBarStyle">@style/action_bar_style</item>
+    <item name="android:textAppearance">@style/text_appearance</item>
+  </style>
+
+  <style name="text_appearance" parent="android:TextAppearance">
+    <!--<item name="android:textColor">@android:color/white</item>-->
+  </style>
+
+  <style name="action_bar_style" parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse">
+    <item name="android:background">@color/darker_charcoal</item>
+  </style>
+
+  <style name="MHacksLoginTheme" parent="android:Theme.Holo">
+
+  </style>
+
+</resources>

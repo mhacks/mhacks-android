@@ -12,6 +12,7 @@ import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.model.Venue;
 import com.mhacks.android.ui.MainActivity;
 import com.parse.Parse;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.PushService;
 
@@ -35,6 +36,8 @@ public class MHacksApplication extends Application {
     Parse.enableLocalDatastore(this);
     Parse.initialize(this, getString(R.string.parse_application_id), getString(R.string.parse_client_key));
     PushService.setDefaultPushCallback(this, MainActivity.class);
+
+    ParseFacebookUtils.initialize(getString(R.string.fb_app_id));
 
     Bugsnag.register(this, getString(R.string.bugsnag_key));
   }
