@@ -37,8 +37,6 @@ public class AnnouncementsFragment extends Fragment implements
   private SwipeRefreshLayout mLayout;
   private ParseAdapter<Announcement> mAdapter;
 
-  private int[] mColors = new int[20];
-
   public AnnouncementsFragment() {
     super();
   }
@@ -56,27 +54,6 @@ public class AnnouncementsFragment extends Fragment implements
     mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_announcement, this, factory);
 
     setHasOptionsMenu(true);
-
-    mColors[0] = getResources().getColor(R.color.palette_0);
-    mColors[1] = getResources().getColor(R.color.palette_1);
-    mColors[2] = getResources().getColor(R.color.palette_2);
-    mColors[3] = getResources().getColor(R.color.palette_3);
-    mColors[4] = getResources().getColor(R.color.palette_4);
-    mColors[5] = getResources().getColor(R.color.palette_5);
-    mColors[6] = getResources().getColor(R.color.palette_6);
-    mColors[7] = getResources().getColor(R.color.palette_7);
-    mColors[8] = getResources().getColor(R.color.palette_8);
-    mColors[9] = getResources().getColor(R.color.palette_9);
-    mColors[10] = getResources().getColor(R.color.palette_10);
-    mColors[11] = getResources().getColor(R.color.palette_11);
-    mColors[12] = getResources().getColor(R.color.palette_12);
-    mColors[13] = getResources().getColor(R.color.palette_13);
-    mColors[14] = getResources().getColor(R.color.palette_14);
-    mColors[15] = getResources().getColor(R.color.palette_15);
-    mColors[16] = getResources().getColor(R.color.palette_16);
-    mColors[17] = getResources().getColor(R.color.palette_17);
-    mColors[18] = getResources().getColor(R.color.palette_18);
-    mColors[19] = getResources().getColor(R.color.palette_19);
   }
 
   @Override
