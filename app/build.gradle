@@ -67,7 +67,7 @@ dependencies {
   compile 'com.firebase:firebase-client:1.0.16+'
   compile 'com.google.guava:guava:+'
   compile 'com.squareup.picasso:picasso:2.3.3'
-  compile 'com.google.android.gms:play-services:5.0.77'
+  compile 'com.google.android.gms:play-services:5.0.+'
   compile 'com.google.maps.android:android-maps-utils:0.3+'
   compile project(':facebook')
 }
