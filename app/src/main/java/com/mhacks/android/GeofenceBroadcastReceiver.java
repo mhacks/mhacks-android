@@ -50,7 +50,10 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
     }
   }
 
-  private static class GeofenceInitializer implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener, LocationClient.OnAddGeofencesResultListener {
+  private static class GeofenceInitializer implements
+    GooglePlayServicesClient.ConnectionCallbacks,
+    GooglePlayServicesClient.OnConnectionFailedListener,
+    LocationClient.OnAddGeofencesResultListener {
 
     private Context mmContext;
     private LocationClient mmLocationClient;
