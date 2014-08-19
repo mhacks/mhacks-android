@@ -84,7 +84,7 @@ public class AnnouncementEditDialogFragment extends DialogFragment implements Di
     if (mAnnouncement.isPresent()) {
       mTitle.setText(mAnnouncement.get().getTitle());
       mDetails.setText(mAnnouncement.get().getDetails());
-      mPoster.setSelection(mSponsorAdapter.positionOf(mAnnouncement.get().getPoster()));
+      mPoster.setSelection(mSponsorAdapter.indexOf(mAnnouncement.get().getPoster()));
       mPush.setChecked(false);
       mPinned.setChecked(mAnnouncement.get().isPinned());
     }

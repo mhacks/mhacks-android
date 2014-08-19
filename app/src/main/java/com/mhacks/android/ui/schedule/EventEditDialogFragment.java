@@ -100,8 +100,8 @@ public class EventEditDialogFragment extends DialogFragment implements DialogInt
     if (mEvent.isPresent()) {
       mTitle.setText(mEvent.get().getTitle());
       mDetails.setText(mEvent.get().getDetails());
-      mHost.setSelection(mSponsorAdapter.positionOf(mEvent.get().getHost()));
-      mLocation.setSelection(mLocationAdapter.positionOf(mEvent.get().getLocation()));
+      mHost.setSelection(mSponsorAdapter.indexOf(mEvent.get().getHost()));
+      mLocation.setSelection(mLocationAdapter.indexOf(mEvent.get().getLocation()));
 
       Calendar calendar = GregorianCalendar.getInstance();
       calendar.setTime(mEvent.get().getTime());

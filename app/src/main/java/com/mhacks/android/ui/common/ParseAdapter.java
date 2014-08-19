@@ -2,12 +2,24 @@ package com.mhacks.android.ui.common;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.Filter;
 
-import com.bugsnag.android.Bugsnag;
+import com.google.common.base.Function;
+import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.mhacks.android.R;
 import com.mhacks.android.data.sync.Synchronization;
 import com.mhacks.android.data.sync.Synchronize;
 import com.parse.FindCallback;
@@ -23,14 +35,20 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/27/14.
  */
-public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements Synchronization.SyncCallbacks, SwipeRefreshLayout.OnRefreshListener {
+public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
+  Synchronization.SyncCallbacks,
+  SwipeRefreshLayout.OnRefreshListener {
   public static final String TAG = "ParseAdapter";
   public static final String ITEMS = "items";
 
   private final int mResId;
   private final Context mContext;
+  private final ArrayFilter mFilter = new ArrayFilter();
+  private final Object mLock = new Object();
   private final ListCallbacks<T> mCallbacks;
   private final ArrayList<T> mItems = new ArrayList<>();
+  private final ArrayList<T> mOriginalItems = new ArrayList<>();
+  private Optional<FilterHandler> mFilterHandler = Optional.absent();
   private ParseQueryAdapter.QueryFactory<T> mQueryFactory;
   private SwipeRefreshLayout mLayout;
 
@@ -68,11 +86,12 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements 
       public void done(List<T> ts, ParseException e) {
         if (e != null) {
           e.printStackTrace();
-          Bugsnag.notify(e);
           return;
         }
         clear();
         mItems.addAll(ts);
+        mOriginalItems.clear();
+        mOriginalItems.addAll(mItems);
         notifyDataSetChanged();
       }
     });
@@ -90,6 +109,150 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements 
     if (mCallbacks != null) mCallbacks.fillView(ViewHolder.from(view), getItem(position));
 
     return view;
+  }
+
+  public class ArrayFilter extends Filter {
+    private Optional<Function<T, String>> mmGetter = Optional.absent();
+    private Optional<Predicate<String>> mmPredicate = Optional.absent();
+
+    public ArrayFilter() {
+    }
+
+    public ArrayFilter withGetter(Function<T, String> getter) {
+      mmGetter = Optional.fromNullable(getter);
+      mmPredicate = Optional.absent();
+      return this;
+    }
+
+    public ArrayFilter withPredicate(Predicate<String> predicate) {
+      mmGetter = Optional.absent();
+      mmPredicate = Optional.fromNullable(predicate);
+      return this;
+    }
+
+    protected FilterResults performFiltering(final Predicate<T> predicate) {
+      if (predicate == null) return performFiltering((CharSequence) null);
+      ArrayList<T> list = Lists.newArrayList(Iterables.filter(mOriginalItems, predicate));
+      FilterResults results = new FilterResults();
+      results.values = list;
+      results.count = list.size();
+      return results;
+    }
+
+    @Override
+    protected FilterResults performFiltering(final CharSequence prefix) {
+      FilterResults results = new FilterResults();
+      ArrayList<T> list;
+
+      if (prefix == null || prefix.length() == 0) synchronized (mLock) {
+        list = new ArrayList<>(mOriginalItems);
+        results.values = list;
+        results.count = list.size();
+      }
+      else {
+        Predicate<T> predicate = new Predicate<T>() {
+          @Override
+          public boolean apply(T input) {
+            String value = mmGetter.isPresent() ? mmGetter.get().apply(input) : input.toString();
+            return value != null && ((mmPredicate.isPresent() && mmPredicate.get().apply(value)) || (value.contains(prefix)));
+          }
+        };
+        list = Lists.newArrayList(Iterables.filter(mOriginalItems, predicate));
+      }
+      results.values = list;
+      results.count = list.size();
+
+      return results;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
+      mItems.clear();
+      mItems.addAll((List<T>) results.values);
+      if (results.count > 0) notifyDataSetChanged();
+      else notifyDataSetInvalidated();
+    }
+  }
+
+  public FilterHandler prepareFilter(Menu menu, int searchId, Function<T, String> getter) {
+    unloadFilter();
+    mFilterHandler = Optional.of(new FilterHandler(getter, menu, searchId));
+    return mFilterHandler.get();
+  }
+
+  public ArrayFilter getFilter() {
+    return mFilter;
+  }
+
+  public void unloadFilter() {
+    if (mFilterHandler.isPresent()) mFilterHandler.get().unload();
+    mFilterHandler = Optional.absent();
+  }
+
+  private class FilterHandler implements TextWatcher, MenuItem.OnActionExpandListener {
+
+    private Function<T, String> mmGetter;
+    private EditText mmEditText;
+    private MenuItem mmMenuItem;
+
+    public FilterHandler(Function<T, String> getter, Menu menu, int searchId) {
+      mmGetter = getter;
+
+      mmEditText = (EditText) menu.findItem(searchId).getActionView();
+      mmEditText.addTextChangedListener(this);
+
+      mmMenuItem = menu.findItem(R.id.menu_search);
+      mmMenuItem.setOnActionExpandListener(this);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+      // nothing to do here
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+      mFilter.withGetter(mmGetter).filter(charSequence);
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+      // ditto
+    }
+
+    @Override
+    public boolean onMenuItemActionExpand(MenuItem menuItem) {
+      mmEditText.post(new Runnable() {
+        @Override
+        public void run() {
+          mmEditText.requestFocusFromTouch();
+          InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+          imm.showSoftInput(mmEditText, InputMethodManager.SHOW_IMPLICIT);
+          mLayout.setEnabled(false);
+        }
+      });
+      return true;
+    }
+
+    @Override
+    public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+      mmEditText.setText(null);
+      mmEditText.clearFocus();
+      mLayout.setEnabled(true);
+      mItems.clear();
+      mItems.addAll(mOriginalItems);
+      notifyDataSetChanged();
+      return true;
+    }
+
+    public void unload() {
+      mmEditText.removeTextChangedListener(this);
+      mmMenuItem.setOnActionExpandListener(null);
+      mmGetter = null;
+      mmEditText = null;
+      mmMenuItem = null;
+    }
   }
 
   @Override
@@ -115,7 +278,7 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements 
     mItems.clear();
   }
 
-  public int positionOf(T t) {
+  public int indexOf(T t) {
     return mItems.indexOf(t);
   }
 
