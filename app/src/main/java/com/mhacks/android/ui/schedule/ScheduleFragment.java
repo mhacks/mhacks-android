@@ -95,7 +95,7 @@ public class ScheduleFragment extends Fragment implements
   }
 
   @Override
-  public void fillView(ParseAdapter.ViewHolder holder, Event event) {
+  public void populateView(ParseAdapter.ViewHolder holder, Event event, boolean hasSectionHeader, boolean hasSectionFooter) {
     TextView title = holder.get(R.id.event_title);
     TextView details = holder.get(R.id.event_details);
     TextView host = holder.get(R.id.event_host);

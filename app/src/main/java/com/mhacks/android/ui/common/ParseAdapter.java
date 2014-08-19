@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.Filter;
 
+import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
@@ -48,7 +49,10 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
   private final ListCallbacks<T> mCallbacks;
   private final ArrayList<T> mItems = new ArrayList<>();
   private final ArrayList<T> mOriginalItems = new ArrayList<>();
+
   private Optional<FilterHandler> mFilterHandler = Optional.absent();
+  private Optional<Equivalence<T>> mSectioning = Optional.absent();
+
   private ParseQueryAdapter.QueryFactory<T> mQueryFactory;
   private SwipeRefreshLayout mLayout;
 
@@ -106,7 +110,18 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
       view = inflater.inflate(mResId, null);
     }
 
-    if (mCallbacks != null) mCallbacks.fillView(ViewHolder.from(view), getItem(position));
+    T item = getItem(position);
+    T prevItem = position > 0 ? getItem(position) : null;
+    T nextItem = position < getCount() ? getItem(position) : null;
+
+    boolean hasSectionHeader =
+      mSectioning.isPresent() && prevItem != null && !mSectioning.get().equivalent(item, prevItem)
+        || !mSectioning.isPresent();
+    boolean hasSectionFooter =
+      mSectioning.isPresent() && nextItem != null && !mSectioning.get().equivalent(item, nextItem)
+        || !mSectioning.isPresent();
+
+    if (mCallbacks != null) mCallbacks.populateView(ViewHolder.from(view), item, hasSectionHeader, hasSectionFooter);
 
     return view;
   }
@@ -269,6 +284,10 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
       android.R.color.holo_red_light);
   }
 
+  public void prepareSections(Equivalence<T> equivalence) {
+    mSectioning = Optional.fromNullable(equivalence);
+  }
+
   @Override
   public void onRefresh() {
     new Synchronization(this, mLayout).execute();
@@ -351,6 +370,6 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
   }
 
   public static interface ListCallbacks<T extends ParseObject> {
-    public void fillView(ViewHolder holder, T t);
+    public void populateView(ViewHolder holder, T t, boolean hasSectionHeader, boolean hasSectionFooter);
   }
 }

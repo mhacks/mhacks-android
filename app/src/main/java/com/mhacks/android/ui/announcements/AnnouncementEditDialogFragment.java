@@ -120,7 +120,7 @@ public class AnnouncementEditDialogFragment extends DialogFragment implements Di
   }
 
   @Override
-  public void fillView(ParseAdapter.ViewHolder holder, Sponsor sponsor) {
+  public void populateView(ParseAdapter.ViewHolder holder, Sponsor sponsor, boolean hasSectionHeader, boolean hasSectionFooter) {
     TextView text = holder.get(android.R.id.text1);
     text.setText(sponsor.getTitle());
   }
