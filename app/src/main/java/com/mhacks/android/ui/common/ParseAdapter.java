@@ -20,6 +20,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import com.mhacks.android.R;
 import com.mhacks.android.data.sync.Synchronization;
 import com.mhacks.android.data.sync.Synchronize;
@@ -52,7 +53,8 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
 
   private Optional<FilterHandler> mFilterHandler = Optional.absent();
   private Optional<Equivalence<T>> mSectioning = Optional.absent();
-
+  private Optional<Ordering<T>> mOrdering = Optional.absent();
+  
   private ParseQueryAdapter.QueryFactory<T> mQueryFactory;
   private SwipeRefreshLayout mLayout;
 
@@ -71,6 +73,12 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
   public ParseAdapter(Context context, int resource, ListCallbacks<T> callbacks, ParseQueryAdapter.QueryFactory<T> queryFactory) {
     this(context, resource, callbacks);
     mQueryFactory = queryFactory;
+    load();
+  }
+
+  public ParseAdapter(Context context, int resource, ListCallbacks<T> callbacks, ParseQueryAdapter.QueryFactory<T> queryFactory, Ordering<T> ordering) {
+    this(context, resource, callbacks, queryFactory);
+    mOrdering = Optional.fromNullable(ordering);
     load();
   }
 
@@ -93,6 +101,10 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
           return;
         }
         clear();
+
+        if (mOrdering.isPresent()) {
+          ts = mOrdering.get().sortedCopy(ts);
+        }
         mItems.addAll(ts);
         mOriginalItems.clear();
         mOriginalItems.addAll(mItems);
@@ -203,6 +215,16 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
   public void unloadFilter() {
     if (mFilterHandler.isPresent()) mFilterHandler.get().unload();
     mFilterHandler = Optional.absent();
+  }
+
+  public ParseAdapter<T> setOrdering(Ordering<T> ordering) {
+    mOrdering = Optional.fromNullable(ordering);
+    load();
+    return this;
+  }
+
+  public Ordering<T> getOrdering() {
+    return mOrdering.isPresent() ? mOrdering.get() : null;
   }
 
   private class FilterHandler implements TextWatcher, MenuItem.OnActionExpandListener {

@@ -39,6 +39,7 @@ public class User extends ParseUser implements Parcelable {
   public static final String PHONE = "phone";
   public static final String SEX = "sex";
   public static final String CURRENT_VENUE = "currentVenue";
+  public static final String SPONSOR = "sponsor";
 
   private Boolean mAdmin = null;
 
@@ -51,11 +52,13 @@ public class User extends ParseUser implements Parcelable {
   }
 
   public static ParseQuery<User> query() {
-    return remoteQuery();
+    return remoteQuery().fromLocalDatastore();
   }
 
   public static ParseQuery<User> remoteQuery() {
-    return ParseQuery.getQuery(User.class);
+    ParseQuery<User> result = ParseQuery.getQuery(User.class);
+    result.include(SPONSOR);
+    return result;
   }
 
   public static void updateVenue(String venueObjectId) throws ParseException {
@@ -161,6 +164,19 @@ public class User extends ParseUser implements Parcelable {
     return getString(SEX).equals(Sex.FEMALE) ? Sex.F : Sex.M;
   }
 
+  public boolean isSponsor() {
+    return has(SPONSOR);
+  }
+
+  public Sponsor getSponsor() {
+    return isSponsor() ? (Sponsor) getParseObject(SPONSOR) : null;
+  }
+
+  public User setSponsor(Sponsor sponsor) {
+    put(SPONSOR, sponsor);
+    return this;
+  }
+
   public enum Sex {
     M, F;
 
@@ -200,7 +216,7 @@ public class User extends ParseUser implements Parcelable {
     return new Synchronize<>(new ParseQueryAdapter.QueryFactory<User>() {
       @Override
       public ParseQuery<User> create() {
-        return remoteQuery();
+        return remoteQuery().whereExists(SPONSOR);
       }
     });
   }
