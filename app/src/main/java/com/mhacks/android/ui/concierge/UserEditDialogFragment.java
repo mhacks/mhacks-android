@@ -7,17 +7,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.google.common.base.Optional;
 import com.mhacks.android.R;
-import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.android.data.model.User;
-import com.mhacks.android.data.model.Venue;
 import com.mhacks.android.ui.common.ParseAdapter;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -32,17 +26,15 @@ public class UserEditDialogFragment extends DialogFragment implements DialogInte
 
   private ParseAdapter<Sponsor> mSponsorAdapter;
 
-
-
   public UserEditDialogFragment() {
     super();
   }
 
-  public static UserEditDialogFragment newInstance(Announcement announcement) {
+  public static UserEditDialogFragment newInstance(User user) {
     UserEditDialogFragment result = new UserEditDialogFragment();
 
     Bundle bundle = new Bundle();
-    if (announcement != null) bundle.putParcelable(Announcement.CLASS, announcement);
+    if (user != null) bundle.putParcelable(User.CLASS, user);
     result.setArguments(bundle);
 
     return result;
@@ -52,7 +44,7 @@ public class UserEditDialogFragment extends DialogFragment implements DialogInte
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    mAnnouncement = Optional.fromNullable((Announcement) getArguments().getParcelable(Announcement.CLASS));
+    mUser = Optional.fromNullable(getArguments().<User>getParcelable(User.CLASS));
 
     ParseQueryAdapter.QueryFactory<Sponsor> sponsorFactory = new ParseQueryAdapter.QueryFactory<Sponsor>() {
       @Override
@@ -69,21 +61,21 @@ public class UserEditDialogFragment extends DialogFragment implements DialogInte
     LayoutInflater inflater = LayoutInflater.from(getActivity());
     View view = inflater.inflate(R.layout.dialog_announcement_edit, null);
 
-    mTitle = (EditText) view.findViewById(R.id.announcement_title);
-    mDetails = (EditText) view.findViewById(R.id.announcement_details);
-    mPoster = (Spinner) view.findViewById(R.id.announcement_poster);
-    mPinned = (CheckBox) view.findViewById(R.id.announcement_pinned);
-    mPush = (CheckBox) view.findViewById(R.id.announcement_push);
-
-    mPoster.setAdapter(mSponsorAdapter);
-
-    if (mAnnouncement.isPresent()) {
-      mTitle.setText(mAnnouncement.get().getTitle());
-      mDetails.setText(mAnnouncement.get().getDetails());
-      mPoster.setSelection(mSponsorAdapter.indexOf(mAnnouncement.get().getPoster()));
-      mPush.setChecked(false);
-      mPinned.setChecked(mAnnouncement.get().isPinned());
-    }
+//    mTitle = (EditText) view.findViewById(R.id.announcement_title);
+//    mDetails = (EditText) view.findViewById(R.id.announcement_details);
+//    mPoster = (Spinner) view.findViewById(R.id.announcement_poster);
+//    mPinned = (CheckBox) view.findViewById(R.id.announcement_pinned);
+//    mPush = (CheckBox) view.findViewById(R.id.announcement_push);
+//
+//    mPoster.setAdapter(mSponsorAdapter);
+//
+//    if (mAnnouncement.isPresent()) {
+//      mTitle.setText(mAnnouncement.get().getTitle());
+//      mDetails.setText(mAnnouncement.get().getDetails());
+//      mPoster.setSelection(mSponsorAdapter.indexOf(mAnnouncement.get().getPoster()));
+//      mPush.setChecked(false);
+//      mPinned.setChecked(mAnnouncement.get().isPinned());
+//    }
 
     return new AlertDialog.Builder(getActivity())
       .setTitle(R.string.announcements_new)
@@ -97,15 +89,15 @@ public class UserEditDialogFragment extends DialogFragment implements DialogInte
   public void onClick(DialogInterface dialogInterface, int i) {
     switch (i) {
       case DialogInterface.BUTTON_POSITIVE:
-        Announcement announcement = mAnnouncement.isPresent() ? mAnnouncement.get() : new Announcement();
-        announcement
-          .setTitle(mTitle.getText().toString())
-          .setDetails(mDetails.getText().toString())
-          .setPoster(mSponsorAdapter.getItem(mPoster.getSelectedItemPosition()))
-          .setPinned(mPinned.isChecked())
-          .saveEventually();
+        User user = mUser.isPresent() ? mUser.get() : new User();
+//        user
+//          .setTitle(mTitle.getText().toString())
+//          .setDetails(mDetails.getText().toString())
+//          .setPoster(mSponsorAdapter.getItem(mPoster.getSelectedItemPosition()))
+//          .setPinned(mPinned.isChecked())
+//          .saveEventually();
 
-        if (mPush.isChecked()) announcement.push();
+//        if (mPush.isChecked()) announcement.push();
 
         dismiss();
         break;
@@ -116,8 +108,8 @@ public class UserEditDialogFragment extends DialogFragment implements DialogInte
   }
 
   @Override
-  public void fillView(ParseAdapter.ViewHolder holder, Sponsor sponsor) {
-    TextView text = holder.get(android.R.id.text1);
-    text.setText(sponsor.getTitle());
+  public void populateView(ParseAdapter.ViewHolder holder, Sponsor sponsor, boolean hasSectionHeader, boolean hasSectionFooter) {
+//    TextView text = holder.get(android.R.id.text1);
+//    text.setText(sponsor.getTitle());
   }
 }

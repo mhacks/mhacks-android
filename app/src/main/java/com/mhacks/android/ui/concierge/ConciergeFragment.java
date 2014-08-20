@@ -12,15 +12,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.common.collect.Ordering;
 import com.mhacks.android.R;
+import com.mhacks.android.data.model.DataClass;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.MainActivity;
-import com.mhacks.android.ui.announcements.AnnouncementEditDialogFragment;
 import com.mhacks.android.ui.common.ParseAdapter;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -58,7 +58,7 @@ public class ConciergeFragment extends Fragment implements
         return left.getSponsor().getOrdering() - right.getSponsor().getOrdering();
       }
     };
-    mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_contact, this, factory, ordering);
+    mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_contact, this, factory).setOrdering(ordering).setSectioning(DataClass.equivalentOn(User.SPONSOR));
 
     setHasOptionsMenu(true);
   }
@@ -101,16 +101,24 @@ public class ConciergeFragment extends Fragment implements
   }
 
   @Override
-  public void fillView(ParseAdapter.ViewHolder holder, User contact) {
+  public void populateView(ParseAdapter.ViewHolder holder, User contact, boolean hasSectionHeader, boolean hasSectionFooter) {
+    View header = holder.get(R.id.contact_card_header);
+    View footer = holder.get(R.id.contact_card_footer);
+    TextView sponsorName = holder.get(R.id.contact_sponsor_name);
     TextView name = holder.get(R.id.contact_name);
+    TextView position = holder.get(R.id.contact_position);
 
-//    LayerDrawable background = ((LayerDrawable) holder.get(R.id.announcement_card_header).getBackground());
-//    background.findDrawableByLayerId(R.id.adapter_card_header_shape).setColorFilter(new LightingColorFilter(0, mColors[new Random().nextInt(20)]));
+    header.setVisibility(hasSectionHeader ? View.VISIBLE : View.GONE);
+    footer.setVisibility(hasSectionFooter ? View.VISIBLE : View.GONE);
+
+    sponsorName.setText(contact.getSponsor().getTitle());
+    name.setText(contact.getName());
+    position.setText(contact.getPosition());
   }
 
   @Override
   public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-    AnnouncementEditDialogFragment.newInstance(mAdapter.getItem(i)).show(getFragmentManager(), AnnouncementEditDialogFragment.TAG);
+    Toast.makeText(getActivity(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
   }
 
   @Override

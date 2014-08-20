@@ -30,6 +30,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQueryAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -52,9 +53,9 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
   private final ArrayList<T> mOriginalItems = new ArrayList<>();
 
   private Optional<FilterHandler> mFilterHandler = Optional.absent();
-  private Optional<Equivalence<T>> mSectioning = Optional.absent();
+  private Optional<Equivalence<ParseObject>> mSectioning = Optional.absent();
   private Optional<Ordering<T>> mOrdering = Optional.absent();
-  
+
   private ParseQueryAdapter.QueryFactory<T> mQueryFactory;
   private SwipeRefreshLayout mLayout;
 
@@ -73,12 +74,6 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
   public ParseAdapter(Context context, int resource, ListCallbacks<T> callbacks, ParseQueryAdapter.QueryFactory<T> queryFactory) {
     this(context, resource, callbacks);
     mQueryFactory = queryFactory;
-    load();
-  }
-
-  public ParseAdapter(Context context, int resource, ListCallbacks<T> callbacks, ParseQueryAdapter.QueryFactory<T> queryFactory, Ordering<T> ordering) {
-    this(context, resource, callbacks, queryFactory);
-    mOrdering = Optional.fromNullable(ordering);
     load();
   }
 
@@ -103,7 +98,7 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
         clear();
 
         if (mOrdering.isPresent()) {
-          ts = mOrdering.get().sortedCopy(ts);
+          Collections.sort(ts, mOrdering.get());
         }
         mItems.addAll(ts);
         mOriginalItems.clear();
@@ -123,14 +118,14 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
     }
 
     T item = getItem(position);
-    T prevItem = position > 0 ? getItem(position) : null;
-    T nextItem = position < getCount() ? getItem(position) : null;
+    T prevItem = position > 0 ? getItem(position - 1) : null;
+    T nextItem = position < getCount() - 1 ? getItem(position + 1) : null;
 
     boolean hasSectionHeader =
-      mSectioning.isPresent() && prevItem != null && !mSectioning.get().equivalent(item, prevItem)
+      mSectioning.isPresent() && (prevItem != null && !mSectioning.get().equivalent(item, prevItem) || prevItem == null)
         || !mSectioning.isPresent();
     boolean hasSectionFooter =
-      mSectioning.isPresent() && nextItem != null && !mSectioning.get().equivalent(item, nextItem)
+      mSectioning.isPresent() && (nextItem != null && !mSectioning.get().equivalent(item, nextItem) || nextItem == null)
         || !mSectioning.isPresent();
 
     if (mCallbacks != null) mCallbacks.populateView(ViewHolder.from(view), item, hasSectionHeader, hasSectionFooter);
@@ -306,8 +301,9 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
       android.R.color.holo_red_light);
   }
 
-  public void prepareSections(Equivalence<T> equivalence) {
+  public ParseAdapter<T> setSectioning(Equivalence<ParseObject> equivalence) {
     mSectioning = Optional.fromNullable(equivalence);
+    return this;
   }
 
   @Override

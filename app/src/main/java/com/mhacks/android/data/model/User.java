@@ -28,8 +28,7 @@ public class User extends ParseUser implements Parcelable {
   public static final String ADMINISTRATOR = "Administrator";
 
   public static final String OBJECT_ID = "objectId";
-  public static final String FIRST_NAME = "firstName";
-  public static final String LAST_NAME = "lastName";
+  public static final String NAME = "name";
   public static final String USERNAME = "username";
   public static final String PASSWORD = "password";
   public static final String EMAIL_VERIFIED = "emailVerified";
@@ -40,6 +39,7 @@ public class User extends ParseUser implements Parcelable {
   public static final String SEX = "sex";
   public static final String CURRENT_VENUE = "currentVenue";
   public static final String SPONSOR = "sponsor";
+  public static final String POSITION = "position";
 
   private Boolean mAdmin = null;
 
@@ -88,26 +88,13 @@ public class User extends ParseUser implements Parcelable {
     return false;
   }
 
-  public String getFirstName() {
-    return getString(FIRST_NAME);
+  public String getName() {
+    return getString(NAME);
   }
 
-  public User setFirstName(String firstName) {
-    put(FIRST_NAME, firstName);
+  public User setName(String name) {
+    put(NAME, name);
     return this;
-  }
-
-  public String getLastName() {
-    return getString(LAST_NAME);
-  }
-
-  public User setLastName(String lastName) {
-    put(LAST_NAME, lastName);
-    return this;
-  }
-
-  public String getFullName() {
-    return getFirstName() + " " + getLastName();
   }
 
   public boolean isEmailVerified() {
@@ -174,6 +161,15 @@ public class User extends ParseUser implements Parcelable {
 
   public User setSponsor(Sponsor sponsor) {
     put(SPONSOR, sponsor);
+    return this;
+  }
+
+  public String getPosition() {
+    return has(POSITION) ? getString(POSITION) : "";
+  }
+
+  public User setPosition(String position) {
+    put(POSITION, position);
     return this;
   }
 
