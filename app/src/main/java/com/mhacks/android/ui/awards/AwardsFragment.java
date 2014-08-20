@@ -70,7 +70,7 @@ public class AwardsFragment extends Fragment implements ParseAdapter.ListCallbac
   }
 
   @Override
-  public void fillView(ParseAdapter.ViewHolder holder, Award award) {
+  public void populateView(ParseAdapter.ViewHolder holder, Award award, boolean hasSectionHeader, boolean hasSectionFooter) {
     TextView title = holder.get(R.id.award_title);
     TextView details = holder.get(R.id.award_details);
     TextView sponsor = holder.get(R.id.award_sponsor);

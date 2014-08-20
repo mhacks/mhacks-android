@@ -93,7 +93,7 @@ public class AnnouncementsFragment extends Fragment implements
   }
 
   @Override
-  public void fillView(ParseAdapter.ViewHolder holder, Announcement announcement) {
+  public void populateView(ParseAdapter.ViewHolder holder, Announcement announcement, boolean hasSectionHeader, boolean hasSectionFooter) {
     TextView title = holder.get(R.id.announcement_title);
     TextView details = holder.get(R.id.announcement_details);
     TextView poster = holder.get(R.id.announcement_poster);
