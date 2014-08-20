@@ -54,11 +54,11 @@ public class Synchronize<T extends ParseObject> {
 
   }
 
-  private Map<String, T> getLocalObjects() throws ParseException {
+  protected Map<String, T> getLocalObjects() throws ParseException {
     return DataClass.mapping(mQueryFactory.create().fromLocalDatastore().find());
   }
 
-  private Map<String, T> getRemoteObjects() throws ParseException {
+  protected Map<String, T> getRemoteObjects() throws ParseException {
     return DataClass.mapping(mQueryFactory.create().find());
   }
 

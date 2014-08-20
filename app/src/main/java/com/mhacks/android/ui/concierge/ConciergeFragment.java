@@ -1,8 +1,6 @@
 package com.mhacks.android.ui.concierge;
 
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -123,18 +121,7 @@ public class ConciergeFragment extends Fragment implements
 
   @Override
   public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long l) {
-    new AlertDialog.Builder(getActivity())
-      .setTitle(R.string.confirm_delete)
-      .setMessage(R.string.confirm_delete_message)
-      .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialogInterface, int i) {
-          mAdapter.getItem(position).deleteEventually();
-          dialogInterface.dismiss();
-        }
-      })
-      .setNegativeButton(android.R.string.cancel, null)
-      .show();
+    UserEditDialogFragment.newInstance(mAdapter.getItem(position)).show(getFragmentManager(), UserEditDialogFragment.TAG);
     return true;
   }
 }

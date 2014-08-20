@@ -47,5 +47,10 @@
   <string name="search">Search</string>
   <string name="not_implemented_yet">Not implemented yet.</string>
   <string name="concierge">Concierge</string>
+  <string name="user_name">Name</string>
+  <string name="sponsor">Sponsor</string>
+  <string name="position">Position</string>
+  <string name="user_new">New User</string>
+  <string name="delete">Delete</string>
 
 </resources>

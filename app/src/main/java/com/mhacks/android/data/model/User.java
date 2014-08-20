@@ -8,6 +8,7 @@ import android.os.Parcelable;
 
 import com.bugsnag.android.Bugsnag;
 import com.mhacks.android.data.sync.Synchronize;
+import com.mhacks.android.data.sync.UserSynchronize;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -15,6 +16,9 @@ import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseRole;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.util.UUID;
 
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/26/14.
@@ -173,6 +177,27 @@ public class User extends ParseUser implements Parcelable {
     return this;
   }
 
+  @Override
+  public void signUp() throws ParseException {
+    put(PASSWORD, UUID.randomUUID().toString());
+    put(USERNAME, UUID.randomUUID().toString());
+    super.signUp();
+  }
+
+  public void saveLater() {
+    pinInBackground(new SaveCallback() {
+      @Override
+      public void done(ParseException e) {
+        if (e != null) {
+          e.printStackTrace();
+          Bugsnag.notify(e);
+          return;
+        }
+        saveEventually();
+      }
+    });
+  }
+
   public enum Sex {
     M, F;
 
@@ -209,7 +234,7 @@ public class User extends ParseUser implements Parcelable {
   }
 
   public static Synchronize<User> getSync() {
-    return new Synchronize<>(new ParseQueryAdapter.QueryFactory<User>() {
+    return new UserSynchronize(new ParseQueryAdapter.QueryFactory<User>() {
       @Override
       public ParseQuery<User> create() {
         return remoteQuery().whereExists(SPONSOR);

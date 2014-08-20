@@ -7,6 +7,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.common.base.Optional;
 import com.mhacks.android.R;
@@ -25,6 +28,10 @@ public class UserEditDialogFragment extends DialogFragment implements DialogInte
   private Optional<User> mUser = Optional.absent();
 
   private ParseAdapter<Sponsor> mSponsorAdapter;
+
+  private EditText mName;
+  private EditText mPosition;
+  private Spinner mSponsor;
 
   public UserEditDialogFragment() {
     super();
@@ -59,30 +66,28 @@ public class UserEditDialogFragment extends DialogFragment implements DialogInte
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     LayoutInflater inflater = LayoutInflater.from(getActivity());
-    View view = inflater.inflate(R.layout.dialog_announcement_edit, null);
+    View view = inflater.inflate(R.layout.dialog_user_edit, null);
 
-//    mTitle = (EditText) view.findViewById(R.id.announcement_title);
-//    mDetails = (EditText) view.findViewById(R.id.announcement_details);
-//    mPoster = (Spinner) view.findViewById(R.id.announcement_poster);
-//    mPinned = (CheckBox) view.findViewById(R.id.announcement_pinned);
-//    mPush = (CheckBox) view.findViewById(R.id.announcement_push);
-//
-//    mPoster.setAdapter(mSponsorAdapter);
-//
-//    if (mAnnouncement.isPresent()) {
-//      mTitle.setText(mAnnouncement.get().getTitle());
-//      mDetails.setText(mAnnouncement.get().getDetails());
-//      mPoster.setSelection(mSponsorAdapter.indexOf(mAnnouncement.get().getPoster()));
-//      mPush.setChecked(false);
-//      mPinned.setChecked(mAnnouncement.get().isPinned());
-//    }
+    mName = (EditText) view.findViewById(R.id.user_name);
+    mPosition = (EditText) view.findViewById(R.id.user_position);
+    mSponsor = (Spinner) view.findViewById(R.id.user_sponsor);
 
-    return new AlertDialog.Builder(getActivity())
-      .setTitle(R.string.announcements_new)
+    mSponsor.setAdapter(mSponsorAdapter);
+
+    if (mUser.isPresent()) {
+      mName.setText(mUser.get().getName());
+      mPosition.setText(mUser.get().getPosition());
+      mSponsor.setSelection(mSponsorAdapter.indexOf(mUser.get().getSponsor()));
+    }
+
+    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+      .setTitle(R.string.user_new)
       .setView(view)
       .setPositiveButton(android.R.string.ok, this)
-      .setNegativeButton(android.R.string.cancel, this)
-      .create();
+      .setNeutralButton(android.R.string.cancel, this);
+    if (mUser.isPresent()) builder.setNegativeButton(R.string.delete, this);
+
+    return builder.create();
   }
 
   @Override
@@ -90,26 +95,37 @@ public class UserEditDialogFragment extends DialogFragment implements DialogInte
     switch (i) {
       case DialogInterface.BUTTON_POSITIVE:
         User user = mUser.isPresent() ? mUser.get() : new User();
-//        user
-//          .setTitle(mTitle.getText().toString())
-//          .setDetails(mDetails.getText().toString())
-//          .setPoster(mSponsorAdapter.getItem(mPoster.getSelectedItemPosition()))
-//          .setPinned(mPinned.isChecked())
-//          .saveEventually();
-
-//        if (mPush.isChecked()) announcement.push();
+        user
+          .setName(mName.getText().toString())
+          .setPosition(mPosition.getText().toString())
+          .setSponsor(mSponsorAdapter.getItem(mSponsor.getSelectedItemPosition()))
+          .saveLater();
 
         dismiss();
         break;
-      case DialogInterface.BUTTON_NEGATIVE:
+      case DialogInterface.BUTTON_NEUTRAL:
         getDialog().cancel();
+        break;
+      case DialogInterface.BUTTON_NEGATIVE:
+        new AlertDialog.Builder(getActivity())
+          .setTitle(R.string.confirm_delete)
+          .setMessage(R.string.confirm_delete_message)
+          .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+              mUser.get().deleteEventually();
+              dialogInterface.dismiss();
+            }
+          })
+          .setNegativeButton(android.R.string.cancel, null)
+          .show();
         break;
     }
   }
 
   @Override
   public void populateView(ParseAdapter.ViewHolder holder, Sponsor sponsor, boolean hasSectionHeader, boolean hasSectionFooter) {
-//    TextView text = holder.get(android.R.id.text1);
-//    text.setText(sponsor.getTitle());
+    TextView text = holder.get(android.R.id.text1);
+    text.setText(sponsor.getTitle());
   }
 }
