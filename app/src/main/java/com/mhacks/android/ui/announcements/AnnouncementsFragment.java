@@ -52,7 +52,7 @@ public class AnnouncementsFragment extends Fragment implements
         return Announcement.query().orderByDescending(Announcement.CREATED_AT);
       }
     };
-    mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_announcement, this, factory);
+    mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_announcement, this, factory).load();
 
     setHasOptionsMenu(true);
   }

@@ -12,9 +12,9 @@ import com.google.common.base.Optional;
 import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.Award;
 import com.mhacks.android.data.model.Event;
+import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.model.Venue;
-import com.mhacks.android.data.model.Sponsor;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseRole;
@@ -22,7 +22,7 @@ import com.parse.ParseRole;
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/28/14.
  */
-public class Synchronization extends AsyncTask<Void, Void, Void> {
+public class Synchronization extends AsyncTask<Void, Void, Synchronize.SyncException> {
 
   private static boolean sSyncing = false;
 
@@ -45,11 +45,15 @@ public class Synchronization extends AsyncTask<Void, Void, Void> {
   }
 
   @Override
-  protected Void doInBackground(Void... voids) {
-    if (sSyncing) return null;
-    sSyncing = true;
+  protected void onPreExecute() {
     if (mCallbacks.isPresent()) mCallbacks.get().onSyncStarted();
     if (mLayout.isPresent()) mLayout.get().setRefreshing(true);
+  }
+
+  @Override
+  protected Synchronize.SyncException doInBackground(Void... voids) {
+    if (sSyncing) return null;
+    sSyncing = true;
 
     try {
 
@@ -67,26 +71,24 @@ public class Synchronization extends AsyncTask<Void, Void, Void> {
         }
       }).sync();
     } catch (Synchronize.SyncException e) {
-      return error(e);
+      return e;
     }
 
-    return finish();
-  }
-
-  protected Void error(Synchronize.SyncException e) {
-    e.printStackTrace();
-    Bugsnag.notify(e);
-    sSyncing = false;
-    if (mCallbacks.isPresent()) mCallbacks.get().onSyncError(e);
-    if (mLayout.isPresent()) mLayout.get().setRefreshing(false);
     return null;
   }
 
-  protected Void finish() {
+  @Override
+  protected void onPostExecute(Synchronize.SyncException e) {
+    if (mCallbacks.isPresent()) {
+      if (e == null) mCallbacks.get().onSyncCompleted();
+      else {
+        mCallbacks.get().onSyncError(e);
+        e.printStackTrace();
+        Bugsnag.notify(e);
+      }
+    }
     sSyncing = false;
-    if (mCallbacks.isPresent()) mCallbacks.get().onSyncCompleted();
     if (mLayout.isPresent()) mLayout.get().setRefreshing(false);
-    return null;
   }
 
   public static interface SyncCallbacks {

@@ -54,7 +54,7 @@ public class ScheduleFragment extends Fragment implements
         return Event.query().orderByDescending(Event.CREATED_AT);
       }
     };
-    mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_event, this, factory);
+    mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_event, this, factory).load();
 
     setHasOptionsMenu(true);
   }

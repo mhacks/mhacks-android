@@ -59,7 +59,8 @@ public class ConciergeFragment extends Fragment implements
     };
     mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_contact, this, factory)
       .setOrdering(ordering)
-      .setSectioning(DataClass.equivalentOn(User.SPONSOR));
+      .setSectioning(DataClass.equivalentOn(User.SPONSOR))
+      .load();
 
     setHasOptionsMenu(true);
   }

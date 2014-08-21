@@ -44,7 +44,7 @@ public class AwardsFragment extends Fragment implements ParseAdapter.ListCallbac
         return Award.query().orderByDescending(Award.CREATED_AT);
       }
     };
-    mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_award, this, factory);
+    mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_award, this, factory).load();
 
     setHasOptionsMenu(true);
   }
