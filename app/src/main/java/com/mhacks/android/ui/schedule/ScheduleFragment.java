@@ -19,7 +19,7 @@ import com.mhacks.android.R;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.MainActivity;
-import com.mhacks.android.ui.common.ParseAdapter;
+import com.mhacks.android.ui.common.parse.ParseAdapter;
 import com.mhacks.android.ui.common.Util;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;

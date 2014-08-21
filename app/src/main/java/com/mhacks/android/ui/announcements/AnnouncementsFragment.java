@@ -20,7 +20,7 @@ import com.mhacks.android.R;
 import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.MainActivity;
-import com.mhacks.android.ui.common.ParseAdapter;
+import com.mhacks.android.ui.common.parse.ParseAdapter;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 

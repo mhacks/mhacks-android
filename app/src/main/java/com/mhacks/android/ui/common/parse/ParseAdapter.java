@@ -1,4 +1,4 @@
-package com.mhacks.android.ui.common;
+package com.mhacks.android.ui.common.parse;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -20,7 +20,6 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Ordering;
 import com.mhacks.android.R;
 import com.mhacks.android.data.sync.Synchronization;
 import com.mhacks.android.data.sync.Synchronize;
@@ -30,7 +29,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQueryAdapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -46,15 +45,15 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
 
   private final int mResId;
   private final Context mContext;
-  private final ArrayFilter mFilter = new ArrayFilter();
+  private final LocalFilter mFilter = new LocalFilter();
   private final Object mLock = new Object();
   private final ListCallbacks<T> mCallbacks;
-  private final ArrayList<T> mItems = new ArrayList<>();
+
+  private ArrayList<T> mItems = new ArrayList<>();
   private final ArrayList<T> mOriginalItems = new ArrayList<>();
 
   private Optional<FilterHandler> mFilterHandler = Optional.absent();
   private Optional<Equivalence<ParseObject>> mSectioning = Optional.absent();
-  private Optional<Ordering<T>> mOrdering = Optional.absent();
 
   private ParseQueryAdapter.QueryFactory<T> mQueryFactory;
   private SwipeRefreshLayout mLayout;
@@ -95,11 +94,8 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
           e.printStackTrace();
           return;
         }
+        
         clear();
-
-        if (mOrdering.isPresent()) {
-          Collections.sort(ts, mOrdering.get());
-        }
         mItems.addAll(ts);
         mOriginalItems.clear();
         mOriginalItems.addAll(mItems);
@@ -133,20 +129,20 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
     return view;
   }
 
-  public class ArrayFilter extends Filter {
+  public class LocalFilter extends Filter {
     private Optional<Function<T, String>> mmGetter = Optional.absent();
     private Optional<Predicate<String>> mmPredicate = Optional.absent();
 
-    public ArrayFilter() {
+    public LocalFilter() {
     }
 
-    public ArrayFilter withGetter(Function<T, String> getter) {
+    public LocalFilter withGetter(Function<T, String> getter) {
       mmGetter = Optional.fromNullable(getter);
       mmPredicate = Optional.absent();
       return this;
     }
 
-    public ArrayFilter withPredicate(Predicate<String> predicate) {
+    public LocalFilter withPredicate(Predicate<String> predicate) {
       mmGetter = Optional.absent();
       mmPredicate = Optional.fromNullable(predicate);
       return this;
@@ -203,7 +199,7 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
     return mFilterHandler.get();
   }
 
-  public ArrayFilter getFilter() {
+  public LocalFilter getFilter() {
     return mFilter;
   }
 
@@ -212,14 +208,14 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
     mFilterHandler = Optional.absent();
   }
 
-  public ParseAdapter<T> setOrdering(Ordering<T> ordering) {
-    mOrdering = Optional.fromNullable(ordering);
+  public ParseAdapter<T> setOrdering(Comparator<T> comparator) {
+    if (comparator == null && mItems instanceof SortingArrayList) {
+      mItems = new ArrayList<>(mItems);
+    } else if (comparator != null && !(mItems instanceof SortingArrayList)) {
+      mItems = new SortingArrayList<>(mItems, comparator);
+    }
     load();
     return this;
-  }
-
-  public Ordering<T> getOrdering() {
-    return mOrdering.isPresent() ? mOrdering.get() : null;
   }
 
   private class FilterHandler implements TextWatcher, MenuItem.OnActionExpandListener {
