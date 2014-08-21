@@ -8,6 +8,7 @@ import android.os.Parcelable;
 
 import com.bugsnag.android.Bugsnag;
 import com.mhacks.android.data.sync.Synchronize;
+import com.mhacks.android.data.sync.UserSynchronize;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -15,6 +16,9 @@ import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseRole;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.util.UUID;
 
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/26/14.
@@ -28,8 +32,7 @@ public class User extends ParseUser implements Parcelable {
   public static final String ADMINISTRATOR = "Administrator";
 
   public static final String OBJECT_ID = "objectId";
-  public static final String FIRST_NAME = "firstName";
-  public static final String LAST_NAME = "lastName";
+  public static final String NAME = "name";
   public static final String USERNAME = "username";
   public static final String PASSWORD = "password";
   public static final String EMAIL_VERIFIED = "emailVerified";
@@ -39,6 +42,8 @@ public class User extends ParseUser implements Parcelable {
   public static final String PHONE = "phone";
   public static final String SEX = "sex";
   public static final String CURRENT_VENUE = "currentVenue";
+  public static final String SPONSOR = "sponsor";
+  public static final String POSITION = "position";
 
   private Boolean mAdmin = null;
 
@@ -51,11 +56,13 @@ public class User extends ParseUser implements Parcelable {
   }
 
   public static ParseQuery<User> query() {
-    return remoteQuery();
+    return remoteQuery().fromLocalDatastore();
   }
 
   public static ParseQuery<User> remoteQuery() {
-    return ParseQuery.getQuery(User.class);
+    ParseQuery<User> result = ParseQuery.getQuery(User.class);
+    result.include(SPONSOR);
+    return result;
   }
 
   public static void updateVenue(String venueObjectId) throws ParseException {
@@ -77,6 +84,7 @@ public class User extends ParseUser implements Parcelable {
         .whereEqualTo(ROLE_NAME, ADMINISTRATOR).getFirst();
       mAdmin = role.getRelation(ROLE_USERS).getQuery()
         .whereEqualTo(OBJECT_ID, this.getObjectId()).count() == 1;
+
       return mAdmin;
     } catch (ParseException e) {
       e.printStackTrace();
@@ -85,26 +93,13 @@ public class User extends ParseUser implements Parcelable {
     return false;
   }
 
-  public String getFirstName() {
-    return getString(FIRST_NAME);
+  public String getName() {
+    return getString(NAME);
   }
 
-  public User setFirstName(String firstName) {
-    put(FIRST_NAME, firstName);
+  public User setName(String name) {
+    put(NAME, name);
     return this;
-  }
-
-  public String getLastName() {
-    return getString(LAST_NAME);
-  }
-
-  public User setLastName(String lastName) {
-    put(LAST_NAME, lastName);
-    return this;
-  }
-
-  public String getFullName() {
-    return getFirstName() + " " + getLastName();
   }
 
   public boolean isEmailVerified() {
@@ -161,6 +156,49 @@ public class User extends ParseUser implements Parcelable {
     return getString(SEX).equals(Sex.FEMALE) ? Sex.F : Sex.M;
   }
 
+  public boolean isSponsor() {
+    return has(SPONSOR);
+  }
+
+  public Sponsor getSponsor() {
+    return isSponsor() ? (Sponsor) getParseObject(SPONSOR) : null;
+  }
+
+  public User setSponsor(Sponsor sponsor) {
+    put(SPONSOR, sponsor);
+    return this;
+  }
+
+  public String getPosition() {
+    return has(POSITION) ? getString(POSITION) : "";
+  }
+
+  public User setPosition(String position) {
+    put(POSITION, position);
+    return this;
+  }
+
+  @Override
+  public void signUp() throws ParseException {
+    put(PASSWORD, UUID.randomUUID().toString());
+    put(USERNAME, UUID.randomUUID().toString());
+    super.signUp();
+  }
+
+  public void saveLater() {
+    pinInBackground(new SaveCallback() {
+      @Override
+      public void done(ParseException e) {
+        if (e != null) {
+          e.printStackTrace();
+          Bugsnag.notify(e);
+          return;
+        }
+        saveEventually();
+      }
+    });
+  }
+
   public enum Sex {
     M, F;
 
@@ -197,10 +235,10 @@ public class User extends ParseUser implements Parcelable {
   }
 
   public static Synchronize<User> getSync() {
-    return new Synchronize<>(new ParseQueryAdapter.QueryFactory<User>() {
+    return new UserSynchronize(new ParseQueryAdapter.QueryFactory<User>() {
       @Override
       public ParseQuery<User> create() {
-        return remoteQuery();
+        return remoteQuery().whereExists(SPONSOR);
       }
     });
   }
