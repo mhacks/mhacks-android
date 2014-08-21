@@ -18,6 +18,7 @@ import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.Venue;
 import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.android.ui.common.parse.ParseAdapter;
+import com.mhacks.android.ui.common.parse.ViewHolder;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
@@ -120,7 +121,7 @@ public class AnnouncementEditDialogFragment extends DialogFragment implements Di
   }
 
   @Override
-  public void populateView(ParseAdapter.ViewHolder holder, Sponsor sponsor, boolean hasSectionHeader, boolean hasSectionFooter) {
+  public void populateView(ViewHolder holder, Sponsor sponsor, boolean hasSectionHeader, boolean hasSectionFooter) {
     TextView text = holder.get(android.R.id.text1);
     text.setText(sponsor.getTitle());
   }

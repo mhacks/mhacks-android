@@ -16,6 +16,7 @@ import com.mhacks.android.R;
 import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.common.parse.ParseAdapter;
+import com.mhacks.android.ui.common.parse.ViewHolder;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
@@ -124,7 +125,7 @@ public class UserEditDialogFragment extends DialogFragment implements DialogInte
   }
 
   @Override
-  public void populateView(ParseAdapter.ViewHolder holder, Sponsor sponsor, boolean hasSectionHeader, boolean hasSectionFooter) {
+  public void populateView(ViewHolder holder, Sponsor sponsor, boolean hasSectionHeader, boolean hasSectionFooter) {
     TextView text = holder.get(android.R.id.text1);
     text.setText(sponsor.getTitle());
   }

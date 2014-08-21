@@ -20,6 +20,7 @@ import com.mhacks.android.data.model.DataClass;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.MainActivity;
 import com.mhacks.android.ui.common.parse.ParseAdapter;
+import com.mhacks.android.ui.common.parse.ViewHolder;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
@@ -101,7 +102,7 @@ public class ConciergeFragment extends Fragment implements
   }
 
   @Override
-  public void populateView(ParseAdapter.ViewHolder holder, User contact, boolean hasSectionHeader, boolean hasSectionFooter) {
+  public void populateView(ViewHolder holder, User contact, boolean hasSectionHeader, boolean hasSectionFooter) {
     View header = holder.get(R.id.contact_card_header);
     View footer = holder.get(R.id.contact_card_footer);
     TextView sponsorName = holder.get(R.id.contact_sponsor_name);

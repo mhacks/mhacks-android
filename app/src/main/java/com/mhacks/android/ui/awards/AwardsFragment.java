@@ -16,6 +16,7 @@ import com.mhacks.android.data.model.Award;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.MainActivity;
 import com.mhacks.android.ui.common.parse.ParseAdapter;
+import com.mhacks.android.ui.common.parse.ViewHolder;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
@@ -70,7 +71,7 @@ public class AwardsFragment extends Fragment implements ParseAdapter.ListCallbac
   }
 
   @Override
-  public void populateView(ParseAdapter.ViewHolder holder, Award award, boolean hasSectionHeader, boolean hasSectionFooter) {
+  public void populateView(ViewHolder holder, Award award, boolean hasSectionHeader, boolean hasSectionFooter) {
     TextView title = holder.get(R.id.award_title);
     TextView details = holder.get(R.id.award_details);
     TextView sponsor = holder.get(R.id.award_sponsor);

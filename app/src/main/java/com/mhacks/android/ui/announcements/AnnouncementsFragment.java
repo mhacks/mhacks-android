@@ -21,6 +21,7 @@ import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.MainActivity;
 import com.mhacks.android.ui.common.parse.ParseAdapter;
+import com.mhacks.android.ui.common.parse.ViewHolder;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
@@ -93,7 +94,7 @@ public class AnnouncementsFragment extends Fragment implements
   }
 
   @Override
-  public void populateView(ParseAdapter.ViewHolder holder, Announcement announcement, boolean hasSectionHeader, boolean hasSectionFooter) {
+  public void populateView(ViewHolder holder, Announcement announcement, boolean hasSectionHeader, boolean hasSectionFooter) {
     TextView title = holder.get(R.id.announcement_title);
     TextView details = holder.get(R.id.announcement_details);
     TextView poster = holder.get(R.id.announcement_poster);

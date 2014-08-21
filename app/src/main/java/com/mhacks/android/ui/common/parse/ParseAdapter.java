@@ -14,8 +14,8 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.Filter;
 
+import com.bugsnag.android.Bugsnag;
 import com.google.common.base.Equivalence;
-import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -26,13 +26,12 @@ import com.mhacks.android.data.sync.Synchronize;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/27/14.
@@ -57,6 +56,10 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
 
   private ParseQueryAdapter.QueryFactory<T> mQueryFactory;
   private SwipeRefreshLayout mLayout;
+
+  private int mCurrentPage = 0;
+  private int mPageSize = 0;
+  private int mNextPageBuffer = 0;
 
   public ParseAdapter(Context context, int resource, ListCallbacks<T> callbacks) {
     mContext = context;
@@ -87,14 +90,21 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
       clear();
       return null;
     }
-    mQueryFactory.create().findInBackground(new FindCallback<T>() {
+    ParseQuery<T> query = mQueryFactory.create();
+
+    if (mPageSize > 0) {
+      query.setLimit(mPageSize);
+      mCurrentPage = 0;
+    }
+
+    query.findInBackground(new FindCallback<T>() {
       @Override
       public void done(List<T> ts, ParseException e) {
         if (e != null) {
           e.printStackTrace();
           return;
         }
-        
+
         clear();
         mItems.addAll(ts);
         mOriginalItems.clear();
@@ -103,6 +113,26 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
       }
     });
     return mQueryFactory;
+  }
+
+  private void loadPageRelative(int where) {
+    mQueryFactory.create()
+      .setLimit(mPageSize)
+      .setSkip((mCurrentPage + where) * mPageSize)
+      .findInBackground(new FindCallback<T>() {
+        @Override
+        public void done(List<T> ts, ParseException e) {
+          if (e != null) {
+            e.printStackTrace();
+            Bugsnag.notify(e);
+            return;
+          }
+
+          mItems.addAll(ts);
+          mOriginalItems.addAll(ts);
+          notifyDataSetChanged();
+        }
+      });
   }
 
   @Override
@@ -126,76 +156,22 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
 
     if (mCallbacks != null) mCallbacks.populateView(ViewHolder.from(view), item, hasSectionHeader, hasSectionFooter);
 
+    if (mPageSize > 0) {
+      int pageHead = mPageSize * mCurrentPage;
+      if (position >= pageHead  - mNextPageBuffer) {
+        loadPageRelative(1);
+      }
+      else if (position <= pageHead - mNextPageBuffer && mCurrentPage > 0) {
+        loadPageRelative(-1);
+      }
+    }
+
     return view;
   }
 
-  public class LocalFilter extends Filter {
-    private Optional<Function<T, String>> mmGetter = Optional.absent();
-    private Optional<Predicate<String>> mmPredicate = Optional.absent();
-
-    public LocalFilter() {
-    }
-
-    public LocalFilter withGetter(Function<T, String> getter) {
-      mmGetter = Optional.fromNullable(getter);
-      mmPredicate = Optional.absent();
-      return this;
-    }
-
-    public LocalFilter withPredicate(Predicate<String> predicate) {
-      mmGetter = Optional.absent();
-      mmPredicate = Optional.fromNullable(predicate);
-      return this;
-    }
-
-    protected FilterResults performFiltering(final Predicate<T> predicate) {
-      if (predicate == null) return performFiltering((CharSequence) null);
-      ArrayList<T> list = Lists.newArrayList(Iterables.filter(mOriginalItems, predicate));
-      FilterResults results = new FilterResults();
-      results.values = list;
-      results.count = list.size();
-      return results;
-    }
-
-    @Override
-    protected FilterResults performFiltering(final CharSequence prefix) {
-      FilterResults results = new FilterResults();
-      ArrayList<T> list;
-
-      if (prefix == null || prefix.length() == 0) synchronized (mLock) {
-        list = new ArrayList<>(mOriginalItems);
-        results.values = list;
-        results.count = list.size();
-      }
-      else {
-        Predicate<T> predicate = new Predicate<T>() {
-          @Override
-          public boolean apply(T input) {
-            String value = mmGetter.isPresent() ? mmGetter.get().apply(input) : input.toString();
-            return value != null && ((mmPredicate.isPresent() && mmPredicate.get().apply(value)) || (value.contains(prefix)));
-          }
-        };
-        list = Lists.newArrayList(Iterables.filter(mOriginalItems, predicate));
-      }
-      results.values = list;
-      results.count = list.size();
-
-      return results;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
-      mItems.clear();
-      mItems.addAll((List<T>) results.values);
-      if (results.count > 0) notifyDataSetChanged();
-      else notifyDataSetInvalidated();
-    }
-  }
-
-  public FilterHandler prepareFilter(Menu menu, int searchId, Function<T, String> getter) {
+  public FilterHandler prepareFilter(Menu menu, int searchId, String column, boolean withQuery) {
     unloadFilter();
-    mFilterHandler = Optional.of(new FilterHandler(getter, menu, searchId));
+    mFilterHandler = Optional.of(new FilterHandler(column, menu, searchId, withQuery));
     return mFilterHandler.get();
   }
 
@@ -218,69 +194,16 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
     return this;
   }
 
-  private class FilterHandler implements TextWatcher, MenuItem.OnActionExpandListener {
+  public ParseAdapter<T> enablePagination(int pageSize, int nextPageBuffer) {
+    mPageSize = pageSize;
+    mNextPageBuffer = nextPageBuffer;
+    mCurrentPage = 0;
+    return this;
+  }
 
-    private Function<T, String> mmGetter;
-    private EditText mmEditText;
-    private MenuItem mmMenuItem;
-
-    public FilterHandler(Function<T, String> getter, Menu menu, int searchId) {
-      mmGetter = getter;
-
-      mmEditText = (EditText) menu.findItem(searchId).getActionView();
-      mmEditText.addTextChangedListener(this);
-
-      mmMenuItem = menu.findItem(R.id.menu_search);
-      mmMenuItem.setOnActionExpandListener(this);
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-      // nothing to do here
-    }
-
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-      mFilter.withGetter(mmGetter).filter(charSequence);
-    }
-
-    @Override
-    public void afterTextChanged(Editable editable) {
-      // ditto
-    }
-
-    @Override
-    public boolean onMenuItemActionExpand(MenuItem menuItem) {
-      mmEditText.post(new Runnable() {
-        @Override
-        public void run() {
-          mmEditText.requestFocusFromTouch();
-          InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-          imm.showSoftInput(mmEditText, InputMethodManager.SHOW_IMPLICIT);
-          mLayout.setEnabled(false);
-        }
-      });
-      return true;
-    }
-
-    @Override
-    public boolean onMenuItemActionCollapse(MenuItem menuItem) {
-      mmEditText.setText(null);
-      mmEditText.clearFocus();
-      mLayout.setEnabled(true);
-      mItems.clear();
-      mItems.addAll(mOriginalItems);
-      notifyDataSetChanged();
-      return true;
-    }
-
-    public void unload() {
-      mmEditText.removeTextChangedListener(this);
-      mmMenuItem.setOnActionExpandListener(null);
-      mmGetter = null;
-      mmEditText = null;
-      mmMenuItem = null;
-    }
+  public ParseAdapter<T> disablePagination() {
+    mPageSize = mNextPageBuffer = mCurrentPage = 0;
+    return this;
   }
 
   @Override
@@ -349,7 +272,7 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
 
   @Override
   public void onSyncStarted() {
-    load();
+    notifyDataSetChanged();
   }
 
   @Override
@@ -357,31 +280,151 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
     load();
   }
 
-  public static class ViewHolder {
-    public final View root;
-    private final Map<Integer, View> mMap = new ConcurrentHashMap<>();
+  private class FilterHandler implements TextWatcher, MenuItem.OnActionExpandListener {
 
-    private ViewHolder(View root) {
-      this.root = root;
-      this.root.setTag(this);
+    private String mmColumn;
+    private EditText mmEditText;
+    private MenuItem mmMenuItem;
+    private boolean mmWithQuery;
+
+    public FilterHandler(String column, Menu menu, int searchId, boolean withQuery) {
+      mmColumn = column;
+      mmWithQuery = withQuery;
+
+      mmEditText = (EditText) menu.findItem(searchId).getActionView();
+      mmEditText.addTextChangedListener(this);
+
+      mmMenuItem = menu.findItem(R.id.menu_search);
+      mmMenuItem.setOnActionExpandListener(this);
     }
 
-    public static ViewHolder from(View view) {
-      ViewHolder holder = (ViewHolder) view.getTag();
-      if (holder == null) {
-        view.setTag(holder = new ViewHolder(view));
-      }
-      return holder;
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+      // nothing to do here
     }
 
-    @SuppressWarnings("unchecked")
-    public <T extends View> T get(int id) {
-      if (!mMap.containsKey(id)) {
-        mMap.put(id, root.findViewById(id));
-      }
-      return (T) mMap.get(id);
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+      mFilter.usingColumn(mmColumn).usingQuery(mmWithQuery).filter(charSequence);
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+      // ditto
+    }
+
+    @Override
+    public boolean onMenuItemActionExpand(MenuItem menuItem) {
+      mmEditText.post(new Runnable() {
+        @Override
+        public void run() {
+          mmEditText.requestFocusFromTouch();
+          InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+          imm.showSoftInput(mmEditText, InputMethodManager.SHOW_IMPLICIT);
+          mLayout.setEnabled(false);
+        }
+      });
+      return true;
+    }
+
+    @Override
+    public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+      mmEditText.setText(null);
+      mmEditText.clearFocus();
+      mLayout.setEnabled(true);
+      mItems.clear();
+      mItems.addAll(mOriginalItems);
+      notifyDataSetChanged();
+      return true;
+    }
+
+    public void unload() {
+      mmEditText.removeTextChangedListener(this);
+      mmMenuItem.setOnActionExpandListener(null);
+      mmEditText = null;
+      mmMenuItem = null;
     }
   }
+
+  public class LocalFilter extends Filter {
+    private Optional<Predicate<String>> mmPredicate = Optional.absent();
+    private String mmColumn = null;
+    private boolean mUsingQuery = false;
+
+    public LocalFilter() {
+    }
+
+    public LocalFilter usingColumn(String column) {
+      mmColumn = column;
+      mmPredicate = Optional.absent();
+      return this;
+    }
+
+    public LocalFilter usingQuery(boolean usingQuery) {
+      mUsingQuery = usingQuery;
+      return this;
+    }
+
+    public LocalFilter withPredicate(Predicate<String> predicate) {
+      mmColumn = null;
+      mmPredicate = Optional.fromNullable(predicate);
+      return this;
+    }
+
+    protected FilterResults performFiltering(final Predicate<T> predicate) {
+      if (predicate == null) return performFiltering((CharSequence) null);
+      ArrayList<T> list = Lists.newArrayList(Iterables.filter(mOriginalItems, predicate));
+      FilterResults results = new FilterResults();
+      results.values = list;
+      results.count = list.size();
+      return results;
+    }
+
+    @Override
+    protected FilterResults performFiltering(final CharSequence prefix) {
+      FilterResults results = new FilterResults();
+      List<T> list;
+
+      if (prefix == null || prefix.length() == 0) synchronized (mLock) {
+        list = new ArrayList<>(mOriginalItems);
+        results.values = list;
+        results.count = list.size();
+      }
+      else if (mUsingQuery) {
+        try {
+          list = mQueryFactory.create().whereContains(mmColumn, prefix.toString()).find();
+        } catch (ParseException e) {
+          e.printStackTrace();
+          Bugsnag.notify(e);
+          list = new ArrayList<>();
+        }
+      }
+      else {
+        Predicate<T> predicate = new Predicate<T>() {
+          @Override
+          public boolean apply(T input) {
+            String value = mmColumn != null ? input.getString(mmColumn) : input.toString();
+            return value != null && ((mmPredicate.isPresent() && mmPredicate.get().apply(value)) || (value.contains(prefix)));
+          }
+        };
+        list = Lists.newArrayList(Iterables.filter(mOriginalItems, predicate));
+      }
+      results.values = list;
+      results.count = list.size();
+
+      return results;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
+      mItems.clear();
+      mItems.addAll((List<T>) results.values);
+      if (results.count > 0) notifyDataSetChanged();
+      else notifyDataSetInvalidated();
+    }
+  }
+
 
   public static interface ListCallbacks<T extends ParseObject> {
     public void populateView(ViewHolder holder, T t, boolean hasSectionHeader, boolean hasSectionFooter);

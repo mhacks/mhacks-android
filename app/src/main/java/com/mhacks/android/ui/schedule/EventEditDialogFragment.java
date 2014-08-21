@@ -20,6 +20,7 @@ import com.mhacks.android.data.model.Venue;
 import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.android.ui.common.parse.ParseAdapter;
 import com.mhacks.android.ui.common.Util;
+import com.mhacks.android.ui.common.parse.ViewHolder;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
@@ -142,7 +143,7 @@ public class EventEditDialogFragment extends DialogFragment implements DialogInt
 
   private ParseAdapter.ListCallbacks<Sponsor> mSponsorFiller = new ParseAdapter.ListCallbacks<Sponsor>() {
     @Override
-    public void populateView(ParseAdapter.ViewHolder holder, Sponsor sponsor, boolean hasSectionHeader, boolean hasSectionFooter) {
+    public void populateView(ViewHolder holder, Sponsor sponsor, boolean hasSectionHeader, boolean hasSectionFooter) {
       TextView text = holder.get(android.R.id.text1);
       text.setText(sponsor.getTitle());
     }
@@ -150,7 +151,7 @@ public class EventEditDialogFragment extends DialogFragment implements DialogInt
 
   private ParseAdapter.ListCallbacks<Venue> mLocationFiller = new ParseAdapter.ListCallbacks<Venue>() {
     @Override
-    public void populateView(ParseAdapter.ViewHolder holder, Venue venue, boolean hasSectionHeader, boolean hasSectionFooter) {
+    public void populateView(ViewHolder holder, Venue venue, boolean hasSectionHeader, boolean hasSectionFooter) {
       TextView text = holder.get(android.R.id.text1);
       text.setText(venue.getTitle());
     }
