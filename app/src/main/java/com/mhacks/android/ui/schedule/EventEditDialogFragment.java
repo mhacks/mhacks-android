@@ -71,7 +71,7 @@ public class EventEditDialogFragment extends DialogFragment implements DialogInt
         return Sponsor.query();
       }
     };
-    mSponsorAdapter = new ParseAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, mSponsorFiller, sponsorFactory);
+    mSponsorAdapter = new ParseAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, mSponsorFiller, sponsorFactory).load();
 
     ParseQueryAdapter.QueryFactory<Venue> locationFactory = new ParseQueryAdapter.QueryFactory<Venue>() {
       @Override
@@ -79,7 +79,7 @@ public class EventEditDialogFragment extends DialogFragment implements DialogInt
         return Venue.query();
       }
     };
-    mLocationAdapter = new ParseAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, mLocationFiller, locationFactory);
+    mLocationAdapter = new ParseAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, mLocationFiller, locationFactory).load();
   }
 
 

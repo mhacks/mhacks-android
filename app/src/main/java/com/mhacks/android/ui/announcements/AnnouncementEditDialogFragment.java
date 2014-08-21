@@ -65,7 +65,7 @@ public class AnnouncementEditDialogFragment extends DialogFragment implements Di
         return Sponsor.query();
       }
     };
-    mSponsorAdapter = new ParseAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, this, sponsorFactory);
+    mSponsorAdapter = new ParseAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, this, sponsorFactory).load();
   }
 
 

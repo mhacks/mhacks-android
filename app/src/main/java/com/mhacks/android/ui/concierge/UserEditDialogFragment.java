@@ -60,7 +60,7 @@ public class UserEditDialogFragment extends DialogFragment implements DialogInte
         return Sponsor.query();
       }
     };
-    mSponsorAdapter = new ParseAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, this, sponsorFactory);
+    mSponsorAdapter = new ParseAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, this, sponsorFactory).load();
   }
 
 
