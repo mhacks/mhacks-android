@@ -76,16 +76,14 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
   public ParseAdapter(Context context, int resource, ListCallbacks<T> callbacks, ParseQueryAdapter.QueryFactory<T> queryFactory) {
     this(context, resource, callbacks);
     mQueryFactory = queryFactory;
-    load();
   }
 
   public ParseAdapter(Context context, int resource, ListCallbacks<T> callbacks, List<T> items, ParseQueryAdapter.QueryFactory<T> queryFactory) {
     this(context, resource, callbacks, items);
     mQueryFactory = queryFactory;
-    load();
   }
 
-  public ParseQueryAdapter.QueryFactory<T> load() {
+  public ParseAdapter<T> load() {
     if (mQueryFactory == null) {
       clear();
       return null;
@@ -112,7 +110,7 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
         notifyDataSetChanged();
       }
     });
-    return mQueryFactory;
+    return this;
   }
 
   private void loadPageRelative(int where) {
@@ -133,6 +131,7 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
           notifyDataSetChanged();
         }
       });
+    mCurrentPage += where;
   }
 
   @Override
@@ -156,12 +155,14 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
 
     if (mCallbacks != null) mCallbacks.populateView(ViewHolder.from(view), item, hasSectionHeader, hasSectionFooter);
 
-    if (mPageSize > 0) {
-      int pageHead = mPageSize * mCurrentPage;
-      if (position >= pageHead  - mNextPageBuffer) {
+    if ((!mFilterHandler.isPresent() || !mFilterHandler.get().isFiltering()) && mPageSize > 0) {
+      int currentPageHead = mPageSize * mCurrentPage;
+      int nextPageHead = currentPageHead + mPageSize;
+      int prevPageHead = currentPageHead - mPageSize;
+      if (position >= nextPageHead - mNextPageBuffer && mItems.size() <= nextPageHead) {
         loadPageRelative(1);
       }
-      else if (position <= pageHead - mNextPageBuffer && mCurrentPage > 0) {
+      else if (position <= prevPageHead - mNextPageBuffer && mCurrentPage > 0 && mItems.size() <= prevPageHead) {
         loadPageRelative(-1);
       }
     }
@@ -287,6 +288,8 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
     private MenuItem mmMenuItem;
     private boolean mmWithQuery;
 
+    private boolean mmFiltering;
+
     public FilterHandler(String column, Menu menu, int searchId, boolean withQuery) {
       mmColumn = column;
       mmWithQuery = withQuery;
@@ -324,6 +327,7 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
           mLayout.setEnabled(false);
         }
       });
+      mmFiltering = true;
       return true;
     }
 
@@ -335,6 +339,8 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
       mItems.clear();
       mItems.addAll(mOriginalItems);
       notifyDataSetChanged();
+
+      mmFiltering = false;
       return true;
     }
 
@@ -343,6 +349,11 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
       mmMenuItem.setOnActionExpandListener(null);
       mmEditText = null;
       mmMenuItem = null;
+      mmFiltering = false;
+    }
+
+    public boolean isFiltering() {
+      return mmFiltering;
     }
   }
 
