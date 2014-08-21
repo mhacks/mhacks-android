@@ -56,7 +56,9 @@ public class ConciergeFragment extends Fragment implements
         return left.getSponsor().getOrdering() - right.getSponsor().getOrdering();
       }
     };
-    mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_contact, this, factory).setOrdering(ordering).setSectioning(DataClass.equivalentOn(User.SPONSOR));
+    mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_contact, this, factory)
+      .setOrdering(ordering)
+      .setSectioning(DataClass.equivalentOn(User.SPONSOR));
 
     setHasOptionsMenu(true);
   }
