@@ -49,7 +49,7 @@ public class HackersFragment extends Fragment implements
         return User.remoteQuery().orderByAscending(User.NAME);
       }
     };
-    mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_contact, this, factory).enablePagination(50, 5).load();
+    mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_contact, this, factory).enablePagination(50, 10).load();
 
     setHasOptionsMenu(true);
   }
