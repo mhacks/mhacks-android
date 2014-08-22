@@ -42,7 +42,7 @@ public class MainActivity extends Activity
       finish();
       return;
     } else {
-      Bugsnag.setUser(mUser.getObjectId(), mUser.getEmail(), mUser.getFullName());
+      Bugsnag.setUser(mUser.getObjectId(), mUser.getEmail(), mUser.getName());
       GeofenceBroadcastReceiver.initialize(this);
     }
 

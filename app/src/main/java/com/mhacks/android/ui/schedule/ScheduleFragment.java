@@ -19,8 +19,9 @@ import com.mhacks.android.R;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.MainActivity;
-import com.mhacks.android.ui.common.ParseAdapter;
+import com.mhacks.android.ui.common.parse.ParseAdapter;
 import com.mhacks.android.ui.common.Util;
+import com.mhacks.android.ui.common.parse.ViewHolder;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
@@ -53,7 +54,7 @@ public class ScheduleFragment extends Fragment implements
         return Event.query().orderByDescending(Event.CREATED_AT);
       }
     };
-    mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_event, this, factory);
+    mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_event, this, factory).load();
 
     setHasOptionsMenu(true);
   }
@@ -95,7 +96,7 @@ public class ScheduleFragment extends Fragment implements
   }
 
   @Override
-  public void populateView(ParseAdapter.ViewHolder holder, Event event, boolean hasSectionHeader, boolean hasSectionFooter) {
+  public void populateView(ViewHolder holder, Event event, boolean hasSectionHeader, boolean hasSectionFooter) {
     TextView title = holder.get(R.id.event_title);
     TextView details = holder.get(R.id.event_details);
     TextView host = holder.get(R.id.event_host);

@@ -7,6 +7,7 @@
   <string name="lorem_user_full_name">Marvin Gaye</string>
   <string name="lorem_nav_item">Navigation Item</string>
   <string name="lorem_date">Wednesday, September 31</string>
-  <string name="lorem_sponsor">MHacks Team</string>
+  <string name="lorem_sponsor">MHacks Staff</string>
   <string name="lorem_award_title">Award Title</string>
+  <string name="lorem_contact_name">Dave Fontenot</string>
 </resources>

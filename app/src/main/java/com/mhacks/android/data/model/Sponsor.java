@@ -118,7 +118,7 @@ public class Sponsor extends DataClass<Sponsor> {
 
     @Override
     public Sponsor[] newArray(int i) {
-      return new Sponsor[0];
+      return new Sponsor[i];
     }
   };
 
