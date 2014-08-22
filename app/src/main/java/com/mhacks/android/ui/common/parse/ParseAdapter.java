@@ -170,9 +170,9 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
     return view;
   }
 
-  public FilterHandler prepareFilter(Menu menu, int searchId, String column, boolean withQuery) {
+  public FilterHandler prepareFilter(Menu menu, int searchId, boolean withQuery, String... columns) {
     unloadFilter();
-    mFilterHandler = Optional.of(new FilterHandler(column, menu, searchId, withQuery));
+    mFilterHandler = Optional.of(new FilterHandler(menu, searchId, withQuery, columns));
     return mFilterHandler.get();
   }
 
@@ -283,15 +283,15 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
 
   private class FilterHandler implements TextWatcher, MenuItem.OnActionExpandListener {
 
-    private String mmColumn;
+    private String[] mmColumns;
     private EditText mmEditText;
     private MenuItem mmMenuItem;
     private boolean mmWithQuery;
 
     private boolean mmFiltering;
 
-    public FilterHandler(String column, Menu menu, int searchId, boolean withQuery) {
-      mmColumn = column;
+    public FilterHandler(Menu menu, int searchId, boolean withQuery, String... columns) {
+      mmColumns = columns;
       mmWithQuery = withQuery;
 
       mmEditText = (EditText) menu.findItem(searchId).getActionView();
@@ -308,7 +308,7 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-      mFilter.usingColumn(mmColumn).usingQuery(mmWithQuery).filter(charSequence);
+      mFilter.usingColumns(mmColumns).usingQuery(mmWithQuery).filter(charSequence);
     }
 
     @Override
@@ -359,14 +359,14 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
 
   public class LocalFilter extends Filter {
     private Optional<Predicate<String>> mmPredicate = Optional.absent();
-    private String mmColumn = null;
+    private String[] mmColumns = null;
     private boolean mUsingQuery = false;
 
     public LocalFilter() {
     }
 
-    public LocalFilter usingColumn(String column) {
-      mmColumn = column;
+    public LocalFilter usingColumns(String... columns) {
+      mmColumns = columns;
       mmPredicate = Optional.absent();
       return this;
     }
@@ -377,7 +377,7 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
     }
 
     public LocalFilter withPredicate(Predicate<String> predicate) {
-      mmColumn = null;
+      mmColumns = null;
       mmPredicate = Optional.fromNullable(predicate);
       return this;
     }
@@ -394,28 +394,35 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
     @Override
     protected FilterResults performFiltering(final CharSequence prefix) {
       FilterResults results = new FilterResults();
-      List<T> list;
+      List<T> list = new ArrayList<>();
 
       if (prefix == null || prefix.length() == 0) synchronized (mLock) {
-        list = new ArrayList<>(mOriginalItems);
+        list.addAll(mOriginalItems);
         results.values = list;
         results.count = list.size();
       }
       else if (mUsingQuery) {
-        try {
-          list = mQueryFactory.create().whereContains(mmColumn, prefix.toString()).find();
+        for (String column : mmColumns) try {
+          list.addAll(mQueryFactory.create().whereContains(column, prefix.toString()).find());
         } catch (ParseException e) {
           e.printStackTrace();
           Bugsnag.notify(e);
-          list = new ArrayList<>();
         }
       }
       else {
         Predicate<T> predicate = new Predicate<T>() {
           @Override
           public boolean apply(T input) {
-            String value = mmColumn != null ? input.getString(mmColumn) : input.toString();
-            return value != null && ((mmPredicate.isPresent() && mmPredicate.get().apply(value)) || (value.contains(prefix)));
+            StringBuilder compositeBuilder = new StringBuilder();
+            if (mmColumns != null) for (String column : mmColumns) {
+              compositeBuilder.append(input.getString(column));
+            }
+            else {
+              compositeBuilder.append(input.toString());
+            }
+            String composite = compositeBuilder.toString();
+
+            return (mmPredicate.isPresent() && mmPredicate.get().apply(composite)) || (composite.contains(prefix));
           }
         };
         list = Lists.newArrayList(Iterables.filter(mOriginalItems, predicate));
