@@ -91,8 +91,8 @@ public class HackersFragment extends Fragment implements
     TextView name = holder.get(R.id.contact_name);
     TextView position = holder.get(R.id.contact_position);
 
-    header.setVisibility(hasSectionHeader ? View.VISIBLE : View.GONE);
-    footer.setVisibility(hasSectionFooter ? View.VISIBLE : View.GONE);
+    header.setVisibility(View.GONE);
+    footer.setVisibility(View.GONE);
 
     name.setText(contact.getName());
     position.setText(contact.getPosition());

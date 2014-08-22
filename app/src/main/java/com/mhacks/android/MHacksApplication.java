@@ -8,6 +8,7 @@ import com.mhacks.android.data.model.Award;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.Installation;
 import com.mhacks.android.data.model.Sponsor;
+import com.mhacks.android.data.model.Trash;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.model.Venue;
 import com.mhacks.android.ui.MainActivity;
@@ -21,9 +22,13 @@ import com.parse.PushService;
  */
 public class MHacksApplication extends Application {
 
+  private static MHacksApplication sApplication;
+
   @Override
   public void onCreate() {
     super.onCreate();
+
+    sApplication = this;
 
     ParseObject.registerSubclass(Announcement.class);
     ParseObject.registerSubclass(Award.class);
@@ -32,6 +37,7 @@ public class MHacksApplication extends Application {
     ParseObject.registerSubclass(Sponsor.class);
     ParseObject.registerSubclass(User.class);
     ParseObject.registerSubclass(Venue.class);
+    ParseObject.registerSubclass(Trash.class);
 
     Parse.enableLocalDatastore(this);
     Parse.initialize(this, getString(R.string.parse_application_id), getString(R.string.parse_client_key));
@@ -40,5 +46,9 @@ public class MHacksApplication extends Application {
     ParseFacebookUtils.initialize(getString(R.string.fb_app_id));
 
     Bugsnag.register(this, getString(R.string.bugsnag_key));
+  }
+
+  public static MHacksApplication getInstance() {
+    return sApplication;
   }
 }

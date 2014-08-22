@@ -1,14 +1,14 @@
 package com.mhacks.android.data.sync;
 
 import com.bugsnag.android.Bugsnag;
-import com.google.common.collect.MapDifference;
-import com.google.common.collect.Maps;
-import com.mhacks.android.data.model.DataClass;
+import com.mhacks.android.data.model.Trash;
 import com.mhacks.android.data.model.User;
 import com.parse.ParseException;
 import com.parse.ParseQueryAdapter;
 
-import java.util.Map;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/28/14.
@@ -20,32 +20,43 @@ public class UserSynchronize extends Synchronize<User> {
   }
 
   @Override
-  public void sync() throws SyncException {
+  public Date sync(Date since) throws SyncException {
 
     try {
+
       // Fetch all pinned objects and their ids
-      Map<String, User> localObjects = getLocalObjects();
-
-      // fetch all remote objects and their ids
-      Map<String, User> remoteObjects = getRemoteObjects();
-
-      MapDifference<String, User> difference = Maps.difference(remoteObjects, localObjects, DataClass.equivalentOn(DataClass.OBJECT_ID));
+      List<User> localObjects = getLocalObjects();
 
       // register unregistered users
-      for (User user : localObjects.values()) {
+      for (User user : localObjects) {
         if (!user.has(User.USERNAME)) user.signUp();
       }
 
+      // fetch new remote objects
+      List<User> updatedRemoteObjects = getUpdatedRemoteObjects(since);
+
+      // fetch deleted remote objects
+      List<Trash> deletedRemoteObjects = getDeletedRemoteObjects(since);
+
       // Pin all the new remote objects
-      for (User user : remoteObjects.values()) {
+      for (User user : updatedRemoteObjects) {
         user.pin();
       }
 
       // Unpin and delete all the objects deleted remotely
-      for (User user : difference.entriesOnlyOnRight().values()) {
-        user.unpin();
-        user.delete();
+      for (Trash trash : deletedRemoteObjects) {
+        try {
+          User user = get(trash.getDeletedObjectId());
+          user.unpin();
+          user.delete();
+        } catch (ParseException ignored) {} // didn't have it, move on
       }
+
+      // Return the latest modification date
+      if (!updatedRemoteObjects.isEmpty()) {
+        return Collections.max(updatedRemoteObjects, UPDATED_AT).getUpdatedAt();
+      }
+      return since;
 
     } catch (ParseException e) {
       e.printStackTrace();
