@@ -39,7 +39,9 @@ public class Synchronization extends AsyncTask<Void, Void, Synchronization.SyncR
   public static final String TAG = "Synchronization";
 
   public static final String LAST_SYNC = "_synchronization_last_sync:";
-  public static final int TIMEOUT = 10;
+  public static final Date NEVER = new Date(0l);
+  public static final int SHORT_TIMEOUT = 10;
+  public static final int LONG_TIMEOUT = 45;
   public static final TimeUnit TIMEOUT_UNIT = TimeUnit.SECONDS;
 
   private static boolean sSyncing = false;
@@ -110,7 +112,8 @@ public class Synchronization extends AsyncTask<Void, Void, Synchronization.SyncR
 
       Map<String, Date> dates = Maps.newConcurrentMap();
       for (Synchronize<? extends ParseObject> sync : mSyncs) {
-        dates.put(sync.getClassName(), sync.sync(mSince.get(sync.getClassName()), TIMEOUT, TIMEOUT_UNIT));
+        Date since = mSince.get(sync.getClassName());
+        dates.put(sync.getClassName(), sync.sync(since, since.equals(NEVER) ? LONG_TIMEOUT : SHORT_TIMEOUT, TIMEOUT_UNIT));
         Log.d(TAG, "Returned from: " + sync.getClassName());
       }
 

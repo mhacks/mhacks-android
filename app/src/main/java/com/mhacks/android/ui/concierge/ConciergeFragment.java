@@ -1,6 +1,8 @@
 package com.mhacks.android.ui.concierge;
 
 import android.app.Fragment;
+import android.graphics.LightingColorFilter;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -116,6 +118,9 @@ public class ConciergeFragment extends Fragment implements
     sponsorName.setText(contact.getSponsor().getTitle());
     name.setText(contact.getName());
     position.setText(contact.getPosition());
+
+    LayerDrawable background = ((LayerDrawable) holder.get(R.id.contact_card_header).getBackground());
+    background.findDrawableByLayerId(R.id.adapter_card_header_shape).setColorFilter(new LightingColorFilter(0, contact.getSponsor().getColor()));
   }
 
   @Override

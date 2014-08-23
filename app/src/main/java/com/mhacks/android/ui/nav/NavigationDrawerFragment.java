@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,7 +20,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.mhacks.android.R;
 import com.mhacks.android.ui.announcements.AnnouncementsFragment;
@@ -48,6 +51,10 @@ public class NavigationDrawerFragment extends Fragment {
   private ListView mDrawerListView;
   private View mFragmentContainerView;
 
+  private TextView mTitleText;
+  private LinearLayout.LayoutParams mTitleTextLayoutParams;
+  private int mTitleMargin;
+
   private int mCurrentSelectedPosition = 0;
   private boolean mFromSavedInstanceState;
   private boolean mUserLearnedDrawer;
@@ -70,17 +77,24 @@ public class NavigationDrawerFragment extends Fragment {
     Activity activity = getActivity();
     List<NavItem> items = Arrays.asList(
       new NavItem(activity, AnnouncementsFragment.class, getString(R.string.announcements), R.drawable.ic_announcements2, R.color.bg_announcements, AnnouncementsFragment.TAG),
-      new NavItem(activity, ChatFragment.class, getString(R.string.chat), R.drawable.ic_chat2, R.color.bg_chat, ChatFragment.TAG),
       new NavItem(activity, ConciergeFragment.class, getString(R.string.concierge), R.drawable.ic_concierge2, R.color.bg_concierge, ConciergeFragment.TAG),
       new NavItem(activity, ScheduleFragment.class, getString(R.string.schedule), R.drawable.ic_schedule2, R.color.bg_schedule, ScheduleFragment.TAG),
       new NavItem(activity, HackersFragment.class, getString(R.string.hackers), R.drawable.ic_hackers2, R.color.bg_hackers, HackersFragment.TAG),
       new NavItem(activity, AwardsFragment.class, getString(R.string.awards), R.drawable.ic_awards2, R.color.bg_awards, AwardsFragment.TAG),
+      new NavItem(activity, ChatFragment.class, getString(R.string.chat), R.drawable.ic_chat2, R.color.bg_chat, ChatFragment.TAG),
       new NavItem(activity, MapFragment.class, getString(R.string.map), R.drawable.ic_map2, R.color.bg_map, MapFragment.TAG)
     );
 
-    mAdapter = new NavItemAdapter(getActivity(), items);
+    mAdapter = new NavItemAdapter(activity, items);
     mHandler = new Handler();
-    mSlideDuration = getActivity().getResources().getInteger(R.integer.nav_item_bg_slide_duration);
+    mSlideDuration = activity.getResources().getInteger(R.integer.nav_item_bg_slide_duration);
+
+    int titleId = activity.getResources().getIdentifier("action_bar_title", "id", "android");
+    mTitleText = (TextView) activity.findViewById(titleId);
+    mTitleTextLayoutParams = (LinearLayout.LayoutParams) mTitleText.getLayoutParams();
+    DisplayMetrics metrics = new DisplayMetrics();
+    activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+    mTitleMargin = (int) (18 * (metrics.densityDpi / 160f));
 
     selectItem(mCurrentSelectedPosition);
   }
@@ -137,6 +151,10 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+
+        mTitleTextLayoutParams.leftMargin = 0;
+        mTitleText.setLayoutParams(mTitleTextLayoutParams);
+        mTitleText.requestLayout();
       }
 
       @Override
@@ -156,6 +174,10 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+
+        mTitleTextLayoutParams.leftMargin = mTitleMargin;
+        mTitleText.setLayoutParams(mTitleTextLayoutParams);
+        mTitleText.requestLayout();
       }
     };
 

@@ -37,8 +37,6 @@ public class Synchronize<T extends ParseObject> {
 
   public static final String TAG = "Synchronize";
 
-  public static final int TIMEOUT = 30000;
-
   private final ParseQueryAdapter.QueryFactory<T> mQueryFactory;
   private final String mClassName;
 
