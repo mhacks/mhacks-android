@@ -10,7 +10,7 @@
   <dimen name="announcement_height">96dp</dimen>
   <dimen name="list_item_padding">8dp</dimen>
   <dimen name="intra_list_item_padding">4dp</dimen>
-  <dimen name="nav_item_icon_size">48dp</dimen>
+  <dimen name="nav_item_icon_size">52dp</dimen>
   <dimen name="adapter_header_padding_horizontal">16dp</dimen>
   <dimen name="adapter_header_padding_vertical">12dp</dimen>
   <dimen name="adapter_card_radius">2dp</dimen>

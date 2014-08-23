@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -95,9 +96,11 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
       mCurrentPage = 0;
     }
 
+    Log.d(TAG, "Reloading!");
     query.findInBackground(new FindCallback<T>() {
       @Override
       public void done(List<T> ts, ParseException e) {
+        Log.d(TAG, "Done reloading!");
         if (e != null) {
           e.printStackTrace();
           return;
@@ -191,7 +194,6 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
     } else if (comparator != null && !(mItems instanceof SortingArrayList)) {
       mItems = new SortingArrayList<>(mItems, comparator);
     }
-    load();
     return this;
   }
 
@@ -209,7 +211,7 @@ public class ParseAdapter<T extends ParseObject> extends BaseAdapter implements
 
   @Override
   public void onSyncError(Synchronize.SyncException e) {
-    load();
+    notifyDataSetChanged();
   }
 
   public void bindSync(SwipeRefreshLayout layout) {

@@ -3,7 +3,17 @@
 
   <color name="charcoal">#272727</color>
   <color name="darker_charcoal">#191919</color>
+  <color name="darker_charcoal_semitransparent">#AA191919</color>
   <color name="mhacks_yellow">#FED136</color>
+
+  <color name="bg_announcements">#2f4382</color>
+  <color name="bg_awards">#f6bb42</color>
+  <color name="bg_chat">#f6694c</color>
+  <color name="bg_concierge">#f6bb42</color>
+  <color name="bg_schedule">#8cc152</color>
+  <color name="bg_hackers">#8760e9</color>
+  <color name="bg_map">#4fbde4</color>
+  <color name="bg_settings">#ed5565</color>
 
   <color name="adapter_card_color">@android:color/white</color>
   <color name="adapter_card_shadow_color">@android:color/white</color>
@@ -34,5 +44,11 @@
   <color name="adapter_card_shadow_step_2">#20BBBBBB</color>
   <color name="adapter_card_shadow_step_3">#30BBBBBB</color>
   <color name="adapter_card_shadow_step_4">#40BBBBBB</color>
+
+  <color name="nav_item_shadow_step_0">#22191919</color>
+  <color name="nav_item_shadow_step_1">#44191919</color>
+  <color name="nav_item_shadow_step_2">#66191919</color>
+  <color name="nav_item_shadow_step_3">#88191919</color>
+  <color name="nav_item_shadow_step_4">@color/darker_charcoal_semitransparent</color>
 
 </resources>

@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -36,6 +37,8 @@ public class NavigationDrawerFragment extends Fragment {
 
   private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
   private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
+  private int mSlideDuration;
+  private Handler mHandler;
   private NavigationDrawerCallbacks mCallbacks;
 
   private ActionBarDrawerToggle mDrawerToggle;
@@ -64,17 +67,20 @@ public class NavigationDrawerFragment extends Fragment {
       mFromSavedInstanceState = true;
     }
 
+    Activity activity = getActivity();
     List<NavItem> items = Arrays.asList(
-      new NavItem(getFragmentManager(), AnnouncementsFragment.class, getString(R.string.announcements), R.drawable.ic_newspaper, AnnouncementsFragment.TAG),
-      new NavItem(getFragmentManager(), ChatFragment.class, getString(R.string.chat), R.drawable.ic_member, ChatFragment.TAG),
-      new NavItem(getFragmentManager(), ConciergeFragment.class, getString(R.string.concierge), R.drawable.ic_newspaper, ConciergeFragment.TAG),
-      new NavItem(getFragmentManager(), ScheduleFragment.class, getString(R.string.schedule), R.drawable.ic_calendar, ScheduleFragment.TAG),
-      new NavItem(getFragmentManager(), HackersFragment.class, getString(R.string.hackers), R.drawable.ic_calendar, HackersFragment.TAG),
-      new NavItem(getFragmentManager(), AwardsFragment.class, getString(R.string.awards), R.drawable.ic_calendar, AwardsFragment.TAG),
-      new NavItem(getFragmentManager(), MapFragment.class, getString(R.string.map), R.drawable.ic_member, MapFragment.TAG)
+      new NavItem(activity, AnnouncementsFragment.class, getString(R.string.announcements), R.drawable.ic_announcements2, R.color.bg_announcements, AnnouncementsFragment.TAG),
+      new NavItem(activity, ChatFragment.class, getString(R.string.chat), R.drawable.ic_chat2, R.color.bg_chat, ChatFragment.TAG),
+      new NavItem(activity, ConciergeFragment.class, getString(R.string.concierge), R.drawable.ic_concierge2, R.color.bg_concierge, ConciergeFragment.TAG),
+      new NavItem(activity, ScheduleFragment.class, getString(R.string.schedule), R.drawable.ic_schedule2, R.color.bg_schedule, ScheduleFragment.TAG),
+      new NavItem(activity, HackersFragment.class, getString(R.string.hackers), R.drawable.ic_hackers2, R.color.bg_hackers, HackersFragment.TAG),
+      new NavItem(activity, AwardsFragment.class, getString(R.string.awards), R.drawable.ic_awards2, R.color.bg_awards, AwardsFragment.TAG),
+      new NavItem(activity, MapFragment.class, getString(R.string.map), R.drawable.ic_map2, R.color.bg_map, MapFragment.TAG)
     );
 
     mAdapter = new NavItemAdapter(getActivity(), items);
+    mHandler = new Handler();
+    mSlideDuration = getActivity().getResources().getInteger(R.integer.nav_item_bg_slide_duration);
 
     selectItem(mCurrentSelectedPosition);
   }
@@ -169,16 +175,11 @@ public class NavigationDrawerFragment extends Fragment {
   }
 
   private void selectItem(int position) {
-    mCurrentSelectedPosition = position;
+    mAdapter.setSelection(position);
     if (mDrawerListView != null) {
       mDrawerListView.setItemChecked(position, true);
     }
-    if (mDrawerLayout != null) {
-      mDrawerLayout.closeDrawer(mFragmentContainerView);
-    }
-    if (mCallbacks != null) {
-      mCallbacks.onNavigationDrawerItemSelected(getItem(position));
-    }
+    new DelayedSelector(position);
   }
 
   @Override
@@ -238,6 +239,37 @@ public class NavigationDrawerFragment extends Fragment {
 
   private ActionBar getActionBar() {
     return getActivity().getActionBar();
+  }
+
+  private class DelayedSelector implements Runnable {
+    private final int position;
+    public DelayedSelector(int position) {
+      this.position = position;
+      mHandler.postDelayed(this, mSlideDuration);
+    }
+    @Override
+    public void run() {
+      mCurrentSelectedPosition = position;
+      if (mDrawerLayout != null) {
+        mDrawerLayout.closeDrawer(mFragmentContainerView);
+      }
+      new DelayedNotifier(position);
+    }
+  }
+
+  private class DelayedNotifier implements Runnable {
+    private final int position;
+    public DelayedNotifier(int position) {
+      this.position = position;
+      mHandler.postDelayed(this, mSlideDuration); // that's a total guess
+    }
+
+    @Override
+    public void run() {
+      if (mCallbacks != null) {
+        mCallbacks.onNavigationDrawerItemSelected(getItem(position));
+      }
+    }
   }
 
   public static interface NavigationDrawerCallbacks {

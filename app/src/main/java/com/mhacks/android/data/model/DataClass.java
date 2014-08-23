@@ -41,7 +41,7 @@ public abstract class DataClass<T extends DataClass<T>> extends ParseObject impl
 
   @Override
   public void saveEventually(SaveCallback callback) {
-    pinInBackground(null);
+//      pinInBackground(null);
     super.saveEventually(callback);
   }
 

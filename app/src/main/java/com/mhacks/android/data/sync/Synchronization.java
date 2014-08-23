@@ -8,9 +8,12 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 
 import com.bugsnag.android.Bugsnag;
 import com.google.common.base.Optional;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.mhacks.android.MHacksApplication;
 import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.Award;
@@ -25,16 +28,19 @@ import com.parse.ParseRole;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/28/14.
  */
 public class Synchronization extends AsyncTask<Void, Void, Synchronization.SyncResult> {
+  public static final String TAG = "Synchronization";
 
   public static final String LAST_SYNC = "_synchronization_last_sync:";
+  public static final int TIMEOUT = 10;
+  public static final TimeUnit TIMEOUT_UNIT = TimeUnit.SECONDS;
 
   private static boolean sSyncing = false;
 
@@ -42,7 +48,7 @@ public class Synchronization extends AsyncTask<Void, Void, Synchronization.SyncR
   private Optional<SwipeRefreshLayout> mLayout = Optional.absent();
 
   private SharedPreferences mPreferences;
-  private List<Synchronize<? extends ParseObject>> mSyncs;
+  private Set<Synchronize<? extends ParseObject>> mSyncs;
   private Map<String, Date> mSince;
 
   public Synchronization() {}
@@ -62,6 +68,12 @@ public class Synchronization extends AsyncTask<Void, Void, Synchronization.SyncR
 
   @Override
   protected void onPreExecute() {
+    if (sSyncing) {
+      cancel(true);
+      return;
+    }
+    sSyncing = true;
+    Log.d(TAG, "Will start sync...");
     if (mCallbacks.isPresent()) mCallbacks.get().onSyncStarted();
     if (mLayout.isPresent()) mLayout.get().setRefreshing(true);
 
@@ -72,7 +84,7 @@ public class Synchronization extends AsyncTask<Void, Void, Synchronization.SyncR
       }
     });
 
-    mSyncs = Arrays.asList(
+    mSyncs = Sets.newConcurrentHashSet(Arrays.asList(
       Announcement.getSync(),
       Award.getSync(),
       Event.getSync(),
@@ -80,10 +92,10 @@ public class Synchronization extends AsyncTask<Void, Void, Synchronization.SyncR
       Sponsor.getSync(),
       User.getSync(),
       roleSync
-    );
+    ));
 
     mPreferences = PreferenceManager.getDefaultSharedPreferences(MHacksApplication.getInstance());
-    mSince = new HashMap<>();
+    mSince = Maps.newConcurrentMap();
     for (Synchronize<? extends ParseObject> sync : mSyncs) {
       Date since = new Date(mPreferences.getLong(LAST_SYNC + sync.getClassName(), 0));
       mSince.put(sync.getClassName(), since);
@@ -92,19 +104,21 @@ public class Synchronization extends AsyncTask<Void, Void, Synchronization.SyncR
 
   @Override
   protected SyncResult doInBackground(Void... voids) {
-    if (sSyncing) return new SyncResult(null, null);
-    sSyncing = true;
+    Log.d(TAG, "Sync started!");
 
     try {
 
-      Map<String, Date> dates = new HashMap<>();
+      Map<String, Date> dates = Maps.newConcurrentMap();
       for (Synchronize<? extends ParseObject> sync : mSyncs) {
-        dates.put(sync.getClassName(), sync.sync(mSince.get(sync.getClassName())));
+        dates.put(sync.getClassName(), sync.sync(mSince.get(sync.getClassName()), TIMEOUT, TIMEOUT_UNIT));
+        Log.d(TAG, "Returned from: " + sync.getClassName());
       }
 
+      Log.d(TAG, "Sync complete!");
       return new SyncResult(null, dates);
 
     } catch (Synchronize.SyncException e) {
+      Log.e(TAG, "Sync error!");
       return new SyncResult(e, null);
     }
 
@@ -112,6 +126,7 @@ public class Synchronization extends AsyncTask<Void, Void, Synchronization.SyncR
 
   @Override
   protected void onPostExecute(SyncResult result) {
+    Log.d(TAG, "Cleaning up...");
     if (result.exception == null) {
       if (mCallbacks.isPresent()) mCallbacks.get().onSyncCompleted();
       if (mLayout.isPresent()) mLayout.get().setRefreshing(false);
@@ -129,8 +144,9 @@ public class Synchronization extends AsyncTask<Void, Void, Synchronization.SyncR
         editor.putLong(LAST_SYNC + entry.getKey(), entry.getValue().getTime());
       }
       editor.commit();
-      sSyncing = false;
     }
+    sSyncing = false;
+    Log.d(TAG, "Done!");
   }
 
   public static final class SyncResult {

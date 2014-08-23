@@ -57,13 +57,13 @@ public class User extends ParseUser implements Parcelable {
   }
 
   public static ParseQuery<User> query() {
-    return remoteQuery().fromLocalDatastore();
+    ParseQuery<User> result = remoteQuery().fromLocalDatastore();
+    result.include(SPONSOR);
+    return result;
   }
 
   public static ParseQuery<User> remoteQuery() {
-    ParseQuery<User> result = ParseQuery.getQuery(User.class);
-    result.include(SPONSOR);
-    return result;
+    return ParseQuery.getQuery(User.class);
   }
 
   public static void updateVenue(String venueObjectId) throws ParseException {

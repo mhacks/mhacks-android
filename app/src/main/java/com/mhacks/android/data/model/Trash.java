@@ -27,8 +27,8 @@ public class Trash extends DataClass<Trash> {
 
   public static ParseQuery<Trash> deletedSince(String className, Date since) {
     return ParseQuery.getQuery(Trash.class)
-      .whereEqualTo(CLASS_NAME, className)
-      .whereGreaterThan(CREATED_AT, since);
+      .whereGreaterThan(UPDATED_AT, since)
+      .whereEqualTo(CLASS_NAME, className);
   }
 
   public static final Creator<Trash> CREATOR = new Creator<Trash>() {

@@ -96,15 +96,15 @@ public class Event extends DataClass<Event> {
   }
   
   public static ParseQuery<Event> query() {
-    return remoteQuery().fromLocalDatastore();
-  }
-
-  public static ParseQuery<Event> remoteQuery() {
-    ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+    ParseQuery<Event> query = remoteQuery().fromLocalDatastore();
     query.include(IMAGE);
     query.include(HOST);
     query.include(LOCATION);
     return query;
+  }
+
+  public static ParseQuery<Event> remoteQuery() {
+    return ParseQuery.getQuery(Event.class);
   }
 
   public static final Creator<Event> CREATOR = new Creator<Event>() {
