@@ -40,7 +40,7 @@
       android:text="@string/lorem_contact_name"/>
 
     <TextView
-      android:id="@+id/contact_position"
+      android:id="@+id/contact_specialty"
       style="@style/adapter_card_details"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"

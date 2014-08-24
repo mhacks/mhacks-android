@@ -31,7 +31,7 @@ public class UserEditDialogFragment extends DialogFragment implements DialogInte
   private ParseAdapter<Sponsor> mSponsorAdapter;
 
   private EditText mName;
-  private EditText mPosition;
+  private EditText mSpecialty;
   private Spinner mSponsor;
 
   public UserEditDialogFragment() {
@@ -70,14 +70,14 @@ public class UserEditDialogFragment extends DialogFragment implements DialogInte
     View view = inflater.inflate(R.layout.dialog_user_edit, null);
 
     mName = (EditText) view.findViewById(R.id.user_name);
-    mPosition = (EditText) view.findViewById(R.id.user_position);
+    mSpecialty = (EditText) view.findViewById(R.id.user_position);
     mSponsor = (Spinner) view.findViewById(R.id.user_sponsor);
 
     mSponsor.setAdapter(mSponsorAdapter);
 
     if (mUser.isPresent()) {
       mName.setText(mUser.get().getName());
-      mPosition.setText(mUser.get().getPosition());
+      mSpecialty.setText(mUser.get().getSpecialty());
       mSponsor.setSelection(mSponsorAdapter.indexOf(mUser.get().getSponsor()));
     }
 
@@ -98,7 +98,7 @@ public class UserEditDialogFragment extends DialogFragment implements DialogInte
         User user = mUser.isPresent() ? mUser.get() : new User();
         user
           .setName(mName.getText().toString())
-          .setPosition(mPosition.getText().toString())
+          .setSpecialty(mSpecialty.getText().toString())
           .setSponsor(mSponsorAdapter.getItem(mSponsor.getSelectedItemPosition()))
           .saveLater();
 

@@ -50,7 +50,7 @@ public class ConciergeFragment extends Fragment implements
     ParseQueryAdapter.QueryFactory<User> factory = new ParseQueryAdapter.QueryFactory<User>() {
       @Override
       public ParseQuery<User> create() {
-        return User.query().whereExists(User.SPONSOR);
+        return User.query().whereExists(User.SPONSOR).addAscendingOrder(User.NAME);
       }
     };
     Ordering<User> ordering = new Ordering<User>() {
@@ -110,14 +110,14 @@ public class ConciergeFragment extends Fragment implements
     View footer = holder.get(R.id.contact_card_footer);
     TextView sponsorName = holder.get(R.id.contact_sponsor_name);
     TextView name = holder.get(R.id.contact_name);
-    TextView position = holder.get(R.id.contact_position);
+    TextView position = holder.get(R.id.contact_specialty);
 
     header.setVisibility(hasSectionHeader ? View.VISIBLE : View.GONE);
     footer.setVisibility(hasSectionFooter ? View.VISIBLE : View.GONE);
 
     sponsorName.setText(contact.getSponsor().getTitle());
     name.setText(contact.getName());
-    position.setText(contact.getPosition());
+    position.setText(contact.getSpecialty());
 
     LayerDrawable background = ((LayerDrawable) holder.get(R.id.contact_card_header).getBackground());
     background.findDrawableByLayerId(R.id.adapter_card_header_shape).setColorFilter(new LightingColorFilter(0, contact.getSponsor().getColor()));

@@ -44,6 +44,7 @@ public class User extends ParseUser implements Parcelable {
   public static final String CURRENT_VENUE = "currentVenue";
   public static final String SPONSOR = "sponsor";
   public static final String POSITION = "position";
+  public static final String SPECIALTY = "specialty";
   public static final String SCHOOL = "school";
 
   private Boolean mAdmin = null;
@@ -170,12 +171,12 @@ public class User extends ParseUser implements Parcelable {
     return this;
   }
 
-  public String getPosition() {
-    return has(POSITION) ? getString(POSITION) : "";
+  public String getSpecialty() {
+    return has(SPECIALTY) ? getString(SPECIALTY) : "";
   }
 
-  public User setPosition(String position) {
-    put(POSITION, position);
+  public User setSpecialty(String specialty) {
+    put(SPECIALTY, specialty);
     return this;
   }
 
