@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<RelativeLayout
   android:id="@+id/announcement_cell_layout"
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
@@ -22,14 +22,17 @@
       android:text="@string/lorem_sponsor"/>
 
     <ImageView
-      android:id="@+id/announcement_pinned_icon"
-      style="@style/adapter_card_pinned_icon"/>
+    android:id="@+id/announcement_pinned_icon"
+    style="@style/adapter_card_pinned_icon"/>
 
   </RelativeLayout>
 
   <RelativeLayout
     android:id="@+id/announcement_card"
-    style="@style/adapter_card_body"
+    style="@style/adapter_card_sub_item"
+
+    android:layout_below="@id/announcement_card_header"
+    android:layout_marginTop="-4dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -38,7 +41,7 @@
       style="@style/adapter_card_title"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="@string/lorem_announcement_title"/>
+      android:text="@string/lorem_contact_name"/>
 
     <TextView
       android:id="@+id/announcement_details"
@@ -52,4 +55,15 @@
 
   </RelativeLayout>
 
-</LinearLayout>
+  <View
+    android:id="@+id/contact_card_footer"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/adapter_card_padding"
+
+    android:layout_below="@id/announcement_card"
+    android:layout_alignLeft="@id/announcement_card"
+    android:layout_alignRight="@id/announcement_card"
+    android:background="@drawable/adapter_card_body"/>
+
+
+</RelativeLayout>
