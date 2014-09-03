@@ -51,7 +51,7 @@ public class User extends ParseUser implements Parcelable {
   public static final String SCHOOL = "school";
   public static final String AUTH_DATA = "authData";
 
-  public static final String FACEBOOK_URL = "http://graph.facebook.com/%s/picture?type=large";
+  public static final String FACEBOOK_URL = "https://graph.facebook.com/%s/picture?type=square";
   public static final String FACEBOOK = "facebook";
   public static final String TWITTER = "twitter";
   public static final String ID = "id";
