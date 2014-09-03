@@ -11,25 +11,31 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
-    android:padding="@dimen/intra_list_item_padding"
-
     android:layout_alignParentBottom="true">
 
     <ImageButton
       android:id="@+id/chat_send_button"
-      android:layout_width="@dimen/chat_handle_size"
-      android:layout_height="@dimen/chat_handle_size"
-
-      android:layout_alignParentRight="true"
-      android:layout_marginLeft="@dimen/intra_list_item_padding"
-
-      android:src="@android:drawable/ic_menu_send"/>
-
-    <EditText
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
 
+      android:maxHeight="@dimen/chat_handle_size"
+      android:maxWidth="@dimen/chat_handle_size"
+
+      android:layout_alignParentRight="true"
+      android:layout_alignParentTop="true"
+
+      android:scaleType="fitCenter"
+      android:src="@android:drawable/ic_menu_send"/>
+
+    <EditText
+      android:id="@+id/chat_input"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+
+      android:layout_margin="@dimen/intra_list_item_padding"
+
       android:layout_alignParentLeft="true"
+      android:layout_alignParentTop="true"
       android:layout_toLeftOf="@id/chat_send_button"/>
   </RelativeLayout>
 

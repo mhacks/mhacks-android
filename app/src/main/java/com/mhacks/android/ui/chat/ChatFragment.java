@@ -10,10 +10,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
@@ -28,7 +31,7 @@ import com.squareup.picasso.Picasso;
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/24/14.
  */
-public class ChatFragment extends Fragment implements ActionBar.OnNavigationListener {
+public class ChatFragment extends Fragment implements ActionBar.OnNavigationListener, View.OnClickListener {
   public static final String TAG = "ChatFragment";
 
   public static final String CHAT = "chat";
@@ -41,6 +44,8 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
   private ListView mListView;
   private RoomsAdapter mRoomsAdapter;
   private ChatAdapter mChatAdapter;
+  private EditText mInput;
+  private ImageButton mSendButton;
 
   private int mPriorNavigationMode;
 
@@ -62,17 +67,31 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     mLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_chat, null);
     mListView = (ListView) mLayout.findViewById(R.id.chat_list);
+    mInput = (EditText) mLayout.findViewById(R.id.chat_input);
+    mSendButton = (ImageButton) mLayout.findViewById(R.id.chat_send_button);
 
     return mLayout;
   }
 
   @Override
+  public void onViewCreated(View view, Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    mSendButton.setOnClickListener(this);
+  }
+
+  @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    setNavigationMode();
     if (User.canAdmin()) {
       inflater.inflate(R.menu.fragment_chat, menu);
     }
+    setNavigationMode();
     super.onCreateOptionsMenu(menu, inflater);
+  }
+
+  @Override
+  public void onDestroyOptionsMenu() {
+    super.onDestroyOptionsMenu();
+    revertNavigationMode();
   }
 
   @Override
@@ -100,16 +119,15 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
   }
 
   @Override
-  public void onDestroyView() {
-    revertNavigationMode();
-    super.onDestroyView();
-  }
-
-  @Override
   public boolean onNavigationItemSelected(int i, long l) {
     mChatAdapter = new ChatAdapter(mFirebase.child(MESSAGES).child(mRoomsAdapter.getItem(i).getTitle()).limit(50), getActivity());
     mListView.setAdapter(mChatAdapter);
     return true;
+  }
+
+  @Override
+  public void onClick(View view) {
+    Toast.makeText(getActivity(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
   }
 
   private static class RoomsAdapter extends FirebaseListAdapter<ChatRoom> {
