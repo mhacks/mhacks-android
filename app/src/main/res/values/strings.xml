@@ -54,5 +54,6 @@
   <string name="delete">Delete</string>
   <string name="hackers">Hackers</string>
   <string name="school_unknown">Unknown</string>
+  <string name="log_in_twitter">Log in with Twitter</string>
 
 </resources>

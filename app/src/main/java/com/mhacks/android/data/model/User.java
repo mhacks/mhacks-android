@@ -3,21 +3,28 @@ package com.mhacks.android.data.model;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.bugsnag.android.Bugsnag;
 import com.mhacks.android.data.sync.Synchronize;
 import com.mhacks.android.data.sync.UserSynchronize;
+import com.mhacks.android.ui.common.Util;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseRole;
+import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -50,6 +57,7 @@ public class User extends ParseUser implements Parcelable {
   public static final String SPECIALTY = "specialty";
   public static final String SCHOOL = "school";
   public static final String AUTH_DATA = "authData";
+  public static final String TWITTER_IMAGE_URL = "twitterImageUrl";
 
   public static final String FACEBOOK_URL = "https://graph.facebook.com/%s/picture?type=square";
   public static final String FACEBOOK = "facebook";
@@ -210,8 +218,8 @@ public class User extends ParseUser implements Parcelable {
         String id = authData.getJSONObject(FACEBOOK).getString(ID);
         return getFacebookImageUrl(id);
       }
-      else if (authData.has(TWITTER)) {
-        // TODO: twitter
+      else if (authData.has(TWITTER) && has(TWITTER_IMAGE_URL)) {
+        return getString(TWITTER_IMAGE_URL);
       }
       saveEventually();
     } catch (JSONException e) {
@@ -219,6 +227,31 @@ public class User extends ParseUser implements Parcelable {
       e.printStackTrace();
     }
     return null;
+  }
+
+  public class TwitterImageUrlFetchTask extends AsyncTask<Void, Void, Exception> {
+    private String mmResult = null;
+
+    @Override
+    protected Exception doInBackground(Void... voids) {
+      HttpClient client = new DefaultHttpClient();
+      HttpGet verifyGet = new HttpGet("https://api.twitter.com/1.1/users/show.json?screen_name=" + ParseTwitterUtils.getTwitter().getScreenName());
+      ParseTwitterUtils.getTwitter().signRequest(verifyGet);
+
+      try {
+        HttpResponse response = client.execute(verifyGet);
+        JSONObject jsonObject = new JSONObject(Util.convertStreamToString(response.getEntity().getContent()));
+        put(TWITTER_IMAGE_URL, jsonObject.getString("profile_image_url"));
+        saveEventually();
+
+      } catch (Exception e) {
+        e.printStackTrace();
+        Bugsnag.notify(e);
+        return e;
+      }
+
+      return null;
+    }
   }
 
   @Override
