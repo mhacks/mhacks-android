@@ -229,19 +229,22 @@ public class User extends ParseUser implements Parcelable {
     return null;
   }
 
-  public class TwitterImageUrlFetchTask extends AsyncTask<Void, Void, Exception> {
+  public class TwitterFetchTask extends AsyncTask<Void, Void, Exception> {
     private String mmResult = null;
 
     @Override
     protected Exception doInBackground(Void... voids) {
+      String screenName = ParseTwitterUtils.getTwitter().getScreenName();
+
       HttpClient client = new DefaultHttpClient();
-      HttpGet verifyGet = new HttpGet("https://api.twitter.com/1.1/users/show.json?screen_name=" + ParseTwitterUtils.getTwitter().getScreenName());
+      HttpGet verifyGet = new HttpGet("https://api.twitter.com/1.1/users/show.json?screen_name=" + screenName);
       ParseTwitterUtils.getTwitter().signRequest(verifyGet);
 
       try {
         HttpResponse response = client.execute(verifyGet);
         JSONObject jsonObject = new JSONObject(Util.convertStreamToString(response.getEntity().getContent()));
         put(TWITTER_IMAGE_URL, jsonObject.getString("profile_image_url"));
+        setName("@" + screenName);
         saveEventually();
 
       } catch (Exception e) {

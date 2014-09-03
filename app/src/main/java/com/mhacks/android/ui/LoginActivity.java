@@ -129,7 +129,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
       }
 
       if (mmTwitter) {
-        User.getCurrentUser().new TwitterImageUrlFetchTask() {
+        User.getCurrentUser().new TwitterFetchTask() {
           @Override
           protected void onPostExecute(Exception e) {
             super.onPostExecute(e);
