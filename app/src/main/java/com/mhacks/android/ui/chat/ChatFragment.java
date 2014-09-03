@@ -3,7 +3,6 @@ package com.mhacks.android.ui.chat;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
-import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -92,12 +91,6 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
   }
 
   @Override
-  public void onDestroyOptionsMenu() {
-    super.onDestroyOptionsMenu();
-    revertNavigationMode();
-  }
-
-  @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.chat_new:
@@ -109,16 +102,9 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
 
   private void setNavigationMode() {
     ActionBar actionBar = getActivity().getActionBar();
-    mPriorNavigationMode = actionBar.getNavigationMode();
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
     actionBar.setListNavigationCallbacks(mRoomsAdapter, this);
     actionBar.setDisplayShowTitleEnabled(false);
-  }
-
-  private void revertNavigationMode() {
-    ActionBar actionBar = getActivity().getActionBar();
-    actionBar.setNavigationMode(mPriorNavigationMode);
-    actionBar.setDisplayShowTitleEnabled(true);
   }
 
   @Override
@@ -154,12 +140,10 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
 
   private static class ChatAdapter extends FirebaseListAdapter<ChatMessage> {
     private final Activity mmActivity;
-    private final LightingColorFilter mmDaveFilter;
 
     public ChatAdapter(Query ref, Activity activity) {
       super(ref, ChatMessage.class, R.layout.adapter_chat_message, activity);
       mmActivity = activity;
-      mmDaveFilter = new LightingColorFilter(mmActivity.getResources().getColor(R.color.charcoal_semitransparent), 0);
     }
 
     @Override

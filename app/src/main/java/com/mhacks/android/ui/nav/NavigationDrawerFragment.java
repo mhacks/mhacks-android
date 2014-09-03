@@ -236,9 +236,18 @@ public class NavigationDrawerFragment extends Fragment {
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     if (mDrawerLayout != null && isDrawerOpen()) {
       inflater.inflate(R.menu.global, menu);
+      setHaveOptionsMenu(false);
       showGlobalContextActionBar();
+    } else {
+      setHaveOptionsMenu(true);
     }
     super.onCreateOptionsMenu(menu, inflater);
+  }
+
+  private void setHaveOptionsMenu(boolean haveOptionsMenu) {
+    for (int i = 0, len = mAdapter.getCount(); i < len; i++) {
+      mAdapter.getItem(i).setHasOptionsMenu(haveOptionsMenu);
+    }
   }
 
   @Override

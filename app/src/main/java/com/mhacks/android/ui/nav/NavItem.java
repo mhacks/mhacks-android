@@ -61,6 +61,10 @@ public class NavItem {
       .commit();
   }
 
+  public void setHasOptionsMenu(boolean hasOptionsMenu) {
+    getFragment().setHasOptionsMenu(hasOptionsMenu);
+  }
+
   public String getTag() {
     return mTag;
   }
