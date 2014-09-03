@@ -3,45 +3,66 @@
 <RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:padding="@dimen/list_item_padding">
+  android:layout_height="wrap_content">
 
   <ImageView
-    android:id="@+id/chat_message_image"
-    android:layout_width="@dimen/chat_message_image_size"
-    android:layout_height="@dimen/chat_message_image_size"
-
-    android:layout_alignParentTop="true"
-    android:layout_alignParentLeft="true"
-    android:layout_marginRight="@dimen/list_item_padding"
-
-    android:src="@drawable/ic_member"
-    android:scaleType="fitCenter"
-    android:adjustViewBounds="true"/>
-
-  <TextView
-    android:id="@+id/chat_message_user_name"
-    android:layout_width="wrap_content"
+    android:id="@+id/dave"
+    android:layout_width="@dimen/dave_size"
     android:layout_height="wrap_content"
+    android:visibility="invisible"
+    android:alpha="0.6"
 
-    android:layout_toRightOf="@id/chat_message_image"
     android:layout_alignParentRight="true"
+    android:layout_alignParentBottom="true"
 
-    android:textAppearance="?android:attr/textAppearanceMedium"
-    android:singleLine="true"
-    android:ellipsize="end"
-    android:text="@string/lorem_user_full_name"/>
+    android:scaleType="fitEnd"
+    android:adjustViewBounds="true"
+    android:src="@drawable/dave_watermark"/>
 
-  <TextView
-    android:id="@+id/chat_message_text"
-    android:layout_width="wrap_content"
+  <RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="@dimen/list_item_padding">
 
-    android:layout_toRightOf="@id/chat_message_image"
-    android:layout_alignParentRight="true"
-    android:layout_below="@id/chat_message_user_name"
+    <ImageView
+      android:id="@+id/chat_message_image"
+      android:layout_width="@dimen/chat_message_image_size"
+      android:layout_height="@dimen/chat_message_image_size"
 
-    android:ellipsize="end"
-    android:text="@string/lorem_ipsum_standard"/>
+      android:layout_alignParentTop="true"
+      android:layout_alignParentLeft="true"
+      android:layout_marginRight="@dimen/list_item_padding"
+
+      android:src="@drawable/ic_member"
+      android:scaleType="fitCenter"
+      android:adjustViewBounds="true"/>
+
+    <TextView
+      android:id="@+id/chat_message_user_name"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+
+      android:layout_toRightOf="@id/chat_message_image"
+      android:layout_alignParentRight="true"
+
+      android:textAppearance="?android:attr/textAppearanceMedium"
+      android:singleLine="true"
+      android:ellipsize="end"
+      android:text="@string/lorem_user_full_name"/>
+
+    <TextView
+      android:id="@+id/chat_message_text"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+
+      android:layout_toRightOf="@id/chat_message_image"
+      android:layout_alignParentRight="true"
+      android:layout_below="@id/chat_message_user_name"
+
+      android:ellipsize="end"
+      android:text="@string/lorem_event_title"/>
+
+  </RelativeLayout>
 
 </RelativeLayout>

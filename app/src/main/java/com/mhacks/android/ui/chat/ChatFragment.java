@@ -3,6 +3,7 @@ package com.mhacks.android.ui.chat;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -153,17 +154,22 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
 
   private static class ChatAdapter extends FirebaseListAdapter<ChatMessage> {
     private final Activity mmActivity;
+    private final LightingColorFilter mmDaveFilter;
 
     public ChatAdapter(Query ref, Activity activity) {
       super(ref, ChatMessage.class, R.layout.adapter_chat_message, activity);
       mmActivity = activity;
+      mmDaveFilter = new LightingColorFilter(mmActivity.getResources().getColor(R.color.charcoal_semitransparent), 0);
     }
 
     @Override
     protected void populateView(ViewHolder holder, ChatMessage message) {
+      ImageView dave = holder.get(R.id.dave);
       ImageView image = holder.get(R.id.chat_message_image);
       TextView name = holder.get(R.id.chat_message_user_name);
       TextView text = holder.get(R.id.chat_message_text);
+
+      dave.setVisibility(message.heKnows() ? View.VISIBLE : View.INVISIBLE);
 
       Picasso.with(mmActivity)
         .load(message.getImage())

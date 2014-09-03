@@ -2,6 +2,7 @@
 <resources>
 
   <color name="charcoal">#272727</color>
+  <color name="charcoal_semitransparent">#10272727</color>
   <color name="darker_charcoal">#191919</color>
   <color name="darker_charcoal_semitransparent">#88191919</color>
   <color name="darkest_charcoal">#101010</color>

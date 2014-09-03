@@ -22,4 +22,5 @@
   <dimen name="adapter_card_shadow_top">6dp</dimen>
   <dimen name="adapter_card_shadow_width">1dp</dimen>
   <dimen name="chat_handle_size">38dp</dimen>
+  <dimen name="dave_size">48dp</dimen>
 </resources>

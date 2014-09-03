@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.mhacks.android.data.model.User;
 
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 8/7/14.
@@ -13,6 +14,8 @@ public class ChatMessage {
   public static final String MESSAGE = "message";
   public static final String USER = "user";
   public static final String IMAGE = "image";
+
+  public static final Pattern HE_KNOWS = Pattern.compile("(?i)HELL+ *YEAH");
 
   private String message;
   private String user;
@@ -63,6 +66,11 @@ public class ChatMessage {
       USER, user,
       IMAGE, image
     );
+  }
+
+  // determines whether this instance is posted by Dave Fontenot or one of his disciples
+  public boolean heKnows() {
+    return HE_KNOWS.matcher(message).find();
   }
 
 }
