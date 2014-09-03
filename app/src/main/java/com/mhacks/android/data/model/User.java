@@ -18,6 +18,9 @@ import com.parse.ParseRole;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.UUID;
 
 /**
@@ -46,8 +49,18 @@ public class User extends ParseUser implements Parcelable {
   public static final String POSITION = "position";
   public static final String SPECIALTY = "specialty";
   public static final String SCHOOL = "school";
+  public static final String AUTH_DATA = "authData";
+
+  public static final String FACEBOOK_URL = "http://graph.facebook.com/%s/picture?type=large";
+  public static final String FACEBOOK = "facebook";
+  public static final String TWITTER = "twitter";
+  public static final String ID = "id";
 
   private Boolean mAdmin = null;
+
+  public static String getFacebookImageUrl(String id) {
+    return String.format(FACEBOOK_URL, id);
+  }
 
   public User() {
     super();
@@ -187,6 +200,25 @@ public class User extends ParseUser implements Parcelable {
   public User setSchool(String school) {
     put(SCHOOL, school);
     return this;
+  }
+
+  public String getImageUrl() {
+    // Update the model with an image, if possible
+    if (has(AUTH_DATA)) try {
+      JSONObject authData = getJSONObject(AUTH_DATA);
+      if (authData.has(FACEBOOK)) {
+        String id = authData.getJSONObject(FACEBOOK).getString(ID);
+        return getFacebookImageUrl(id);
+      }
+      else if (authData.has(TWITTER)) {
+        // TODO: twitter
+      }
+      saveEventually();
+    } catch (JSONException e) {
+      // Ignore this, for now
+      e.printStackTrace();
+    }
+    return null;
   }
 
   @Override

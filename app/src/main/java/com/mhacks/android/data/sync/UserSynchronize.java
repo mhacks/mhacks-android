@@ -49,7 +49,8 @@ public class UserSynchronize extends Synchronize<User> {
           User user = get(trash.getDeletedObjectId());
           user.unpin();
           user.delete();
-        } catch (ParseException ignored) {} // didn't have it, move on
+        } catch (ParseException ignored) {
+        } // didn't have it, move on
       }
 
       // Return the latest modification date

@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
@@ -40,6 +39,8 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
 
   private String mFirebaseUrl;
   private Firebase mFirebase;
+  private Firebase mMessages;
+  private Firebase mCurrentRoom;
   private RelativeLayout mLayout;
   private ListView mListView;
   private RoomsAdapter mRoomsAdapter;
@@ -60,6 +61,7 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
 
     mFirebaseUrl = getString(R.string.firebase_url);
     mFirebase = new Firebase(mFirebaseUrl).child(CHAT);
+    mMessages = mFirebase.child(MESSAGES);
     mRoomsAdapter = new RoomsAdapter(mFirebase.child(ROOMS).limit(50), getActivity());
   }
 
@@ -120,14 +122,19 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
 
   @Override
   public boolean onNavigationItemSelected(int i, long l) {
-    mChatAdapter = new ChatAdapter(mFirebase.child(MESSAGES).child(mRoomsAdapter.getItem(i).getTitle()).limit(50), getActivity());
+    mCurrentRoom = mMessages.child(mRoomsAdapter.getItem(i).getTitle());
+    mChatAdapter = new ChatAdapter(mCurrentRoom.limit(50), getActivity());
     mListView.setAdapter(mChatAdapter);
     return true;
   }
 
   @Override
   public void onClick(View view) {
-    Toast.makeText(getActivity(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
+    CharSequence text = mInput.getText();
+    if (text.length() > 0) {
+      ChatMessage.push(text.toString(), mCurrentRoom);
+      mInput.setText(null);
+    }
   }
 
   private static class RoomsAdapter extends FirebaseListAdapter<ChatRoom> {
