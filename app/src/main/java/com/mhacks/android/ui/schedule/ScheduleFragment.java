@@ -19,8 +19,8 @@ import com.mhacks.android.R;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.MainActivity;
-import com.mhacks.android.ui.common.parse.ParseAdapter;
 import com.mhacks.android.ui.common.Util;
+import com.mhacks.android.ui.common.parse.ParseAdapter;
 import com.mhacks.android.ui.common.parse.ViewHolder;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -51,19 +51,22 @@ public class ScheduleFragment extends Fragment implements
     ParseQueryAdapter.QueryFactory<Event> factory = new ParseQueryAdapter.QueryFactory<Event>() {
       @Override
       public ParseQuery<Event> create() {
-        return Event.query().orderByDescending(Event.CREATED_AT);
+        return Event.query().orderByAscending(Event.TIME);
       }
     };
-    mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_event, this, factory).load();
+    mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_event, this, factory)
+      .setSectioning(Event.SAME_DAY)
+      .load();
 
     setHasOptionsMenu(true);
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    mLayout = (SwipeRefreshLayout) inflater.inflate(R.layout.fragment_events, null);
+    View view = inflater.inflate(R.layout.fragment_events, container, false);
+    mLayout = (SwipeRefreshLayout) view.findViewById(R.id.events_swipe_container);
 
-    mListView = (ListView) mLayout.findViewById(R.id.events_list);
+    mListView = (ListView) view.findViewById(R.id.events_list);
     mListView.setAdapter(mAdapter);
 
     if (User.canAdmin()) {
@@ -74,7 +77,7 @@ public class ScheduleFragment extends Fragment implements
     mAdapter.bindSync(mLayout);
     if (getArguments().getBoolean(MainActivity.SHOULD_SYNC, false)) mAdapter.onRefresh();
 
-    return mLayout;
+    return view;
   }
 
   @Override
@@ -97,16 +100,22 @@ public class ScheduleFragment extends Fragment implements
 
   @Override
   public void populateView(ViewHolder holder, Event event, boolean hasSectionHeader, boolean hasSectionFooter) {
+    View header = holder.get(R.id.event_card_header);
+    View footer = holder.get(R.id.event_card_footer);
     TextView title = holder.get(R.id.event_title);
     TextView details = holder.get(R.id.event_details);
     TextView host = holder.get(R.id.event_host);
+    TextView date = holder.get(R.id.event_date);
     TextView time = holder.get(R.id.event_time);
 
+    header.setVisibility(hasSectionHeader ? View.VISIBLE : View.GONE);
+    footer.setVisibility(hasSectionFooter ? View.VISIBLE : View.GONE);
 
     title.setText(event.getTitle());
     details.setText(event.getDetails());
     host.setText(event.getHost().getTitle());
-    time.setText(new SimpleDateFormat("EEEE").format(event.getTime()) + " " + Util.Time.roundTimeAndFormat(event.getTime(), 2));
+    date.setText(new SimpleDateFormat("EEEE").format(event.getTime()));
+    time.setText(Util.Time.roundTimeAndFormat(event.getTime(), 2));
   }
 
   @Override
