@@ -6,23 +6,29 @@ package com.mhacks.android.data.firebase;
 public class ChatMessage {
 
   private String message;
-  private String author;
+  private String user;
+  private String image;
 
   // Required default constructor for Firebase object mapping
   @SuppressWarnings("unused")
   private ChatMessage() { }
 
-  ChatMessage(String message, String author) {
+  ChatMessage(String message, String user, String image) {
     this.message = message;
-    this.author = author;
+    this.user = user;
+    this.image = image;
   }
 
   public String getMessage() {
     return message;
   }
 
-  public String getAuthor() {
-    return author;
+  public String getUser() {
+    return user;
+  }
+
+  public String getImage() {
+    return image;
   }
 
 }

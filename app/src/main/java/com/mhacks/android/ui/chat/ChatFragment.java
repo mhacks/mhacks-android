@@ -10,8 +10,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.firebase.client.Firebase;
@@ -20,7 +21,9 @@ import com.mhacks.android.R;
 import com.mhacks.android.data.firebase.ChatMessage;
 import com.mhacks.android.data.firebase.ChatRoom;
 import com.mhacks.android.data.model.User;
+import com.mhacks.android.ui.common.CircleTransform;
 import com.mhacks.android.ui.common.FirebaseListAdapter;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/24/14.
@@ -34,7 +37,7 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
 
   private String mFirebaseUrl;
   private Firebase mFirebase;
-  private FrameLayout mLayout;
+  private RelativeLayout mLayout;
   private ListView mListView;
   private RoomsAdapter mRoomsAdapter;
   private ChatAdapter mChatAdapter;
@@ -57,7 +60,7 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    mLayout = (FrameLayout) inflater.inflate(R.layout.fragment_chat, null);
+    mLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_chat, null);
     mListView = (ListView) mLayout.findViewById(R.id.chat_list);
 
     return mLayout;
@@ -124,15 +127,26 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
   }
 
   private static class ChatAdapter extends FirebaseListAdapter<ChatMessage> {
+    private final Activity mmActivity;
 
     public ChatAdapter(Query ref, Activity activity) {
-      super(ref, ChatMessage.class, android.R.layout.simple_spinner_dropdown_item, activity);
+      super(ref, ChatMessage.class, R.layout.adapter_chat_message, activity);
+      mmActivity = activity;
     }
 
     @Override
     protected void populateView(ViewHolder holder, ChatMessage message) {
-      TextView title = holder.get(android.R.id.text1);
-      title.setText(message.getMessage());
+      ImageView image = holder.get(R.id.chat_message_image);
+      TextView name = holder.get(R.id.chat_message_user_name);
+      TextView text = holder.get(R.id.chat_message_text);
+
+      Picasso.with(mmActivity)
+        .load(message.getImage())
+        .transform(new CircleTransform())
+        .into(image);
+
+      name.setText(message.getUser());
+      text.setText(message.getMessage());
     }
 
   }

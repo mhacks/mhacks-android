@@ -1,14 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
+<RelativeLayout
   android:id="@+id/container"
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
+  <RelativeLayout
+    android:id="@+id/chat_handle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:padding="@dimen/intra_list_item_padding"
+
+    android:layout_alignParentBottom="true">
+
+    <ImageButton
+      android:id="@+id/chat_send_button"
+      android:layout_width="@dimen/chat_handle_size"
+      android:layout_height="@dimen/chat_handle_size"
+
+      android:layout_alignParentRight="true"
+      android:layout_marginLeft="@dimen/intra_list_item_padding"
+
+      android:src="@android:drawable/ic_menu_send"/>
+
+    <EditText
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+
+      android:layout_alignParentLeft="true"
+      android:layout_toLeftOf="@id/chat_send_button"/>
+  </RelativeLayout>
+
+  <View
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/adapter_card_shadow_top"
+
+    android:layout_above="@id/chat_handle"
+
+    android:background="@drawable/shadow_up"/>
+
   <ListView
     android:id="@+id/chat_list"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="wrap_content"
 
-</FrameLayout>
+    android:layout_above="@id/chat_handle"
+    android:layout_alignParentTop="true"
+
+    android:transcriptMode="alwaysScroll"/>
+
+</RelativeLayout>

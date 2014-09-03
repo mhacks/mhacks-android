@@ -18,6 +18,8 @@
   <dimen name="adapter_card_divider_height">8dp</dimen>
   <dimen name="adapter_card_shadow_bottom">4dp</dimen>
   <dimen name="pin_icon_size">24dp</dimen>
+  <dimen name="chat_message_image_size">42dp</dimen>
   <dimen name="adapter_card_shadow_top">6dp</dimen>
   <dimen name="adapter_card_shadow_width">1dp</dimen>
+  <dimen name="chat_handle_size">38dp</dimen>
 </resources>
