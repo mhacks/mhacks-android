@@ -1,19 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.SwipeRefreshLayout
-  android:id="@+id/swipe_container"
+<RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
-  <ListView
-    android:id="@+id/announcements_list"
+  <ImageView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/adapter_card_padding"
-    android:paddingRight="@dimen/adapter_card_padding"
-    android:divider="@android:color/transparent"
-    android:dividerHeight="@dimen/intra_list_item_padding"
-    android:scrollbarStyle="outsideOverlay"/>
 
-</android.support.v4.widget.SwipeRefreshLayout>
+    android:alpha="0.25"
+    android:scaleType="centerCrop"
+    android:src="@drawable/poly10"/>
+
+  <android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/announcements_swipe_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ListView
+      android:id="@+id/announcements_list"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:divider="@android:color/transparent"
+      android:dividerHeight="@dimen/intra_list_item_padding"
+      android:paddingLeft="@dimen/adapter_card_padding"
+      android:paddingRight="@dimen/adapter_card_padding"
+      android:scrollbarStyle="outsideOverlay"/>
+
+  </android.support.v4.widget.SwipeRefreshLayout>
+
+</RelativeLayout>
+

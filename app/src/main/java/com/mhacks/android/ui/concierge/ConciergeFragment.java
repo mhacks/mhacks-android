@@ -69,9 +69,10 @@ public class ConciergeFragment extends Fragment implements
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    mLayout = (SwipeRefreshLayout) inflater.inflate(R.layout.fragment_concierge, null);
+    View view = inflater.inflate(R.layout.fragment_concierge, container, false);
+    mLayout = (SwipeRefreshLayout) view.findViewById(R.id.concierge_swipe_container);
 
-    mListView = (ListView) mLayout.findViewById(R.id.contact_list);
+    mListView = (ListView) view.findViewById(R.id.contact_list);
     mListView.setAdapter(mAdapter);
 
     mListView.setOnItemClickListener(this);
@@ -83,7 +84,7 @@ public class ConciergeFragment extends Fragment implements
     mAdapter.bindSync(mLayout);
     if (getArguments().getBoolean(MainActivity.SHOULD_SYNC, false)) mAdapter.onRefresh();
 
-    return mLayout;
+    return view;
   }
 
   @Override

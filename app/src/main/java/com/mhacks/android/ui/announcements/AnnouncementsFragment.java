@@ -59,9 +59,10 @@ public class AnnouncementsFragment extends Fragment implements
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    mLayout = (SwipeRefreshLayout) inflater.inflate(R.layout.fragment_announcements, null);
+    View view = inflater.inflate(R.layout.fragment_announcements, container, false);
+    mLayout = (SwipeRefreshLayout) view.findViewById(R.id.announcements_swipe_container);
 
-    mListView = (ListView) mLayout.findViewById(R.id.announcements_list);
+    mListView = (ListView) view.findViewById(R.id.announcements_list);
     mListView.setAdapter(mAdapter);
 
     if (User.canAdmin()) {
@@ -72,7 +73,7 @@ public class AnnouncementsFragment extends Fragment implements
     mAdapter.bindSync(mLayout);
     if (getArguments().getBoolean(MainActivity.SHOULD_SYNC, false)) mAdapter.onRefresh();
 
-    return mLayout;
+    return view;
   }
 
   @Override
