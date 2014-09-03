@@ -66,9 +66,10 @@ public class MainActivity extends Activity
   public void onNavigationDrawerItemSelected(NavItem item) {
     Bundle args = new Bundle();
     args.putBoolean(SHOULD_SYNC, mShouldSync);
-    item.replace(R.id.container, args);
     mTitle = item.getTitle();
     restoreActionBar();
+    item.replace(R.id.container, args);
+    invalidateOptionsMenu();
     mShouldSync = false;
   }
 

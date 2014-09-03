@@ -48,8 +48,6 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
   private EditText mInput;
   private ImageButton mSendButton;
 
-  private int mPriorNavigationMode;
-
   public ChatFragment() {
     super();
   }
