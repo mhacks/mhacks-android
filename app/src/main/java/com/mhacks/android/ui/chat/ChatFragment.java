@@ -110,8 +110,9 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
   @Override
   public boolean onNavigationItemSelected(int i, long l) {
     mCurrentRoom = mMessages.child(mRoomsAdapter.getItem(i).getTitle());
-    mChatAdapter = new ChatAdapter(mCurrentRoom.limit(50), getActivity());
+    mChatAdapter = new ChatAdapter(mCurrentRoom.limit(50));
     mListView.setAdapter(mChatAdapter);
+
     return true;
   }
 
@@ -138,12 +139,10 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
 
   }
 
-  private static class ChatAdapter extends FirebaseListAdapter<ChatMessage> {
-    private final Activity mmActivity;
+  private class ChatAdapter extends FirebaseListAdapter<ChatMessage> {
 
-    public ChatAdapter(Query ref, Activity activity) {
-      super(ref, ChatMessage.class, R.layout.adapter_chat_message, activity);
-      mmActivity = activity;
+    public ChatAdapter(Query ref) {
+      super(ref, ChatMessage.class, R.layout.adapter_chat_message, getActivity());
     }
 
     @Override
@@ -155,7 +154,7 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
 
       dave.setVisibility(message.heKnows() ? View.VISIBLE : View.INVISIBLE);
 
-      Picasso.with(mmActivity)
+      Picasso.with(getActivity())
         .load(message.getImage())
         .transform(new CircleTransform())
         .into(image);

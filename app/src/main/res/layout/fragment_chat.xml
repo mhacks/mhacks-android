@@ -55,6 +55,7 @@
     android:layout_above="@id/chat_handle"
     android:layout_alignParentTop="true"
 
+    android:stackFromBottom="true"
     android:transcriptMode="alwaysScroll"/>
 
 </RelativeLayout>
