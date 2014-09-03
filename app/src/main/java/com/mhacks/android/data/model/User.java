@@ -20,6 +20,7 @@ import com.parse.ParseRole;
 import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.parse.twitter.Twitter;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -234,11 +235,12 @@ public class User extends ParseUser implements Parcelable {
 
     @Override
     protected Exception doInBackground(Void... voids) {
-      String screenName = ParseTwitterUtils.getTwitter().getScreenName();
+      Twitter twitter = ParseTwitterUtils.getTwitter();
+      String screenName = twitter.getScreenName();
 
       HttpClient client = new DefaultHttpClient();
       HttpGet verifyGet = new HttpGet("https://api.twitter.com/1.1/users/show.json?screen_name=" + screenName);
-      ParseTwitterUtils.getTwitter().signRequest(verifyGet);
+      twitter.signRequest(verifyGet);
 
       try {
         HttpResponse response = client.execute(verifyGet);
