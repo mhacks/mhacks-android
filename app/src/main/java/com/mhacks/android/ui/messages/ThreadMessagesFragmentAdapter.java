@@ -12,7 +12,6 @@ import com.firebase.client.FirebaseError;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 import com.mhacks.android.data.firebase.MessageThread;
-import com.viewpagerindicator.TitlePageIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,7 @@ public class ThreadMessagesFragmentAdapter extends FragmentStatePagerAdapter imp
   private final Firebase mMessages;
   private final List<MessageThread> mThreads = new ArrayList<>();
   private final Map<String, MessageThread> mThreadsMap = Maps.newHashMap();
-  private Optional<TitlePageIndicator> mIndicator = Optional.absent();
+  private Optional<OnThreadsUpdatedListener> mListener = Optional.absent();
 
   public ThreadMessagesFragmentAdapter(FragmentManager fm, Firebase userThreads, Firebase messages) {
     super(fm);
@@ -67,11 +66,12 @@ public class ThreadMessagesFragmentAdapter extends FragmentStatePagerAdapter imp
   @Override
   public void notifyDataSetChanged() {
     super.notifyDataSetChanged();
-    if (mIndicator.isPresent()) mIndicator.get().notifyDataSetChanged();
+    if (mListener.isPresent()) mListener.get().onThreadsUpdated(getCount());
   }
 
-  public void setIndicator(TitlePageIndicator indicator) {
-    mIndicator = Optional.fromNullable(indicator);
+  public ThreadMessagesFragmentAdapter setListener(OnThreadsUpdatedListener listener) {
+    mListener = Optional.fromNullable(listener);
+    return this;
   }
 
   public MessageThread getThread(int position) {
@@ -120,5 +120,9 @@ public class ThreadMessagesFragmentAdapter extends FragmentStatePagerAdapter imp
     mThreads.remove(mThreadsMap.remove(threadId));
     notifyDataSetChanged();
     mUserThreads.child(threadId).removeValue();
+  }
+
+  public static interface OnThreadsUpdatedListener {
+    public void onThreadsUpdated(int count);
   }
 }

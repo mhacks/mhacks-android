@@ -21,7 +21,7 @@ import com.viewpagerindicator.TitlePageIndicator;
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/24/14.
  */
 public class ThreadsFragment extends Fragment implements
-  View.OnClickListener {
+  View.OnClickListener, ThreadMessagesFragmentAdapter.OnThreadsUpdatedListener {
   public static final String TAG = "ChatFragment";
 
   public static final String PRIVATE = "private";
@@ -56,7 +56,7 @@ public class ThreadsFragment extends Fragment implements
     mThreads = mPrivate.child(THREADS).child(User.getCurrentUser().getObjectId());
     mMessages = mPrivate.child(MESSAGES);
 
-    mAdapter = new ThreadMessagesFragmentAdapter(getChildFragmentManager(), mThreads, mMessages);
+    mAdapter = new ThreadMessagesFragmentAdapter(getChildFragmentManager(), mThreads, mMessages).setListener(this);
   }
 
   @Override
@@ -68,8 +68,6 @@ public class ThreadsFragment extends Fragment implements
 
     mIndicator = (TitlePageIndicator) mLayout.findViewById(R.id.threads_pager_indicator);
     mPager = (ViewPager) mLayout.findViewById(R.id.threads_pager);
-
-    mAdapter.setIndicator(mIndicator);
 
     return mLayout;
   }
@@ -97,4 +95,8 @@ public class ThreadsFragment extends Fragment implements
     }
   }
 
+  @Override
+  public void onThreadsUpdated(int count) {
+    mIndicator.notifyDataSetChanged();
+  }
 }
