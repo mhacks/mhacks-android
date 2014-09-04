@@ -2,9 +2,9 @@
 <resources>
 
   <color name="charcoal">#272727</color>
-  <color name="charcoal_semitransparent">#10272727</color>
+  <color name="charcoal_semitransparent">#BB272727</color>
   <color name="darker_charcoal">#191919</color>
-  <color name="darker_charcoal_semitransparent">#88191919</color>
+  <color name="darker_charcoal_semitransparent">#99191919</color>
   <color name="darkest_charcoal">#101010</color>
   <color name="black_semitransparent">#88000000</color>
   <color name="bg_neutral">#434343</color>
@@ -19,7 +19,7 @@
   <color name="bg_map">#4fbde4</color>
   <color name="bg_settings">#ed5565</color>
 
-  <color name="adapter_card_color">@color/charcoal</color>
+  <color name="adapter_card_color">@color/darker_charcoal_semitransparent</color>
   <color name="adapter_card_shadow_color">@android:color/white</color>
 
   <color name="palette_0">#eea7ab</color>
