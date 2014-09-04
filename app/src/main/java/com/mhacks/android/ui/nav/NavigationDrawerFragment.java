@@ -94,8 +94,7 @@ public class NavigationDrawerFragment extends Fragment {
     }
   };
 
-  public NavigationDrawerFragment() {
-  }
+  public NavigationDrawerFragment() {}
 
   @Override
   public void onCreate(Bundle savedInstanceState) {

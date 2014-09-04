@@ -1,5 +1,9 @@
 package com.mhacks.android.ui.messages;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -22,34 +26,49 @@ import java.util.Map;
  */
 
 public class ThreadMessagesFragmentAdapter extends FragmentStatePagerAdapter implements
-  ChildEventListener, ThreadMessagesFragment.OnThreadClosedListener {
+  ChildEventListener {
+
+  public static final String ACTION_THREAD_CLOSED = "com.mhacks.android.ACTION_THREAD_CLOSED";
+  public static final String THREAD_ID = "threadId";
 
   public static final int NONE = -1;
 
   private final Firebase mUserThreads;
   private final Firebase mMessages;
+  private final Context mContext;
   private final List<MessageThread> mThreads = new ArrayList<>();
   private final Map<String, MessageThread> mThreadsMap = Maps.newHashMap();
   private final Map<String, MessageThread> mThreadsByUser = Maps.newHashMap();
 
   private Optional<OnThreadsUpdatedListener> mListener = Optional.absent();
 
-  public ThreadMessagesFragmentAdapter(FragmentManager fm, Firebase userThreads, Firebase messages) {
+  private final BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+      if (intent == null || !intent.hasExtra(THREAD_ID)) return;
+      onThreadClosed(intent.getStringExtra(THREAD_ID));
+    }
+  };
+
+  public ThreadMessagesFragmentAdapter(Context context, FragmentManager fm, Firebase userThreads, Firebase messages) {
     super(fm);
+    mContext = context;
     mUserThreads = userThreads;
     mMessages = messages;
     mUserThreads.addChildEventListener(this);
+    mContext.registerReceiver(mBroadcastReceiver, new IntentFilter(ACTION_THREAD_CLOSED));
   }
 
   public void cleanup() {
     mUserThreads.removeEventListener(this);
     mThreads.clear();
     mThreadsMap.clear();
+    mContext.unregisterReceiver(mBroadcastReceiver);
   }
 
   @Override
   public Fragment getItem(int position) {
-    return ThreadMessagesFragment.newInstance(mMessages.child(mThreads.get(position).getThreadId()), this);
+    return ThreadMessagesFragment.newInstance(mMessages.child(mThreads.get(position).getThreadId()));
   }
 
   @Override
@@ -126,10 +145,10 @@ public class ThreadMessagesFragmentAdapter extends FragmentStatePagerAdapter imp
     notifyDataSetChanged();
   }
 
-  @Override
   public void onThreadClosed(String threadId) {
-    mThreads.remove(mThreadsMap.remove(threadId));
-    mThreadsByUser.remove(threadId);
+    MessageThread thread = mThreadsMap.remove(threadId);
+    mThreads.remove(thread);
+    mThreadsByUser.remove(thread.getPartnerId());
     notifyDataSetChanged();
     mUserThreads.child(threadId).removeValue();
   }

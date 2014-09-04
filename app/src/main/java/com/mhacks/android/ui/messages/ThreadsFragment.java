@@ -77,7 +77,7 @@ public class ThreadsFragment extends Fragment implements
     mSlideInAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_in_up);
     mSlideOutAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_out_down);
 
-    mAdapter = new ThreadMessagesFragmentAdapter(getChildFragmentManager(), mThreads, mMessages).setListener(this);
+    mAdapter = new ThreadMessagesFragmentAdapter(getActivity(), getChildFragmentManager(), mThreads, mMessages).setListener(this);
   }
 
   @Override

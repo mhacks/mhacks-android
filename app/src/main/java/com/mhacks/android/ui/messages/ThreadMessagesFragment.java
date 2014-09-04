@@ -1,5 +1,6 @@
 package com.mhacks.android.ui.messages;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,7 +17,6 @@ import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
-import com.google.common.base.Optional;
 import com.mhacks.android.R;
 import com.mhacks.android.data.firebase.ThreadMessage;
 import com.mhacks.android.ui.common.CircleTransform;
@@ -36,11 +36,8 @@ public class ThreadMessagesFragment extends Fragment {
   private ListView mListView;
   private MessagesAdapter mMessagesAdapter;
 
-  private Optional<OnThreadClosedListener> mListener = Optional.absent();
-
-  public static ThreadMessagesFragment newInstance(Firebase threadMessages, OnThreadClosedListener listener) {
+  public static ThreadMessagesFragment newInstance(Firebase threadMessages) {
     ThreadMessagesFragment result = new ThreadMessagesFragment();
-    result.mListener = Optional.fromNullable(listener);
     result.mThreadMessages = threadMessages;
     return result;
   }
@@ -83,7 +80,9 @@ public class ThreadMessagesFragment extends Fragment {
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if (mListener.isPresent()) mListener.get().onThreadClosed(mThreadMessages.getName());
+    // The thread has been closed
+    getActivity().sendBroadcast(new Intent(ThreadMessagesFragmentAdapter.ACTION_THREAD_CLOSED)
+      .putExtra(ThreadMessagesFragmentAdapter.THREAD_ID, mThreadMessages.getName()));
     return true;
   }
 
@@ -123,10 +122,6 @@ public class ThreadMessagesFragment extends Fragment {
       text.setText(message.getMessage());
     }
 
-  }
-
-  public static interface OnThreadClosedListener {
-    public void onThreadClosed(String threadId);
   }
 
 }
