@@ -23,12 +23,12 @@ public final class MessageThread {
     User user = User.getCurrentUser();
 
     Firebase threads = priv.child(ThreadsFragment.THREADS);
-    Firebase userThreads = threads.child(user.getUsername());
+    Firebase userThreads = threads.child(user.getObjectId());
 
     Firebase userResult = userThreads.push();
     String threadId = userResult.getName();
 
-    userResult.updateChildren(new MessageThread(threadId, partner.getName(), partner.getUsername()).toMap());
+    userResult.updateChildren(new MessageThread(threadId, partner.getName(), partner.getObjectId()).toMap());
 
     return threadId;
   }

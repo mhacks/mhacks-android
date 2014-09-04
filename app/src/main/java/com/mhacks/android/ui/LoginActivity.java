@@ -88,7 +88,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
     ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
   }
 
@@ -123,7 +122,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void done(final ParseUser parseUser, ParseException e) {
-      if (parseUser == null) {
+      if (parseUser == null || parseUser.getObjectId() == null) {
+        User.logOut();
         error(e != null ? e : new ParseException(ParseException.USERNAME_MISSING, "Login failed"));
         return;
       }

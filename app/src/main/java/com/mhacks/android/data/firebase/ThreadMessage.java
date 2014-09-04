@@ -28,7 +28,7 @@ public final class ThreadMessage extends ChatMessage {
 
     // Update the partner's threads, if they've removed it
     User currentUser = User.getCurrentUser();
-    partnerThreads.child(threadId).setValue(new MessageThread(threadId, currentUser.getName(), currentUser.getUsername()).toMap());
+    partnerThreads.child(threadId).setValue(new MessageThread(threadId, currentUser.getName(), currentUser.getObjectId()).toMap());
 
     Firebase result = threadMessages.push();
     result.setValue(new ThreadMessage(message, threadId).toMap());
