@@ -69,7 +69,7 @@ public class ThreadsFragment extends Fragment implements
     mMessages = mPrivate.child(MESSAGES);
 
     Bundle args = getArguments();
-    if (args != null && args.containsKey(PARTNER)) {
+    if (savedInstanceState == null && args != null && args.containsKey(PARTNER)) {
       mPendingPartner = args.getParcelable(PARTNER);
       MessageThread.push(mPendingPartner, mPrivate);
     }
