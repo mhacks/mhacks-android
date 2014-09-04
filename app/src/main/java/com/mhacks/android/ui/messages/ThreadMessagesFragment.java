@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
+import com.google.common.base.Optional;
 import com.mhacks.android.R;
 import com.mhacks.android.data.firebase.ThreadMessage;
 import com.mhacks.android.ui.common.CircleTransform;
@@ -28,16 +29,19 @@ import com.squareup.picasso.Picasso;
 public class ThreadMessagesFragment extends Fragment {
   public static final String TAG = "ThreadMessagesFragment";
 
+  public static final String THREAD_MESSAGES_URL = "ThreadMessagesFragment::threadMessagesUrl";
+
   private RelativeLayout mLayout;
   private Firebase mThreadMessages;
   private ListView mListView;
   private MessagesAdapter mMessagesAdapter;
-  private OnThreadClosedListener mListener;
+
+  private Optional<OnThreadClosedListener> mListener = Optional.absent();
 
   public static ThreadMessagesFragment newInstance(Firebase threadMessages, OnThreadClosedListener listener) {
     ThreadMessagesFragment result = new ThreadMessagesFragment();
+    result.mListener = Optional.fromNullable(listener);
     result.mThreadMessages = threadMessages;
-    result.mListener = listener;
     return result;
   }
 
@@ -49,6 +53,10 @@ public class ThreadMessagesFragment extends Fragment {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
+
+    if (mThreadMessages == null && savedInstanceState != null) {
+      mThreadMessages = new Firebase(savedInstanceState.getString(THREAD_MESSAGES_URL));
+    }
 
     mMessagesAdapter = new MessagesAdapter(mThreadMessages);
   }
@@ -75,8 +83,14 @@ public class ThreadMessagesFragment extends Fragment {
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    mListener.onThreadClosed(mThreadMessages.getName());
+    if (mListener.isPresent()) mListener.get().onThreadClosed(mThreadMessages.getName());
     return true;
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putString(THREAD_MESSAGES_URL, getString(R.string.firebase_url) + mThreadMessages.getPath().toString());
   }
 
   @Override
