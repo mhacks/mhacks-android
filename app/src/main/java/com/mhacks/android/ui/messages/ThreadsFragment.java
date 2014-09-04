@@ -6,6 +6,8 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -39,11 +41,15 @@ public class ThreadsFragment extends Fragment implements
 
   private TitlePageIndicator mIndicator;
   private ImageButton mSendButton;
+  private RelativeLayout mHandle;
   private RelativeLayout mLayout;
   private LinearLayout mLoading;
   private ListView mListView;
   private ViewPager mPager;
   private EditText mInput;
+
+  private Animation mSlideInAnimation;
+  private Animation mSlideOutAnimation;
 
   private ThreadMessagesFragmentAdapter mAdapter;
 
@@ -68,6 +74,9 @@ public class ThreadsFragment extends Fragment implements
       MessageThread.push(mPendingPartner, mPrivate);
     }
 
+    mSlideInAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_in_up);
+    mSlideOutAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_out_down);
+
     mAdapter = new ThreadMessagesFragmentAdapter(getChildFragmentManager(), mThreads, mMessages).setListener(this);
   }
 
@@ -76,6 +85,7 @@ public class ThreadsFragment extends Fragment implements
     mLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_threads, container, false);
     mSendButton = (ImageButton) mLayout.findViewById(R.id.chat_send_button);
     mLoading = (LinearLayout) mLayout.findViewById(R.id.threads_loading);
+    mHandle = (RelativeLayout) mLayout.findViewById(R.id.chat_handle);
     mListView = (ListView) mLayout.findViewById(R.id.chat_list);
     mInput = (EditText) mLayout.findViewById(R.id.chat_input);
 
@@ -111,16 +121,7 @@ public class ThreadsFragment extends Fragment implements
   @Override
   public void onThreadsUpdated(int count) {
     mIndicator.notifyDataSetChanged();
-
-    if (count > 0) {
-      mIndicator.setVisibility(View.VISIBLE);
-      mLoading.setVisibility(View.GONE);
-      mPager.setVisibility(View.VISIBLE);
-    } else {
-      mIndicator.setVisibility(View.GONE);
-      mLoading.setVisibility(View.VISIBLE);
-      mPager.setVisibility(View.GONE);
-    }
+    setThreadsPresent(count > 0);
 
     if (mPendingPartner != null) {
       int index = mAdapter.indexByUserId(mPendingPartner.getObjectId());
@@ -128,6 +129,22 @@ public class ThreadsFragment extends Fragment implements
         mPager.setCurrentItem(index);
         mPendingPartner = null;
       }
+    }
+  }
+
+  private void setThreadsPresent(boolean present) {
+    if (present) {
+      mIndicator.setVisibility(View.VISIBLE);
+      mHandle.startAnimation(mSlideInAnimation);
+      mHandle.setVisibility(View.VISIBLE);
+      mLoading.setVisibility(View.GONE);
+      mPager.setVisibility(View.VISIBLE);
+    } else {
+      mIndicator.setVisibility(View.GONE);
+      mHandle.startAnimation(mSlideOutAnimation);
+      mHandle.setVisibility(View.GONE);
+      mLoading.setVisibility(View.VISIBLE);
+      mPager.setVisibility(View.GONE);
     }
   }
 }
