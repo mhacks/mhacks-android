@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -30,19 +31,21 @@ public class ThreadsFragment extends Fragment implements
   public static final String THREADS = "threads";
   public static final String MESSAGES = "messages";
 
-  private String mFirebaseUrl;
-  private Firebase mPrivate;
-  private Firebase mMessages;
-  private Firebase mThreads;
-  private ThreadMessagesFragmentAdapter mAdapter;
-
-  private RelativeLayout mLayout;
-  private ListView mListView;
-  private EditText mInput;
-  private ImageButton mSendButton;
-  private TitlePageIndicator mIndicator;
-  private ViewPager mPager;
   private User mPendingPartner;
+  private String mFirebaseUrl;
+  private Firebase mMessages;
+  private Firebase mPrivate;
+  private Firebase mThreads;
+
+  private TitlePageIndicator mIndicator;
+  private ImageButton mSendButton;
+  private RelativeLayout mLayout;
+  private LinearLayout mLoading;
+  private ListView mListView;
+  private ViewPager mPager;
+  private EditText mInput;
+
+  private ThreadMessagesFragmentAdapter mAdapter;
 
   public ThreadsFragment() {
     super();
@@ -71,9 +74,10 @@ public class ThreadsFragment extends Fragment implements
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     mLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_threads, container, false);
+    mSendButton = (ImageButton) mLayout.findViewById(R.id.chat_send_button);
+    mLoading = (LinearLayout) mLayout.findViewById(R.id.threads_loading);
     mListView = (ListView) mLayout.findViewById(R.id.chat_list);
     mInput = (EditText) mLayout.findViewById(R.id.chat_input);
-    mSendButton = (ImageButton) mLayout.findViewById(R.id.chat_send_button);
 
     mIndicator = (TitlePageIndicator) mLayout.findViewById(R.id.threads_pager_indicator);
     mPager = (ViewPager) mLayout.findViewById(R.id.threads_pager);
@@ -107,6 +111,17 @@ public class ThreadsFragment extends Fragment implements
   @Override
   public void onThreadsUpdated(int count) {
     mIndicator.notifyDataSetChanged();
+
+    if (count > 0) {
+      mIndicator.setVisibility(View.VISIBLE);
+      mLoading.setVisibility(View.GONE);
+      mPager.setVisibility(View.VISIBLE);
+    } else {
+      mIndicator.setVisibility(View.GONE);
+      mLoading.setVisibility(View.VISIBLE);
+      mPager.setVisibility(View.GONE);
+    }
+
     if (mPendingPartner != null) {
       int index = mAdapter.indexByUserId(mPendingPartner.getObjectId());
       if (index != ThreadMessagesFragmentAdapter.NONE) {
