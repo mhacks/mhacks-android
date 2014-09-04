@@ -22,7 +22,7 @@ import com.viewpagerindicator.TitlePageIndicator;
  */
 public class ThreadsFragment extends Fragment implements
   View.OnClickListener, ThreadMessagesFragmentAdapter.OnThreadsUpdatedListener {
-  public static final String TAG = "ChatFragment";
+  public static final String TAG = "ThreadsFragment";
 
   public static final String PRIVATE = "private";
   public static final String THREADS = "threads";

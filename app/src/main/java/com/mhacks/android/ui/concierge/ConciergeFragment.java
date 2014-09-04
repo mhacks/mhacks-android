@@ -25,6 +25,7 @@ import com.mhacks.android.ui.MainActivity;
 import com.mhacks.android.ui.common.parse.ParseAdapter;
 import com.mhacks.android.ui.common.parse.ViewHolder;
 import com.mhacks.android.ui.messages.ThreadsFragment;
+import com.mhacks.android.ui.nav.NavigationDrawerFragment;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
@@ -133,6 +134,7 @@ public class ConciergeFragment extends Fragment implements
   @Override
   public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
     MessageThread.push(mAdapter.getItem(i), mPrivate);
+    NavigationDrawerFragment.navigateTo(ThreadsFragment.TAG, getActivity());
   }
 
   @Override

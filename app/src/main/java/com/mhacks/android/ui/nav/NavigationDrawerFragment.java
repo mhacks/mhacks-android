@@ -3,6 +3,10 @@ package com.mhacks.android.ui.nav;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -25,6 +29,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Maps;
 import com.mhacks.android.R;
 import com.mhacks.android.ui.announcements.AnnouncementsFragment;
 import com.mhacks.android.ui.awards.AwardsFragment;
@@ -36,15 +42,22 @@ import com.mhacks.android.ui.schedule.ScheduleFragment;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class NavigationDrawerFragment extends Fragment {
 
   private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
   private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
+
+  public static final String ACTION_NAVIGATE = "com.mhacks.android.ACTION_NAVIGATE";
+  public static final String NAV_ITEM_TAG = "navItemTag";
+
   private int mSlideDuration;
   private Handler mHandler;
   private NavigationDrawerCallbacks mCallbacks;
 
+  private List<NavItem> mItems;
+  private Map<String, NavItem> mItemsMap = Maps.newConcurrentMap();
   private ActionBarDrawerToggle mDrawerToggle;
   private NavItemAdapter mAdapter;
 
@@ -59,6 +72,22 @@ public class NavigationDrawerFragment extends Fragment {
   private int mCurrentSelectedPosition = 0;
   private boolean mFromSavedInstanceState;
   private boolean mUserLearnedDrawer;
+
+  private NavItem mPendingSelection = null;
+
+  public static void navigateTo(String navItemTag, Context context) {
+    context.sendBroadcast(new Intent(ACTION_NAVIGATE).putExtra(NAV_ITEM_TAG, navItemTag));
+  }
+
+  private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+      if (intent == null) return;
+      String itemTag = intent.getStringExtra(NAV_ITEM_TAG);
+      if (itemTag == null || !mItemsMap.containsKey(itemTag)) return;
+      openAndSelect(mItemsMap.get(itemTag));
+    }
+  };
 
   public NavigationDrawerFragment() {
   }
@@ -76,7 +105,7 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     FragmentActivity activity = getActivity();
-    List<NavItem> items = Arrays.asList(
+    mItems = Arrays.asList(
       new NavItem(activity, AnnouncementsFragment.class, getString(R.string.announcements), R.drawable.ic_announcements2, R.color.bg_announcements, AnnouncementsFragment.TAG),
       new NavItem(activity, ConciergeFragment.class, getString(R.string.concierge), R.drawable.ic_concierge2, R.color.bg_concierge, ConciergeFragment.TAG),
       new NavItem(activity, ThreadsFragment.class, getString(R.string.messages), R.drawable.ic_hackers2, R.color.bg_hackers, ThreadsFragment.TAG),
@@ -87,7 +116,16 @@ public class NavigationDrawerFragment extends Fragment {
       new NavItem(activity, MapFragment.class, getString(R.string.map), R.drawable.ic_map2, R.color.bg_map, MapFragment.TAG)
     );
 
-    mAdapter = new NavItemAdapter(activity, items);
+    mItemsMap = Maps.uniqueIndex(mItems, new Function<NavItem, String>() {
+      @Override
+      public String apply(NavItem input) {
+        return input.getTag();
+      }
+    });
+
+    activity.registerReceiver(mBroadcastReceiver, new IntentFilter(ACTION_NAVIGATE));
+
+    mAdapter = new NavItemAdapter(activity, mItems);
     mHandler = new Handler();
     mSlideDuration = activity.getResources().getInteger(R.integer.nav_item_bg_slide_duration);
 
@@ -180,6 +218,11 @@ public class NavigationDrawerFragment extends Fragment {
         mTitleTextLayoutParams.leftMargin = mTitleMargin;
         mTitleText.setLayoutParams(mTitleTextLayoutParams);
         mTitleText.requestLayout();
+
+        if (mPendingSelection != null) {
+          selectItem(mItems.indexOf(mPendingSelection));
+          mPendingSelection = null;
+        }
       }
     };
 
@@ -223,6 +266,12 @@ public class NavigationDrawerFragment extends Fragment {
   }
 
   @Override
+  public void onDestroy() {
+    super.onDestroy();
+    getActivity().unregisterReceiver(mBroadcastReceiver);
+  }
+
+  @Override
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
@@ -256,7 +305,6 @@ public class NavigationDrawerFragment extends Fragment {
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
-
   }
 
   public NavItem getItem(int position) {
@@ -272,6 +320,11 @@ public class NavigationDrawerFragment extends Fragment {
 
   private ActionBar getActionBar() {
     return getActivity().getActionBar();
+  }
+
+  private void openAndSelect(NavItem item) {
+    mPendingSelection = item;
+    mDrawerLayout.openDrawer(mFragmentContainerView);
   }
 
   private class DelayedSelector implements Runnable {
