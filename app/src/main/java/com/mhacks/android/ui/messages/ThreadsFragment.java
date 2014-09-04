@@ -53,7 +53,7 @@ public class ThreadsFragment extends Fragment implements
     mFirebaseUrl = getString(R.string.firebase_url);
     mPrivate = new Firebase(mFirebaseUrl).child(PRIVATE);
 
-    mThreads = mPrivate.child(THREADS).child(User.getCurrentUser().getObjectId());
+    mThreads = mPrivate.child(THREADS).child(User.getCurrentUser().getUsername());
     mMessages = mPrivate.child(MESSAGES);
 
     mAdapter = new ThreadMessagesFragmentAdapter(getChildFragmentManager(), mThreads, mMessages).setListener(this);

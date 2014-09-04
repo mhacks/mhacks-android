@@ -123,13 +123,13 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void done(final ParseUser parseUser, ParseException e) {
-      if (e != null) {
-        error(e);
+      if (parseUser == null) {
+        error(e != null ? e : new ParseException(ParseException.USERNAME_MISSING, "Login failed"));
         return;
       }
 
       if (mmTwitter) {
-        User.getCurrentUser().new TwitterFetchTask() {
+        ((User) parseUser).new TwitterFetchTask() {
           @Override
           protected void onPostExecute(Exception e) {
             super.onPostExecute(e);
@@ -137,12 +137,12 @@ public class LoginActivity extends Activity implements View.OnClickListener {
               error(e);
               return;
             }
-            success();
+            success(parseUser);
           }
         }.execute();
       }
       else {
-        success();
+        success(parseUser);
       }
 
     }
@@ -153,7 +153,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
       mmDialog.cancel();
     }
 
-    private void success() {
+    private void success(ParseUser user) {
       mmDialog.dismiss();
       finish();
       startActivity(new Intent(LoginActivity.this, MainActivity.class));
