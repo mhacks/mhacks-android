@@ -1,6 +1,7 @@
 package com.mhacks.android.data.firebase;
 
 import com.firebase.client.Firebase;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.mhacks.android.data.model.User;
 
@@ -29,7 +30,7 @@ public class ChatMessage {
 
   // Required default constructor for Firebase object mapping
   @SuppressWarnings("unused")
-  private ChatMessage() { }
+  protected ChatMessage() { }
 
   ChatMessage(String message, String user, String image) {
     this.message = message;
@@ -42,10 +43,10 @@ public class ChatMessage {
     this.message = message;
 
     String name = user.getName();
-    this.user = name != null ? name : "";
+    this.user = Strings.nullToEmpty(name);
 
     String imageUrl = user.getImageUrl();
-    this.image = imageUrl != null ? imageUrl : "";
+    this.image = Strings.nullToEmpty(imageUrl);
   }
 
   public String getMessage() {

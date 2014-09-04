@@ -1,10 +1,10 @@
 package com.mhacks.android.ui.nav;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.graphics.LightingColorFilter;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 
 import com.bugsnag.android.Bugsnag;
 
@@ -20,10 +20,8 @@ public class NavItem {
   private final int mColor;
   private final LightingColorFilter mColorFilter;
 
-  private Fragment mFragment;
-
-  public NavItem(Activity activity, Class<? extends Fragment> clazz, String title, int iconId, int colorId, String tag) {
-    mFragmentManager = activity.getFragmentManager();
+  public NavItem(FragmentActivity activity, Class<? extends Fragment> clazz, String title, int iconId, int colorId, String tag) {
+    mFragmentManager = activity.getSupportFragmentManager();
     mClazz = clazz;
     mTitle = title;
     mIconId = iconId;
@@ -33,24 +31,17 @@ public class NavItem {
     getFragment();
   }
 
-  public NavItem(Activity activity, Class<? extends Fragment> clazz, String title, int iconId, int colorId, String tag, Fragment fragment) {
-    this(activity, clazz, title, iconId, colorId, tag);
-    mFragment = fragment;
-  }
-
   public Fragment getFragment() {
-    if (mFragment == null) {
-      mFragment = mFragmentManager.findFragmentByTag(mTag);
-      if (mFragment == null) {
-        try {
-          mFragment = mClazz.getConstructor().newInstance();
-        } catch (Exception e) {
-          e.printStackTrace();
-          Bugsnag.notify(e);
-        }
+    Fragment fragment = mFragmentManager.findFragmentByTag(mTag);
+    if (fragment == null) {
+      try {
+        fragment = mClazz.getConstructor().newInstance();
+      } catch (Exception e) {
+        e.printStackTrace();
+        Bugsnag.notify(e);
       }
     }
-    return mFragment;
+    return fragment;
   }
 
   public int replace(int resId, Bundle args) {

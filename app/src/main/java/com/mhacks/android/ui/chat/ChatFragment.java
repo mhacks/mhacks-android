@@ -2,8 +2,8 @@ package com.mhacks.android.ui.chat;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -112,6 +112,13 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
     mListView.setAdapter(mChatAdapter);
 
     return true;
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    mRoomsAdapter.cleanup();
+    if (mChatAdapter != null) mChatAdapter.cleanup();
   }
 
   @Override

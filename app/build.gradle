@@ -77,5 +77,8 @@ dependencies {
   compile 'com.squareup.picasso:picasso:2.3.3'
   compile 'com.google.android.gms:play-services:5.0.+'
   compile 'com.google.maps.android:android-maps-utils:0.3+'
+  compile ('com.viewpagerindicator:library:2.4.1@aar') {
+    exclude group: 'com.google.android', module: 'support-v4'
+  }
   compile project(':facebook')
 }

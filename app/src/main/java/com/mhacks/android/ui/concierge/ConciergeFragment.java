@@ -1,9 +1,9 @@
 package com.mhacks.android.ui.concierge;
 
-import android.app.Fragment;
 import android.graphics.LightingColorFilter;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,15 +14,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.firebase.client.Firebase;
 import com.google.common.collect.Ordering;
 import com.mhacks.android.R;
+import com.mhacks.android.data.firebase.MessageThread;
 import com.mhacks.android.data.model.DataClass;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.MainActivity;
 import com.mhacks.android.ui.common.parse.ParseAdapter;
 import com.mhacks.android.ui.common.parse.ViewHolder;
+import com.mhacks.android.ui.messages.ThreadsFragment;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
@@ -35,6 +37,8 @@ public class ConciergeFragment extends Fragment implements
   AdapterView.OnItemLongClickListener {
   public static final String TAG = "ConciergeFragment";
 
+  private Firebase mPrivate;
+
   private ListView mListView;
   private SwipeRefreshLayout mLayout;
   private ParseAdapter<User> mAdapter;
@@ -46,6 +50,8 @@ public class ConciergeFragment extends Fragment implements
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    mPrivate = new Firebase(getString(R.string.firebase_url)).child(ThreadsFragment.PRIVATE);
 
     ParseQueryAdapter.QueryFactory<User> factory = new ParseQueryAdapter.QueryFactory<User>() {
       @Override
@@ -126,7 +132,7 @@ public class ConciergeFragment extends Fragment implements
 
   @Override
   public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-    Toast.makeText(getActivity(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
+    MessageThread.push(mAdapter.getItem(i), mPrivate);
   }
 
   @Override

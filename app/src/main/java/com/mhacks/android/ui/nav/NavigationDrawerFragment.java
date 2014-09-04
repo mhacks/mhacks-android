@@ -3,13 +3,14 @@ package com.mhacks.android.ui.nav;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.DisplayMetrics;
@@ -30,6 +31,7 @@ import com.mhacks.android.ui.awards.AwardsFragment;
 import com.mhacks.android.ui.chat.ChatFragment;
 import com.mhacks.android.ui.concierge.ConciergeFragment;
 import com.mhacks.android.ui.map.MapFragment;
+import com.mhacks.android.ui.messages.ThreadsFragment;
 import com.mhacks.android.ui.schedule.ScheduleFragment;
 
 import java.util.Arrays;
@@ -73,10 +75,11 @@ public class NavigationDrawerFragment extends Fragment {
       mFromSavedInstanceState = true;
     }
 
-    Activity activity = getActivity();
+    FragmentActivity activity = getActivity();
     List<NavItem> items = Arrays.asList(
       new NavItem(activity, AnnouncementsFragment.class, getString(R.string.announcements), R.drawable.ic_announcements2, R.color.bg_announcements, AnnouncementsFragment.TAG),
       new NavItem(activity, ConciergeFragment.class, getString(R.string.concierge), R.drawable.ic_concierge2, R.color.bg_concierge, ConciergeFragment.TAG),
+      new NavItem(activity, ThreadsFragment.class, getString(R.string.messages), R.drawable.ic_hackers2, R.color.bg_hackers, ThreadsFragment.TAG),
       new NavItem(activity, ScheduleFragment.class, getString(R.string.schedule), R.drawable.ic_schedule2, R.color.bg_schedule, ScheduleFragment.TAG),
 //      new NavItem(activity, HackersFragment.class, getString(R.string.hackers), R.drawable.ic_hackers2, R.color.bg_hackers, HackersFragment.TAG),
       new NavItem(activity, AwardsFragment.class, getString(R.string.awards), R.drawable.ic_awards2, R.color.bg_awards, AwardsFragment.TAG),

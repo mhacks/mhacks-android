@@ -1,9 +1,9 @@
 package com.mhacks.android.ui;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +18,7 @@ import com.mhacks.android.ui.nav.NavigationDrawerFragment;
 import java.util.Date;
 
 
-public class MainActivity extends Activity
+public class MainActivity extends FragmentActivity
   implements NavigationDrawerFragment.NavigationDrawerCallbacks {
   public static final String TAG = "MainActivity";
 
@@ -47,7 +47,7 @@ public class MainActivity extends Activity
     }
 
     mNavigationDrawerFragment = (NavigationDrawerFragment)
-      getFragmentManager().findFragmentById(R.id.navigation_drawer);
+      getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
     mTitle = getTitle();
 
     // Set up the drawer.
