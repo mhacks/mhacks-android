@@ -13,6 +13,7 @@ import com.mhacks.android.data.sync.UserSynchronize;
 import com.mhacks.android.ui.common.Util;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -26,9 +27,9 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
 import java.util.UUID;
 
 /**
@@ -213,25 +214,27 @@ public class User extends ParseUser implements Parcelable {
 
   public String getImageUrl() {
     // Update the model with an image, if possible
-    if (has(AUTH_DATA)) try {
-      JSONObject authData = getJSONObject(AUTH_DATA);
-      if (authData.has(FACEBOOK)) {
+    if (ParseFacebookUtils.isLinked(this)) {
+      // I can't believe I have to use reflection to get the Facebook user ID.
+      // WTF Parse.
+      try {
+        Field authDataField = ParseUser.class.getDeclaredField(AUTH_DATA);
+        authDataField.setAccessible(true);
+        JSONObject authData = (JSONObject) authDataField.get(this);
         String id = authData.getJSONObject(FACEBOOK).getString(ID);
         return getFacebookImageUrl(id);
+      } catch (Exception e) {
+        e.printStackTrace();
+        Bugsnag.notify(e);
       }
-      else if (authData.has(TWITTER) && has(TWITTER_IMAGE_URL)) {
-        return getString(TWITTER_IMAGE_URL);
-      }
-      saveEventually();
-    } catch (JSONException e) {
-      // Ignore this, for now
-      e.printStackTrace();
+    }
+    else if (ParseTwitterUtils.isLinked(this)) {
+      return getString(TWITTER_IMAGE_URL);
     }
     return null;
   }
 
   public class TwitterFetchTask extends AsyncTask<Void, Void, Exception> {
-    private String mmResult = null;
 
     @Override
     protected Exception doInBackground(Void... voids) {
@@ -247,7 +250,7 @@ public class User extends ParseUser implements Parcelable {
         JSONObject jsonObject = new JSONObject(Util.convertStreamToString(response.getEntity().getContent()));
         put(TWITTER_IMAGE_URL, jsonObject.getString("profile_image_url"));
         setName("@" + screenName);
-        saveEventually();
+        save();
 
       } catch (Exception e) {
         e.printStackTrace();
