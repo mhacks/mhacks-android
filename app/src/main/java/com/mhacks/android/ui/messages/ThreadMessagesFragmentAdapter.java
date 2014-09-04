@@ -2,15 +2,17 @@ package com.mhacks.android.ui.messages;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.bugsnag.android.Bugsnag;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 import com.mhacks.android.data.firebase.MessageThread;
+import com.viewpagerindicator.TitlePageIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +22,14 @@ import java.util.Map;
  * Created by Damian Wieczorek <damianw@umich.edu> on 9/3/14.
  */
 
-public class ThreadMessagesFragmentAdapter extends FragmentPagerAdapter implements
+public class ThreadMessagesFragmentAdapter extends FragmentStatePagerAdapter implements
   ChildEventListener, ThreadMessagesFragment.OnThreadClosedListener {
 
   private final Firebase mUserThreads;
   private final Firebase mMessages;
   private final List<MessageThread> mThreads = new ArrayList<>();
   private final Map<String, MessageThread> mThreadsMap = Maps.newHashMap();
+  private Optional<TitlePageIndicator> mIndicator = Optional.absent();
 
   public ThreadMessagesFragmentAdapter(FragmentManager fm, Firebase userThreads, Firebase messages) {
     super(fm);
@@ -59,6 +62,16 @@ public class ThreadMessagesFragmentAdapter extends FragmentPagerAdapter implemen
   @Override
   public int getItemPosition(Object object) {
     return POSITION_NONE;
+  }
+
+  @Override
+  public void notifyDataSetChanged() {
+    super.notifyDataSetChanged();
+    if (mIndicator.isPresent()) mIndicator.get().notifyDataSetChanged();
+  }
+
+  public void setIndicator(TitlePageIndicator indicator) {
+    mIndicator = Optional.fromNullable(indicator);
   }
 
   public MessageThread getThread(int position) {

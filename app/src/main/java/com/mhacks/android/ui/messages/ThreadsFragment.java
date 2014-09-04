@@ -69,6 +69,8 @@ public class ThreadsFragment extends Fragment implements
     mIndicator = (TitlePageIndicator) mLayout.findViewById(R.id.threads_pager_indicator);
     mPager = (ViewPager) mLayout.findViewById(R.id.threads_pager);
 
+    mAdapter.setIndicator(mIndicator);
+
     return mLayout;
   }
 
