@@ -50,7 +50,8 @@ public class NavigationDrawerFragment extends Fragment {
   private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
 
   public static final String ACTION_NAVIGATE = "com.mhacks.android.ACTION_NAVIGATE";
-  public static final String NAV_ITEM_TAG = "navItemTag";
+  public static final String NAV_ITEM_TAG = "NavigationDrawerFragment::navItemTag";
+  public static final String FRAGMENT_ARGS = "NavigationDrawerFragment::fragmentArgs";
 
   private int mSlideDuration;
   private Handler mHandler;
@@ -73,19 +74,23 @@ public class NavigationDrawerFragment extends Fragment {
   private boolean mFromSavedInstanceState;
   private boolean mUserLearnedDrawer;
 
-  private NavItem mPendingSelection = null;
+  private PendingSelection mPendingSelection;
 
-  public static void navigateTo(String navItemTag, Context context) {
-    context.sendBroadcast(new Intent(ACTION_NAVIGATE).putExtra(NAV_ITEM_TAG, navItemTag));
+  public static void navigateTo(String navItemTag, Bundle args, Context context) {
+    context.sendBroadcast(new Intent(ACTION_NAVIGATE)
+      .putExtra(NAV_ITEM_TAG, navItemTag)
+      .putExtra(FRAGMENT_ARGS, args == null ? new Bundle() : args));
   }
 
   private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
     @Override
     public void onReceive(Context context, Intent intent) {
-      if (intent == null) return;
+      if (intent == null || !intent.hasExtra(NAV_ITEM_TAG) || !intent.hasExtra(FRAGMENT_ARGS)) return;
       String itemTag = intent.getStringExtra(NAV_ITEM_TAG);
-      if (itemTag == null || !mItemsMap.containsKey(itemTag)) return;
-      openAndSelect(mItemsMap.get(itemTag));
+      Bundle args = intent.getBundleExtra(FRAGMENT_ARGS);
+
+      if (!mItemsMap.containsKey(itemTag)) return;
+      openAndSelect(mItemsMap.get(itemTag), args);
     }
   };
 
@@ -220,8 +225,7 @@ public class NavigationDrawerFragment extends Fragment {
         mTitleText.requestLayout();
 
         if (mPendingSelection != null) {
-          selectItem(mItems.indexOf(mPendingSelection));
-          mPendingSelection = null;
+          selectItem(mItems.indexOf(mPendingSelection.item));
         }
       }
     };
@@ -322,9 +326,19 @@ public class NavigationDrawerFragment extends Fragment {
     return getActivity().getActionBar();
   }
 
-  private void openAndSelect(NavItem item) {
-    mPendingSelection = item;
+  private void openAndSelect(NavItem item, Bundle args) {
+    mPendingSelection = new PendingSelection(item, args);
     mDrawerLayout.openDrawer(mFragmentContainerView);
+  }
+
+  private static final class PendingSelection {
+    public final NavItem item;
+    public final Bundle args;
+
+    public PendingSelection(NavItem item, Bundle args) {
+      this.item = item;
+      this.args = args;
+    }
   }
 
   private class DelayedSelector implements Runnable {
@@ -353,12 +367,17 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void run() {
       if (mCallbacks != null) {
-        mCallbacks.onNavigationDrawerItemSelected(getItem(position));
+        Bundle args = null;
+        if (mPendingSelection != null) {
+          args = mPendingSelection.args;
+          mPendingSelection = null;
+        }
+        mCallbacks.onNavigationDrawerItemSelected(getItem(position), args);
       }
     }
   }
 
   public static interface NavigationDrawerCallbacks {
-    void onNavigationDrawerItemSelected(NavItem item);
+    void onNavigationDrawerItemSelected(NavItem item, Bundle args);
   }
 }

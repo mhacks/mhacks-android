@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.firebase.client.Firebase;
 import com.mhacks.android.R;
+import com.mhacks.android.data.firebase.MessageThread;
 import com.mhacks.android.data.firebase.ThreadMessage;
 import com.mhacks.android.data.model.User;
 import com.viewpagerindicator.TitlePageIndicator;
@@ -24,6 +25,7 @@ public class ThreadsFragment extends Fragment implements
   View.OnClickListener, ThreadMessagesFragmentAdapter.OnThreadsUpdatedListener {
   public static final String TAG = "ThreadsFragment";
 
+  public static final String PARTNER = "partner";
   public static final String PRIVATE = "private";
   public static final String THREADS = "threads";
   public static final String MESSAGES = "messages";
@@ -40,6 +42,7 @@ public class ThreadsFragment extends Fragment implements
   private ImageButton mSendButton;
   private TitlePageIndicator mIndicator;
   private ViewPager mPager;
+  private User mPendingPartner;
 
   public ThreadsFragment() {
     super();
@@ -55,6 +58,12 @@ public class ThreadsFragment extends Fragment implements
 
     mThreads = mPrivate.child(THREADS).child(User.getCurrentUser().getObjectId());
     mMessages = mPrivate.child(MESSAGES);
+
+    Bundle args = getArguments();
+    if (args != null && args.containsKey(PARTNER)) {
+      mPendingPartner = args.getParcelable(PARTNER);
+      MessageThread.push(mPendingPartner, mPrivate);
+    }
 
     mAdapter = new ThreadMessagesFragmentAdapter(getChildFragmentManager(), mThreads, mMessages).setListener(this);
   }
@@ -98,5 +107,12 @@ public class ThreadsFragment extends Fragment implements
   @Override
   public void onThreadsUpdated(int count) {
     mIndicator.notifyDataSetChanged();
+    if (mPendingPartner != null) {
+      int index = mAdapter.indexByUserId(mPendingPartner.getObjectId());
+      if (index != ThreadMessagesFragmentAdapter.NONE) {
+        mPager.setCurrentItem(index);
+        mPendingPartner = null;
+      }
+    }
   }
 }

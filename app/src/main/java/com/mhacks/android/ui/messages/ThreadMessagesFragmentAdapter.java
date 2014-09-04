@@ -24,10 +24,14 @@ import java.util.Map;
 public class ThreadMessagesFragmentAdapter extends FragmentStatePagerAdapter implements
   ChildEventListener, ThreadMessagesFragment.OnThreadClosedListener {
 
+  public static final int NONE = -1;
+
   private final Firebase mUserThreads;
   private final Firebase mMessages;
   private final List<MessageThread> mThreads = new ArrayList<>();
   private final Map<String, MessageThread> mThreadsMap = Maps.newHashMap();
+  private final Map<String, MessageThread> mThreadsByUser = Maps.newHashMap();
+
   private Optional<OnThreadsUpdatedListener> mListener = Optional.absent();
 
   public ThreadMessagesFragmentAdapter(FragmentManager fm, Firebase userThreads, Firebase messages) {
@@ -78,11 +82,16 @@ public class ThreadMessagesFragmentAdapter extends FragmentStatePagerAdapter imp
     return mThreads.get(position);
   }
 
+  public int indexByUserId(String userId) {
+    return mThreadsByUser.containsKey(userId) ? mThreads.indexOf(mThreadsByUser.get(userId)) : NONE;
+  }
+
   @Override
   public void onChildAdded(DataSnapshot dataSnapshot, String s) {
     MessageThread thread = dataSnapshot.getValue(MessageThread.class);
     mThreads.add(thread);
     mThreadsMap.put(thread.getThreadId(), thread);
+    mThreadsByUser.put(thread.getPartnerId(), thread);
     notifyDataSetChanged();
   }
 
@@ -99,6 +108,7 @@ public class ThreadMessagesFragmentAdapter extends FragmentStatePagerAdapter imp
     MessageThread thread = dataSnapshot.getValue(MessageThread.class);
     if (mThreads.contains(thread)) mThreads.remove(thread);
     if (mThreadsMap.containsValue(thread)) mThreadsMap.remove(thread.getThreadId());
+    if (mThreadsByUser.containsValue(thread)) mThreadsMap.remove(thread.getThreadId());
     notifyDataSetChanged();
   }
 
@@ -112,12 +122,14 @@ public class ThreadMessagesFragmentAdapter extends FragmentStatePagerAdapter imp
     Bugsnag.notify(firebaseError.toException());
     mThreads.clear();
     mThreadsMap.clear();
+    mThreadsByUser.clear();
     notifyDataSetChanged();
   }
 
   @Override
   public void onThreadClosed(String threadId) {
     mThreads.remove(mThreadsMap.remove(threadId));
+    mThreadsByUser.remove(threadId);
     notifyDataSetChanged();
     mUserThreads.child(threadId).removeValue();
   }

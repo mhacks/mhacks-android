@@ -63,8 +63,8 @@ public class MainActivity extends FragmentActivity
   }
 
   @Override
-  public void onNavigationDrawerItemSelected(NavItem item) {
-    Bundle args = new Bundle();
+  public void onNavigationDrawerItemSelected(NavItem item, Bundle args) {
+    if (args == null) args = new Bundle();
     args.putBoolean(SHOULD_SYNC, mShouldSync);
     mTitle = item.getTitle();
     restoreActionBar();

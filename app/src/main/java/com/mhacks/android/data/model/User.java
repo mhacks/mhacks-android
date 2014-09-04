@@ -294,7 +294,8 @@ public class User extends ParseUser implements Parcelable {
     @Override
     public User createFromParcel(Parcel parcel) {
       try {
-        return query().fromLocalDatastore().get(parcel.readString());
+        String objectId = parcel.readString();
+        return query().fromLocalDatastore().get(objectId);
       } catch (ParseException e) {
         e.printStackTrace();
         Bugsnag.notify(e);
@@ -315,7 +316,7 @@ public class User extends ParseUser implements Parcelable {
 
   @Override
   public void writeToParcel(Parcel parcel, int i) {
-    parcel.writeString(getString(OBJECT_ID));
+    parcel.writeString(getObjectId());
   }
 
   public static Synchronize<User> getSync() {
