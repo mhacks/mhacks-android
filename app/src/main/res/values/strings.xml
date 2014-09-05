@@ -11,7 +11,7 @@
   <string name="log_in">Log In</string>
   <string name="next">Next</string>
   <string name="logging_in">Logging in…</string>
-  <string name="error_logging_in">Login failed. Please check your username and password.</string>
+  <string name="error_logging_in">Login failed. Please check that you have accepted the necessary permissions.</string>
   <string name="icon">Icon</string>
   <string name="divider_pipe">|</string>
   <string name="announcements">Announcements</string>

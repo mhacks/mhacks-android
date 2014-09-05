@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bugsnag.android.Bugsnag;
 import com.google.common.collect.ImmutableList;
@@ -149,6 +150,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     private void error(Exception e) {
       Log.d(TAG, "Login failed.");
+      Toast.makeText(LoginActivity.this, getString(R.string.error_logging_in), Toast.LENGTH_LONG).show();
       Bugsnag.notify(e);
       mmDialog.cancel();
     }
