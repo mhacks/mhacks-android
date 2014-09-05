@@ -23,4 +23,5 @@
   <dimen name="adapter_card_shadow_width">1dp</dimen>
   <dimen name="chat_handle_size">38dp</dimen>
   <dimen name="dave_size">48dp</dimen>
+  <dimen name="map_polygon_stroke_width">2dp</dimen>
 </resources>
