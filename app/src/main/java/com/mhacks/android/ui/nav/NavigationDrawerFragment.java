@@ -360,7 +360,7 @@ public class NavigationDrawerFragment extends Fragment {
     private final int position;
     public DelayedNotifier(int position) {
       this.position = position;
-      mHandler.postDelayed(this, mSlideDuration + 65); // that's a total guess
+      mHandler.postDelayed(this, mSlideDuration + 75); // that's a total guess
     }
 
     @Override
