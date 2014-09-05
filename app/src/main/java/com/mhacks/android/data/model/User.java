@@ -27,6 +27,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
@@ -212,21 +213,27 @@ public class User extends ParseUser implements Parcelable {
     return this;
   }
 
+  public JSONObject getAuthData() throws ParseException {
+    // I can't believe I have to use reflection to get the Facebook user ID.
+    // WTF Parse.
+    try {
+      Field authDataField = ParseUser.class.getDeclaredField(AUTH_DATA);
+      authDataField.setAccessible(true);
+      return (JSONObject) authDataField.get(this);
+    } catch (Exception e) {
+      throw new ParseException(e);
+    }
+  }
+
   public String getImageUrl() {
     // Update the model with an image, if possible
-    if (ParseFacebookUtils.isLinked(this)) {
-      // I can't believe I have to use reflection to get the Facebook user ID.
-      // WTF Parse.
-      try {
-        Field authDataField = ParseUser.class.getDeclaredField(AUTH_DATA);
-        authDataField.setAccessible(true);
-        JSONObject authData = (JSONObject) authDataField.get(this);
-        String id = authData.getJSONObject(FACEBOOK).getString(ID);
-        return getFacebookImageUrl(id);
-      } catch (Exception e) {
-        e.printStackTrace();
-        Bugsnag.notify(e);
-      }
+    if (ParseFacebookUtils.isLinked(this)) try {
+      JSONObject authData = getAuthData();
+      String id = authData.getJSONObject(FACEBOOK).getString(ID);
+      return getFacebookImageUrl(id);
+    } catch (ParseException | JSONException e) {
+      Bugsnag.notify(e);
+      return null;
     }
     else if (ParseTwitterUtils.isLinked(this)) {
       return getString(TWITTER_IMAGE_URL);

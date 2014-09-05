@@ -132,16 +132,27 @@ public class ThreadsFragment extends Fragment implements
     }
   }
 
+  // this is disgusting
   private void setThreadsPresent(boolean present) {
     if (present) {
+      if (mIndicator.getVisibility() == View.GONE) {
+        mIndicator.startAnimation(mSlideInAnimation);
+      }
       mIndicator.setVisibility(View.VISIBLE);
-      mHandle.startAnimation(mSlideInAnimation);
+      if (mHandle.getVisibility() == View.GONE) {
+        mHandle.startAnimation(mSlideInAnimation);
+      }
       mHandle.setVisibility(View.VISIBLE);
       mLoading.setVisibility(View.GONE);
       mPager.setVisibility(View.VISIBLE);
     } else {
+      if (mIndicator.getVisibility() == View.VISIBLE) {
+        mIndicator.startAnimation(mSlideOutAnimation);
+      }
       mIndicator.setVisibility(View.GONE);
-      mHandle.startAnimation(mSlideOutAnimation);
+      if (mHandle.getVisibility() == View.VISIBLE) {
+        mHandle.startAnimation(mSlideOutAnimation);
+      }
       mHandle.setVisibility(View.GONE);
       mLoading.setVisibility(View.VISIBLE);
       mPager.setVisibility(View.GONE);
