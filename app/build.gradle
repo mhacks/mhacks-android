@@ -25,6 +25,21 @@ android {
     targetCompatibility JavaVersion.VERSION_1_7
   }
 
+  signingConfigs {
+    release {
+      storeFile file("mhacks-release-key.keystore")
+      keyAlias "mykey"
+
+      def console = System.console()
+
+      if (console != null) {
+        def password = new String(console.readPassword("\n> Enter keystore password: "))
+        storePassword password
+        keyPassword password
+      }
+    }
+  }
+
   defaultConfig {
     applicationId "com.mhacks.android"
     minSdkVersion 14
@@ -53,6 +68,7 @@ android {
       resValue "string", "fb__app_id", fb_app_id
       resValue "string", "twitter_key", twitter_key
       resValue "string", "twitter_secret", twitter_secret
+      signingConfig signingConfigs.release
     }
     debug {
       debuggable true

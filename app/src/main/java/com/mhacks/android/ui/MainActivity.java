@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
-import android.view.MenuItem;
 
 import com.bugsnag.android.Bugsnag;
 import com.mhacks.android.GeofenceBroadcastReceiver;
@@ -98,12 +97,6 @@ public class MainActivity extends FragmentActivity
       return true;
     }
     return super.onCreateOptionsMenu(menu);
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    int id = item.getItemId();
-    return id == R.id.action_settings || super.onOptionsItemSelected(item);
   }
 
 }

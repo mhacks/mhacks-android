@@ -32,6 +32,8 @@ import android.widget.TextView;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.mhacks.android.R;
+import com.mhacks.android.data.model.User;
+import com.mhacks.android.ui.LoginActivity;
 import com.mhacks.android.ui.announcements.AnnouncementsFragment;
 import com.mhacks.android.ui.awards.AwardsFragment;
 import com.mhacks.android.ui.chat.ChatFragment;
@@ -307,6 +309,11 @@ public class NavigationDrawerFragment extends Fragment {
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == R.id.action_logout) {
+      User.logOut();
+      getActivity().finish();
+      startActivity(new Intent(getActivity(), LoginActivity.class));
+    }
     return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
   }
 
