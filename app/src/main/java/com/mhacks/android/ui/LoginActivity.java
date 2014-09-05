@@ -121,16 +121,34 @@ public class LoginActivity extends Activity implements View.OnClickListener {
       mmTwitter = twitter;
     }
 
+    // fuck this
     @Override
     public void done(final ParseUser parseUser, ParseException e) {
-      if (parseUser == null || parseUser.getObjectId() == null) {
+      User user = (User) parseUser;
+      if (user == null) {
         User.logOut();
         error(e != null ? e : new ParseException(ParseException.USERNAME_MISSING, "Login failed"));
         return;
       }
+      else if (user.getObjectId() == null) {
+        // damn you, Facebook
+        new User.AuthBugFixTask() {
+          @Override
+          protected void onPostExecute(User user) {
+            if (user == null) {
+              User.logOut();
+              Log.e(TAG, "Workaround failed");
+              error(new ParseException(ParseException.USERNAME_MISSING, "Workaround failed"));
+              return;
+            }
+            success();
+          }
+        }.execute(user);
+        return;
+      }
 
       if (mmTwitter) {
-        ((User) parseUser).new TwitterFetchTask() {
+        user.new TwitterFetchTask() {
           @Override
           protected void onPostExecute(Exception e) {
             super.onPostExecute(e);
@@ -138,12 +156,12 @@ public class LoginActivity extends Activity implements View.OnClickListener {
               error(e);
               return;
             }
-            success(parseUser);
+            success();
           }
         }.execute();
       }
       else {
-        success(parseUser);
+        success();
       }
 
     }
@@ -155,7 +173,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
       mmDialog.cancel();
     }
 
-    private void success(ParseUser user) {
+    private void success() {
       mmDialog.dismiss();
       finish();
       startActivity(new Intent(LoginActivity.this, MainActivity.class));

@@ -31,7 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
-import java.util.UUID;
+import java.util.List;
 
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/26/14.
@@ -67,6 +67,8 @@ public class User extends ParseUser implements Parcelable {
   public static final String TWITTER = "twitter";
   public static final String ID = "id";
 
+  private static User sCurrentUser;
+
   private Boolean mAdmin = null;
 
   public static String getFacebookImageUrl(String id) {
@@ -78,6 +80,7 @@ public class User extends ParseUser implements Parcelable {
   }
 
   public static User getCurrentUser() {
+    if (sCurrentUser != null) return sCurrentUser;
     return (User) ParseUser.getCurrentUser();
   }
 
@@ -269,12 +272,12 @@ public class User extends ParseUser implements Parcelable {
     }
   }
 
-  @Override
-  public void signUp() throws ParseException {
-    put(PASSWORD, UUID.randomUUID().toString());
-    put(USERNAME, UUID.randomUUID().toString());
-    super.signUp();
-  }
+//  @Override
+//  public void signUp() throws ParseException {
+//    put(PASSWORD, UUID.randomUUID().toString());
+//    put(USERNAME, UUID.randomUUID().toString());
+//    super.signUp();
+//  }
 
   public void saveLater() {
     pinInBackground(new SaveCallback() {
@@ -333,6 +336,27 @@ public class User extends ParseUser implements Parcelable {
         return remoteQuery().whereExists(SPONSOR);
       }
     });
+  }
+
+  // Are you kidding me?
+  // https://developers.facebook.com/bugs/229876443869758/
+  // This is a really shitty workaround.
+  public static class AuthBugFixTask extends AsyncTask<User, Void, User> {
+    @Override
+    protected User doInBackground(User... users) {
+      User user = users[0];
+      try {
+        JSONObject authData = user.getAuthData();
+        List<User> result = User.remoteQuery().whereEqualTo(AUTH_DATA, authData).find();
+        if (result.isEmpty()) throw new ParseException(ParseException.OTHER_CAUSE, "wa");
+        sCurrentUser = result.get(0);
+        return result.get(0);
+      } catch (ParseException e) {
+        e.printStackTrace();
+        Bugsnag.notify(e);
+        return null;
+      }
+    }
   }
 
 }
