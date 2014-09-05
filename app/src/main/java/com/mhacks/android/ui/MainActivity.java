@@ -43,6 +43,8 @@ public class MainActivity extends FragmentActivity
       return;
     } else {
       Bugsnag.setUser(mUser.getObjectId(), mUser.getEmail(), mUser.getName());
+      mUser.setHasAndroid(true);
+      mUser.saveEventually();
       GeofenceBroadcastReceiver.initialize(this);
     }
 

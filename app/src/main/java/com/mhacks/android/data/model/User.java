@@ -59,6 +59,7 @@ public class User extends ParseUser implements Parcelable {
   public static final String POSITION = "position";
   public static final String SPECIALTY = "specialty";
   public static final String SCHOOL = "school";
+  public static final String HAS_ANDROID = "hasAndroid";
   public static final String AUTH_DATA = "authData";
   public static final String TWITTER_IMAGE_URL = "twitterImageUrl";
 
@@ -213,6 +214,15 @@ public class User extends ParseUser implements Parcelable {
 
   public User setSchool(String school) {
     put(SCHOOL, school);
+    return this;
+  }
+
+  public boolean hasAndroid() {
+    return has(HAS_ANDROID) && getBoolean(HAS_ANDROID);
+  }
+
+  public User setHasAndroid(boolean hasAndroid) {
+    put(HAS_ANDROID, hasAndroid);
     return this;
   }
 
