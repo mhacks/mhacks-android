@@ -46,6 +46,7 @@ public class User extends ParseUser implements Parcelable {
 
   public static final String OBJECT_ID = "objectId";
   public static final String NAME = "name";
+  public static final String EMAIL = "email";
   public static final String USERNAME = "username";
   public static final String PASSWORD = "password";
   public static final String EMAIL_VERIFIED = "emailVerified";
@@ -61,6 +62,7 @@ public class User extends ParseUser implements Parcelable {
   public static final String SCHOOL = "school";
   public static final String HAS_ANDROID = "hasAndroid";
   public static final String AUTH_DATA = "authData";
+  public static final String TWITTER_HANDLE = "twitterHandle";
   public static final String TWITTER_IMAGE_URL = "twitterImageUrl";
 
   public static final String FACEBOOK_URL = "https://graph.facebook.com/%s/picture?type=square";
@@ -217,6 +219,15 @@ public class User extends ParseUser implements Parcelable {
     return this;
   }
 
+  public String getTwitterHandle() {
+    return has(TWITTER_HANDLE) ? getString(TWITTER_HANDLE) : null;
+  }
+
+  public User setTwitterHandle(String twitterHandle) {
+    put(TWITTER_HANDLE, twitterHandle);
+    return this;
+  }
+
   public boolean hasAndroid() {
     return has(HAS_ANDROID) && getBoolean(HAS_ANDROID);
   }
@@ -270,6 +281,7 @@ public class User extends ParseUser implements Parcelable {
         JSONObject jsonObject = new JSONObject(Util.convertStreamToString(response.getEntity().getContent()));
         put(TWITTER_IMAGE_URL, jsonObject.getString("profile_image_url"));
         setName("@" + screenName);
+        setTwitterHandle(screenName);
         save();
 
       } catch (Exception e) {

@@ -1,7 +1,9 @@
 package com.mhacks.android.ui.concierge;
 
+import android.content.Intent;
 import android.graphics.LightingColorFilter;
 import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -127,10 +129,23 @@ public class ConciergeFragment extends Fragment implements
 
   @Override
   public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-    Bundle args = new Bundle();
-    args.putParcelable(ThreadsFragment.PARTNER, mAdapter.getItem(i));
+    User user = mAdapter.getItem(i);
 
-    NavigationDrawerFragment.navigateTo(ThreadsFragment.TAG, args, getActivity());
+    if (user.hasAndroid()) {
+      Bundle args = new Bundle();
+      args.putParcelable(ThreadsFragment.PARTNER, user);
+      NavigationDrawerFragment.navigateTo(ThreadsFragment.TAG, args, getActivity());
+    }
+    else if (user.has(User.TWITTER_HANDLE)) {
+      String tweet = getString(R.string.concierge_tweet, user.getTwitterHandle());
+      String tweetUrl = getString(R.string.tweet_url, tweet);
+      Uri uri = Uri.parse(tweetUrl);
+      startActivity(new Intent(Intent.ACTION_VIEW, uri));
+    }
+    else if (user.has(User.EMAIL)) {
+      startActivity(new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", user.getEmail(), null))
+        .putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mhacks_concierge)));
+    }
   }
 
   @Override

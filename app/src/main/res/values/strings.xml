@@ -58,5 +58,9 @@
   <string name="close_thread">Close Thread</string>
   <string name="messages">Messages</string>
   <string name="no_threads">You have no open conversations. Visit the concierge to message someone!</string>
+  <string name="mhacks_concierge">MHacks Concierge</string>
+  <string name="concierge_tweet">Hey @%1$s,</string>
+  <string name="concierge_email">Hey %1$s,</string>
+  <string name="tweet_url">https://twitter.com/intent/tweet?text=%1$s</string>
 
 </resources>
