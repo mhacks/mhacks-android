@@ -10,6 +10,10 @@
   <color name="bg_neutral">#434343</color>
   <color name="mhacks_yellow">#FED136</color>
 
+  <color name="com_facebook_blue_pressed">#2b4172</color>
+  <color name="twitter_blue">#55ACEE</color>
+  <color name="twitter_blue_pressed">#3e7eaf</color>
+
   <color name="bg_announcements">#2f4382</color>
   <color name="bg_awards">#f6bb42</color>
   <color name="bg_chat">#f6694c</color>

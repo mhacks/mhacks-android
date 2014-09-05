@@ -7,6 +7,7 @@ import android.view.View;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.PolygonOptions;
@@ -19,7 +20,7 @@ import java.util.List;
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 8/6/14.
  */
-public class MapFragment extends com.google.android.gms.maps.MapFragment implements GoogleMap.OnMapLoadedCallback {
+public class MapFragment extends SupportMapFragment implements GoogleMap.OnMapLoadedCallback {
   public static final String TAG = "MapFragment";
 
   private List<Venue> mLocations = new ArrayList<>();

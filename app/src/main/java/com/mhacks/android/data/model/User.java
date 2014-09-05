@@ -13,6 +13,7 @@ import com.mhacks.android.data.sync.UserSynchronize;
 import com.mhacks.android.ui.common.Util;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -29,6 +30,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
 import java.util.UUID;
 
 /**
@@ -211,27 +213,35 @@ public class User extends ParseUser implements Parcelable {
     return this;
   }
 
+  public JSONObject getAuthData() throws ParseException {
+    // I can't believe I have to use reflection to get the Facebook user ID.
+    // WTF Parse.
+    try {
+      Field authDataField = ParseUser.class.getDeclaredField(AUTH_DATA);
+      authDataField.setAccessible(true);
+      return (JSONObject) authDataField.get(this);
+    } catch (Exception e) {
+      throw new ParseException(e);
+    }
+  }
+
   public String getImageUrl() {
     // Update the model with an image, if possible
-    if (has(AUTH_DATA)) try {
-      JSONObject authData = getJSONObject(AUTH_DATA);
-      if (authData.has(FACEBOOK)) {
-        String id = authData.getJSONObject(FACEBOOK).getString(ID);
-        return getFacebookImageUrl(id);
-      }
-      else if (authData.has(TWITTER) && has(TWITTER_IMAGE_URL)) {
-        return getString(TWITTER_IMAGE_URL);
-      }
-      saveEventually();
-    } catch (JSONException e) {
-      // Ignore this, for now
-      e.printStackTrace();
+    if (ParseFacebookUtils.isLinked(this)) try {
+      JSONObject authData = getAuthData();
+      String id = authData.getJSONObject(FACEBOOK).getString(ID);
+      return getFacebookImageUrl(id);
+    } catch (ParseException | JSONException e) {
+      Bugsnag.notify(e);
+      return null;
+    }
+    else if (ParseTwitterUtils.isLinked(this)) {
+      return getString(TWITTER_IMAGE_URL);
     }
     return null;
   }
 
   public class TwitterFetchTask extends AsyncTask<Void, Void, Exception> {
-    private String mmResult = null;
 
     @Override
     protected Exception doInBackground(Void... voids) {
@@ -247,7 +257,7 @@ public class User extends ParseUser implements Parcelable {
         JSONObject jsonObject = new JSONObject(Util.convertStreamToString(response.getEntity().getContent()));
         put(TWITTER_IMAGE_URL, jsonObject.getString("profile_image_url"));
         setName("@" + screenName);
-        saveEventually();
+        save();
 
       } catch (Exception e) {
         e.printStackTrace();
@@ -291,7 +301,8 @@ public class User extends ParseUser implements Parcelable {
     @Override
     public User createFromParcel(Parcel parcel) {
       try {
-        return query().fromLocalDatastore().get(parcel.readString());
+        String objectId = parcel.readString();
+        return query().fromLocalDatastore().get(objectId);
       } catch (ParseException e) {
         e.printStackTrace();
         Bugsnag.notify(e);
@@ -312,7 +323,7 @@ public class User extends ParseUser implements Parcelable {
 
   @Override
   public void writeToParcel(Parcel parcel, int i) {
-    parcel.writeString(getString(OBJECT_ID));
+    parcel.writeString(getObjectId());
   }
 
   public static Synchronize<User> getSync() {

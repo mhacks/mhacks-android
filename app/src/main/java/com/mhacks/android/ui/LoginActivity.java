@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bugsnag.android.Bugsnag;
 import com.google.common.collect.ImmutableList;
@@ -88,7 +89,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
     ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
   }
 
@@ -123,13 +123,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void done(final ParseUser parseUser, ParseException e) {
-      if (e != null) {
-        error(e);
+      if (parseUser == null || parseUser.getObjectId() == null) {
+        User.logOut();
+        error(e != null ? e : new ParseException(ParseException.USERNAME_MISSING, "Login failed"));
         return;
       }
 
       if (mmTwitter) {
-        User.getCurrentUser().new TwitterFetchTask() {
+        ((User) parseUser).new TwitterFetchTask() {
           @Override
           protected void onPostExecute(Exception e) {
             super.onPostExecute(e);
@@ -137,23 +138,24 @@ public class LoginActivity extends Activity implements View.OnClickListener {
               error(e);
               return;
             }
-            success();
+            success(parseUser);
           }
         }.execute();
       }
       else {
-        success();
+        success(parseUser);
       }
 
     }
 
     private void error(Exception e) {
       Log.d(TAG, "Login failed.");
+      Toast.makeText(LoginActivity.this, getString(R.string.error_logging_in), Toast.LENGTH_LONG).show();
       Bugsnag.notify(e);
       mmDialog.cancel();
     }
 
-    private void success() {
+    private void success(ParseUser user) {
       mmDialog.dismiss();
       finish();
       startActivity(new Intent(LoginActivity.this, MainActivity.class));
