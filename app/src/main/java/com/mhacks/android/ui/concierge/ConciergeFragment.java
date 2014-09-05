@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -112,9 +113,26 @@ public class ConciergeFragment extends Fragment implements
   public void populateView(ViewHolder holder, User contact, boolean hasSectionHeader, boolean hasSectionFooter) {
     View header = holder.get(R.id.contact_card_header);
     View footer = holder.get(R.id.contact_card_footer);
+    ImageView icon = holder.get(R.id.contact_icon);
     TextView sponsorName = holder.get(R.id.contact_sponsor_name);
     TextView name = holder.get(R.id.contact_name);
     TextView position = holder.get(R.id.contact_specialty);
+
+    if (contact.hasAndroid()) {
+      icon.setImageResource(R.drawable.ic_phone);
+      icon.setVisibility(View.VISIBLE);
+    }
+    else if (contact.has(User.EMAIL)) {
+      icon.setImageResource(R.drawable.ic_email);
+      icon.setVisibility(View.VISIBLE);
+    }
+    else if (contact.has(User.TWITTER_HANDLE)) {
+      icon.setImageResource(R.drawable.ic_twitter);
+      icon.setVisibility(View.VISIBLE);
+    }
+    else {
+      icon.setVisibility(View.GONE);
+    }
 
     header.setVisibility(hasSectionHeader ? View.VISIBLE : View.GONE);
     footer.setVisibility(hasSectionFooter ? View.VISIBLE : View.GONE);
