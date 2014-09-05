@@ -11,7 +11,7 @@
 
     android:alpha="0.25"
     android:scaleType="centerCrop"
-    android:src="@drawable/poly16"/>
+    android:src="@drawable/poly14"/>
 
   <android.support.v4.widget.SwipeRefreshLayout
     android:id="@+id/awards_swipe_container"
