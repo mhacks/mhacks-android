@@ -1,5 +1,6 @@
 package com.mhacks.android.ui.map;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -7,22 +8,31 @@ import android.view.View;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.common.collect.Lists;
+import com.mhacks.android.R;
 import com.mhacks.android.data.model.Venue;
 import com.parse.ParseException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 8/6/14.
  */
-public class MapFragment extends com.google.android.gms.maps.MapFragment implements GoogleMap.OnMapLoadedCallback {
+public class MapFragment extends SupportMapFragment implements GoogleMap.OnMapLoadedCallback {
   public static final String TAG = "MapFragment";
 
-  private List<Venue> mLocations = new ArrayList<>();
+  public static final int OPACITY = 0x88FFFFFF;
+
+  public int mStrokeColor = 0xFFFFFFFF; // let's not use this one though
+  public float mStrokeWidth = 1.0f; // yeah...
+
+  private List<Venue> mVenues = Lists.newArrayList();
   private CameraUpdate mCenter;
   private boolean mLoaded = false;
 
@@ -31,10 +41,13 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
     super.onCreate(savedInstanceState);
 
     try {
-      mLocations = Venue.query().find();
+      mVenues = Venue.query().find();
     } catch (ParseException e) {
       e.printStackTrace();
     }
+
+    mStrokeColor = getResources().getColor(R.color.charcoal_semitransparent);
+    mStrokeWidth = getResources().getDimension(R.dimen.map_polygon_stroke_width);
   }
 
   @Override
@@ -58,23 +71,46 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
           mLoaded = true;
         }
       }
-    }.execute(mLocations.toArray(new Venue[mLocations.size()]));
+    }.execute(mVenues.toArray(new Venue[mVenues.size()]));
   }
 
   @Override
   public void onMapLoaded() {
     GoogleMap map = getMap();
 
+    map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
     if (!mLoaded && mCenter != null){
       map.moveCamera(mCenter);
       mLoaded = true;
     }
 
-    for (Venue location : mLocations) {
-      PolygonOptions polygon = new PolygonOptions();
-      polygon.addAll(location.getGeometry());
+    addPolygons(map);
+    addMarkers(map);
+  }
 
-      map.addPolygon(polygon);
+  private void addPolygons(GoogleMap map) {
+    for (Venue venue : mVenues) {
+      List<LatLng> geometry = venue.getGeometry();
+      if (geometry != null) {
+        map.addPolygon(new PolygonOptions()
+          .addAll(geometry)
+          .fillColor(venue.getColor() & OPACITY)
+          .strokeColor(mStrokeColor)
+          .strokeWidth(mStrokeWidth));
+      }
+    }
+  }
+
+  public void addMarkers(GoogleMap map) {
+    for (Venue venue : mVenues) {
+      float[] hsv = new float[3];
+      Color.colorToHSV(venue.getColor(), hsv);
+      map.addMarker(new MarkerOptions()
+        .position(venue.getLocation())
+        .title(venue.getTitle())
+        .snippet(venue.getDetails())
+        .icon(BitmapDescriptorFactory.defaultMarker(hsv[0])));
     }
   }
 

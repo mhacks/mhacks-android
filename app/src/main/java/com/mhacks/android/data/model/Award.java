@@ -76,13 +76,13 @@ public class Award extends DataClass<Award> {
   }
 
   public static ParseQuery<Award> query() {
-    return remoteQuery().fromLocalDatastore();
+    ParseQuery<Award> query = remoteQuery().fromLocalDatastore();
+    query.include(SPONSOR);
+    return query;
   }
 
   public static ParseQuery<Award> remoteQuery() {
-    ParseQuery<Award> query = ParseQuery.getQuery(Award.class);
-    query.include(SPONSOR);
-    return query;
+    return ParseQuery.getQuery(Award.class);
   }
 
   public static final Creator<Award> CREATOR = new Creator<Award>() {

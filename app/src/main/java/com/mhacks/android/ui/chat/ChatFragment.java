@@ -2,16 +2,19 @@ package com.mhacks.android.ui.chat;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.firebase.client.Firebase;
@@ -20,12 +23,14 @@ import com.mhacks.android.R;
 import com.mhacks.android.data.firebase.ChatMessage;
 import com.mhacks.android.data.firebase.ChatRoom;
 import com.mhacks.android.data.model.User;
+import com.mhacks.android.ui.common.CircleTransform;
 import com.mhacks.android.ui.common.FirebaseListAdapter;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/24/14.
  */
-public class ChatFragment extends Fragment implements ActionBar.OnNavigationListener {
+public class ChatFragment extends Fragment implements ActionBar.OnNavigationListener, View.OnClickListener {
   public static final String TAG = "ChatFragment";
 
   public static final String CHAT = "chat";
@@ -34,12 +39,14 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
 
   private String mFirebaseUrl;
   private Firebase mFirebase;
-  private FrameLayout mLayout;
+  private Firebase mMessages;
+  private Firebase mCurrentRoom;
+  private RelativeLayout mLayout;
   private ListView mListView;
   private RoomsAdapter mRoomsAdapter;
   private ChatAdapter mChatAdapter;
-
-  private int mPriorNavigationMode;
+  private EditText mInput;
+  private ImageButton mSendButton;
 
   public ChatFragment() {
     super();
@@ -52,23 +59,32 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
 
     mFirebaseUrl = getString(R.string.firebase_url);
     mFirebase = new Firebase(mFirebaseUrl).child(CHAT);
+    mMessages = mFirebase.child(MESSAGES);
     mRoomsAdapter = new RoomsAdapter(mFirebase.child(ROOMS).limit(50), getActivity());
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    mLayout = (FrameLayout) inflater.inflate(R.layout.fragment_chat, null);
+    mLayout = (RelativeLayout) inflater.inflate(R.layout.fragment_chat, null);
     mListView = (ListView) mLayout.findViewById(R.id.chat_list);
+    mInput = (EditText) mLayout.findViewById(R.id.chat_input);
+    mSendButton = (ImageButton) mLayout.findViewById(R.id.chat_send_button);
 
     return mLayout;
   }
 
   @Override
+  public void onViewCreated(View view, Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    mSendButton.setOnClickListener(this);
+  }
+
+  @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    setNavigationMode();
     if (User.canAdmin()) {
       inflater.inflate(R.menu.fragment_chat, menu);
     }
+    setNavigationMode();
     super.onCreateOptionsMenu(menu, inflater);
   }
 
@@ -84,29 +100,34 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
 
   private void setNavigationMode() {
     ActionBar actionBar = getActivity().getActionBar();
-    mPriorNavigationMode = actionBar.getNavigationMode();
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
     actionBar.setListNavigationCallbacks(mRoomsAdapter, this);
     actionBar.setDisplayShowTitleEnabled(false);
   }
 
-  private void revertNavigationMode() {
-    ActionBar actionBar = getActivity().getActionBar();
-    actionBar.setNavigationMode(mPriorNavigationMode);
-    actionBar.setDisplayShowTitleEnabled(true);
-  }
-
-  @Override
-  public void onDestroyView() {
-    revertNavigationMode();
-    super.onDestroyView();
-  }
-
   @Override
   public boolean onNavigationItemSelected(int i, long l) {
-    mChatAdapter = new ChatAdapter(mFirebase.child(MESSAGES).child(mRoomsAdapter.getItem(i).getTitle()).limit(50), getActivity());
+    mCurrentRoom = mMessages.child(mRoomsAdapter.getItem(i).getTitle());
+    mChatAdapter = new ChatAdapter(mCurrentRoom.limit(50));
     mListView.setAdapter(mChatAdapter);
+
     return true;
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    mRoomsAdapter.cleanup();
+    if (mChatAdapter != null) mChatAdapter.cleanup();
+  }
+
+  @Override
+  public void onClick(View view) {
+    CharSequence text = mInput.getText();
+    if (text.length() > 0) {
+      ChatMessage.push(text.toString(), mCurrentRoom);
+      mInput.setText(null);
+    }
   }
 
   private static class RoomsAdapter extends FirebaseListAdapter<ChatRoom> {
@@ -123,16 +144,28 @@ public class ChatFragment extends Fragment implements ActionBar.OnNavigationList
 
   }
 
-  private static class ChatAdapter extends FirebaseListAdapter<ChatMessage> {
+  private class ChatAdapter extends FirebaseListAdapter<ChatMessage> {
 
-    public ChatAdapter(Query ref, Activity activity) {
-      super(ref, ChatMessage.class, android.R.layout.simple_spinner_dropdown_item, activity);
+    public ChatAdapter(Query ref) {
+      super(ref, ChatMessage.class, R.layout.adapter_chat_message, getActivity());
     }
 
     @Override
     protected void populateView(ViewHolder holder, ChatMessage message) {
-      TextView title = holder.get(android.R.id.text1);
-      title.setText(message.getMessage());
+      ImageView dave = holder.get(R.id.dave);
+      ImageView image = holder.get(R.id.chat_message_image);
+      TextView name = holder.get(R.id.chat_message_user_name);
+      TextView text = holder.get(R.id.chat_message_text);
+
+      dave.setVisibility(message.heKnows() ? View.VISIBLE : View.INVISIBLE);
+
+      Picasso.with(getActivity())
+        .load(message.getImage())
+        .transform(new CircleTransform())
+        .into(image);
+
+      name.setText(message.getUser());
+      text.setText(message.getMessage());
     }
 
   }

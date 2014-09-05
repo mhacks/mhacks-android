@@ -7,6 +7,8 @@ ext {
   bugsnag_key = ext.MHACKS_BUGSNAG_KEY
   google_maps_api_key = ext.MHACKS_GOOGLE_MAPS_API_KEY
   fb_app_id = ext.MHACKS_FACEBOOK_APP_ID
+  twitter_key = ext.MHACKS_TWITTER_KEY
+  twitter_secret = ext.MHACKS_TWITTER_SECRET
 }
 
 android {
@@ -35,6 +37,8 @@ android {
     resValue "string", "bugsnag_key", bugsnag_key
     resValue "string", "google_maps_api_key", google_maps_api_key
     resValue "string", "fb_app_id", fb_app_id
+    resValue "string", "twitter_key", twitter_key
+    resValue "string", "twitter_secret", twitter_secret
   }
   buildTypes {
     release {
@@ -47,6 +51,8 @@ android {
       resValue "string", "bugsnag_key", bugsnag_key
       resValue "string", "google_maps_api_key", google_maps_api_key
       resValue "string", "fb__app_id", fb_app_id
+      resValue "string", "twitter_key", twitter_key
+      resValue "string", "twitter_secret", twitter_secret
     }
     debug {
       debuggable true
@@ -57,6 +63,8 @@ android {
       resValue "string", "bugsnag_key", bugsnag_key
       resValue "string", "google_maps_api_key", google_maps_api_key
       resValue "string", "fb_app_id", fb_app_id
+      resValue "string", "twitter_key", twitter_key
+      resValue "string", "twitter_secret", twitter_secret
     }
   }
 }
@@ -69,5 +77,8 @@ dependencies {
   compile 'com.squareup.picasso:picasso:2.3.3'
   compile 'com.google.android.gms:play-services:5.0.+'
   compile 'com.google.maps.android:android-maps-utils:0.3+'
+  compile ('com.viewpagerindicator:library:2.4.1@aar') {
+    exclude group: 'com.google.android', module: 'support-v4'
+  }
   compile project(':facebook')
 }

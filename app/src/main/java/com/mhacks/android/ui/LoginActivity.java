@@ -5,6 +5,7 @@ package com.mhacks.android.ui;
  */
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,17 +14,19 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bugsnag.android.Bugsnag;
 import com.google.common.collect.ImmutableList;
 import com.mhacks.android.R;
 import com.mhacks.android.data.model.User;
-import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 
 import java.util.Random;
+
 
 public class LoginActivity extends Activity implements View.OnClickListener {
   public static final String TAG = "LoginActivity";
@@ -60,7 +63,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     .add("user_birthday")
     .add("user_location").build();
 
-  private Button mLoginButton;
+  private Button mFacebookButton;
+  private Button mTwitterButton;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +74,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     User.logOut();
 
-    mLoginButton = (Button) findViewById(R.id.login_button);
-    mLoginButton.setOnClickListener(this);
+    mFacebookButton = (Button) findViewById(R.id.facebook_login_button);
+    mTwitterButton = (Button) findViewById(R.id.twitter_login_button);
+
+    mFacebookButton.setOnClickListener(this);
+    mTwitterButton.setOnClickListener(this);
   }
 
   @Override
@@ -82,16 +89,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
     ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
   }
 
   @Override
   public void onClick(View view) {
-    attemptLogin();
-  }
-
-  private void attemptLogin() {
     final ProgressDialog dialog = new ProgressDialog(this);
     dialog.setIndeterminate(true);
     dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -99,18 +101,83 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     dialog.setMessage(getString(R.string.logging_in));
     dialog.show();
 
-    ParseFacebookUtils.logIn(FB_PERMISSIONS, this, new LogInCallback() {
-      @Override
-      public void done(ParseUser user, ParseException e) {
-        if (e != null) {
-          Log.d(TAG, "Facebook login failed.");
-          Bugsnag.notify(e);
-          return;
-        }
-        finish();
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+    switch (view.getId()) {
+      case R.id.facebook_login_button:
+        ParseFacebookUtils.logIn(FB_PERMISSIONS, this, new LogInCallback(dialog, false));
+        break;
+      case R.id.twitter_login_button:
+        ParseTwitterUtils.logIn(this, new LogInCallback(dialog, true));
+        break;
+    }
+
+  }
+
+  private class LogInCallback extends com.parse.LogInCallback {
+    private final Dialog mmDialog;
+    private final boolean mmTwitter;
+
+    public LogInCallback(Dialog dialog, boolean twitter) {
+      mmDialog = dialog;
+      mmTwitter = twitter;
+    }
+
+    // fuck this
+    @Override
+    public void done(final ParseUser parseUser, ParseException e) {
+      User user = (User) parseUser;
+      if (user == null) {
+        User.logOut();
+        error(e != null ? e : new ParseException(ParseException.USERNAME_MISSING, "Login failed"));
+        return;
       }
-    });
+      else if (user.getObjectId() == null) {
+        // damn you, Facebook
+        new User.AuthBugFixTask() {
+          @Override
+          protected void onPostExecute(User user) {
+            if (user == null) {
+              User.logOut();
+              Log.e(TAG, "Workaround failed");
+              error(new ParseException(ParseException.USERNAME_MISSING, "Workaround failed"));
+              return;
+            }
+            success();
+          }
+        }.execute(user);
+        return;
+      }
+
+      if (mmTwitter) {
+        user.new TwitterFetchTask() {
+          @Override
+          protected void onPostExecute(Exception e) {
+            super.onPostExecute(e);
+            if (e != null) {
+              error(e);
+              return;
+            }
+            success();
+          }
+        }.execute();
+      }
+      else {
+        success();
+      }
+
+    }
+
+    private void error(Exception e) {
+      Log.d(TAG, "Login failed.");
+      Toast.makeText(LoginActivity.this, getString(R.string.error_logging_in), Toast.LENGTH_LONG).show();
+      Bugsnag.notify(e);
+      mmDialog.cancel();
+    }
+
+    private void success() {
+      mmDialog.dismiss();
+      finish();
+      startActivity(new Intent(LoginActivity.this, MainActivity.class));
+    }
   }
 
 }

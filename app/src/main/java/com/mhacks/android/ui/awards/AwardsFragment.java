@@ -1,7 +1,7 @@
 package com.mhacks.android.ui.awards;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,25 +41,28 @@ public class AwardsFragment extends Fragment implements ParseAdapter.ListCallbac
     ParseQueryAdapter.QueryFactory<Award> factory = new ParseQueryAdapter.QueryFactory<Award>() {
       @Override
       public ParseQuery<Award> create() {
-        return Award.query().orderByDescending(Award.CREATED_AT);
+        return Award.query().orderByDescending(Award.VALUE);
       }
     };
-    mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_award, this, factory).load();
+    mAdapter = new ParseAdapter<>(getActivity(), R.layout.adapter_award, this, factory)
+      .setSectioning(Award.equivalentOn(Award.SPONSOR))
+      .load();
 
     setHasOptionsMenu(true);
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    mLayout = (SwipeRefreshLayout) inflater.inflate(R.layout.fragment_award, null);
+    View view = inflater.inflate(R.layout.fragment_award, container, false);
+    mLayout = (SwipeRefreshLayout) view.findViewById(R.id.awards_swipe_container);
 
-    mListView = (ListView) mLayout.findViewById(R.id.awards_list);
+    mListView = (ListView) view.findViewById(R.id.awards_list);
     mListView.setAdapter(mAdapter);
 
     mAdapter.bindSync(mLayout);
     if (getArguments().getBoolean(MainActivity.SHOULD_SYNC, false)) mAdapter.onRefresh();
 
-    return mLayout;
+    return view;
   }
 
   @Override
@@ -72,10 +75,15 @@ public class AwardsFragment extends Fragment implements ParseAdapter.ListCallbac
 
   @Override
   public void populateView(ViewHolder holder, Award award, boolean hasSectionHeader, boolean hasSectionFooter) {
+    View header = holder.get(R.id.award_card_header);
+    View footer = holder.get(R.id.award_card_footer);
     TextView title = holder.get(R.id.award_title);
     TextView details = holder.get(R.id.award_details);
     TextView sponsor = holder.get(R.id.award_sponsor);
     TextView prize = holder.get(R.id.award_prize);
+
+    header.setVisibility(hasSectionHeader ? View.VISIBLE : View.GONE);
+    footer.setVisibility(hasSectionFooter ? View.VISIBLE : View.GONE);
 
     title.setText(award.getTitle());
     details.setText(award.getDetails());

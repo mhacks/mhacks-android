@@ -3,22 +3,35 @@ package com.mhacks.android.data.model;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.bugsnag.android.Bugsnag;
 import com.mhacks.android.data.sync.Synchronize;
 import com.mhacks.android.data.sync.UserSynchronize;
+import com.mhacks.android.ui.common.Util;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseRole;
+import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.parse.twitter.Twitter;
 
-import java.util.UUID;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/26/14.
@@ -33,6 +46,7 @@ public class User extends ParseUser implements Parcelable {
 
   public static final String OBJECT_ID = "objectId";
   public static final String NAME = "name";
+  public static final String EMAIL = "email";
   public static final String USERNAME = "username";
   public static final String PASSWORD = "password";
   public static final String EMAIL_VERIFIED = "emailVerified";
@@ -44,25 +58,43 @@ public class User extends ParseUser implements Parcelable {
   public static final String CURRENT_VENUE = "currentVenue";
   public static final String SPONSOR = "sponsor";
   public static final String POSITION = "position";
+  public static final String SPECIALTY = "specialty";
+  public static final String SCHOOL = "school";
+  public static final String HAS_ANDROID = "hasAndroid";
+  public static final String AUTH_DATA = "authData";
+  public static final String TWITTER_HANDLE = "twitterHandle";
+  public static final String TWITTER_IMAGE_URL = "twitterImageUrl";
+
+  public static final String FACEBOOK_URL = "https://graph.facebook.com/%s/picture?type=square";
+  public static final String FACEBOOK = "facebook";
+  public static final String TWITTER = "twitter";
+  public static final String ID = "id";
+
+  private static User sCurrentUser;
 
   private Boolean mAdmin = null;
+
+  public static String getFacebookImageUrl(String id) {
+    return String.format(FACEBOOK_URL, id);
+  }
 
   public User() {
     super();
   }
 
   public static User getCurrentUser() {
+    if (sCurrentUser != null) return sCurrentUser;
     return (User) ParseUser.getCurrentUser();
   }
 
   public static ParseQuery<User> query() {
-    return remoteQuery().fromLocalDatastore();
+    ParseQuery<User> result = remoteQuery().fromLocalDatastore();
+    result.include(SPONSOR);
+    return result;
   }
 
   public static ParseQuery<User> remoteQuery() {
-    ParseQuery<User> result = ParseQuery.getQuery(User.class);
-    result.include(SPONSOR);
-    return result;
+    return ParseQuery.getQuery(User.class);
   }
 
   public static void updateVenue(String venueObjectId) throws ParseException {
@@ -169,21 +201,105 @@ public class User extends ParseUser implements Parcelable {
     return this;
   }
 
-  public String getPosition() {
-    return has(POSITION) ? getString(POSITION) : "";
+  public String getSpecialty() {
+    return has(SPECIALTY) ? getString(SPECIALTY) : "";
   }
 
-  public User setPosition(String position) {
-    put(POSITION, position);
+  public User setSpecialty(String specialty) {
+    put(SPECIALTY, specialty);
     return this;
   }
 
-  @Override
-  public void signUp() throws ParseException {
-    put(PASSWORD, UUID.randomUUID().toString());
-    put(USERNAME, UUID.randomUUID().toString());
-    super.signUp();
+  public String getSchool() {
+    return getString(SCHOOL);
   }
+
+  public User setSchool(String school) {
+    put(SCHOOL, school);
+    return this;
+  }
+
+  public String getTwitterHandle() {
+    return has(TWITTER_HANDLE) ? getString(TWITTER_HANDLE) : null;
+  }
+
+  public User setTwitterHandle(String twitterHandle) {
+    put(TWITTER_HANDLE, twitterHandle);
+    return this;
+  }
+
+  public boolean hasAndroid() {
+    return has(HAS_ANDROID) && getBoolean(HAS_ANDROID);
+  }
+
+  public User setHasAndroid(boolean hasAndroid) {
+    put(HAS_ANDROID, hasAndroid);
+    return this;
+  }
+
+  public JSONObject getAuthData() throws ParseException {
+    // I can't believe I have to use reflection to get the Facebook user ID.
+    // WTF Parse.
+    try {
+      Field authDataField = ParseUser.class.getDeclaredField(AUTH_DATA);
+      authDataField.setAccessible(true);
+      return (JSONObject) authDataField.get(this);
+    } catch (Exception e) {
+      throw new ParseException(e);
+    }
+  }
+
+  public String getImageUrl() {
+    // Update the model with an image, if possible
+    if (ParseFacebookUtils.isLinked(this)) try {
+      JSONObject authData = getAuthData();
+      String id = authData.getJSONObject(FACEBOOK).getString(ID);
+      return getFacebookImageUrl(id);
+    } catch (ParseException | JSONException e) {
+      Bugsnag.notify(e);
+      return null;
+    }
+    else if (ParseTwitterUtils.isLinked(this)) {
+      return getString(TWITTER_IMAGE_URL);
+    }
+    return null;
+  }
+
+  public class TwitterFetchTask extends AsyncTask<Void, Void, Exception> {
+
+    @Override
+    protected Exception doInBackground(Void... voids) {
+      Twitter twitter = ParseTwitterUtils.getTwitter();
+      String screenName = twitter.getScreenName();
+
+      HttpClient client = new DefaultHttpClient();
+      HttpGet verifyGet = new HttpGet("https://api.twitter.com/1.1/users/show.json?screen_name=" + screenName);
+      twitter.signRequest(verifyGet);
+
+      try {
+        HttpResponse response = client.execute(verifyGet);
+        JSONObject jsonObject = new JSONObject(Util.convertStreamToString(response.getEntity().getContent()));
+        put(TWITTER_IMAGE_URL, jsonObject.getString("profile_image_url"));
+        setName("@" + screenName);
+        setTwitterHandle(screenName);
+        save();
+
+      } catch (Exception e) {
+        e.printStackTrace();
+        Bugsnag.notify(e);
+        return e;
+      }
+
+      return null;
+    }
+  }
+
+//  @Override
+//  public void signUp() throws ParseException {
+//    put(PASSWORD, UUID.randomUUID().toString());
+//    put(USERNAME, UUID.randomUUID().toString());
+//    super.signUp();
+//  }
 
   public void saveLater() {
     pinInBackground(new SaveCallback() {
@@ -210,7 +326,8 @@ public class User extends ParseUser implements Parcelable {
     @Override
     public User createFromParcel(Parcel parcel) {
       try {
-        return query().fromLocalDatastore().get(parcel.readString());
+        String objectId = parcel.readString();
+        return query().fromLocalDatastore().get(objectId);
       } catch (ParseException e) {
         e.printStackTrace();
         Bugsnag.notify(e);
@@ -231,7 +348,7 @@ public class User extends ParseUser implements Parcelable {
 
   @Override
   public void writeToParcel(Parcel parcel, int i) {
-    parcel.writeString(getString(OBJECT_ID));
+    parcel.writeString(getObjectId());
   }
 
   public static Synchronize<User> getSync() {
@@ -241,6 +358,27 @@ public class User extends ParseUser implements Parcelable {
         return remoteQuery().whereExists(SPONSOR);
       }
     });
+  }
+
+  // Are you kidding me?
+  // https://developers.facebook.com/bugs/229876443869758/
+  // This is a really shitty workaround.
+  public static class AuthBugFixTask extends AsyncTask<User, Void, User> {
+    @Override
+    protected User doInBackground(User... users) {
+      User user = users[0];
+      try {
+        JSONObject authData = user.getAuthData();
+        List<User> result = User.remoteQuery().whereEqualTo(AUTH_DATA, authData).find();
+        if (result.isEmpty()) throw new ParseException(ParseException.OTHER_CAUSE, "wa");
+        sCurrentUser = result.get(0);
+        return result.get(0);
+      } catch (ParseException e) {
+        e.printStackTrace();
+        Bugsnag.notify(e);
+        return null;
+      }
+    }
   }
 
 }

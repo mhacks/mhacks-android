@@ -100,8 +100,8 @@ public class Sponsor extends DataClass<Sponsor> {
 
   public static ParseQuery<Sponsor> remoteQuery() {
     ParseQuery<Sponsor> query = ParseQuery.getQuery(Sponsor.class);
-    query.include(LOGO);
-    query.include(IMAGE);
+//    query.include(LOGO);
+//    query.include(IMAGE);
     return query;
   }
 

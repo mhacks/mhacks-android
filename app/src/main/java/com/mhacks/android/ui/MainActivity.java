@@ -1,9 +1,9 @@
 package com.mhacks.android.ui;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +18,7 @@ import com.mhacks.android.ui.nav.NavigationDrawerFragment;
 import java.util.Date;
 
 
-public class MainActivity extends Activity
+public class MainActivity extends FragmentActivity
   implements NavigationDrawerFragment.NavigationDrawerCallbacks {
   public static final String TAG = "MainActivity";
 
@@ -43,11 +43,13 @@ public class MainActivity extends Activity
       return;
     } else {
       Bugsnag.setUser(mUser.getObjectId(), mUser.getEmail(), mUser.getName());
+      mUser.setHasAndroid(true);
+      mUser.saveEventually();
       GeofenceBroadcastReceiver.initialize(this);
     }
 
     mNavigationDrawerFragment = (NavigationDrawerFragment)
-      getFragmentManager().findFragmentById(R.id.navigation_drawer);
+      getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
     mTitle = getTitle();
 
     // Set up the drawer.
@@ -63,17 +65,18 @@ public class MainActivity extends Activity
   }
 
   @Override
-  public void onNavigationDrawerItemSelected(NavItem item) {
-    Bundle args = new Bundle();
+  public void onNavigationDrawerItemSelected(NavItem item, Bundle args) {
+    if (args == null) args = new Bundle();
     args.putBoolean(SHOULD_SYNC, mShouldSync);
-    item.replace(R.id.container, args);
     mTitle = item.getTitle();
     restoreActionBar();
+    item.replace(R.id.container, args);
+    invalidateOptionsMenu();
     mShouldSync = false;
   }
 
   public void restoreActionBar() {
-    ActionBar actionBar = getActionBar();
+    final ActionBar actionBar = getActionBar();
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
     actionBar.setDisplayShowTitleEnabled(true);
     actionBar.setTitle(mTitle);

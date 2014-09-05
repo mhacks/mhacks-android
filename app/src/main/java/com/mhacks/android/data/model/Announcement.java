@@ -41,13 +41,13 @@ public class Announcement extends DataClass<Announcement> {
   }
 
   public static ParseQuery<Announcement> query() {
-    return remoteQuery().fromLocalDatastore();
+    ParseQuery<Announcement> query = remoteQuery().fromLocalDatastore();
+    query.include(POSTER);
+    return query;
   }
 
   public static ParseQuery<Announcement> remoteQuery() {
-    ParseQuery<Announcement> query = ParseQuery.getQuery(Announcement.class);
-    query.include(POSTER);
-    return query;
+    return ParseQuery.getQuery(Announcement.class);
   }
 
   public String getTitle() {

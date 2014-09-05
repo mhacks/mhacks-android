@@ -1,7 +1,11 @@
 package com.mhacks.android.ui.concierge;
 
-import android.app.Fragment;
+import android.content.Intent;
+import android.graphics.LightingColorFilter;
+import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,9 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.common.collect.Ordering;
 import com.mhacks.android.R;
@@ -21,6 +25,8 @@ import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.MainActivity;
 import com.mhacks.android.ui.common.parse.ParseAdapter;
 import com.mhacks.android.ui.common.parse.ViewHolder;
+import com.mhacks.android.ui.messages.ThreadsFragment;
+import com.mhacks.android.ui.nav.NavigationDrawerFragment;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
@@ -48,7 +54,7 @@ public class ConciergeFragment extends Fragment implements
     ParseQueryAdapter.QueryFactory<User> factory = new ParseQueryAdapter.QueryFactory<User>() {
       @Override
       public ParseQuery<User> create() {
-        return User.query().whereExists(User.SPONSOR);
+        return User.query().whereExists(User.SPONSOR).addAscendingOrder(User.NAME);
       }
     };
     Ordering<User> ordering = new Ordering<User>() {
@@ -67,9 +73,10 @@ public class ConciergeFragment extends Fragment implements
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    mLayout = (SwipeRefreshLayout) inflater.inflate(R.layout.fragment_concierge, null);
+    View view = inflater.inflate(R.layout.fragment_concierge, container, false);
+    mLayout = (SwipeRefreshLayout) view.findViewById(R.id.concierge_swipe_container);
 
-    mListView = (ListView) mLayout.findViewById(R.id.contact_list);
+    mListView = (ListView) view.findViewById(R.id.contact_list);
     mListView.setAdapter(mAdapter);
 
     mListView.setOnItemClickListener(this);
@@ -81,7 +88,7 @@ public class ConciergeFragment extends Fragment implements
     mAdapter.bindSync(mLayout);
     if (getArguments().getBoolean(MainActivity.SHOULD_SYNC, false)) mAdapter.onRefresh();
 
-    return mLayout;
+    return view;
   }
 
   @Override
@@ -106,21 +113,57 @@ public class ConciergeFragment extends Fragment implements
   public void populateView(ViewHolder holder, User contact, boolean hasSectionHeader, boolean hasSectionFooter) {
     View header = holder.get(R.id.contact_card_header);
     View footer = holder.get(R.id.contact_card_footer);
+    ImageView icon = holder.get(R.id.contact_icon);
     TextView sponsorName = holder.get(R.id.contact_sponsor_name);
     TextView name = holder.get(R.id.contact_name);
-    TextView position = holder.get(R.id.contact_position);
+    TextView position = holder.get(R.id.contact_specialty);
+
+    if (contact.hasAndroid()) {
+      icon.setImageResource(R.drawable.ic_phone);
+      icon.setVisibility(View.VISIBLE);
+    }
+    else if (contact.has(User.EMAIL)) {
+      icon.setImageResource(R.drawable.ic_email);
+      icon.setVisibility(View.VISIBLE);
+    }
+    else if (contact.has(User.TWITTER_HANDLE)) {
+      icon.setImageResource(R.drawable.ic_twitter);
+      icon.setVisibility(View.VISIBLE);
+    }
+    else {
+      icon.setVisibility(View.GONE);
+    }
 
     header.setVisibility(hasSectionHeader ? View.VISIBLE : View.GONE);
     footer.setVisibility(hasSectionFooter ? View.VISIBLE : View.GONE);
 
     sponsorName.setText(contact.getSponsor().getTitle());
     name.setText(contact.getName());
-    position.setText(contact.getPosition());
+    position.setText(contact.getSpecialty());
+
+    LayerDrawable background = ((LayerDrawable) holder.get(R.id.contact_card_header).getBackground());
+    background.findDrawableByLayerId(R.id.adapter_card_header_shape).setColorFilter(new LightingColorFilter(0, contact.getSponsor().getColor()));
   }
 
   @Override
   public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-    Toast.makeText(getActivity(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
+    User user = mAdapter.getItem(i);
+
+    if (user.hasAndroid()) {
+      Bundle args = new Bundle();
+      args.putParcelable(ThreadsFragment.PARTNER, user);
+      NavigationDrawerFragment.navigateTo(ThreadsFragment.TAG, args, getActivity());
+    }
+    else if (user.has(User.TWITTER_HANDLE)) {
+      String tweet = getString(R.string.concierge_tweet, user.getTwitterHandle());
+      String tweetUrl = getString(R.string.tweet_url, tweet);
+      Uri uri = Uri.parse(tweetUrl);
+      startActivity(new Intent(Intent.ACTION_VIEW, uri));
+    }
+    else if (user.has(User.EMAIL)) {
+      startActivity(new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", user.getEmail(), null))
+        .putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mhacks_concierge)));
+    }
   }
 
   @Override

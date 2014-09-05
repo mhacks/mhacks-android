@@ -5,8 +5,8 @@
   android:dither="true"
   android:shape="rectangle">
   <corners
-    android:bottomLeftRadius="2dp"
-    android:bottomRightRadius="2dp"/>
+    android:bottomLeftRadius="@dimen/adapter_card_radius"
+    android:bottomRightRadius="@dimen/adapter_card_radius"/>
   <solid android:color="@color/adapter_card_color"/>
   <padding
     android:bottom="@dimen/adapter_card_padding"

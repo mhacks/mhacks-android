@@ -25,33 +25,33 @@ public class SortingArrayList<T> extends ArrayList<T> {
   public SortingArrayList(Collection<? extends T> collection, Comparator<T> comparator) {
     super(collection);
     mComparator = comparator;
-    sort();
+    sort(true);
   }
 
   @Override
   public boolean add(T object) {
-    return super.add(object) && sort();
+    return sort(super.add(object));
   }
 
   @Override
   public void add(int index, T object) {
     super.add(index, object);
-    sort();
+    sort(true);
   }
 
   @Override
   public boolean addAll(Collection<? extends T> collection) {
-    return super.addAll(collection) && sort();
+    return sort(super.addAll(collection));
   }
 
   @Override
   public boolean addAll(int index, Collection<? extends T> collection) {
-    return super.addAll(index, collection) && sort();
+    return sort(super.addAll(index, collection));
   }
 
-  public boolean sort() {
-    Collections.sort(this, mComparator);
-    return true;
+  public boolean sort(boolean added) {
+    if (added) Collections.sort(this, mComparator);
+    return added;
   }
 
 }

@@ -89,6 +89,7 @@ public class Venue extends DataClass<Venue> {
   }
 
   public LatLngBounds getBounds() {
+    if (!has(BOUNDS)) return null;
     List<ParseGeoPoint> points = getList(BOUNDS);
     LatLngBounds.Builder builder = LatLngBounds.builder();
     for (ParseGeoPoint point : points) {
@@ -112,6 +113,8 @@ public class Venue extends DataClass<Venue> {
 
   public Geofence toGeofence() {
     LatLngBounds bounds = getBounds();
+    if (bounds == null) return null;
+
     LatLng center = bounds.getCenter();
     double radius = SphericalUtil.computeDistanceBetween(bounds.northeast, bounds.southwest) / 2;
     return new Geofence.Builder()

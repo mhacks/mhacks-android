@@ -15,6 +15,7 @@ import com.mhacks.android.ui.MainActivity;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
+import com.parse.ParseTwitterUtils;
 import com.parse.PushService;
 
 /**
@@ -44,6 +45,7 @@ public class MHacksApplication extends Application {
     PushService.setDefaultPushCallback(this, MainActivity.class);
 
     ParseFacebookUtils.initialize(getString(R.string.fb_app_id));
+    ParseTwitterUtils.initialize(getString(R.string.twitter_key), getString(R.string.twitter_secret));
 
     Bugsnag.register(this, getString(R.string.bugsnag_key));
   }

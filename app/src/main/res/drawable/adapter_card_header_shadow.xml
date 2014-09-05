@@ -6,7 +6,7 @@
   <item>
     <shape>
       <padding
-        android:bottom="0dp"
+        android:bottom="@dimen/adapter_card_shadow_width"
         android:left="@dimen/adapter_card_shadow_width"
         android:right="@dimen/adapter_card_shadow_width"
         android:top="@dimen/adapter_card_shadow_width"/>
@@ -16,7 +16,7 @@
   <item>
     <shape>
       <padding
-        android:bottom="0dp"
+        android:bottom="@dimen/adapter_card_shadow_width"
         android:left="@dimen/adapter_card_shadow_width"
         android:right="@dimen/adapter_card_shadow_width"
         android:top="@dimen/adapter_card_shadow_width"/>
@@ -26,7 +26,7 @@
   <item>
     <shape>
       <padding
-        android:bottom="0dp"
+        android:bottom="@dimen/adapter_card_shadow_width"
         android:left="@dimen/adapter_card_shadow_width"
         android:right="@dimen/adapter_card_shadow_width"
         android:top="@dimen/adapter_card_shadow_width"/>
@@ -36,7 +36,7 @@
   <item>
     <shape>
       <padding
-        android:bottom="0dp"
+        android:bottom="@dimen/adapter_card_shadow_width"
         android:left="@dimen/adapter_card_shadow_width"
         android:right="@dimen/adapter_card_shadow_width"
         android:top="@dimen/adapter_card_shadow_width"/>
@@ -46,7 +46,7 @@
   <item>
     <shape>
       <padding
-        android:bottom="0dp"
+        android:bottom="@dimen/adapter_card_shadow_width"
         android:left="@dimen/adapter_card_shadow_width"
         android:right="@dimen/adapter_card_shadow_width"
         android:top="@dimen/adapter_card_shadow_width"/>

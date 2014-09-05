@@ -2,14 +2,19 @@ package com.mhacks.android.data.model;
 
 import android.os.Parcel;
 
+import com.google.common.base.Equivalence;
+import com.google.common.base.Function;
 import com.mhacks.android.data.sync.Synchronize;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 8/2/14.
@@ -94,17 +99,30 @@ public class Event extends DataClass<Event> {
   public Event setLocation(Venue location) {
     return builderPut(LOCATION, location);
   }
+
+  public static final Equivalence<ParseObject> SAME_DAY = Equivalence.equals().onResultOf(new Function<ParseObject, Object>() {
+    @Override
+    public Object apply(ParseObject input) {
+      Calendar calendar = GregorianCalendar.getInstance();
+      calendar.setTime(input.getDate(TIME));
+
+      calendar.set(Calendar.HOUR_OF_DAY, 0);
+      calendar.set(Calendar.MINUTE, 0);
+
+      return calendar;
+    }
+  });
   
   public static ParseQuery<Event> query() {
-    return remoteQuery().fromLocalDatastore();
-  }
-
-  public static ParseQuery<Event> remoteQuery() {
-    ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+    ParseQuery<Event> query = remoteQuery().fromLocalDatastore();
     query.include(IMAGE);
     query.include(HOST);
     query.include(LOCATION);
     return query;
+  }
+
+  public static ParseQuery<Event> remoteQuery() {
+    return ParseQuery.getQuery(Event.class);
   }
 
   public static final Creator<Event> CREATOR = new Creator<Event>() {
