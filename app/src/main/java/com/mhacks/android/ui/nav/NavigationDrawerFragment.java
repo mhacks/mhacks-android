@@ -31,7 +31,6 @@ import android.widget.TextView;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
-import com.mhacks.android.R;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.LoginActivity;
 import com.mhacks.android.ui.announcements.AnnouncementsFragment;
@@ -41,6 +40,7 @@ import com.mhacks.android.ui.concierge.ConciergeFragment;
 import com.mhacks.android.ui.map.MapFragment;
 import com.mhacks.android.ui.messages.ThreadsFragment;
 import com.mhacks.android.ui.schedule.ScheduleFragment;
+import com.mhacks.iv.android.R;
 
 import java.util.Arrays;
 import java.util.List;

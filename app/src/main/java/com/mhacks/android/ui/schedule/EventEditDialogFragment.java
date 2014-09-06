@@ -14,13 +14,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.google.common.base.Optional;
-import com.mhacks.android.R;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.android.data.model.Venue;
 import com.mhacks.android.ui.common.Util;
 import com.mhacks.android.ui.common.parse.ParseAdapter;
 import com.mhacks.android.ui.common.parse.ViewHolder;
+import com.mhacks.iv.android.R;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mhacks.android.R;
+import com.google.android.gms.internal.iv.android.R;
 import com.mhacks.android.data.model.Award;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.MainActivity;

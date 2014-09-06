@@ -41,11 +41,11 @@ android {
   }
 
   defaultConfig {
-    applicationId "com.mhacks.android"
+    applicationId "com.mhacks.iv.android"
     minSdkVersion 14
     targetSdkVersion 20
-    versionCode 1
-    versionName "1.0"
+    versionCode ((int)(System.currentTimeMillis()/1000))
+    versionName "3.0.0"
     resValue "string", "parse_application_id", parse_application_id
     resValue "string", "parse_client_key", parse_client_key
     resValue "string", "firebase_url", firebase_url

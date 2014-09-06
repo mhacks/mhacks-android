@@ -11,8 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.mhacks.android.R;
+import com.mhacks.iv.android.R;
 
 import java.util.List;
 

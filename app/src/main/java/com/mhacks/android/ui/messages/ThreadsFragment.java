@@ -15,10 +15,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.firebase.client.Firebase;
-import com.mhacks.android.R;
 import com.mhacks.android.data.firebase.MessageThread;
 import com.mhacks.android.data.firebase.ThreadMessage;
 import com.mhacks.android.data.model.User;
+import com.mhacks.iv.android.R;
 import com.viewpagerindicator.TitlePageIndicator;
 
 /**

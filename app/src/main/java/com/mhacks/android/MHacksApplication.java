@@ -12,6 +12,7 @@ import com.mhacks.android.data.model.Trash;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.model.Venue;
 import com.mhacks.android.ui.MainActivity;
+import com.mhacks.iv.android.R;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;

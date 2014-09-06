@@ -17,10 +17,10 @@ import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
-import com.mhacks.android.R;
 import com.mhacks.android.data.firebase.ThreadMessage;
 import com.mhacks.android.ui.common.CircleTransform;
 import com.mhacks.android.ui.common.FirebaseListAdapter;
+import com.mhacks.iv.android.R;
 import com.squareup.picasso.Picasso;
 
 /**

@@ -9,10 +9,10 @@ import android.view.Menu;
 
 import com.bugsnag.android.Bugsnag;
 import com.mhacks.android.GeofenceBroadcastReceiver;
-import com.mhacks.android.R;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.nav.NavItem;
 import com.mhacks.android.ui.nav.NavigationDrawerFragment;
+import com.mhacks.iv.android.R;
 
 import java.util.Date;
 

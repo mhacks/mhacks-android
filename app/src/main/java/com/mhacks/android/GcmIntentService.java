@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.mhacks.android.ui.MainActivity;
+import com.mhacks.iv.android.R;
 
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 8/6/14.
