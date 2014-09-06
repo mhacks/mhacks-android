@@ -26,6 +26,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/27/14.
@@ -111,11 +112,14 @@ public class ScheduleFragment extends Fragment implements
     header.setVisibility(hasSectionHeader ? View.VISIBLE : View.GONE);
     footer.setVisibility(hasSectionFooter ? View.VISIBLE : View.GONE);
 
+    Date timeTime = event.getTime();
+    timeTime.setTime(timeTime.getTime() + 14400000); // Offset, quick hack
+
     title.setText(event.getTitle());
     details.setText(event.getDetails());
     host.setText(event.getHost().getTitle());
-    date.setText(new SimpleDateFormat("EEEE").format(event.getTime()));
-    time.setText(Util.Time.roundTimeAndFormat(event.getTime(), 2));
+    date.setText(new SimpleDateFormat("EEEE").format(timeTime));
+    time.setText(Util.Time.roundTimeAndFormat(timeTime, 2));
   }
 
   @Override
