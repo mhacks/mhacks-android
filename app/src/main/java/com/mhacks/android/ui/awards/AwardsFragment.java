@@ -11,12 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.gms.internal.iv.android.R;
 import com.mhacks.android.data.model.Award;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.MainActivity;
 import com.mhacks.android.ui.common.parse.ParseAdapter;
 import com.mhacks.android.ui.common.parse.ViewHolder;
+import com.mhacks.iv.android.R;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
