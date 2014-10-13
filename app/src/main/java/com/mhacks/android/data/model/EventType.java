@@ -38,6 +38,27 @@ public class EventType extends ParseObject implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-
+        parcel.writeString(getObjectId());
+        parcel.writeString(getColor());
+        parcel.writeString(getTitle());
     }
+
+    public static final Creator<EventType> CREATOR = new Creator<EventType>() {
+        @Override
+        public EventType createFromParcel(Parcel source) {
+            return new EventType(source);
+        }
+
+        @Override
+        public EventType[] newArray(int size) {
+            return new EventType[size];
+        }
+    };
+
+    private EventType(Parcel source) {
+        setObjectId(source.readString());
+        setColor(source.readString());
+        setTitle(source.readString());
+    }
+
 }

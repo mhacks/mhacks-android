@@ -29,6 +29,24 @@ public class Location extends ParseObject implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(getObjectId());
+        parcel.writeString(getName());
+    }
 
+    public static final Creator<Location> CREATOR = new Creator<Location>() {
+        @Override
+        public Location createFromParcel(Parcel source) {
+            return new Location(source);
+        }
+
+        @Override
+        public Location[] newArray(int size) {
+            return new Location[size];
+        }
+    };
+
+    private Location(Parcel source) {
+        setObjectId(source.readString());
+        setName(source.readString());
     }
 }

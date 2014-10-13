@@ -75,6 +75,29 @@ public class Sponsor extends ParseObject implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(getObjectId());
+        parcel.writeString(getDescription());
+        parcel.writeParcelable(getLocation(), i);
+        parcel.writeValue(getLogo());
+        parcel.writeString(getName());
+        parcel.writeParcelable(getTier(), i);
+        parcel.writeString(getWebsite());
+    }
 
+    public static final Creator<Sponsor> CREATOR = new Creator<Sponsor>() {
+        @Override
+        public Sponsor createFromParcel(Parcel source) {
+            return new Sponsor(source);
+        }
+
+        @Override
+        public Sponsor[] newArray(int size) {
+            return new Sponsor[size];
+        }
+    };
+
+    private Sponsor(Parcel source) {
+        //check for exception/error at runtime
+        setLogo((ParseFile) source.readValue(ParseFile.class.getClassLoader()));
     }
 }

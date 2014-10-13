@@ -38,6 +38,26 @@ public class SponsorTier extends ParseObject implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(getObjectId());
+        parcel.writeInt(getLevel());
+        parcel.writeString(getName());
+    }
 
+    public static final Creator<SponsorTier> CREATOR = new Creator<SponsorTier>() {
+        @Override
+        public SponsorTier createFromParcel(Parcel source) {
+            return new SponsorTier(source);
+        }
+
+        @Override
+        public SponsorTier[] newArray(int size) {
+            return new SponsorTier[size];
+        }
+    };
+
+    private SponsorTier(Parcel source) {
+        setObjectId(source.readString());
+        setLevel(source.readInt());
+        setName(source.readString());
     }
 }
