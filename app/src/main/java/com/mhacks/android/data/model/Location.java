@@ -7,7 +7,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 /**
- * Created by Omkar on 10/13/2014.
+ * Created by Omkar Moghe on 10/13/2014.
  */
 @ParseClassName("Location")
 public class Location extends ParseObject implements Parcelable{
