@@ -5,8 +5,6 @@ import android.util.Log;
 
 import com.bugsnag.android.Bugsnag;
 import com.google.common.collect.Lists;
-import com.mhacks.android.data.model.DataClass;
-import com.mhacks.android.data.model.Trash;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;

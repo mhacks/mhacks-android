@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.bugsnag.android.Bugsnag;
 import com.google.common.collect.ImmutableList;
-import com.mhacks.android.data.model.User;
 import com.mhacks.iv.android.R;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;

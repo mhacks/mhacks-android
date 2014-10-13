@@ -3,7 +3,6 @@ package com.mhacks.android.data.firebase;
 import com.firebase.client.Firebase;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
-import com.mhacks.android.data.model.User;
 
 import java.util.Map;
 import java.util.regex.Pattern;

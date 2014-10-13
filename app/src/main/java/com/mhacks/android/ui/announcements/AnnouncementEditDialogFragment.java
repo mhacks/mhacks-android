@@ -13,9 +13,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.common.base.Optional;
-import com.mhacks.android.data.model.Announcement;
-import com.mhacks.android.data.model.Sponsor;
-import com.mhacks.android.data.model.Venue;
 import com.mhacks.android.ui.common.parse.ParseAdapter;
 import com.mhacks.android.ui.common.parse.ViewHolder;
 import com.mhacks.iv.android.R;

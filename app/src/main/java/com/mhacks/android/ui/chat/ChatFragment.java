@@ -21,7 +21,6 @@ import com.firebase.client.Firebase;
 import com.firebase.client.Query;
 import com.mhacks.android.data.firebase.ChatMessage;
 import com.mhacks.android.data.firebase.ChatRoom;
-import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.common.CircleTransform;
 import com.mhacks.android.ui.common.FirebaseListAdapter;
 import com.mhacks.iv.android.R;

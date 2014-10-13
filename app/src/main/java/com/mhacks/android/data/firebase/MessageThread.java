@@ -2,7 +2,6 @@ package com.mhacks.android.data.firebase;
 
 import com.firebase.client.Firebase;
 import com.google.common.collect.ImmutableMap;
-import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.messages.ThreadsFragment;
 
 import java.util.Map;

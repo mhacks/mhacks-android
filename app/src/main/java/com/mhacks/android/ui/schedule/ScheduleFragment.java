@@ -15,8 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mhacks.android.data.model.Event;
-import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.MainActivity;
 import com.mhacks.android.ui.common.Util;
 import com.mhacks.android.ui.common.parse.ParseAdapter;
