@@ -6,13 +6,13 @@ import com.parse.ParseObject;
 import java.util.Date;
 
 /**
- * Created by Omid on 10/13/14.
+ * Created by Omid Ghomeshi on 10/13/14.
  */
 @ParseClassName("CountdownItem")
 public class CountdownItem extends ParseObject {
 
-    public static final String TIME_COL  = "Time";
-    public static final String TITLE_COL = "Title";
+    public static final String TIME_COL  = "time";
+    public static final String TITLE_COL = "title";
 
     public Date getTime() {
         return getDate(TIME_COL);
