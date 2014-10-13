@@ -39,7 +39,29 @@ public class CountdownItem extends ParseObject implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeString(getObjectId());
+        parcel.writeValue(getTime());
+        parcel.writeString(getTitle());
     }
+
+    public static final Creator<CountdownItem> CREATOR = new Creator<CountdownItem>() {
+        @Override
+        public CountdownItem createFromParcel(Parcel source) {
+            return new CountdownItem(source);
+        }
+
+        @Override
+        public CountdownItem[] newArray(int size) {
+            return new CountdownItem[size];
+        }
+    };
+
+    private CountdownItem(Parcel source) {
+        setObjectId(source.readString());
+        setTime((Date)source.readValue(Date.class.getClassLoader()));
+        setTitle(source.readString());
+    }
+
+
 }
