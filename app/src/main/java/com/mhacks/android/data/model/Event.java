@@ -1,5 +1,8 @@
 package com.mhacks.android.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
@@ -11,7 +14,7 @@ import java.util.Date;
  * Created by Omid Ghomeshi on 10/13/14.
  */
 @ParseClassName("Event")
-public class Event extends ParseObject {
+public class Event extends ParseObject implements Parcelable {
 
     public static final String CATEGORY_COL   = "category";
     public static final String DETAILS_COL    = "details";
@@ -77,4 +80,13 @@ public class Event extends ParseObject {
         put(TITLE_COL, title);
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+    }
 }

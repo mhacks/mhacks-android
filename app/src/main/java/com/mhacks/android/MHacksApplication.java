@@ -3,7 +3,14 @@ package com.mhacks.android;
 import android.app.Application;
 
 import com.bugsnag.android.Bugsnag;
+import com.mhacks.android.data.model.Announcement;
+import com.mhacks.android.data.model.Award;
 import com.mhacks.android.data.model.CountdownItem;
+import com.mhacks.android.data.model.Event;
+import com.mhacks.android.data.model.EventType;
+import com.mhacks.android.data.model.Location;
+import com.mhacks.android.data.model.Sponsor;
+import com.mhacks.android.data.model.SponsorTier;
 import com.mhacks.android.ui.MainActivity;
 import com.mhacks.iv.android.R;
 import com.parse.Parse;
@@ -26,8 +33,14 @@ public class MHacksApplication extends Application {
 
         sApplication = this;
 
-        /*New Data*/
+        ParseObject.registerSubclass(Announcement.class);
+        ParseObject.registerSubclass(Award.class);
         ParseObject.registerSubclass(CountdownItem.class);
+        ParseObject.registerSubclass(Event.class);
+        ParseObject.registerSubclass(EventType.class);
+        ParseObject.registerSubclass(Location.class);
+        ParseObject.registerSubclass(Sponsor.class);
+        ParseObject.registerSubclass(SponsorTier.class);
 
         Parse.enableLocalDatastore(this);
         Parse.initialize(this,
