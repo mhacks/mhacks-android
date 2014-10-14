@@ -6,7 +6,6 @@ import com.bugsnag.android.Bugsnag;
 import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.Award;
 import com.mhacks.android.data.model.CountdownItem;
-import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.EventType;
 import com.mhacks.android.data.model.Location;
 import com.mhacks.android.data.model.Sponsor;

@@ -73,7 +73,35 @@ public class Award extends ParseObject implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(getObjectId());
+        parcel.writeString(getDescription());
+        parcel.writeString(getPrize());
+        parcel.writeParcelable(getSponsor(), i);
+        parcel.writeString(getTitle());
+        parcel.writeInt(getValue());
+        parcel.writeString(getWebsite());
+    }
 
+    public static final Creator<Award> CREATOR = new Creator<Award>() {
+        @Override
+        public Award createFromParcel(Parcel source) {
+            return new Award(source);
+        }
+
+        @Override
+        public Award[] newArray(int size) {
+            return new Award[size];
+        }
+    };
+
+    private Award(Parcel source) {
+        setObjectId(source.readString());
+        setDescription(source.readString());
+        setPrize(source.readString());
+        setSponsor((Sponsor) source.readParcelable(Sponsor.class.getClassLoader()));
+        setTitle(source.readString());
+        setValue(source.readInt());
+        setWebsite(source.readString());
     }
 }

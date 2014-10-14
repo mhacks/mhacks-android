@@ -2,11 +2,13 @@ package com.mhacks.android.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.Date;
 
@@ -15,6 +17,7 @@ import java.util.Date;
  */
 @ParseClassName("Event")
 public class Event extends ParseObject implements Parcelable {
+    private static final String TAG = "Event";
 
     public static final String CATEGORY_COL   = "category";
     public static final String DETAILS_COL    = "details";
@@ -86,7 +89,41 @@ public class Event extends ParseObject implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(getObjectId());
+        parcel.writeParcelable(getCategory(), i);
+        parcel.writeString(getDetails());
+        parcel.writeInt(getDuration());
+        parcel.writeParcelable(getHost(), i);
+        parcel.writeString(getLocations().toString()); //JSONArray to string.
+        parcel.writeValue(getStartTime());
+        parcel.writeString(getTitle());
+    }
 
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel source) {
+            return new Event(source);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
+
+    private Event(Parcel source) {
+        try {
+            setObjectId(source.readString());
+            setCategory((EventType) source.readParcelable(EventType.class.getClassLoader()));
+            setDetails(source.readString());
+            setDuration(source.readInt());
+            setHost((Sponsor) source.readParcelable(Sponsor.class.getClassLoader()));
+            setLocations(new JSONArray(source.readString()));
+            setStartTime((Date) source.readValue(Date.class.getClassLoader()));
+            setTitle(source.readString());
+        } catch (JSONException e) {
+            Log.e(TAG, "JSON done goofed", e);
+        }
     }
 }
