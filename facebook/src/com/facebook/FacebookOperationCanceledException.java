@@ -20,6 +20,7 @@ package com.facebook;
  * An Exception indicating that an operation was canceled before it completed.
  */
 public class FacebookOperationCanceledException extends FacebookException {
+
     static final long serialVersionUID = 1;
 
     /**

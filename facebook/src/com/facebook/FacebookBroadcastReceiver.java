@@ -4,13 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.facebook.internal.NativeProtocol;
 
 /**
  * This class implements a simple BroadcastReceiver designed to listen for broadcast notifications from the
  * Facebook app. At present, these notifications consistent of success/failure notifications for photo upload
  * operations that happen in the background.
- *
+ * <p/>
  * Applications may subclass this class and register it in their AndroidManifest.xml, listening on the
  * com.facebook.platform.AppCallResultBroadcast action.
  */
@@ -25,7 +26,8 @@ public class FacebookBroadcastReceiver extends BroadcastReceiver {
 
             if (NativeProtocol.isErrorResult(intent)) {
                 onFailedAppCall(appCallId, action, extras);
-            } else {
+            }
+            else {
                 onSuccessfulAppCall(appCallId, action, extras);
             }
         }

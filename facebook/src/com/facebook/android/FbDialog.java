@@ -18,6 +18,7 @@ package com.facebook.android;
 
 import android.content.Context;
 import android.os.Bundle;
+
 import com.facebook.FacebookDialogException;
 import com.facebook.FacebookException;
 import com.facebook.FacebookOperationCanceledException;
@@ -29,6 +30,7 @@ import com.facebook.widget.WebDialog;
  */
 @Deprecated
 public class FbDialog extends WebDialog {
+
     private DialogListener mListener;
 
     public FbDialog(Context context, String url, DialogListener listener) {
@@ -46,7 +48,7 @@ public class FbDialog extends WebDialog {
     }
 
     public FbDialog(Context context, String action, Bundle parameters, DialogListener listener,
-            int theme) {
+                    int theme) {
         super(context, action, parameters, theme, null);
         setDialogListener(listener);
     }
@@ -68,15 +70,19 @@ public class FbDialog extends WebDialog {
 
         if (values != null) {
             mListener.onComplete(values);
-        } else {
+        }
+        else {
             if (error instanceof FacebookDialogException) {
                 FacebookDialogException facebookDialogException = (FacebookDialogException) error;
                 DialogError dialogError = new DialogError(facebookDialogException.getMessage(),
-                        facebookDialogException.getErrorCode(), facebookDialogException.getFailingUrl());
+                                                          facebookDialogException.getErrorCode(),
+                                                          facebookDialogException.getFailingUrl());
                 mListener.onError(dialogError);
-            } else if (error instanceof FacebookOperationCanceledException) {
+            }
+            else if (error instanceof FacebookOperationCanceledException) {
                 mListener.onCancel();
-            } else {
+            }
+            else {
                 FacebookError facebookError = new FacebookError(error.getMessage());
                 mListener.onFacebookError(facebookError);
             }

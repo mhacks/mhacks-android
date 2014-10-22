@@ -20,7 +20,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.*;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 
 /**
  * com.facebook.internal is solely for the use of other packages within the Facebook SDK for Android. Use of
@@ -28,18 +33,22 @@ import android.os.*;
  * any time.
  */
 abstract public class PlatformServiceClient implements ServiceConnection {
-    private final Context context;
-    private final Handler handler;
-    private CompletedListener listener;
-    private boolean running;
-    private Messenger sender;
-    private int requestMessage;
-    private int replyMessage;
-    private final String applicationId;
-    private final int protocolVersion;
 
-    public PlatformServiceClient(Context context, int requestMessage, int replyMessage, int protocolVersion,
-            String applicationId) {
+    private final Context           context;
+    private final Handler           handler;
+    private       CompletedListener listener;
+    private       boolean           running;
+    private       Messenger         sender;
+    private       int               requestMessage;
+    private       int               replyMessage;
+    private final String            applicationId;
+    private final int               protocolVersion;
+
+    public PlatformServiceClient(Context context,
+                                 int requestMessage,
+                                 int replyMessage,
+                                 int protocolVersion,
+                                 String applicationId) {
         Context applicationContext = context.getApplicationContext();
 
         this.context = (applicationContext != null) ? applicationContext : context;
@@ -70,7 +79,8 @@ abstract public class PlatformServiceClient implements ServiceConnection {
         }
 
         // Make sure that the service can handle the requested protocol version
-        int availableVersion = NativeProtocol.getLatestAvailableProtocolVersionForService(context, protocolVersion);
+        int availableVersion = NativeProtocol.getLatestAvailableProtocolVersionForService(context,
+                                                                                          protocolVersion);
         if (availableVersion == NativeProtocol.NO_PROTOCOL_AVAILABLE) {
             return false;
         }
@@ -78,7 +88,8 @@ abstract public class PlatformServiceClient implements ServiceConnection {
         Intent intent = NativeProtocol.createPlatformServiceIntent(context);
         if (intent == null) {
             return false;
-        } else {
+        }
+        else {
             running = true;
             context.bindService(intent, this, Context.BIND_AUTO_CREATE);
             return true;
@@ -113,7 +124,8 @@ abstract public class PlatformServiceClient implements ServiceConnection {
 
         try {
             sender.send(request);
-        } catch (RemoteException e) {
+        }
+        catch (RemoteException e) {
             callback(null);
         }
     }
@@ -126,7 +138,8 @@ abstract public class PlatformServiceClient implements ServiceConnection {
             String errorType = extras.getString(NativeProtocol.STATUS_ERROR_TYPE);
             if (errorType != null) {
                 callback(null);
-            } else {
+            }
+            else {
                 callback(extras);
             }
             context.unbindService(this);
@@ -146,6 +159,7 @@ abstract public class PlatformServiceClient implements ServiceConnection {
     }
 
     public interface CompletedListener {
+
         void completed(Bundle result);
     }
 }

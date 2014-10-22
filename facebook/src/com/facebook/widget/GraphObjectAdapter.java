@@ -22,60 +22,81 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.widget.*;
+import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.SectionIndexer;
+import android.widget.TextView;
+
 import com.facebook.FacebookException;
 import com.facebook.android.R;
 import com.facebook.internal.ImageDownloader;
 import com.facebook.internal.ImageRequest;
 import com.facebook.internal.ImageResponse;
 import com.facebook.model.GraphObject;
+
 import org.json.JSONObject;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.Collator;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements SectionIndexer {
-    private static final int DISPLAY_SECTIONS_THRESHOLD = 1;
-    private static final int HEADER_VIEW_TYPE = 0;
-    private static final int GRAPH_OBJECT_VIEW_TYPE = 1;
-    private static final int ACTIVITY_CIRCLE_VIEW_TYPE = 2;
-    private static final int MAX_PREFETCHED_PICTURES = 20;
 
-    private static final String ID = "id";
-    private static final String NAME = "name";
+    private static final int DISPLAY_SECTIONS_THRESHOLD = 1;
+    private static final int HEADER_VIEW_TYPE           = 0;
+    private static final int GRAPH_OBJECT_VIEW_TYPE     = 1;
+    private static final int ACTIVITY_CIRCLE_VIEW_TYPE  = 2;
+    private static final int MAX_PREFETCHED_PICTURES    = 20;
+
+    private static final String ID      = "id";
+    private static final String NAME    = "name";
     private static final String PICTURE = "picture";
 
     private final Map<String, ImageRequest> pendingRequests = new HashMap<String, ImageRequest>();
     private final LayoutInflater inflater;
-    private List<String> sectionKeys = new ArrayList<String>();
+    private List<String>              sectionKeys           = new ArrayList<String>();
     private Map<String, ArrayList<T>> graphObjectsBySection = new HashMap<String, ArrayList<T>>();
-    private Map<String, T> graphObjectsById = new HashMap<String, T>();
-    private boolean displaySections;
-    private List<String> sortFields;
-    private String groupByField;
-    private boolean showPicture;
-    private boolean showCheckbox;
-    private Filter<T> filter;
-    private DataNeededListener dataNeededListener;
+    private Map<String, T>            graphObjectsById      = new HashMap<String, T>();
+    private boolean              displaySections;
+    private List<String>         sortFields;
+    private String               groupByField;
+    private boolean              showPicture;
+    private boolean              showCheckbox;
+    private Filter<T>            filter;
+    private DataNeededListener   dataNeededListener;
     private GraphObjectCursor<T> cursor;
-    private Context context;
-    private Map<String, ImageResponse> prefetchedPictureCache = new HashMap<String, ImageResponse>();
-    private ArrayList<String> prefetchedProfilePictureIds = new ArrayList<String>();
+    private Context              context;
+    private Map<String, ImageResponse> prefetchedPictureCache      =
+            new HashMap<String, ImageResponse>();
+    private ArrayList<String>          prefetchedProfilePictureIds = new ArrayList<String>();
     private OnErrorListener onErrorListener;
 
     public interface DataNeededListener {
+
         public void onDataNeeded();
     }
 
     public interface OnErrorListener {
+
         void onError(GraphObjectAdapter<?> adapter, FacebookException error);
     }
 
     public static class SectionAndItem<T extends GraphObject> {
+
         public String sectionKey;
-        public T graphObject;
+        public T      graphObject;
 
         public enum Type {
             GRAPH_OBJECT,
@@ -91,15 +112,18 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
         public Type getType() {
             if (sectionKey == null) {
                 return Type.ACTIVITY_CIRCLE;
-            } else if (graphObject == null) {
+            }
+            else if (graphObject == null) {
                 return Type.SECTION_HEADER;
-            } else {
+            }
+            else {
                 return Type.GRAPH_OBJECT;
             }
         }
     }
 
     interface Filter<T> {
+
         boolean includeItem(T graphObject);
     }
 
@@ -264,8 +288,10 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
         Object o = graphObject.getProperty(PICTURE);
         if (o instanceof String) {
             uri = (String) o;
-        } else if (o instanceof JSONObject) {
-            ItemPicture itemPicture = GraphObject.Factory.create((JSONObject) o).cast(ItemPicture.class);
+        }
+        else if (o instanceof JSONObject) {
+            ItemPicture itemPicture =
+                    GraphObject.Factory.create((JSONObject) o).cast(ItemPicture.class);
             ItemPictureData data = itemPicture.getData();
             if (data != null) {
                 uri = data.getUrl();
@@ -275,7 +301,8 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
         if (uri != null) {
             try {
                 return new URI(uri);
-            } catch (URISyntaxException e) {
+            }
+            catch (URISyntaxException e) {
             }
         }
         return null;
@@ -285,7 +312,8 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
         TextView result = (TextView) convertView;
 
         if (result == null) {
-            result = (TextView) inflater.inflate(R.layout.com_facebook_picker_list_section_header, null);
+            result = (TextView) inflater.inflate(R.layout.com_facebook_picker_list_section_header,
+                                                 null);
         }
 
         result.setText(sectionHeader);
@@ -310,7 +338,8 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
         if (result == null) {
             result = inflater.inflate(R.layout.com_facebook_picker_activity_circle_row, null);
         }
-        ProgressBar activityCircle = (ProgressBar) result.findViewById(R.id.com_facebook_picker_row_activity_circle);
+        ProgressBar activityCircle =
+                (ProgressBar) result.findViewById(R.id.com_facebook_picker_row_activity_circle);
         activityCircle.setVisibility(View.VISIBLE);
 
         return result;
@@ -327,20 +356,24 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
     protected View createGraphObjectView(T graphObject) {
         View result = inflater.inflate(getGraphObjectRowLayoutId(graphObject), null);
 
-        ViewStub checkboxStub = (ViewStub) result.findViewById(R.id.com_facebook_picker_checkbox_stub);
+        ViewStub checkboxStub =
+                (ViewStub) result.findViewById(R.id.com_facebook_picker_checkbox_stub);
         if (checkboxStub != null) {
             if (!getShowCheckbox()) {
                 checkboxStub.setVisibility(View.GONE);
-            } else {
+            }
+            else {
                 CheckBox checkBox = (CheckBox) checkboxStub.inflate();
                 updateCheckboxState(checkBox, false);
             }
         }
 
-        ViewStub profilePicStub = (ViewStub) result.findViewById(R.id.com_facebook_picker_profile_pic_stub);
+        ViewStub profilePicStub =
+                (ViewStub) result.findViewById(R.id.com_facebook_picker_profile_pic_stub);
         if (!getShowPicture()) {
             profilePicStub.setVisibility(View.GONE);
-        } else {
+        }
+        else {
             ImageView imageView = (ImageView) profilePicStub.inflate();
             imageView.setVisibility(View.VISIBLE);
         }
@@ -364,7 +397,8 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
             if (subtitle != null) {
                 subtitleView.setText(subtitle, TextView.BufferType.SPANNABLE);
                 subtitleView.setVisibility(View.VISIBLE);
-            } else {
+            }
+            else {
                 subtitleView.setVisibility(View.GONE);
             }
         }
@@ -378,14 +412,16 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
             URI pictureURI = getPictureUriOfGraphObject(graphObject);
 
             if (pictureURI != null) {
-                ImageView profilePic = (ImageView) view.findViewById(R.id.com_facebook_picker_image);
+                ImageView profilePic =
+                        (ImageView) view.findViewById(R.id.com_facebook_picker_image);
 
                 // See if we have already pre-fetched this; if not, download it.
                 if (prefetchedPictureCache.containsKey(id)) {
                     ImageResponse response = prefetchedPictureCache.get(id);
                     profilePic.setImageBitmap(response.getBitmap());
                     profilePic.setTag(response.getRequest().getImageUri());
-                } else {
+                }
+                else {
                     downloadProfilePicture(id, pictureURI, profilePic);
                 }
             }
@@ -435,14 +471,18 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
 
         // Note: these dimensions are in pixels, not dips
         ViewGroup.LayoutParams layoutParams = picture.getLayoutParams();
-        return String.format(Locale.US, "picture.height(%d).width(%d)", layoutParams.height, layoutParams.width);
+        return String.format(Locale.US,
+                             "picture.height(%d).width(%d)",
+                             layoutParams.height,
+                             layoutParams.width);
     }
 
 
     private boolean shouldShowActivityCircleCell() {
         // We show the "more data" activity circle cell if we have a listener to request more data,
         // we are expecting more data, and we have some data already (i.e., not on a fresh query).
-        return (cursor != null) && cursor.areMoreObjectsAvailable() && (dataNeededListener != null) && !isEmpty();
+        return (cursor != null) && cursor.areMoreObjectsAvailable() &&
+               (dataNeededListener != null) && !isEmpty();
     }
 
     private void rebuildSections() {
@@ -506,13 +546,15 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
             List<T> section = graphObjectsBySection.get(sectionKey);
             if (position >= 0 && position < section.size()) {
                 graphObject = graphObjectsBySection.get(sectionKey).get(position);
-            } else {
+            }
+            else {
                 // We are off the end; we must be adding an activity circle to indicate more data is coming.
                 assert dataNeededListener != null && cursor.areMoreObjectsAvailable();
                 // We return null for both to indicate this.
                 return new SectionAndItem<T>(null, null);
             }
-        } else {
+        }
+        else {
             // Count through the sections; the "0" position in each section is the header. We decrement
             // position each time we skip forward a certain number of elements, including the header.
             for (String key : sectionKeys) {
@@ -536,7 +578,8 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
         if (sectionKey != null) {
             // Note: graphObject will be null if this represents a section header.
             return new SectionAndItem<T>(sectionKey, graphObject);
-        } else {
+        }
+        else {
             throw new IndexOutOfBoundsException("position");
         }
     }
@@ -554,14 +597,16 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
             if (key.equals(sectionKey)) {
                 found = true;
                 break;
-            } else {
+            }
+            else {
                 position += graphObjectsBySection.get(key).size();
             }
         }
 
         if (!found) {
             return -1;
-        } else if (graphObject == null) {
+        }
+        else if (graphObject == null) {
             // null represents the header for a section; we counted this header in position earlier,
             // so subtract it back out.
             return position - (displaySections ? 1 : 0);
@@ -623,7 +668,9 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
     @Override
     public Object getItem(int position) {
         SectionAndItem<T> sectionAndItem = getSectionAndItem(position);
-        return (sectionAndItem.getType() == SectionAndItem.Type.GRAPH_OBJECT) ? sectionAndItem.graphObject : null;
+        return (sectionAndItem.getType() == SectionAndItem.Type.GRAPH_OBJECT)
+                ? sectionAndItem.graphObject
+                : null;
     }
 
     @Override
@@ -637,7 +684,8 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
             if (id != null) {
                 try {
                     return Long.parseLong(id);
-                } catch (NumberFormatException e) {
+                }
+                catch (NumberFormatException e) {
                     // NOOP
                 }
             }
@@ -688,7 +736,8 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
     public Object[] getSections() {
         if (displaySections) {
             return sectionKeys.toArray();
-        } else {
+        }
+        else {
             return new Object[0];
         }
     }
@@ -708,8 +757,10 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
     public int getSectionForPosition(int position) {
         SectionAndItem<T> sectionAndItem = getSectionAndItem(position);
         if (sectionAndItem != null &&
-                sectionAndItem.getType() != SectionAndItem.Type.ACTIVITY_CIRCLE) {
-            return Math.max(0, Math.min(sectionKeys.indexOf(sectionAndItem.sectionKey), sectionKeys.size() - 1));
+            sectionAndItem.getType() != SectionAndItem.Type.ACTIVITY_CIRCLE) {
+            return Math.max(0,
+                            Math.min(sectionKeys.indexOf(sectionAndItem.sectionKey),
+                                     sectionKeys.size() - 1));
         }
         return 0;
     }
@@ -729,7 +780,9 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
         return result;
     }
 
-    private void downloadProfilePicture(final String profileId, URI pictureURI, final ImageView imageView) {
+    private void downloadProfilePicture(final String profileId,
+                                        URI pictureURI,
+                                        final ImageView imageView) {
         if (pictureURI == null) {
             return;
         }
@@ -747,15 +800,16 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
                 imageView.setImageResource(getDefaultPicture());
             }
 
-            ImageRequest.Builder builder = new ImageRequest.Builder(context.getApplicationContext(), pictureURI)
-                    .setCallerTag(this)
-                    .setCallback(
-                            new ImageRequest.Callback() {
-                                @Override
-                                public void onCompleted(ImageResponse response) {
-                                    processImageResponse(response, profileId, imageView);
-                                }
-                            });
+            ImageRequest.Builder builder =
+                    new ImageRequest.Builder(context.getApplicationContext(), pictureURI)
+                            .setCallerTag(this)
+                            .setCallback(
+                                    new ImageRequest.Callback() {
+                                        @Override
+                                        public void onCompleted(ImageResponse response) {
+                                            processImageResponse(response, profileId, imageView);
+                                        }
+                                    });
 
             ImageRequest newRequest = builder.build();
             pendingRequests.put(profileId, newRequest);
@@ -773,7 +827,9 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
         }
     }
 
-    private void processImageResponse(ImageResponse response, String graphObjectId, ImageView imageView) {
+    private void processImageResponse(ImageResponse response,
+                                      String graphObjectId,
+                                      ImageView imageView) {
         pendingRequests.remove(graphObjectId);
         if (response.getError() != null) {
             callOnErrorListener(response.getError());
@@ -790,7 +846,8 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
                 }
                 prefetchedPictureCache.put(graphObjectId, response);
             }
-        } else if (graphObjectId.equals(imageView.getTag())) {
+        }
+        else if (graphObjectId.equals(imageView.getTag())) {
             Exception error = response.getError();
             Bitmap bitmap = response.getBitmap();
             if (error == null && bitmap != null) {
@@ -800,8 +857,10 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
         }
     }
 
-    private static int compareGraphObjects(GraphObject a, GraphObject b, Collection<String> sortFields,
-            Collator collator) {
+    private static int compareGraphObjects(GraphObject a,
+                                           GraphObject b,
+                                           Collection<String> sortFields,
+                                           Collator collator) {
         for (String sortField : sortFields) {
             String sa = (String) a.getProperty(sortField);
             String sb = (String) b.getProperty(sortField);
@@ -811,7 +870,8 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
                 if (result != 0) {
                     return result;
                 }
-            } else if (!(sa == null && sb == null)) {
+            }
+            else if (!(sa == null && sb == null)) {
                 return (sa == null) ? -1 : 1;
             }
         }
@@ -821,11 +881,13 @@ class GraphObjectAdapter<T extends GraphObject> extends BaseAdapter implements S
 
     // Graph object type to navigate the JSON that sometimes comes back instead of a URL string
     private interface ItemPicture extends GraphObject {
+
         ItemPictureData getData();
     }
 
     // Graph object type to navigate the JSON that sometimes comes back instead of a URL string
     private interface ItemPictureData extends GraphObject {
+
         String getUrl();
     }
 }

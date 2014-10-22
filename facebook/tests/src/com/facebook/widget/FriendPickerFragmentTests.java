@@ -23,6 +23,7 @@ import android.test.suitebuilder.annotation.MediumTest;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ListView;
+
 import com.facebook.TestBlocker;
 import com.facebook.TestSession;
 import com.facebook.sdk.tests.R;
@@ -30,7 +31,9 @@ import com.facebook.sdk.tests.R;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class FriendPickerFragmentTests extends FragmentTestCase<FriendPickerFragmentTests.TestActivity> {
+public class FriendPickerFragmentTests
+        extends FragmentTestCase<FriendPickerFragmentTests.TestActivity> {
+
     public FriendPickerFragmentTests() {
         super(TestActivity.class);
     }
@@ -77,7 +80,8 @@ public class FriendPickerFragmentTests extends FragmentTestCase<FriendPickerFrag
         runAndBlockOnUiThread(0, new Runnable() {
             @Override
             public void run() {
-                getActivity().setContentToLayout(R.layout.friend_picker_test_layout_1, R.id.friend_picker_fragment);
+                getActivity().setContentToLayout(R.layout.friend_picker_test_layout_1,
+                                                 R.id.friend_picker_fragment);
             }
         });
 
@@ -132,13 +136,14 @@ public class FriendPickerFragmentTests extends FragmentTestCase<FriendPickerFrag
         });
 
         // We should have at least one item in the list by now.
-        ListView listView = (ListView) fragment.getView().findViewById(R.id.com_facebook_picker_list_view);
+        ListView listView =
+                (ListView) fragment.getView().findViewById(R.id.com_facebook_picker_list_view);
         assertNotNull(listView);
         View firstChild = listView.getChildAt(0);
         assertNotNull(firstChild);
 
         // Assert our state before we touch anything.
-        CheckBox checkBox = (CheckBox)listView.findViewById(R.id.com_facebook_picker_checkbox);
+        CheckBox checkBox = (CheckBox) listView.findViewById(R.id.com_facebook_picker_checkbox);
         assertNotNull(checkBox);
         assertFalse(checkBox.isChecked());
         assertEquals(0, fragment.getSelection().size());
@@ -162,7 +167,9 @@ public class FriendPickerFragmentTests extends FragmentTestCase<FriendPickerFrag
         assertFalse(checkBox.isChecked());
     }
 
-    public static class TestActivity extends FragmentTestCase.TestFragmentActivity<FriendPickerFragment> {
+    public static class TestActivity
+            extends FragmentTestCase.TestFragmentActivity<FriendPickerFragment> {
+
         public TestActivity() {
             super(FriendPickerFragment.class);
         }

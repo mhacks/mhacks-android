@@ -18,20 +18,26 @@ package com.facebook;
 
 import android.os.Handler;
 
-import java.util.*;
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * RequestBatch contains a list of Request objects that can be sent to Facebook in a single round-trip.
  */
 public class RequestBatch extends AbstractList<Request> {
+
     private static AtomicInteger idGenerator = new AtomicInteger();
 
     private Handler callbackHandler;
-    private List<Request> requests = new ArrayList<Request>();
-    private int timeoutInMilliseconds = 0;
-    private final String id = Integer.valueOf(idGenerator.incrementAndGet()).toString();
-    private List<Callback> callbacks = new ArrayList<Callback>();
+    private       List<Request>  requests              = new ArrayList<Request>();
+    private       int            timeoutInMilliseconds = 0;
+    private final String         id                    =
+            Integer.valueOf(idGenerator.incrementAndGet()).toString();
+    private       List<Callback> callbacks             = new ArrayList<Callback>();
     private String batchApplicationId;
 
     /**
@@ -43,6 +49,7 @@ public class RequestBatch extends AbstractList<Request> {
 
     /**
      * Constructor.
+     *
      * @param requests the requests to add to the batch
      */
     public RequestBatch(Collection<Request> requests) {
@@ -51,6 +58,7 @@ public class RequestBatch extends AbstractList<Request> {
 
     /**
      * Constructor.
+     *
      * @param requests the requests to add to the batch
      */
     public RequestBatch(Request... requests) {
@@ -59,6 +67,7 @@ public class RequestBatch extends AbstractList<Request> {
 
     /**
      * Constructor.
+     *
      * @param requests the requests to add to the batch
      */
     public RequestBatch(RequestBatch requests) {
@@ -70,6 +79,7 @@ public class RequestBatch extends AbstractList<Request> {
 
     /**
      * Gets the timeout to wait for responses from the server before a timeout error occurs.
+     *
      * @return the timeout, in milliseconds; 0 (the default) means do not timeout
      */
     public int getTimeout() {
@@ -78,6 +88,7 @@ public class RequestBatch extends AbstractList<Request> {
 
     /**
      * Sets the timeout to wait for responses from the server before a timeout error occurs.
+     *
      * @param timeoutInMilliseconds the timeout, in milliseconds; 0 means do not timeout
      */
     public void setTimeout(int timeoutInMilliseconds) {
@@ -176,12 +187,10 @@ public class RequestBatch extends AbstractList<Request> {
      * This should only be used if you have transitioned off the UI thread.
      *
      * @return a list of Response objects representing the results of the requests; responses are returned in the same
-     *         order as the requests were specified.
-     *
-     * @throws FacebookException
-     *            If there was an error in the protocol used to communicate with the service
+     * order as the requests were specified.
+     * @throws FacebookException        If there was an error in the protocol used to communicate with the service
      * @throws IllegalArgumentException if the passed in RequestBatch is empty
-     * @throws NullPointerException if the passed in RequestBatch or any of its contents are null
+     * @throws NullPointerException     if the passed in RequestBatch or any of its contents are null
      */
     public final List<Response> executeAndWait() {
         return executeAndWaitImpl();
@@ -196,9 +205,8 @@ public class RequestBatch extends AbstractList<Request> {
      * This should only be called from the UI thread.
      *
      * @return a RequestAsyncTask that is executing the request
-     *
      * @throws IllegalArgumentException if this batch is empty
-     * @throws NullPointerException if any of the contents of this batch are null
+     * @throws NullPointerException     if any of the contents of this batch are null
      */
     public final RequestAsyncTask executeAsync() {
         return executeAsyncImpl();
@@ -209,10 +217,11 @@ public class RequestBatch extends AbstractList<Request> {
      * entire batch completes execution. It will be called after all per-Request callbacks are called.
      */
     public interface Callback {
+
         /**
          * The method that will be called when a batch completes.
          *
-         * @param batch     the RequestBatch containing the Requests which were executed
+         * @param batch the RequestBatch containing the Requests which were executed
          */
         void onBatchCompleted(RequestBatch batch);
     }
@@ -223,12 +232,13 @@ public class RequestBatch extends AbstractList<Request> {
      * {@link com.facebook.Settings#setOnProgressThreshold(long)}.
      */
     public interface OnProgressCallback extends Callback {
+
         /**
          * The method that will be called when a batch makes progress.
          *
-         * @param batch     the RequestBatch containing the Requests which were executed
-         * @param current   the current value of the progress
-         * @param max       the max (target) value of the progress
+         * @param batch   the RequestBatch containing the Requests which were executed
+         * @param current the current value of the progress
+         * @param max     the max (target) value of the progress
          */
         void onBatchProgress(RequestBatch batch, long current, long max);
     }

@@ -21,14 +21,14 @@
               android:layout_height="fill_parent">
 
     <fragment
-            android:id="@+id/place_picker_fragment"
-            android:name="com.facebook.widget.PlacePickerFragment"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            app:show_pictures="false"
-            app:radius_in_meters="75"
-            app:results_limit="5"
-            app:search_text="coffee"
-            app:extra_fields="checkins,general_info"
-            />
+        android:id="@+id/place_picker_fragment"
+        android:name="com.facebook.widget.PlacePickerFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        app:show_pictures="false"
+        app:radius_in_meters="75"
+        app:results_limit="5"
+        app:search_text="coffee"
+        app:extra_fields="checkins,general_info"
+        />
 </LinearLayout>

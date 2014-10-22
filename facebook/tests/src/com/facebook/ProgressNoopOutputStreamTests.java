@@ -17,15 +17,12 @@
 package com.facebook;
 
 import android.test.AndroidTestCase;
-import static android.test.MoreAsserts.*;
-
 import android.test.suitebuilder.annotation.SmallTest;
-import com.facebook.ProgressNoopOutputStream;
 
-import java.lang.Exception;
-import java.lang.Override;
+import static android.test.MoreAsserts.assertEmpty;
 
 public class ProgressNoopOutputStreamTests extends AndroidTestCase {
+
     private ProgressNoopOutputStream stream;
 
     @Override

@@ -20,6 +20,7 @@ import android.os.ConditionVariable;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
+
 import com.facebook.internal.ServerProtocol;
 import com.facebook.internal.Utility;
 
@@ -28,7 +29,9 @@ import java.util.concurrent.Executor;
 
 public final class SettingsTests extends FacebookTestCase {
 
-    @SmallTest @MediumTest @LargeTest
+    @SmallTest
+    @MediumTest
+    @LargeTest
     public void testGetExecutor() {
         final ConditionVariable condition = new ConditionVariable();
 
@@ -43,13 +46,16 @@ public final class SettingsTests extends FacebookTestCase {
         assertTrue(success);
     }
 
-    @SmallTest @MediumTest @LargeTest
+    @SmallTest
+    @MediumTest
+    @LargeTest
     public void testSetExecutor() {
         final ConditionVariable condition = new ConditionVariable();
 
         final Runnable runnable = new Runnable() {
             @Override
-            public void run() { }
+            public void run() {
+            }
         };
 
         final Executor executor = new Executor() {
@@ -69,27 +75,34 @@ public final class SettingsTests extends FacebookTestCase {
 
             boolean success = condition.block(5000);
             assertTrue(success);
-        } finally {
+        }
+        finally {
             Settings.setExecutor(original);
         }
     }
 
-    @SmallTest @MediumTest @LargeTest
+    @SmallTest
+    @MediumTest
+    @LargeTest
     public void testLogdException() {
         try {
             throw new IOException("Simulated error");
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             Utility.logd("SettingsTest", e);
         }
 
         try {
-            throw new IOException((String)null);
-        } catch (IOException e) {
+            throw new IOException((String) null);
+        }
+        catch (IOException e) {
             Utility.logd("SettingsTest", e);
         }
     }
 
-    @SmallTest @MediumTest @LargeTest
+    @SmallTest
+    @MediumTest
+    @LargeTest
     public void testFacebookDomain() {
         Settings.setFacebookDomain("beta.facebook.com");
 
@@ -99,7 +112,9 @@ public final class SettingsTests extends FacebookTestCase {
         Settings.setFacebookDomain("facebook.com");
     }
 
-    @SmallTest @MediumTest @LargeTest
+    @SmallTest
+    @MediumTest
+    @LargeTest
     public void testLoadDefaults() {
         Settings.setApplicationId(null);
         Settings.setClientToken(null);
@@ -110,7 +125,9 @@ public final class SettingsTests extends FacebookTestCase {
         assertEquals("abcdef123456", Settings.getClientToken());
     }
 
-    @SmallTest @MediumTest @LargeTest
+    @SmallTest
+    @MediumTest
+    @LargeTest
     public void testLoadDefaultsDoesNotOverwrite() {
         Settings.setApplicationId("hello");
         Settings.setClientToken("world");

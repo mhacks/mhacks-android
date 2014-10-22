@@ -1,24 +1,24 @@
 <resources>
 
-  <style name="MHacksTheme" parent="android:Theme.Holo">
-    <item name="android:actionBarStyle">@style/action_bar_style</item>
-    <item name="android:textAppearance">@style/text_appearance</item>
-    <item name="android:windowBackground">@color/bg_neutral</item>
-    <!--<item name="android:homeAsUpIndicator">@null</item>-->
-  </style>
+    <style name="MHacksTheme" parent="android:Theme.Holo">
+        <item name="android:actionBarStyle">@style/action_bar_style</item>
+        <item name="android:textAppearance">@style/text_appearance</item>
+        <item name="android:windowBackground">@color/bg_neutral</item>
+        <!--<item name="android:homeAsUpIndicator">@null</item>-->
+    </style>
 
-  <style name="text_appearance" parent="android:TextAppearance">
-    <!--<item name="android:textColor">@android:color/white</item>-->
-  </style>
+    <style name="text_appearance" parent="android:TextAppearance">
+        <!--<item name="android:textColor">@android:color/white</item>-->
+    </style>
 
-  <style name="action_bar_style" parent="android:Widget.Holo.ActionBar.Solid">
-    <item name="android:background">@color/darker_charcoal</item>
-    <item name="android:textSize">18sp</item>
-    <item name="android:textStyle">bold</item>
-  </style>
+    <style name="action_bar_style" parent="android:Widget.Holo.ActionBar.Solid">
+        <item name="android:background">@color/darker_charcoal</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
-  <style name="MHacksLoginTheme" parent="android:Theme.Holo">
+    <style name="MHacksLoginTheme" parent="android:Theme.Holo">
 
-  </style>
+    </style>
 
 </resources>

@@ -24,14 +24,18 @@ import java.io.OutputStream;
 import java.util.Map;
 
 class ProgressOutputStream extends FilterOutputStream implements RequestOutputStream {
+
     private final Map<Request, RequestProgress> progressMap;
-    private final RequestBatch requests;
-    private final long threshold;
+    private final RequestBatch                  requests;
+    private final long                          threshold;
 
     private long batchProgress, lastReportedProgress, maxProgress;
     private RequestProgress currentRequestProgress;
 
-    ProgressOutputStream(OutputStream out, RequestBatch requests, Map<Request, RequestProgress> progressMap, long maxProgress) {
+    ProgressOutputStream(OutputStream out,
+                         RequestBatch requests,
+                         Map<Request, RequestProgress> progressMap,
+                         long maxProgress) {
         super(out);
         this.requests = requests;
         this.progressMap = progressMap;
@@ -59,7 +63,8 @@ class ProgressOutputStream extends FilterOutputStream implements RequestOutputSt
                     final Handler callbackHandler = requests.getCallbackHandler();
 
                     // Keep copies to avoid threading issues
-                    final RequestBatch.OnProgressCallback progressCallback = (RequestBatch.OnProgressCallback) callback;
+                    final RequestBatch.OnProgressCallback progressCallback =
+                            (RequestBatch.OnProgressCallback) callback;
                     if (callbackHandler == null) {
                         progressCallback.onBatchProgress(requests, batchProgress, maxProgress);
                     }
@@ -67,7 +72,9 @@ class ProgressOutputStream extends FilterOutputStream implements RequestOutputSt
                         callbackHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                progressCallback.onBatchProgress(requests, batchProgress, maxProgress);
+                                progressCallback.onBatchProgress(requests,
+                                                                 batchProgress,
+                                                                 maxProgress);
                             }
                         });
                     }
@@ -79,7 +86,7 @@ class ProgressOutputStream extends FilterOutputStream implements RequestOutputSt
     }
 
     public void setCurrentRequest(Request request) {
-        currentRequestProgress = request != null? progressMap.get(request) : null;
+        currentRequestProgress = request != null ? progressMap.get(request) : null;
     }
 
     long getBatchProgress() {

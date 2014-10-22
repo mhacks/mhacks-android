@@ -17,33 +17,35 @@
 package com.facebook;
 
 import android.test.suitebuilder.annotation.LargeTest;
-import com.facebook.model.GraphObject;
 
-import java.util.Date;
+import com.facebook.model.GraphObject;
 
 // These tests relate to serialization/de-serialization of graph objects in a variety of scenarios, rather than
 // to the underlying request/batch plumbing.
 public class GraphRequestTests extends FacebookTestCase {
 
-    protected String[] getPermissionsForDefaultTestSession()
-    {
-        return new String[] { "email", "publish_actions", "read_stream" };
-    };
+    protected String[] getPermissionsForDefaultTestSession() {
+        return new String[]{"email", "publish_actions", "read_stream"};
+    }
+
+    ;
 
     @LargeTest
     public void testCommentRoundTrip() {
         TestSession session = openTestSessionWithSharedUser();
 
         GraphObject status = createStatusUpdate("");
-        GraphObject createdStatus = batchCreateAndGet(session, "me/feed", status, null, GraphObject.class);
+        GraphObject createdStatus =
+                batchCreateAndGet(session, "me/feed", status, null, GraphObject.class);
         String statusID = (String) createdStatus.getProperty("id");
 
         GraphObject comment = GraphObject.Factory.create();
         final String commentMessage = "It truly is a wonderful status update.";
         comment.setProperty("message", commentMessage);
 
-        GraphObject createdComment1 = batchCreateAndGet(session, statusID + "/comments", comment, null,
-                GraphObject.class);
+        GraphObject createdComment1 =
+                batchCreateAndGet(session, statusID + "/comments", comment, null,
+                                  GraphObject.class);
         assertNotNull(createdComment1);
 
         String comment1ID = (String) createdComment1.getProperty("id");
@@ -54,8 +56,9 @@ public class GraphRequestTests extends FacebookTestCase {
 
         // Try posting the same comment to the same status update. We need to clear its ID first.
         createdComment1.removeProperty("id");
-        GraphObject createdComment2 = batchCreateAndGet(session, statusID + "/comments", createdComment1, null,
-                GraphObject.class);
+        GraphObject createdComment2 =
+                batchCreateAndGet(session, statusID + "/comments", createdComment1, null,
+                                  GraphObject.class);
         assertNotNull(createdComment2);
 
         String comment2ID = (String) createdComment2.getProperty("id");

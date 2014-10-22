@@ -20,9 +20,10 @@ import android.os.Handler;
 import android.os.HandlerThread;
 
 public class TestBlocker extends HandlerThread {
-    private Exception exception;
-    public int signals;
-    private volatile Handler handler;
+
+    private          Exception exception;
+    public           int       signals;
+    private volatile Handler   handler;
 
     private TestBlocker() {
         super("TestBlocker");
@@ -37,7 +38,8 @@ public class TestBlocker extends HandlerThread {
             while (blocker.handler == null) {
                 try {
                     blocker.wait();
-                } catch (InterruptedException e) {
+                }
+                catch (InterruptedException e) {
                 }
             }
         }
@@ -49,7 +51,8 @@ public class TestBlocker extends HandlerThread {
     public void run() {
         try {
             super.run();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             setException(e);
         }
         synchronized (this) {
@@ -84,7 +87,8 @@ public class TestBlocker extends HandlerThread {
             while (getException() == null && signals < numSignals) {
                 try {
                     wait();
-                } catch (InterruptedException e) {
+                }
+                catch (InterruptedException e) {
                 }
             }
             signals = 0;

@@ -18,25 +18,19 @@ package com.facebook;
 
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
-import com.facebook.Request;
-import com.facebook.RequestBatch;
-import com.facebook.RequestProgress;
-
-import static android.test.MoreAsserts.*;
 
 import java.io.ByteArrayOutputStream;
-import java.lang.Exception;
-import java.lang.Override;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ProgressOutputStreamTests extends AndroidTestCase {
+
     private static final int MAX_PROGRESS = 10;
 
     private Request r1, r2;
     private Map<Request, RequestProgress> progressMap;
-    private RequestBatch requests;
-    private ProgressOutputStream stream;
+    private RequestBatch                  requests;
+    private ProgressOutputStream          stream;
 
     @Override
     protected void setUp() throws Exception {

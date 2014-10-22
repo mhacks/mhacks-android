@@ -23,10 +23,15 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.MediumTest;
-import com.facebook.*;
+
+import com.facebook.FacebookException;
+import com.facebook.Request;
+import com.facebook.TestSession;
 import com.facebook.model.GraphPlace;
 
-public class GraphObjectPagingLoaderTests extends FragmentTestCase<GraphObjectPagingLoaderTests.TestActivity> {
+public class GraphObjectPagingLoaderTests
+        extends FragmentTestCase<GraphObjectPagingLoaderTests.TestActivity> {
+
     public GraphObjectPagingLoaderTests() {
         super(TestActivity.class);
     }
@@ -44,7 +49,8 @@ public class GraphObjectPagingLoaderTests extends FragmentTestCase<GraphObjectPa
         location.setLatitude(47.6204);
         location.setLongitude(-122.3491);
 
-        final Request request = Request.newPlacesSearchRequest(session, location, 1000, 5, null, null);
+        final Request request =
+                Request.newPlacesSearchRequest(session, location, 1000, 5, null, null);
 
         // Need to run this on blocker thread so callbacks are made there.
         runOnBlockerThread(new Runnable() {
@@ -89,7 +95,8 @@ public class GraphObjectPagingLoaderTests extends FragmentTestCase<GraphObjectPa
         location.setLatitude(-1.0);
         location.setLongitude(-1.0);
 
-        final Request request = Request.newPlacesSearchRequest(session, location, 10, 5, null, null);
+        final Request request =
+                Request.newPlacesSearchRequest(session, location, 10, 5, null, null);
 
         // Need to run this on blocker thread so callbacks are made there.
         runOnBlockerThread(new Runnable() {
@@ -108,10 +115,12 @@ public class GraphObjectPagingLoaderTests extends FragmentTestCase<GraphObjectPa
     }
 
     private class CountingCallback implements
-            GraphObjectPagingLoader.OnErrorListener, LoaderManager.LoaderCallbacks<SimpleGraphObjectCursor<GraphPlace>> {
-        public int onLoadFinishedCount;
-        public int onLoadResetCount;
-        public int onErrorCount;
+                                   GraphObjectPagingLoader.OnErrorListener,
+                                   LoaderManager.LoaderCallbacks<SimpleGraphObjectCursor<GraphPlace>> {
+
+        public int                                 onLoadFinishedCount;
+        public int                                 onLoadResetCount;
+        public int                                 onErrorCount;
         public SimpleGraphObjectCursor<GraphPlace> results;
 
         private TestBlocker testBlocker = getTestBlocker();
@@ -124,15 +133,16 @@ public class GraphObjectPagingLoaderTests extends FragmentTestCase<GraphObjectPa
 
         @Override
         public Loader<SimpleGraphObjectCursor<GraphPlace>> onCreateLoader(int id, Bundle args) {
-            GraphObjectPagingLoader<GraphPlace> loader = new GraphObjectPagingLoader<GraphPlace>(getActivity(),
-                    GraphPlace.class);
+            GraphObjectPagingLoader<GraphPlace> loader =
+                    new GraphObjectPagingLoader<GraphPlace>(getActivity(),
+                                                            GraphPlace.class);
             loader.setOnErrorListener(this);
             return loader;
         }
 
         @Override
         public void onLoadFinished(Loader<SimpleGraphObjectCursor<GraphPlace>> loader,
-                SimpleGraphObjectCursor<GraphPlace> data) {
+                                   SimpleGraphObjectCursor<GraphPlace> data) {
             results = data;
             ++onLoadFinishedCount;
             testBlocker.signal();
@@ -145,10 +155,12 @@ public class GraphObjectPagingLoaderTests extends FragmentTestCase<GraphObjectPa
         }
     }
 
-    public static class DummyFragment extends Fragment  {
+    public static class DummyFragment extends Fragment {
+
     }
 
     public static class TestActivity extends FragmentTestCase.TestFragmentActivity<DummyFragment> {
+
         public TestActivity() {
             super(DummyFragment.class);
         }

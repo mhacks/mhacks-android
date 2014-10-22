@@ -18,7 +18,9 @@ package com.facebook;
 
 import android.app.Activity;
 
-public class FacebookTestCase extends FacebookActivityTestCase<FacebookTestCase.FacebookTestActivity> {
+public class FacebookTestCase
+        extends FacebookActivityTestCase<FacebookTestCase.FacebookTestActivity> {
+
     public FacebookTestCase() {
         super(FacebookTestCase.FacebookTestActivity.class);
         Settings.addLoggingBehavior(LoggingBehavior.REQUESTS);
@@ -26,6 +28,7 @@ public class FacebookTestCase extends FacebookActivityTestCase<FacebookTestCase.
     }
 
     public static class FacebookTestActivity extends Activity {
+
     }
 }
 

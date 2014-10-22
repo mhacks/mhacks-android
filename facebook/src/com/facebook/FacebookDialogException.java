@@ -20,8 +20,9 @@ package com.facebook;
  * Represents an error condition relating to displaying a Facebook Web dialog.
  */
 public class FacebookDialogException extends FacebookException {
+
     static final long serialVersionUID = 1;
-    private int errorCode;
+    private int    errorCode;
     private String failingUrl;
 
     /**
@@ -45,6 +46,7 @@ public class FacebookDialogException extends FacebookException {
 
     /**
      * Gets the URL that the dialog was trying to load.
+     *
      * @return the URL
      */
     public String getFailingUrl() {

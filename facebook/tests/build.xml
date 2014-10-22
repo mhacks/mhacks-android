@@ -4,7 +4,7 @@
     <!-- The local.properties file is created and updated by the 'android' tool.
          It contains the path to the SDK. It should *NOT* be checked into
          Version Control Systems. -->
-    <property file="local.properties" />
+    <property file="local.properties"/>
 
     <!-- The ant.properties file can be created by you. It is only edited by the
          'android' tool to add properties to it.
@@ -26,7 +26,7 @@
          application and should be checked into Version Control Systems.
 
          -->
-    <property file="ant.properties" />
+    <property file="ant.properties"/>
 
     <!-- The project.properties file is created and updated by the 'android'
          tool, as well as ADT.
@@ -37,13 +37,13 @@
 
          This file is an integral part of the build system for your
          application and should be checked into Version Control Systems. -->
-    <loadproperties srcFile="project.properties" />
+    <loadproperties srcFile="project.properties"/>
 
     <!-- quick check on sdk.dir -->
     <fail
-            message="sdk.dir is missing. Make sure to generate local.properties using 'android update project' or to inject it through an env var"
-            unless="sdk.dir"
-    />
+        message="sdk.dir is missing. Make sure to generate local.properties using 'android update project' or to inject it through an env var"
+        unless="sdk.dir"
+        />
 
     <!--
         Import per project custom build rules if present at the root of the project.
@@ -57,7 +57,7 @@
             -post-build
             -pre-clean
     -->
-    <import file="custom_rules.xml" optional="true" />
+    <import file="custom_rules.xml" optional="true"/>
 
     <!-- Import the actual build file.
 
@@ -78,24 +78,24 @@
          in order to avoid having your file be overridden by tools such as "android update project"
     -->
     <!-- version-tag: 1 -->
-    <import file="${sdk.dir}/tools/ant/build.xml" />
+    <import file="${sdk.dir}/tools/ant/build.xml"/>
 
     <!-- SDK Tools r15 workaround -->
-    <property name="tested.manifest.package" value="com.facebook.sdk.tests" />
+    <property name="tested.manifest.package" value="com.facebook.sdk.tests"/>
 
     <!-- This seems to have no effect.  The value remains android.test.AndroidTestRunner -->
     <!-- <property name="test.runner" value="android.test.InstrumentationTestRunner" /> -->
 
     <target name="run-tests">
-      <echo>Running tests...</echo>
-      <exec executable="${adb}" failonerror="true">
-        <arg line="${adb.device.arg}" />
-        <arg value="shell" />
-        <arg value="am" />
-        <arg value="instrument" />
-        <arg value="-w" />
-        <!-- was <arg value="${tested.manifest.package}/${test.runner}" /> -->
-        <arg value="${tested.manifest.package}/android.test.InstrumentationTestRunner" />
-      </exec>
+        <echo>Running tests...</echo>
+        <exec executable="${adb}" failonerror="true">
+            <arg line="${adb.device.arg}"/>
+            <arg value="shell"/>
+            <arg value="am"/>
+            <arg value="instrument"/>
+            <arg value="-w"/>
+            <!-- was <arg value="${tested.manifest.package}/${test.runner}" /> -->
+            <arg value="${tested.manifest.package}/android.test.InstrumentationTestRunner"/>
+        </exec>
     </target>
 </project>

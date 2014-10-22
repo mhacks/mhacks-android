@@ -20,19 +20,19 @@ import android.graphics.Bitmap;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
-import com.facebook.RequestBatch;
+
+import com.facebook.internal.CacheableRequestBatch;
 import com.facebook.model.GraphObject;
 import com.facebook.model.GraphPlace;
 import com.facebook.model.GraphUser;
-import com.facebook.internal.CacheableRequestBatch;
 
 import java.io.IOException;
-import java.lang.Override;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class BatchRequestTests extends FacebookTestCase {
+
     protected void setUp() throws Exception {
         super.setUp();
 
@@ -40,10 +40,11 @@ public class BatchRequestTests extends FacebookTestCase {
         Request.setDefaultBatchApplicationId(null);
     }
 
-    protected String[] getPermissionsForDefaultTestSession()
-    {
-        return new String[] { "email", "publish_actions", "read_stream" };
-    };
+    protected String[] getPermissionsForDefaultTestSession() {
+        return new String[]{"email", "publish_actions", "read_stream"};
+    }
+
+    ;
 
     @SmallTest
     @MediumTest
@@ -73,7 +74,7 @@ public class BatchRequestTests extends FacebookTestCase {
     public void testCreateNonemptyRequestBatch() {
         Request meRequest = Request.newMeRequest(null, null);
 
-        RequestBatch batch = new RequestBatch(new Request[] { meRequest, meRequest });
+        RequestBatch batch = new RequestBatch(new Request[]{meRequest, meRequest});
         assertEquals(2, batch.size());
         assertEquals(meRequest, batch.get(0));
         assertEquals(meRequest, batch.get(1));
@@ -84,7 +85,8 @@ public class BatchRequestTests extends FacebookTestCase {
     @LargeTest
     public void testBatchWithoutAppIDIsError() {
         Request request1 = new Request(null, "TourEiffel", null, null, new ExpectFailureCallback());
-        Request request2 = new Request(null, "SpaceNeedle", null, null, new ExpectFailureCallback());
+        Request request2 =
+                new Request(null, "SpaceNeedle", null, null, new ExpectFailureCallback());
         Request.executeBatchAndWait(request1, request2);
     }
 
@@ -172,7 +174,8 @@ public class BatchRequestTests extends FacebookTestCase {
         Request getRequest1 = new Request(session, "{result=postRequest1:$.id}");
         Request getRequest2 = new Request(session, "{result=postRequest2:$.id}");
 
-        List<Response> responses = Request.executeBatchAndWait(postRequest1, postRequest2, getRequest1, getRequest2);
+        List<Response> responses =
+                Request.executeBatchAndWait(postRequest1, postRequest2, getRequest1, getRequest2);
         assertNotNull(responses);
         assertEquals(4, responses.size());
         assertNoErrors(responses);
@@ -182,8 +185,10 @@ public class BatchRequestTests extends FacebookTestCase {
         assertNotNull(retrievedStatusUpdate1);
         assertNotNull(retrievedStatusUpdate2);
 
-        assertEquals(statusUpdate1.getProperty("message"), retrievedStatusUpdate1.getProperty("message"));
-        assertEquals(statusUpdate2.getProperty("message"), retrievedStatusUpdate2.getProperty("message"));
+        assertEquals(statusUpdate1.getProperty("message"),
+                     retrievedStatusUpdate1.getProperty("message"));
+        assertEquals(statusUpdate2.getProperty("message"),
+                     retrievedStatusUpdate2.getProperty("message"));
     }
 
     @LargeTest
@@ -292,7 +297,8 @@ public class BatchRequestTests extends FacebookTestCase {
             if (shouldSucceed) {
                 assertNull(response.getError());
                 assertNotNull(response.getGraphObject());
-            } else {
+            }
+            else {
                 assertNotNull(response.getError());
                 assertNull(response.getGraphObject());
             }
@@ -315,7 +321,8 @@ public class BatchRequestTests extends FacebookTestCase {
 
     @LargeTest
     public void testBatchUploadPhoto() {
-        TestSession session = openTestSessionWithSharedUserAndPermissions(null, "user_photos", "publish_actions");
+        TestSession session =
+                openTestSessionWithSharedUserAndPermissions(null, "user_photos", "publish_actions");
 
         final int image1Size = 120;
         final int image2Size = 150;
@@ -330,7 +337,10 @@ public class BatchRequestTests extends FacebookTestCase {
         Request getRequest1 = new Request(session, "{result=uploadRequest1:$.id}");
         Request getRequest2 = new Request(session, "{result=uploadRequest2:$.id}");
 
-        List<Response> responses = Request.executeBatchAndWait(uploadRequest1, uploadRequest2, getRequest1, getRequest2);
+        List<Response> responses = Request.executeBatchAndWait(uploadRequest1,
+                                                               uploadRequest2,
+                                                               getRequest1,
+                                                               getRequest2);
         assertNotNull(responses);
         assertEquals(4, responses.size());
         assertNoErrors(responses);
@@ -425,7 +435,8 @@ public class BatchRequestTests extends FacebookTestCase {
         Request requestMe = Request.newMeRequest(session, null);
         Request requestMyFriends = Request.newMyFriendsRequest(session, null);
 
-        CacheableRequestBatch batch = new CacheableRequestBatch(new Request[] { requestMyFriends, requestMe });
+        CacheableRequestBatch batch =
+                new CacheableRequestBatch(new Request[]{requestMyFriends, requestMe});
         batch.setCacheKeyOverride("MyFriends");
 
         // Running the request with empty cache should hit the server.
@@ -677,14 +688,15 @@ public class BatchRequestTests extends FacebookTestCase {
             public void onBatchProgress(RequestBatch batch, long current, long max) {
                 if (current == max) {
                     batchProgressCount.incrementAndGet();
-                } else if (current > max) {
+                }
+                else if (current > max) {
                     batchProgressCount.set(0);
                 }
             }
         });
 
         batch.executeAndWait();
-        
+
         assertEquals(1, requestProgressCount.get());
         assertEquals(1, requestCompletedCount.get());
         assertEquals(1, batchProgressCount.get());

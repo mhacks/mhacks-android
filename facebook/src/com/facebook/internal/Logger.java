@@ -17,6 +17,7 @@
 package com.facebook.internal;
 
 import android.util.Log;
+
 import com.facebook.LoggingBehavior;
 import com.facebook.Settings;
 
@@ -29,12 +30,13 @@ import java.util.Map;
  * any time.
  */
 public class Logger {
-    public static final String LOG_TAG_BASE = "FacebookSDK.";
+
+    public static final  String                  LOG_TAG_BASE     = "FacebookSDK.";
     private static final HashMap<String, String> stringsToReplace = new HashMap<String, String>();
 
     private final LoggingBehavior behavior;
-    private final String tag;
-    private StringBuilder contents;
+    private final String          tag;
+    private       StringBuilder   contents;
     private int priority = Log.DEBUG;
 
     // Note that the mapping of replaced strings is never emptied, so it should be used only for things that
@@ -96,7 +98,14 @@ public class Logger {
     }
 
     public void setPriority(int value) {
-        Validate.oneOf(value, "value", Log.ASSERT, Log.DEBUG, Log.ERROR, Log.INFO, Log.VERBOSE, Log.WARN);
+        Validate.oneOf(value,
+                       "value",
+                       Log.ASSERT,
+                       Log.DEBUG,
+                       Log.ERROR,
+                       Log.INFO,
+                       Log.VERBOSE,
+                       Log.WARN);
 
         priority = value;
     }

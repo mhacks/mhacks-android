@@ -19,25 +19,31 @@ package com.facebook;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Looper;
+
 import com.facebook.internal.Utility;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class SessionTestsBase extends FacebookTestCase {
-    public static final int DEFAULT_TIMEOUT_MILLISECONDS = 10 * 1000;
-    static final int SIMULATED_WORKING_MILLISECONDS = 20;
+
+    public static final int DEFAULT_TIMEOUT_MILLISECONDS     = 10 * 1000;
+    static final        int SIMULATED_WORKING_MILLISECONDS   = 20;
     public static final int STRAY_CALLBACK_WAIT_MILLISECONDS = 50;
 
     public ScriptedSession createScriptedSessionOnBlockerThread(TokenCachingStrategy cachingStrategy) {
-        return createScriptedSessionOnBlockerThread(Utility.getMetadataApplicationId(getActivity()), cachingStrategy);
+        return createScriptedSessionOnBlockerThread(Utility.getMetadataApplicationId(getActivity()),
+                                                    cachingStrategy);
     }
 
     ScriptedSession createScriptedSessionOnBlockerThread(final String applicationId,
-            final TokenCachingStrategy cachingStrategy) {
+                                                         final TokenCachingStrategy cachingStrategy) {
         class MutableState {
+
             ScriptedSession session;
         }
         ;
@@ -46,7 +52,8 @@ public class SessionTestsBase extends FacebookTestCase {
         runOnBlockerThread(new Runnable() {
             @Override
             public void run() {
-                mutable.session = new ScriptedSession(getActivity(), applicationId, cachingStrategy);
+                mutable.session =
+                        new ScriptedSession(getActivity(), applicationId, cachingStrategy);
             }
         }, true);
 
@@ -56,22 +63,29 @@ public class SessionTestsBase extends FacebookTestCase {
     public static void stall(int stallMsec) {
         try {
             Thread.sleep(stallMsec);
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e) {
             fail("InterruptedException while stalling");
         }
     }
 
     public class ScriptedSession extends Session {
-        private static final long serialVersionUID = 1L;
-        private final LinkedList<AuthorizeResult> pendingAuthorizations = new LinkedList<AuthorizeResult>();
+
+        private static final long                        serialVersionUID      = 1L;
+        private final        LinkedList<AuthorizeResult> pendingAuthorizations =
+                new LinkedList<AuthorizeResult>();
         private AuthorizationRequest lastRequest;
         private AuthorizeResult currentAuthorization = null;
 
-        public ScriptedSession(Context currentContext, String applicationId, TokenCachingStrategy tokenCachingStrategy) {
+        public ScriptedSession(Context currentContext,
+                               String applicationId,
+                               TokenCachingStrategy tokenCachingStrategy) {
             super(currentContext, applicationId, tokenCachingStrategy);
         }
 
-        public void addAuthorizeResult(String token, List<String> permissions, AccessTokenSource source) {
+        public void addAuthorizeResult(String token,
+                                       List<String> permissions,
+                                       AccessTokenSource source) {
             addAuthorizeResult(AccessToken.createFromString(token, permissions, source));
         }
 
@@ -117,19 +131,23 @@ public class SessionTestsBase extends FacebookTestCase {
                         fail("Missing call to addScriptedAuthorization");
                     }
                     if (!currentAuthorization.leaveAsPending) {
-                        finishAuthOrReauth(currentAuthorization.token, currentAuthorization.exception);
+                        finishAuthOrReauth(currentAuthorization.token,
+                                           currentAuthorization.exception);
                     }
                 }
             });
         }
 
         private class AuthorizeResult {
-            final AccessToken token;
-            final Exception exception;
-            final List<String> resultingPermissions;
-            final boolean leaveAsPending;
 
-            private AuthorizeResult(AccessToken token, Exception exception, List<String> permissions) {
+            final AccessToken  token;
+            final Exception    exception;
+            final List<String> resultingPermissions;
+            final boolean      leaveAsPending;
+
+            private AuthorizeResult(AccessToken token,
+                                    Exception exception,
+                                    List<String> permissions) {
                 this.token = token;
                 this.exception = exception;
                 this.resultingPermissions = permissions;
@@ -158,8 +176,9 @@ public class SessionTestsBase extends FacebookTestCase {
     }
 
     public static class SessionStatusCallbackRecorder implements Session.StatusCallback {
-        private final BlockingQueue<Call> calls = new LinkedBlockingQueue<Call>();
-        volatile boolean isClosed = false;
+
+        private final BlockingQueue<Call> calls    = new LinkedBlockingQueue<Call>();
+        volatile      boolean             isClosed = false;
 
         public void waitForCall(Session session, SessionState state, Exception exception) {
             Call call = null;
@@ -169,7 +188,8 @@ public class SessionTestsBase extends FacebookTestCase {
                 if (call == null) {
                     fail("Did not get a status callback within timeout.");
                 }
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
                 fail("InterruptedException while waiting for status callback: " + e);
             }
 
@@ -177,7 +197,8 @@ public class SessionTestsBase extends FacebookTestCase {
             assertEquals(state, call.state);
             if (exception != null && call.exception != null) {
                 assertEquals(exception.getClass(), call.exception.getClass());
-            } else {
+            }
+            else {
                 // They should both be null if either of them is.
                 assertTrue(exception == call.exception);
             }
@@ -198,13 +219,14 @@ public class SessionTestsBase extends FacebookTestCase {
                 fail("Reauthorize callback called after closed");
             }
             assertEquals("Callback should run on main UI thread", Thread.currentThread(),
-                    Looper.getMainLooper().getThread());
+                         Looper.getMainLooper().getThread());
         }
 
         private static class Call {
-            final Session session;
+
+            final Session      session;
             final SessionState state;
-            final Exception exception;
+            final Exception    exception;
 
             Call(Session session, SessionState state, Exception exception) {
                 this.session = session;
@@ -216,9 +238,10 @@ public class SessionTestsBase extends FacebookTestCase {
     }
 
     public static class MockTokenCachingStrategy extends TokenCachingStrategy {
+
         private final String token;
-        private final long expires_in;
-        private Bundle saved;
+        private final long   expires_in;
+        private       Bundle saved;
 
         MockTokenCachingStrategy() {
             this("FakeToken", DEFAULT_TIMEOUT_MILLISECONDS);
@@ -242,7 +265,9 @@ public class SessionTestsBase extends FacebookTestCase {
                 bundle = new Bundle();
 
                 TokenCachingStrategy.putToken(bundle, token);
-                TokenCachingStrategy.putExpirationMilliseconds(bundle, System.currentTimeMillis() + expires_in);
+                TokenCachingStrategy.putExpirationMilliseconds(bundle,
+                                                               System.currentTimeMillis() +
+                                                               expires_in);
             }
 
             return bundle;

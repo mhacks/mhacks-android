@@ -8,7 +8,8 @@ import java.util.Map;
 import java.util.UUID;
 
 public class NativeAppCallAttachmentStoreTest extends FacebookTestCase {
-    private static final UUID CALL_ID = UUID.randomUUID();
+
+    private static final UUID   CALL_ID         = UUID.randomUUID();
     private static final String ATTACHMENT_NAME = "hello";
 
     private NativeAppCallAttachmentStore storeUnderTest;
@@ -39,7 +40,8 @@ public class NativeAppCallAttachmentStoreTest extends FacebookTestCase {
             Map<String, Bitmap> attachments = createValidAttachment();
             storeUnderTest.addAttachmentsForCall(null, CALL_ID, attachments);
             fail("expected exception");
-        } catch (NullPointerException ex) {
+        }
+        catch (NullPointerException ex) {
             assertTrue(ex.getMessage().contains("context"));
         }
     }
@@ -49,7 +51,8 @@ public class NativeAppCallAttachmentStoreTest extends FacebookTestCase {
             Map<String, Bitmap> attachments = createValidAttachment();
             storeUnderTest.addAttachmentsForCall(getActivity(), null, attachments);
             fail("expected exception");
-        } catch (NullPointerException ex) {
+        }
+        catch (NullPointerException ex) {
             assertTrue(ex.getMessage().contains("callId"));
         }
     }
@@ -61,7 +64,8 @@ public class NativeAppCallAttachmentStoreTest extends FacebookTestCase {
 
             storeUnderTest.addAttachmentsForCall(getActivity(), CALL_ID, attachments);
             fail("expected exception");
-        } catch (NullPointerException ex) {
+        }
+        catch (NullPointerException ex) {
             assertTrue(ex.getMessage().contains("imageAttachments"));
         }
     }
@@ -73,7 +77,8 @@ public class NativeAppCallAttachmentStoreTest extends FacebookTestCase {
 
             storeUnderTest.addAttachmentsForCall(getActivity(), CALL_ID, attachments);
             fail("expected exception");
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex) {
             assertTrue(ex.getMessage().contains("imageAttachments"));
         }
     }
@@ -89,14 +94,16 @@ public class NativeAppCallAttachmentStoreTest extends FacebookTestCase {
     public void testGetAttachmentsDirectory() throws Exception {
         File dir = NativeAppCallAttachmentStore.getAttachmentsDirectory(getActivity());
         assertNotNull(dir);
-        assertTrue(dir.getAbsolutePath().contains(NativeAppCallAttachmentStore.ATTACHMENTS_DIR_NAME));
+        assertTrue(dir.getAbsolutePath()
+                      .contains(NativeAppCallAttachmentStore.ATTACHMENTS_DIR_NAME));
     }
 
     public void testGetAttachmentsDirectoryForCall() throws Exception {
         storeUnderTest.ensureAttachmentsDirectoryExists(getActivity());
         File dir = storeUnderTest.getAttachmentsDirectoryForCall(CALL_ID, false);
         assertNotNull(dir);
-        assertTrue(dir.getAbsolutePath().contains(NativeAppCallAttachmentStore.ATTACHMENTS_DIR_NAME));
+        assertTrue(dir.getAbsolutePath()
+                      .contains(NativeAppCallAttachmentStore.ATTACHMENTS_DIR_NAME));
         assertTrue(dir.getAbsolutePath().contains(CALL_ID.toString()));
     }
 
@@ -104,7 +111,8 @@ public class NativeAppCallAttachmentStoreTest extends FacebookTestCase {
         storeUnderTest.ensureAttachmentsDirectoryExists(getActivity());
         File dir = storeUnderTest.getAttachmentFile(CALL_ID, ATTACHMENT_NAME, false);
         assertNotNull(dir);
-        assertTrue(dir.getAbsolutePath().contains(NativeAppCallAttachmentStore.ATTACHMENTS_DIR_NAME));
+        assertTrue(dir.getAbsolutePath()
+                      .contains(NativeAppCallAttachmentStore.ATTACHMENTS_DIR_NAME));
         assertTrue(dir.getAbsolutePath().contains(CALL_ID.toString()));
         assertTrue(dir.getAbsolutePath().contains(ATTACHMENT_NAME.toString()));
     }

@@ -28,11 +28,12 @@ import java.util.List;
 import java.util.UUID;
 
 public class NativeAppCallContentProviderTest extends FacebookTestCase {
-    private static final String APP_ID = "12345";
-    private static final UUID CALL_ID = UUID.randomUUID();
+
+    private static final String APP_ID  = "12345";
+    private static final UUID   CALL_ID = UUID.randomUUID();
 
     private NativeAppCallContentProvider providerUnderTest;
-    private StubAttachmentStore stubAttachmentStore;
+    private StubAttachmentStore          stubAttachmentStore;
 
     @Override
     public void setUp() throws Exception {
@@ -43,7 +44,9 @@ public class NativeAppCallContentProviderTest extends FacebookTestCase {
 
     public void testGetAttachmentUrl() {
         String url = NativeAppCallContentProvider.getAttachmentUrl(APP_ID, CALL_ID, "foo");
-        assertEquals("content://com.facebook.app.NativeAppCallContentProvider" + APP_ID + "/" + CALL_ID + "/foo", url);
+        assertEquals(
+                "content://com.facebook.app.NativeAppCallContentProvider" + APP_ID + "/" + CALL_ID +
+                "/foo", url);
     }
 
     public void testOnCreate() throws Exception {
@@ -75,7 +78,8 @@ public class NativeAppCallContentProviderTest extends FacebookTestCase {
         try {
             ParcelFileDescriptor pfd = providerUnderTest.openFile(null, "r");
             fail("expected FileNotFoundException");
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e) {
         }
     }
 
@@ -84,7 +88,8 @@ public class NativeAppCallContentProviderTest extends FacebookTestCase {
         try {
             ParcelFileDescriptor pfd = providerUnderTest.openFile(Uri.parse("/"), "r");
             fail("expected FileNotFoundException");
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e) {
         }
     }
 
@@ -93,7 +98,8 @@ public class NativeAppCallContentProviderTest extends FacebookTestCase {
         try {
             ParcelFileDescriptor pfd = providerUnderTest.openFile(Uri.parse("/foo"), "r");
             fail("expected FileNotFoundException");
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e) {
         }
     }
 
@@ -102,16 +108,19 @@ public class NativeAppCallContentProviderTest extends FacebookTestCase {
         try {
             ParcelFileDescriptor pfd = providerUnderTest.openFile(Uri.parse("/foo/bar"), "r");
             fail("expected FileNotFoundException");
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e) {
         }
     }
 
     public void testOpenFileWithUnknownUri() throws Exception {
         try {
             String callId = UUID.randomUUID().toString();
-            ParcelFileDescriptor pfd = providerUnderTest.openFile(Uri.parse("/" + callId + "/bar"), "r");
+            ParcelFileDescriptor pfd =
+                    providerUnderTest.openFile(Uri.parse("/" + callId + "/bar"), "r");
             fail("expected FileNotFoundException");
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e) {
         }
     }
 
@@ -119,7 +128,9 @@ public class NativeAppCallContentProviderTest extends FacebookTestCase {
         String attachmentName = "hi";
 
         stubAttachmentStore.addAttachment(CALL_ID, attachmentName);
-        Uri uri = Uri.parse(NativeAppCallContentProvider.getAttachmentUrl(APP_ID, CALL_ID, attachmentName));
+        Uri uri = Uri.parse(NativeAppCallContentProvider.getAttachmentUrl(APP_ID,
+                                                                          CALL_ID,
+                                                                          attachmentName));
 
         ParcelFileDescriptor pfd = providerUnderTest.openFile(uri, "r");
 
@@ -128,22 +139,26 @@ public class NativeAppCallContentProviderTest extends FacebookTestCase {
     }
 
     class StubAttachmentStore implements NativeAppCallContentProvider.AttachmentDataSource {
-        private List<Pair<UUID, String>> attachments = new ArrayList<Pair<UUID, String>>();
-        private static final String DUMMY_FILE_NAME = "dummyfile";
+
+        private              List<Pair<UUID, String>> attachments     =
+                new ArrayList<Pair<UUID, String>>();
+        private static final String                   DUMMY_FILE_NAME = "dummyfile";
 
         public void addAttachment(UUID callId, String attachmentName) {
             attachments.add(new Pair<UUID, String>(callId, attachmentName));
         }
 
         @Override
-        public File openAttachment(UUID callId, String attachmentName) throws FileNotFoundException {
+        public File openAttachment(UUID callId, String attachmentName)
+                throws FileNotFoundException {
             if (attachments.contains(new Pair<UUID, String>(callId, attachmentName))) {
                 File cacheDir = getActivity().getCacheDir();
                 File dummyFile = new File(cacheDir, DUMMY_FILE_NAME);
                 if (!dummyFile.exists()) {
                     try {
                         dummyFile.createNewFile();
-                    } catch (IOException e) {
+                    }
+                    catch (IOException e) {
                     }
                 }
 

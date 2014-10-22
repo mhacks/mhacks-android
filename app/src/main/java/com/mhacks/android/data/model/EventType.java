@@ -10,10 +10,12 @@ import com.parse.ParseObject;
  * Created by Omkar Moghe on 10/13/2014.
  */
 @ParseClassName("EventType")
-public class EventType extends ParseObject implements Parcelable{
+public class EventType extends ParseObject implements Parcelable {
 
     public static final String COLOR_COL = "color";
     public static final String TITLE_COL = "title";
+
+    public EventType() {}
 
     public String getColor() {
         return getString(COLOR_COL);

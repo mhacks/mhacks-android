@@ -17,11 +17,13 @@
 package com.facebook;
 
 import com.facebook.sdk.tests.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FacebookRequestErrorTests extends FacebookTestCase {
+
     public static final String ERROR_SINGLE_RESPONSE =
             "{\n" +
             "  \"error\": {\n" +
@@ -160,7 +162,8 @@ public class FacebookRequestErrorTests extends FacebookTestCase {
 
     public void testClientException() {
         final String errorMsg = "some error happened";
-        FacebookRequestError error = new FacebookRequestError(null, new FacebookException(errorMsg));
+        FacebookRequestError error =
+                new FacebookRequestError(null, new FacebookException(errorMsg));
         assertEquals(errorMsg, error.getErrorMessage());
         assertEquals(FacebookRequestError.Category.CLIENT, error.getCategory());
         assertEquals(FacebookRequestError.INVALID_ERROR_CODE, error.getErrorCode());
@@ -172,7 +175,9 @@ public class FacebookRequestErrorTests extends FacebookTestCase {
         JSONObject withStatusCode = new JSONObject();
         withStatusCode.put("code", 400);
         FacebookRequestError error =
-                FacebookRequestError.checkResponseAndCreateError(withStatusCode, withStatusCode, null);
+                FacebookRequestError.checkResponseAndCreateError(withStatusCode,
+                                                                 withStatusCode,
+                                                                 null);
         assertNotNull(error);
         assertEquals(400, error.getRequestStatusCode());
         assertEquals(FacebookRequestError.Category.BAD_REQUEST, error.getCategory());
@@ -185,7 +190,9 @@ public class FacebookRequestErrorTests extends FacebookTestCase {
         withStatusCodeAndBody.put("code", 400);
         withStatusCodeAndBody.put("body", originalResponse);
         FacebookRequestError error =
-                FacebookRequestError.checkResponseAndCreateError(withStatusCodeAndBody, originalResponse, null);
+                FacebookRequestError.checkResponseAndCreateError(withStatusCodeAndBody,
+                                                                 originalResponse,
+                                                                 null);
         assertNotNull(error);
         assertEquals(400, error.getRequestStatusCode());
         assertEquals("Unknown path components: /unknown", error.getErrorMessage());
@@ -201,14 +208,17 @@ public class FacebookRequestErrorTests extends FacebookTestCase {
         assertEquals(2, batchResponse.length());
         JSONObject firstResponse = (JSONObject) batchResponse.get(0);
         FacebookRequestError error =
-                FacebookRequestError.checkResponseAndCreateError(firstResponse, batchResponse, null);
+                FacebookRequestError.checkResponseAndCreateError(firstResponse,
+                                                                 batchResponse,
+                                                                 null);
         assertNotNull(error);
         assertEquals(400, error.getRequestStatusCode());
-        assertEquals("An active access token must be used to query information about the current user.",
+        assertEquals(
+                "An active access token must be used to query information about the current user.",
                 error.getErrorMessage());
         assertEquals("OAuthException", error.getErrorType());
         assertEquals(2500, error.getErrorCode());
-        assertTrue(error.getBatchRequestResult() instanceof  JSONArray);
+        assertTrue(error.getBatchRequestResult() instanceof JSONArray);
         assertEquals(FacebookRequestError.Category.BAD_REQUEST, error.getCategory());
         assertEquals(0, error.getUserActionMessageId());
     }
@@ -219,7 +229,9 @@ public class FacebookRequestErrorTests extends FacebookTestCase {
         withStatusCodeAndBody.put("code", 403);
         withStatusCodeAndBody.put("body", originalResponse);
         FacebookRequestError error =
-                FacebookRequestError.checkResponseAndCreateError(withStatusCodeAndBody, originalResponse, null);
+                FacebookRequestError.checkResponseAndCreateError(withStatusCodeAndBody,
+                                                                 originalResponse,
+                                                                 null);
         assertNotNull(error);
         assertEquals(403, error.getRequestStatusCode());
         assertEquals("Application request limit reached", error.getErrorMessage());
@@ -236,7 +248,9 @@ public class FacebookRequestErrorTests extends FacebookTestCase {
         withStatusCodeAndBody.put("code", 500);
         withStatusCodeAndBody.put("body", originalResponse);
         FacebookRequestError error =
-                FacebookRequestError.checkResponseAndCreateError(withStatusCodeAndBody, originalResponse, null);
+                FacebookRequestError.checkResponseAndCreateError(withStatusCodeAndBody,
+                                                                 originalResponse,
+                                                                 null);
         assertNotNull(error);
         assertEquals(500, error.getRequestStatusCode());
         assertEquals("Some Server Error", error.getErrorMessage());
@@ -253,16 +267,20 @@ public class FacebookRequestErrorTests extends FacebookTestCase {
         withStatusCodeAndBody.put("code", 400);
         withStatusCodeAndBody.put("body", originalResponse);
         FacebookRequestError error =
-                FacebookRequestError.checkResponseAndCreateError(withStatusCodeAndBody, originalResponse, null);
+                FacebookRequestError.checkResponseAndCreateError(withStatusCodeAndBody,
+                                                                 originalResponse,
+                                                                 null);
         assertNotNull(error);
         assertEquals(400, error.getRequestStatusCode());
-        assertEquals("(#200) Requires extended permission: publish_actions", error.getErrorMessage());
+        assertEquals("(#200) Requires extended permission: publish_actions",
+                     error.getErrorMessage());
         assertEquals("OAuthException", error.getErrorType());
         assertEquals(200, error.getErrorCode());
         assertEquals(FacebookRequestError.INVALID_ERROR_CODE, error.getSubErrorCode());
         assertTrue(error.getBatchRequestResult() instanceof JSONObject);
         assertEquals(FacebookRequestError.Category.PERMISSION, error.getCategory());
-        assertEquals(R.string.com_facebook_requesterror_permissions, error.getUserActionMessageId());
+        assertEquals(R.string.com_facebook_requesterror_permissions,
+                     error.getUserActionMessageId());
     }
 
     public void testSingleWebLoginError() throws JSONException {
@@ -271,7 +289,9 @@ public class FacebookRequestErrorTests extends FacebookTestCase {
         withStatusCodeAndBody.put("code", 400);
         withStatusCodeAndBody.put("body", originalResponse);
         FacebookRequestError error =
-                FacebookRequestError.checkResponseAndCreateError(withStatusCodeAndBody, originalResponse, null);
+                FacebookRequestError.checkResponseAndCreateError(withStatusCodeAndBody,
+                                                                 originalResponse,
+                                                                 null);
         assertNotNull(error);
         assertEquals(400, error.getRequestStatusCode());
         assertEquals("User need to login", error.getErrorMessage());
@@ -289,7 +309,9 @@ public class FacebookRequestErrorTests extends FacebookTestCase {
         withStatusCodeAndBody.put("code", 400);
         withStatusCodeAndBody.put("body", originalResponse);
         FacebookRequestError error =
-                FacebookRequestError.checkResponseAndCreateError(withStatusCodeAndBody, originalResponse, null);
+                FacebookRequestError.checkResponseAndCreateError(withStatusCodeAndBody,
+                                                                 originalResponse,
+                                                                 null);
         assertNotNull(error);
         assertEquals(400, error.getRequestStatusCode());
         assertEquals("User need to relogin", error.getErrorMessage());
@@ -297,7 +319,8 @@ public class FacebookRequestErrorTests extends FacebookTestCase {
         assertEquals(102, error.getErrorCode());
         assertEquals(FacebookRequestError.INVALID_ERROR_CODE, error.getSubErrorCode());
         assertTrue(error.getBatchRequestResult() instanceof JSONObject);
-        assertEquals(FacebookRequestError.Category.AUTHENTICATION_REOPEN_SESSION, error.getCategory());
+        assertEquals(FacebookRequestError.Category.AUTHENTICATION_REOPEN_SESSION,
+                     error.getCategory());
         assertEquals(R.string.com_facebook_requesterror_reconnect, error.getUserActionMessageId());
     }
 
@@ -307,7 +330,9 @@ public class FacebookRequestErrorTests extends FacebookTestCase {
         withStatusCodeAndBody.put("code", 400);
         withStatusCodeAndBody.put("body", originalResponse);
         FacebookRequestError error =
-                FacebookRequestError.checkResponseAndCreateError(withStatusCodeAndBody, originalResponse, null);
+                FacebookRequestError.checkResponseAndCreateError(withStatusCodeAndBody,
+                                                                 originalResponse,
+                                                                 null);
         assertNotNull(error);
         assertEquals(400, error.getRequestStatusCode());
         assertEquals("User need to relogin", error.getErrorMessage());
@@ -315,7 +340,8 @@ public class FacebookRequestErrorTests extends FacebookTestCase {
         assertEquals(190, error.getErrorCode());
         assertEquals(458, error.getSubErrorCode());
         assertTrue(error.getBatchRequestResult() instanceof JSONObject);
-        assertEquals(FacebookRequestError.Category.AUTHENTICATION_REOPEN_SESSION, error.getCategory());
+        assertEquals(FacebookRequestError.Category.AUTHENTICATION_REOPEN_SESSION,
+                     error.getCategory());
         assertEquals(R.string.com_facebook_requesterror_relogin, error.getUserActionMessageId());
     }
 }

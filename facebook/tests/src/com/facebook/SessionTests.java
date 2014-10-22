@@ -22,6 +22,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
+
 import com.facebook.internal.Utility;
 
 import java.io.IOException;
@@ -47,7 +48,8 @@ public class SessionTests extends SessionTestsBase {
 
             // Should not get here
             assertFalse(true);
-        } catch (NullPointerException e) {
+        }
+        catch (NullPointerException e) {
             // got expected exception
         }
     }
@@ -59,7 +61,8 @@ public class SessionTests extends SessionTestsBase {
         final WaitForBroadcastReceiver receiver0 = new WaitForBroadcastReceiver();
         final WaitForBroadcastReceiver receiver1 = new WaitForBroadcastReceiver();
         final WaitForBroadcastReceiver receiver2 = new WaitForBroadcastReceiver();
-        final LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        final LocalBroadcastManager broadcastManager =
+                LocalBroadcastManager.getInstance(getActivity());
 
         try {
             // Register these on the blocker thread so they will send
@@ -71,16 +74,16 @@ public class SessionTests extends SessionTestsBase {
                     broadcastManager.registerReceiver(receiver0, getActiveSessionAllFilter());
 
                     broadcastManager.registerReceiver(receiver1,
-                            getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_SET));
+                                                      getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_SET));
                     broadcastManager.registerReceiver(receiver1,
-                            getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_OPENED));
+                                                      getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_OPENED));
                     broadcastManager.registerReceiver(receiver1,
-                            getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_CLOSED));
+                                                      getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_CLOSED));
 
                     broadcastManager.registerReceiver(receiver2,
-                            getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_OPENED));
+                                                      getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_OPENED));
                     broadcastManager.registerReceiver(receiver2,
-                            getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_CLOSED));
+                                                      getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_CLOSED));
                 }
             };
             runOnBlockerThread(initialize0, true);
@@ -130,11 +133,11 @@ public class SessionTests extends SessionTestsBase {
                 @Override
                 public void run() {
                     broadcastManager.registerReceiver(receiver1,
-                            getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_OPENED));
+                                                      getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_OPENED));
                     broadcastManager.registerReceiver(receiver1,
-                            getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_OPENED));
+                                                      getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_OPENED));
                     broadcastManager.registerReceiver(receiver1,
-                            getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_OPENED));
+                                                      getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_OPENED));
                 }
             };
             runOnBlockerThread(initialize1, true);
@@ -153,7 +156,8 @@ public class SessionTests extends SessionTestsBase {
             Session.postActiveSessionAction(Session.ACTION_ACTIVE_SESSION_UNSET);
 
             closeBlockerAndAssertSuccess();
-        } finally {
+        }
+        finally {
             broadcastManager.unregisterReceiver(receiver0);
             broadcastManager.unregisterReceiver(receiver1);
             broadcastManager.unregisterReceiver(receiver2);
@@ -171,20 +175,21 @@ public class SessionTests extends SessionTestsBase {
         final WaitForBroadcastReceiver receiverClosed = new WaitForBroadcastReceiver();
         final WaitForBroadcastReceiver receiverSet = new WaitForBroadcastReceiver();
         final WaitForBroadcastReceiver receiverUnset = new WaitForBroadcastReceiver();
-        final LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        final LocalBroadcastManager broadcastManager =
+                LocalBroadcastManager.getInstance(getActivity());
 
         try {
             Runnable initializeOnBlockerThread = new Runnable() {
                 @Override
                 public void run() {
                     broadcastManager.registerReceiver(receiverOpened,
-                            getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_OPENED));
+                                                      getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_OPENED));
                     broadcastManager.registerReceiver(receiverClosed,
-                            getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_CLOSED));
+                                                      getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_CLOSED));
                     broadcastManager.registerReceiver(receiverSet,
-                            getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_SET));
+                                                      getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_SET));
                     broadcastManager.registerReceiver(receiverUnset,
-                            getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_UNSET));
+                                                      getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_UNSET));
                 }
             };
             runOnBlockerThread(initializeOnBlockerThread, true);
@@ -195,9 +200,12 @@ public class SessionTests extends SessionTestsBase {
             assertEquals(null, Session.getActiveSession());
 
             Session session0 = new Session.Builder(getActivity()).
-                    setApplicationId("FakeAppId").
-                    setTokenCachingStrategy(new MockTokenCachingStrategy()).
-                    build();
+                                                                         setApplicationId(
+                                                                                 "FakeAppId")
+                                                                 .
+                                                                         setTokenCachingStrategy(new MockTokenCachingStrategy())
+                                                                 .
+                                                                         build();
             assertEquals(SessionState.CREATED_TOKEN_LOADED, session0.getState());
 
             // For unopened session, we should only see the Set event.
@@ -217,21 +225,31 @@ public class SessionTests extends SessionTestsBase {
 
             // Setting from one opened session to another should deliver a full
             // cycle of events
-            WaitForBroadcastReceiver.incrementExpectCounts(receiverClosed, receiverUnset, receiverSet, receiverOpened);
+            WaitForBroadcastReceiver.incrementExpectCounts(receiverClosed,
+                                                           receiverUnset,
+                                                           receiverSet,
+                                                           receiverOpened);
             Session session1 = new Session.Builder(getActivity()).
-                    setApplicationId("FakeAppId").
-                    setTokenCachingStrategy(new MockTokenCachingStrategy()).
-                    build();
+                                                                         setApplicationId(
+                                                                                 "FakeAppId")
+                                                                 .
+                                                                         setTokenCachingStrategy(new MockTokenCachingStrategy())
+                                                                 .
+                                                                         build();
             assertEquals(SessionState.CREATED_TOKEN_LOADED, session1.getState());
             session1.openForRead(null);
             assertEquals(SessionState.OPENED, session1.getState());
             Session.setActiveSession(session1);
-            WaitForBroadcastReceiver.waitForExpectedCalls(receiverClosed, receiverUnset, receiverSet, receiverOpened);
+            WaitForBroadcastReceiver.waitForExpectedCalls(receiverClosed,
+                                                          receiverUnset,
+                                                          receiverSet,
+                                                          receiverOpened);
             assertEquals(SessionState.CLOSED, session0.getState());
             assertEquals(session1, Session.getActiveSession());
 
             closeBlockerAndAssertSuccess();
-        } finally {
+        }
+        finally {
             broadcastManager.unregisterReceiver(receiverOpened);
             broadcastManager.unregisterReceiver(receiverClosed);
             broadcastManager.unregisterReceiver(receiverSet);
@@ -378,7 +396,8 @@ public class SessionTests extends SessionTestsBase {
     public void testOpenFromTokenCache() {
         SessionStatusCallbackRecorder statusRecorder = new SessionStatusCallbackRecorder();
         String token = "A token less unique than most";
-        MockTokenCachingStrategy cache = new MockTokenCachingStrategy(token, DEFAULT_TIMEOUT_MILLISECONDS);
+        MockTokenCachingStrategy cache =
+                new MockTokenCachingStrategy(token, DEFAULT_TIMEOUT_MILLISECONDS);
         ScriptedSession session = createScriptedSessionOnBlockerThread("app-id", cache);
 
         // Verify state when we have a token in cache.
@@ -447,9 +466,11 @@ public class SessionTests extends SessionTestsBase {
             session.openForRead(new Session.OpenRequest(getActivity()).setCallback(statusRecorder).
                     setPermissions(Arrays.asList(new String[]{"publish_something"})));
             fail("should not reach here without an exception");
-        } catch (FacebookException e) {
+        }
+        catch (FacebookException e) {
             assertTrue(e.getMessage().contains("Cannot pass a publish or manage permission"));
-        } finally {
+        }
+        finally {
             stall(STRAY_CALLBACK_WAIT_MILLISECONDS);
             statusRecorder.close();
         }
@@ -466,7 +487,9 @@ public class SessionTests extends SessionTestsBase {
 
         // Session.open
         final AccessToken openToken = AccessToken
-                .createFromString("Allows playing outside", permissions, AccessTokenSource.TEST_USER);
+                .createFromString("Allows playing outside",
+                                  permissions,
+                                  AccessTokenSource.TEST_USER);
         permissions.add("play_outside");
 
         session.addAuthorizeResult(openToken, "play_outside");
@@ -480,28 +503,36 @@ public class SessionTests extends SessionTestsBase {
 
         // Successful Session.reauthorize with new permissions
         final AccessToken reauthorizeToken = AccessToken.createFromString(
-                "Allows playing outside and eating ice cream", permissions, AccessTokenSource.TEST_USER);
+                "Allows playing outside and eating ice cream",
+                permissions,
+                AccessTokenSource.TEST_USER);
         permissions.add("eat_ice_cream");
 
         session.addAuthorizeResult(reauthorizeToken, "play_outside", "eat_ice_cream");
-        session.requestNewReadPermissions(new Session.NewPermissionsRequest(getActivity(), permissions));
+        session.requestNewReadPermissions(new Session.NewPermissionsRequest(getActivity(),
+                                                                            permissions));
         statusRecorder.waitForCall(session, SessionState.OPENED_TOKEN_UPDATED, null);
 
         verifySessionHasToken(session, reauthorizeToken);
         assertTrue(cache.getSavedState() != null);
-        assertEquals(reauthorizeToken.getToken(), TokenCachingStrategy.getToken(cache.getSavedState()));
+        assertEquals(reauthorizeToken.getToken(),
+                     TokenCachingStrategy.getToken(cache.getSavedState()));
 
         // Failing reauthorization with new permissions
         final Exception reauthorizeException = new Exception("Don't run with scissors");
         permissions.add("run_with_scissors");
 
         session.addAuthorizeResult(reauthorizeException);
-        session.requestNewReadPermissions(new Session.NewPermissionsRequest(getActivity(), permissions));
-        statusRecorder.waitForCall(session, SessionState.OPENED_TOKEN_UPDATED, reauthorizeException);
+        session.requestNewReadPermissions(new Session.NewPermissionsRequest(getActivity(),
+                                                                            permissions));
+        statusRecorder.waitForCall(session,
+                                   SessionState.OPENED_TOKEN_UPDATED,
+                                   reauthorizeException);
 
         // Verify we do not overwrite cache if reauthorize fails
         assertTrue(cache.getSavedState() != null);
-        assertEquals(reauthorizeToken.getToken(), TokenCachingStrategy.getToken(cache.getSavedState()));
+        assertEquals(reauthorizeToken.getToken(),
+                     TokenCachingStrategy.getToken(cache.getSavedState()));
 
         // Wait a bit so we can fail if any unexpected calls arrive on the
         // recorders.
@@ -520,7 +551,9 @@ public class SessionTests extends SessionTestsBase {
 
         // Session.open
         final AccessToken openToken = AccessToken
-                .createFromString("Allows playing outside", permissions, AccessTokenSource.TEST_USER);
+                .createFromString("Allows playing outside",
+                                  permissions,
+                                  AccessTokenSource.TEST_USER);
         permissions.add("play_outside");
 
         session.addAuthorizeResult(openToken, "play_outside");
@@ -534,26 +567,33 @@ public class SessionTests extends SessionTestsBase {
 
         // Successful Session.reauthorize with new permissions
         final AccessToken reauthorizeToken = AccessToken.createFromString(
-                "Allows playing outside and publish eating ice cream", permissions, AccessTokenSource.TEST_USER);
+                "Allows playing outside and publish eating ice cream",
+                permissions,
+                AccessTokenSource.TEST_USER);
         permissions.add("publish_eat_ice_cream");
 
         session.addAuthorizeResult(reauthorizeToken, "play_outside", "publish_eat_ice_cream");
-        session.requestNewPublishPermissions(new Session.NewPermissionsRequest(getActivity(), permissions));
+        session.requestNewPublishPermissions(new Session.NewPermissionsRequest(getActivity(),
+                                                                               permissions));
         statusRecorder.waitForCall(session, SessionState.OPENED_TOKEN_UPDATED, null);
 
         verifySessionHasToken(session, reauthorizeToken);
         assertTrue(cache.getSavedState() != null);
-        assertEquals(reauthorizeToken.getToken(), TokenCachingStrategy.getToken(cache.getSavedState()));
+        assertEquals(reauthorizeToken.getToken(),
+                     TokenCachingStrategy.getToken(cache.getSavedState()));
 
         // Failing reauthorization with publish permissions on a read request
         permissions.add("publish_run_with_scissors");
 
         try {
-            session.requestNewReadPermissions(new Session.NewPermissionsRequest(getActivity(), permissions));
+            session.requestNewReadPermissions(new Session.NewPermissionsRequest(getActivity(),
+                                                                                permissions));
             fail("Should not reach here without an exception");
-        } catch (FacebookException e) {
+        }
+        catch (FacebookException e) {
             assertTrue(e.getMessage().contains("Cannot pass a publish or manage permission"));
-        } finally {
+        }
+        finally {
             stall(STRAY_CALLBACK_WAIT_MILLISECONDS);
             statusRecorder.close();
         }
@@ -575,13 +615,21 @@ public class SessionTests extends SessionTestsBase {
         // Verify state with no token in cache
         assertEquals(SessionState.CREATED, session.getState());
 
-        AccessToken accessToken = AccessToken.createFromExistingAccessToken(token, expirationDate, lastRefreshDate,
-                AccessTokenSource.FACEBOOK_APPLICATION_WEB, permissions);
+        AccessToken accessToken =
+                AccessToken.createFromExistingAccessToken(token,
+                                                          expirationDate,
+                                                          lastRefreshDate,
+                                                          AccessTokenSource.FACEBOOK_APPLICATION_WEB,
+                                                          permissions);
         session.open(accessToken, statusRecorder);
         statusRecorder.waitForCall(session, SessionState.OPENED, null);
 
-        AccessToken expectedToken = new AccessToken(token, expirationDate, permissions, null,
-                AccessTokenSource.FACEBOOK_APPLICATION_WEB, lastRefreshDate);
+        AccessToken expectedToken = new AccessToken(token,
+                                                    expirationDate,
+                                                    permissions,
+                                                    null,
+                                                    AccessTokenSource.FACEBOOK_APPLICATION_WEB,
+                                                    lastRefreshDate);
         verifySessionHasToken(session, expectedToken);
 
         // Verify we get a close callback.
@@ -590,7 +638,8 @@ public class SessionTests extends SessionTestsBase {
 
         // Verify we saved the token to cache.
         assertTrue(cache.getSavedState() != null);
-        assertEquals(expectedToken.getToken(), TokenCachingStrategy.getToken(cache.getSavedState()));
+        assertEquals(expectedToken.getToken(),
+                     TokenCachingStrategy.getToken(cache.getSavedState()));
 
         // Verify token information is cleared.
         session.closeAndClearTokenInformation();
@@ -615,7 +664,8 @@ public class SessionTests extends SessionTestsBase {
         // Verify state with no token in cache
         assertEquals(SessionState.CREATED, session.getState());
 
-        AccessToken accessToken = AccessToken.createFromExistingAccessToken(token, null, null, null, null);
+        AccessToken accessToken =
+                AccessToken.createFromExistingAccessToken(token, null, null, null, null);
         session.open(accessToken, statusRecorder);
         statusRecorder.waitForCall(session, SessionState.OPENED, null);
 
@@ -678,8 +728,8 @@ public class SessionTests extends SessionTestsBase {
 
         Session.AuthorizationRequest authRequest0 =
                 new Session.OpenRequest(getActivity()).
-                        setRequestCode(123).
-                        setLoginBehavior(SessionLoginBehavior.SSO_ONLY);
+                                                              setRequestCode(123).
+                                                              setLoginBehavior(SessionLoginBehavior.SSO_ONLY);
         Session.AuthorizationRequest authRequest1 = TestUtils.serializeAndUnserialize(authRequest0);
 
         assertEquals(authRequest0.getLoginBehavior(), authRequest1.getLoginBehavior());
@@ -696,7 +746,8 @@ public class SessionTests extends SessionTestsBase {
         intent.putExtras(getNativeLinkingExtras(token));
 
         SessionStatusCallbackRecorder statusRecorder = new SessionStatusCallbackRecorder();
-        MockTokenCachingStrategy cache = new MockTokenCachingStrategy(null, DEFAULT_TIMEOUT_MILLISECONDS);
+        MockTokenCachingStrategy cache =
+                new MockTokenCachingStrategy(null, DEFAULT_TIMEOUT_MILLISECONDS);
         ScriptedSession session = createScriptedSessionOnBlockerThread(cache);
 
         assertEquals(SessionState.CREATED, session.getState());
@@ -735,7 +786,8 @@ public class SessionTests extends SessionTestsBase {
             activeSession.closeAndClearTokenInformation();
         }
 
-        SharedPreferencesTokenCachingStrategy tokenCache = new SharedPreferencesTokenCachingStrategy(getActivity());
+        SharedPreferencesTokenCachingStrategy tokenCache =
+                new SharedPreferencesTokenCachingStrategy(getActivity());
         assertEquals(0, tokenCache.load().size());
 
         String token = "A token less unique than most";
@@ -747,7 +799,9 @@ public class SessionTests extends SessionTestsBase {
 
         AccessToken accessToken = AccessToken.createFromNativeLinkingIntent(intent);
         assertNotNull(accessToken);
-        Session session = Session.openActiveSessionWithAccessToken(getActivity(), accessToken, statusRecorder);
+        Session session = Session.openActiveSessionWithAccessToken(getActivity(),
+                                                                   accessToken,
+                                                                   statusRecorder);
         assertEquals(session, Session.getActiveSession());
 
         statusRecorder.waitForCall(session, SessionState.OPENED, null);
@@ -786,7 +840,9 @@ public class SessionTests extends SessionTestsBase {
         session.openForRead(new Session.OpenRequest(getActivity()).setCallback(statusRecorder));
         session.openForRead(new Session.OpenRequest(getActivity()).setCallback(statusRecorder));
         statusRecorder.waitForCall(session, SessionState.OPENING, null);
-        statusRecorder.waitForCall(session, SessionState.OPENING, new UnsupportedOperationException());
+        statusRecorder.waitForCall(session,
+                                   SessionState.OPENING,
+                                   new UnsupportedOperationException());
 
         stall(STRAY_CALLBACK_WAIT_MILLISECONDS);
         statusRecorder.close();
@@ -803,13 +859,16 @@ public class SessionTests extends SessionTestsBase {
     }
 
     static IntentFilter getActiveSessionAllFilter() {
-        return getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_CLOSED, Session.ACTION_ACTIVE_SESSION_OPENED,
-                Session.ACTION_ACTIVE_SESSION_SET, Session.ACTION_ACTIVE_SESSION_UNSET);
+        return getActiveSessionFilter(Session.ACTION_ACTIVE_SESSION_CLOSED,
+                                      Session.ACTION_ACTIVE_SESSION_OPENED,
+                                      Session.ACTION_ACTIVE_SESSION_SET,
+                                      Session.ACTION_ACTIVE_SESSION_UNSET);
     }
 
     private void verifySessionHasToken(Session session, AccessToken token) {
         assertEquals(token.getToken(), session.getAccessToken());
         assertEquals(token.getExpires(), session.getExpirationDate());
-        TestUtils.assertAtLeastExpectedPermissions(token.getPermissions(), session.getPermissions());
+        TestUtils.assertAtLeastExpectedPermissions(token.getPermissions(),
+                                                   session.getPermissions());
     }
 }

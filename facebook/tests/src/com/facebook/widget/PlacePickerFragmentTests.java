@@ -23,12 +23,18 @@ import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.view.View;
 import android.widget.ListView;
-import com.facebook.*;
+
+import com.facebook.FacebookException;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.TestSession;
 import com.facebook.sdk.tests.R;
 
 import java.util.Collection;
 
-public class PlacePickerFragmentTests extends FragmentTestCase<PlacePickerFragmentTests.TestActivity> {
+public class PlacePickerFragmentTests
+        extends FragmentTestCase<PlacePickerFragmentTests.TestActivity> {
+
     public PlacePickerFragmentTests() {
         super(TestActivity.class);
     }
@@ -53,7 +59,8 @@ public class PlacePickerFragmentTests extends FragmentTestCase<PlacePickerFragme
                 bundle.putInt(PlacePickerFragment.RESULTS_LIMIT_BUNDLE_KEY, 5);
                 bundle.putString(PlacePickerFragment.SEARCH_TEXT_BUNDLE_KEY, "coffee");
                 bundle.putParcelable(PlacePickerFragment.LOCATION_BUNDLE_KEY, location);
-                bundle.putString(FriendPickerFragment.EXTRA_FIELDS_BUNDLE_KEY, "checkins,general_info");
+                bundle.putString(FriendPickerFragment.EXTRA_FIELDS_BUNDLE_KEY,
+                                 "checkins,general_info");
 
                 PlacePickerFragment fragment = new PlacePickerFragment(bundle);
                 getActivity().setContentToFragment(fragment);
@@ -84,7 +91,8 @@ public class PlacePickerFragmentTests extends FragmentTestCase<PlacePickerFragme
         runAndBlockOnUiThread(0, new Runnable() {
             @Override
             public void run() {
-                getActivity().setContentToLayout(R.layout.place_picker_test_layout_1, R.id.place_picker_fragment);
+                getActivity().setContentToLayout(R.layout.place_picker_test_layout_1,
+                                                 R.id.place_picker_fragment);
             }
         });
 
@@ -149,7 +157,8 @@ public class PlacePickerFragmentTests extends FragmentTestCase<PlacePickerFragme
         });
 
         // We should have at least one item in the list by now.
-        ListView listView = (ListView) fragment.getView().findViewById(R.id.com_facebook_picker_list_view);
+        ListView listView =
+                (ListView) fragment.getView().findViewById(R.id.com_facebook_picker_list_view);
         assertNotNull(listView);
         View firstChild = listView.getChildAt(0);
         assertNotNull(firstChild);
@@ -219,7 +228,8 @@ public class PlacePickerFragmentTests extends FragmentTestCase<PlacePickerFragme
         blocker1.waitForSignals(1);
 
         // We should have at least one item in the list by now.
-        ListView listView = (ListView) fragment.getView().findViewById(R.id.com_facebook_picker_list_view);
+        ListView listView =
+                (ListView) fragment.getView().findViewById(R.id.com_facebook_picker_list_view);
         assertNotNull(listView);
 
         Thread.sleep(500);
@@ -265,7 +275,9 @@ public class PlacePickerFragmentTests extends FragmentTestCase<PlacePickerFragme
         assertNull(fragment.getSelection());
     }
 
-    public static class TestActivity extends FragmentTestCase.TestFragmentActivity<PlacePickerFragment> {
+    public static class TestActivity
+            extends FragmentTestCase.TestFragmentActivity<PlacePickerFragment> {
+
         public TestActivity() {
             super(PlacePickerFragment.class);
         }
@@ -275,7 +287,8 @@ public class PlacePickerFragmentTests extends FragmentTestCase<PlacePickerFragme
             return false;
         }
 
-        protected PlacePickerFragment createFragment() throws InstantiationException, IllegalAccessException {
+        protected PlacePickerFragment createFragment()
+                throws InstantiationException, IllegalAccessException {
             Bundle bundle = new Bundle();
             bundle.putBoolean(PlacePickerFragment.SHOW_SEARCH_BOX_BUNDLE_KEY, false);
 

@@ -18,6 +18,7 @@ package com.facebook;
 
 import android.content.Context;
 import android.os.Bundle;
+
 import com.facebook.internal.Logger;
 
 import java.math.BigDecimal;
@@ -28,10 +29,11 @@ import java.util.Currency;
  */
 @Deprecated
 public class InsightsLogger {
-    private static final String EVENT_PARAMETER_PIXEL_ID         = "fb_offsite_pixel_id";
-    private static final String EVENT_PARAMETER_PIXEL_VALUE      = "fb_offsite_pixel_value";
 
-    private static final String EVENT_NAME_LOG_CONVERSION_PIXEL  = "fb_log_offsite_pixel";
+    private static final String EVENT_PARAMETER_PIXEL_ID    = "fb_offsite_pixel_id";
+    private static final String EVENT_PARAMETER_PIXEL_VALUE = "fb_offsite_pixel_value";
+
+    private static final String EVENT_NAME_LOG_CONVERSION_PIXEL = "fb_log_offsite_pixel";
 
     private AppEventsLogger appEventsLogger;
 
@@ -49,14 +51,19 @@ public class InsightsLogger {
     /**
      * Deprecated. Please use {@link AppEventsLogger} instead.
      */
-    public static InsightsLogger newLogger(Context context, String clientToken, String applicationId) {
+    public static InsightsLogger newLogger(Context context,
+                                           String clientToken,
+                                           String applicationId) {
         return new InsightsLogger(context, applicationId, null);
     }
 
     /**
      * Deprecated. Please use {@link AppEventsLogger} instead.
      */
-    public static InsightsLogger newLogger(Context context, String clientToken, String applicationId, Session session) {
+    public static InsightsLogger newLogger(Context context,
+                                           String clientToken,
+                                           String applicationId,
+                                           Session session) {
         return new InsightsLogger(context, applicationId, session);
     }
 

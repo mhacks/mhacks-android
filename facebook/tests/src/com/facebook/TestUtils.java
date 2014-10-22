@@ -17,14 +17,22 @@
 package com.facebook;
 
 import android.os.Bundle;
+
 import com.facebook.internal.FileLruCache;
+
 import junit.framework.Assert;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 public class TestUtils {
+
     private static long CACHE_CLEAR_TIMEOUT = 3000;
 
     public static <T extends Serializable> T serializeAndUnserialize(T t) {
@@ -37,9 +45,11 @@ public class TestUtils {
             T ret = (T) (new ObjectInputStream(is)).readObject();
 
             return ret;
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+        }
+        catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -51,7 +61,8 @@ public class TestUtils {
     static void assertSamePermissions(List<String> expected, AccessToken actual) {
         if (expected == null) {
             Assert.assertEquals(null, actual.getPermissions());
-        } else {
+        }
+        else {
             for (String p : expected) {
                 Assert.assertTrue(actual.getPermissions().contains(p));
             }
@@ -64,7 +75,8 @@ public class TestUtils {
     static void assertSamePermissions(List<String> expected, List<String> actual) {
         if (expected == null) {
             Assert.assertEquals(null, actual);
-        } else {
+        }
+        else {
             for (String p : expected) {
                 Assert.assertTrue(actual.contains(p));
             }

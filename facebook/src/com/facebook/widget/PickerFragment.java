@@ -31,7 +31,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.animation.AlphaAnimation;
-import android.widget.*;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import com.facebook.FacebookException;
 import com.facebook.Request;
 import com.facebook.Session;
@@ -40,7 +48,12 @@ import com.facebook.android.R;
 import com.facebook.internal.SessionTracker;
 import com.facebook.model.GraphObject;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Provides functionality common to SDK UI elements that allow the user to pick one or more
@@ -53,59 +66,67 @@ import java.util.*;
  * underlying data has been changed, or when the set of selected graph objects changes.
  */
 public abstract class PickerFragment<T extends GraphObject> extends Fragment {
+
     /**
      * The key for a boolean parameter in the fragment's Intent bundle to indicate whether the
      * picker should show pictures (if available) for the graph objects.
      */
-    public static final String SHOW_PICTURES_BUNDLE_KEY = "com.facebook.widget.PickerFragment.ShowPictures";
+    public static final String SHOW_PICTURES_BUNDLE_KEY    =
+            "com.facebook.widget.PickerFragment.ShowPictures";
     /**
      * The key for a String parameter in the fragment's Intent bundle to indicate which extra fields
      * beyond the default fields should be retrieved for any graph objects in the results.
      */
-    public static final String EXTRA_FIELDS_BUNDLE_KEY = "com.facebook.widget.PickerFragment.ExtraFields";
+    public static final String EXTRA_FIELDS_BUNDLE_KEY     =
+            "com.facebook.widget.PickerFragment.ExtraFields";
     /**
      * The key for a boolean parameter in the fragment's Intent bundle to indicate whether the
      * picker should display a title bar with a Done button.
      */
-    public static final String SHOW_TITLE_BAR_BUNDLE_KEY = "com.facebook.widget.PickerFragment.ShowTitleBar";
+    public static final String SHOW_TITLE_BAR_BUNDLE_KEY   =
+            "com.facebook.widget.PickerFragment.ShowTitleBar";
     /**
      * The key for a String parameter in the fragment's Intent bundle to indicate the text to
      * display in the title bar.
      */
-    public static final String TITLE_TEXT_BUNDLE_KEY = "com.facebook.widget.PickerFragment.TitleText";
+    public static final String TITLE_TEXT_BUNDLE_KEY       =
+            "com.facebook.widget.PickerFragment.TitleText";
     /**
      * The key for a String parameter in the fragment's Intent bundle to indicate the text to
      * display in the Done btuton.
      */
-    public static final String DONE_BUTTON_TEXT_BUNDLE_KEY = "com.facebook.widget.PickerFragment.DoneButtonText";
+    public static final String DONE_BUTTON_TEXT_BUNDLE_KEY =
+            "com.facebook.widget.PickerFragment.DoneButtonText";
 
-    private static final String SELECTION_BUNDLE_KEY = "com.facebook.android.PickerFragment.Selection";
-    private static final String ACTIVITY_CIRCLE_SHOW_KEY = "com.facebook.android.PickerFragment.ActivityCircleShown";
-    private static final int PROFILE_PICTURE_PREFETCH_BUFFER = 5;
+    private static final String SELECTION_BUNDLE_KEY            =
+            "com.facebook.android.PickerFragment.Selection";
+    private static final String ACTIVITY_CIRCLE_SHOW_KEY        =
+            "com.facebook.android.PickerFragment.ActivityCircleShown";
+    private static final int    PROFILE_PICTURE_PREFETCH_BUFFER = 5;
 
-    private final int layout;
-    private OnErrorListener onErrorListener;
-    private OnDataChangedListener onDataChangedListener;
-    private OnSelectionChangedListener onSelectionChangedListener;
-    private OnDoneButtonClickedListener onDoneButtonClickedListener;
-    private GraphObjectFilter<T> filter;
+    private final int                         layout;
+    private       OnErrorListener             onErrorListener;
+    private       OnDataChangedListener       onDataChangedListener;
+    private       OnSelectionChangedListener  onSelectionChangedListener;
+    private       OnDoneButtonClickedListener onDoneButtonClickedListener;
+    private       GraphObjectFilter<T>        filter;
     private boolean showPictures = true;
     private boolean showTitleBar = true;
     private ListView listView;
     HashSet<String> extraFields = new HashSet<String>();
     GraphObjectAdapter<T> adapter;
-    private final Class<T> graphObjectClass;
-    private LoadingStrategy loadingStrategy;
-    private SelectionStrategy selectionStrategy;
-    private ProgressBar activityCircle;
-    private SessionTracker sessionTracker;
-    private String titleText;
-    private String doneButtonText;
-    private TextView titleTextView;
-    private Button doneButton;
-    private Drawable titleBarBackground;
-    private Drawable doneButtonBackground;
-    private boolean appEventsLogged;
+    private final Class<T>          graphObjectClass;
+    private       LoadingStrategy   loadingStrategy;
+    private       SelectionStrategy selectionStrategy;
+    private       ProgressBar       activityCircle;
+    private       SessionTracker    sessionTracker;
+    private       String            titleText;
+    private       String            doneButtonText;
+    private       TextView          titleTextView;
+    private       Button            doneButton;
+    private       Drawable          titleBarBackground;
+    private       Drawable          doneButtonBackground;
+    private       boolean           appEventsLogged;
 
     PickerFragment(Class<T> graphObjectClass, int layout, Bundle args) {
         this.graphObjectClass = graphObjectClass;
@@ -130,26 +151,34 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
     @Override
     public void onInflate(Activity activity, AttributeSet attrs, Bundle savedInstanceState) {
         super.onInflate(activity, attrs, savedInstanceState);
-        TypedArray a = activity.obtainStyledAttributes(attrs, R.styleable.com_facebook_picker_fragment);
+        TypedArray a =
+                activity.obtainStyledAttributes(attrs, R.styleable.com_facebook_picker_fragment);
 
-        setShowPictures(a.getBoolean(R.styleable.com_facebook_picker_fragment_show_pictures, showPictures));
-        String extraFieldsString = a.getString(R.styleable.com_facebook_picker_fragment_extra_fields);
+        setShowPictures(a.getBoolean(R.styleable.com_facebook_picker_fragment_show_pictures,
+                                     showPictures));
+        String extraFieldsString =
+                a.getString(R.styleable.com_facebook_picker_fragment_extra_fields);
         if (extraFieldsString != null) {
             String[] strings = extraFieldsString.split(",");
             setExtraFields(Arrays.asList(strings));
         }
 
-        showTitleBar = a.getBoolean(R.styleable.com_facebook_picker_fragment_show_title_bar, showTitleBar);
+        showTitleBar =
+                a.getBoolean(R.styleable.com_facebook_picker_fragment_show_title_bar, showTitleBar);
         titleText = a.getString(R.styleable.com_facebook_picker_fragment_title_text);
         doneButtonText = a.getString(R.styleable.com_facebook_picker_fragment_done_button_text);
-        titleBarBackground = a.getDrawable(R.styleable.com_facebook_picker_fragment_title_bar_background);
-        doneButtonBackground = a.getDrawable(R.styleable.com_facebook_picker_fragment_done_button_background);
+        titleBarBackground =
+                a.getDrawable(R.styleable.com_facebook_picker_fragment_title_bar_background);
+        doneButtonBackground =
+                a.getDrawable(R.styleable.com_facebook_picker_fragment_done_button_background);
 
         a.recycle();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(layout, container, false);
 
         listView = (ListView) view.findViewById(R.id.com_facebook_picker_list_view);
@@ -210,7 +239,8 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
             boolean shown = savedInstanceState.getBoolean(ACTIVITY_CIRCLE_SHOW_KEY, false);
             if (shown) {
                 displayActivityCircle();
-            } else {
+            }
+            else {
                 // Should be hidden already, but just to be sure.
                 hideActivityCircle();
             }
@@ -235,7 +265,8 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
         saveSettingsToBundle(outState);
         selectionStrategy.saveSelectionToBundle(outState, SELECTION_BUNDLE_KEY);
         if (activityCircle != null) {
-            outState.putBoolean(ACTIVITY_CIRCLE_SHOW_KEY, activityCircle.getVisibility() == View.VISIBLE);
+            outState.putBoolean(ACTIVITY_CIRCLE_SHOW_KEY,
+                                activityCircle.getVisibility() == View.VISIBLE);
         }
     }
 
@@ -519,8 +550,8 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
     }
 
     void setSelectedGraphObjects(List<String> objectIds) {
-        for(String objectId : objectIds) {
-            if(!this.selectionStrategy.isSelected(objectId)) {
+        for (String objectId : objectIds) {
+            if (!this.selectionStrategy.isSelected(objectId)) {
                 this.selectionStrategy.toggleSelection(objectId);
             }
         }
@@ -732,9 +763,11 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
             if (anchorPosition > 0) {
                 anchorPosition++;
             }
-            GraphObjectAdapter.SectionAndItem<T> anchorItem = adapter.getSectionAndItem(anchorPosition);
+            GraphObjectAdapter.SectionAndItem<T> anchorItem =
+                    adapter.getSectionAndItem(anchorPosition);
             final int top = (view != null &&
-                    anchorItem.getType() != GraphObjectAdapter.SectionAndItem.Type.ACTIVITY_CIRCLE) ?
+                             anchorItem.getType() !=
+                             GraphObjectAdapter.SectionAndItem.Type.ACTIVITY_CIRCLE) ?
                     view.getTop() : 0;
 
             // Now actually add the results.
@@ -742,7 +775,8 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
 
             if (view != null && anchorItem != null) {
                 // Put the item back in the same spot it was.
-                final int newPositionOfItem = adapter.getPosition(anchorItem.sectionKey, anchorItem.graphObject);
+                final int newPositionOfItem =
+                        adapter.getPosition(anchorItem.sectionKey, anchorItem.graphObject);
                 if (newPositionOfItem != -1) {
                     listView.setSelectionFromTop(newPositionOfItem, top);
                 }
@@ -758,7 +792,9 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
         int lastVisibleItem = listView.getLastVisiblePosition();
         if (lastVisibleItem >= 0) {
             int firstVisibleItem = listView.getFirstVisiblePosition();
-            adapter.prioritizeViewRange(firstVisibleItem, lastVisibleItem, PROFILE_PICTURE_PREFETCH_BUFFER);
+            adapter.prioritizeViewRange(firstVisibleItem,
+                                        lastVisibleItem,
+                                        PROFILE_PICTURE_PREFETCH_BUFFER);
         }
     }
 
@@ -768,7 +804,10 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
         }
 
         @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        public void onScroll(AbsListView view,
+                             int firstVisibleItem,
+                             int visibleItemCount,
+                             int totalItemCount) {
             reprioritizeDownloads();
         }
     };
@@ -778,6 +817,7 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
      * while retrieving graph objects.
      */
     public interface OnErrorListener {
+
         /**
          * Called when a network or other error is encountered.
          *
@@ -791,6 +831,7 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
      * picker has been updated.
      */
     public interface OnDataChangedListener {
+
         /**
          * Called when the set of data being displayed in the picker has changed.
          */
@@ -802,6 +843,7 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
      * in the picker.
      */
     public interface OnSelectionChangedListener {
+
         /**
          * Called when the user selects or unselects graph objects in the picker.
          */
@@ -813,6 +855,7 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
      * title bar.
      */
     public interface OnDoneButtonClickedListener {
+
         /**
          * Called when the user clicks the Done button.
          */
@@ -825,6 +868,7 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
      * @param <T>
      */
     public interface GraphObjectFilter<T> {
+
         /**
          * Called to determine if a graph object should be displayed.
          *
@@ -835,36 +879,51 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
     }
 
     abstract class LoadingStrategy {
+
         protected final static int CACHED_RESULT_REFRESH_DELAY = 2 * 1000;
 
         protected GraphObjectPagingLoader<T> loader;
-        protected GraphObjectAdapter<T> adapter;
+        protected GraphObjectAdapter<T>      adapter;
 
         public void attach(GraphObjectAdapter<T> adapter) {
             loader = (GraphObjectPagingLoader<T>) getLoaderManager().initLoader(0, null,
-                    new LoaderManager.LoaderCallbacks<SimpleGraphObjectCursor<T>>() {
-                        @Override
-                        public Loader<SimpleGraphObjectCursor<T>> onCreateLoader(int id, Bundle args) {
-                            return LoadingStrategy.this.onCreateLoader();
-                        }
+                                                                                new LoaderManager.LoaderCallbacks<SimpleGraphObjectCursor<T>>() {
+                                                                                    @Override
+                                                                                    public Loader<SimpleGraphObjectCursor<T>> onCreateLoader(
+                                                                                            int id,
+                                                                                            Bundle args) {
+                                                                                        return LoadingStrategy.this
+                                                                                                .onCreateLoader();
+                                                                                    }
 
-                        @Override
-                        public void onLoadFinished(Loader<SimpleGraphObjectCursor<T>> loader,
-                                SimpleGraphObjectCursor<T> data) {
-                            if (loader != LoadingStrategy.this.loader) {
-                                throw new FacebookException("Received callback for unknown loader.");
-                            }
-                            LoadingStrategy.this.onLoadFinished((GraphObjectPagingLoader<T>) loader, data);
-                        }
+                                                                                    @Override
+                                                                                    public void onLoadFinished(
+                                                                                            Loader<SimpleGraphObjectCursor<T>> loader,
+                                                                                            SimpleGraphObjectCursor<T> data) {
+                                                                                        if (loader !=
+                                                                                            LoadingStrategy.this.loader) {
+                                                                                            throw new FacebookException(
+                                                                                                    "Received callback for unknown loader.");
+                                                                                        }
+                                                                                        LoadingStrategy.this
+                                                                                                .onLoadFinished(
+                                                                                                        (GraphObjectPagingLoader<T>) loader,
+                                                                                                        data);
+                                                                                    }
 
-                        @Override
-                        public void onLoaderReset(Loader<SimpleGraphObjectCursor<T>> loader) {
-                            if (loader != LoadingStrategy.this.loader) {
-                                throw new FacebookException("Received callback for unknown loader.");
-                            }
-                            LoadingStrategy.this.onLoadReset((GraphObjectPagingLoader<T>) loader);
-                        }
-                    });
+                                                                                    @Override
+                                                                                    public void onLoaderReset(
+                                                                                            Loader<SimpleGraphObjectCursor<T>> loader) {
+                                                                                        if (loader !=
+                                                                                            LoadingStrategy.this.loader) {
+                                                                                            throw new FacebookException(
+                                                                                                    "Received callback for unknown loader.");
+                                                                                        }
+                                                                                        LoadingStrategy.this
+                                                                                                .onLoadReset(
+                                                                                                        (GraphObjectPagingLoader<T>) loader);
+                                                                                    }
+                                                                                });
 
             loader.setOnErrorListener(new GraphObjectPagingLoader.OnErrorListener() {
                 @Override
@@ -927,7 +986,8 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
             adapter.changeCursor(null);
         }
 
-        protected void onLoadFinished(GraphObjectPagingLoader<T> loader, SimpleGraphObjectCursor<T> data) {
+        protected void onLoadFinished(GraphObjectPagingLoader<T> loader,
+                                      SimpleGraphObjectCursor<T> data) {
             updateAdapter(data);
         }
 
@@ -937,6 +997,7 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
     }
 
     abstract class SelectionStrategy {
+
         abstract boolean isSelected(String id);
 
         abstract void toggleSelection(String id);
@@ -955,6 +1016,7 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
     }
 
     class SingleSelectionStrategy extends SelectionStrategy {
+
         private String selectedId;
 
         public Collection<String> getSelectedIds() {
@@ -970,7 +1032,8 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
         void toggleSelection(String id) {
             if (selectedId != null && selectedId.equals(id)) {
                 selectedId = null;
-            } else {
+            }
+            else {
                 selectedId = id;
             }
         }
@@ -1006,6 +1069,7 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
     }
 
     class MultiSelectionStrategy extends SelectionStrategy {
+
         private Set<String> selectedIds = new HashSet<String>();
 
         public Collection<String> getSelectedIds() {
@@ -1022,7 +1086,8 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
             if (id != null) {
                 if (selectedIds.contains(id)) {
                     selectedIds.remove(id);
-                } else {
+                }
+                else {
                     selectedIds.add(id);
                 }
             }
@@ -1065,6 +1130,7 @@ public abstract class PickerFragment<T extends GraphObject> extends Fragment {
     }
 
     abstract class PickerFragmentAdapter<U extends GraphObject> extends GraphObjectAdapter<T> {
+
         public PickerFragmentAdapter(Context context) {
             super(context);
         }

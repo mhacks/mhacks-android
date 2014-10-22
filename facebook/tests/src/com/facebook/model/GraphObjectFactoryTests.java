@@ -20,14 +20,27 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
+
 import com.facebook.FacebookGraphObjectException;
+
 import junit.framework.Assert;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TimeZone;
 
 public final class GraphObjectFactoryTests extends AndroidTestCase {
 
@@ -95,9 +108,11 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
     }
 
     interface Base extends GraphObject {
+
     }
 
     interface Derived extends Base {
+
     }
 
     @SmallTest
@@ -173,6 +188,7 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
     }
 
     private abstract class GraphObjectClass implements GraphObject {
+
     }
 
     @SmallTest
@@ -190,7 +206,9 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
     }
 
     private interface GraphMetric extends GraphObject {
+
         String getIntAsString();
+
         String getDoubleAsString();
     }
 
@@ -201,11 +219,13 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
         try {
             GraphObject.Factory.create(GraphObjectClass.class);
             fail("Expected exception");
-        } catch (FacebookGraphObjectException exception) {
+        }
+        catch (FacebookGraphObjectException exception) {
         }
     }
 
     private interface BadNoParameterMethodNameGraphObject extends GraphObject {
+
         Object floppityFlee();
     }
 
@@ -216,11 +236,13 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
         try {
             GraphObject.Factory.create(BadNoParameterMethodNameGraphObject.class);
             fail("Expected exception");
-        } catch (FacebookGraphObjectException exception) {
+        }
+        catch (FacebookGraphObjectException exception) {
         }
     }
 
     private interface BadSingleParameterMethodNameGraphObject extends GraphObject {
+
         void floppityFlee(Object obj);
     }
 
@@ -231,11 +253,13 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
         try {
             GraphObject.Factory.create(BadSingleParameterMethodNameGraphObject.class);
             fail("Expected exception");
-        } catch (FacebookGraphObjectException exception) {
+        }
+        catch (FacebookGraphObjectException exception) {
         }
     }
 
     private interface BadGetterNameGraphObject extends GraphObject {
+
         void get();
     }
 
@@ -246,11 +270,13 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
         try {
             GraphObject.Factory.create(BadGetterNameGraphObject.class);
             fail("Expected exception");
-        } catch (FacebookGraphObjectException exception) {
+        }
+        catch (FacebookGraphObjectException exception) {
         }
     }
 
     private interface BadGetterParamsGraphObject extends GraphObject {
+
         Object getFoo(Object obj);
     }
 
@@ -261,11 +287,13 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
         try {
             GraphObject.Factory.create(BadGetterParamsGraphObject.class);
             fail("Expected exception");
-        } catch (FacebookGraphObjectException exception) {
+        }
+        catch (FacebookGraphObjectException exception) {
         }
     }
 
     private interface BadGetterReturnTypeGraphObject extends GraphObject {
+
         void getFoo();
     }
 
@@ -276,11 +304,13 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
         try {
             GraphObject.Factory.create(BadGetterReturnTypeGraphObject.class);
             fail("Expected exception");
-        } catch (FacebookGraphObjectException exception) {
+        }
+        catch (FacebookGraphObjectException exception) {
         }
     }
 
     private interface BadSetterNameGraphObject extends GraphObject {
+
         void set();
     }
 
@@ -291,11 +321,13 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
         try {
             GraphObject.Factory.create(BadSetterNameGraphObject.class);
             fail("Expected exception");
-        } catch (FacebookGraphObjectException exception) {
+        }
+        catch (FacebookGraphObjectException exception) {
         }
     }
 
     private interface BadSetterParamsGraphObject extends GraphObject {
+
         void setFoo();
     }
 
@@ -306,11 +338,13 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
         try {
             GraphObject.Factory.create(BadSetterParamsGraphObject.class);
             fail("Expected exception");
-        } catch (FacebookGraphObjectException exception) {
+        }
+        catch (FacebookGraphObjectException exception) {
         }
     }
 
     private interface BadSetterReturnTypeGraphObject extends GraphObject {
+
         Object setFoo(Object obj);
     }
 
@@ -321,11 +355,13 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
         try {
             GraphObject.Factory.create(BadSetterReturnTypeGraphObject.class);
             fail("Expected exception");
-        } catch (FacebookGraphObjectException exception) {
+        }
+        catch (FacebookGraphObjectException exception) {
         }
     }
 
     private interface BadBaseInterfaceGraphObject extends BadSetterReturnTypeGraphObject {
+
         void setBar(Object obj);
 
         Object getBar();
@@ -338,11 +374,13 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
         try {
             GraphObject.Factory.create(BadBaseInterfaceGraphObject.class);
             fail("Expected exception");
-        } catch (FacebookGraphObjectException exception) {
+        }
+        catch (FacebookGraphObjectException exception) {
         }
     }
 
     private interface GoodPropertyOverrideInterfaceGraphObject extends GraphObject {
+
         void setDefaultName(String s);
 
         // No annotation to ensure that the right property is being set.
@@ -382,6 +420,7 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
     }
 
     private interface BadPropertyOverrideInterfaceGraphObject extends GraphObject {
+
         @PropertyName("")
         void setMissingProperty(Object value);
     }
@@ -393,7 +432,8 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
         try {
             GraphObject.Factory.create(BadPropertyOverrideInterfaceGraphObject.class);
             fail("Expected exception");
-        } catch (FacebookGraphObjectException exception) {
+        }
+        catch (FacebookGraphObjectException exception) {
         }
     }
 
@@ -743,11 +783,13 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
 
         graphPlace.setLocation(graphLocation);
 
-        assertEquals(graphLocation.getInnerJSONObject(), graphPlace.getInnerJSONObject().get("location"));
+        assertEquals(graphLocation.getInnerJSONObject(),
+                     graphPlace.getInnerJSONObject().get("location"));
 
     }
 
     private interface DateGraphObject extends GraphObject {
+
         Date getDate1();
 
         Date getDate2();
@@ -755,6 +797,7 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
         Date getDate3();
 
         Date getDate4();
+
         void setDate4(Date date);
     }
 
@@ -932,7 +975,8 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
             Collection<Integer> collection = GraphObject.Factory.createList(Integer.class);
             collection.clear();
             fail("Expected exception");
-        } catch (UnsupportedOperationException exception) {
+        }
+        catch (UnsupportedOperationException exception) {
         }
     }
 
@@ -944,7 +988,8 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
             Collection<Integer> collection = GraphObject.Factory.createList(Integer.class);
             collection.remove(5);
             fail("Expected exception");
-        } catch (UnsupportedOperationException exception) {
+        }
+        catch (UnsupportedOperationException exception) {
         }
     }
 
@@ -956,7 +1001,8 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
             Collection<Integer> collection = GraphObject.Factory.createList(Integer.class);
             collection.removeAll(Arrays.asList());
             fail("Expected exception");
-        } catch (UnsupportedOperationException exception) {
+        }
+        catch (UnsupportedOperationException exception) {
         }
     }
 
@@ -968,11 +1014,13 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
             Collection<Integer> collection = GraphObject.Factory.createList(Integer.class);
             collection.retainAll(Arrays.asList());
             fail("Expected exception");
-        } catch (UnsupportedOperationException exception) {
+        }
+        catch (UnsupportedOperationException exception) {
         }
     }
 
     private interface Locations extends GraphObject {
+
         Collection<GraphLocation> getLocations();
     }
 
@@ -1039,7 +1087,7 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
         jsonArray.put(jsonLocation);
         Collection<GraphLocation> locationsGraphObjectCollection = GraphObject.Factory
                 .createList(jsonArray,
-                        GraphLocation.class);
+                            GraphLocation.class);
         assertTrue(locationsGraphObjectCollection != null);
 
         GraphLocation graphLocation = locationsGraphObjectCollection.iterator().next();
@@ -1055,7 +1103,8 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
             GraphObjectList<Integer> collection = GraphObject.Factory.createList(Integer.class);
             collection.castToListOf(GraphLocation.class);
             fail("Expected exception");
-        } catch (FacebookGraphObjectException exception) {
+        }
+        catch (FacebookGraphObjectException exception) {
         }
     }
 
@@ -1072,7 +1121,8 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
         GraphObjectList<GraphObject> collection = GraphObject.Factory
                 .createList(jsonArray, GraphObject.class);
 
-        GraphObjectList<GraphLocation> locationCollection = collection.castToListOf(GraphLocation.class);
+        GraphObjectList<GraphLocation> locationCollection =
+                collection.castToListOf(GraphLocation.class);
         assertTrue(locationCollection != null);
 
         GraphLocation seattle = locationCollection.iterator().next();
@@ -1099,7 +1149,7 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
 
         GraphObjectList<Base> cast = derived.castToListOf(Base.class);
 
-        assertTrue((GraphObjectList<?>)derived == (GraphObjectList<?>)cast);
+        assertTrue((GraphObjectList<?>) derived == (GraphObjectList<?>) cast);
     }
 
     @SmallTest
@@ -1184,21 +1234,27 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
     }
 
     interface NestedObject extends GraphObject {
+
         String getId();
+
         void setId(String id);
 
         String getUrl();
+
         void setUrl(String url);
     }
 
     interface ObjectWithNestedObject extends GraphObject {
+
         // Single-object version
         NestedObject getNestedObject();
+
         void setNestedObject(NestedObject nestedObject);
 
         @PropertyName("nested_object")
         @CreateGraphObject("id")
         void setNestedObjectById(String id);
+
         @PropertyName("nested_object")
         @CreateGraphObject("url")
         void setNestedObjectByUrl(String url);
@@ -1209,11 +1265,13 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
 
         // List version
         GraphObjectList<NestedObject> getNestedObjects();
+
         void setNestedObjects(List<NestedObject> nestedObjects);
 
         @PropertyName("nested_objects")
         @CreateGraphObject("id")
         void setNestedObjectsById(List<String> id);
+
         @PropertyName("nested_objects")
         @CreateGraphObject("url")
         void setNestedObjectsByUrl(List<String> url);
@@ -1230,7 +1288,8 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
         GraphObject containingObject = GraphObject.Factory.create();
         containingObject.setProperty("nested", nestedObject);
 
-        NestedObject nestedGraphObject = containingObject.getPropertyAs("nested", NestedObject.class);
+        NestedObject nestedGraphObject =
+                containingObject.getPropertyAs("nested", NestedObject.class);
         assertNotNull(nestedGraphObject);
         assertEquals("55", nestedGraphObject.getId());
     }
@@ -1246,8 +1305,9 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
         GraphObject containingObject = GraphObject.Factory.create();
         containingObject.setProperty("nested", nestedArray);
 
-        GraphObjectList<NestedObject> nestedGraphObjects = containingObject.getPropertyAsList("nested",
-                NestedObject.class);
+        GraphObjectList<NestedObject> nestedGraphObjects =
+                containingObject.getPropertyAsList("nested",
+                                                   NestedObject.class);
         assertNotNull(nestedGraphObjects);
         assertEquals("55", nestedGraphObjects.get(0).getId());
     }
@@ -1289,7 +1349,8 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
         assertEquals("77", nestedObjects.get(0).getId());
         assertEquals("88", nestedObjects.get(1).getId());
 
-        object.setNestedObjectsByUrl(Arrays.asList("http://www.example.com/1", "http://www.example.com/2"));
+        object.setNestedObjectsByUrl(Arrays.asList("http://www.example.com/1",
+                                                   "http://www.example.com/2"));
 
         nestedObjects = object.getNestedObjects();
         assertNotNull(nestedObjects);
@@ -1298,13 +1359,17 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
     }
 
     interface GraphObjectWithPrimitives extends GraphObject {
+
         boolean getBoolean();
+
         void setBoolean(boolean value);
 
         int getInt();
+
         void setInt(int value);
 
         char getChar();
+
         void setChar(char value);
     }
 
@@ -1312,7 +1377,8 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
     @MediumTest
     @LargeTest
     public void testSetBooleanProperty() {
-        GraphObjectWithPrimitives graphObject = GraphObject.Factory.create(GraphObjectWithPrimitives.class);
+        GraphObjectWithPrimitives graphObject =
+                GraphObject.Factory.create(GraphObjectWithPrimitives.class);
 
         graphObject.setBoolean(true);
         assertEquals(true, graphObject.getBoolean());
@@ -1322,7 +1388,8 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
     @MediumTest
     @LargeTest
     public void testBooleanPropertyDefaultsToFalse() {
-        GraphObjectWithPrimitives graphObject = GraphObject.Factory.create(GraphObjectWithPrimitives.class);
+        GraphObjectWithPrimitives graphObject =
+                GraphObject.Factory.create(GraphObjectWithPrimitives.class);
 
         assertEquals(false, graphObject.getBoolean());
     }
@@ -1331,7 +1398,8 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
     @MediumTest
     @LargeTest
     public void testSetNumericProperty() {
-        GraphObjectWithPrimitives graphObject = GraphObject.Factory.create(GraphObjectWithPrimitives.class);
+        GraphObjectWithPrimitives graphObject =
+                GraphObject.Factory.create(GraphObjectWithPrimitives.class);
 
         graphObject.setInt(5);
         assertEquals(5, graphObject.getInt());
@@ -1341,7 +1409,8 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
     @MediumTest
     @LargeTest
     public void testNumericPropertyDefaultsToZero() {
-        GraphObjectWithPrimitives graphObject = GraphObject.Factory.create(GraphObjectWithPrimitives.class);
+        GraphObjectWithPrimitives graphObject =
+                GraphObject.Factory.create(GraphObjectWithPrimitives.class);
 
         assertEquals(0, graphObject.getInt());
     }
@@ -1350,7 +1419,8 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
     @MediumTest
     @LargeTest
     public void testSetCharProperty() {
-        GraphObjectWithPrimitives graphObject = GraphObject.Factory.create(GraphObjectWithPrimitives.class);
+        GraphObjectWithPrimitives graphObject =
+                GraphObject.Factory.create(GraphObjectWithPrimitives.class);
 
         graphObject.setChar('z');
         assertEquals('z', graphObject.getChar());
@@ -1360,7 +1430,8 @@ public final class GraphObjectFactoryTests extends AndroidTestCase {
     @MediumTest
     @LargeTest
     public void testCharPropertyDefaultsToZero() {
-        GraphObjectWithPrimitives graphObject = GraphObject.Factory.create(GraphObjectWithPrimitives.class);
+        GraphObjectWithPrimitives graphObject =
+                GraphObject.Factory.create(GraphObjectWithPrimitives.class);
 
         assertEquals(0, graphObject.getChar());
     }

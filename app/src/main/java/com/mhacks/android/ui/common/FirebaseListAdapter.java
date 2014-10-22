@@ -39,180 +39,185 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class FirebaseListAdapter<T> extends BaseAdapter {
 
-  private Query ref;
-  private Class<T> modelClass;
-  private int layout;
-  private LayoutInflater inflater;
-  private List<T> models;
-  private Map<String, T> modelNames;
-  private ChildEventListener listener;
+    private Query              ref;
+    private Class<T>           modelClass;
+    private int                layout;
+    private LayoutInflater     inflater;
+    private List<T>            models;
+    private Map<String, T>     modelNames;
+    private ChildEventListener listener;
 
 
-  /**
-   * @param ref        The Firebase location to watch for data changes. Can also be a slice of a location, using some
-   *                   combination of <code>limit()</code>, <code>startAt()</code>, and <code>endAt()</code>,
-   * @param modelClass Firebase will marshall the data at a location into an instance of a class that you provide
-   * @param layout     This is the layout used to represent a single list item. You will be responsible for populating an
-   *                   instance of the corresponding view with the data from an instance of modelClass.
-   * @param activity   The activity containing the ListView
-   */
-  public FirebaseListAdapter(Query ref, Class<T> modelClass, int layout, Activity activity) {
-    this.ref = ref;
-    this.modelClass = modelClass;
-    this.layout = layout;
-    inflater = activity.getLayoutInflater();
-    models = new ArrayList<T>();
-    modelNames = new HashMap<String, T>();
-    // Look for all child events. We will then map them to our own internal ArrayList, which backs ListView
-    listener = this.ref.addChildEventListener(new ChildEventListener() {
-      @Override
-      public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+    /**
+     * @param ref        The Firebase location to watch for data changes. Can also be a slice of a location, using some
+     *                   combination of <code>limit()</code>, <code>startAt()</code>, and <code>endAt()</code>,
+     * @param modelClass Firebase will marshall the data at a location into an instance of a class that you provide
+     * @param layout     This is the layout used to represent a single list item. You will be responsible for populating an
+     *                   instance of the corresponding view with the data from an instance of modelClass.
+     * @param activity   The activity containing the ListView
+     */
+    public FirebaseListAdapter(Query ref, Class<T> modelClass, int layout, Activity activity) {
+        this.ref = ref;
+        this.modelClass = modelClass;
+        this.layout = layout;
+        inflater = activity.getLayoutInflater();
+        models = new ArrayList<T>();
+        modelNames = new HashMap<String, T>();
+        // Look for all child events. We will then map them to our own internal ArrayList, which backs ListView
+        listener = this.ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
 
-        T model = dataSnapshot.getValue(FirebaseListAdapter.this.modelClass);
-        modelNames.put(dataSnapshot.getName(), model);
+                T model = dataSnapshot.getValue(FirebaseListAdapter.this.modelClass);
+                modelNames.put(dataSnapshot.getName(), model);
 
-        // Insert into the correct location, based on previousChildName
-        if (previousChildName == null) {
-          models.add(0, model);
-        } else {
-          T previousModel = modelNames.get(previousChildName);
-          int previousIndex = models.indexOf(previousModel);
-          int nextIndex = previousIndex + 1;
-          if (nextIndex == models.size()) {
-            models.add(model);
-          } else {
-            models.add(nextIndex, model);
-          }
+                // Insert into the correct location, based on previousChildName
+                if (previousChildName == null) {
+                    models.add(0, model);
+                }
+                else {
+                    T previousModel = modelNames.get(previousChildName);
+                    int previousIndex = models.indexOf(previousModel);
+                    int nextIndex = previousIndex + 1;
+                    if (nextIndex == models.size()) {
+                        models.add(model);
+                    }
+                    else {
+                        models.add(nextIndex, model);
+                    }
+                }
+
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                // One of the models changed. Replace it in our list and name mapping
+                String modelName = dataSnapshot.getName();
+                T oldModel = modelNames.get(modelName);
+                T newModel = dataSnapshot.getValue(FirebaseListAdapter.this.modelClass);
+                int index = models.indexOf(oldModel);
+
+                models.set(index, newModel);
+                modelNames.put(modelName, newModel);
+
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                // A model was removed from the list. Remove it from our list and the name mapping
+                String modelName = dataSnapshot.getName();
+                T oldModel = modelNames.get(modelName);
+                models.remove(oldModel);
+                modelNames.remove(modelName);
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+
+                // A model changed position in the list. Update our list accordingly
+                String modelName = dataSnapshot.getName();
+                T oldModel = modelNames.get(modelName);
+                T newModel = dataSnapshot.getValue(FirebaseListAdapter.this.modelClass);
+                int index = models.indexOf(oldModel);
+                models.remove(index);
+                if (previousChildName == null) {
+                    models.add(0, newModel);
+                }
+                else {
+                    T previousModel = modelNames.get(previousChildName);
+                    int previousIndex = models.indexOf(previousModel);
+                    int nextIndex = previousIndex + 1;
+                    if (nextIndex == models.size()) {
+                        models.add(newModel);
+                    }
+                    else {
+                        models.add(nextIndex, newModel);
+                    }
+                }
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError e) {
+                Log.e("FirebaseListAdapter", "Listen was cancelled, no more updates will occur");
+            }
+        });
+    }
+
+    public void cleanup() {
+        // We're being destroyed, let go of our listener and forget about all of the models
+        ref.removeEventListener(listener);
+        models.clear();
+        modelNames.clear();
+    }
+
+    @Override
+    public int getCount() {
+        return models.size();
+    }
+
+    @Override
+    public T getItem(int i) {
+        return models.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        if (view == null) {
+            view = inflater.inflate(layout, viewGroup, false);
         }
 
-        notifyDataSetChanged();
-      }
+        T model = models.get(i);
+        // Call out to subclass to marshall this model into the provided view
+        populateView(ViewHolder.from(view), model);
+        return view;
+    }
 
-      @Override
-      public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+    public static class ViewHolder {
 
-        // One of the models changed. Replace it in our list and name mapping
-        String modelName = dataSnapshot.getName();
-        T oldModel = modelNames.get(modelName);
-        T newModel = dataSnapshot.getValue(FirebaseListAdapter.this.modelClass);
-        int index = models.indexOf(oldModel);
+        public final View root;
+        private final Map<Integer, View> mMap = new ConcurrentHashMap<>();
 
-        models.set(index, newModel);
-        modelNames.put(modelName, newModel);
-
-        notifyDataSetChanged();
-      }
-
-      @Override
-      public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-        // A model was removed from the list. Remove it from our list and the name mapping
-        String modelName = dataSnapshot.getName();
-        T oldModel = modelNames.get(modelName);
-        models.remove(oldModel);
-        modelNames.remove(modelName);
-        notifyDataSetChanged();
-      }
-
-      @Override
-      public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-
-        // A model changed position in the list. Update our list accordingly
-        String modelName = dataSnapshot.getName();
-        T oldModel = modelNames.get(modelName);
-        T newModel = dataSnapshot.getValue(FirebaseListAdapter.this.modelClass);
-        int index = models.indexOf(oldModel);
-        models.remove(index);
-        if (previousChildName == null) {
-          models.add(0, newModel);
-        } else {
-          T previousModel = modelNames.get(previousChildName);
-          int previousIndex = models.indexOf(previousModel);
-          int nextIndex = previousIndex + 1;
-          if (nextIndex == models.size()) {
-            models.add(newModel);
-          } else {
-            models.add(nextIndex, newModel);
-          }
+        private ViewHolder(View root) {
+            this.root = root;
+            this.root.setTag(this);
         }
-        notifyDataSetChanged();
-      }
 
-      @Override
-      public void onCancelled(FirebaseError e) {
-        Log.e("FirebaseListAdapter", "Listen was cancelled, no more updates will occur");
-      }
-    });
-  }
+        public static ViewHolder from(View view) {
+            ViewHolder holder = (ViewHolder) view.getTag();
+            if (holder == null) {
+                view.setTag(holder = new ViewHolder(view));
+            }
+            return holder;
+        }
 
-  public void cleanup() {
-    // We're being destroyed, let go of our listener and forget about all of the models
-    ref.removeEventListener(listener);
-    models.clear();
-    modelNames.clear();
-  }
-
-  @Override
-  public int getCount() {
-    return models.size();
-  }
-
-  @Override
-  public T getItem(int i) {
-    return models.get(i);
-  }
-
-  @Override
-  public long getItemId(int i) {
-    return i;
-  }
-
-  @Override
-  public View getView(int i, View view, ViewGroup viewGroup) {
-    if (view == null) {
-      view = inflater.inflate(layout, viewGroup, false);
+        @SuppressWarnings("unchecked")
+        public <T extends View> T get(int id) {
+            if (!mMap.containsKey(id)) {
+                mMap.put(id, root.findViewById(id));
+            }
+            return (T) mMap.get(id);
+        }
     }
 
-    T model = models.get(i);
-    // Call out to subclass to marshall this model into the provided view
-    populateView(ViewHolder.from(view), model);
-    return view;
-  }
-
-  public static class ViewHolder {
-    public final View root;
-    private final Map<Integer, View> mMap = new ConcurrentHashMap<>();
-
-    private ViewHolder(View root) {
-      this.root = root;
-      this.root.setTag(this);
-    }
-
-    public static ViewHolder from(View view) {
-      ViewHolder holder = (ViewHolder) view.getTag();
-      if (holder == null) {
-        view.setTag(holder = new ViewHolder(view));
-      }
-      return holder;
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T extends View> T get(int id) {
-      if (!mMap.containsKey(id)) {
-        mMap.put(id, root.findViewById(id));
-      }
-      return (T) mMap.get(id);
-    }
-  }
-
-  /**
-   * Each time the data at the given Firebase location changes, this method will be called for each item that needs
-   * to be displayed. The arguments correspond to the layout and modelClass given to the constructor of this class.
-   * <p/>
-   * Your implementation should populate the view using the data contained in the model.
-   *
-   * @param holder     The ViewHolder to populate
-   * @param model The object containing the data used to populate the view
-   */
-  protected abstract void populateView(ViewHolder holder, T model);
+    /**
+     * Each time the data at the given Firebase location changes, this method will be called for each item that needs
+     * to be displayed. The arguments correspond to the layout and modelClass given to the constructor of this class.
+     * <p/>
+     * Your implementation should populate the view using the data contained in the model.
+     *
+     * @param holder The ViewHolder to populate
+     * @param model  The object containing the data used to populate the view
+     */
+    protected abstract void populateView(ViewHolder holder, T model);
 }

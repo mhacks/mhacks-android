@@ -34,11 +34,12 @@ import java.util.concurrent.Executor;
  */
 @TargetApi(3)
 public class RequestAsyncTask extends AsyncTask<Void, Void, List<Response>> {
+
     private static final String TAG = RequestAsyncTask.class.getCanonicalName();
     private static Method executeOnExecutorMethod;
 
     private final HttpURLConnection connection;
-    private final RequestBatch requests;
+    private final RequestBatch      requests;
 
     private Exception exception;
 
@@ -46,7 +47,8 @@ public class RequestAsyncTask extends AsyncTask<Void, Void, List<Response>> {
         for (Method method : AsyncTask.class.getMethods()) {
             if ("executeOnExecutor".equals(method.getName())) {
                 Class<?>[] parameters = method.getParameterTypes();
-                if ((parameters.length == 2) && (parameters[0] == Executor.class) && parameters[1].isArray()) {
+                if ((parameters.length == 2) && (parameters[0] == Executor.class) &&
+                    parameters[1].isArray()) {
                     executeOnExecutorMethod = method;
                     break;
                 }
@@ -134,8 +136,13 @@ public class RequestAsyncTask extends AsyncTask<Void, Void, List<Response>> {
 
     @Override
     public String toString() {
-        return new StringBuilder().append("{RequestAsyncTask: ").append(" connection: ").append(connection)
-                .append(", requests: ").append(requests).append("}").toString();
+        return new StringBuilder().append("{RequestAsyncTask: ")
+                                  .append(" connection: ")
+                                  .append(connection)
+                                  .append(", requests: ")
+                                  .append(requests)
+                                  .append("}")
+                                  .toString();
     }
 
     @Override
@@ -153,7 +160,9 @@ public class RequestAsyncTask extends AsyncTask<Void, Void, List<Response>> {
         super.onPostExecute(result);
 
         if (exception != null) {
-            Log.d(TAG, String.format("onPostExecute: exception encountered during request: %s", exception.getMessage()));
+            Log.d(TAG,
+                  String.format("onPostExecute: exception encountered during request: %s",
+                                exception.getMessage()));
         }
     }
 
@@ -162,10 +171,12 @@ public class RequestAsyncTask extends AsyncTask<Void, Void, List<Response>> {
         try {
             if (connection == null) {
                 return requests.executeAndWait();
-            } else {
+            }
+            else {
                 return Request.executeConnectionAndWait(connection, requests);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             exception = e;
             return null;
         }
@@ -177,9 +188,11 @@ public class RequestAsyncTask extends AsyncTask<Void, Void, List<Response>> {
                 executeOnExecutorMethod.invoke(this, Settings.getExecutor(), null);
                 return this;
             }
-        } catch (InvocationTargetException e) {
+        }
+        catch (InvocationTargetException e) {
             // fall-through
-        } catch (IllegalAccessException e) {
+        }
+        catch (IllegalAccessException e) {
             // fall-through
         }
 

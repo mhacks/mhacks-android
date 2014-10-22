@@ -18,15 +18,16 @@ package com.facebook;
 
 import android.net.Uri;
 import android.os.Handler;
-import android.test.AndroidTestCase;
-import bolts.AppLink;
-import bolts.Continuation;
-import bolts.Task;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import bolts.AppLink;
+import bolts.Continuation;
+import bolts.Task;
+
 public class FacebookAppLinkResolverTests extends FacebookTestCase {
+
     private Task resolveTask;
 
     public void testSingleUrl() {
@@ -51,18 +52,19 @@ public class FacebookAppLinkResolverTests extends FacebookTestCase {
 
             assertNotNull(resolveTask);
 
-            Task<AppLink> singleUrlResolveTask = (Task<AppLink>)resolveTask;
+            Task<AppLink> singleUrlResolveTask = (Task<AppLink>) resolveTask;
 
             assertTrue(singleUrlResolveTask.isCompleted() &&
-                    !singleUrlResolveTask.isCancelled() &&
-                    !singleUrlResolveTask.isFaulted());
+                       !singleUrlResolveTask.isCancelled() &&
+                       !singleUrlResolveTask.isFaulted());
 
             AppLink appLink = singleUrlResolveTask.getResult();
 
             assertEquals(appLink.getSourceUrl(), testUrl);
             assertEquals(appLink.getWebUrl(), testWebUri);
             assertTrue(targetListsAreEqual(appLink.getTargets(), testTargets));
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             // Forcing the test to fail with details
             assertNull(e);
         }
@@ -78,15 +80,16 @@ public class FacebookAppLinkResolverTests extends FacebookTestCase {
 
             assertNotNull(resolveTask);
 
-            Task<AppLink> singleUrlResolveTask = (Task<AppLink>)resolveTask;
+            Task<AppLink> singleUrlResolveTask = (Task<AppLink>) resolveTask;
 
             assertTrue(singleUrlResolveTask.isCompleted() &&
-                    !singleUrlResolveTask.isCancelled() &&
-                    !singleUrlResolveTask.isFaulted());
+                       !singleUrlResolveTask.isCancelled() &&
+                       !singleUrlResolveTask.isFaulted());
 
             AppLink appLink = singleUrlResolveTask.getResult();
             assertNull(appLink);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             // Forcing the test to fail with details
             assertNull(e);
         }
@@ -120,21 +123,23 @@ public class FacebookAppLinkResolverTests extends FacebookTestCase {
             Task<AppLink> cachedUrlResolveTask = resolver.getAppLinkFromUrlInBackground(testUrl);
 
             assertTrue(cachedUrlResolveTask.isCompleted() &&
-                    !cachedUrlResolveTask.isCancelled() &&
-                    !cachedUrlResolveTask.isFaulted());
+                       !cachedUrlResolveTask.isCancelled() &&
+                       !cachedUrlResolveTask.isFaulted());
 
             AppLink appLink = cachedUrlResolveTask.getResult();
 
             assertEquals(appLink.getSourceUrl(), testUrl);
             assertEquals(appLink.getWebUrl(), testWebUri);
             assertTrue(targetListsAreEqual(appLink.getTargets(), testTargets));
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             // Forcing the test to fail with details
             assertNull(e);
         }
     }
 
-    public void executeResolverOnBlockerThread(final FacebookAppLinkResolver resolver, final Uri testUrl) {
+    public void executeResolverOnBlockerThread(final FacebookAppLinkResolver resolver,
+                                               final Uri testUrl) {
         final TestBlocker blocker = getTestBlocker();
         Runnable runnable = new Runnable() {
             public void run() {
@@ -148,7 +153,8 @@ public class FacebookAppLinkResolverTests extends FacebookTestCase {
                             return null;
                         }
                     });
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     // Get back to the test case if there was an uncaught exception
                     blocker.signal();
                 }
@@ -159,16 +165,18 @@ public class FacebookAppLinkResolverTests extends FacebookTestCase {
         handler.post(runnable);
     }
 
-    private static boolean targetListsAreEqual(List<AppLink.Target> list1, List<AppLink.Target> list2) {
+    private static boolean targetListsAreEqual(List<AppLink.Target> list1,
+                                               List<AppLink.Target> list2) {
         if (list1 == null) {
             return list2 == null;
-        } else if (list2 == null || list1.size() != list2.size()) {
+        }
+        else if (list2 == null || list1.size() != list2.size()) {
             return false;
         }
 
         ArrayList<AppLink.Target> list2Copy = new ArrayList<AppLink.Target>(list2);
 
-        for(int i = 0; i < list1.size(); i++) {
+        for (int i = 0; i < list1.size(); i++) {
             int j;
             for (j = 0; j < list2Copy.size(); j++) {
                 if (targetsAreEqual(list1.get(i), list2Copy.get(j))) {
@@ -179,7 +187,8 @@ public class FacebookAppLinkResolverTests extends FacebookTestCase {
             if (j < list2Copy.size()) {
                 // Found a match. Remove from the copy to make sure the same target isn't matched twice.
                 list2Copy.remove(j);
-            } else {
+            }
+            else {
                 // Match not found
                 return false;
             }
@@ -192,7 +201,7 @@ public class FacebookAppLinkResolverTests extends FacebookTestCase {
                 objectsAreEqual(target1.getPackageName(), target2.getPackageName()) &&
                 objectsAreEqual(target1.getClassName(), target2.getClassName()) &&
                 objectsAreEqual(target1.getAppName(), target2.getAppName()) &&
-                objectsAreEqual(target1.getUrl(), target2.getUrl()) ;
+                objectsAreEqual(target1.getUrl(), target2.getUrl());
 
         return isEqual;
     }

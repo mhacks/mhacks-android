@@ -22,7 +22,9 @@ import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
 
-public class FacebookActivityTests extends FacebookActivityTestCase<FacebookActivityTests.FacebookTestActivity> {
+public class FacebookActivityTests
+        extends FacebookActivityTestCase<FacebookActivityTests.FacebookTestActivity> {
+
     public FacebookActivityTests() {
         super(FacebookActivityTests.FacebookTestActivity.class);
     }
@@ -68,6 +70,7 @@ public class FacebookActivityTests extends FacebookActivityTestCase<FacebookActi
     }
 
     public static class FacebookTestActivity extends Activity {
+
         public boolean hasNativeLinkIntentForTesting() {
             return AccessToken.createFromNativeLinkingIntent(getIntent()) != null;
         }

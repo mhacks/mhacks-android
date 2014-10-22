@@ -21,34 +21,40 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
+
 import com.facebook.internal.Utility;
+
 import junit.framework.Assert;
 
 import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 
 public final class SharedPreferencesTokenCacheTests extends AndroidTestCase {
 
-    private static final String BOOLEAN_KEY = "booleanKey";
+    private static final String BOOLEAN_KEY       = "booleanKey";
     private static final String BOOLEAN_ARRAY_KEY = "booleanArrayKey";
-    private static final String BYTE_KEY = "byteKey";
-    private static final String BYTE_ARRAY_KEY = "byteArrayKey";
-    private static final String SHORT_KEY = "shortKey";
-    private static final String SHORT_ARRAY_KEY = "shortArrayKey";
-    private static final String INT_KEY = "intKey";
-    private static final String INT_ARRAY_KEY = "intArrayKey";
-    private static final String LONG_KEY = "longKey";
-    private static final String LONG_ARRAY_KEY = "longArrayKey";
-    private static final String FLOAT_ARRAY_KEY = "floatKey";
-    private static final String FLOAT_KEY = "floatArrayKey";
-    private static final String DOUBLE_KEY = "doubleKey";
-    private static final String DOUBLE_ARRAY_KEY = "doubleArrayKey";
-    private static final String CHAR_KEY = "charKey";
-    private static final String CHAR_ARRAY_KEY = "charArrayKey";
-    private static final String STRING_KEY = "stringKey";
-    private static final String STRING_LIST_KEY = "stringListKey";
-    private static final String SERIALIZABLE_KEY = "serializableKey";
+    private static final String BYTE_KEY          = "byteKey";
+    private static final String BYTE_ARRAY_KEY    = "byteArrayKey";
+    private static final String SHORT_KEY         = "shortKey";
+    private static final String SHORT_ARRAY_KEY   = "shortArrayKey";
+    private static final String INT_KEY           = "intKey";
+    private static final String INT_ARRAY_KEY     = "intArrayKey";
+    private static final String LONG_KEY          = "longKey";
+    private static final String LONG_ARRAY_KEY    = "longArrayKey";
+    private static final String FLOAT_ARRAY_KEY   = "floatKey";
+    private static final String FLOAT_KEY         = "floatArrayKey";
+    private static final String DOUBLE_KEY        = "doubleKey";
+    private static final String DOUBLE_ARRAY_KEY  = "doubleArrayKey";
+    private static final String CHAR_KEY          = "charKey";
+    private static final String CHAR_ARRAY_KEY    = "charArrayKey";
+    private static final String STRING_KEY        = "stringKey";
+    private static final String STRING_LIST_KEY   = "stringListKey";
+    private static final String SERIALIZABLE_KEY  = "serializableKey";
 
     private static Random random = new Random((new Date()).getTime());
 
@@ -76,37 +82,52 @@ public final class SharedPreferencesTokenCacheTests extends AndroidTestCase {
         putCharArray(CHAR_ARRAY_KEY, originalBundle);
         putString(STRING_KEY, originalBundle);
         putStringList(STRING_LIST_KEY, originalBundle);
-        originalBundle.putSerializable(SERIALIZABLE_KEY, AccessTokenSource.FACEBOOK_APPLICATION_WEB);
+        originalBundle.putSerializable(SERIALIZABLE_KEY,
+                                       AccessTokenSource.FACEBOOK_APPLICATION_WEB);
 
         ensureApplicationContext();
 
-        SharedPreferencesTokenCachingStrategy cache = new SharedPreferencesTokenCachingStrategy(getContext());
+        SharedPreferencesTokenCachingStrategy cache =
+                new SharedPreferencesTokenCachingStrategy(getContext());
         cache.save(originalBundle);
 
-        SharedPreferencesTokenCachingStrategy cache2 = new SharedPreferencesTokenCachingStrategy(getContext());
+        SharedPreferencesTokenCachingStrategy cache2 =
+                new SharedPreferencesTokenCachingStrategy(getContext());
         Bundle cachedBundle = cache2.load();
 
-        Assert.assertEquals(originalBundle.getBoolean(BOOLEAN_KEY), cachedBundle.getBoolean(BOOLEAN_KEY));
-        assertArrayEquals(originalBundle.getBooleanArray(BOOLEAN_ARRAY_KEY), cachedBundle.getBooleanArray(BOOLEAN_ARRAY_KEY));
+        Assert.assertEquals(originalBundle.getBoolean(BOOLEAN_KEY),
+                            cachedBundle.getBoolean(BOOLEAN_KEY));
+        assertArrayEquals(originalBundle.getBooleanArray(BOOLEAN_ARRAY_KEY),
+                          cachedBundle.getBooleanArray(BOOLEAN_ARRAY_KEY));
         Assert.assertEquals(originalBundle.getByte(BYTE_KEY), cachedBundle.getByte(BYTE_KEY));
-        assertArrayEquals(originalBundle.getByteArray(BYTE_ARRAY_KEY), cachedBundle.getByteArray(BYTE_ARRAY_KEY));
+        assertArrayEquals(originalBundle.getByteArray(BYTE_ARRAY_KEY),
+                          cachedBundle.getByteArray(BYTE_ARRAY_KEY));
         Assert.assertEquals(originalBundle.getShort(SHORT_KEY), cachedBundle.getShort(SHORT_KEY));
-        assertArrayEquals(originalBundle.getShortArray(SHORT_ARRAY_KEY), cachedBundle.getShortArray(SHORT_ARRAY_KEY));
+        assertArrayEquals(originalBundle.getShortArray(SHORT_ARRAY_KEY),
+                          cachedBundle.getShortArray(SHORT_ARRAY_KEY));
         Assert.assertEquals(originalBundle.getInt(INT_KEY), cachedBundle.getInt(INT_KEY));
-        assertArrayEquals(originalBundle.getIntArray(INT_ARRAY_KEY), cachedBundle.getIntArray(INT_ARRAY_KEY));
+        assertArrayEquals(originalBundle.getIntArray(INT_ARRAY_KEY),
+                          cachedBundle.getIntArray(INT_ARRAY_KEY));
         Assert.assertEquals(originalBundle.getLong(LONG_KEY), cachedBundle.getLong(LONG_KEY));
-        assertArrayEquals(originalBundle.getLongArray(LONG_ARRAY_KEY), cachedBundle.getLongArray(LONG_ARRAY_KEY));
+        assertArrayEquals(originalBundle.getLongArray(LONG_ARRAY_KEY),
+                          cachedBundle.getLongArray(LONG_ARRAY_KEY));
         Assert.assertEquals(originalBundle.getFloat(FLOAT_KEY), cachedBundle.getFloat(FLOAT_KEY));
-        assertArrayEquals(originalBundle.getFloatArray(FLOAT_ARRAY_KEY), cachedBundle.getFloatArray(FLOAT_ARRAY_KEY));
-        Assert.assertEquals(originalBundle.getDouble(DOUBLE_KEY), cachedBundle.getDouble(DOUBLE_KEY));
-        assertArrayEquals(originalBundle.getDoubleArray(DOUBLE_ARRAY_KEY), cachedBundle.getDoubleArray(DOUBLE_ARRAY_KEY));
+        assertArrayEquals(originalBundle.getFloatArray(FLOAT_ARRAY_KEY),
+                          cachedBundle.getFloatArray(FLOAT_ARRAY_KEY));
+        Assert.assertEquals(originalBundle.getDouble(DOUBLE_KEY),
+                            cachedBundle.getDouble(DOUBLE_KEY));
+        assertArrayEquals(originalBundle.getDoubleArray(DOUBLE_ARRAY_KEY),
+                          cachedBundle.getDoubleArray(DOUBLE_ARRAY_KEY));
         Assert.assertEquals(originalBundle.getChar(CHAR_KEY), cachedBundle.getChar(CHAR_KEY));
-        assertArrayEquals(originalBundle.getCharArray(CHAR_ARRAY_KEY), cachedBundle.getCharArray(CHAR_ARRAY_KEY));
-        Assert.assertEquals(originalBundle.getString(STRING_KEY), cachedBundle.getString(STRING_KEY));
-        assertListEquals(originalBundle.getStringArrayList(STRING_LIST_KEY), cachedBundle.getStringArrayList(
-                STRING_LIST_KEY));
+        assertArrayEquals(originalBundle.getCharArray(CHAR_ARRAY_KEY),
+                          cachedBundle.getCharArray(CHAR_ARRAY_KEY));
+        Assert.assertEquals(originalBundle.getString(STRING_KEY),
+                            cachedBundle.getString(STRING_KEY));
+        assertListEquals(originalBundle.getStringArrayList(STRING_LIST_KEY),
+                         cachedBundle.getStringArrayList(
+                                 STRING_LIST_KEY));
         Assert.assertEquals(originalBundle.getSerializable(SERIALIZABLE_KEY),
-                cachedBundle.getSerializable(SERIALIZABLE_KEY));
+                            cachedBundle.getSerializable(SERIALIZABLE_KEY));
     }
 
     @SmallTest
@@ -122,8 +143,10 @@ public final class SharedPreferencesTokenCacheTests extends AndroidTestCase {
 
         ensureApplicationContext();
 
-        SharedPreferencesTokenCachingStrategy cache1 = new SharedPreferencesTokenCachingStrategy(getContext());
-        SharedPreferencesTokenCachingStrategy cache2 = new SharedPreferencesTokenCachingStrategy(getContext(), "CustomCache");
+        SharedPreferencesTokenCachingStrategy cache1 =
+                new SharedPreferencesTokenCachingStrategy(getContext());
+        SharedPreferencesTokenCachingStrategy cache2 =
+                new SharedPreferencesTokenCachingStrategy(getContext(), "CustomCache");
 
         cache1.save(bundle1);
         cache2.save(bundle2);
@@ -150,7 +173,8 @@ public final class SharedPreferencesTokenCacheTests extends AndroidTestCase {
         Date later = TestUtils.nowPlusSeconds(60);
         Date earlier = TestUtils.nowPlusSeconds(-60);
 
-        SharedPreferencesTokenCachingStrategy cache = new SharedPreferencesTokenCachingStrategy(getContext());
+        SharedPreferencesTokenCachingStrategy cache =
+                new SharedPreferencesTokenCachingStrategy(getContext());
         cache.clear();
 
         Bundle bundle = new Bundle();
@@ -217,20 +241,20 @@ public final class SharedPreferencesTokenCacheTests extends AndroidTestCase {
     }
 
     private static void putShort(String key, Bundle bundle) {
-        bundle.putShort(key, (short)random.nextInt());
+        bundle.putShort(key, (short) random.nextInt());
     }
 
     private static void putShortArray(String key, Bundle bundle) {
         int length = random.nextInt(50);
         short[] array = new short[length];
         for (int i = 0; i < length; i++) {
-            array[i] = (short)random.nextInt();
+            array[i] = (short) random.nextInt();
         }
         bundle.putShortArray(key, array);
     }
 
     private static void putByte(String key, Bundle bundle) {
-        bundle.putByte(key, (byte)random.nextInt());
+        bundle.putByte(key, (byte) random.nextInt());
     }
 
     private static void putByteArray(String key, Bundle bundle) {
@@ -310,7 +334,8 @@ public final class SharedPreferencesTokenCacheTests extends AndroidTestCase {
         while (0 < length--) {
             if (length == 0) {
                 stringList.add(null);
-            } else {
+            }
+            else {
                 stringList.add(new String(getCharArray()));
             }
         }
@@ -329,7 +354,7 @@ public final class SharedPreferencesTokenCacheTests extends AndroidTestCase {
     }
 
     private static char getChar() {
-        return (char)random.nextInt(255);
+        return (char) random.nextInt(255);
     }
 
     private void ensureApplicationContext() {

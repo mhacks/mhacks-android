@@ -20,7 +20,7 @@
     xmlns:loginView="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/com_facebook_usersettingsfragment_background_gradient" >
+    android:background="@drawable/com_facebook_usersettingsfragment_background_gradient">
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
             android:textStyle="bold"
             android:layout_marginTop="35dp"
             android:gravity="center"/>
-    
+
         <com.facebook.widget.LoginButton
             android:id="@+id/com_facebook_usersettingsfragment_login_button"
             android:layout_width="wrap_content"
@@ -53,7 +53,7 @@
             android:layout_marginTop="35dp"
             android:layout_marginBottom="35dp"
             loginView:login_text="@string/com_facebook_usersettingsfragment_log_in_button"
-            style="@style/com_facebook_loginview_silver_style" />
-    
+            style="@style/com_facebook_loginview_silver_style"/>
+
     </LinearLayout>
 </ScrollView>

@@ -20,9 +20,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.widget.LinearLayout;
+
 import com.facebook.FacebookActivityTestCase;
 
-public class FragmentTestCase<T extends FragmentTestCase.TestFragmentActivity<?>> extends FacebookActivityTestCase<T> {
+public class FragmentTestCase<T extends FragmentTestCase.TestFragmentActivity<?>>
+        extends FacebookActivityTestCase<T> {
+
     public FragmentTestCase(Class<T> activityClass) {
         super(activityClass);
     }
@@ -32,10 +35,11 @@ public class FragmentTestCase<T extends FragmentTestCase.TestFragmentActivity<?>
     }
 
     public static class TestFragmentActivity<T extends Fragment> extends FragmentActivity {
+
         public static final int FRAGMENT_ID = 0xFACE;
 
         private Class<T> fragmentClass;
-        private int fragmentId;
+        private int      fragmentId;
 
         protected TestFragmentActivity(Class<T> fragmentClass) {
             this.fragmentClass = fragmentClass;
@@ -57,9 +61,11 @@ public class FragmentTestCase<T extends FragmentTestCase.TestFragmentActivity<?>
             if (fragment == null) {
                 try {
                     fragment = createFragment();
-                } catch (InstantiationException e) {
+                }
+                catch (InstantiationException e) {
                     return;
-                } catch (IllegalAccessException e) {
+                }
+                catch (IllegalAccessException e) {
                     return;
                 }
             }
@@ -67,12 +73,12 @@ public class FragmentTestCase<T extends FragmentTestCase.TestFragmentActivity<?>
             LinearLayout layout = new LinearLayout(this);
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,
-                    LinearLayout.LayoutParams.FILL_PARENT));
+                                                                 LinearLayout.LayoutParams.FILL_PARENT));
             layout.setId(FRAGMENT_ID);
 
             getSupportFragmentManager().beginTransaction()
-                    .add(FRAGMENT_ID, fragment)
-                    .commit();
+                                       .add(FRAGMENT_ID, fragment)
+                                       .commit();
 
             fragmentId = FRAGMENT_ID;
 

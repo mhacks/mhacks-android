@@ -19,12 +19,14 @@ package com.facebook.widget;
 import android.os.Bundle;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.MediumTest;
+
 import com.facebook.SessionDefaultAudience;
 import com.facebook.SessionLoginBehavior;
 
 import java.util.List;
 
-public class UserSettingsFragmentTests extends FragmentTestCase<UserSettingsFragmentTests.TestActivity> {
+public class UserSettingsFragmentTests
+        extends FragmentTestCase<UserSettingsFragmentTests.TestActivity> {
 
     public UserSettingsFragmentTests() {
         super(TestActivity.class);
@@ -46,7 +48,9 @@ public class UserSettingsFragmentTests extends FragmentTestCase<UserSettingsFrag
         assertEquals("read_1", permissions.get(0));
     }
 
-    public static class TestActivity extends FragmentTestCase.TestFragmentActivity<UserSettingsFragment> {
+    public static class TestActivity
+            extends FragmentTestCase.TestFragmentActivity<UserSettingsFragment> {
+
         public TestActivity() {
             super(UserSettingsFragment.class);
         }

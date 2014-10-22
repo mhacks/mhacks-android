@@ -25,7 +25,8 @@ import com.facebook.RequestBatch;
  * any time.
  */
 public class CacheableRequestBatch extends RequestBatch {
-    private String cacheKey;
+
+    private String  cacheKey;
     private boolean forceRoundTrip;
 
     public CacheableRequestBatch() {

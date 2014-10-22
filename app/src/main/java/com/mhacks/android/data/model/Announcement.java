@@ -12,13 +12,15 @@ import java.util.Date;
  * Created by Omid Ghomeshi on 10/13/14.
  */
 @ParseClassName("Annoucement")
-public class Announcement extends ParseObject implements Parcelable{
+public class Announcement extends ParseObject implements Parcelable {
 
     public static final String AUTHOR_COL  = "author";
     public static final String EVENT_COL   = "event";
     public static final String MESSAGE_COL = "message";
     public static final String TIME_COL    = "time";
     public static final String TITLE_COL   = "title";
+
+    public Announcement() {}
 
     public Sponsor getAuthor() {
         return (Sponsor) getParseObject(AUTHOR_COL);

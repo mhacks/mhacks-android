@@ -4,6 +4,7 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,50 +12,53 @@ import java.util.Arrays;
 import java.util.Date;
 
 public final class OpenGraphObjectTests extends AndroidTestCase {
+
     private static String OBJECT_JSON = "{" +
-            "  \"id\": \"509\"," +
-            "  \"url\": \"http://www.example.com/100\"," +
-            "  \"type\": \"awesome:thing\"," +
-            "  \"title\": \"awesome title\"," +
-            "  \"data\": {" +
-            "    \"color\": \"blue\"" +
-            "  }," +
-            "  \"image\": [" +
-            "    {" +
-            "      \"url\": \"http://www.example.com/images/81\"" +
-            "    }" +
-            "  ]," +
-            "  \"video\": [" +
-            "    {" +
-            "      \"url\": \"http://www.example.com/videos/18\"" +
-            "    }" +
-            "  ]," +
-            "  \"audio\": [" +
-            "    {" +
-            "      \"url\": \"http://www.example.com/audio/98\"" +
-            "    }" +
-            "  ]," +
-            "  \"description\": \"a description\"," +
-            "  \"see_also\": [" +
-            "    \"http://www.example.com/101\"" +
-            "  ]," +
-            "  \"site_name\": \"Awesome Site\"," +
-            "  \"updated_time\": \"2013-04-30T18:18:17+0000\"," +
-            "  \"created_time\": \"2013-04-30T18:18:17+0000\"," +
-            "  \"application\": {" +
-            "    \"id\": \"55\"," +
-            "    \"name\": \"Awesome App\"," +
-            "    \"url\": \"https://www.facebook.com/apps/application.php?id=55\"" +
-            "  }," +
-            "  \"is_scraped\": false," +
-            "  \"post_action_id\": \"1234\"" +
-            "}";
+                                        "  \"id\": \"509\"," +
+                                        "  \"url\": \"http://www.example.com/100\"," +
+                                        "  \"type\": \"awesome:thing\"," +
+                                        "  \"title\": \"awesome title\"," +
+                                        "  \"data\": {" +
+                                        "    \"color\": \"blue\"" +
+                                        "  }," +
+                                        "  \"image\": [" +
+                                        "    {" +
+                                        "      \"url\": \"http://www.example.com/images/81\"" +
+                                        "    }" +
+                                        "  ]," +
+                                        "  \"video\": [" +
+                                        "    {" +
+                                        "      \"url\": \"http://www.example.com/videos/18\"" +
+                                        "    }" +
+                                        "  ]," +
+                                        "  \"audio\": [" +
+                                        "    {" +
+                                        "      \"url\": \"http://www.example.com/audio/98\"" +
+                                        "    }" +
+                                        "  ]," +
+                                        "  \"description\": \"a description\"," +
+                                        "  \"see_also\": [" +
+                                        "    \"http://www.example.com/101\"" +
+                                        "  ]," +
+                                        "  \"site_name\": \"Awesome Site\"," +
+                                        "  \"updated_time\": \"2013-04-30T18:18:17+0000\"," +
+                                        "  \"created_time\": \"2013-04-30T18:18:17+0000\"," +
+                                        "  \"application\": {" +
+                                        "    \"id\": \"55\"," +
+                                        "    \"name\": \"Awesome App\"," +
+                                        "    \"url\": \"https://www.facebook.com/apps/application.php?id=55\"" +
+                                        "  }," +
+                                        "  \"is_scraped\": false," +
+                                        "  \"post_action_id\": \"1234\"" +
+                                        "}";
 
     interface TestOpenGraphObjectData extends GraphObject {
+
         String getColor();
     }
 
     interface TestOpenGraphObject extends GraphObject {
+
         TestOpenGraphObjectData getData();
     }
 

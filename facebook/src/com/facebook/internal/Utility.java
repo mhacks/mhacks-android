@@ -27,24 +27,37 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+
 import com.facebook.FacebookException;
 import com.facebook.Request;
 import com.facebook.Settings;
-import com.facebook.android.BuildConfig;
 import com.facebook.model.GraphObject;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.Closeable;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -53,23 +66,25 @@ import java.util.concurrent.ConcurrentHashMap;
  * any time.
  */
 public final class Utility {
-    static final String LOG_TAG = "FacebookSDK";
-    private static final String HASH_ALGORITHM_MD5 = "MD5";
-    private static final String HASH_ALGORITHM_SHA1 = "SHA-1";
-    private static final String URL_SCHEME = "https";
-    private static final String SUPPORTS_ATTRIBUTION = "supports_attribution";
-    private static final String SUPPORTS_IMPLICIT_SDK_LOGGING = "supports_implicit_sdk_logging";
-    private static final String NUX_CONTENT = "gdpv4_nux_content";
-    private static final String NUX_ENABLED = "gdpv4_nux_enabled";
+
+    static final         String LOG_TAG                              = "FacebookSDK";
+    private static final String HASH_ALGORITHM_MD5                   = "MD5";
+    private static final String HASH_ALGORITHM_SHA1                  = "SHA-1";
+    private static final String URL_SCHEME                           = "https";
+    private static final String SUPPORTS_ATTRIBUTION                 = "supports_attribution";
+    private static final String SUPPORTS_IMPLICIT_SDK_LOGGING        =
+            "supports_implicit_sdk_logging";
+    private static final String NUX_CONTENT                          = "gdpv4_nux_content";
+    private static final String NUX_ENABLED                          = "gdpv4_nux_enabled";
     private static final String EXTRA_APP_EVENTS_INFO_FORMAT_VERSION = "a1";
 
-    private static final String [] APP_SETTING_FIELDS = new String[] {
+    private static final String[] APP_SETTING_FIELDS = new String[]{
             SUPPORTS_ATTRIBUTION,
             SUPPORTS_IMPLICIT_SDK_LOGGING,
             NUX_CONTENT,
             NUX_ENABLED
     };
-    private static final String APPLICATION_FIELDS = "fields";
+    private static final String   APPLICATION_FIELDS = "fields";
 
     // This is the default used by the buffer streams, but they trace a warning if you do not specify.
     public static final int DEFAULT_STREAM_BUFFER_SIZE = 8192;
@@ -77,10 +92,11 @@ public final class Utility {
     private static Map<String, FetchedAppSettings> fetchedAppSettings =
             new ConcurrentHashMap<String, FetchedAppSettings>();
 
-  public static class FetchedAppSettings {
+    public static class FetchedAppSettings {
+
         private boolean supportsAttribution;
         private boolean supportsImplicitLogging;
-        private String nuxContent;
+        private String  nuxContent;
         private boolean nuxEnabled;
 
         private FetchedAppSettings(boolean supportsAttribution,
@@ -167,7 +183,8 @@ public final class Utility {
         MessageDigest hash;
         try {
             hash = MessageDigest.getInstance(algorithm);
-        } catch (NoSuchAlgorithmException e) {
+        }
+        catch (NoSuchAlgorithmException e) {
             return null;
         }
         return hashBytes(hash, bytes);
@@ -201,11 +218,14 @@ public final class Utility {
     public static void putObjectInBundle(Bundle bundle, String key, Object value) {
         if (value instanceof String) {
             bundle.putString(key, (String) value);
-        } else if (value instanceof Parcelable) {
+        }
+        else if (value instanceof Parcelable) {
             bundle.putParcelable(key, (Parcelable) value);
-        } else if (value instanceof byte[]) {
+        }
+        else if (value instanceof byte[]) {
             bundle.putByteArray(key, (byte[]) value);
-        } else {
+        }
+        else {
             throw new FacebookException("attempted to add unsupported type to Bundle");
         }
     }
@@ -215,14 +235,15 @@ public final class Utility {
             if (closeable != null) {
                 closeable.close();
             }
-        } catch (IOException ioe) {
+        }
+        catch (IOException ioe) {
             // ignore
         }
     }
 
     public static void disconnectQuietly(URLConnection connection) {
         if (connection instanceof HttpURLConnection) {
-            ((HttpURLConnection)connection).disconnect();
+            ((HttpURLConnection) connection).disconnect();
         }
     }
 
@@ -246,14 +267,17 @@ public final class Utility {
                     value = convertJSONObjectToHashMap((JSONObject) value);
                 }
                 map.put(key, value);
-            } catch (JSONException e) {
+            }
+            catch (JSONException e) {
             }
         }
         return map;
     }
 
     // Returns either a JSONObject or JSONArray representation of the 'key' property of 'jsonObject'.
-    public static Object getStringPropertyAsJSON(JSONObject jsonObject, String key, String nonJSONPropertyKey)
+    public static Object getStringPropertyAsJSON(JSONObject jsonObject,
+                                                 String key,
+                                                 String nonJSONPropertyKey)
             throws JSONException {
         Object value = jsonObject.opt(key);
         if (value != null && value instanceof String) {
@@ -271,7 +295,8 @@ public final class Utility {
                 jsonObject = new JSONObject();
                 jsonObject.putOpt(nonJSONPropertyKey, value);
                 return jsonObject;
-            } else {
+            }
+            else {
                 throw new FacebookException("Got an unexpected non-JSON object.");
             }
         }
@@ -296,7 +321,8 @@ public final class Utility {
             }
 
             return stringBuilder.toString();
-        } finally {
+        }
+        finally {
             closeQuietly(bufferedInputStream);
             closeQuietly(reader);
         }
@@ -335,7 +361,8 @@ public final class Utility {
         for (String cookie : splitCookies) {
             String[] cookieParts = cookie.split("=");
             if (cookieParts.length > 0) {
-                String newCookie = cookieParts[0].trim() + "=;expires=Sat, 1 Jan 2000 00:00:01 UTC;";
+                String newCookie =
+                        cookieParts[0].trim() + "=;expires=Sat, 1 Jan 2000 00:00:01 UTC;";
                 cookieManager.setCookie(domain, newCookie);
             }
         }
@@ -371,7 +398,8 @@ public final class Utility {
     }
 
     // Note that this method makes a synchronous Graph API call, so should not be called from the main thread.
-    public static FetchedAppSettings queryAppSettings(final String applicationId, final boolean forceRequery) {
+    public static FetchedAppSettings queryAppSettings(final String applicationId,
+                                                      final boolean forceRequery) {
 
         // Cache the last app checked results.
         if (!forceRequery && fetchedAppSettings.containsKey(applicationId)) {
@@ -390,7 +418,7 @@ public final class Utility {
                 safeGetBooleanFromResponse(supportResponse, SUPPORTS_IMPLICIT_SDK_LOGGING),
                 safeGetStringFromResponse(supportResponse, NUX_CONTENT),
                 safeGetBooleanFromResponse(supportResponse, NUX_ENABLED)
-                );
+        );
 
         fetchedAppSettings.put(applicationId, result);
 
@@ -455,66 +483,80 @@ public final class Utility {
 
         if (androidId == null) {
             return null;
-        } else {
+        }
+        else {
             return sha1hash(androidId + applicationId);
         }
     }
 
     public static void setAppEventAttributionParameters(GraphObject params,
-            AttributionIdentifiers attributionIdentifiers, String hashedDeviceAndAppId, boolean limitEventUsage) {
+                                                        AttributionIdentifiers attributionIdentifiers,
+                                                        String hashedDeviceAndAppId,
+                                                        boolean limitEventUsage) {
         // Send attributionID if it exists, otherwise send a hashed device+appid specific value as the advertiser_id.
         if (attributionIdentifiers != null && attributionIdentifiers.getAttributionId() != null) {
             params.setProperty("attribution", attributionIdentifiers.getAttributionId());
         }
 
-        if (attributionIdentifiers != null && attributionIdentifiers.getAndroidAdvertiserId() != null) {
+        if (attributionIdentifiers != null &&
+            attributionIdentifiers.getAndroidAdvertiserId() != null) {
             params.setProperty("advertiser_id", attributionIdentifiers.getAndroidAdvertiserId());
-            params.setProperty("advertiser_tracking_enabled", !attributionIdentifiers.isTrackingLimited());
-        } else if (hashedDeviceAndAppId != null) {
+            params.setProperty("advertiser_tracking_enabled",
+                               !attributionIdentifiers.isTrackingLimited());
+        }
+        else if (hashedDeviceAndAppId != null) {
             params.setProperty("advertiser_id", hashedDeviceAndAppId);
         }
 
         params.setProperty("application_tracking_enabled", !limitEventUsage);
     }
 
-    public static void setAppEventExtendedDeviceInfoParameters(GraphObject params, Context appContext) {
-      JSONArray extraInfoArray = new JSONArray();
-      extraInfoArray.put(EXTRA_APP_EVENTS_INFO_FORMAT_VERSION);
+    public static void setAppEventExtendedDeviceInfoParameters(GraphObject params,
+                                                               Context appContext) {
+        JSONArray extraInfoArray = new JSONArray();
+        extraInfoArray.put(EXTRA_APP_EVENTS_INFO_FORMAT_VERSION);
 
-      // Application Manifest info:
-      String pkgName = appContext.getPackageName();
-      int versionCode = -1;
-      String versionName = "";
+        // Application Manifest info:
+        String pkgName = appContext.getPackageName();
+        int versionCode = -1;
+        String versionName = "";
 
-      try {
-        PackageInfo pi = appContext.getPackageManager().getPackageInfo(pkgName, 0);
-        versionCode = pi.versionCode;
-        versionName = pi.versionName;
-      } catch (PackageManager.NameNotFoundException e) {
-        // Swallow
-      }
+        try {
+            PackageInfo pi = appContext.getPackageManager().getPackageInfo(pkgName, 0);
+            versionCode = pi.versionCode;
+            versionName = pi.versionName;
+        }
+        catch (PackageManager.NameNotFoundException e) {
+            // Swallow
+        }
 
-      // Application Manifest info:
-      extraInfoArray.put(pkgName);
-      extraInfoArray.put(versionCode);
-      extraInfoArray.put(versionName);
+        // Application Manifest info:
+        extraInfoArray.put(pkgName);
+        extraInfoArray.put(versionCode);
+        extraInfoArray.put(versionName);
 
-      params.setProperty("extinfo", extraInfoArray.toString());
+        params.setProperty("extinfo", extraInfoArray.toString());
     }
 
-    public static Method getMethodQuietly(Class<?> clazz, String methodName, Class<?>... parameterTypes) {
+    public static Method getMethodQuietly(Class<?> clazz,
+                                          String methodName,
+                                          Class<?>... parameterTypes) {
         try {
             return clazz.getMethod(methodName, parameterTypes);
-        } catch (NoSuchMethodException ex) {
+        }
+        catch (NoSuchMethodException ex) {
             return null;
         }
     }
 
-    public static Method getMethodQuietly(String className, String methodName, Class<?>... parameterTypes) {
+    public static Method getMethodQuietly(String className,
+                                          String methodName,
+                                          Class<?>... parameterTypes) {
         try {
             Class<?> clazz = Class.forName(className);
             return getMethodQuietly(clazz, methodName, parameterTypes);
-        } catch (ClassNotFoundException ex) {
+        }
+        catch (ClassNotFoundException ex) {
             return null;
         }
     }
@@ -522,23 +564,27 @@ public final class Utility {
     public static Object invokeMethodQuietly(Object receiver, Method method, Object... args) {
         try {
             return method.invoke(receiver, args);
-        } catch (IllegalAccessException ex) {
+        }
+        catch (IllegalAccessException ex) {
             return null;
-        } catch (InvocationTargetException ex) {
+        }
+        catch (InvocationTargetException ex) {
             return null;
         }
     }
 
-  /**
-   * Returns the name of the current activity if the context is an activity, otherwise return "unknown"
-   */
-  public static String getActivityName(Context context) {
-    if (context == null) {
-      return "null";
-    } else if (context == context.getApplicationContext()) {
-      return "unknown";
-    } else {
-      return context.getClass().getSimpleName();
+    /**
+     * Returns the name of the current activity if the context is an activity, otherwise return "unknown"
+     */
+    public static String getActivityName(Context context) {
+        if (context == null) {
+            return "null";
+        }
+        else if (context == context.getApplicationContext()) {
+            return "unknown";
+        }
+        else {
+            return context.getClass().getSimpleName();
+        }
     }
-  }
 }

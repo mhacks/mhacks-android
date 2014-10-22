@@ -19,12 +19,12 @@ package com.facebook.internal;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
-import com.facebook.FacebookTestCase;
-import com.facebook.internal.WorkQueue;
 
+import com.facebook.FacebookTestCase;
+
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
-import java.security.SecureRandom;
 
 public class WorkQueueTests extends FacebookTestCase {
 
@@ -221,13 +221,14 @@ public class WorkQueueTests extends FacebookTestCase {
     }
 
     static class StressRunnable implements Runnable {
+
         static ArrayList<WorkQueue.WorkItem> tracked = new ArrayList<WorkQueue.WorkItem>();
 
         final WorkQueue manager;
         final SecureRandom random = new SecureRandom();
         final int iterationCount;
-        int iterationIndex = 0;
-        boolean isDone = false;
+        int     iterationIndex = 0;
+        boolean isDone         = false;
 
         StressRunnable(WorkQueue manager, int iterationCount) {
             this.manager = manager;
@@ -243,21 +244,25 @@ public class WorkQueueTests extends FacebookTestCase {
                 final int prioritizeTrackedWeight = 6;
                 final int validateWeight = 2;
                 int weight = 0;
-                final int n = random.nextInt(sleepWeight + trackThisWeight + prioritizeTrackedWeight + validateWeight);
+                final int n = random.nextInt(
+                        sleepWeight + trackThisWeight + prioritizeTrackedWeight + validateWeight);
                 WorkQueue.WorkItem workItem = manager.addActiveWorkItem(this);
 
                 if (n < (weight += sleepWeight)) {
                     // Sleep
                     try {
-                        Thread.sleep(n/4);
-                    } catch (InterruptedException e) {
+                        Thread.sleep(n / 4);
                     }
-                } else if (n < (weight += trackThisWeight)) {
+                    catch (InterruptedException e) {
+                    }
+                }
+                else if (n < (weight += trackThisWeight)) {
                     // Track this work item to activate later
                     synchronized (tracked) {
                         tracked.add(workItem);
                     }
-                } else if (n < (weight += prioritizeTrackedWeight)) {
+                }
+                else if (n < (weight += prioritizeTrackedWeight)) {
                     // Background all pending items, prioritize tracked items, and clear tracked list
                     ArrayList<WorkQueue.WorkItem> items = new ArrayList<WorkQueue.WorkItem>();
 
@@ -269,11 +274,13 @@ public class WorkQueueTests extends FacebookTestCase {
                     for (WorkQueue.WorkItem item : items) {
                         item.moveToFront();
                     }
-                } else {
+                }
+                else {
                     // Validate
                     manager.validate();
                 }
-            } else {
+            }
+            else {
                 // Also have all threads validate once they are done.
                 manager.validate();
                 synchronized (this) {
@@ -288,7 +295,8 @@ public class WorkQueueTests extends FacebookTestCase {
                 while (!isDone) {
                     try {
                         this.wait();
-                    } catch (InterruptedException e) {
+                    }
+                    catch (InterruptedException e) {
                     }
                 }
             }
@@ -296,6 +304,7 @@ public class WorkQueueTests extends FacebookTestCase {
     }
 
     static class ScriptableExecutor implements Executor {
+
         private final ArrayList<Runnable> runnables = new ArrayList<Runnable>();
 
         int getPendingCount() {
@@ -324,6 +333,7 @@ public class WorkQueueTests extends FacebookTestCase {
     }
 
     static class CountingRunnable implements Runnable {
+
         private int runCount = 0;
 
         synchronized int getRunCount() {
@@ -338,7 +348,8 @@ public class WorkQueueTests extends FacebookTestCase {
 
             try {
                 Thread.sleep(1);
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
             }
         }
     }

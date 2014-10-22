@@ -17,6 +17,8 @@ public class CountdownItem extends ParseObject implements Parcelable {
     public static final String TIME_COL  = "time";
     public static final String TITLE_COL = "title";
 
+    public CountdownItem() {}
+
     public Date getTime() {
         return getDate(TIME_COL);
     }
@@ -59,7 +61,7 @@ public class CountdownItem extends ParseObject implements Parcelable {
 
     private CountdownItem(Parcel source) {
         setObjectId(source.readString());
-        setTime((Date)source.readValue(Date.class.getClassLoader()));
+        setTime((Date) source.readValue(Date.class.getClassLoader()));
         setTitle(source.readString());
     }
 

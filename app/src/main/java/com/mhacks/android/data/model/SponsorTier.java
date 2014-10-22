@@ -10,10 +10,12 @@ import com.parse.ParseObject;
  * Created by Omkar Moghe on 10/13/2014.
  */
 @ParseClassName("SponsorTier")
-public class SponsorTier extends ParseObject implements Parcelable{
+public class SponsorTier extends ParseObject implements Parcelable {
 
     public static final String LEVEL_COL = "level";
-    public static final String NAME_COL = "name";
+    public static final String NAME_COL  = "name";
+
+    public SponsorTier() {}
 
     public int getLevel() {
         return getInt(LEVEL_COL);

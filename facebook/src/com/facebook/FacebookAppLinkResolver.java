@@ -18,16 +18,23 @@ package com.facebook;
 
 import android.net.Uri;
 import android.os.Bundle;
-import bolts.AppLink;
-import bolts.AppLinkResolver;
-import bolts.Continuation;
-import bolts.Task;
+
 import com.facebook.model.GraphObject;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+
+import bolts.AppLink;
+import bolts.AppLinkResolver;
+import bolts.Continuation;
+import bolts.Task;
 
 /**
  * Provides an implementation for the {@link AppLinkResolver AppLinkResolver} interface that uses the Facebook App Link
@@ -36,13 +43,13 @@ import java.util.*;
  */
 public class FacebookAppLinkResolver implements AppLinkResolver {
 
-    private static final String APP_LINK_KEY = "app_links";
-    private static final String APP_LINK_ANDROID_TARGET_KEY = "android";
-    private static final String APP_LINK_WEB_TARGET_KEY = "web";
-    private static final String APP_LINK_TARGET_PACKAGE_KEY = "package";
-    private static final String APP_LINK_TARGET_CLASS_KEY = "class";
-    private static final String APP_LINK_TARGET_APP_NAME_KEY = "app_name";
-    private static final String APP_LINK_TARGET_URL_KEY = "url";
+    private static final String APP_LINK_KEY                        = "app_links";
+    private static final String APP_LINK_ANDROID_TARGET_KEY         = "android";
+    private static final String APP_LINK_WEB_TARGET_KEY             = "web";
+    private static final String APP_LINK_TARGET_PACKAGE_KEY         = "package";
+    private static final String APP_LINK_TARGET_CLASS_KEY           = "class";
+    private static final String APP_LINK_TARGET_APP_NAME_KEY        = "app_name";
+    private static final String APP_LINK_TARGET_URL_KEY             = "url";
     private static final String APP_LINK_TARGET_SHOULD_FALLBACK_KEY = "should_fallback";
 
     private final HashMap<Uri, AppLink> cachedAppLinks = new HashMap<Uri, AppLink>();
@@ -90,7 +97,8 @@ public class FacebookAppLinkResolver implements AppLinkResolver {
 
             if (appLink != null) {
                 appLinkResults.put(uri, appLink);
-            } else {
+            }
+            else {
                 if (!urisToRequest.isEmpty()) {
                     graphRequestFields.append(',');
                 }
@@ -110,7 +118,10 @@ public class FacebookAppLinkResolver implements AppLinkResolver {
         appLinkRequestParameters.putString("ids", graphRequestFields.toString());
         appLinkRequestParameters.putString(
                 "fields",
-                String.format("%s.fields(%s,%s)", APP_LINK_KEY, APP_LINK_ANDROID_TARGET_KEY, APP_LINK_WEB_TARGET_KEY));
+                String.format("%s.fields(%s,%s)",
+                              APP_LINK_KEY,
+                              APP_LINK_ANDROID_TARGET_KEY,
+                              APP_LINK_WEB_TARGET_KEY));
 
 
         Request appLinkRequest = new Request(
@@ -128,7 +139,8 @@ public class FacebookAppLinkResolver implements AppLinkResolver {
                         }
 
                         GraphObject responseObject = response.getGraphObject();
-                        JSONObject responseJson = responseObject != null ? responseObject.getInnerJSONObject() : null;
+                        JSONObject responseJson =
+                                responseObject != null ? responseObject.getInnerJSONObject() : null;
                         if (responseJson == null) {
                             taskCompletionSource.setResult(appLinkResults);
                             return;
@@ -145,13 +157,16 @@ public class FacebookAppLinkResolver implements AppLinkResolver {
                                 urlData = responseJson.getJSONObject(uri.toString());
                                 JSONObject appLinkData = urlData.getJSONObject(APP_LINK_KEY);
 
-                                JSONArray rawTargets = appLinkData.getJSONArray(APP_LINK_ANDROID_TARGET_KEY);
+                                JSONArray rawTargets =
+                                        appLinkData.getJSONArray(APP_LINK_ANDROID_TARGET_KEY);
 
                                 int targetsCount = rawTargets.length();
-                                List<AppLink.Target> targets = new ArrayList<AppLink.Target>(targetsCount);
+                                List<AppLink.Target> targets =
+                                        new ArrayList<AppLink.Target>(targetsCount);
 
                                 for (int i = 0; i < targetsCount; i++) {
-                                    AppLink.Target target = getAndroidTargetFromJson(rawTargets.getJSONObject(i));
+                                    AppLink.Target target =
+                                            getAndroidTargetFromJson(rawTargets.getJSONObject(i));
                                     if (target != null) {
                                         targets.add(target);
                                     }
@@ -164,7 +179,8 @@ public class FacebookAppLinkResolver implements AppLinkResolver {
                                 synchronized (cachedAppLinks) {
                                     cachedAppLinks.put(uri, appLink);
                                 }
-                            } catch (JSONException e) {
+                            }
+                            catch (JSONException e) {
                                 // The data for this uri was missing or badly formed.
                                 continue;
                             }
@@ -200,38 +216,47 @@ public class FacebookAppLinkResolver implements AppLinkResolver {
         // Try and get a web target. This is best effort. Any failures results in null being returned.
         try {
             JSONObject webTarget = urlData.getJSONObject(APP_LINK_WEB_TARGET_KEY);
-            boolean shouldFallback = tryGetBooleanFromJson(webTarget, APP_LINK_TARGET_SHOULD_FALLBACK_KEY, true);
+            boolean shouldFallback =
+                    tryGetBooleanFromJson(webTarget, APP_LINK_TARGET_SHOULD_FALLBACK_KEY, true);
             if (!shouldFallback) {
                 // Don't use a fallback url
                 return null;
             }
 
-            String webTargetUrlString = tryGetStringFromJson(webTarget, APP_LINK_TARGET_URL_KEY, null);
+            String webTargetUrlString =
+                    tryGetStringFromJson(webTarget, APP_LINK_TARGET_URL_KEY, null);
             Uri webUri = null;
             if (webTargetUrlString != null) {
                 webUri = Uri.parse(webTargetUrlString);
             }
 
             // If we weren't able to parse a url from the web target, use the source url
-            return webUri != null ? webUri: sourceUrl;
-        } catch (JSONException e) {
+            return webUri != null ? webUri : sourceUrl;
+        }
+        catch (JSONException e) {
             // If we were missing a web target, just use the source as the web url
             return sourceUrl;
         }
     }
 
-    private static String tryGetStringFromJson(JSONObject json, String propertyName, String defaultValue) {
+    private static String tryGetStringFromJson(JSONObject json,
+                                               String propertyName,
+                                               String defaultValue) {
         try {
             return json.getString(propertyName);
-        } catch(JSONException e) {
+        }
+        catch (JSONException e) {
             return defaultValue;
         }
     }
 
-    private static boolean tryGetBooleanFromJson(JSONObject json, String propertyName, boolean defaultValue) {
+    private static boolean tryGetBooleanFromJson(JSONObject json,
+                                                 String propertyName,
+                                                 boolean defaultValue) {
         try {
             return json.getBoolean(propertyName);
-        } catch (JSONException e) {
+        }
+        catch (JSONException e) {
             return defaultValue;
         }
     }

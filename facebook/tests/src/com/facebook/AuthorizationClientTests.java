@@ -23,23 +23,35 @@ import android.os.Bundle;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
+
 import com.facebook.internal.NativeProtocol;
 import com.facebook.model.GraphMultiResult;
 import com.facebook.model.GraphObject;
 import com.facebook.model.GraphObjectList;
 import com.facebook.model.GraphUser;
 
-import java.io.*;
-import java.util.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 public class AuthorizationClientTests extends FacebookTestCase {
-    private static final String ACCESS_TOKEN = "An access token";
-    private static final long EXPIRES_IN_DELTA = 3600 * 24 * 60;
-    private static final ArrayList<String> PERMISSIONS = new ArrayList<String>(
+
+    private static final String            ACCESS_TOKEN     = "An access token";
+    private static final long              EXPIRES_IN_DELTA = 3600 * 24 * 60;
+    private static final ArrayList<String> PERMISSIONS      = new ArrayList<String>(
             Arrays.asList("go outside", "come back in"));
-    private static final String ERROR_MESSAGE = "This is bad!";
+    private static final String            ERROR_MESSAGE    = "This is bad!";
 
     class MockAuthorizationClient extends AuthorizationClient {
+
         Result result;
         boolean triedNextHandler = false;
 
@@ -165,7 +177,8 @@ public class AuthorizationClientTests extends FacebookTestCase {
     public void testGetTokenHandlesSuccessWithAllPermissions() {
         Bundle bundle = new Bundle();
         bundle.putStringArrayList(NativeProtocol.EXTRA_PERMISSIONS, PERMISSIONS);
-        bundle.putLong(NativeProtocol.EXTRA_EXPIRES_SECONDS_SINCE_EPOCH, new Date().getTime() / 1000 + EXPIRES_IN_DELTA);
+        bundle.putLong(NativeProtocol.EXTRA_EXPIRES_SECONDS_SINCE_EPOCH,
+                       new Date().getTime() / 1000 + EXPIRES_IN_DELTA);
         bundle.putString(NativeProtocol.EXTRA_ACCESS_TOKEN, ACCESS_TOKEN);
 
         MockAuthorizationClient client = new MockAuthorizationClient();
@@ -190,8 +203,10 @@ public class AuthorizationClientTests extends FacebookTestCase {
     @LargeTest
     public void testGetTokenHandlesSuccessWithSomePermissions() {
         Bundle bundle = new Bundle();
-        bundle.putStringArrayList(NativeProtocol.EXTRA_PERMISSIONS, new ArrayList<String>(Arrays.asList("go outside")));
-        bundle.putLong(NativeProtocol.EXTRA_EXPIRES_SECONDS_SINCE_EPOCH, new Date().getTime() / 1000 + EXPIRES_IN_DELTA);
+        bundle.putStringArrayList(NativeProtocol.EXTRA_PERMISSIONS,
+                                  new ArrayList<String>(Arrays.asList("go outside")));
+        bundle.putLong(NativeProtocol.EXTRA_EXPIRES_SECONDS_SINCE_EPOCH,
+                       new Date().getTime() / 1000 + EXPIRES_IN_DELTA);
         bundle.putString(NativeProtocol.EXTRA_ACCESS_TOKEN, ACCESS_TOKEN);
 
         MockAuthorizationClient client = new MockAuthorizationClient();
@@ -331,8 +346,9 @@ public class AuthorizationClientTests extends FacebookTestCase {
     // Reauthorization validation tests
 
     class MockValidatingAuthorizationClient extends MockAuthorizationClient {
+
         private final HashMap<String, String> mapAccessTokenToFbid = new HashMap<String, String>();
-        private List<String> permissionsToReport = Arrays.asList();
+        private       List<String>            permissionsToReport  = Arrays.asList();
         private TestBlocker blocker;
 
         public MockValidatingAuthorizationClient(TestBlocker blocker) {
@@ -382,7 +398,8 @@ public class AuthorizationClientTests extends FacebookTestCase {
                             permissionsObject.setProperty(permission, 1);
                         }
                     }
-                    GraphObjectList<GraphObject> data = GraphObject.Factory.createList(GraphObject.class);
+                    GraphObjectList<GraphObject> data =
+                            GraphObject.Factory.createList(GraphObject.class);
                     data.add(permissionsObject);
 
                     GraphMultiResult result = GraphObject.Factory.create(GraphMultiResult.class);
@@ -403,13 +420,14 @@ public class AuthorizationClientTests extends FacebookTestCase {
         }
     }
 
-    static final String USER_1_FBID = "user1";
+    static final String USER_1_FBID         = "user1";
     static final String USER_1_ACCESS_TOKEN = "An access token for user 1";
-    static final String USER_2_FBID = "user2";
+    static final String USER_2_FBID         = "user2";
     static final String USER_2_ACCESS_TOKEN = "An access token for user 2";
 
     AuthorizationClient.AuthorizationRequest createNewPermissionRequest(String accessToken) {
-        Session.NewPermissionsRequest request = new Session.NewPermissionsRequest(getActivity(), PERMISSIONS);
+        Session.NewPermissionsRequest request =
+                new Session.NewPermissionsRequest(getActivity(), PERMISSIONS);
         request.setValidateSameFbidAsToken(accessToken);
         return request.getAuthorizationClientRequest();
     }
@@ -424,11 +442,17 @@ public class AuthorizationClientTests extends FacebookTestCase {
         client.addAccessTokenToFbidMapping(USER_2_ACCESS_TOKEN, USER_2_FBID);
         client.setPermissionsToReport(PERMISSIONS);
 
-        AuthorizationClient.AuthorizationRequest request = createNewPermissionRequest(USER_1_ACCESS_TOKEN);
+        AuthorizationClient.AuthorizationRequest request =
+                createNewPermissionRequest(USER_1_ACCESS_TOKEN);
         client.setRequest(request);
 
-        AccessToken token = AccessToken.createFromExistingAccessToken(USER_1_ACCESS_TOKEN, null, null, null, PERMISSIONS);
-        AuthorizationClient.Result result = AuthorizationClient.Result.createTokenResult(request, token);
+        AccessToken token = AccessToken.createFromExistingAccessToken(USER_1_ACCESS_TOKEN,
+                                                                      null,
+                                                                      null,
+                                                                      null,
+                                                                      PERMISSIONS);
+        AuthorizationClient.Result result =
+                AuthorizationClient.Result.createTokenResult(request, token);
 
         client.completeAndValidate(result);
 
@@ -442,7 +466,8 @@ public class AuthorizationClientTests extends FacebookTestCase {
         assertEquals(USER_1_ACCESS_TOKEN, resultToken.getToken());
 
         // We don't care about ordering.
-        assertEquals(new HashSet<String>(PERMISSIONS), new HashSet<String>(resultToken.getPermissions()));
+        assertEquals(new HashSet<String>(PERMISSIONS),
+                     new HashSet<String>(resultToken.getPermissions()));
     }
 
     @MediumTest
@@ -455,11 +480,17 @@ public class AuthorizationClientTests extends FacebookTestCase {
         client.addAccessTokenToFbidMapping(USER_2_ACCESS_TOKEN, USER_2_FBID);
         client.setPermissionsToReport(Arrays.asList("go outside"));
 
-        AuthorizationClient.AuthorizationRequest request = createNewPermissionRequest(USER_1_ACCESS_TOKEN);
+        AuthorizationClient.AuthorizationRequest request =
+                createNewPermissionRequest(USER_1_ACCESS_TOKEN);
         client.setRequest(request);
 
-        AccessToken token = AccessToken.createFromExistingAccessToken(USER_1_ACCESS_TOKEN, null, null, null, PERMISSIONS);
-        AuthorizationClient.Result result = AuthorizationClient.Result.createTokenResult(request, token);
+        AccessToken token = AccessToken.createFromExistingAccessToken(USER_1_ACCESS_TOKEN,
+                                                                      null,
+                                                                      null,
+                                                                      null,
+                                                                      PERMISSIONS);
+        AuthorizationClient.Result result =
+                AuthorizationClient.Result.createTokenResult(request, token);
 
         client.completeAndValidate(result);
 
@@ -484,11 +515,17 @@ public class AuthorizationClientTests extends FacebookTestCase {
         client.addAccessTokenToFbidMapping(USER_2_ACCESS_TOKEN, USER_2_FBID);
         client.setPermissionsToReport(PERMISSIONS);
 
-        AuthorizationClient.AuthorizationRequest request = createNewPermissionRequest(USER_1_ACCESS_TOKEN);
+        AuthorizationClient.AuthorizationRequest request =
+                createNewPermissionRequest(USER_1_ACCESS_TOKEN);
         client.setRequest(request);
 
-        AccessToken token = AccessToken.createFromExistingAccessToken(USER_2_ACCESS_TOKEN, null, null, null, PERMISSIONS);
-        AuthorizationClient.Result result = AuthorizationClient.Result.createTokenResult(request, token);
+        AccessToken token = AccessToken.createFromExistingAccessToken(USER_2_ACCESS_TOKEN,
+                                                                      null,
+                                                                      null,
+                                                                      null,
+                                                                      PERMISSIONS);
+        AuthorizationClient.Result result =
+                AuthorizationClient.Result.createTokenResult(request, token);
 
         client.completeAndValidate(result);
 
@@ -507,12 +544,18 @@ public class AuthorizationClientTests extends FacebookTestCase {
         TestBlocker blocker = getTestBlocker();
 
         MockValidatingAuthorizationClient client = new MockValidatingAuthorizationClient(blocker);
-        AuthorizationClient.AuthorizationRequest request = createNewPermissionRequest(USER_1_ACCESS_TOKEN);
+        AuthorizationClient.AuthorizationRequest request =
+                createNewPermissionRequest(USER_1_ACCESS_TOKEN);
         request.setIsLegacy(true);
         client.setRequest(request);
 
-        AccessToken token = AccessToken.createFromExistingAccessToken(USER_2_ACCESS_TOKEN, null, null, null, PERMISSIONS);
-        AuthorizationClient.Result result = AuthorizationClient.Result.createTokenResult(request, token);
+        AccessToken token = AccessToken.createFromExistingAccessToken(USER_2_ACCESS_TOKEN,
+                                                                      null,
+                                                                      null,
+                                                                      null,
+                                                                      PERMISSIONS);
+        AuthorizationClient.Result result =
+                AuthorizationClient.Result.createTokenResult(request, token);
 
         client.completeAndValidate(result);
 
@@ -525,6 +568,7 @@ public class AuthorizationClientTests extends FacebookTestCase {
     // Serialization tests
 
     static class DoNothingAuthorizationClient extends AuthorizationClient {
+
         // Don't actually do anything.
         @Override
         boolean tryCurrentHandler() {
@@ -558,7 +602,7 @@ public class AuthorizationClientTests extends FacebookTestCase {
         outputStream.writeObject(client);
         outputStream.close();
 
-        byte [] byteArray = byteArrayOutputStream.toByteArray();
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
 
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
         ObjectInputStream inputStream = new ObjectInputStream(byteArrayInputStream);
@@ -567,7 +611,7 @@ public class AuthorizationClientTests extends FacebookTestCase {
         assertNotNull(obj);
         assertTrue(obj instanceof AuthorizationClient);
 
-        AuthorizationClient resultClient = (AuthorizationClient)obj;
+        AuthorizationClient resultClient = (AuthorizationClient) obj;
         assertNull(resultClient.startActivityDelegate);
         assertNull(resultClient.onCompletedListener);
         assertNull(resultClient.backgroundProcessingListener);

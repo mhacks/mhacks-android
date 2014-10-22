@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <color name="charcoal">#272727</color>
-  <color name="charcoal_semitransparent">#BB272727</color>
-  <color name="darker_charcoal">#191919</color>
-  <color name="darker_charcoal_semitransparent">#99191919</color>
-  <color name="darkest_charcoal">#101010</color>
-  <color name="black_semitransparent">#88000000</color>
-  <color name="bg_neutral">#434343</color>
-  <color name="mhacks_yellow">#FED136</color>
+    <color name="charcoal">#272727</color>
+    <color name="charcoal_semitransparent">#BB272727</color>
+    <color name="darker_charcoal">#191919</color>
+    <color name="darker_charcoal_semitransparent">#99191919</color>
+    <color name="darkest_charcoal">#101010</color>
+    <color name="black_semitransparent">#88000000</color>
+    <color name="bg_neutral">#434343</color>
+    <color name="mhacks_yellow">#FED136</color>
 
-  <color name="com_facebook_blue_pressed">#2b4172</color>
-  <color name="twitter_blue">#55ACEE</color>
-  <color name="twitter_blue_pressed">#3e7eaf</color>
+    <color name="com_facebook_blue_pressed">#2b4172</color>
+    <color name="twitter_blue">#55ACEE</color>
+    <color name="twitter_blue_pressed">#3e7eaf</color>
 
-  <color name="bg_announcements">#2f4382</color>
-  <color name="bg_awards">#f6bb42</color>
-  <color name="bg_chat">#f6694c</color>
-  <color name="bg_concierge">#f6bb42</color>
-  <color name="bg_schedule">#8cc152</color>
-  <color name="bg_hackers">#8760e9</color>
-  <color name="bg_map">#4fbde4</color>
-  <color name="bg_settings">#ed5565</color>
+    <color name="bg_announcements">#2f4382</color>
+    <color name="bg_awards">#f6bb42</color>
+    <color name="bg_chat">#f6694c</color>
+    <color name="bg_concierge">#f6bb42</color>
+    <color name="bg_schedule">#8cc152</color>
+    <color name="bg_hackers">#8760e9</color>
+    <color name="bg_map">#4fbde4</color>
+    <color name="bg_settings">#ed5565</color>
 
-  <color name="adapter_card_color">@color/darker_charcoal_semitransparent</color>
-  <color name="adapter_card_shadow_color">@android:color/white</color>
+    <color name="adapter_card_color">@color/darker_charcoal_semitransparent</color>
+    <color name="adapter_card_shadow_color">@android:color/white</color>
 
-  <color name="palette_0">#eea7ab</color>
-  <color name="palette_1">#fdbe7b</color>
-  <color name="palette_2">#e81c1f</color>
-  <color name="palette_3">#d587c5</color>
-  <color name="palette_4">#f1cf04</color>
-  <color name="palette_5">#b1dcd3</color>
-  <color name="palette_6">#d0e8c4</color>
-  <color name="palette_7">#e45177</color>
-  <color name="palette_8">#44c3a6</color>
-  <color name="palette_9">#a0d3e6</color>
-  <color name="palette_10">#ef5c80</color>
-  <color name="palette_11">#bcccd9</color>
-  <color name="palette_12">#f2f5d7</color>
-  <color name="palette_13">#ff9259</color>
-  <color name="palette_14">#ef8d81</color>
-  <color name="palette_15">#91dabe</color>
-  <color name="palette_16">#e25795</color>
-  <color name="palette_17">#c5dd3e</color>
-  <color name="palette_18">#ff6548</color>
-  <color name="palette_19">#e7f8c4</color>
+    <color name="palette_0">#eea7ab</color>
+    <color name="palette_1">#fdbe7b</color>
+    <color name="palette_2">#e81c1f</color>
+    <color name="palette_3">#d587c5</color>
+    <color name="palette_4">#f1cf04</color>
+    <color name="palette_5">#b1dcd3</color>
+    <color name="palette_6">#d0e8c4</color>
+    <color name="palette_7">#e45177</color>
+    <color name="palette_8">#44c3a6</color>
+    <color name="palette_9">#a0d3e6</color>
+    <color name="palette_10">#ef5c80</color>
+    <color name="palette_11">#bcccd9</color>
+    <color name="palette_12">#f2f5d7</color>
+    <color name="palette_13">#ff9259</color>
+    <color name="palette_14">#ef8d81</color>
+    <color name="palette_15">#91dabe</color>
+    <color name="palette_16">#e25795</color>
+    <color name="palette_17">#c5dd3e</color>
+    <color name="palette_18">#ff6548</color>
+    <color name="palette_19">#e7f8c4</color>
 
-  <color name="adapter_card_shadow_step_0">#00272727</color>
-  <color name="adapter_card_shadow_step_1">#08272727</color>
-  <color name="adapter_card_shadow_step_2">#20272727</color>
-  <color name="adapter_card_shadow_step_3">#32272727</color>
-  <color name="adapter_card_shadow_step_4">#44272727</color>
+    <color name="adapter_card_shadow_step_0">#00272727</color>
+    <color name="adapter_card_shadow_step_1">#08272727</color>
+    <color name="adapter_card_shadow_step_2">#20272727</color>
+    <color name="adapter_card_shadow_step_3">#32272727</color>
+    <color name="adapter_card_shadow_step_4">#44272727</color>
 
-  <color name="nav_item_shadow_step_0">#08191919</color>
-  <color name="nav_item_shadow_step_1">#20191919</color>
-  <color name="nav_item_shadow_step_2">#32191919</color>
-  <color name="nav_item_shadow_step_3">#44191919</color>
-  <color name="nav_item_shadow_step_4">@color/darker_charcoal_semitransparent</color>
+    <color name="nav_item_shadow_step_0">#08191919</color>
+    <color name="nav_item_shadow_step_1">#20191919</color>
+    <color name="nav_item_shadow_step_2">#32191919</color>
+    <color name="nav_item_shadow_step_3">#44191919</color>
+    <color name="nav_item_shadow_step_4">@color/darker_charcoal_semitransparent</color>
 
 </resources>

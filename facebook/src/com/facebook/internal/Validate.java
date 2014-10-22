@@ -24,6 +24,7 @@ import java.util.Collection;
  * any time.
  */
 public final class Validate {
+
     public static void notNull(Object arg, String name) {
         if (arg == null) {
             throw new NullPointerException("Argument '" + name + "' cannot be null");
@@ -40,7 +41,8 @@ public final class Validate {
         Validate.notNull(container, name);
         for (T item : container) {
             if (item == null) {
-                throw new NullPointerException("Container '" + name + "' cannot contain null values");
+                throw new NullPointerException(
+                        "Container '" + name + "' cannot contain null values");
             }
         }
     }
@@ -49,10 +51,12 @@ public final class Validate {
         Validate.notNull(container, name);
         for (String item : container) {
             if (item == null) {
-                throw new NullPointerException("Container '" + name + "' cannot contain null values");
+                throw new NullPointerException(
+                        "Container '" + name + "' cannot contain null values");
             }
             if (item.length() == 0) {
-                throw new IllegalArgumentException("Container '" + name + "' cannot contain empty values");
+                throw new IllegalArgumentException(
+                        "Container '" + name + "' cannot contain empty values");
             }
         }
     }
@@ -74,12 +78,14 @@ public final class Validate {
                 if (value.equals(arg)) {
                     return;
                 }
-            } else {
+            }
+            else {
                 if (arg == null) {
                     return;
                 }
             }
         }
-        throw new IllegalArgumentException("Argument '" + name + "' was not one of the allowed values");
+        throw new IllegalArgumentException(
+                "Argument '" + name + "' was not one of the allowed values");
     }
 }

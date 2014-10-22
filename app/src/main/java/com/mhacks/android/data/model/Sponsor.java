@@ -11,14 +11,16 @@ import com.parse.ParseObject;
  * Created by Omkar Moghe on 10/13/2014.
  */
 @ParseClassName("Sponsor")
-public class Sponsor extends ParseObject implements Parcelable{
+public class Sponsor extends ParseObject implements Parcelable {
 
     public static final String DESCRIPTION_COL = "description";
-    public static final String LOCATION_COL = "location";
-    public static final String LOGO_COL = "logo";
-    public static final String NAME_COL = "name";
-    public static final String TIER_COL = "tier";
-    public static final String WEBSITE_COL = "website";
+    public static final String LOCATION_COL    = "location";
+    public static final String LOGO_COL        = "logo";
+    public static final String NAME_COL        = "name";
+    public static final String TIER_COL        = "tier";
+    public static final String WEBSITE_COL     = "website";
+
+    public Sponsor() {}
 
     public String getDescription() {
         return getString(DESCRIPTION_COL);
@@ -29,7 +31,7 @@ public class Sponsor extends ParseObject implements Parcelable{
     }
 
     public Location getLocation() {
-        return (Location)getParseObject(LOCATION_COL);
+        return (Location) getParseObject(LOCATION_COL);
     }
 
     public void setLocation(Location location) {
@@ -53,7 +55,7 @@ public class Sponsor extends ParseObject implements Parcelable{
     }
 
     public SponsorTier getTier() {
-        return (SponsorTier)getParseObject(TIER_COL);
+        return (SponsorTier) getParseObject(TIER_COL);
     }
 
     public void setTier(SponsorTier sponsorTier) {

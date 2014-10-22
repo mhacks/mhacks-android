@@ -34,11 +34,23 @@
     <string name="com_facebook_nearby">קרוב אליי</string>
     <string name="com_facebook_loading">..מעלה</string>
     <string name="com_facebook_internet_permission_error_title">AndroidManifest שגיאת</string>
-    <string name="com_facebook_internet_permission_error_message">ההתחברות לתצוגת אתר דורשת אישור אינטרנט</string>
-    <string name="com_facebook_requesterror_web_login">.כדי לאפשר מחדש לאפליקציה להתחבר עם פייסבוק https://www.facebook.com או https://m.facebook.com אנא היכנס דרך</string>
-    <string name="com_facebook_requesterror_relogin">.האפליקציה אינה מחוברת לפייסבוק, אנא היכנס וחבר מחדש את האפליקציה</string>
-    <string name="com_facebook_requesterror_password_changed">.הסיסמה שלך בפייסבוק השתנתה, אנא חבר מחדש את האפליקציה עם פייסבוק</string>
-    <string name="com_facebook_requesterror_reconnect">.ארעה שגיאה בעת החיבור עם פייסבוק, חבר בבקשה מחדש את האפליקציה עם פייסבוק</string>
-    <string name="com_facebook_requesterror_permissions">.חיבור האפליקציה עם פייסבוק נכשל בשל הרשאות לא מספקות, אנא הענק הרשאות לאפליקציה בכדי שהפעולה תוכל להתבצע</string>
+    <string name="com_facebook_internet_permission_error_message">ההתחברות לתצוגת אתר דורשת אישור
+        אינטרנט
+    </string>
+    <string name="com_facebook_requesterror_web_login">.כדי לאפשר מחדש לאפליקציה להתחבר עם פייסבוק
+        https://www.facebook.com או https://m.facebook.com אנא היכנס דרך
+    </string>
+    <string name="com_facebook_requesterror_relogin">.האפליקציה אינה מחוברת לפייסבוק, אנא היכנס וחבר
+        מחדש את האפליקציה
+    </string>
+    <string name="com_facebook_requesterror_password_changed">.הסיסמה שלך בפייסבוק השתנתה, אנא חבר
+        מחדש את האפליקציה עם פייסבוק
+    </string>
+    <string name="com_facebook_requesterror_reconnect">.ארעה שגיאה בעת החיבור עם פייסבוק, חבר בבקשה
+        מחדש את האפליקציה עם פייסבוק
+    </string>
+    <string name="com_facebook_requesterror_permissions">.חיבור האפליקציה עם פייסבוק נכשל בשל הרשאות
+        לא מספקות, אנא הענק הרשאות לאפליקציה בכדי שהפעולה תוכל להתבצע
+    </string>
     <string name="com_facebook_dialogloginactivity_ok_button">אישור</string>
 </resources>

@@ -27,11 +27,13 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AppEventsLoggerTests extends FacebookTestCase {
+
     public void testSimpleCall() throws InterruptedException {
         AppEventsLogger.setFlushBehavior(AppEventsLogger.FlushBehavior.EXPLICIT_ONLY);
 
         TestSession session1 = TestSession.createSessionWithSharedUser(getActivity(), null);
-        TestSession session2 = TestSession.createSessionWithSharedUser(getActivity(), null, SECOND_TEST_USER_TAG);
+        TestSession session2 =
+                TestSession.createSessionWithSharedUser(getActivity(), null, SECOND_TEST_USER_TAG);
 
         AppEventsLogger logger1 = AppEventsLogger.newLogger(getActivity(), session1);
         AppEventsLogger logger2 = AppEventsLogger.newLogger(getActivity(), session2);
@@ -39,7 +41,8 @@ public class AppEventsLoggerTests extends FacebookTestCase {
         final WaitForBroadcastReceiver waitForBroadcastReceiver = new WaitForBroadcastReceiver();
         waitForBroadcastReceiver.incrementExpectCount();
 
-        final LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        final LocalBroadcastManager broadcastManager =
+                LocalBroadcastManager.getInstance(getActivity());
 
         try {
             // Need to get notifications on another thread so we can wait for them.
@@ -47,7 +50,7 @@ public class AppEventsLoggerTests extends FacebookTestCase {
                 @Override
                 public void run() {
                     broadcastManager.registerReceiver(waitForBroadcastReceiver,
-                            new IntentFilter(AppEventsLogger.ACTION_APP_EVENTS_FLUSHED));
+                                                      new IntentFilter(AppEventsLogger.ACTION_APP_EVENTS_FLUSHED));
                 }
             }, true);
 
@@ -59,7 +62,8 @@ public class AppEventsLoggerTests extends FacebookTestCase {
             waitForBroadcastReceiver.waitForExpectedCalls();
 
             closeBlockerAndAssertSuccess();
-        } finally {
+        }
+        finally {
             broadcastManager.unregisterReceiver(waitForBroadcastReceiver);
         }
     }
@@ -68,7 +72,8 @@ public class AppEventsLoggerTests extends FacebookTestCase {
         AppEventsLogger.setFlushBehavior(AppEventsLogger.FlushBehavior.EXPLICIT_ONLY);
 
         final WaitForBroadcastReceiver waitForBroadcastReceiver = new WaitForBroadcastReceiver();
-        final LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        final LocalBroadcastManager broadcastManager =
+                LocalBroadcastManager.getInstance(getActivity());
 
         try {
             // Need to get notifications on another thread so we can wait for them.
@@ -76,11 +81,12 @@ public class AppEventsLoggerTests extends FacebookTestCase {
                 @Override
                 public void run() {
                     broadcastManager.registerReceiver(waitForBroadcastReceiver,
-                            new IntentFilter(AppEventsLogger.ACTION_APP_EVENTS_FLUSHED));
+                                                      new IntentFilter(AppEventsLogger.ACTION_APP_EVENTS_FLUSHED));
                 }
             }, true);
 
-            getActivity().getFileStreamPath(AppEventsLogger.PersistedEvents.PERSISTED_EVENTS_FILENAME).delete();
+            getActivity().getFileStreamPath(AppEventsLogger.PersistedEvents.PERSISTED_EVENTS_FILENAME)
+                         .delete();
 
             TestSession session1 = TestSession.createSessionWithSharedUser(getActivity(), null);
             AppEventsLogger logger1 = AppEventsLogger.newLogger(getActivity(), session1);
@@ -89,7 +95,8 @@ public class AppEventsLoggerTests extends FacebookTestCase {
 
             AppEventsLogger.onContextStop();
 
-            FileInputStream fis = getActivity().openFileInput(AppEventsLogger.PersistedEvents.PERSISTED_EVENTS_FILENAME);
+            FileInputStream fis =
+                    getActivity().openFileInput(AppEventsLogger.PersistedEvents.PERSISTED_EVENTS_FILENAME);
             assertNotNull(fis);
 
             ObjectInputStream ois = new ObjectInputStream(fis);
@@ -112,8 +119,11 @@ public class AppEventsLoggerTests extends FacebookTestCase {
             Intent intent = receivedIntents.get(0);
             assertNotNull(intent);
 
-            assertEquals(2, intent.getIntExtra(AppEventsLogger.APP_EVENTS_EXTRA_NUM_EVENTS_FLUSHED, 0));
-        } finally {
+            assertEquals(2,
+                         intent.getIntExtra(AppEventsLogger.APP_EVENTS_EXTRA_NUM_EVENTS_FLUSHED,
+                                            0));
+        }
+        finally {
             broadcastManager.unregisterReceiver(waitForBroadcastReceiver);
         }
     }
@@ -129,7 +139,8 @@ public class AppEventsLoggerTests extends FacebookTestCase {
         final WaitForBroadcastReceiver waitForBroadcastReceiver = new WaitForBroadcastReceiver();
         waitForBroadcastReceiver.incrementExpectCount();
 
-        final LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        final LocalBroadcastManager broadcastManager =
+                LocalBroadcastManager.getInstance(getActivity());
 
         try {
             // Need to get notifications on another thread so we can wait for them.
@@ -137,7 +148,7 @@ public class AppEventsLoggerTests extends FacebookTestCase {
                 @Override
                 public void run() {
                     broadcastManager.registerReceiver(waitForBroadcastReceiver,
-                            new IntentFilter(AppEventsLogger.ACTION_APP_EVENTS_FLUSHED));
+                                                      new IntentFilter(AppEventsLogger.ACTION_APP_EVENTS_FLUSHED));
                 }
             }, true);
 
@@ -148,7 +159,8 @@ public class AppEventsLoggerTests extends FacebookTestCase {
             waitForBroadcastReceiver.waitForExpectedCalls(600 * 1000);
 
             closeBlockerAndAssertSuccess();
-        } finally {
+        }
+        finally {
             broadcastManager.unregisterReceiver(waitForBroadcastReceiver);
         }
     }

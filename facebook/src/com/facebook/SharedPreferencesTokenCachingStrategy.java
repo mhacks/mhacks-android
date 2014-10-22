@@ -20,9 +20,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+
 import com.facebook.internal.Logger;
 import com.facebook.internal.Utility;
 import com.facebook.internal.Validate;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,43 +47,43 @@ import java.util.Map;
  */
 public class SharedPreferencesTokenCachingStrategy extends TokenCachingStrategy {
 
-    private static final String DEFAULT_CACHE_KEY = "com.facebook.SharedPreferencesTokenCachingStrategy.DEFAULT_KEY";
-    private static final String TAG = SharedPreferencesTokenCachingStrategy.class.getSimpleName();
+    private static final String DEFAULT_CACHE_KEY =
+            "com.facebook.SharedPreferencesTokenCachingStrategy.DEFAULT_KEY";
+    private static final String TAG               =
+            SharedPreferencesTokenCachingStrategy.class.getSimpleName();
 
-    private static final String JSON_VALUE_TYPE = "valueType";
-    private static final String JSON_VALUE = "value";
+    private static final String JSON_VALUE_TYPE      = "valueType";
+    private static final String JSON_VALUE           = "value";
     private static final String JSON_VALUE_ENUM_TYPE = "enumType";
 
-    private static final String TYPE_BOOLEAN = "bool";
+    private static final String TYPE_BOOLEAN       = "bool";
     private static final String TYPE_BOOLEAN_ARRAY = "bool[]";
-    private static final String TYPE_BYTE = "byte";
-    private static final String TYPE_BYTE_ARRAY = "byte[]";
-    private static final String TYPE_SHORT = "short";
-    private static final String TYPE_SHORT_ARRAY = "short[]";
-    private static final String TYPE_INTEGER = "int";
+    private static final String TYPE_BYTE          = "byte";
+    private static final String TYPE_BYTE_ARRAY    = "byte[]";
+    private static final String TYPE_SHORT         = "short";
+    private static final String TYPE_SHORT_ARRAY   = "short[]";
+    private static final String TYPE_INTEGER       = "int";
     private static final String TYPE_INTEGER_ARRAY = "int[]";
-    private static final String TYPE_LONG = "long";
-    private static final String TYPE_LONG_ARRAY = "long[]";
-    private static final String TYPE_FLOAT = "float";
-    private static final String TYPE_FLOAT_ARRAY = "float[]";
-    private static final String TYPE_DOUBLE = "double";
-    private static final String TYPE_DOUBLE_ARRAY = "double[]";
-    private static final String TYPE_CHAR = "char";
-    private static final String TYPE_CHAR_ARRAY = "char[]";
-    private static final String TYPE_STRING = "string";
-    private static final String TYPE_STRING_LIST = "stringList";
-    private static final String TYPE_ENUM = "enum";
+    private static final String TYPE_LONG          = "long";
+    private static final String TYPE_LONG_ARRAY    = "long[]";
+    private static final String TYPE_FLOAT         = "float";
+    private static final String TYPE_FLOAT_ARRAY   = "float[]";
+    private static final String TYPE_DOUBLE        = "double";
+    private static final String TYPE_DOUBLE_ARRAY  = "double[]";
+    private static final String TYPE_CHAR          = "char";
+    private static final String TYPE_CHAR_ARRAY    = "char[]";
+    private static final String TYPE_STRING        = "string";
+    private static final String TYPE_STRING_LIST   = "stringList";
+    private static final String TYPE_ENUM          = "enum";
 
-    private String cacheKey;
+    private String            cacheKey;
     private SharedPreferences cache;
 
     /**
      * Creates a default {@link SharedPreferencesTokenCachingStrategy SharedPreferencesTokenCachingStrategy}
      * instance that provides access to a single set of token information.
      *
-     * @param context
-     *              The Context object to use to get the SharedPreferences object.
-     *
+     * @param context The Context object to use to get the SharedPreferences object.
      * @throws NullPointerException if the passed in Context is null
      */
     public SharedPreferencesTokenCachingStrategy(Context context) {
@@ -92,12 +94,8 @@ public class SharedPreferencesTokenCachingStrategy extends TokenCachingStrategy 
      * Creates a {@link SharedPreferencesTokenCachingStrategy SharedPreferencesTokenCachingStrategy} instance
      * that is distinct for the passed in cacheKey.
      *
-     * @param context
-     *              The Context object to use to get the SharedPreferences object.
-     *
-     * @param cacheKey
-     *              Identifies a distinct set of token information.
-     *
+     * @param context  The Context object to use to get the SharedPreferences object.
+     * @param cacheKey Identifies a distinct set of token information.
      * @throws NullPointerException if the passed in Context is null
      */
     public SharedPreferencesTokenCachingStrategy(Context context, String cacheKey) {
@@ -129,10 +127,11 @@ public class SharedPreferencesTokenCachingStrategy extends TokenCachingStrategy 
         for (String key : allCachedEntries.keySet()) {
             try {
                 deserializeKey(key, settings);
-            } catch (JSONException e) {
+            }
+            catch (JSONException e) {
                 // Error in the cache. So consider it corrupted and return null
                 Logger.log(LoggingBehavior.CACHE, Log.WARN, TAG,
-                        "Error reading cached value for key: '" + key + "' -- " + e);
+                           "Error reading cached value for key: '" + key + "' -- " + e);
                 return null;
             }
         }
@@ -144,8 +143,7 @@ public class SharedPreferencesTokenCachingStrategy extends TokenCachingStrategy 
      * Persists all supported data types present in the passed in Bundle, to the
      * cache
      *
-     * @param bundle
-     *          The Bundle containing information to be cached
+     * @param bundle The Bundle containing information to be cached
      */
     public void save(Bundle bundle) {
         Validate.notNull(bundle, "bundle");
@@ -155,9 +153,13 @@ public class SharedPreferencesTokenCachingStrategy extends TokenCachingStrategy 
         for (String key : bundle.keySet()) {
             try {
                 serializeKey(key, bundle, editor);
-            } catch (JSONException e) {
+            }
+            catch (JSONException e) {
                 // Error in the bundle. Don't store a partial cache.
-                Logger.log(LoggingBehavior.CACHE, Log.WARN, TAG, "Error processing value for key: '" + key + "' -- " + e);
+                Logger.log(LoggingBehavior.CACHE,
+                           Log.WARN,
+                           TAG,
+                           "Error processing value for key: '" + key + "' -- " + e);
 
                 // Bypass the commit and just return. This cancels the entire edit transaction
                 return;
@@ -166,7 +168,10 @@ public class SharedPreferencesTokenCachingStrategy extends TokenCachingStrategy 
 
         boolean successfulCommit = editor.commit();
         if (!successfulCommit) {
-            Logger.log(LoggingBehavior.CACHE, Log.WARN, TAG, "SharedPreferences.Editor.commit() was not successful");
+            Logger.log(LoggingBehavior.CACHE,
+                       Log.WARN,
+                       TAG,
+                       "SharedPreferences.Editor.commit() was not successful");
         }
     }
 
@@ -178,7 +183,7 @@ public class SharedPreferencesTokenCachingStrategy extends TokenCachingStrategy 
     }
 
     private void serializeKey(String key, Bundle bundle, SharedPreferences.Editor editor)
-        throws JSONException {
+            throws JSONException {
         Object value = bundle.get(key);
         if (value == null) {
             // Cannot serialize null values.
@@ -191,87 +196,106 @@ public class SharedPreferencesTokenCachingStrategy extends TokenCachingStrategy 
 
         if (value instanceof Byte) {
             supportedType = TYPE_BYTE;
-            json.put(JSON_VALUE, ((Byte)value).intValue());
-        } else if (value instanceof Short) {
+            json.put(JSON_VALUE, ((Byte) value).intValue());
+        }
+        else if (value instanceof Short) {
             supportedType = TYPE_SHORT;
-            json.put(JSON_VALUE, ((Short)value).intValue());
-        } else if (value instanceof Integer) {
+            json.put(JSON_VALUE, ((Short) value).intValue());
+        }
+        else if (value instanceof Integer) {
             supportedType = TYPE_INTEGER;
-            json.put(JSON_VALUE, ((Integer)value).intValue());
-        } else if (value instanceof Long) {
+            json.put(JSON_VALUE, ((Integer) value).intValue());
+        }
+        else if (value instanceof Long) {
             supportedType = TYPE_LONG;
-            json.put(JSON_VALUE, ((Long)value).longValue());
-        } else if (value instanceof Float) {
+            json.put(JSON_VALUE, ((Long) value).longValue());
+        }
+        else if (value instanceof Float) {
             supportedType = TYPE_FLOAT;
-            json.put(JSON_VALUE, ((Float)value).doubleValue());
-        } else if (value instanceof Double) {
+            json.put(JSON_VALUE, ((Float) value).doubleValue());
+        }
+        else if (value instanceof Double) {
             supportedType = TYPE_DOUBLE;
-            json.put(JSON_VALUE, ((Double)value).doubleValue());
-        } else if (value instanceof Boolean) {
+            json.put(JSON_VALUE, ((Double) value).doubleValue());
+        }
+        else if (value instanceof Boolean) {
             supportedType = TYPE_BOOLEAN;
-            json.put(JSON_VALUE, ((Boolean)value).booleanValue());
-        } else if (value instanceof Character) {
+            json.put(JSON_VALUE, ((Boolean) value).booleanValue());
+        }
+        else if (value instanceof Character) {
             supportedType = TYPE_CHAR;
             json.put(JSON_VALUE, value.toString());
-        } else if (value instanceof String) {
+        }
+        else if (value instanceof String) {
             supportedType = TYPE_STRING;
-            json.put(JSON_VALUE, (String)value);
-        } else if (value instanceof Enum<?>) {
+            json.put(JSON_VALUE, (String) value);
+        }
+        else if (value instanceof Enum<?>) {
             supportedType = TYPE_ENUM;
             json.put(JSON_VALUE, value.toString());
             json.put(JSON_VALUE_ENUM_TYPE, value.getClass().getName());
-        } else {
+        }
+        else {
             // Optimistically create a JSONArray. If not an array type, we can null
             // it out later
             jsonArray = new JSONArray();
             if (value instanceof byte[]) {
                 supportedType = TYPE_BYTE_ARRAY;
-                for (byte v : (byte[])value) {
-                    jsonArray.put((int)v);
+                for (byte v : (byte[]) value) {
+                    jsonArray.put((int) v);
                 }
-            } else if (value instanceof short[]) {
+            }
+            else if (value instanceof short[]) {
                 supportedType = TYPE_SHORT_ARRAY;
-                for (short v : (short[])value) {
-                    jsonArray.put((int)v);
+                for (short v : (short[]) value) {
+                    jsonArray.put((int) v);
                 }
-            } else if (value instanceof int[]) {
+            }
+            else if (value instanceof int[]) {
                 supportedType = TYPE_INTEGER_ARRAY;
-                for (int v : (int[])value) {
+                for (int v : (int[]) value) {
                     jsonArray.put(v);
                 }
-            } else if (value instanceof long[]) {
+            }
+            else if (value instanceof long[]) {
                 supportedType = TYPE_LONG_ARRAY;
-                for (long v : (long[])value) {
+                for (long v : (long[]) value) {
                     jsonArray.put(v);
                 }
-            } else if (value instanceof float[]) {
+            }
+            else if (value instanceof float[]) {
                 supportedType = TYPE_FLOAT_ARRAY;
-                for (float v : (float[])value) {
-                    jsonArray.put((double)v);
+                for (float v : (float[]) value) {
+                    jsonArray.put((double) v);
                 }
-            } else if (value instanceof double[]) {
+            }
+            else if (value instanceof double[]) {
                 supportedType = TYPE_DOUBLE_ARRAY;
-                for (double v : (double[])value) {
+                for (double v : (double[]) value) {
                     jsonArray.put(v);
                 }
-            } else if (value instanceof boolean[]) {
+            }
+            else if (value instanceof boolean[]) {
                 supportedType = TYPE_BOOLEAN_ARRAY;
-                for (boolean v : (boolean[])value) {
+                for (boolean v : (boolean[]) value) {
                     jsonArray.put(v);
                 }
-            } else if (value instanceof char[]) {
+            }
+            else if (value instanceof char[]) {
                 supportedType = TYPE_CHAR_ARRAY;
-                for (char v : (char[])value) {
+                for (char v : (char[]) value) {
                     jsonArray.put(String.valueOf(v));
                 }
-            } else if (value instanceof List<?>) {
+            }
+            else if (value instanceof List<?>) {
                 supportedType = TYPE_STRING_LIST;
                 @SuppressWarnings("unchecked")
-                List<String> stringList = (List<String>)value;
+                List<String> stringList = (List<String>) value;
                 for (String v : stringList) {
                     jsonArray.put((v == null) ? JSONObject.NULL : v);
                 }
-            } else {
+            }
+            else {
                 // Unsupported type. Clear out the array as a precaution even though
                 // it is redundant with the null supportedType.
                 jsonArray = null;
@@ -300,73 +324,88 @@ public class SharedPreferencesTokenCachingStrategy extends TokenCachingStrategy 
 
         if (valueType.equals(TYPE_BOOLEAN)) {
             bundle.putBoolean(key, json.getBoolean(JSON_VALUE));
-        } else if (valueType.equals(TYPE_BOOLEAN_ARRAY)) {
+        }
+        else if (valueType.equals(TYPE_BOOLEAN_ARRAY)) {
             JSONArray jsonArray = json.getJSONArray(JSON_VALUE);
             boolean[] array = new boolean[jsonArray.length()];
             for (int i = 0; i < array.length; i++) {
                 array[i] = jsonArray.getBoolean(i);
             }
             bundle.putBooleanArray(key, array);
-        } else if (valueType.equals(TYPE_BYTE)) {
-            bundle.putByte(key, (byte)json.getInt(JSON_VALUE));
-        } else if (valueType.equals(TYPE_BYTE_ARRAY)) {
+        }
+        else if (valueType.equals(TYPE_BYTE)) {
+            bundle.putByte(key, (byte) json.getInt(JSON_VALUE));
+        }
+        else if (valueType.equals(TYPE_BYTE_ARRAY)) {
             JSONArray jsonArray = json.getJSONArray(JSON_VALUE);
             byte[] array = new byte[jsonArray.length()];
             for (int i = 0; i < array.length; i++) {
-                array[i] = (byte)jsonArray.getInt(i);
+                array[i] = (byte) jsonArray.getInt(i);
             }
             bundle.putByteArray(key, array);
-        } else if (valueType.equals(TYPE_SHORT)) {
-            bundle.putShort(key, (short)json.getInt(JSON_VALUE));
-        } else if (valueType.equals(TYPE_SHORT_ARRAY)) {
+        }
+        else if (valueType.equals(TYPE_SHORT)) {
+            bundle.putShort(key, (short) json.getInt(JSON_VALUE));
+        }
+        else if (valueType.equals(TYPE_SHORT_ARRAY)) {
             JSONArray jsonArray = json.getJSONArray(JSON_VALUE);
             short[] array = new short[jsonArray.length()];
             for (int i = 0; i < array.length; i++) {
-                array[i] = (short)jsonArray.getInt(i);
+                array[i] = (short) jsonArray.getInt(i);
             }
             bundle.putShortArray(key, array);
-        } else if (valueType.equals(TYPE_INTEGER)) {
+        }
+        else if (valueType.equals(TYPE_INTEGER)) {
             bundle.putInt(key, json.getInt(JSON_VALUE));
-        } else if (valueType.equals(TYPE_INTEGER_ARRAY)) {
+        }
+        else if (valueType.equals(TYPE_INTEGER_ARRAY)) {
             JSONArray jsonArray = json.getJSONArray(JSON_VALUE);
             int[] array = new int[jsonArray.length()];
             for (int i = 0; i < array.length; i++) {
                 array[i] = jsonArray.getInt(i);
             }
             bundle.putIntArray(key, array);
-        } else if (valueType.equals(TYPE_LONG)) {
+        }
+        else if (valueType.equals(TYPE_LONG)) {
             bundle.putLong(key, json.getLong(JSON_VALUE));
-        } else if (valueType.equals(TYPE_LONG_ARRAY)) {
+        }
+        else if (valueType.equals(TYPE_LONG_ARRAY)) {
             JSONArray jsonArray = json.getJSONArray(JSON_VALUE);
             long[] array = new long[jsonArray.length()];
             for (int i = 0; i < array.length; i++) {
                 array[i] = jsonArray.getLong(i);
             }
             bundle.putLongArray(key, array);
-        } else if (valueType.equals(TYPE_FLOAT)) {
-            bundle.putFloat(key, (float)json.getDouble(JSON_VALUE));
-        } else if (valueType.equals(TYPE_FLOAT_ARRAY)) {
+        }
+        else if (valueType.equals(TYPE_FLOAT)) {
+            bundle.putFloat(key, (float) json.getDouble(JSON_VALUE));
+        }
+        else if (valueType.equals(TYPE_FLOAT_ARRAY)) {
             JSONArray jsonArray = json.getJSONArray(JSON_VALUE);
             float[] array = new float[jsonArray.length()];
             for (int i = 0; i < array.length; i++) {
-                array[i] = (float)jsonArray.getDouble(i);
+                array[i] = (float) jsonArray.getDouble(i);
             }
             bundle.putFloatArray(key, array);
-        } else if (valueType.equals(TYPE_DOUBLE)) {
+        }
+        else if (valueType.equals(TYPE_DOUBLE)) {
             bundle.putDouble(key, json.getDouble(JSON_VALUE));
-        } else if (valueType.equals(TYPE_DOUBLE_ARRAY)) {
+        }
+        else if (valueType.equals(TYPE_DOUBLE_ARRAY)) {
             JSONArray jsonArray = json.getJSONArray(JSON_VALUE);
             double[] array = new double[jsonArray.length()];
             for (int i = 0; i < array.length; i++) {
                 array[i] = jsonArray.getDouble(i);
             }
             bundle.putDoubleArray(key, array);
-        } else if (valueType.equals(TYPE_CHAR)) {
+        }
+        else if (valueType.equals(TYPE_CHAR)) {
             String charString = json.getString(JSON_VALUE);
             if (charString != null && charString.length() == 1) {
                 bundle.putChar(key, charString.charAt(0));
             }
-        } else if (valueType.equals(TYPE_CHAR_ARRAY)) {
+        }
+        else if (valueType.equals(TYPE_CHAR_ARRAY)) {
             JSONArray jsonArray = json.getJSONArray(JSON_VALUE);
             char[] array = new char[jsonArray.length()];
             for (int i = 0; i < array.length; i++) {
@@ -376,27 +415,35 @@ public class SharedPreferencesTokenCachingStrategy extends TokenCachingStrategy 
                 }
             }
             bundle.putCharArray(key, array);
-        } else if (valueType.equals(TYPE_STRING)) {
+        }
+        else if (valueType.equals(TYPE_STRING)) {
             bundle.putString(key, json.getString(JSON_VALUE));
-        } else if (valueType.equals(TYPE_STRING_LIST)) {
+        }
+        else if (valueType.equals(TYPE_STRING_LIST)) {
             JSONArray jsonArray = json.getJSONArray(JSON_VALUE);
             int numStrings = jsonArray.length();
             ArrayList<String> stringList = new ArrayList<String>(numStrings);
             for (int i = 0; i < numStrings; i++) {
                 Object jsonStringValue = jsonArray.get(i);
-                stringList.add(i, jsonStringValue == JSONObject.NULL ? null : (String)jsonStringValue);
+                stringList.add(i,
+                               jsonStringValue == JSONObject.NULL
+                                       ? null
+                                       : (String) jsonStringValue);
             }
             bundle.putStringArrayList(key, stringList);
-        } else if (valueType.equals(TYPE_ENUM)) {
+        }
+        else if (valueType.equals(TYPE_ENUM)) {
             try {
                 String enumType = json.getString(JSON_VALUE_ENUM_TYPE);
-                @SuppressWarnings({ "unchecked", "rawtypes" })
+                @SuppressWarnings({"unchecked", "rawtypes"})
                 Class<? extends Enum> enumClass = (Class<? extends Enum>) Class.forName(enumType);
                 @SuppressWarnings("unchecked")
                 Enum<?> enumValue = Enum.valueOf(enumClass, json.getString(JSON_VALUE));
                 bundle.putSerializable(key, enumValue);
-            } catch (ClassNotFoundException e) {
-            } catch (IllegalArgumentException e) {
+            }
+            catch (ClassNotFoundException e) {
+            }
+            catch (IllegalArgumentException e) {
             }
         }
     }

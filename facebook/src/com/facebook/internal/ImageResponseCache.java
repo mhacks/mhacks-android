@@ -18,6 +18,7 @@ package com.facebook.internal;
 
 import android.content.Context;
 import android.util.Log;
+
 import com.facebook.LoggingBehavior;
 
 import java.io.BufferedInputStream;
@@ -29,13 +30,16 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 class ImageResponseCache {
+
     static final String TAG = ImageResponseCache.class.getSimpleName();
 
     private volatile static FileLruCache imageCache;
 
-    synchronized static FileLruCache getCache(Context context) throws IOException{
+    synchronized static FileLruCache getCache(Context context) throws IOException {
         if (imageCache == null) {
-            imageCache = new FileLruCache(context.getApplicationContext(), TAG, new FileLruCache.Limits());
+            imageCache = new FileLruCache(context.getApplicationContext(),
+                                          TAG,
+                                          new FileLruCache.Limits());
         }
         return imageCache;
     }
@@ -49,7 +53,8 @@ class ImageResponseCache {
                 try {
                     FileLruCache cache = getCache(context);
                     imageStream = cache.get(url.toString());
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     Logger.log(LoggingBehavior.CACHE, Log.WARN, TAG, e.toString());
                 }
             }
@@ -58,7 +63,8 @@ class ImageResponseCache {
         return imageStream;
     }
 
-    static InputStream interceptAndCacheImageStream(Context context, HttpURLConnection connection) throws IOException {
+    static InputStream interceptAndCacheImageStream(Context context, HttpURLConnection connection)
+            throws IOException {
         InputStream stream = null;
         if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
             URL url = connection.getURL();
@@ -72,16 +78,18 @@ class ImageResponseCache {
                             url.toString(),
                             new BufferedHttpInputStream(stream, connection));
                 }
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 // Caching is best effort
-            } catch (URISyntaxException e) {
-            // Caching is best effort
+            }
+            catch (URISyntaxException e) {
+                // Caching is best effort
             }
         }
         return stream;
     }
 
-   private static boolean isCDNURL(URI url) {
+    private static boolean isCDNURL(URI url) {
         if (url != null) {
             String uriHost = url.getHost();
 
@@ -100,13 +108,16 @@ class ImageResponseCache {
     static void clearCache(Context context) {
         try {
             getCache(context).clearCache();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             Logger.log(LoggingBehavior.CACHE, Log.WARN, TAG, "clearCache failed " + e.getMessage());
         }
     }
 
     private static class BufferedHttpInputStream extends BufferedInputStream {
+
         HttpURLConnection connection;
+
         BufferedHttpInputStream(InputStream stream, HttpURLConnection connection) {
             super(stream, Utility.DEFAULT_STREAM_BUFFER_SIZE);
             this.connection = connection;

@@ -25,9 +25,11 @@ import java.net.URISyntaxException;
 public class ImageRequest {
 
     public interface Callback {
+
         /**
          * This method should always be called on the UI thread. ImageDownloader makes
          * sure to do this when it is responsible for issuing the ImageResponse
+         *
          * @param response
          */
         void onCompleted(ImageResponse response);
@@ -37,16 +39,16 @@ public class ImageRequest {
 
     private static final String PROFILEPIC_URL_FORMAT =
             "https://graph.facebook.com/%s/picture";
-    private static final String HEIGHT_PARAM = "height";
-    private static final String WIDTH_PARAM = "width";
-    private static final String MIGRATION_PARAM = "migration_overrides";
-    private static final String MIGRATION_VALUE = "{october_2012:true}";
+    private static final String HEIGHT_PARAM          = "height";
+    private static final String WIDTH_PARAM           = "width";
+    private static final String MIGRATION_PARAM       = "migration_overrides";
+    private static final String MIGRATION_VALUE       = "{october_2012:true}";
 
-    private Context context;
-    private URI imageUri;
+    private Context  context;
+    private URI      imageUri;
     private Callback callback;
-    private boolean allowCachedRedirects;
-    private Object callerTag;
+    private boolean  allowCachedRedirects;
+    private Object   callerTag;
 
     public static URI getProfilePictureUrl(
             String userId,
@@ -63,7 +65,8 @@ public class ImageRequest {
             throw new IllegalArgumentException("Either width or height must be greater than 0");
         }
 
-        Uri.Builder builder = new Uri.Builder().encodedPath(String.format(PROFILEPIC_URL_FORMAT, userId));
+        Uri.Builder builder =
+                new Uri.Builder().encodedPath(String.format(PROFILEPIC_URL_FORMAT, userId));
 
         if (height != UNSPECIFIED_DIMENSION) {
             builder.appendQueryParameter(HEIGHT_PARAM, String.valueOf(height));
@@ -107,14 +110,15 @@ public class ImageRequest {
     }
 
     public static class Builder {
+
         // Required
         private Context context;
-        private URI imageUrl;
+        private URI     imageUrl;
 
         // Optional
         private Callback callback;
-        private boolean allowCachedRedirects;
-        private Object callerTag;
+        private boolean  allowCachedRedirects;
+        private Object   callerTag;
 
         public Builder(Context context, URI imageUrl) {
             Validate.notNull(imageUrl, "imageUrl");

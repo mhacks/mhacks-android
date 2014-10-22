@@ -19,8 +19,13 @@ package com.facebook.widget;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
-import com.facebook.*;
-import com.facebook.widget.LoginButton;
+
+import com.facebook.AccessTokenSource;
+import com.facebook.FacebookException;
+import com.facebook.Session;
+import com.facebook.SessionDefaultAudience;
+import com.facebook.SessionState;
+
 import junit.framework.Assert;
 
 import java.util.ArrayList;
@@ -38,9 +43,12 @@ public class LoginButtonTest extends SessionTestsBase {
     public void testLoginButton() throws Throwable {
         MockTokenCachingStrategy cache = new MockTokenCachingStrategy(null, 0);
         final ScriptedSession session = new ScriptedSession(getActivity(), "SomeId", cache);
-        SessionTestsBase.SessionStatusCallbackRecorder statusRecorder = new SessionTestsBase.SessionStatusCallbackRecorder();
+        SessionTestsBase.SessionStatusCallbackRecorder statusRecorder =
+                new SessionTestsBase.SessionStatusCallbackRecorder();
 
-        session.addAuthorizeResult("A token of thanks", new ArrayList<String>(), AccessTokenSource.TEST_USER);
+        session.addAuthorizeResult("A token of thanks",
+                                   new ArrayList<String>(),
+                                   AccessTokenSource.TEST_USER);
         session.addCallback(statusRecorder);
 
         // Verify state with no token in cache
@@ -48,7 +56,8 @@ public class LoginButtonTest extends SessionTestsBase {
 
         // Add another status recorder to ensure that the callback we hand to LoginButton
         // also gets called as expected. We expect to get the same order of calls as statusRecorder does.
-        final SessionStatusCallbackRecorder loginButtonStatusRecorder = new SessionStatusCallbackRecorder();
+        final SessionStatusCallbackRecorder loginButtonStatusRecorder =
+                new SessionStatusCallbackRecorder();
 
         // Create the button. To get session status updates, we need to actually attach the
         // button to a window, which must be done on the UI thread.
@@ -116,7 +125,8 @@ public class LoginButtonTest extends SessionTestsBase {
             synchronized (listener) {
                 listener.wait(DEFAULT_TIMEOUT_MILLISECONDS);
             }
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e) {
             fail("Interrupted during open");
         }
 
@@ -171,7 +181,8 @@ public class LoginButtonTest extends SessionTestsBase {
             synchronized (callback) {
                 callback.wait(DEFAULT_TIMEOUT_MILLISECONDS);
             }
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e) {
             fail("Interrupted during open");
         }
 
@@ -186,7 +197,8 @@ public class LoginButtonTest extends SessionTestsBase {
     public void testCanAddReadPermissions() {
         MockTokenCachingStrategy cache = new MockTokenCachingStrategy(null, 0);
         ScriptedSession session = new ScriptedSession(getActivity(), "SomeId", cache);
-        SessionTestsBase.SessionStatusCallbackRecorder statusRecorder = new SessionTestsBase.SessionStatusCallbackRecorder();
+        SessionTestsBase.SessionStatusCallbackRecorder statusRecorder =
+                new SessionTestsBase.SessionStatusCallbackRecorder();
 
         // Verify state with no token in cache
         assertEquals(SessionState.CREATED, session.getState());
@@ -194,7 +206,9 @@ public class LoginButtonTest extends SessionTestsBase {
         final LoginButton button = new LoginButton(getActivity());
         button.setSession(session);
         button.setReadPermissions("read_permission", "read_another");
-        session.addAuthorizeResult("A token of thanks", new ArrayList<String>(), AccessTokenSource.TEST_USER);
+        session.addAuthorizeResult("A token of thanks",
+                                   new ArrayList<String>(),
+                                   AccessTokenSource.TEST_USER);
         session.addCallback(statusRecorder);
 
         button.performClick();
@@ -228,7 +242,9 @@ public class LoginButtonTest extends SessionTestsBase {
         final LoginButton button = new LoginButton(getActivity());
         button.setSession(session);
         button.setPublishPermissions("publish_permission", "publish_another");
-        session.addAuthorizeResult("A token of thanks", new ArrayList<String>(), AccessTokenSource.TEST_USER);
+        session.addAuthorizeResult("A token of thanks",
+                                   new ArrayList<String>(),
+                                   AccessTokenSource.TEST_USER);
         session.addCallback(statusRecorder);
 
         button.performClick();
@@ -256,7 +272,8 @@ public class LoginButtonTest extends SessionTestsBase {
         try {
             button.setPublishPermissions("read_permission", "read_a_third");
             fail("Should not be able to reach here");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             assertTrue(e instanceof UnsupportedOperationException);
         }
     }
@@ -270,7 +287,8 @@ public class LoginButtonTest extends SessionTestsBase {
         try {
             button.setReadPermissions("publish_permission", "publish_a_third");
             fail("Should not be able to reach here");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             assertTrue(e instanceof UnsupportedOperationException);
         }
     }
@@ -300,7 +318,8 @@ public class LoginButtonTest extends SessionTestsBase {
         final LoginButton button = new LoginButton(getActivity());
         button.setSession(session);
         session.addAuthorizeResult("A token of thanks",
-                Arrays.asList(new String[] {"read_permission", "read_another"}), AccessTokenSource.TEST_USER);
+                                   Arrays.asList(new String[]{"read_permission", "read_another"}),
+                                   AccessTokenSource.TEST_USER);
         session.addCallback(statusRecorder);
 
         button.performClick();
@@ -332,7 +351,8 @@ public class LoginButtonTest extends SessionTestsBase {
     @MediumTest
     @LargeTest
     public void testCanSetDefaultAudience() {
-        SessionTestsBase.MockTokenCachingStrategy cache = new SessionTestsBase.MockTokenCachingStrategy(null, 0);
+        SessionTestsBase.MockTokenCachingStrategy cache =
+                new SessionTestsBase.MockTokenCachingStrategy(null, 0);
         ScriptedSession session = new ScriptedSession(getActivity(), "SomeId", cache);
         SessionTestsBase.SessionStatusCallbackRecorder statusRecorder =
                 new SessionTestsBase.SessionStatusCallbackRecorder();
@@ -344,7 +364,9 @@ public class LoginButtonTest extends SessionTestsBase {
         button.setSession(session);
         button.setPublishPermissions("publish_permission", "publish_another");
         button.setDefaultAudience(SessionDefaultAudience.FRIENDS);
-        session.addAuthorizeResult("A token of thanks", new ArrayList<String>(), AccessTokenSource.TEST_USER);
+        session.addAuthorizeResult("A token of thanks",
+                                   new ArrayList<String>(),
+                                   AccessTokenSource.TEST_USER);
         session.addCallback(statusRecorder);
 
         button.performClick();

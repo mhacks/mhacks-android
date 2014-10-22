@@ -18,12 +18,11 @@ package com.facebook.internal;
 
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
-import com.facebook.internal.Validate;
 
 import java.util.Arrays;
 
 public class ValidateTests extends AndroidTestCase {
-    
+
     @SmallTest
     public void testNotNullOnNonNull() {
         Validate.notNull("A string", "name");
@@ -34,21 +33,23 @@ public class ValidateTests extends AndroidTestCase {
         try {
             Validate.notNull(null, "name");
             fail("expected exception");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
         }
     }
 
     @SmallTest
     public void testNotEmptyOnNonEmpty() {
-        Validate.notEmpty(Arrays.asList(new String[] { "hi" }), "name");
+        Validate.notEmpty(Arrays.asList(new String[]{"hi"}), "name");
     }
 
     @SmallTest
     public void testNotEmptylOnEmpty() {
         try {
-            Validate.notEmpty(Arrays.asList(new String[] {}), "name");
+            Validate.notEmpty(Arrays.asList(new String[]{}), "name");
             fail("expected exception");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
         }
     }
 
@@ -62,7 +63,8 @@ public class ValidateTests extends AndroidTestCase {
         try {
             Validate.notNullOrEmpty("", "name");
             fail("expected exception");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
         }
     }
 
@@ -71,7 +73,8 @@ public class ValidateTests extends AndroidTestCase {
         try {
             Validate.notNullOrEmpty(null, "name");
             fail("expected exception");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
         }
     }
 
@@ -85,7 +88,8 @@ public class ValidateTests extends AndroidTestCase {
         try {
             Validate.oneOf("hit", "name", "hi", "there");
             fail("expected exception");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
         }
     }
 
@@ -99,7 +103,8 @@ public class ValidateTests extends AndroidTestCase {
         try {
             Validate.oneOf(null, "name", "hi", "there");
             fail("expected exception");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
         }
     }
 }

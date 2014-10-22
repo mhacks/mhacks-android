@@ -24,6 +24,7 @@ import android.os.Bundle;
  * cached for future use (for instance, when handling a deep link).
  */
 public class NonCachingTokenCachingStrategy extends TokenCachingStrategy {
+
     @Override
     public Bundle load() {
         return null;

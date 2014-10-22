@@ -21,6 +21,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.LargeTest;
+
 import com.facebook.TestUtils;
 
 import java.io.IOException;
@@ -37,18 +38,19 @@ public final class ImageResponseCacheTests extends AndroidTestCase {
         // In unit test, since we need verify first access the image is not in cache
         // we need clear the cache first
         TestUtils.clearFileLruCache(ImageResponseCache.getCache(safeGetContext()));
-        String imgUrl = "http://profile.ak.fbcdn.net/hprofile-ak-frc1/369438_100003049100322_615834658_n.jpg";
-        
+        String imgUrl =
+                "http://profile.ak.fbcdn.net/hprofile-ak-frc1/369438_100003049100322_615834658_n.jpg";
+
         Bitmap bmp1 = readImage(imgUrl, false);
         Bitmap bmp2 = readImage(imgUrl, true);
         compareImages(bmp1, bmp2);
     }
-    
+
     @LargeTest
     public void testImageNotCaching() throws IOException {
-        
+
         String imgUrl = "https://graph.facebook.com/ryanseacrest/picture?type=large";
-        
+
         Bitmap bmp1 = readImage(imgUrl, false);
         Bitmap bmp2 = readImage(imgUrl, false);
         compareImages(bmp1, bmp2);
@@ -57,30 +59,33 @@ public final class ImageResponseCacheTests extends AndroidTestCase {
     private Bitmap readImage(String uri, boolean expectedFromCache) {
         Bitmap bmp = null;
         InputStream istream = null;
-        try
-        {
+        try {
             URI url = new URI(uri);
             // Check if the cache contains value for this url
-            boolean isInCache = (ImageResponseCache.getCache(safeGetContext()).get(url.toString()) != null);
+            boolean isInCache =
+                    (ImageResponseCache.getCache(safeGetContext()).get(url.toString()) != null);
             assertTrue(isInCache == expectedFromCache);
             // Read the image
             istream = ImageResponseCache.getCachedImageStream(url, safeGetContext());
             if (istream == null) {
-                HttpURLConnection connection = (HttpURLConnection)url.toURL().openConnection();
-                istream = ImageResponseCache.interceptAndCacheImageStream(safeGetContext(), connection);
+                HttpURLConnection connection = (HttpURLConnection) url.toURL().openConnection();
+                istream = ImageResponseCache.interceptAndCacheImageStream(safeGetContext(),
+                                                                          connection);
             }
 
             assertTrue(istream != null);
             bmp = BitmapFactory.decodeStream(istream);
             assertTrue(bmp != null);
-        } catch (Exception e) {
-             assertNull(e);
-        } finally {
+        }
+        catch (Exception e) {
+            assertNull(e);
+        }
+        finally {
             Utility.closeQuietly(istream);
         }
         return bmp;
     }
-    
+
     private static void compareImages(Bitmap bmp1, Bitmap bmp2) {
         assertTrue(bmp1.getHeight() == bmp2.getHeight());
         assertTrue(bmp1.getWidth() == bmp1.getWidth());
@@ -94,13 +99,14 @@ public final class ImageResponseCacheTests extends AndroidTestCase {
     }
 
     private Context safeGetContext() {
-        for (;;) {
+        for (; ; ) {
             if ((getContext() != null) && (getContext().getApplicationContext() != null)) {
                 return getContext();
             }
             try {
                 Thread.sleep(25);
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
             }
         }
     }

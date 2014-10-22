@@ -20,6 +20,7 @@ import android.graphics.Bitmap;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
+
 import com.facebook.model.GraphObject;
 import com.facebook.model.GraphPlace;
 import com.facebook.model.GraphUser;
@@ -38,7 +39,8 @@ public class AsyncRequestTests extends FacebookTestCase {
         try {
             TestRequestAsyncTask task = createAsyncTaskOnUiThread(request);
             assertNotNull(task);
-        } catch (Throwable throwable) {
+        }
+        catch (Throwable throwable) {
             assertNull(throwable);
         }
     }
@@ -55,7 +57,8 @@ public class AsyncRequestTests extends FacebookTestCase {
             waitAndAssertSuccessOrRethrow(1);
 
             fail("expected NullPointerException");
-        } catch (NullPointerException exception) {
+        }
+        catch (NullPointerException exception) {
         }
     }
 
@@ -64,14 +67,15 @@ public class AsyncRequestTests extends FacebookTestCase {
     @LargeTest
     public void testExecuteBatchWithZeroRequestsThrows() throws Exception {
         try {
-            TestRequestAsyncTask task = new TestRequestAsyncTask(new Request[] {});
+            TestRequestAsyncTask task = new TestRequestAsyncTask(new Request[]{});
 
             task.executeOnBlockerThread();
 
             waitAndAssertSuccessOrRethrow(1);
 
             fail("expected IllegalArgumentException");
-        } catch (IllegalArgumentException exception) {
+        }
+        catch (IllegalArgumentException exception) {
         }
     }
 
@@ -80,14 +84,15 @@ public class AsyncRequestTests extends FacebookTestCase {
     @LargeTest
     public void testExecuteBatchWithNullRequestThrows() throws Exception {
         try {
-            TestRequestAsyncTask task = new TestRequestAsyncTask(new Request[] { null });
+            TestRequestAsyncTask task = new TestRequestAsyncTask(new Request[]{null});
 
             task.executeOnBlockerThread();
 
             waitAndAssertSuccessOrRethrow(1);
 
             fail("expected NullPointerException");
-        } catch (NullPointerException exception) {
+        }
+        catch (NullPointerException exception) {
         }
 
     }
@@ -96,14 +101,15 @@ public class AsyncRequestTests extends FacebookTestCase {
     @LargeTest
     public void testExecuteSingleGet() {
         final TestSession session = openTestSessionWithSharedUser();
-        Request request = new Request(session, "TourEiffel", null, null, new ExpectSuccessCallback() {
-            @Override
-            protected void performAsserts(Response response) {
-                assertNotNull(response);
-                GraphPlace graphPlace = response.getGraphObjectAs(GraphPlace.class);
-                assertEquals("Paris", graphPlace.getLocation().getCity());
-            }
-        });
+        Request request =
+                new Request(session, "TourEiffel", null, null, new ExpectSuccessCallback() {
+                    @Override
+                    protected void performAsserts(Response response) {
+                        assertNotNull(response);
+                        GraphPlace graphPlace = response.getGraphObjectAs(GraphPlace.class);
+                        assertEquals("Paris", graphPlace.getLocation().getCity());
+                    }
+                });
 
         TestRequestAsyncTask task = new TestRequestAsyncTask(request);
 
@@ -117,17 +123,19 @@ public class AsyncRequestTests extends FacebookTestCase {
     @LargeTest
     public void testExecuteSingleGetUsingHttpURLConnection() {
         final TestSession session = openTestSessionWithSharedUser();
-        Request request = new Request(session, "TourEiffel", null, null, new ExpectSuccessCallback() {
-            @Override
-            protected void performAsserts(Response response) {
-                assertNotNull(response);
-                GraphPlace graphPlace = response.getGraphObjectAs(GraphPlace.class);
-                assertEquals("Paris", graphPlace.getLocation().getCity());
-            }
-        });
+        Request request =
+                new Request(session, "TourEiffel", null, null, new ExpectSuccessCallback() {
+                    @Override
+                    protected void performAsserts(Response response) {
+                        assertNotNull(response);
+                        GraphPlace graphPlace = response.getGraphObjectAs(GraphPlace.class);
+                        assertEquals("Paris", graphPlace.getLocation().getCity());
+                    }
+                });
         HttpURLConnection connection = Request.toHttpConnection(request);
 
-        TestRequestAsyncTask task = new TestRequestAsyncTask(connection, Arrays.asList(new Request[] { request }));
+        TestRequestAsyncTask task =
+                new TestRequestAsyncTask(connection, Arrays.asList(new Request[]{request}));
 
         task.executeOnBlockerThread();
 
@@ -154,7 +162,8 @@ public class AsyncRequestTests extends FacebookTestCase {
     @LargeTest
     public void testBatchWithoutAppIDIsError() throws Throwable {
         Request request1 = new Request(null, "TourEiffel", null, null, new ExpectFailureCallback());
-        Request request2 = new Request(null, "SpaceNeedle", null, null, new ExpectFailureCallback());
+        Request request2 =
+                new Request(null, "SpaceNeedle", null, null, new ExpectFailureCallback());
 
         TestRequestAsyncTask task = new TestRequestAsyncTask(request1, request2);
 
@@ -174,7 +183,8 @@ public class AsyncRequestTests extends FacebookTestCase {
             boolean shouldSucceed = (i % 2) == 1;
             if (shouldSucceed) {
                 requests[i] = new Request(session, "me", null, null, new ExpectSuccessCallback());
-            } else {
+            }
+            else {
                 requests[i] = new Request(session, "-1", null, null, new ExpectFailureCallback());
             }
         }
@@ -194,6 +204,7 @@ public class AsyncRequestTests extends FacebookTestCase {
         final TestSession session = openTestSessionWithSharedUser();
 
         class MeCallback extends ExpectSuccessCallback implements Request.GraphUserCallback {
+
             @Override
             public void onCompleted(GraphUser me, Response response) {
                 assertNotNull(me);
@@ -218,7 +229,9 @@ public class AsyncRequestTests extends FacebookTestCase {
     public void testStaticExecuteMyFriendsAsync() {
         final TestSession session = openTestSessionWithSharedUser();
 
-        class FriendsCallback extends ExpectSuccessCallback implements Request.GraphUserListCallback {
+        class FriendsCallback extends ExpectSuccessCallback
+                implements Request.GraphUserListCallback {
+
             @Override
             public void onCompleted(List<GraphUser> friends, Response response) {
                 assertNotNull(friends);
@@ -238,7 +251,8 @@ public class AsyncRequestTests extends FacebookTestCase {
 
     @LargeTest
     public void testBatchUploadPhoto() {
-        TestSession session = openTestSessionWithSharedUserAndPermissions(null, "user_photos", "publish_actions");
+        TestSession session =
+                openTestSessionWithSharedUserAndPermissions(null, "user_photos", "publish_actions");
 
         final int image1Size = 120;
         final int image2Size = 150;
@@ -251,27 +265,32 @@ public class AsyncRequestTests extends FacebookTestCase {
         Request uploadRequest2 = Request.newUploadPhotoRequest(session, bitmap2, null);
         uploadRequest2.setBatchEntryName("uploadRequest2");
         Request getRequest1 = new Request(session, "{result=uploadRequest1:$.id}", null, null,
-                new ExpectSuccessCallback() {
-                    @Override
-                    protected void performAsserts(Response response) {
-                        assertNotNull(response);
-                        GraphObject retrievedPhoto = response.getGraphObject();
-                        assertNotNull(retrievedPhoto);
-                        assertEquals(image1Size, retrievedPhoto.getProperty("width"));
-                    }
-                });
+                                          new ExpectSuccessCallback() {
+                                              @Override
+                                              protected void performAsserts(Response response) {
+                                                  assertNotNull(response);
+                                                  GraphObject retrievedPhoto =
+                                                          response.getGraphObject();
+                                                  assertNotNull(retrievedPhoto);
+                                                  assertEquals(image1Size,
+                                                               retrievedPhoto.getProperty("width"));
+                                              }
+                                          });
         Request getRequest2 = new Request(session, "{result=uploadRequest2:$.id}", null, null,
-                new ExpectSuccessCallback() {
-                    @Override
-                    protected void performAsserts(Response response) {
-                        assertNotNull(response);
-                        GraphObject retrievedPhoto = response.getGraphObject();
-                        assertNotNull(retrievedPhoto);
-                        assertEquals(image2Size, retrievedPhoto.getProperty("width"));
-                    }
-                });
+                                          new ExpectSuccessCallback() {
+                                              @Override
+                                              protected void performAsserts(Response response) {
+                                                  assertNotNull(response);
+                                                  GraphObject retrievedPhoto =
+                                                          response.getGraphObject();
+                                                  assertNotNull(retrievedPhoto);
+                                                  assertEquals(image2Size,
+                                                               retrievedPhoto.getProperty("width"));
+                                              }
+                                          });
 
-        TestRequestAsyncTask task = new TestRequestAsyncTask(uploadRequest1, uploadRequest2, getRequest1, getRequest2);
+        TestRequestAsyncTask task =
+                new TestRequestAsyncTask(uploadRequest1, uploadRequest2, getRequest1, getRequest2);
         task.executeOnBlockerThread();
 
         // Wait on 3 signals: getRequest1, getRequest2, and task will all signal.

@@ -17,6 +17,7 @@ import java.util.Date;
  */
 @ParseClassName("Event")
 public class Event extends ParseObject implements Parcelable {
+
     private static final String TAG = "Event";
 
     public static final String CATEGORY_COL   = "category";
@@ -26,6 +27,8 @@ public class Event extends ParseObject implements Parcelable {
     public static final String LOCATIONS_COL  = "locations";
     public static final String START_TIME_COL = "startTime";
     public static final String TITLE_COL      = "title";
+
+    public Event() {}
 
     public EventType getCategory() {
         return (EventType) getParseObject(CATEGORY_COL);
@@ -122,7 +125,8 @@ public class Event extends ParseObject implements Parcelable {
             setLocations(new JSONArray(source.readString()));
             setStartTime((Date) source.readValue(Date.class.getClassLoader()));
             setTitle(source.readString());
-        } catch (JSONException e) {
+        }
+        catch (JSONException e) {
             Log.e(TAG, "JSON done goofed", e);
         }
     }

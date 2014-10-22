@@ -21,16 +21,17 @@ import com.facebook.Settings;
 import java.util.concurrent.Executor;
 
 class WorkQueue {
+
     public static final int DEFAULT_MAX_CONCURRENT = 8;
 
     private final Object workLock = new Object();
     private WorkNode pendingJobs;
 
-    private final int maxConcurrent;
+    private final int      maxConcurrent;
     private final Executor executor;
 
-    private WorkNode runningJobs = null;
-    private int runningCount = 0;
+    private WorkNode runningJobs  = null;
+    private int      runningCount = 0;
 
     WorkQueue() {
         this(DEFAULT_MAX_CONCURRENT);
@@ -116,7 +117,8 @@ class WorkQueue {
             public void run() {
                 try {
                     node.getCallback().run();
-                } finally {
+                }
+                finally {
                     finishItemAndStartNew(node);
                 }
             }
@@ -124,10 +126,11 @@ class WorkQueue {
     }
 
     private class WorkNode implements WorkItem {
+
         private final Runnable callback;
-        private WorkNode next;
-        private WorkNode prev;
-        private boolean isRunning;
+        private       WorkNode next;
+        private       WorkNode prev;
+        private       boolean  isRunning;
 
         WorkNode(Runnable callback) {
             this.callback = callback;
@@ -178,7 +181,8 @@ class WorkQueue {
 
             if (list == null) {
                 list = next = prev = this;
-            } else {
+            }
+            else {
                 next = list;
                 prev = list.prev;
                 next.prev = prev.next = this;
@@ -194,7 +198,8 @@ class WorkQueue {
             if (list == this) {
                 if (next == this) {
                     list = null;
-                } else {
+                }
+                else {
                     list = next;
                 }
             }
@@ -214,8 +219,11 @@ class WorkQueue {
     }
 
     interface WorkItem {
+
         boolean cancel();
+
         boolean isRunning();
+
         void moveToFront();
     }
 }

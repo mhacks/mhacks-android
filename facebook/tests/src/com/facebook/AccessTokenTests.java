@@ -19,11 +19,11 @@ package com.facebook;
 import android.content.Intent;
 import android.os.Bundle;
 import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.LargeTest;
-import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
+
 import com.facebook.internal.NativeProtocol;
 import com.facebook.internal.Utility;
+
 import junit.framework.Assert;
 
 import java.io.IOException;
@@ -53,7 +53,8 @@ public final class AccessTokenTests extends AndroidTestCase {
         bundle.putString("access_token", token);
         bundle.putString("expires_in", "60");
 
-        AccessToken accessToken = AccessToken.createFromWebBundle(permissions, bundle, AccessTokenSource.WEB_VIEW);
+        AccessToken accessToken =
+                AccessToken.createFromWebBundle(permissions, bundle, AccessTokenSource.WEB_VIEW);
         TestUtils.assertSamePermissions(permissions, accessToken);
         assertEquals(token, accessToken.getToken());
         assertEquals(AccessTokenSource.WEB_VIEW, accessToken.getSource());
@@ -76,8 +77,10 @@ public final class AccessTokenTests extends AndroidTestCase {
         try {
             AccessToken.createFromRefresh(accessToken, bundle);
             Assert.fail("Expected exception");
-        } catch (FacebookException ex) {
-            Assert.assertEquals("Invalid token source: " + AccessTokenSource.WEB_VIEW, ex.getMessage());
+        }
+        catch (FacebookException ex) {
+            Assert.assertEquals("Invalid token source: " + AccessTokenSource.WEB_VIEW,
+                                ex.getMessage());
         }
     }
 
@@ -92,7 +95,9 @@ public final class AccessTokenTests extends AndroidTestCase {
         intent.putExtra("extra_extra", "Something unrelated");
 
         AccessToken accessToken = AccessToken
-                .createFromWebBundle(permissions, intent.getExtras(), AccessTokenSource.FACEBOOK_APPLICATION_WEB);
+                .createFromWebBundle(permissions,
+                                     intent.getExtras(),
+                                     AccessTokenSource.FACEBOOK_APPLICATION_WEB);
 
         TestUtils.assertSamePermissions(permissions, accessToken);
         assertEquals(token, accessToken.getToken());
@@ -111,7 +116,9 @@ public final class AccessTokenTests extends AndroidTestCase {
         intent.putExtra("extra_extra", "Something unrelated");
 
         AccessToken accessToken = AccessToken
-                .createFromWebBundle(permissions, intent.getExtras(), AccessTokenSource.FACEBOOK_APPLICATION_WEB);
+                .createFromWebBundle(permissions,
+                                     intent.getExtras(),
+                                     AccessTokenSource.FACEBOOK_APPLICATION_WEB);
         TestUtils.assertSamePermissions(permissions, accessToken);
         assertEquals(token, accessToken.getToken());
         assertEquals(AccessTokenSource.FACEBOOK_APPLICATION_WEB, accessToken.getSource());
@@ -140,7 +147,8 @@ public final class AccessTokenTests extends AndroidTestCase {
     @SmallTest
     public void testCacheRoundtrip() {
         ArrayList<String> permissions = Utility.arrayList("stream_publish", "go_outside_and_play");
-        ArrayList<String> declinedPermissions = Utility.arrayList("no you may not", "no soup for you");
+        ArrayList<String> declinedPermissions =
+                Utility.arrayList("no you may not", "no soup for you");
         String token = "AnImaginaryTokenValue";
         Date later = TestUtils.nowPlusSeconds(60);
         Date earlier = TestUtils.nowPlusSeconds(-60);
@@ -167,12 +175,12 @@ public final class AccessTokenTests extends AndroidTestCase {
     public void testCachePutGet() {
         Bundle bundle = new Bundle();
 
-        for (String token : new String[] { "", "A completely random token value" }) {
+        for (String token : new String[]{"", "A completely random token value"}) {
             TokenCachingStrategy.putToken(bundle, token);
             assertEquals(token, TokenCachingStrategy.getToken(bundle));
         }
 
-        for (Date date : new Date[] { new Date(42), new Date() }) {
+        for (Date date : new Date[]{new Date(42), new Date()}) {
             TokenCachingStrategy.putExpirationDate(bundle, date);
             assertEquals(date, TokenCachingStrategy.getExpirationDate(bundle));
 
@@ -180,7 +188,7 @@ public final class AccessTokenTests extends AndroidTestCase {
             assertEquals(date, TokenCachingStrategy.getLastRefreshDate(bundle));
         }
 
-        for (long milliseconds : new long[] { 0, -1, System.currentTimeMillis() }) {
+        for (long milliseconds : new long[]{0, -1, System.currentTimeMillis()}) {
             TokenCachingStrategy.putExpirationMilliseconds(bundle, milliseconds);
             assertEquals(milliseconds, TokenCachingStrategy.getExpirationMilliseconds(bundle));
 
@@ -210,9 +218,11 @@ public final class AccessTokenTests extends AndroidTestCase {
     @SmallTest
     public void testBasicSerialization() throws IOException {
         AccessToken accessToken = AccessToken.createFromString("a token",
-                Arrays.asList("permission_1", "permission_2"), AccessTokenSource.WEB_VIEW);
+                                                               Arrays.asList("permission_1",
+                                                                             "permission_2"),
+                                                               AccessTokenSource.WEB_VIEW);
         AccessToken res = TestUtils.serializeAndUnserialize(accessToken);
-        
+
         // if one field got serialized most likely all other non transient fields
         // got serialized correctly.
         assertEquals(accessToken.getPermissions(), res.getPermissions());
@@ -223,15 +233,20 @@ public final class AccessTokenTests extends AndroidTestCase {
     @SmallTest
     public void testPermissionsAreImmutable() {
         List<String> permissions = Arrays.asList("go to Jail", "do not pass Go");
-        AccessToken accessToken = new AccessToken("some token", new Date(), permissions, null,
-                AccessTokenSource.FACEBOOK_APPLICATION_WEB, new Date());
+        AccessToken accessToken = new AccessToken("some token",
+                                                  new Date(),
+                                                  permissions,
+                                                  null,
+                                                  AccessTokenSource.FACEBOOK_APPLICATION_WEB,
+                                                  new Date());
 
         permissions = accessToken.getPermissions();
 
         try {
             permissions.add("can't touch this");
             fail();
-        } catch (UnsupportedOperationException ex) {
+        }
+        catch (UnsupportedOperationException ex) {
         }
     }
 
@@ -239,7 +254,8 @@ public final class AccessTokenTests extends AndroidTestCase {
     public void testCreateFromExistingTokenDefaults() {
         final String token = "A token of my esteem";
 
-        AccessToken accessToken = AccessToken.createFromExistingAccessToken(token, null, null, null, null);
+        AccessToken accessToken =
+                AccessToken.createFromExistingAccessToken(token, null, null, null, null);
 
         assertEquals(token, accessToken.getToken());
         assertEquals(new Date(Long.MAX_VALUE), accessToken.getExpires());

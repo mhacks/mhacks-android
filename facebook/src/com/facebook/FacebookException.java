@@ -20,6 +20,7 @@ package com.facebook;
  * Represents an error condition specific to the Facebook SDK for Android.
  */
 public class FacebookException extends RuntimeException {
+
     static final long serialVersionUID = 1;
 
     /**
@@ -31,9 +32,8 @@ public class FacebookException extends RuntimeException {
 
     /**
      * Constructs a new FacebookException.
-     * 
-     * @param message
-     *            the detail message of this exception
+     *
+     * @param message the detail message of this exception
      */
     public FacebookException(String message) {
         super(message);
@@ -41,11 +41,9 @@ public class FacebookException extends RuntimeException {
 
     /**
      * Constructs a new FacebookException.
-     * 
-     * @param message
-     *            the detail message of this exception
-     * @param throwable
-     *            the cause of this exception
+     *
+     * @param message   the detail message of this exception
+     * @param throwable the cause of this exception
      */
     public FacebookException(String message, Throwable throwable) {
         super(message, throwable);
@@ -53,9 +51,8 @@ public class FacebookException extends RuntimeException {
 
     /**
      * Constructs a new FacebookException.
-     * 
-     * @param throwable
-     *            the cause of this exception
+     *
+     * @param throwable the cause of this exception
      */
     public FacebookException(Throwable throwable) {
         super(throwable);

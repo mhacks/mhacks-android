@@ -20,11 +20,13 @@ import android.os.Bundle;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
+
 import org.json.JSONArray;
 
 // Because TestSession is the component under test here, be careful in calling methods on FacebookTestCase that
 // assume TestSession works correctly.
 public class TestSessionTests extends FacebookTestCase {
+
     @SmallTest
     @MediumTest
     @LargeTest
@@ -48,14 +50,19 @@ public class TestSessionTests extends FacebookTestCase {
         TestSession session = getTestSessionWithSharedUser();
 
         Session.OpenRequest openRequest = new Session.OpenRequest(getActivity()).
-                setCallback(
-                        new Session.StatusCallback() {
-                            @Override
-                            public void call(Session session, SessionState state, Exception exception) {
-                                assertTrue(exception == null);
-                                blocker.signal();
-                            }
-                        });
+                                                                                        setCallback(
+                                                                                                new Session.StatusCallback() {
+                                                                                                    @Override
+                                                                                                    public void call(
+                                                                                                            Session session,
+                                                                                                            SessionState state,
+                                                                                                            Exception exception) {
+                                                                                                        assertTrue(
+                                                                                                                exception ==
+                                                                                                                null);
+                                                                                                        blocker.signal();
+                                                                                                    }
+                                                                                                });
         session.openForRead(openRequest);
 
         waitAndAssertSuccess(blocker, 1);
@@ -113,7 +120,8 @@ public class TestSessionTests extends FacebookTestCase {
             TestSession.setTestApplicationId("hello");
             TestSession.setTestApplicationId("world");
             fail("expected exception");
-        } catch (FacebookException e) {
+        }
+        catch (FacebookException e) {
         }
     }
 
@@ -125,7 +133,8 @@ public class TestSessionTests extends FacebookTestCase {
             TestSession.setTestApplicationSecret("hello");
             TestSession.setTestApplicationSecret("world");
             fail("expected exception");
-        } catch (FacebookException e) {
+        }
+        catch (FacebookException e) {
         }
     }
 

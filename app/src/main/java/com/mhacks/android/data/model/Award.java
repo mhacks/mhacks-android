@@ -19,6 +19,8 @@ public class Award extends ParseObject implements Parcelable {
     public static final String VALUE_COL       = "value";
     public static final String WEBSITE_COL     = "website";
 
+    public Award() {}
+
     public String getDescription() {
         return getString(DESCRIPTION_COL);
     }

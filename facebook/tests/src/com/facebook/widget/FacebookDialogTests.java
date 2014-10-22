@@ -17,15 +17,15 @@
 package com.facebook.widget;
 
 import android.graphics.Bitmap;
-import com.facebook.FacebookException;
+
 import com.facebook.FacebookTestCase;
 import com.facebook.model.GraphObject;
 import com.facebook.model.OpenGraphAction;
 import com.facebook.model.OpenGraphObject;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,9 +45,10 @@ public class FacebookDialogTests extends FacebookTestCase {
             FacebookDialog.OpenGraphActionDialogBuilder builder =
                     new FacebookDialog.OpenGraphActionDialogBuilder(getActivity(), action, "foo");
 
-            builder.setImageAttachmentsForAction(Arrays.asList((Bitmap)null));
+            builder.setImageAttachmentsForAction(Arrays.asList((Bitmap) null));
             fail("expected exception");
-        } catch (NullPointerException exception) {
+        }
+        catch (NullPointerException exception) {
         }
     }
 
@@ -80,7 +81,8 @@ public class FacebookDialogTests extends FacebookTestCase {
                     new FacebookDialog.OpenGraphActionDialogBuilder(getActivity(), null, "foo");
             builder.setImageAttachmentsForObject("foo", new ArrayList<Bitmap>());
             fail("expected exception");
-        } catch (NullPointerException exception) {
+        }
+        catch (NullPointerException exception) {
         }
     }
 
@@ -92,7 +94,8 @@ public class FacebookDialogTests extends FacebookTestCase {
 
             builder.setImageAttachmentsForObject("foo", new ArrayList<Bitmap>());
             fail("expected exception");
-        } catch (IllegalArgumentException exception) {
+        }
+        catch (IllegalArgumentException exception) {
         }
     }
 
@@ -106,7 +109,8 @@ public class FacebookDialogTests extends FacebookTestCase {
 
             builder.setImageAttachmentsForObject("foo", new ArrayList<Bitmap>());
             fail("expected exception");
-        } catch (IllegalArgumentException exception) {
+        }
+        catch (IllegalArgumentException exception) {
         }
     }
 
@@ -118,9 +122,10 @@ public class FacebookDialogTests extends FacebookTestCase {
             FacebookDialog.OpenGraphActionDialogBuilder builder =
                     new FacebookDialog.OpenGraphActionDialogBuilder(getActivity(), action, "foo");
 
-            builder.setImageAttachmentsForObject("foo", Arrays.asList((Bitmap)null));
+            builder.setImageAttachmentsForObject("foo", Arrays.asList((Bitmap) null));
             fail("expected exception");
-        } catch (NullPointerException exception) {
+        }
+        catch (NullPointerException exception) {
         }
     }
 
@@ -144,7 +149,8 @@ public class FacebookDialogTests extends FacebookTestCase {
         assertNotNull(attachmentNames);
         assertTrue(attachmentNames.size() == 1);
 
-        String attachmentName = getAttachmentNameFromContentUri((String) images.get(0).getProperty("url"));
+        String attachmentName =
+                getAttachmentNameFromContentUri((String) images.get(0).getProperty("url"));
         assertEquals(attachmentNames.get(0), attachmentName);
     }
 
@@ -169,14 +175,16 @@ public class FacebookDialogTests extends FacebookTestCase {
         assertNotNull(objectImages);
         assertTrue(objectImages.size() == 1);
 
-        String attachmentName = getAttachmentNameFromContentUri((String) objectImages.get(0).getProperty("url"));
+        String attachmentName =
+                getAttachmentNameFromContentUri((String) objectImages.get(0).getProperty("url"));
         assertTrue(attachmentNames.contains(attachmentName));
 
         List<JSONObject> actionImages = action.getImage();
         assertNotNull(actionImages);
         assertTrue(actionImages.size() == 1);
 
-        attachmentName = getAttachmentNameFromContentUri((String) actionImages.get(0).getString("url"));
+        attachmentName =
+                getAttachmentNameFromContentUri((String) actionImages.get(0).getString("url"));
         assertTrue(attachmentNames.contains(attachmentName));
     }
 
@@ -187,7 +195,8 @@ public class FacebookDialogTests extends FacebookTestCase {
 
             builder.build();
             fail("expected exception");
-        } catch (NullPointerException exception) {
+        }
+        catch (NullPointerException exception) {
         }
     }
 
@@ -195,11 +204,13 @@ public class FacebookDialogTests extends FacebookTestCase {
         try {
             FacebookDialog.OpenGraphActionDialogBuilder builder =
                     new FacebookDialog.OpenGraphActionDialogBuilder(getActivity(),
-                            OpenGraphAction.Factory.createForPost(null), "foo");
+                                                                    OpenGraphAction.Factory.createForPost(
+                                                                            null), "foo");
 
             builder.build();
             fail("expected exception");
-        } catch (IllegalArgumentException exception) {
+        }
+        catch (IllegalArgumentException exception) {
         }
     }
 
@@ -207,11 +218,13 @@ public class FacebookDialogTests extends FacebookTestCase {
         try {
             FacebookDialog.OpenGraphActionDialogBuilder builder =
                     new FacebookDialog.OpenGraphActionDialogBuilder(getActivity(),
-                            OpenGraphAction.Factory.createForPost("foo"), null);
+                                                                    OpenGraphAction.Factory.createForPost(
+                                                                            "foo"), null);
 
             builder.build();
             fail("expected exception");
-        } catch (IllegalArgumentException exception) {
+        }
+        catch (IllegalArgumentException exception) {
         }
     }
 
@@ -219,11 +232,14 @@ public class FacebookDialogTests extends FacebookTestCase {
         try {
             FacebookDialog.OpenGraphActionDialogBuilder builder =
                     new FacebookDialog.OpenGraphActionDialogBuilder(getActivity(),
-                            OpenGraphAction.Factory.createForPost("foo"), "nosuchproperty");
+                                                                    OpenGraphAction.Factory.createForPost(
+                                                                            "foo"),
+                                                                    "nosuchproperty");
 
             builder.build();
             fail("expected exception");
-        } catch (IllegalArgumentException exception) {
+        }
+        catch (IllegalArgumentException exception) {
         }
     }
 
@@ -234,11 +250,15 @@ public class FacebookDialogTests extends FacebookTestCase {
             OpenGraphObject object = OpenGraphObject.Factory.createForPost("bar");
             action.setProperty("object", object);
             FacebookDialog.OpenGraphActionDialogBuilder builder =
-                    new FacebookDialog.OpenGraphActionDialogBuilder(getActivity(), action, "", "object");
+                    new FacebookDialog.OpenGraphActionDialogBuilder(getActivity(),
+                                                                    action,
+                                                                    "",
+                                                                    "object");
 
             builder.build();
             fail("expected exception");
-        } catch (IllegalArgumentException exception) {
+        }
+        catch (IllegalArgumentException exception) {
         }
 
     }
@@ -250,11 +270,15 @@ public class FacebookDialogTests extends FacebookTestCase {
             OpenGraphObject object = OpenGraphObject.Factory.createForPost("bar");
             action.setProperty("object", object);
             FacebookDialog.OpenGraphActionDialogBuilder builder =
-                    new FacebookDialog.OpenGraphActionDialogBuilder(getActivity(), action, "notfoo", "object");
+                    new FacebookDialog.OpenGraphActionDialogBuilder(getActivity(),
+                                                                    action,
+                                                                    "notfoo",
+                                                                    "object");
 
             builder.build();
             fail("expected exception");
-        } catch (IllegalArgumentException exception) {
+        }
+        catch (IllegalArgumentException exception) {
         }
     }
 }

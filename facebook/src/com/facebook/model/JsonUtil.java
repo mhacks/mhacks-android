@@ -17,12 +17,19 @@
 package com.facebook.model;
 
 import android.annotation.SuppressLint;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 class JsonUtil {
+
     static void jsonObjectClear(JSONObject jsonObject) {
         @SuppressWarnings("unchecked")
         Iterator<String> keys = (Iterator<String>) jsonObject.keys();
@@ -45,6 +52,7 @@ class JsonUtil {
     }
 
     private final static class JSONObjectEntry implements Map.Entry<String, Object> {
+
         private final String key;
         private final Object value;
 
@@ -102,7 +110,8 @@ class JsonUtil {
         for (Map.Entry<String, Object> entry : entrySet) {
             try {
                 jsonObject.putOpt(entry.getKey(), entry.getValue());
-            } catch (JSONException e) {
+            }
+            catch (JSONException e) {
                 throw new IllegalArgumentException(e);
             }
         }

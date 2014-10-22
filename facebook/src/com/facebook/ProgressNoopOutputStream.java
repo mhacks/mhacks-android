@@ -23,12 +23,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 class ProgressNoopOutputStream extends OutputStream implements RequestOutputStream {
-    private final Map<Request, RequestProgress> progressMap = new HashMap<Request, RequestProgress>();
+
+    private final Map<Request, RequestProgress> progressMap =
+            new HashMap<Request, RequestProgress>();
     private final Handler callbackHandler;
 
-    private Request currentRequest;
+    private Request         currentRequest;
     private RequestProgress currentRequestProgress;
-    private int batchMax;
+    private int             batchMax;
 
     ProgressNoopOutputStream(Handler callbackHandler) {
         this.callbackHandler = callbackHandler;
@@ -36,14 +38,15 @@ class ProgressNoopOutputStream extends OutputStream implements RequestOutputStre
 
     public void setCurrentRequest(Request currentRequest) {
         this.currentRequest = currentRequest;
-        this.currentRequestProgress = currentRequest != null? progressMap.get(currentRequest) : null;
+        this.currentRequestProgress =
+                currentRequest != null ? progressMap.get(currentRequest) : null;
     }
 
     int getMaxProgress() {
         return batchMax;
     }
 
-    Map<Request,RequestProgress> getProgressMap() {
+    Map<Request, RequestProgress> getProgressMap() {
         return progressMap;
     }
 

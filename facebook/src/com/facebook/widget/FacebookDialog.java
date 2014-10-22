@@ -24,7 +24,12 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
-import com.facebook.*;
+
+import com.facebook.AppEventsLogger;
+import com.facebook.FacebookException;
+import com.facebook.FacebookGraphObjectException;
+import com.facebook.NativeAppCallAttachmentStore;
+import com.facebook.NativeAppCallContentProvider;
 import com.facebook.internal.AnalyticsEvents;
 import com.facebook.internal.NativeProtocol;
 import com.facebook.internal.Utility;
@@ -33,12 +38,19 @@ import com.facebook.model.GraphObject;
 import com.facebook.model.GraphObjectList;
 import com.facebook.model.OpenGraphAction;
 import com.facebook.model.OpenGraphObject;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
 
 /*
  * Provides an interface for presenting dialogs provided by the Facebook application for Android. This class
@@ -49,10 +61,12 @@ public class FacebookDialog {
 
     public static final String COMPLETION_GESTURE_CANCEL = "cancel";
 
-    private static final String EXTRA_DIALOG_COMPLETE_KEY = "com.facebook.platform.extra.DID_COMPLETE";
+    private static final String EXTRA_DIALOG_COMPLETE_KEY           =
+            "com.facebook.platform.extra.DID_COMPLETE";
     private static final String EXTRA_DIALOG_COMPLETION_GESTURE_KEY =
             "com.facebook.platform.extra.COMPLETION_GESTURE";
-    private static final String EXTRA_DIALOG_COMPLETION_ID_KEY = "com.facebook.platform.extra.POST_ID";
+    private static final String EXTRA_DIALOG_COMPLETION_ID_KEY      =
+            "com.facebook.platform.extra.POST_ID";
 
     private static NativeAppCallAttachmentStore attachmentStore;
 
@@ -61,6 +75,7 @@ public class FacebookDialog {
      * dialog, or if an error occurs.
      */
     public interface Callback {
+
         /**
          * Called when the user completes interacting with a Facebook dialog.
          *
@@ -81,7 +96,9 @@ public class FacebookDialog {
     }
 
     private interface DialogFeature {
+
         String getAction();
+
         int getMinVersion();
     }
 
@@ -103,8 +120,7 @@ public class FacebookDialog {
         /**
          * Indicates whether the native Share dialog supports sharing of photo images.
          */
-        PHOTOS(NativeProtocol.PROTOCOL_VERSION_20140204),
-        ;
+        PHOTOS(NativeProtocol.PROTOCOL_VERSION_20140204),;
 
         private int minVersion;
 
@@ -145,8 +161,7 @@ public class FacebookDialog {
         /**
          * Indicates whether the native Message dialog supports sharing of photo images.
          */
-        PHOTOS(NativeProtocol.PROTOCOL_VERSION_20140324),
-        ;
+        PHOTOS(NativeProtocol.PROTOCOL_VERSION_20140324),;
 
         private int minVersion;
 
@@ -245,6 +260,7 @@ public class FacebookDialog {
     }
 
     interface OnPresentCallback {
+
         void onPresent(Context context) throws Exception;
     }
 
@@ -280,13 +296,13 @@ public class FacebookDialog {
         return result.getString(EXTRA_DIALOG_COMPLETION_ID_KEY);
     }
 
-    private Activity activity;
-    private Fragment fragment;
-    private PendingCall appCall;
+    private Activity          activity;
+    private Fragment          fragment;
+    private PendingCall       appCall;
     private OnPresentCallback onPresentCallback;
 
     private FacebookDialog(Activity activity, Fragment fragment, PendingCall appCall,
-            OnPresentCallback onPresentCallback) {
+                           OnPresentCallback onPresentCallback) {
         this.activity = activity;
         this.fragment = fragment;
         this.appCall = appCall;
@@ -303,19 +319,21 @@ public class FacebookDialog {
      */
     public PendingCall present() {
         logDialogActivity(activity, fragment, getEventName(appCall.getRequestIntent()),
-                AnalyticsEvents.PARAMETER_DIALOG_OUTCOME_VALUE_COMPLETED);
+                          AnalyticsEvents.PARAMETER_DIALOG_OUTCOME_VALUE_COMPLETED);
 
         if (onPresentCallback != null) {
             try {
                 onPresentCallback.onPresent(activity);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 throw new FacebookException(e);
             }
         }
 
         if (fragment != null) {
             fragment.startActivityForResult(appCall.getRequestIntent(), appCall.getRequestCode());
-        } else {
+        }
+        else {
             activity.startActivityForResult(appCall.getRequestIntent(), appCall.getRequestCode());
         }
         return appCall;
@@ -331,8 +349,11 @@ public class FacebookDialog {
      * @param callback    a callback to call after parsing the results
      * @return true if the activity result was handled, false if not
      */
-    public static boolean handleActivityResult(Context context, PendingCall appCall, int requestCode, Intent data,
-            Callback callback) {
+    public static boolean handleActivityResult(Context context,
+                                               PendingCall appCall,
+                                               int requestCode,
+                                               Intent data,
+                                               Callback callback) {
         if (requestCode != appCall.getRequestCode()) {
             return false;
         }
@@ -347,7 +368,8 @@ public class FacebookDialog {
 
                 // TODO  - data.getExtras() doesn't work for the bucketed protocol.
                 callback.onError(appCall, error, data.getExtras());
-            } else {
+            }
+            else {
                 callback.onComplete(appCall, NativeProtocol.getSuccessResultsFromIntent(data));
             }
         }
@@ -364,7 +386,7 @@ public class FacebookDialog {
      * @param features zero or more features to check for; {@link ShareDialogFeature#SHARE_DIALOG} is implicitly checked
      *                 if not explicitly specified
      * @return true if all of the specified features are supported by the currently installed version of the
-     *         Facebook application; false if any of the features are not supported
+     * Facebook application; false if any of the features are not supported
      */
     public static boolean canPresentShareDialog(Context context, ShareDialogFeature... features) {
         return handleCanPresent(context, EnumSet.of(ShareDialogFeature.SHARE_DIALOG, features));
@@ -379,9 +401,10 @@ public class FacebookDialog {
      * @param features zero or more features to check for; {@link com.facebook.widget.FacebookDialog.MessageDialogFeature#MESSAGE_DIALOG} is implicitly
      *                 checked if not explicitly specified
      * @return true if all of the specified features are supported by the currently installed version of the
-     *         Facebook application; false if any of the features are not supported
+     * Facebook application; false if any of the features are not supported
      */
-    public static boolean canPresentMessageDialog(Context context, MessageDialogFeature... features) {
+    public static boolean canPresentMessageDialog(Context context,
+                                                  MessageDialogFeature... features) {
         return handleCanPresent(context, EnumSet.of(MessageDialogFeature.MESSAGE_DIALOG, features));
     }
 
@@ -394,10 +417,13 @@ public class FacebookDialog {
      * @param features zero or more features to check for; {@link OpenGraphActionDialogFeature#OG_ACTION_DIALOG} is implicitly
      *                 checked if not explicitly specified
      * @return true if all of the specified features are supported by the currently installed version of the
-     *         Facebook application; false if any of the features are not supported
+     * Facebook application; false if any of the features are not supported
      */
-    public static boolean canPresentOpenGraphActionDialog(Context context, OpenGraphActionDialogFeature... features) {
-        return handleCanPresent(context, EnumSet.of(OpenGraphActionDialogFeature.OG_ACTION_DIALOG, features));
+    public static boolean canPresentOpenGraphActionDialog(Context context,
+                                                          OpenGraphActionDialogFeature... features) {
+        return handleCanPresent(context,
+                                EnumSet.of(OpenGraphActionDialogFeature.OG_ACTION_DIALOG,
+                                           features));
     }
 
     /**
@@ -409,19 +435,29 @@ public class FacebookDialog {
      * @param features zero or more features to check for; {@link com.facebook.widget.FacebookDialog.OpenGraphMessageDialogFeature#OG_MESSAGE_DIALOG} is
      *                 implicitly checked if not explicitly specified
      * @return true if all of the specified features are supported by the currently installed version of the
-     *         Facebook application; false if any of the features are not supported
+     * Facebook application; false if any of the features are not supported
      */
-    public static boolean canPresentOpenGraphMessageDialog(Context context, OpenGraphMessageDialogFeature... features) {
-        return handleCanPresent(context, EnumSet.of(OpenGraphMessageDialogFeature.OG_MESSAGE_DIALOG, features));
+    public static boolean canPresentOpenGraphMessageDialog(Context context,
+                                                           OpenGraphMessageDialogFeature... features) {
+        return handleCanPresent(context,
+                                EnumSet.of(OpenGraphMessageDialogFeature.OG_MESSAGE_DIALOG,
+                                           features));
     }
 
-    private static boolean handleCanPresent(Context context, Iterable<? extends DialogFeature> features) {
-        return getProtocolVersionForNativeDialog(context, getActionForFeatures(features), getMinVersionForFeatures(features))
-                != NativeProtocol.NO_PROTOCOL_AVAILABLE;
+    private static boolean handleCanPresent(Context context,
+                                            Iterable<? extends DialogFeature> features) {
+        return getProtocolVersionForNativeDialog(context,
+                                                 getActionForFeatures(features),
+                                                 getMinVersionForFeatures(features))
+               != NativeProtocol.NO_PROTOCOL_AVAILABLE;
     }
 
-    private static int getProtocolVersionForNativeDialog(Context context, String action, int requiredVersion) {
-        return NativeProtocol.getLatestAvailableProtocolVersionForAction(context, action, requiredVersion);
+    private static int getProtocolVersionForNativeDialog(Context context,
+                                                         String action,
+                                                         int requiredVersion) {
+        return NativeProtocol.getLatestAvailableProtocolVersionForAction(context,
+                                                                         action,
+                                                                         requiredVersion);
     }
 
     private static NativeAppCallAttachmentStore getAttachmentStore() {
@@ -451,8 +487,12 @@ public class FacebookDialog {
         return action;
     }
 
-    private static void logDialogActivity(Activity activity, Fragment fragment, String eventName, String outcome) {
-        AppEventsLogger logger = AppEventsLogger.newLogger(fragment != null ? fragment.getActivity() : activity);
+    private static void logDialogActivity(Activity activity,
+                                          Fragment fragment,
+                                          String eventName,
+                                          String outcome) {
+        AppEventsLogger logger =
+                AppEventsLogger.newLogger(fragment != null ? fragment.getActivity() : activity);
         Bundle parameters = new Bundle();
         parameters.putString(AnalyticsEvents.PARAMETER_DIALOG_OUTCOME, outcome);
         logger.logSdkEvent(eventName, null, parameters);
@@ -471,15 +511,19 @@ public class FacebookDialog {
             eventName = hasPhotos ?
                     AnalyticsEvents.EVENT_NATIVE_DIALOG_TYPE_PHOTO_SHARE :
                     AnalyticsEvents.EVENT_NATIVE_DIALOG_TYPE_SHARE;
-        } else if (action.equals(NativeProtocol.ACTION_MESSAGE_DIALOG)) {
+        }
+        else if (action.equals(NativeProtocol.ACTION_MESSAGE_DIALOG)) {
             eventName = hasPhotos ?
                     AnalyticsEvents.EVENT_NATIVE_DIALOG_TYPE_PHOTO_MESSAGE :
                     AnalyticsEvents.EVENT_NATIVE_DIALOG_TYPE_MESSAGE;
-        } else if (action.equals(NativeProtocol.ACTION_OGACTIONPUBLISH_DIALOG)) {
+        }
+        else if (action.equals(NativeProtocol.ACTION_OGACTIONPUBLISH_DIALOG)) {
             eventName = AnalyticsEvents.EVENT_NATIVE_DIALOG_TYPE_OG_SHARE;
-        } else if (action.equals(NativeProtocol.ACTION_OGMESSAGEPUBLISH_DIALOG)) {
+        }
+        else if (action.equals(NativeProtocol.ACTION_OGMESSAGEPUBLISH_DIALOG)) {
             eventName = AnalyticsEvents.EVENT_NATIVE_DIALOG_TYPE_OG_MESSAGE;
-        } else {
+        }
+        else {
             throw new FacebookException("An unspecified action was presented");
         }
         return eventName;
@@ -493,13 +537,14 @@ public class FacebookDialog {
      * @param <CONCRETE> The concrete base class of the builder.
      */
     public abstract static class Builder<CONCRETE extends Builder<?>> {
-        final protected Activity activity;
-        final protected String applicationId;
+
+        final protected Activity    activity;
+        final protected String      applicationId;
         final protected PendingCall appCall;
-        protected Fragment fragment;
-        protected String applicationName;
-        protected HashMap<String, Bitmap> imageAttachments = new HashMap<String, Bitmap>();
-        protected HashMap<String, File> imageAttachmentFiles = new HashMap<String, File>();
+        protected       Fragment    fragment;
+        protected       String      applicationName;
+        protected HashMap<String, Bitmap> imageAttachments     = new HashMap<String, Bitmap>();
+        protected HashMap<String, File>   imageAttachmentFiles = new HashMap<String, File>();
 
         /**
          * Constructor.
@@ -568,13 +613,15 @@ public class FacebookDialog {
 
             String action = getActionForFeatures(getDialogFeatures());
             int protocolVersion = getProtocolVersionForNativeDialog(activity, action,
-                    getMinVersionForFeatures(getDialogFeatures()));
+                                                                    getMinVersionForFeatures(
+                                                                            getDialogFeatures()));
 
             Bundle extras = null;
             if (NativeProtocol.isVersionCompatibleWithBucketedIntent(protocolVersion)) {
                 // Facebook app supports the new bucketed protocol
                 extras = getMethodArguments();
-            } else {
+            }
+            else {
                 // Facebook app only supports the old flat protocol
                 extras = setBundleExtras(new Bundle());
             }
@@ -588,8 +635,9 @@ public class FacebookDialog {
                     extras);
             if (intent == null) {
                 logDialogActivity(activity, fragment,
-                        getEventName(action, extras.containsKey(NativeProtocol.EXTRA_PHOTOS)),
-                        AnalyticsEvents.PARAMETER_DIALOG_OUTCOME_VALUE_FAILED);
+                                  getEventName(action,
+                                               extras.containsKey(NativeProtocol.EXTRA_PHOTOS)),
+                                  AnalyticsEvents.PARAMETER_DIALOG_OUTCOME_VALUE_FAILED);
 
                 throw new FacebookException(
                         "Unable to create Intent; this likely means the Facebook app is not installed.");
@@ -620,11 +668,13 @@ public class FacebookDialog {
                 public void onPresent(Context context) throws Exception {
                     // We're actually being presented, so put our attachments in the content provider.
                     if (imageAttachments != null && imageAttachments.size() > 0) {
-                        getAttachmentStore().addAttachmentsForCall(context, appCall.getCallId(), imageAttachments);
+                        getAttachmentStore().addAttachmentsForCall(context,
+                                                                   appCall.getCallId(),
+                                                                   imageAttachments);
                     }
                     if (imageAttachmentFiles != null && imageAttachmentFiles.size() > 0) {
                         getAttachmentStore().addAttachmentFilesForCall(context, appCall.getCallId(),
-                                imageAttachmentFiles);
+                                                                       imageAttachmentFiles);
                     }
                 }
             };
@@ -637,8 +687,9 @@ public class FacebookDialog {
 
                 addImageAttachment(attachmentName, bitmap);
 
-                String url = NativeAppCallContentProvider.getAttachmentUrl(applicationId, appCall.getCallId(),
-                        attachmentName);
+                String url = NativeAppCallContentProvider.getAttachmentUrl(applicationId,
+                                                                           appCall.getCallId(),
+                                                                           attachmentName);
                 attachmentUrls.add(url);
             }
 
@@ -652,8 +703,9 @@ public class FacebookDialog {
 
                 addImageAttachment(attachmentName, bitmapFile);
 
-                String url = NativeAppCallContentProvider.getAttachmentUrl(applicationId, appCall.getCallId(),
-                        attachmentName);
+                String url = NativeAppCallContentProvider.getAttachmentUrl(applicationId,
+                                                                           appCall.getCallId(),
+                                                                           attachmentName);
                 attachmentUrls.add(url);
             }
 
@@ -691,16 +743,18 @@ public class FacebookDialog {
         }
     }
 
-    private abstract static class ShareDialogBuilderBase<CONCRETE extends ShareDialogBuilderBase<?>> extends Builder<CONCRETE> {
-        private String name;
-        private String caption;
-        private String description;
-        protected String link;
-        private String picture;
-        private String place;
-        private ArrayList<String> friends;
-        private String ref;
-        private boolean dataErrorsFatal;
+    private abstract static class ShareDialogBuilderBase<CONCRETE extends ShareDialogBuilderBase<?>>
+            extends Builder<CONCRETE> {
+
+        private   String            name;
+        private   String            caption;
+        private   String            description;
+        protected String            link;
+        private   String            picture;
+        private   String            place;
+        private   ArrayList<String> friends;
+        private   String            ref;
+        private   boolean           dataErrorsFatal;
 
         /**
          * Constructor.
@@ -862,7 +916,8 @@ public class FacebookDialog {
             putExtra(methodArguments, NativeProtocol.METHOD_ARGS_TITLE, name);
             putExtra(methodArguments, NativeProtocol.METHOD_ARGS_REF, ref);
 
-            methodArguments.putBoolean(NativeProtocol.METHOD_ARGS_DATA_FAILURES_FATAL, dataErrorsFatal);
+            methodArguments.putBoolean(NativeProtocol.METHOD_ARGS_DATA_FAILURES_FATAL,
+                                       dataErrorsFatal);
             if (!Utility.isNullOrEmpty(friends)) {
                 methodArguments.putStringArrayList(NativeProtocol.METHOD_ARGS_FRIEND_TAGS, friends);
             }
@@ -896,8 +951,9 @@ public class FacebookDialog {
 
     private static abstract class PhotoDialogBuilderBase<CONCRETE extends PhotoDialogBuilderBase<?>>
             extends Builder<CONCRETE> {
+
         static int MAXIMUM_PHOTO_COUNT = 6;
-        private String place;
+        private String            place;
         private ArrayList<String> friends;
         private ArrayList<String> imageAttachmentUrls = new ArrayList<String>();
 
@@ -945,6 +1001,7 @@ public class FacebookDialog {
          * <p>In order for the images to be provided to the Facebook application as part of the app call, the
          * NativeAppCallContentProvider must be specified correctly in the application's AndroidManifest.xml.</p>
          * No more than six photos may be shared at a time.
+         *
          * @param photos a collection of Files representing photos to be uploaded
          * @return this instance of the builder
          */
@@ -962,6 +1019,7 @@ public class FacebookDialog {
          * apps wishing to be notified when the photo upload has succeeded or failed should extend the
          * FacebookBroadcastReceiver class and register it in their AndroidManifest.xml.
          * No more than six photos may be shared at a time.
+         *
          * @param photos a collection of Files representing photos to be uploaded
          * @return this instance of the builder
          */
@@ -983,7 +1041,8 @@ public class FacebookDialog {
             }
 
             if (imageAttachmentUrls.size() > getMaximumNumberOfPhotos()) {
-                throw new FacebookException(String.format("Cannot add more than %d photos.", getMaximumNumberOfPhotos()));
+                throw new FacebookException(String.format("Cannot add more than %d photos.",
+                                                          getMaximumNumberOfPhotos()));
             }
         }
 
@@ -1021,7 +1080,9 @@ public class FacebookDialog {
      * installed, so it should only be used if {@link FacebookDialog#canPresentShareDialog(android.content.Context,
      * com.facebook.widget.FacebookDialog.ShareDialogFeature...)}  indicates the capability is available.
      */
-    public static class PhotoShareDialogBuilder extends PhotoDialogBuilderBase<PhotoShareDialogBuilder> {
+    public static class PhotoShareDialogBuilder
+            extends PhotoDialogBuilderBase<PhotoShareDialogBuilder> {
+
         /**
          * Constructor.
          *
@@ -1048,7 +1109,9 @@ public class FacebookDialog {
      * installed, so it should only be used if {@link FacebookDialog#canPresentMessageDialog(android.content.Context,
      * com.facebook.widget.FacebookDialog.MessageDialogFeature...)} indicates the capability is available.
      */
-    public static class PhotoMessageDialogBuilder extends PhotoDialogBuilderBase<PhotoMessageDialogBuilder> {
+    public static class PhotoMessageDialogBuilder
+            extends PhotoDialogBuilderBase<PhotoMessageDialogBuilder> {
+
         /**
          * Constructor.
          *
@@ -1096,10 +1159,10 @@ public class FacebookDialog {
     private static abstract class OpenGraphDialogBuilderBase<CONCRETE extends OpenGraphDialogBuilderBase<?>>
             extends Builder<CONCRETE> {
 
-        private String previewPropertyName;
+        private String          previewPropertyName;
         private OpenGraphAction action;
-        private String actionType;
-        private boolean dataErrorsFatal;
+        private String          actionType;
+        private boolean         dataErrorsFatal;
 
         /**
          * Constructor.
@@ -1116,8 +1179,10 @@ public class FacebookDialog {
          *                            Open Graph object which will be displayed as a preview to the user
          */
         @Deprecated
-        public OpenGraphDialogBuilderBase(Activity activity, OpenGraphAction action, String actionType,
-                String previewPropertyName) {
+        public OpenGraphDialogBuilderBase(Activity activity,
+                                          OpenGraphAction action,
+                                          String actionType,
+                                          String previewPropertyName) {
             super(activity);
 
             Validate.notNull(action, "action");
@@ -1125,12 +1190,14 @@ public class FacebookDialog {
             Validate.notNullOrEmpty(previewPropertyName, "previewPropertyName");
             if (action.getProperty(previewPropertyName) == null) {
                 throw new IllegalArgumentException(
-                        "A property named \"" + previewPropertyName + "\" was not found on the action.  The name of " +
-                                "the preview property must match the name of an action property.");
+                        "A property named \"" + previewPropertyName +
+                        "\" was not found on the action.  The name of " +
+                        "the preview property must match the name of an action property.");
             }
             String typeOnAction = action.getType();
             if (!Utility.isNullOrEmpty(typeOnAction) && !typeOnAction.equals(actionType)) {
-                throw new IllegalArgumentException("'actionType' must match the type of 'action' if it is specified. " +
+                throw new IllegalArgumentException(
+                        "'actionType' must match the type of 'action' if it is specified. " +
                         "Consider using OpenGraphDialogBuilderBase(Activity activity, OpenGraphAction action, " +
                         "String previewPropertyName) instead.");
             }
@@ -1150,7 +1217,9 @@ public class FacebookDialog {
          * @param previewPropertyName the name of a property on the Open Graph action that contains the
          *                            Open Graph object which will be displayed as a preview to the user
          */
-        public OpenGraphDialogBuilderBase(Activity activity, OpenGraphAction action, String previewPropertyName) {
+        public OpenGraphDialogBuilderBase(Activity activity,
+                                          OpenGraphAction action,
+                                          String previewPropertyName) {
             super(activity);
 
             Validate.notNull(action, "action");
@@ -1158,8 +1227,9 @@ public class FacebookDialog {
             Validate.notNullOrEmpty(previewPropertyName, "previewPropertyName");
             if (action.getProperty(previewPropertyName) == null) {
                 throw new IllegalArgumentException(
-                        "A property named \"" + previewPropertyName + "\" was not found on the action.  The name of " +
-                                "the preview property must match the name of an action property.");
+                        "A property named \"" + previewPropertyName +
+                        "\" was not found on the action.  The name of " +
+                        "the preview property must match the name of an action property.");
             }
 
             this.action = action;
@@ -1217,7 +1287,7 @@ public class FacebookDialog {
          * @return this instance of the builder
          */
         public CONCRETE setImageAttachmentsForAction(List<Bitmap> bitmaps,
-                boolean isUserGenerated) {
+                                                     boolean isUserGenerated) {
             Validate.containsNoNulls(bitmaps, "bitmaps");
             if (action == null) {
                 throw new FacebookException("Can not set attachments prior to setting action.");
@@ -1267,7 +1337,7 @@ public class FacebookDialog {
          * @return this instance of the builder
          */
         public CONCRETE setImageAttachmentFilesForAction(List<File> bitmapFiles,
-                boolean isUserGenerated) {
+                                                         boolean isUserGenerated) {
             Validate.containsNoNulls(bitmapFiles, "bitmapFiles");
             if (action == null) {
                 throw new FacebookException("Can not set attachments prior to setting action.");
@@ -1281,7 +1351,8 @@ public class FacebookDialog {
             return result;
         }
 
-        private void updateActionAttachmentUrls(List<String> attachmentUrls, boolean isUserGenerated) {
+        private void updateActionAttachmentUrls(List<String> attachmentUrls,
+                                                boolean isUserGenerated) {
             List<JSONObject> attachments = action.getImage();
             if (attachments == null) {
                 attachments = new ArrayList<JSONObject>(attachmentUrls.size());
@@ -1294,7 +1365,8 @@ public class FacebookDialog {
                     if (isUserGenerated) {
                         jsonObject.put(NativeProtocol.IMAGE_USER_GENERATED_KEY, true);
                     }
-                } catch (JSONException e) {
+                }
+                catch (JSONException e) {
                     throw new FacebookException("Unable to attach images", e);
                 }
                 attachments.add(jsonObject);
@@ -1353,7 +1425,7 @@ public class FacebookDialog {
          * @return this instance of the builder
          */
         public CONCRETE setImageAttachmentsForObject(String objectProperty, List<Bitmap> bitmaps,
-                boolean isUserGenerated) {
+                                                     boolean isUserGenerated) {
             Validate.notNull(objectProperty, "objectProperty");
             Validate.containsNoNulls(bitmaps, "bitmaps");
             if (action == null) {
@@ -1389,7 +1461,7 @@ public class FacebookDialog {
          * @return this instance of the builder
          */
         public CONCRETE setImageAttachmentFilesForObject(String objectProperty,
-                List<File> bitmapFiles) {
+                                                         List<File> bitmapFiles) {
             return setImageAttachmentFilesForObject(objectProperty, bitmapFiles, false);
         }
 
@@ -1418,7 +1490,8 @@ public class FacebookDialog {
          * @return this instance of the builder
          */
         public CONCRETE setImageAttachmentFilesForObject(String objectProperty,
-                List<File> bitmapFiles, boolean isUserGenerated) {
+                                                         List<File> bitmapFiles,
+                                                         boolean isUserGenerated) {
             Validate.notNull(objectProperty, "objectProperty");
             Validate.containsNoNulls(bitmapFiles, "bitmapFiles");
             if (action == null) {
@@ -1433,19 +1506,25 @@ public class FacebookDialog {
             return result;
         }
 
-        void updateObjectAttachmentUrls(String objectProperty, List<String> attachmentUrls, boolean isUserGenerated) {
+        void updateObjectAttachmentUrls(String objectProperty,
+                                        List<String> attachmentUrls,
+                                        boolean isUserGenerated) {
             final OpenGraphObject object;
             try {
                 object = action.getPropertyAs(objectProperty, OpenGraphObject.class);
                 if (object == null) {
-                    throw new IllegalArgumentException("Action does not contain a property '" + objectProperty + "'");
+                    throw new IllegalArgumentException(
+                            "Action does not contain a property '" + objectProperty + "'");
                 }
-            } catch (FacebookGraphObjectException exception) {
-                throw new IllegalArgumentException("Property '" + objectProperty + "' is not a graph object");
+            }
+            catch (FacebookGraphObjectException exception) {
+                throw new IllegalArgumentException(
+                        "Property '" + objectProperty + "' is not a graph object");
             }
             if (!object.getCreateObject()) {
                 throw new IllegalArgumentException(
-                        "The Open Graph object in '" + objectProperty + "' is not marked for creation");
+                        "The Open Graph object in '" + objectProperty +
+                        "' is not marked for creation");
             }
 
             GraphObjectList<GraphObject> attachments = object.getImage();
@@ -1482,7 +1561,9 @@ public class FacebookDialog {
         protected Bundle getMethodArguments() {
             Bundle methodArgs = new Bundle();
 
-            putExtra(methodArgs, NativeProtocol.METHOD_ARGS_PREVIEW_PROPERTY_NAME, previewPropertyName);
+            putExtra(methodArgs,
+                     NativeProtocol.METHOD_ARGS_PREVIEW_PROPERTY_NAME,
+                     previewPropertyName);
             putExtra(methodArgs, NativeProtocol.METHOD_ARGS_ACTION_TYPE, actionType);
             methodArgs.putBoolean(NativeProtocol.METHOD_ARGS_DATA_FAILURES_FATAL, dataErrorsFatal);
 
@@ -1514,7 +1595,8 @@ public class FacebookDialog {
                 }
 
                 return graphObject;
-            } catch (JSONException e) {
+            }
+            catch (JSONException e) {
                 throw new FacebookException(e);
             }
         }
@@ -1533,10 +1615,12 @@ public class FacebookDialog {
                 }
                 if (jsonObject.has("id")) {
                     return jsonObject.getString("id");
-                } else if (jsonObject.has("url")) {
+                }
+                else if (jsonObject.has("url")) {
                     return jsonObject.getString("url");
                 }
-            } else if (object instanceof JSONArray) {
+            }
+            else if (object instanceof JSONArray) {
                 JSONArray jsonArray = (JSONArray) object;
                 JSONArray newArray = new JSONArray();
                 int length = jsonArray.length();
@@ -1560,7 +1644,9 @@ public class FacebookDialog {
      * should only be used if {@link FacebookDialog#canPresentOpenGraphActionDialog(android.content.Context,
      * com.facebook.widget.FacebookDialog.OpenGraphActionDialogFeature...)} indicates the capability is available.
      */
-    public static class OpenGraphActionDialogBuilder extends OpenGraphDialogBuilderBase<OpenGraphActionDialogBuilder> {
+    public static class OpenGraphActionDialogBuilder
+            extends OpenGraphDialogBuilderBase<OpenGraphActionDialogBuilder> {
+
         /**
          * Constructor.
          *
@@ -1576,8 +1662,10 @@ public class FacebookDialog {
          *                            Open Graph object which will be displayed as a preview to the user
          */
         @Deprecated
-        public OpenGraphActionDialogBuilder(Activity activity, OpenGraphAction action, String actionType,
-                String previewPropertyName) {
+        public OpenGraphActionDialogBuilder(Activity activity,
+                                            OpenGraphAction action,
+                                            String actionType,
+                                            String previewPropertyName) {
             super(activity, action, actionType, previewPropertyName);
         }
 
@@ -1592,7 +1680,9 @@ public class FacebookDialog {
          * @param previewPropertyName the name of a property on the Open Graph action that contains the
          *                            Open Graph object which will be displayed as a preview to the user
          */
-        public OpenGraphActionDialogBuilder(Activity activity, OpenGraphAction action, String previewPropertyName) {
+        public OpenGraphActionDialogBuilder(Activity activity,
+                                            OpenGraphAction action,
+                                            String previewPropertyName) {
             super(activity, action, previewPropertyName);
         }
 
@@ -1610,7 +1700,9 @@ public class FacebookDialog {
      * should only be used if {@link FacebookDialog#canPresentOpenGraphMessageDialog(android.content.Context,
      * com.facebook.widget.FacebookDialog.OpenGraphMessageDialogFeature...)} indicates the capability is available.
      */
-    public static class OpenGraphMessageDialogBuilder extends OpenGraphDialogBuilderBase<OpenGraphMessageDialogBuilder> {
+    public static class OpenGraphMessageDialogBuilder
+            extends OpenGraphDialogBuilderBase<OpenGraphMessageDialogBuilder> {
+
         /**
          * Constructor.
          *
@@ -1622,7 +1714,9 @@ public class FacebookDialog {
          * @param previewPropertyName the name of a property on the Open Graph action that contains the
          *                            Open Graph object which will be displayed as a preview to the user
          */
-        public OpenGraphMessageDialogBuilder(Activity activity, OpenGraphAction action, String previewPropertyName) {
+        public OpenGraphMessageDialogBuilder(Activity activity,
+                                             OpenGraphAction action,
+                                             String previewPropertyName) {
             super(activity, action, previewPropertyName);
         }
 
@@ -1637,9 +1731,10 @@ public class FacebookDialog {
      * call ID is used to track calls through their lifecycle.
      */
     public static class PendingCall implements Parcelable {
-        private UUID callId;
+
+        private UUID   callId;
         private Intent requestIntent;
-        private int requestCode;
+        private int    requestCode;
 
         /**
          * Constructor.

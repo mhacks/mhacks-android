@@ -8,49 +8,51 @@ import com.facebook.internal.Logger;
 import java.io.Serializable;
 
 class FacebookTimeSpentData implements Serializable {
+
     // Constants
-    private static final long serialVersionUID = 1L;
-    private static final String TAG = AppEventsLogger.class.getCanonicalName();
-    private static final long FIRST_TIME_LOAD_RESUME_TIME = -1;
-    private static final long INTERRUPTION_THRESHOLD_MILLISECONDS = 1000;
-    private static final long NUM_MILLISECONDS_IDLE_TO_BE_NEW_SESSION =
+    private static final long   serialVersionUID                                = 1L;
+    private static final String TAG                                             =
+            AppEventsLogger.class.getCanonicalName();
+    private static final long   FIRST_TIME_LOAD_RESUME_TIME                     = -1;
+    private static final long   INTERRUPTION_THRESHOLD_MILLISECONDS             = 1000;
+    private static final long   NUM_MILLISECONDS_IDLE_TO_BE_NEW_SESSION         =
             60 * DateUtils.SECOND_IN_MILLIS;
-    private static final long APP_ACTIVATE_SUPPRESSION_PERIOD_IN_MILLISECONDS =
+    private static final long   APP_ACTIVATE_SUPPRESSION_PERIOD_IN_MILLISECONDS =
             5 * DateUtils.MINUTE_IN_MILLIS;
 
     // Should be kept in sync with the iOS sdk
     private static final long[] INACTIVE_SECONDS_QUANTA =
-        new long[] {
-            5 * DateUtils.MINUTE_IN_MILLIS,
-            15 * DateUtils.MINUTE_IN_MILLIS,
-            30 * DateUtils.MINUTE_IN_MILLIS,
-            1 * DateUtils.HOUR_IN_MILLIS,
-            6 * DateUtils.HOUR_IN_MILLIS,
-            12 * DateUtils.HOUR_IN_MILLIS,
-            1 * DateUtils.DAY_IN_MILLIS,
-            2 * DateUtils.DAY_IN_MILLIS,
-            3 * DateUtils.DAY_IN_MILLIS,
-            7 * DateUtils.DAY_IN_MILLIS,
-            14 * DateUtils.DAY_IN_MILLIS,
-            21 * DateUtils.DAY_IN_MILLIS,
-            28 * DateUtils.DAY_IN_MILLIS,
-            60 * DateUtils.DAY_IN_MILLIS,
-            90 * DateUtils.DAY_IN_MILLIS,
-            120 * DateUtils.DAY_IN_MILLIS,
-            150 * DateUtils.DAY_IN_MILLIS,
-            180 * DateUtils.DAY_IN_MILLIS,
-            365 * DateUtils.DAY_IN_MILLIS,
-        };
+            new long[]{
+                    5 * DateUtils.MINUTE_IN_MILLIS,
+                    15 * DateUtils.MINUTE_IN_MILLIS,
+                    30 * DateUtils.MINUTE_IN_MILLIS,
+                    1 * DateUtils.HOUR_IN_MILLIS,
+                    6 * DateUtils.HOUR_IN_MILLIS,
+                    12 * DateUtils.HOUR_IN_MILLIS,
+                    1 * DateUtils.DAY_IN_MILLIS,
+                    2 * DateUtils.DAY_IN_MILLIS,
+                    3 * DateUtils.DAY_IN_MILLIS,
+                    7 * DateUtils.DAY_IN_MILLIS,
+                    14 * DateUtils.DAY_IN_MILLIS,
+                    21 * DateUtils.DAY_IN_MILLIS,
+                    28 * DateUtils.DAY_IN_MILLIS,
+                    60 * DateUtils.DAY_IN_MILLIS,
+                    90 * DateUtils.DAY_IN_MILLIS,
+                    120 * DateUtils.DAY_IN_MILLIS,
+                    150 * DateUtils.DAY_IN_MILLIS,
+                    180 * DateUtils.DAY_IN_MILLIS,
+                    365 * DateUtils.DAY_IN_MILLIS,
+            };
 
     private boolean isWarmLaunch;
     private boolean isAppActive;
-    private long lastActivateEventLoggedTime;
+    private long    lastActivateEventLoggedTime;
 
     // Member data that's persisted to disk
     private long lastResumeTime;
     private long lastSuspendTime;
     private long millisecondsSpentInSession;
-    private int interruptionCount;
+    private int  interruptionCount;
 
     /**
      * Serialization proxy for the FacebookTimeSpentData class. This is version 1 of
@@ -59,19 +61,20 @@ class FacebookTimeSpentData implements Serializable {
      * create a new class SerializationProxyVx.
      */
     private static class SerializationProxyV1 implements Serializable {
+
         private static final long serialVersionUID = 6L;
 
         private final long lastResumeTime;
         private final long lastSuspendTime;
         private final long millisecondsSpentInSession;
-        private final int interruptionCount;
+        private final int  interruptionCount;
 
         SerializationProxyV1(
-            long lastResumeTime,
-            long lastSuspendTime,
-            long millisecondsSpentInSession,
-            int interruptionCount
-        ) {
+                long lastResumeTime,
+                long lastSuspendTime,
+                long millisecondsSpentInSession,
+                int interruptionCount
+                            ) {
             this.lastResumeTime = lastResumeTime;
             this.lastSuspendTime = lastSuspendTime;
             this.millisecondsSpentInSession = millisecondsSpentInSession;
@@ -80,10 +83,10 @@ class FacebookTimeSpentData implements Serializable {
 
         private Object readResolve() {
             return new FacebookTimeSpentData(
-                lastResumeTime,
-                lastSuspendTime,
-                millisecondsSpentInSession,
-                interruptionCount);
+                    lastResumeTime,
+                    lastSuspendTime,
+                    millisecondsSpentInSession,
+                    interruptionCount);
         }
     }
 
@@ -95,11 +98,11 @@ class FacebookTimeSpentData implements Serializable {
      * Constructor to be used for V1 serialization only, DO NOT CHANGE.
      */
     private FacebookTimeSpentData(
-        long lastResumeTime,
-        long lastSuspendTime,
-        long millisecondsSpentInSession,
-        int interruptionCount
-    ) {
+            long lastResumeTime,
+            long lastSuspendTime,
+            long millisecondsSpentInSession,
+            int interruptionCount
+                                 ) {
         resetSession();
         this.lastResumeTime = lastResumeTime;
         this.lastSuspendTime = lastSuspendTime;
@@ -109,10 +112,10 @@ class FacebookTimeSpentData implements Serializable {
 
     private Object writeReplace() {
         return new SerializationProxyV1(
-            lastResumeTime,
-            lastSuspendTime,
-            millisecondsSpentInSession,
-            interruptionCount
+                lastResumeTime,
+                lastSuspendTime,
+                millisecondsSpentInSession,
+                interruptionCount
         );
     }
 
@@ -141,7 +144,8 @@ class FacebookTimeSpentData implements Serializable {
         // If this is a cold launch, always log the event. Otherwise, use the last
         // event log time to determine if the app activate should be suppressed or not.
         if (isColdLaunch() ||
-            ((now - lastActivateEventLoggedTime) > APP_ACTIVATE_SUPPRESSION_PERIOD_IN_MILLISECONDS)) {
+            ((now - lastActivateEventLoggedTime) >
+             APP_ACTIVATE_SUPPRESSION_PERIOD_IN_MILLISECONDS)) {
             logger.logEvent(AppEventsConstants.EVENT_NAME_ACTIVATED_APP);
             lastActivateEventLoggedTime = now;
         }
@@ -149,21 +153,22 @@ class FacebookTimeSpentData implements Serializable {
         // If this is an application that's not calling onSuspend yet, log and return. We can't
         // track time spent for this application as there are no calls to onSuspend.
         if (isAppActive) {
-          Logger.log(LoggingBehavior.APP_EVENTS, TAG, "Resume for active app");
-          return;
+            Logger.log(LoggingBehavior.APP_EVENTS, TAG, "Resume for active app");
+            return;
         }
 
         long interruptionDurationMillis = wasSuspendedEver() ? now - lastSuspendTime : 0;
         if (interruptionDurationMillis < 0) {
-          Logger.log(LoggingBehavior.APP_EVENTS, TAG, "Clock skew detected");
-          interruptionDurationMillis = 0;
+            Logger.log(LoggingBehavior.APP_EVENTS, TAG, "Clock skew detected");
+            interruptionDurationMillis = 0;
         }
 
         // If interruption duration is > new session threshold, then log old session
         // event and start a new session.
         if (interruptionDurationMillis > NUM_MILLISECONDS_IDLE_TO_BE_NEW_SESSION) {
             logAppDeactivatedEvent(logger, interruptionDurationMillis);
-        } else {
+        }
+        else {
             // We're not logging this resume event - check to see if this should count
             // as an interruption
             if (interruptionDurationMillis > INTERRUPTION_THRESHOLD_MILLISECONDS) {
@@ -186,7 +191,7 @@ class FacebookTimeSpentData implements Serializable {
                 getQuantaIndex(interruptionDurationMillis));
         logger.logEvent(
                 AppEventsConstants.EVENT_NAME_DEACTIVATED_APP,
-                (millisecondsSpentInSession/DateUtils.SECOND_IN_MILLIS),
+                (millisecondsSpentInSession / DateUtils.SECOND_IN_MILLIS),
                 eventParams);
         resetSession();
     }
@@ -195,9 +200,9 @@ class FacebookTimeSpentData implements Serializable {
         int quantaIndex = 0;
 
         while (
-            quantaIndex < INACTIVE_SECONDS_QUANTA.length &&
-            INACTIVE_SECONDS_QUANTA[quantaIndex] < timeBetweenSessions
-        ) {
+                quantaIndex < INACTIVE_SECONDS_QUANTA.length &&
+                INACTIVE_SECONDS_QUANTA[quantaIndex] < timeBetweenSessions
+                ) {
             ++quantaIndex;
         }
 

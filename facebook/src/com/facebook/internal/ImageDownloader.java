@@ -21,6 +21,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
+
 import com.facebook.FacebookException;
 
 import java.io.IOException;
@@ -34,17 +35,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ImageDownloader {
-    private static final int DOWNLOAD_QUEUE_MAX_CONCURRENT = WorkQueue.DEFAULT_MAX_CONCURRENT;
+
+    private static final int DOWNLOAD_QUEUE_MAX_CONCURRENT   = WorkQueue.DEFAULT_MAX_CONCURRENT;
     private static final int CACHE_READ_QUEUE_MAX_CONCURRENT = 2;
     private static Handler handler;
-    private static WorkQueue downloadQueue = new WorkQueue(DOWNLOAD_QUEUE_MAX_CONCURRENT);
+    private static WorkQueue downloadQueue  = new WorkQueue(DOWNLOAD_QUEUE_MAX_CONCURRENT);
     private static WorkQueue cacheReadQueue = new WorkQueue(CACHE_READ_QUEUE_MAX_CONCURRENT);
 
-    private static final Map<RequestKey, DownloaderContext> pendingRequests = new HashMap<RequestKey, DownloaderContext>();
+    private static final Map<RequestKey, DownloaderContext> pendingRequests =
+            new HashMap<RequestKey, DownloaderContext>();
 
     /**
      * Downloads the image specified in the passed in request.
      * If a callback is specified, it is guaranteed to be invoked on the calling thread.
+     *
      * @param request Request to process
      */
     public static void downloadAsync(ImageRequest request) {
@@ -64,7 +68,8 @@ public class ImageDownloader {
                 downloaderContext.request = request;
                 downloaderContext.isCancelled = false;
                 downloaderContext.workItem.moveToFront();
-            } else {
+            }
+            else {
                 enqueueCacheRead(request, key, request.isCachedRedirectAllowed());
             }
         }
@@ -83,7 +88,8 @@ public class ImageDownloader {
 
                 if (downloaderContext.workItem.cancel()) {
                     pendingRequests.remove(key);
-                } else {
+                }
+                else {
                     // May be attempting a cache-read right now. So keep track of the cancellation
                     // to prevent network calls etc
                     downloaderContext.isCancelled = true;
@@ -109,7 +115,9 @@ public class ImageDownloader {
         UrlRedirectCache.clearCache(context);
     }
 
-    private static void enqueueCacheRead(ImageRequest request, RequestKey key, boolean allowCachedRedirects) {
+    private static void enqueueCacheRead(ImageRequest request,
+                                         RequestKey key,
+                                         boolean allowCachedRedirects) {
         enqueueRequest(
                 request,
                 key,
@@ -173,7 +181,9 @@ public class ImageDownloader {
         }
     }
 
-    private static void readFromCache(RequestKey key, Context context, boolean allowCachedRedirects) {
+    private static void readFromCache(RequestKey key,
+                                      Context context,
+                                      boolean allowCachedRedirects) {
         InputStream cachedStream = null;
         boolean isCachedRedirect = false;
         if (allowCachedRedirects) {
@@ -193,7 +203,8 @@ public class ImageDownloader {
             Bitmap bitmap = BitmapFactory.decodeStream(cachedStream);
             Utility.closeQuietly(cachedStream);
             issueResponse(key, null, bitmap, isCachedRedirect);
-        } else {
+        }
+        else {
             // Once the old downloader context is removed, we are thread-safe since this is the
             // only reference to it
             DownloaderContext downloaderContext = removePendingRequest(key);
@@ -258,11 +269,14 @@ public class ImageDownloader {
                     error = new FacebookException(errorMessageBuilder.toString());
                     break;
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             error = e;
-        } catch (URISyntaxException e) {
+        }
+        catch (URISyntaxException e) {
             error = e;
-        } finally {
+        }
+        finally {
             Utility.closeQuietly(stream);
             Utility.disconnectQuietly(connection);
         }
@@ -286,10 +300,11 @@ public class ImageDownloader {
     }
 
     private static class RequestKey {
-        private static final int HASH_SEED = 29; // Some random prime number
+
+        private static final int HASH_SEED       = 29; // Some random prime number
         private static final int HASH_MULTIPLIER = 37; // Some random prime number
 
-        URI uri;
+        URI    uri;
         Object tag;
 
         RequestKey(URI url, Object tag) {
@@ -312,7 +327,7 @@ public class ImageDownloader {
             boolean isEqual = false;
 
             if (o != null && o instanceof RequestKey) {
-                RequestKey compareTo = (RequestKey)o;
+                RequestKey compareTo = (RequestKey) o;
                 isEqual = compareTo.uri == uri && compareTo.tag == tag;
             }
 
@@ -321,15 +336,17 @@ public class ImageDownloader {
     }
 
     private static class DownloaderContext {
+
         WorkQueue.WorkItem workItem;
-        ImageRequest request;
-        boolean isCancelled;
+        ImageRequest       request;
+        boolean            isCancelled;
     }
 
     private static class CacheReadWorkItem implements Runnable {
-        private Context context;
+
+        private Context    context;
         private RequestKey key;
-        private boolean allowCachedRedirects;
+        private boolean    allowCachedRedirects;
 
         CacheReadWorkItem(Context context, RequestKey key, boolean allowCachedRedirects) {
             this.context = context;
@@ -344,7 +361,8 @@ public class ImageDownloader {
     }
 
     private static class DownloadImageWorkItem implements Runnable {
-        private Context context;
+
+        private Context    context;
         private RequestKey key;
 
         DownloadImageWorkItem(Context context, RequestKey key) {

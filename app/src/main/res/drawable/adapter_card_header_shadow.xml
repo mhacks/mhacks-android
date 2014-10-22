@@ -2,56 +2,56 @@
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <!-- Drop Shadow Stack -->
-  <item>
-    <shape>
-      <padding
-        android:bottom="@dimen/adapter_card_shadow_width"
-        android:left="@dimen/adapter_card_shadow_width"
-        android:right="@dimen/adapter_card_shadow_width"
-        android:top="@dimen/adapter_card_shadow_width"/>
-      <solid android:color="@color/adapter_card_shadow_step_0"/>
-    </shape>
-  </item>
-  <item>
-    <shape>
-      <padding
-        android:bottom="@dimen/adapter_card_shadow_width"
-        android:left="@dimen/adapter_card_shadow_width"
-        android:right="@dimen/adapter_card_shadow_width"
-        android:top="@dimen/adapter_card_shadow_width"/>
-      <solid android:color="@color/adapter_card_shadow_step_1"/>
-    </shape>
-  </item>
-  <item>
-    <shape>
-      <padding
-        android:bottom="@dimen/adapter_card_shadow_width"
-        android:left="@dimen/adapter_card_shadow_width"
-        android:right="@dimen/adapter_card_shadow_width"
-        android:top="@dimen/adapter_card_shadow_width"/>
-      <solid android:color="@color/adapter_card_shadow_step_2"/>
-    </shape>
-  </item>
-  <item>
-    <shape>
-      <padding
-        android:bottom="@dimen/adapter_card_shadow_width"
-        android:left="@dimen/adapter_card_shadow_width"
-        android:right="@dimen/adapter_card_shadow_width"
-        android:top="@dimen/adapter_card_shadow_width"/>
-      <solid android:color="@color/adapter_card_shadow_step_3"/>
-    </shape>
-  </item>
-  <item>
-    <shape>
-      <padding
-        android:bottom="@dimen/adapter_card_shadow_width"
-        android:left="@dimen/adapter_card_shadow_width"
-        android:right="@dimen/adapter_card_shadow_width"
-        android:top="@dimen/adapter_card_shadow_width"/>
-      <solid android:color="@color/adapter_card_shadow_step_4"/>
-    </shape>
-  </item>
+    <!-- Drop Shadow Stack -->
+    <item>
+        <shape>
+            <padding
+                android:bottom="@dimen/adapter_card_shadow_width"
+                android:left="@dimen/adapter_card_shadow_width"
+                android:right="@dimen/adapter_card_shadow_width"
+                android:top="@dimen/adapter_card_shadow_width"/>
+            <solid android:color="@color/adapter_card_shadow_step_0"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding
+                android:bottom="@dimen/adapter_card_shadow_width"
+                android:left="@dimen/adapter_card_shadow_width"
+                android:right="@dimen/adapter_card_shadow_width"
+                android:top="@dimen/adapter_card_shadow_width"/>
+            <solid android:color="@color/adapter_card_shadow_step_1"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding
+                android:bottom="@dimen/adapter_card_shadow_width"
+                android:left="@dimen/adapter_card_shadow_width"
+                android:right="@dimen/adapter_card_shadow_width"
+                android:top="@dimen/adapter_card_shadow_width"/>
+            <solid android:color="@color/adapter_card_shadow_step_2"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding
+                android:bottom="@dimen/adapter_card_shadow_width"
+                android:left="@dimen/adapter_card_shadow_width"
+                android:right="@dimen/adapter_card_shadow_width"
+                android:top="@dimen/adapter_card_shadow_width"/>
+            <solid android:color="@color/adapter_card_shadow_step_3"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding
+                android:bottom="@dimen/adapter_card_shadow_width"
+                android:left="@dimen/adapter_card_shadow_width"
+                android:right="@dimen/adapter_card_shadow_width"
+                android:top="@dimen/adapter_card_shadow_width"/>
+            <solid android:color="@color/adapter_card_shadow_step_4"/>
+        </shape>
+    </item>
 
 </layer-list>

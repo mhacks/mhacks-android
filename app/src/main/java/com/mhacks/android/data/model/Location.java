@@ -10,9 +10,11 @@ import com.parse.ParseObject;
  * Created by Omkar Moghe on 10/13/2014.
  */
 @ParseClassName("Location")
-public class Location extends ParseObject implements Parcelable{
+public class Location extends ParseObject implements Parcelable {
 
     public static final String NAME_COL = "name";
+
+    public Location() {}
 
     public String getName() {
         return getString(NAME_COL);

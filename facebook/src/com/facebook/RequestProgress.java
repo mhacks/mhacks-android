@@ -19,9 +19,10 @@ package com.facebook;
 import android.os.Handler;
 
 class RequestProgress {
+
     private final Request request;
     private final Handler callbackHandler;
-    private final long threshold;
+    private final long    threshold;
 
     private long progress, lastReportedProgress, maxProgress;
 
@@ -59,7 +60,8 @@ class RequestProgress {
                 // Keep copies to avoid threading issues
                 final long currentCopy = progress;
                 final long maxProgressCopy = maxProgress;
-                final Request.OnProgressCallback callbackCopy = (Request.OnProgressCallback) callback;
+                final Request.OnProgressCallback callbackCopy =
+                        (Request.OnProgressCallback) callback;
                 if (callbackHandler == null) {
                     callbackCopy.onProgress(currentCopy, maxProgressCopy);
                 }

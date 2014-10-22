@@ -18,6 +18,7 @@ package com.facebook.internal;
 
 import android.content.Context;
 import android.util.Log;
+
 import com.facebook.LoggingBehavior;
 
 import java.io.IOException;
@@ -28,14 +29,17 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 class UrlRedirectCache {
-    static final String TAG = UrlRedirectCache.class.getSimpleName();
+
+    static final         String TAG                  = UrlRedirectCache.class.getSimpleName();
     private static final String REDIRECT_CONTENT_TAG = TAG + "_Redirect";
 
     private volatile static FileLruCache urlRedirectCache;
 
-    synchronized static FileLruCache getCache(Context context) throws IOException{
+    synchronized static FileLruCache getCache(Context context) throws IOException {
         if (urlRedirectCache == null) {
-            urlRedirectCache = new FileLruCache(context.getApplicationContext(), TAG, new FileLruCache.Limits());
+            urlRedirectCache = new FileLruCache(context.getApplicationContext(),
+                                                TAG,
+                                                new FileLruCache.Limits());
         }
         return urlRedirectCache;
     }
@@ -71,10 +75,13 @@ class UrlRedirectCache {
             if (redirectExists) {
                 return new URI(uriString);
             }
-        } catch (URISyntaxException e) {
+        }
+        catch (URISyntaxException e) {
             // caching is best effort, so ignore the exception
-        } catch (IOException ioe) {
-        } finally {
+        }
+        catch (IOException ioe) {
+        }
+        finally {
             Utility.closeQuietly(reader);
         }
 
@@ -91,9 +98,11 @@ class UrlRedirectCache {
             FileLruCache cache = getCache(context);
             redirectStream = cache.openPutStream(fromUri.toString(), REDIRECT_CONTENT_TAG);
             redirectStream.write(toUri.toString().getBytes());
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             // Caching is best effort
-        } finally {
+        }
+        finally {
             Utility.closeQuietly(redirectStream);
         }
     }
@@ -101,7 +110,8 @@ class UrlRedirectCache {
     static void clearCache(Context context) {
         try {
             getCache(context).clearCache();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             Logger.log(LoggingBehavior.CACHE, Log.WARN, TAG, "clearCache failed " + e.getMessage());
         }
     }

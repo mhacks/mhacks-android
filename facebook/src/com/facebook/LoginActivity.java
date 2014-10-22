@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
 import com.facebook.android.R;
 
 /**
@@ -37,18 +38,19 @@ import com.facebook.android.R;
  * Do not start this activity directly.
  */
 public class LoginActivity extends Activity {
+
     static final String RESULT_KEY = "com.facebook.LoginActivity:Result";
 
-    private static final String TAG = LoginActivity.class.getName();
+    private static final String TAG                        = LoginActivity.class.getName();
     private static final String NULL_CALLING_PKG_ERROR_MSG =
             "Cannot call LoginActivity with a null calling package. " +
-                    "This can occur if the launchMode of the caller is singleInstance.";
-    private static final String SAVED_CALLING_PKG_KEY = "callingPackage";
-    private static final String SAVED_AUTH_CLIENT = "authorizationClient";
-    private static final String EXTRA_REQUEST = "request";
+            "This can occur if the launchMode of the caller is singleInstance.";
+    private static final String SAVED_CALLING_PKG_KEY      = "callingPackage";
+    private static final String SAVED_AUTH_CLIENT          = "authorizationClient";
+    private static final String EXTRA_REQUEST              = "request";
 
-    private String callingPackage;
-    private AuthorizationClient authorizationClient;
+    private String                                   callingPackage;
+    private AuthorizationClient                      authorizationClient;
     private AuthorizationClient.AuthorizationRequest request;
 
     @Override
@@ -58,11 +60,14 @@ public class LoginActivity extends Activity {
 
         if (savedInstanceState != null) {
             callingPackage = savedInstanceState.getString(SAVED_CALLING_PKG_KEY);
-            authorizationClient = (AuthorizationClient) savedInstanceState.getSerializable(SAVED_AUTH_CLIENT);
-        } else {
+            authorizationClient =
+                    (AuthorizationClient) savedInstanceState.getSerializable(SAVED_AUTH_CLIENT);
+        }
+        else {
             callingPackage = getCallingPackage();
             authorizationClient = new AuthorizationClient();
-            request = (AuthorizationClient.AuthorizationRequest) getIntent().getSerializableExtra(EXTRA_REQUEST);
+            request = (AuthorizationClient.AuthorizationRequest) getIntent().getSerializableExtra(
+                    EXTRA_REQUEST);
         }
 
         authorizationClient.setContext(this);

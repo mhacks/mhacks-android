@@ -18,13 +18,24 @@ package com.facebook.internal;
 
 import android.content.Context;
 import android.util.Log;
+
 import com.facebook.LoggingBehavior;
 import com.facebook.Settings;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.InvalidParameterException;
 import java.util.Date;
 import java.util.PriorityQueue;
@@ -57,18 +68,19 @@ import java.util.concurrent.atomic.AtomicLong;
  * any time.
  */
 public final class FileLruCache {
-    static final String TAG = FileLruCache.class.getSimpleName();
-    private static final String HEADER_CACHEKEY_KEY = "key";
+
+    static final         String TAG                          = FileLruCache.class.getSimpleName();
+    private static final String HEADER_CACHEKEY_KEY          = "key";
     private static final String HEADER_CACHE_CONTENT_TAG_KEY = "tag";
 
     private static final AtomicLong bufferIndex = new AtomicLong();
 
-    private final String tag;
-    private final Limits limits;
-    private final File directory;
-    private boolean isTrimPending;
-    private boolean isTrimInProgress;
-    private final Object lock;
+    private final String  tag;
+    private final Limits  limits;
+    private final File    directory;
+    private       boolean isTrimPending;
+    private       boolean isTrimInProgress;
+    private final Object  lock;
     private AtomicLong lastClearCacheTime = new AtomicLong(0);
 
     // The value of tag should be a final String that works as a directory name.
@@ -95,7 +107,8 @@ public final class FileLruCache {
             while (isTrimPending || isTrimInProgress) {
                 try {
                     lock.wait();
-                } catch (InterruptedException e) {
+                }
+                catch (InterruptedException e) {
                     // intentional no-op
                 }
             }
@@ -121,11 +134,13 @@ public final class FileLruCache {
         FileInputStream input = null;
         try {
             input = new FileInputStream(file);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             return null;
         }
 
-        BufferedInputStream buffered = new BufferedInputStream(input, Utility.DEFAULT_STREAM_BUFFER_SIZE);
+        BufferedInputStream buffered =
+                new BufferedInputStream(input, Utility.DEFAULT_STREAM_BUFFER_SIZE);
         boolean success = false;
 
         try {
@@ -142,18 +157,21 @@ public final class FileLruCache {
             String headerContentTag = header.optString(HEADER_CACHE_CONTENT_TAG_KEY, null);
 
             if ((contentTag == null && headerContentTag != null) ||
-                    (contentTag != null && !contentTag.equals(headerContentTag))) {
+                (contentTag != null && !contentTag.equals(headerContentTag))) {
                 return null;
             }
 
             long accessTime = new Date().getTime();
-            Logger.log(LoggingBehavior.CACHE, TAG, "Setting lastModified to " + Long.valueOf(accessTime) + " for "
-                    + file.getName());
+            Logger.log(LoggingBehavior.CACHE,
+                       TAG,
+                       "Setting lastModified to " + Long.valueOf(accessTime) + " for "
+                       + file.getName());
             file.setLastModified(accessTime);
 
             success = true;
             return buffered;
-        } finally {
+        }
+        finally {
             if (!success) {
                 buffered.close();
             }
@@ -174,8 +192,12 @@ public final class FileLruCache {
         FileOutputStream file = null;
         try {
             file = new FileOutputStream(buffer);
-        } catch (FileNotFoundException e) {
-            Logger.log(LoggingBehavior.CACHE, Log.WARN, TAG, "Error creating buffer output stream: " + e);
+        }
+        catch (FileNotFoundException e) {
+            Logger.log(LoggingBehavior.CACHE,
+                       Log.WARN,
+                       TAG,
+                       "Error creating buffer output stream: " + e);
             throw new IOException(e.getMessage());
         }
 
@@ -187,14 +209,17 @@ public final class FileLruCache {
                 // should be deleted rather than renamed and saved.
                 if (bufferFileCreateTime < lastClearCacheTime.get()) {
                     buffer.delete();
-                } else {
+                }
+                else {
                     renameToTargetAndTrim(key, buffer);
                 }
             }
         };
 
-        CloseCallbackOutputStream cleanup = new CloseCallbackOutputStream(file, renameToTargetCallback);
-        BufferedOutputStream buffered = new BufferedOutputStream(cleanup, Utility.DEFAULT_STREAM_BUFFER_SIZE);
+        CloseCallbackOutputStream cleanup =
+                new CloseCallbackOutputStream(file, renameToTargetCallback);
+        BufferedOutputStream buffered =
+                new BufferedOutputStream(cleanup, Utility.DEFAULT_STREAM_BUFFER_SIZE);
         boolean success = false;
 
         try {
@@ -209,11 +234,16 @@ public final class FileLruCache {
 
             success = true;
             return buffered;
-        } catch (JSONException e) {
+        }
+        catch (JSONException e) {
             // JSON is an implementation detail of the cache, so don't let JSON exceptions out.
-            Logger.log(LoggingBehavior.CACHE, Log.WARN, TAG, "Error creating JSON header for cache file: " + e);
+            Logger.log(LoggingBehavior.CACHE,
+                       Log.WARN,
+                       TAG,
+                       "Error creating JSON header for cache file: " + e);
             throw new IOException(e.getMessage());
-        } finally {
+        }
+        finally {
             if (!success) {
                 buffered.close();
             }
@@ -287,13 +317,15 @@ public final class FileLruCache {
             PriorityQueue<ModifiedFile> heap = new PriorityQueue<ModifiedFile>();
             long size = 0;
             long count = 0;
-            File[] filesToTrim =this.directory.listFiles(BufferFile.excludeBufferFiles());
+            File[] filesToTrim = this.directory.listFiles(BufferFile.excludeBufferFiles());
             if (filesToTrim != null) {
                 for (File file : filesToTrim) {
                     ModifiedFile modified = new ModifiedFile(file);
                     heap.add(modified);
-                    Logger.log(LoggingBehavior.CACHE, TAG, "  trim considering time=" + Long.valueOf(modified.getModified())
-                            + " name=" + modified.getFile().getName());
+                    Logger.log(LoggingBehavior.CACHE,
+                               TAG,
+                               "  trim considering time=" + Long.valueOf(modified.getModified())
+                               + " name=" + modified.getFile().getName());
 
                     size += file.length();
                     count++;
@@ -307,7 +339,8 @@ public final class FileLruCache {
                 count--;
                 file.delete();
             }
-        } finally {
+        }
+        finally {
             synchronized (lock) {
                 isTrimInProgress = false;
                 lock.notifyAll();
@@ -316,8 +349,9 @@ public final class FileLruCache {
     }
 
     private static class BufferFile {
-        private static final String FILE_NAME_PREFIX = "buffer";
-        private static final FilenameFilter filterExcludeBufferFiles = new FilenameFilter() {
+
+        private static final String         FILE_NAME_PREFIX            = "buffer";
+        private static final FilenameFilter filterExcludeBufferFiles    = new FilenameFilter() {
             @Override
             public boolean accept(File dir, String filename) {
                 return !filename.startsWith(FILE_NAME_PREFIX);
@@ -364,6 +398,7 @@ public final class FileLruCache {
     // 4-size+4: UTF-8 JSON header blob
     //      ...: stream data
     private static final class StreamHeader {
+
         private static final int HEADER_VERSION = 0;
 
         static void writeHeader(OutputStream stream, JSONObject header) throws IOException {
@@ -390,7 +425,7 @@ public final class FileLruCache {
                 int b = stream.read();
                 if (b == -1) {
                     Logger.log(LoggingBehavior.CACHE, TAG,
-                            "readHeader: stream.read returned -1 while reading header size");
+                               "readHeader: stream.read returned -1 while reading header size");
                     return null;
                 }
                 headerSize <<= 8;
@@ -403,8 +438,9 @@ public final class FileLruCache {
                 int readCount = stream.read(headerBytes, count, headerBytes.length - count);
                 if (readCount < 1) {
                     Logger.log(LoggingBehavior.CACHE, TAG,
-                            "readHeader: stream.read stopped at " + Integer.valueOf(count) + " when expected "
-                                    + headerBytes.length);
+                               "readHeader: stream.read stopped at " + Integer.valueOf(count) +
+                               " when expected "
+                               + headerBytes.length);
                     return null;
                 }
                 count += readCount;
@@ -416,11 +452,15 @@ public final class FileLruCache {
             try {
                 Object parsed = tokener.nextValue();
                 if (!(parsed instanceof JSONObject)) {
-                    Logger.log(LoggingBehavior.CACHE, TAG, "readHeader: expected JSONObject, got " + parsed.getClass().getCanonicalName());
+                    Logger.log(LoggingBehavior.CACHE,
+                               TAG,
+                               "readHeader: expected JSONObject, got " +
+                               parsed.getClass().getCanonicalName());
                     return null;
                 }
                 header = (JSONObject) parsed;
-            } catch (JSONException e) {
+            }
+            catch (JSONException e) {
                 throw new IOException(e.getMessage());
             }
 
@@ -429,7 +469,8 @@ public final class FileLruCache {
     }
 
     private static class CloseCallbackOutputStream extends OutputStream {
-        final OutputStream innerStream;
+
+        final OutputStream        innerStream;
         final StreamCloseCallback callback;
 
         CloseCallbackOutputStream(OutputStream innerStream, StreamCloseCallback callback) {
@@ -441,7 +482,8 @@ public final class FileLruCache {
         public void close() throws IOException {
             try {
                 this.innerStream.close();
-            } finally {
+            }
+            finally {
                 this.callback.onClose();
             }
         }
@@ -468,7 +510,8 @@ public final class FileLruCache {
     }
 
     private static final class CopyingInputStream extends InputStream {
-        final InputStream input;
+
+        final InputStream  input;
         final OutputStream output;
 
         CopyingInputStream(final InputStream input, final OutputStream output) {
@@ -491,7 +534,8 @@ public final class FileLruCache {
             // Android does appear to behave like this.
             try {
                 this.input.close();
-            } finally {
+            }
+            finally {
                 this.output.close();
             }
         }
@@ -543,7 +587,7 @@ public final class FileLruCache {
             byte[] buffer = new byte[1024];
             long total = 0;
             while (total < byteCount) {
-                int count = read(buffer, 0, (int)Math.min(byteCount - total, buffer.length));
+                int count = read(buffer, 0, (int) Math.min(byteCount - total, buffer.length));
                 if (count < 0) {
                     return total;
                 }
@@ -554,6 +598,7 @@ public final class FileLruCache {
     }
 
     public static final class Limits {
+
         private int byteCount;
         private int fileCount;
 
@@ -594,7 +639,8 @@ public final class FileLruCache {
 
     // Caches the result of lastModified during sort/heap operations
     private final static class ModifiedFile implements Comparable<ModifiedFile> {
-        private static final int HASH_SEED = 29; // Some random prime number
+
+        private static final int HASH_SEED       = 29; // Some random prime number
         private static final int HASH_MULTIPLIER = 37; // Some random prime number
 
         private final File file;
@@ -617,9 +663,11 @@ public final class FileLruCache {
         public int compareTo(ModifiedFile another) {
             if (getModified() < another.getModified()) {
                 return -1;
-            } else if (getModified() > another.getModified()) {
+            }
+            else if (getModified() > another.getModified()) {
                 return 1;
-            } else {
+            }
+            else {
                 return getFile().compareTo(another.getFile());
             }
         }
@@ -628,7 +676,7 @@ public final class FileLruCache {
         public boolean equals(Object another) {
             return
                     (another instanceof ModifiedFile) &&
-                    (compareTo((ModifiedFile)another) == 0);
+                    (compareTo((ModifiedFile) another) == 0);
         }
 
         @Override
@@ -643,6 +691,7 @@ public final class FileLruCache {
     }
 
     private interface StreamCloseCallback {
+
         void onClose();
     }
 }

@@ -23,8 +23,14 @@ import android.os.Bundle;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
+
 import com.facebook.internal.ServerProtocol;
-import com.facebook.model.*;
+import com.facebook.model.GraphMultiResult;
+import com.facebook.model.GraphObject;
+import com.facebook.model.GraphPlace;
+import com.facebook.model.GraphUser;
+import com.facebook.model.OpenGraphAction;
+import com.facebook.model.OpenGraphObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,12 +42,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RequestTests extends FacebookTestCase {
+
     private final static String TEST_OG_TYPE = "facebooksdktests:test";
 
-    protected String[] getPermissionsForDefaultTestSession()
-    {
-        return new String[] { "email", "publish_actions", "read_stream" };
-    };
+    protected String[] getPermissionsForDefaultTestSession() {
+        return new String[]{"email", "publish_actions", "read_stream"};
+    }
+
+    ;
 
     @SmallTest
     @MediumTest
@@ -134,7 +142,8 @@ public class RequestTests extends FacebookTestCase {
         try {
             Request.newPlacesSearchRequest(null, null, 1000, 50, null, null);
             fail("expected exception");
-        } catch (FacebookException exception) {
+        }
+        catch (FacebookException exception) {
             // Success
         }
     }
@@ -146,7 +155,8 @@ public class RequestTests extends FacebookTestCase {
         try {
             Request.newPostOpenGraphObjectRequest(null, null, null);
             fail("expected exception");
-        } catch (FacebookException exception) {
+        }
+        catch (FacebookException exception) {
             // Success
         }
     }
@@ -159,7 +169,8 @@ public class RequestTests extends FacebookTestCase {
             OpenGraphObject object = OpenGraphObject.Factory.createForPost(null);
             Request.newPostOpenGraphObjectRequest(null, object, null);
             fail("expected exception");
-        } catch (FacebookException exception) {
+        }
+        catch (FacebookException exception) {
             // Success
         }
     }
@@ -173,7 +184,8 @@ public class RequestTests extends FacebookTestCase {
             object.setTitle("bar");
             Request.newPostOpenGraphObjectRequest(null, object, null);
             fail("expected exception");
-        } catch (FacebookException exception) {
+        }
+        catch (FacebookException exception) {
             // Success
         }
     }
@@ -186,7 +198,8 @@ public class RequestTests extends FacebookTestCase {
             OpenGraphObject object = OpenGraphObject.Factory.createForPost("foo");
             Request.newPostOpenGraphObjectRequest(null, object, null);
             fail("expected exception");
-        } catch (FacebookException exception) {
+        }
+        catch (FacebookException exception) {
             // Success
         }
     }
@@ -200,7 +213,8 @@ public class RequestTests extends FacebookTestCase {
             object.setTitle("");
             Request.newPostOpenGraphObjectRequest(null, object, null);
             fail("expected exception");
-        } catch (FacebookException exception) {
+        }
+        catch (FacebookException exception) {
             // Success
         }
     }
@@ -222,7 +236,8 @@ public class RequestTests extends FacebookTestCase {
         try {
             Request.newPostOpenGraphActionRequest(null, null, null);
             fail("expected exception");
-        } catch (FacebookException exception) {
+        }
+        catch (FacebookException exception) {
             // Success
         }
     }
@@ -235,7 +250,8 @@ public class RequestTests extends FacebookTestCase {
             OpenGraphAction action = OpenGraphAction.Factory.createForPost(null);
             Request.newPostOpenGraphActionRequest(null, action, null);
             fail("expected exception");
-        } catch (FacebookException exception) {
+        }
+        catch (FacebookException exception) {
             // Success
         }
     }
@@ -248,7 +264,8 @@ public class RequestTests extends FacebookTestCase {
             OpenGraphAction action = OpenGraphAction.Factory.createForPost("");
             Request.newPostOpenGraphActionRequest(null, action, null);
             fail("expected exception");
-        } catch (FacebookException exception) {
+        }
+        catch (FacebookException exception) {
             // Success
         }
     }
@@ -280,7 +297,8 @@ public class RequestTests extends FacebookTestCase {
         try {
             Request.executeBatchAndWait((Request[]) null);
             fail("expected NullPointerException");
-        } catch (NullPointerException exception) {
+        }
+        catch (NullPointerException exception) {
         }
     }
 
@@ -291,7 +309,8 @@ public class RequestTests extends FacebookTestCase {
         try {
             Request.executeBatchAndWait(new Request[]{});
             fail("expected IllegalArgumentException");
-        } catch (IllegalArgumentException exception) {
+        }
+        catch (IllegalArgumentException exception) {
         }
     }
 
@@ -302,7 +321,8 @@ public class RequestTests extends FacebookTestCase {
         try {
             Request.executeBatchAndWait(new Request[]{null});
             fail("expected NullPointerException");
-        } catch (NullPointerException exception) {
+        }
+        catch (NullPointerException exception) {
         }
     }
 
@@ -313,7 +333,8 @@ public class RequestTests extends FacebookTestCase {
         try {
             Request.toHttpConnection((Request[]) null);
             fail("expected NullPointerException");
-        } catch (NullPointerException exception) {
+        }
+        catch (NullPointerException exception) {
         }
     }
 
@@ -324,7 +345,8 @@ public class RequestTests extends FacebookTestCase {
         try {
             Request.toHttpConnection(new Request[]{});
             fail("expected IllegalArgumentException");
-        } catch (IllegalArgumentException exception) {
+        }
+        catch (IllegalArgumentException exception) {
         }
     }
 
@@ -335,7 +357,8 @@ public class RequestTests extends FacebookTestCase {
         try {
             Request.toHttpConnection(new Request[]{null});
             fail("expected NullPointerException");
-        } catch (NullPointerException exception) {
+        }
+        catch (NullPointerException exception) {
         }
     }
 
@@ -349,7 +372,8 @@ public class RequestTests extends FacebookTestCase {
         assertTrue(connection != null);
 
         assertEquals("GET", connection.getRequestMethod());
-        assertEquals("/" + ServerProtocol.getAPIVersion() + "/TourEiffel", connection.getURL().getPath());
+        assertEquals("/" + ServerProtocol.getAPIVersion() + "/TourEiffel",
+                     connection.getURL().getPath());
 
         assertTrue(connection.getRequestProperty("User-Agent").startsWith("FBAndroidSDK"));
 
@@ -397,7 +421,8 @@ public class RequestTests extends FacebookTestCase {
         Request request = new Request(session, "TourEiffel");
         HttpURLConnection connection = Request.toHttpConnection(request);
 
-        List<Response> responses = Request.executeConnectionAndWait(connection, Arrays.asList(new Request[]{request}));
+        List<Response> responses =
+                Request.executeConnectionAndWait(connection, Arrays.asList(new Request[]{request}));
         assertNotNull(responses);
         assertEquals(1, responses.size());
 
@@ -545,7 +570,8 @@ public class RequestTests extends FacebookTestCase {
         location.setLatitude(47.6204);
         location.setLongitude(-122.3491);
 
-        Request request = Request.newPlacesSearchRequest(session, location, 1000, 5, "Starbucks", null);
+        Request request =
+                Request.newPlacesSearchRequest(session, location, 1000, 5, "Starbucks", null);
         Response response = request.executeAndWait();
         assertNotNull(response);
 
@@ -566,8 +592,14 @@ public class RequestTests extends FacebookTestCase {
         GraphObject data = GraphObject.Factory.create();
         data.setProperty("a_property", "hello");
 
-        Request request = Request.newPostOpenGraphObjectRequest(session, TEST_OG_TYPE, "a title",
-                "http://www.facebook.com", "http://www.facebook.com/zzzzzzzzzzzzzzzzzzz", "a description", data, null);
+        Request request = Request.newPostOpenGraphObjectRequest(session,
+                                                                TEST_OG_TYPE,
+                                                                "a title",
+                                                                "http://www.facebook.com",
+                                                                "http://www.facebook.com/zzzzzzzzzzzzzzzzzzz",
+                                                                "a description",
+                                                                data,
+                                                                null);
         Response response = request.executeAndWait();
         assertNotNull(response);
 
@@ -613,8 +645,15 @@ public class RequestTests extends FacebookTestCase {
         data.setProperty("a_property", "goodbye");
 
         TestSession session = openTestSessionWithSharedUser();
-        Request request = Request.newUpdateOpenGraphObjectRequest(session, id, "another title", null,
-                "http://www.facebook.com/aaaaaaaaaaaaaaaaa", "another description", data, null);
+        Request request =
+                Request.newUpdateOpenGraphObjectRequest(session,
+                                                        id,
+                                                        "another title",
+                                                        null,
+                                                        "http://www.facebook.com/aaaaaaaaaaaaaaaaa",
+                                                        "another description",
+                                                        data,
+                                                        null);
         Response response = request.executeAndWait();
         assertNotNull(response);
 
@@ -667,7 +706,8 @@ public class RequestTests extends FacebookTestCase {
             GraphObject result = response.getGraphObject();
             assertNotNull(result);
             assertNotNull(response.getRawResponse());
-        } finally {
+        }
+        finally {
             if (outStream != null) {
                 outStream.close();
             }
@@ -693,9 +733,11 @@ public class RequestTests extends FacebookTestCase {
             GraphObject result = response.getGraphObject();
             assertNotNull(result);
             assertNotNull(response.getRawResponse());
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             return;
-        } finally {
+        }
+        finally {
             if (tempFile != null) {
                 tempFile.delete();
             }
@@ -710,7 +752,8 @@ public class RequestTests extends FacebookTestCase {
 
         GraphObject retrievedStatusUpdate = postGetAndAssert(session, "me/feed", statusUpdate);
 
-        assertEquals(statusUpdate.getProperty("message"), retrievedStatusUpdate.getProperty("message"));
+        assertEquals(statusUpdate.getProperty("message"),
+                     retrievedStatusUpdate.getProperty("message"));
     }
 
     @MediumTest
@@ -772,8 +815,12 @@ public class RequestTests extends FacebookTestCase {
 
             @Override
             public void onProgress(long current, long max) {
-                if (current == max) calledBack.add(true);
-                else if (current > max) calledBack.clear();
+                if (current == max) {
+                    calledBack.add(true);
+                }
+                else if (current > max) {
+                    calledBack.clear();
+                }
             }
         });
 
@@ -806,7 +853,8 @@ public class RequestTests extends FacebookTestCase {
             RequestBatch batch = new RequestBatch();
             batch.setTimeout(-1);
             fail();
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex) {
         }
     }
 
@@ -831,7 +879,8 @@ public class RequestTests extends FacebookTestCase {
         Bundle parameters = new Bundle();
         parameters.putShortArray("foo", new short[1]);
 
-        Request request = new Request(session, "me", parameters, HttpMethod.GET, new ExpectFailureCallback());
+        Request request =
+                new Request(session, "me", parameters, HttpMethod.GET, new ExpectFailureCallback());
         Response response = request.executeAndWait();
 
         FacebookRequestError error = response.getError();
@@ -853,12 +902,18 @@ public class RequestTests extends FacebookTestCase {
         TestSession session = openTestSessionWithSharedUser();
         final List<GraphPlace> returnedPlaces = new ArrayList<GraphPlace>();
         Request request = Request
-                .newPlacesSearchRequest(session, SEATTLE_LOCATION, 1000, 5, null, new Request.GraphPlaceListCallback() {
-                    @Override
-                    public void onCompleted(List<GraphPlace> places, Response response) {
-                        returnedPlaces.addAll(places);
-                    }
-                });
+                .newPlacesSearchRequest(session,
+                                        SEATTLE_LOCATION,
+                                        1000,
+                                        5,
+                                        null,
+                                        new Request.GraphPlaceListCallback() {
+                                            @Override
+                                            public void onCompleted(List<GraphPlace> places,
+                                                                    Response response) {
+                                                returnedPlaces.addAll(places);
+                                            }
+                                        });
         Response response = request.executeAndWait();
 
         assertNull(response.getError());
@@ -879,7 +934,8 @@ public class RequestTests extends FacebookTestCase {
 
         returnedPlaces.clear();
 
-        Request previousRequest = response.getRequestForPagedResults(Response.PagingDirection.PREVIOUS);
+        Request previousRequest =
+                response.getRequestForPagedResults(Response.PagingDirection.PREVIOUS);
         assertNotNull(previousRequest);
 
         previousRequest.setCallback(request.getCallback());

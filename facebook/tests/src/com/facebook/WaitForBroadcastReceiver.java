@@ -21,14 +21,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.ConditionVariable;
 import android.os.Looper;
+
 import junit.framework.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
 
 class WaitForBroadcastReceiver extends BroadcastReceiver {
+
     static int idGenerator = 0;
-    final int id = idGenerator++;
+    final  int id          = idGenerator++;
 
     ConditionVariable condition = new ConditionVariable(true);
     int expectCount;
@@ -78,8 +80,9 @@ class WaitForBroadcastReceiver extends BroadcastReceiver {
             condition.open();
         }
         receivedIntents.add(intent);
-        Assert.assertTrue("expecting " + expectCount + "broadcasts, but received " + actualCount,                actualCount <= expectCount);
+        Assert.assertTrue("expecting " + expectCount + "broadcasts, but received " + actualCount,
+                          actualCount <= expectCount);
         Assert.assertEquals("BroadcastReceiver should receive on main UI thread",
-                Thread.currentThread(), Looper.getMainLooper().getThread());
+                            Thread.currentThread(), Looper.getMainLooper().getThread());
     }
 }
