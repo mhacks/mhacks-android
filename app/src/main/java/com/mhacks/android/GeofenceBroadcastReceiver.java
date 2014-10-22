@@ -15,8 +15,6 @@ import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationStatusCodes;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.mhacks.android.data.model.User;
-import com.mhacks.android.data.model.Venue;
 import com.parse.ParseException;
 
 import java.util.List;

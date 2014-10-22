@@ -11,8 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mhacks.android.data.model.Award;
-import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.MainActivity;
 import com.mhacks.android.ui.common.parse.ParseAdapter;
 import com.mhacks.android.ui.common.parse.ViewHolder;

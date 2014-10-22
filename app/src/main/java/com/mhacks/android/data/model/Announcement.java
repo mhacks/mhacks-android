@@ -1,128 +1,99 @@
 package com.mhacks.android.data.model;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
-import com.mhacks.android.data.sync.Synchronize;
 import com.parse.ParseClassName;
-import com.parse.ParseException;
-import com.parse.ParseInstallation;
-import com.parse.ParsePush;
-import com.parse.ParseQuery;
-import com.parse.ParseQueryAdapter;
+import com.parse.ParseObject;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.util.Date;
 
 /**
- * Created by Damian Wieczorek <damianw@umich.edu> on 7/26/14.
+ * Created by Omid Ghomeshi on 10/13/14.
  */
-@ParseClassName(Announcement.CLASS)
-public class Announcement extends DataClass<Announcement> {
-  public static final String CLASS = "Announcement";
+@ParseClassName("Annoucement")
+public class Announcement extends ParseObject implements Parcelable{
 
-  public static final String TITLE = "title";
-  public static final String DETAILS = "details";
-  public static final String POSTER = "poster";
-  public static final String PINNED = "pinned";
-  public static final String PUSHED = "pushed";
+    public static final String AUTHOR_COL  = "author";
+    public static final String EVENT_COL   = "event";
+    public static final String MESSAGE_COL = "message";
+    public static final String TIME_COL    = "time";
+    public static final String TITLE_COL   = "title";
 
-  public Announcement() {
-    super(false);
-  }
-
-  public Announcement(String title, String details, Sponsor poster, boolean pinned) {
-    super(true);
-
-    setTitle(title);
-    setDetails(details);
-    setPoster(poster);
-    setPinned(pinned);
-  }
-
-  public static ParseQuery<Announcement> query() {
-    ParseQuery<Announcement> query = remoteQuery().fromLocalDatastore();
-    query.include(POSTER);
-    return query;
-  }
-
-  public static ParseQuery<Announcement> remoteQuery() {
-    return ParseQuery.getQuery(Announcement.class);
-  }
-
-  public String getTitle() {
-    return getString(TITLE);
-  }
-
-  public Announcement setTitle(String title) {
-    return builderPut(TITLE, title);
-  }
-
-  public String getDetails() {
-    return getString(DETAILS);
-  }
-
-  public Announcement setDetails(String details) {
-    return builderPut(DETAILS, details);
-  }
-
-  public boolean isPinned() {
-    return getBoolean(PINNED);
-  }
-
-  public Announcement setPinned(boolean pinned) {
-    return builderPut(PINNED, pinned);
-  }
-
-  public boolean isPushed() {
-    return getBoolean(PUSHED);
-  }
-
-  public Announcement push() {
-    JSONObject data = new JSONObject();
-    try {
-      data.put("foo", "bar");
-      data.put("spam", "eggs");
-      data.put("one", 1);
-    } catch (JSONException e) {
-      e.printStackTrace();
+    public Sponsor getAuthor() {
+        return (Sponsor) getParseObject(AUTHOR_COL);
     }
-    ParsePush.sendDataInBackground(data, ParseInstallation.getQuery());
-    return this;
-  }
 
-  public Sponsor getPoster() {
-    return (Sponsor) getParseObject(POSTER);
-  }
+    public void setAuthor(Sponsor sponsor) {
+        put(AUTHOR_COL, sponsor);
+    }
 
-  public Announcement setPoster(Sponsor poster) {
-    return builderPut(POSTER, poster);
-  }
+    public Event getEvent() {
+        return (Event) getParseObject(EVENT_COL);
+    }
 
-  public static final Creator<Announcement> CREATOR = new Creator<Announcement>() {
+    public void setEvent(Event event) {
+        put(EVENT_COL, event);
+    }
+
+    public String getMessage() {
+        return getString(MESSAGE_COL);
+    }
+
+    public void setMessage(String message) {
+        put(MESSAGE_COL, message);
+    }
+
+    public Date getTime() {
+        return getDate(TIME_COL);
+    }
+
+    public void setTime(Date time) {
+        put(TIME_COL, time);
+    }
+
+    public String getTitle() {
+        return getString(TITLE_COL);
+    }
+
+    public void setTitle(String title) {
+        put(TITLE_COL, title);
+    }
+
+
     @Override
-    public Announcement createFromParcel(Parcel parcel) {
-      try {
-        return query().fromLocalDatastore().get(parcel.readString());
-      } catch (ParseException e) {
-        e.printStackTrace();
-      }
-      return null;
+    public int describeContents() {
+        return 0;
     }
 
     @Override
-    public Announcement[] newArray(int i) {
-      return new Announcement[0];
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(getObjectId());
+        parcel.writeParcelable(getAuthor(), i);
+        parcel.writeParcelable(getEvent(), i);
+        parcel.writeString(getMessage());
+        parcel.writeValue(getTime());
+        parcel.writeString(getTitle());
     }
-  };
 
-  public static Synchronize<Announcement> getSync() {
-    return new Synchronize<>(new ParseQueryAdapter.QueryFactory<Announcement>() {
-      @Override
-      public ParseQuery<Announcement> create() {
-        return remoteQuery();
-      }
-    });
-  }
+    public static final Creator<Announcement> CREATOR = new Creator<Announcement>() {
+        @Override
+        public Announcement createFromParcel(Parcel source) {
+            return new Announcement(source);
+        }
 
+        @Override
+        public Announcement[] newArray(int size) {
+            return new Announcement[size];
+        }
+    };
+
+    private Announcement(Parcel source) {
+        setObjectId(source.readString());
+        setAuthor((Sponsor) source.readParcelable(Sponsor.class.getClassLoader()));
+        setEvent((Event) source.readParcelable(Event.class.getClassLoader()));
+        setMessage(source.readString());
+        setTime((Date) source.readValue(Date.class.getClassLoader()));
+        setTitle(source.readString());
+    }
 }

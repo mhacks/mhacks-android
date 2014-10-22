@@ -31,7 +31,6 @@ import android.widget.TextView;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
-import com.mhacks.android.data.model.User;
 import com.mhacks.android.ui.LoginActivity;
 import com.mhacks.android.ui.announcements.AnnouncementsFragment;
 import com.mhacks.android.ui.awards.AwardsFragment;

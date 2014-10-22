@@ -1,114 +1,107 @@
 package com.mhacks.android.data.model;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
-import com.mhacks.android.data.sync.Synchronize;
 import com.parse.ParseClassName;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseQueryAdapter;
+import com.parse.ParseObject;
 
 /**
- * Created by Damian Wieczorek <damianw@umich.edu> on 8/2/14.
+ * Created by Omid Ghomeshi on 10/13/14.
  */
-@ParseClassName(Award.CLASS)
-public class Award extends DataClass<Award> {
-  public static final String CLASS = "Award";
+@ParseClassName("Award")
+public class Award extends ParseObject implements Parcelable {
 
-  public static final String TITLE = "title";
-  public static final String DETAILS = "details";
-  public static final String VALUE = "value";
-  public static final String SPONSOR = "sponsor";
-  public static final String PRIZE = "prize";
+    public static final String DESCRIPTION_COL = "description";
+    public static final String PRIZE_COL       = "prize";
+    public static final String SPONSOR_COL     = "sponsor";
+    public static final String TITLE_COL       = "title";
+    public static final String VALUE_COL       = "value";
+    public static final String WEBSITE_COL     = "website";
 
-  public Award() {
-    super(false);
-  }
+    public String getDescription() {
+        return getString(DESCRIPTION_COL);
+    }
 
-  public Award(String title, String details, int value, Sponsor sponsor, String prize) {
-    super(true);
+    public void setDescription(String description) {
+        put(DESCRIPTION_COL, description);
+    }
 
-    setTitle(title);
-    setDetails(details);
-    setValue(value);
-    setSponsor(sponsor);
-    setPrize(prize);
-  }
+    public String getPrize() {
+        return getString(PRIZE_COL);
+    }
 
-  public String getTitle() {
-    return getString(TITLE);
-  }
+    public void setPrize(String prize) {
+        put(PRIZE_COL, prize);
+    }
 
-  public Award setTitle(String title) {
-    return builderPut(TITLE, title);
-  }
+    public Sponsor getSponsor() {
+        return (Sponsor) getParseObject(SPONSOR_COL);
+    }
 
-  public String getDetails() {
-    return getString(DETAILS);
-  }
+    public void setSponsor(Sponsor sponsor) {
+        put(SPONSOR_COL, sponsor);
+    }
 
-  public Award setDetails(String details) {
-    return builderPut(DETAILS, details);
-  }
+    public String getTitle() {
+        return getString(TITLE_COL);
+    }
 
-  public int getValue() {
-    return getInt(VALUE);
-  }
+    public void setTitle(String title) {
+        put(TITLE_COL, title);
+    }
 
-  public Award setValue(int value) {
-    return builderPut(VALUE, value);
-  }
+    public int getValue() {
+        return getInt(VALUE_COL);
+    }
 
-  public Sponsor getSponsor() {
-    return (Sponsor) getParseObject(SPONSOR);
-  }
+    public void setValue(int value) {
+        put(VALUE_COL, value);
+    }
 
-  public Award setSponsor(Sponsor sponsor) {
-    return builderPut(SPONSOR, sponsor);
-  }
+    public String getWebsite() {
+        return getString(WEBSITE_COL);
+    }
 
-  public String getPrize() {
-    return getString(PRIZE);
-  }
-
-  public Award setPrize(String prize) {
-    return builderPut(PRIZE, prize);
-  }
-
-  public static ParseQuery<Award> query() {
-    ParseQuery<Award> query = remoteQuery().fromLocalDatastore();
-    query.include(SPONSOR);
-    return query;
-  }
-
-  public static ParseQuery<Award> remoteQuery() {
-    return ParseQuery.getQuery(Award.class);
-  }
-
-  public static final Creator<Award> CREATOR = new Creator<Award>() {
-    @Override
-    public Award createFromParcel(Parcel parcel) {
-      try {
-        return query().fromLocalDatastore().get(parcel.readString());
-      } catch (ParseException e) {
-        e.printStackTrace();
-      }
-      return null;
+    public void setWebsite(String website) {
+        put(WEBSITE_COL, website);
     }
 
     @Override
-    public Award[] newArray(int i) {
-      return new Award[0];
+    public int describeContents() {
+        return 0;
     }
-  };
 
-  public static Synchronize<Award> getSync() {
-    return new Synchronize<>(new ParseQueryAdapter.QueryFactory<Award>() {
-      @Override
-      public ParseQuery<Award> create() {
-        return remoteQuery();
-      }
-    });
-  }
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(getObjectId());
+        parcel.writeString(getDescription());
+        parcel.writeString(getPrize());
+        parcel.writeParcelable(getSponsor(), i);
+        parcel.writeString(getTitle());
+        parcel.writeInt(getValue());
+        parcel.writeString(getWebsite());
+    }
 
+    public static final Creator<Award> CREATOR = new Creator<Award>() {
+        @Override
+        public Award createFromParcel(Parcel source) {
+            return new Award(source);
+        }
+
+        @Override
+        public Award[] newArray(int size) {
+            return new Award[size];
+        }
+    };
+
+    private Award(Parcel source) {
+        setObjectId(source.readString());
+        setDescription(source.readString());
+        setPrize(source.readString());
+        setSponsor((Sponsor) source.readParcelable(Sponsor.class.getClassLoader()));
+        setTitle(source.readString());
+        setValue(source.readInt());
+        setWebsite(source.readString());
+    }
 }

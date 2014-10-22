@@ -1,8 +1,6 @@
 package com.mhacks.android.data.sync;
 
 import com.bugsnag.android.Bugsnag;
-import com.mhacks.android.data.model.Trash;
-import com.mhacks.android.data.model.User;
 import com.parse.ParseException;
 import com.parse.ParseQueryAdapter;
 

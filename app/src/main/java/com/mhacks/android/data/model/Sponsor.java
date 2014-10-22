@@ -1,134 +1,103 @@
 package com.mhacks.android.data.model;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
-import com.mhacks.android.data.sync.Synchronize;
 import com.parse.ParseClassName;
-import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseQuery;
-import com.parse.ParseQueryAdapter;
+import com.parse.ParseObject;
 
 /**
- * Created by Damian Wieczorek <damianw@umich.edu> on 8/2/14.
+ * Created by Omkar Moghe on 10/13/2014.
  */
-@ParseClassName(Sponsor.CLASS)
-public class Sponsor extends DataClass<Sponsor> {
-  public static final String CLASS = "Sponsor";
+@ParseClassName("Sponsor")
+public class Sponsor extends ParseObject implements Parcelable{
 
-  public static final String TITLE = "title";
-  public static final String DETAILS = "details";
-  public static final String URL = "url";
-  public static final String LOGO = "logo";
-  public static final String IMAGE = "image";
-  public static final String COLOR = "color";
-  public static final String ORDERING = "ordering";
+    public static final String DESCRIPTION_COL = "description";
+    public static final String LOCATION_COL = "location";
+    public static final String LOGO_COL = "logo";
+    public static final String NAME_COL = "name";
+    public static final String TIER_COL = "tier";
+    public static final String WEBSITE_COL = "website";
 
-  public Sponsor() {
-    super(false);
-  }
+    public String getDescription() {
+        return getString(DESCRIPTION_COL);
+    }
 
-  public Sponsor(String title, String details, String url, ParseFile logo, int ordering) {
-    super(true);
+    public void setDescription(String description) {
+        put(DESCRIPTION_COL, description);
+    }
 
-    setTitle(title);
-    setDetails(details);
-    setUrl(url);
-    setLogoFile(logo);
-    setOrdering(ordering);
-  }
+    public Location getLocation() {
+        return (Location)getParseObject(LOCATION_COL);
+    }
 
-  public String getTitle() {
-    return getString(TITLE);
-  }
+    public void setLocation(Location location) {
+        put(LOCATION_COL, location);
+    }
 
-  public Sponsor setTitle(String title) {
-    return builderPut(TITLE, title);
-  }
+    public ParseFile getLogo() {
+        return getParseFile(LOGO_COL);
+    }
 
-  public String getDetails() {
-    return getString(DETAILS);
-  }
+    public void setLogo(ParseFile parseFile) {
+        put(LOGO_COL, parseFile);
+    }
 
-  public Sponsor setDetails(String details) {
-    return builderPut(DETAILS, details);
-  }
+    public String getName() {
+        return getString(NAME_COL);
+    }
 
-  public String getUrl() {
-    return getString(URL);
-  }
+    public void setName(String name) {
+        put(NAME_COL, name);
+    }
 
-  public Sponsor setUrl(String url) {
-    return builderPut(URL, url);
-  }
+    public SponsorTier getTier() {
+        return (SponsorTier)getParseObject(TIER_COL);
+    }
 
-  public ParseFile getLogoFile() {
-    return getParseFile(LOGO);
-  }
+    public void setTier(SponsorTier sponsorTier) {
+        put(TIER_COL, sponsorTier);
+    }
 
-  public Sponsor setLogoFile(ParseFile logo) {
-    return builderPut(LOGO, logo);
-  }
+    public String getWebsite() {
+        return getString(WEBSITE_COL);
+    }
 
-  public ParseFile getImageFile() {
-    return getParseFile(IMAGE);
-  }
-
-  public Sponsor setImageFile(ParseFile image) {
-    return builderPut(IMAGE, image);
-  }
-
-  public int getColor() {
-    return getInt(COLOR);
-  }
-
-  public Sponsor setColor(int color) {
-    return builderPut(COLOR, color);
-  }
-
-  public int getOrdering() {
-    return getInt(ORDERING);
-  }
-
-  public Sponsor setOrdering(int ordering) {
-    return builderPut(ORDERING, ordering);
-  }
-
-  public static ParseQuery<Sponsor> query() {
-    return remoteQuery().fromLocalDatastore();
-  }
-
-  public static ParseQuery<Sponsor> remoteQuery() {
-    ParseQuery<Sponsor> query = ParseQuery.getQuery(Sponsor.class);
-//    query.include(LOGO);
-//    query.include(IMAGE);
-    return query;
-  }
-
-  public static final Creator<Sponsor> CREATOR = new Creator<Sponsor>() {
-    @Override
-    public Sponsor createFromParcel(Parcel parcel) {
-      try {
-        return query().fromLocalDatastore().get(parcel.readString());
-      } catch (ParseException e) {
-        e.printStackTrace();
-      }
-      return null;
+    public void setWebsite(String website) {
+        put(WEBSITE_COL, website);
     }
 
     @Override
-    public Sponsor[] newArray(int i) {
-      return new Sponsor[i];
+    public int describeContents() {
+        return 0;
     }
-  };
 
-  public static Synchronize<Sponsor> getSync() {
-    return new Synchronize<>(new ParseQueryAdapter.QueryFactory<Sponsor>() {
-      @Override
-      public ParseQuery<Sponsor> create() {
-        return remoteQuery();
-      }
-    });
-  }
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(getObjectId());
+        parcel.writeString(getDescription());
+        parcel.writeParcelable(getLocation(), i);
+        parcel.writeValue(getLogo());
+        parcel.writeString(getName());
+        parcel.writeParcelable(getTier(), i);
+        parcel.writeString(getWebsite());
+    }
 
+    public static final Creator<Sponsor> CREATOR = new Creator<Sponsor>() {
+        @Override
+        public Sponsor createFromParcel(Parcel source) {
+            return new Sponsor(source);
+        }
+
+        @Override
+        public Sponsor[] newArray(int size) {
+            return new Sponsor[size];
+        }
+    };
+
+    private Sponsor(Parcel source) {
+        //check for exception/error at runtime
+        setLogo((ParseFile) source.readValue(ParseFile.class.getClassLoader()));
+    }
 }
