@@ -16,8 +16,15 @@
     </string>
     <string name="icon">Icon</string>
     <string name="divider_pipe">|</string>
+
     <string name="announcements">Announcements</string>
     <string name="schedule">Schedule</string>
+    <string name="sponsors">Sponsors</string>
+    <string name="awards">Awards</string>
+    <string name="map">Map</string>
+    <string name="chat">Lounge</string>
+    <string name="messages">Messages</string>
+
     <string name="lorem_award_prize">Over 9000 Pairs of Google Glass</string>
     <string name="announcements_new">New Announcement</string>
     <string name="awards_new">New Award</string>
@@ -39,18 +46,13 @@
     <string name="announcement_push_now">Push (Now)</string>
     <string name="confirm_delete">Confirm Delete</string>
     <string name="confirm_delete_message">Are you sure you want to delete this?</string>
-    <string name="map">Map</string>
-    <string name="chat">Lounge</string>
-    <string name="awards">Awards</string>
     <string name="login_background_description">Login Background</string>
     <string name="mhacks_logo">MHacks Logo</string>
     <string name="log_in_facebook">Log in with Facebook</string>
     <string name="search_hint">Search</string>
     <string name="search">Search</string>
     <string name="not_implemented_yet">Not implemented yet.</string>
-    <string name="concierge">Concierge</string>
     <string name="user_name">Name</string>
-    <string name="sponsor">Sponsor</string>
     <string name="position">Position</string>
     <string name="user_new">New User</string>
     <string name="delete">Delete</string>
@@ -58,7 +60,6 @@
     <string name="school_unknown">Unknown</string>
     <string name="log_in_twitter">Log in with Twitter</string>
     <string name="close_thread">Close Thread</string>
-    <string name="messages">Messages</string>
     <string name="no_threads">You have no open conversations. Visit the concierge to message
         someone!
     </string>
@@ -67,12 +68,5 @@
     <string name="concierge_email">Hey %1$s,</string>
     <string name="tweet_url">https://twitter.com/intent/tweet?text=%1$s</string>
     <string name="log_out">Log Out</string>
-    
-    <string-array name="features">
-        <item name="announcements">Announcements</item>
-        <item name="schedule">Schedule</item>
-        <item name="sponsors">Sponsors</item>
-        <item name="awards">Awards</item>
 
-    </string-array>
 </resources>

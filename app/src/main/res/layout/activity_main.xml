@@ -18,7 +18,7 @@
         <!-- As the main content view, the view below consumes the entire
              space available using match_parent in both dimensions. -->
         <FrameLayout
-            android:id="@+id/container"
+            android:id="@+id/main_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
@@ -31,11 +31,11 @@
              the container. -->
         <fragment
             android:id="@+id/navigation_drawer"
-            android:name="com.mhacks.android.ui.nav.NavigationDrawerFragment"
             android:layout_width="@dimen/navigation_drawer_width"
-            android:layout_height="match_parent"
+            android:layout_height="matchParent"
             android:layout_gravity="start"
-            tools:layout="@layout/fragment_navigation_drawer"/>
+            android:name="com.mhacks.android.ui.nav.NavigationDrawerFragment"
+            tools:layout="@layout/fragment_navigation_drawer" />
 
     </android.support.v4.widget.DrawerLayout>
 

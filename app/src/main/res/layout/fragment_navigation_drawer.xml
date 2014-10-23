@@ -1,13 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ListView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_list_view"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:choiceMode="singleChoice"
-    android:divider="@null"
-    android:dividerHeight="0dp"
-    android:entries="@array/features"
-    tools:context=".NavigationDrawerFragment"/>
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_marginTop="6dp"
+        android:id="@+id/nav_drawer_announcements"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:text="@string/announcements"/>
+
+    <TextView
+        android:layout_marginTop="6dp"
+        android:id="@+id/nav_drawer_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:text="@string/schedule"/>
+
+    <TextView
+        android:layout_marginTop="6dp"
+        android:id="@+id/nav_drawer_sponsors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:text="@string/sponsors"/>
+
+    <TextView
+        android:layout_marginTop="6dp"
+        android:id="@+id/nav_drawer_awards"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:text="@string/awards"/>
+
+</LinearLayout>

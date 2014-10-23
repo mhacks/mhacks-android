@@ -5,7 +5,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.widget.DrawerLayout;
 import android.widget.ListView;
 
 import com.mhacks.android.ui.nav.NavigationDrawerFragment;
@@ -13,7 +12,9 @@ import com.mhacks.iv.android.R;
 
 import java.util.Date;
 
-
+/**
+ * Created by Omkar Moghe on 10/22/2014.
+ */
 public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
@@ -27,15 +28,14 @@ public class MainActivity extends FragmentActivity
 
     private boolean mShouldSync = true;
 
-    private DrawerLayout drawerLayout;
-    private ListView drawerListView;
+    private ListView featuresListView;
+
+    private String[] featuresList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        drawerListView = (ListView)findViewById(R.id.drawer_list_view);
 
         mNavigationDrawerFragment = new NavigationDrawerFragment();
         FragmentManager fragmentManager = getFragmentManager();
@@ -63,11 +63,13 @@ public class MainActivity extends FragmentActivity
     }
 */
 
-    public void restoreActionBar() {
+    public void restoreActionBar(String title) {
         final ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+        if (actionBar != null) {
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setTitle(title);
+        }
     }
 
     @Override
