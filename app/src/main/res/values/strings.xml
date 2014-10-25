@@ -17,6 +17,7 @@
     <string name="icon">Icon</string>
     <string name="divider_pipe">|</string>
 
+    <!--    TITLES OF FEATURES (in nav drawer and action bar)   -->
     <string name="announcements">Announcements</string>
     <string name="schedule">Schedule</string>
     <string name="sponsors">Sponsors</string>

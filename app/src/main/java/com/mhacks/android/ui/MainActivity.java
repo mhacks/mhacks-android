@@ -5,9 +5,12 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.widget.ListView;
 
+import com.mhacks.android.ui.nav.AnnouncementsFragment;
+import com.mhacks.android.ui.nav.AwardsFragment;
 import com.mhacks.android.ui.nav.NavigationDrawerFragment;
+import com.mhacks.android.ui.nav.ScheduleFragment;
+import com.mhacks.android.ui.nav.SponsorsFragment;
 import com.mhacks.iv.android.R;
 
 import java.util.Date;
@@ -28,15 +31,12 @@ public class MainActivity extends FragmentActivity
 
     private boolean mShouldSync = true;
 
-    private ListView featuresListView;
-
-    private String[] featuresList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Creating navigation drawer from fragment.
         mNavigationDrawerFragment = new NavigationDrawerFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -77,6 +77,38 @@ public class MainActivity extends FragmentActivity
         super.onSaveInstanceState(outState);
         outState.putBoolean(SHOULD_SYNC, mShouldSync);
         outState.putLong(TIME_SAVED, new Date().getTime());
+    }
+
+    @Override
+    public void onNavigationDrawerItemSelected(int position) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        switch (position) {
+            case 0:
+                AnnouncementsFragment announcementsFragment = new AnnouncementsFragment();
+                fragmentTransaction.replace(R.id.main_container, announcementsFragment);
+                fragmentTransaction.commit();
+                restoreActionBar("Announcements");
+                break;
+            case 1:
+                ScheduleFragment scheduleFragment = new ScheduleFragment();
+                fragmentTransaction.replace(R.id.main_container, scheduleFragment);
+                fragmentTransaction.commit();
+                restoreActionBar("Schedule");
+                break;
+            case 2:
+                SponsorsFragment sponsorsFragment = new SponsorsFragment();
+                fragmentTransaction.replace(R.id.main_container, sponsorsFragment);
+                fragmentTransaction.commit();
+                restoreActionBar("Sponsors");
+                break;
+            case 3:
+                AwardsFragment awardsFragment = new AwardsFragment();
+                fragmentTransaction.replace(R.id.main_container, awardsFragment);
+                fragmentTransaction.commit();
+                restoreActionBar("Awards");
+                break;
+        }
     }
 /*
     @Override
