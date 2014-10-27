@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.DrawerLayout;
 
 import com.mhacks.android.ui.nav.AnnouncementsFragment;
 import com.mhacks.android.ui.nav.AwardsFragment;
@@ -29,12 +30,16 @@ public class MainActivity extends FragmentActivity
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence             mTitle;
 
+    private DrawerLayout mDrawerLayout;
+
     private boolean mShouldSync = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         //Creating navigation drawer from fragment.
         mNavigationDrawerFragment = new NavigationDrawerFragment();
@@ -108,6 +113,10 @@ public class MainActivity extends FragmentActivity
                 fragmentTransaction.commit();
                 restoreActionBar("Awards");
                 break;
+        }
+
+        if (mDrawerLayout != null){
+            mDrawerLayout.closeDrawer(findViewById(R.id.navigation_drawer));
         }
     }
 /*

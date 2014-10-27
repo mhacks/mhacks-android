@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,8 +28,6 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
 
     private TextView mAnnouncementsTextView, mScheduleTextView, mSponsorsTextView, mAwardsTextView;
 
-    private DrawerLayout mDrawerLayout;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +39,6 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
                              ViewGroup container,
                              Bundle savedInstanceState) {
         mNavDrawerView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-
-        mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
 
         mAnnouncementsTextView =
                 (TextView) mNavDrawerView.findViewById(R.id.nav_drawer_announcements);
@@ -95,9 +90,6 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
 
     public void setPosition(int position) {
         mCurrentSelectedPosition = position;
-        if (mDrawerLayout != null){
-            mDrawerLayout.closeDrawer(getActivity().findViewById(R.id.navigation_drawer));
-        }
         if (mCallbacks != null) {
             mCallbacks.onNavigationDrawerItemSelected(position);
         }
