@@ -10,10 +10,11 @@
         android:id="@+id/schedule_scroll_view" >
 
 
-        <CalendarView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/schedule_calendar" />
+        <!--<CalendarView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/schedule_calendar"-->
+            <!--android:layout_gravity="center" />-->
 
     </ScrollView>
 
