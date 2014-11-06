@@ -6,13 +6,27 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
-
+import com.bugsnag.android.Bugsnag;
+import com.mhacks.android.data.model.Announcement;
+import com.mhacks.android.data.model.Award;
+import com.mhacks.android.data.model.CountdownItem;
+import com.mhacks.android.data.model.Event;
+import com.mhacks.android.data.model.EventType;
+import com.mhacks.android.data.model.Location;
+import com.mhacks.android.data.model.Sponsor;
+import com.mhacks.android.data.model.SponsorTier;
 import com.mhacks.android.ui.nav.AnnouncementsFragment;
 import com.mhacks.android.ui.nav.AwardsFragment;
 import com.mhacks.android.ui.nav.NavigationDrawerFragment;
 import com.mhacks.android.ui.nav.ScheduleFragment;
 import com.mhacks.android.ui.nav.SponsorsFragment;
 import com.mhacks.iv.android.R;
+import com.parse.Parse;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseObject;
+import com.parse.ParseTwitterUtils;
+import com.parse.ParseUser;
+import com.parse.PushService;
 
 import java.util.Date;
 
@@ -30,6 +44,8 @@ public class MainActivity extends FragmentActivity
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence             mTitle;
 
+    private ParseUser mUser;
+
     private DrawerLayout mDrawerLayout;
 
     private boolean mShouldSync = true;
@@ -46,6 +62,24 @@ public class MainActivity extends FragmentActivity
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.navigation_drawer, mNavigationDrawerFragment);
+
+        ParseObject.registerSubclass(Announcement.class);
+        ParseObject.registerSubclass(Award.class);
+        ParseObject.registerSubclass(CountdownItem.class);
+        ParseObject.registerSubclass(Event.class);
+        ParseObject.registerSubclass(EventType.class);
+        ParseObject.registerSubclass(Location.class);
+        ParseObject.registerSubclass(Sponsor.class);
+        ParseObject.registerSubclass(SponsorTier.class);
+
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this,
+                         "O57r9DEn3iXwcwerGwbhcwy75uZqyv0SDxNL4xO1",
+                         "fDVg3qtJ1IwhYFh2TY56MlxDYqRCHMtk6tkKKi4K");
+
+        mUser = ParseUser.getCurrentUser();
+
+        Bugsnag.register(this, getString(R.string.bugsnag_key));
     }
 
     @Override

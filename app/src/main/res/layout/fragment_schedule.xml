@@ -16,6 +16,10 @@
             <!--android:id="@+id/schedule_calendar"-->
             <!--android:layout_gravity="center" />-->
 
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/events_view" />
     </ScrollView>
 
 </LinearLayout>
