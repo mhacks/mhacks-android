@@ -46,25 +46,17 @@ public class ScheduleFragment extends Fragment implements ActionBar.TabListener{
 
         actionBar = getActivity().getActionBar();
 
-        //TODO Adds 3 new tabs every time Schedule is selected from the navigation drawer. Need to fix that.
+        // Adds tabs to the action bar. Not sure if this is the best way to do that.
         if (actionBar != null) {
             actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-            actionBar.addTab(actionBar.newTab().setText("Fri").setTabListener(this));
-            actionBar.addTab(actionBar.newTab().setText("Sat").setTabListener(this));
-            actionBar.addTab(actionBar.newTab().setText("Sun").setTabListener(this));
+            if (actionBar.getTabCount() != 3) {
+                actionBar.removeAllTabs();
+                actionBar.addTab(actionBar.newTab().setText("Fri").setTabListener(this));
+                actionBar.addTab(actionBar.newTab().setText("Sat").setTabListener(this));
+                actionBar.addTab(actionBar.newTab().setText("Sun").setTabListener(this));
+            }
         }
 
-/*
-        Calendar calander = Calendar.getInstance();
-        scheduleCalendarView =
-                (CalendarView) mScheduleFragView.findViewById(R.id.schedule_calendar);
-        scheduleCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(CalendarView calendarView, int year, int month, int day) {
-                Toast.makeText(getActivity(), month + "/" + day + "/" + year, Toast.LENGTH_SHORT).show();
-            }
-        });
-*/
         mUser = ParseUser.getCurrentUser();
 
         getEvents();
@@ -74,7 +66,15 @@ public class ScheduleFragment extends Fragment implements ActionBar.TabListener{
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
+        //TODO set scroll to appropriate position on the schedule.
+        switch (tab.getPosition()) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+        }
     }
 
     @Override
