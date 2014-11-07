@@ -25,6 +25,7 @@
         android:required="true"/>
 
     <application
+        android:name="com.mhacks.android.MHacks"
         android:allowBackup="true"
         android:icon="@drawable/mhacks_frame_light"
         android:logo="@drawable/mhacks_frame_light"
@@ -33,6 +34,10 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
+
+        <meta-data
+            android:name="com.parse.push.notification_icon"
+            android:resource="@drawable/ic_launcher" />
 
         <activity
             android:name="com.mhacks.android.ui.MainActivity"

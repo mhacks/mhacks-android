@@ -22,6 +22,7 @@ import com.mhacks.android.ui.nav.ScheduleFragment;
 import com.mhacks.android.ui.nav.SponsorsFragment;
 import com.mhacks.iv.android.R;
 import com.parse.Parse;
+import com.parse.ParseBroadcastReceiver;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseTwitterUtils;
@@ -63,23 +64,7 @@ public class MainActivity extends FragmentActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.navigation_drawer, mNavigationDrawerFragment);
 
-        ParseObject.registerSubclass(Announcement.class);
-        ParseObject.registerSubclass(Award.class);
-        ParseObject.registerSubclass(CountdownItem.class);
-        ParseObject.registerSubclass(Event.class);
-        ParseObject.registerSubclass(EventType.class);
-        ParseObject.registerSubclass(Location.class);
-        ParseObject.registerSubclass(Sponsor.class);
-        ParseObject.registerSubclass(SponsorTier.class);
-
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this,
-                         "O57r9DEn3iXwcwerGwbhcwy75uZqyv0SDxNL4xO1",
-                         "fDVg3qtJ1IwhYFh2TY56MlxDYqRCHMtk6tkKKi4K");
-
         mUser = ParseUser.getCurrentUser();
-
-        Bugsnag.register(this, getString(R.string.bugsnag_key));
     }
 
     @Override
@@ -139,7 +124,17 @@ public class MainActivity extends FragmentActivity
             mDrawerLayout.closeDrawer(findViewById(R.id.navigation_drawer));
         }
     }
-/*
+
+    @Override
+    protected void onDestroy() {
+        ParseUser.logOut();
+        new ParseBroadcastReceiver();
+        super.onDestroy();
+    }
+
+
+
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
