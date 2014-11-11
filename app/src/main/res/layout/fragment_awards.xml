@@ -5,9 +5,11 @@
     android:layout_height="match_parent">
 
     <!--    FOR TESTING ONLY. DELETE THIS TEXT VIEW WHEN DESIGNING YOUR LAYOUT.    -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="AwardsFragment"/>
+    <GridView
+        android:numColumns="auto_fit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gridView"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>
