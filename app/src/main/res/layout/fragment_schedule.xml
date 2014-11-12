@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/schedule_fragment"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/schedule_scroll_view" >
+    <!--<android.support.v4.widget.SwipeRefreshLayout-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_width="match_parent">-->
 
-
-        <!--<CalendarView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/schedule_calendar"-->
-            <!--android:layout_gravity="center" />-->
-
-        <TextView
+        <com.alamkanak.weekview.WeekView
+            android:id="@+id/week_view"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/events_view" />
-    </ScrollView>
+            android:layout_height="fill_parent"
+            app:eventTextColor="@android:color/black"
+            app:noOfVisibleDays="1"
+            app:textSize="12sp"
+            app:hourHeight="60dp"
+            app:headerColumnPadding="8dp"
+            app:headerColumnTextColor="#8f000000"
+            app:headerRowPadding="12dp"
+            app:columnGap="8dp"
+            app:headerRowBackgroundColor="#ffefefef"
+            app:dayBackgroundColor="#05000000"
+            app:todayBackgroundColor="#1848adff"
+            app:headerColumnBackground="#ffffffff" />
+
+    <!--</android.support.v4.widget.SwipeRefreshLayout>-->
 
 </LinearLayout>

@@ -131,19 +131,4 @@ public class MainActivity extends FragmentActivity
         new ParseBroadcastReceiver();
         super.onDestroy();
     }
-
-
-
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            getMenuInflater().inflate(R.menu.main, menu);
-            restoreActionBar();
-            return true;
-        }
-        return super.onCreateOptionsMenu(menu);
-    }
-*/
-
 }
