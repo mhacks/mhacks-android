@@ -1,5 +1,6 @@
 # Local configuration
 local.properties
+gradle.properties
 .git
 .gradle
 .idea

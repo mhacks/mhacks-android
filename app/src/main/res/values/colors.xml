@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+<!-- Begin JN Basic Colors -->
+    <!-- Basic colors, laziness -->
+    <color name="white">#FFF</color>
+    <color name="black">#000</color>
+    <color name="gray">#C0C0C0</color>
+    <color name="red">#FF0000</color>
+    <color name="blue">#0000FF</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="orange">#FFA500</color>
+
+    <!-- Special colors -->
+    <color name="transparent">#00000000</color>
+
+    <!-- Color variations -->
+    <color name="light_blue">#00FFFF</color>
+    <color name="purple">#FF00FF</color>
+    <color name="blue226">#00B4D5</color>
+
+    <!-- Suggested colors -->
+    <color name="dev_light_blue">#33B5E5</color>
+    <color name="dev_blue">#0099CC</color>
+    <color name="dev_light_purple">#AA66CC</color>
+    <color name="dev_purple">#9933CC</color>
+    <color name="dev_light_green">#99CC00</color>
+    <color name="dev_green">#669900</color>
+    <color name="dev_light_orange">#FFBB33</color>
+    <color name="dev_orange">#FF8800</color>
+    <color name="dev_light_red">#FF4444</color>
+    <color name="dev_red">#CC0000</color>
+
+<!-- End JN Basic Colors -->
+
     <color name="charcoal">#272727</color>
     <color name="charcoal_semitransparent">#BB272727</color>
     <color name="darker_charcoal">#191919</color>
