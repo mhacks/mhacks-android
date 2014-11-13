@@ -86,16 +86,21 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v4:21.0.0+'
-    compile 'com.firebase:firebase-client:1.0.16+'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:support-v4:21.0.0'
+    compile 'com.firebase:firebase-client:1.0.16'
     compile 'com.google.guava:guava:+'
     compile 'com.squareup.picasso:picasso:2.3.3'
-    compile 'com.google.android.gms:play-services:5.0.+'
-    compile 'com.google.maps.android:android-maps-utils:0.3+'
+    compile 'com.google.android.gms:play-services:6.1.71'
+    compile 'com.google.maps.android:android-maps-utils:0.3'
+    compile 'com.github.alamkanak:android-week-view:1.1.5'
+    //compile 'com.github.omkarmoghe:android-week-view:1.1.5'
     compile('com.viewpagerindicator:library:2.4.1@aar') {
         exclude group: 'com.google.android', module: 'support-v4'
     }
     compile project(':facebook')
-    compile 'com.github.alamkanak:android-week-view:1.1.5'
+    compile 'com.parse.bolts:bolts-android:1.1.2'
+    compile fileTree(include: 'Parse-*.jar', dir: 'libs')
+    compile files('libs/Parse-1.7.1.jar')
+
 }
