@@ -8,6 +8,6 @@ public final class BuildConfig {
   public static final String PACKAGE_NAME = "com.mhacks.iv.android";
   public static final String BUILD_TYPE = "debug";
   public static final String FLAVOR = "";
-  public static final int VERSION_CODE = 1415913583;
+  public static final int VERSION_CODE = 1416452392;
   public static final String VERSION_NAME = "3.0.0";
 }

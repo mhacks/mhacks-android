@@ -32,7 +32,7 @@ import java.util.List;
 public class SponsorsFragment extends Fragment{
 
     private View mSponsorsFragView;
-    private GridView Sponsorview;
+    private GridView sponsorView;
     private ImageAdapter adapter;
     private Context context;
     private ArrayList<Sponsor> sponsors;
@@ -47,7 +47,7 @@ public class SponsorsFragment extends Fragment{
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Sponsor");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> object, ParseException e) {
-                Sponsorview = (GridView) getActivity().findViewById(R.id.sponsor_list);
+                sponsorView = (GridView) getActivity().findViewById(R.id.sponsor_list);
                 if (e == null) {
                     //sponsors.add("Hey");
                     Log.v("Parse",Integer.toString(object.size()));
@@ -72,7 +72,7 @@ public class SponsorsFragment extends Fragment{
                 for (int i = 0; i < sponsors.size(); ++i){
                     list_urls.add((sponsors.get(i).getLogo().getUrl()));
                 }
-                Sponsorview.setAdapter(new ImageAdapter(getActivity().getApplicationContext(), list_urls));
+                sponsorView.setAdapter(new ImageAdapter(getActivity().getApplicationContext(), list_urls));
                 //gridview.setAdapter(new ImageAdapter(this));
             }
         });

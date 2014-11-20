@@ -3,6 +3,7 @@ package com.mhacks.android.ui.common;
 /**
  * Created by Riyu on 11/12/14.
  */
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,8 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-        new ImageDownloader(imageView).execute(url.get(position));
+        new ImageLoader(mContext).DisplayImage(url.get(position), imageView);
+
         //imageView.setImageResource(mThumbIds[position]);
         return imageView;
     }
