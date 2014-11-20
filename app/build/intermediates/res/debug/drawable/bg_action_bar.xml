@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/bg_nav_item_shape">
+        <shape android:shape="rectangle">
+            <padding android:bottom="4dp"/>
+            <solid android:color="@color/darker_charcoal"/>
+        </shape>
+    </item>
+</layer-list><!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/drawable/bg_action_bar.xml -->

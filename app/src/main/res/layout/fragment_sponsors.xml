@@ -4,10 +4,22 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--    FOR TESTING ONLY. DELETE THIS TEXT VIEW WHEN DESIGNING YOUR LAYOUT.    -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="28dp"
         android:text="SponsorsFragment"/>
+
+    <GridView
+        android:id="@+id/sponsor_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="90dp"
+        android:numColumns="auto_fit"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center">
+
+        </GridView>
 
 </LinearLayout>

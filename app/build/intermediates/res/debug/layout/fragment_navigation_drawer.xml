@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_marginTop="6dp"
+        android:id="@+id/nav_drawer_announcements"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textSize="24sp"
+        android:text="@string/announcements"/>
+
+    <TextView
+        android:layout_marginTop="6dp"
+        android:id="@+id/nav_drawer_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textSize="24sp"
+        android:text="@string/schedule"/>
+
+    <TextView
+        android:layout_marginTop="6dp"
+        android:id="@+id/nav_drawer_sponsors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textSize="24sp"
+        android:text="@string/sponsors"/>
+
+    <TextView
+        android:layout_marginTop="6dp"
+        android:id="@+id/nav_drawer_awards"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textSize="24sp"
+        android:text="@string/awards"/>
+
+</LinearLayout>
+<!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/layout/fragment_navigation_drawer.xml -->

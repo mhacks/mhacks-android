@@ -1,0 +1,913 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <eat-comment />
+
+    <attr name="centered" format="boolean" />
+    <attr name="selectedColor" format="color" />
+    <attr name="strokeWidth" format="dimension" />
+    <attr name="unselectedColor" format="color" />
+
+    <bool name="default_circle_indicator_centered">true</bool>
+    <bool name="default_circle_indicator_snap">false</bool>
+    <bool name="default_line_indicator_centered">true</bool>
+    <bool name="default_title_indicator_selected_bold">true</bool>
+    <bool name="default_underline_indicator_fades">true</bool>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/colors.xml -->
+    <eat-comment />
+
+    <color name="adapter_card_color">@color/darker_charcoal_semitransparent</color>
+    <color name="adapter_card_shadow_color">@android:color/white</color>
+    <color name="adapter_card_shadow_step_0">#00272727</color>
+    <color name="adapter_card_shadow_step_1">#08272727</color>
+    <color name="adapter_card_shadow_step_2">#20272727</color>
+    <color name="adapter_card_shadow_step_3">#32272727</color>
+    <color name="adapter_card_shadow_step_4">#44272727</color>
+    <color name="bg_announcements">#2f4382</color>
+    <color name="bg_awards">#f6bb42</color>
+    <color name="bg_chat">#f6694c</color>
+    <color name="bg_concierge">#f6bb42</color>
+    <color name="bg_hackers">#8760e9</color>
+    <color name="bg_map">#4fbde4</color>
+    <color name="bg_neutral">#434343</color>
+    <color name="bg_schedule">#8cc152</color>
+    <color name="bg_settings">#ed5565</color>
+    <color name="black_semitransparent">#88000000</color>
+    <color name="charcoal">#272727</color>
+    <color name="charcoal_semitransparent">#BB272727</color>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
+    <eat-comment />
+
+    <color name="com_facebook_blue">#3B5998</color>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/colors.xml -->
+    <eat-comment />
+
+    <color name="com_facebook_blue_pressed">#2b4172</color>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
+    <eat-comment />
+
+    <color name="com_facebook_loginview_text_color">#FFFFFF</color>
+    <color name="com_facebook_picker_search_bar_background">#f5f5f7</color>
+    <color name="com_facebook_picker_search_bar_text">#bcbdc2</color>
+    <color name="com_facebook_usersettingsfragment_connected_shadow_color">#000000</color>
+    <color name="com_facebook_usersettingsfragment_connected_text_color">#FFFFFF</color>
+    <color name="com_facebook_usersettingsfragment_not_connected_text_color">#A6AED7</color>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.89/res/values/common_colors.xml -->
+    <eat-comment />
+
+    <color name="common_action_bar_splitter">#d2d2d2</color>
+    <color name="common_signin_btn_dark_text_default">@android:color/white</color>
+    <color name="common_signin_btn_dark_text_disabled">#FFAAAAAA</color>
+    <color name="common_signin_btn_dark_text_focused">@android:color/white</color>
+    <color name="common_signin_btn_dark_text_pressed">@android:color/white</color>
+    <color name="common_signin_btn_default_background">#FFDD4B39</color>
+    <color name="common_signin_btn_light_text_default">#FF737373</color>
+    <color name="common_signin_btn_light_text_disabled">#FFAAAAAA</color>
+    <color name="common_signin_btn_light_text_focused">#FF737373</color>
+    <color name="common_signin_btn_light_text_pressed">@android:color/white</color>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/colors.xml -->
+    <eat-comment />
+
+    <color name="darker_charcoal">#191919</color>
+    <color name="darker_charcoal_semitransparent">#99191919</color>
+    <color name="darkest_charcoal">#101010</color>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <eat-comment />
+
+    <color name="default_circle_indicator_fill_color">#FFFFFFFF</color>
+    <color name="default_circle_indicator_page_color">#00000000</color>
+    <color name="default_circle_indicator_stroke_color">#FFDDDDDD</color>
+    <color name="default_line_indicator_selected_color">#FF33B5E5</color>
+    <color name="default_line_indicator_unselected_color">#FFBBBBBB</color>
+    <color name="default_title_indicator_footer_color">#FF33B5E5</color>
+    <color name="default_title_indicator_selected_color">#FFFFFFFF</color>
+    <color name="default_title_indicator_text_color">#BBFFFFFF</color>
+    <color name="default_underline_indicator_selected_color">#FF33B5E5</color>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/colors.xml -->
+    <eat-comment />
+
+    <color name="mhacks_yellow">#FED136</color>
+    <color name="nav_item_shadow_step_0">#08191919</color>
+    <color name="nav_item_shadow_step_1">#20191919</color>
+    <color name="nav_item_shadow_step_2">#32191919</color>
+    <color name="nav_item_shadow_step_3">#44191919</color>
+    <color name="nav_item_shadow_step_4">@color/darker_charcoal_semitransparent</color>
+    <color name="palette_0">#eea7ab</color>
+    <color name="palette_1">#fdbe7b</color>
+    <color name="palette_10">#ef5c80</color>
+    <color name="palette_11">#bcccd9</color>
+    <color name="palette_12">#f2f5d7</color>
+    <color name="palette_13">#ff9259</color>
+    <color name="palette_14">#ef8d81</color>
+    <color name="palette_15">#91dabe</color>
+    <color name="palette_16">#e25795</color>
+    <color name="palette_17">#c5dd3e</color>
+    <color name="palette_18">#ff6548</color>
+    <color name="palette_19">#e7f8c4</color>
+    <color name="palette_2">#e81c1f</color>
+    <color name="palette_3">#d587c5</color>
+    <color name="palette_4">#f1cf04</color>
+    <color name="palette_5">#b1dcd3</color>
+    <color name="palette_6">#d0e8c4</color>
+    <color name="palette_7">#e45177</color>
+    <color name="palette_8">#44c3a6</color>
+    <color name="palette_9">#a0d3e6</color>
+    <color name="twitter_blue">#55ACEE</color>
+    <color name="twitter_blue_pressed">#3e7eaf</color>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <eat-comment />
+
+    <color name="vpi__background_holo_dark">#ff000000</color>
+    <color name="vpi__background_holo_light">#fff3f3f3</color>
+    <color name="vpi__bright_foreground_disabled_holo_dark">#ff4c4c4c</color>
+    <color name="vpi__bright_foreground_disabled_holo_light">#ffb2b2b2</color>
+    <color name="vpi__bright_foreground_holo_dark">@color/vpi__background_holo_light</color>
+    <color name="vpi__bright_foreground_holo_light">@color/vpi__background_holo_dark</color>
+    <color name="vpi__bright_foreground_inverse_holo_dark">@color/vpi__bright_foreground_holo_light</color>
+    <color name="vpi__bright_foreground_inverse_holo_light">@color/vpi__bright_foreground_holo_dark</color>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.89/res/values/wallet_colors.xml -->
+    <eat-comment />
+
+    <color name="wallet_bright_foreground_disabled_holo_light">#ffb2b2b2</color>
+    <color name="wallet_bright_foreground_holo_dark">#fff3f3f3</color>
+    <color name="wallet_bright_foreground_holo_light">#ff000000</color>
+    <color name="wallet_dim_foreground_disabled_holo_dark">#80bebebe</color>
+    <color name="wallet_dim_foreground_holo_dark">#bebebe</color>
+    <color name="wallet_dim_foreground_inverse_disabled_holo_dark">#80323232</color>
+    <color name="wallet_dim_foreground_inverse_holo_dark">#323232</color>
+    <color name="wallet_highlighted_text_holo_dark">#6633b5e5</color>
+    <color name="wallet_highlighted_text_holo_light">#6633b5e5</color>
+    <color name="wallet_hint_foreground_holo_dark">#808080</color>
+    <color name="wallet_hint_foreground_holo_light">#808080</color>
+    <color name="wallet_holo_blue_light">#ff33b5e5</color>
+    <color name="wallet_link_text_light">#0000ee</color>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.89/res/values/admob_ads_attrs.xml -->
+    <eat-comment />
+
+    <declare-styleable name="AdsAttrs">
+
+        <!--
+    The size of the ad. It must be one of BANNER, FULL_BANNER, LEADERBOARD,
+    MEDIUM_RECTANGLE, SMART_BANNER, WIDE_SKYSCRAPER, or
+    &lt;width&gt;x&lt;height&gt;.
+        -->
+        <attr name="adSize" format="string" />
+
+        <!--
+    A comma-separated list of the supported ad sizes. The sizes must be one of
+    BANNER, FULL_BANNER, LEADERBOARD, MEDIUM_RECTANGLE, SMART_BANNER,
+    WIDE_SKYSCRAPER, or &lt;width&gt;x&lt;height&gt;.
+        -->
+        <attr name="adSizes" format="string" />
+
+        <!-- The ad unit ID. -->
+        <attr name="adUnitId" format="string" />
+    </declare-styleable>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <eat-comment />
+
+    <declare-styleable name="CirclePageIndicator">
+
+        <!-- Whether or not the indicators should be centered. -->
+        <attr name="centered" />
+        <!-- Color of the filled circle that represents the current page. -->
+        <attr name="fillColor" format="color" />
+        <!-- Color of the filled circles that represents pages. -->
+        <attr name="pageColor" format="color" />
+        <!-- Orientation of the indicator. -->
+        <attr name="android:orientation" />
+        <!-- Radius of the circles. This is also the spacing between circles. -->
+        <attr name="radius" format="dimension" />
+        <!-- Whether or not the selected indicator snaps to the circles. -->
+        <attr name="snap" format="boolean" />
+        <!-- Color of the open circles. -->
+        <attr name="strokeColor" format="color" />
+        <!-- Width of the stroke used to draw the circles. -->
+        <attr name="strokeWidth" />
+        <!-- View background -->
+        <attr name="android:background" />
+    </declare-styleable>
+    <declare-styleable name="LinePageIndicator">
+
+        <!-- Whether or not the indicators should be centered. -->
+        <attr name="centered" />
+        <!-- Color of the unselected lines that represent the pages. -->
+        <attr name="unselectedColor" />
+        <!-- Color of the selected line that represents the current page. -->
+        <attr name="selectedColor" />
+        <!-- Width of each indicator line. -->
+        <attr name="lineWidth" format="dimension" />
+        <!-- Width of each indicator line's stroke. -->
+        <attr name="strokeWidth" />
+        <!-- Width of the gap between each indicator line. -->
+        <attr name="gapWidth" format="dimension" />
+        <!-- View background -->
+        <attr name="android:background" />
+    </declare-styleable>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.89/res/values/maps_attrs.xml -->
+    <eat-comment />
+
+    <declare-styleable name="MapAttrs">
+        <attr name="mapType" format="enum">
+            <enum name="none" value="0" />
+            <enum name="normal" value="1" />
+            <enum name="satellite" value="2" />
+            <enum name="terrain" value="3" />
+            <enum name="hybrid" value="4" />
+        </attr>
+        <attr name="cameraBearing" format="float" />
+        <attr name="cameraTargetLat" format="float" />
+        <attr name="cameraTargetLng" format="float" />
+        <attr name="cameraTilt" format="float" />
+        <attr name="cameraZoom" format="float" />
+        <attr name="uiCompass" format="boolean" />
+        <attr name="uiRotateGestures" format="boolean" />
+        <attr name="uiScrollGestures" format="boolean" />
+        <attr name="uiTiltGestures" format="boolean" />
+        <attr name="uiZoomControls" format="boolean" />
+        <attr name="uiZoomGestures" format="boolean" />
+        <attr name="useViewLifecycle" format="boolean" />
+        <attr name="zOrderOnTop" format="boolean" />
+    </declare-styleable>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <eat-comment />
+
+    <declare-styleable name="TitlePageIndicator">
+
+        <!-- Screen edge padding. -->
+        <attr name="clipPadding" format="dimension" />
+        <!-- Color of the footer line and indicator. -->
+        <attr name="footerColor" format="color" />
+        <!-- Height of the footer line. -->
+        <attr name="footerLineHeight" format="dimension" />
+        <!-- Style of the indicator. Default is triangle. -->
+        <attr name="footerIndicatorStyle">
+            <enum name="none" value="0" />
+            <enum name="triangle" value="1" />
+            <enum name="underline" value="2" />
+        </attr>
+        <!-- Height of the indicator above the footer line. -->
+        <attr name="footerIndicatorHeight" format="dimension" />
+        <!-- Left and right padding of the underline indicator. -->
+        <attr name="footerIndicatorUnderlinePadding" format="dimension" />
+        <!-- Padding between the bottom of the title and the footer. -->
+        <attr name="footerPadding" format="dimension" />
+        <!-- Position of the line. -->
+        <attr name="linePosition">
+            <enum name="bottom" value="0" />
+            <enum name="top" value="1" />
+        </attr>
+        <!-- Color of the selected title. -->
+        <attr name="selectedColor" />
+        <!-- Whether or not the selected item is displayed as bold. -->
+        <attr name="selectedBold" format="boolean" />
+        <!-- Color of regular titles. -->
+        <attr name="android:textColor" />
+        <!-- Size of title text. -->
+        <attr name="android:textSize" />
+        <!-- Padding between titles when bumping into each other. -->
+        <attr name="titlePadding" format="dimension" />
+        <!-- Padding between titles and the top of the View. -->
+        <attr name="topPadding" format="dimension" />
+        <!-- View background -->
+        <attr name="android:background" />
+    </declare-styleable>
+    <declare-styleable name="UnderlinePageIndicator">
+
+        <!-- Whether or not the selected indicator fades. -->
+        <attr name="fades" format="boolean" />
+        <!-- Length of the delay to fade the indicator. -->
+        <attr name="fadeDelay" format="integer" />
+        <!-- Length of the indicator fade to transparent. -->
+        <attr name="fadeLength" format="integer" />
+        <!-- Color of the selected line that represents the current page. -->
+        <attr name="selectedColor" />
+        <!-- View background -->
+        <attr name="android:background" />
+    </declare-styleable>
+    <declare-styleable name="ViewPagerIndicator">
+
+        <!-- Style of the circle indicator. -->
+        <attr name="vpiCirclePageIndicatorStyle" format="reference" />
+        <!-- Style of the icon indicator's views. -->
+        <attr name="vpiIconPageIndicatorStyle" format="reference" />
+        <!-- Style of the line indicator. -->
+        <attr name="vpiLinePageIndicatorStyle" format="reference" />
+        <!-- Style of the title indicator. -->
+        <attr name="vpiTitlePageIndicatorStyle" format="reference" />
+        <!-- Style of the tab indicator's tabs. -->
+        <attr name="vpiTabPageIndicatorStyle" format="reference" />
+        <!-- Style of the underline indicator. -->
+        <attr name="vpiUnderlinePageIndicatorStyle" format="reference" />
+    </declare-styleable>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.89/res/values/wallet_attrs.xml -->
+    <eat-comment />
+
+    <declare-styleable name="WalletFragmentOptions">
+
+        <!-- Theme to be used for the Wallet selector -->
+        <attr name="theme" format="enum">
+            <enum name="holo_dark" value="0" />
+            <enum name="holo_light" value="1" />
+        </attr>
+        <!-- Google Wallet environment to use -->
+        <attr name="environment" format="enum">
+            <enum name="production" value="1" />
+            <enum name="sandbox" value="0" />
+            <enum name="strict_sandbox" value="2" />
+        </attr>
+        <!-- A style resource specifing attributes to customize the look and feel of WalletFragment -->
+        <attr name="fragmentStyle" format="reference" />
+        <!-- Fragment mode -->
+        <attr name="fragmentMode" format="enum">
+            <enum name="buyButton" value="1" />
+            <enum name="selectionDetails" value="2" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="WalletFragmentStyle">
+
+        <!--
+             Height of the buy button. This includes an 8dp padding (4dp on each side) used for
+             pressed and focused states of the button. The value can be a specific height, e.g.
+             "48dp", or special values "match_parent" and "wrap_content".
+        -->
+        <attr name="buyButtonHeight" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <!--
+             Width of the buy button. This includes an 8dp padding (4dp on each side) used for
+             pressed and focused states of the button. The value can be a specific width, e.g.
+             "300dp", or special values "match_parent" and "wrap_content".
+        -->
+        <attr name="buyButtonWidth" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <!-- Text on the buy button. Must be one of "buy_with_google", "buy_now" and "book_now" -->
+        <attr name="buyButtonText" format="enum">
+            <enum name="buy_with_google" value="1" />
+            <enum name="buy_now" value="2" />
+            <enum name="book_now" value="3" />
+        </attr>
+        <!-- Appearance of the buy button. Must be one of "classic", "grayscale" and "monochrome" -->
+        <attr name="buyButtonAppearance" format="enum">
+            <enum name="classic" value="1" />
+            <enum name="grayscale" value="2" />
+            <enum name="monochrome" value="3" />
+        </attr>
+        <!-- TextAppearance for masked wallet details -->
+        <attr name="maskedWalletDetailsTextAppearance" format="reference" />
+        <!-- TextAppearance for headers describing masked wallet details -->
+        <attr name="maskedWalletDetailsHeaderTextAppearance" format="reference" />
+        <!-- Masked wallet details background -->
+        <attr name="maskedWalletDetailsBackground" format="reference|color" />
+        <!-- TextAppearance for the "Change" button in masked wallet details view -->
+        <attr name="maskedWalletDetailsButtonTextAppearance" format="reference" />
+        <!-- "Change" button background in masked wallet details view -->
+        <attr name="maskedWalletDetailsButtonBackground" format="reference|color" />
+        <!-- Color of the Google Wallet logo text in masked wallet details view -->
+        <attr name="maskedWalletDetailsLogoTextColor" format="color" />
+        <!-- Type of the wallet logo image in masked wallet details view -->
+        <attr name="maskedWalletDetailsLogoImageType" format="enum">
+            <enum name="classic" value="1" />
+            <enum name="monochrome" value="2" />
+        </attr>
+    </declare-styleable>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
+    <eat-comment />
+
+    <declare-styleable name="com_facebook_friend_picker_fragment">
+        <attr name="multi_select" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="com_facebook_login_view">
+        <attr name="confirm_logout" format="boolean" />
+        <attr name="fetch_user_info" format="boolean" />
+        <attr name="login_text" format="string" />
+        <attr name="logout_text" format="string" />
+    </declare-styleable>
+    <declare-styleable name="com_facebook_picker_fragment">
+        <attr name="show_pictures" format="boolean" />
+        <attr name="extra_fields" format="string" />
+        <attr name="show_title_bar" format="boolean" />
+        <attr name="title_text" format="string" />
+        <attr name="done_button_text" format="string" />
+        <attr name="title_bar_background" format="reference" />
+        <attr name="done_button_background" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="com_facebook_place_picker_fragment">
+        <attr name="radius_in_meters" format="integer" />
+        <attr name="results_limit" format="integer" />
+        <attr name="search_text" format="string" />
+        <attr name="show_search_box" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="com_facebook_profile_picture_view">
+        <attr name="preset_size">
+
+            <!-- Keep in sync with constants in ProfilePictureView -->
+            <enum name="small" value="-2" />
+            <enum name="normal" value="-3" />
+            <enum name="large" value="-4" />
+        </attr>
+        <attr name="is_cropped" format="boolean" />
+    </declare-styleable>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/dimens.xml -->
+    <eat-comment />
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="adapter_card_divider_height">8dp</dimen>
+    <dimen name="adapter_card_padding">8dp</dimen>
+    <dimen name="adapter_card_radius">1dp</dimen>
+    <dimen name="adapter_card_shadow_bottom">4dp</dimen>
+    <dimen name="adapter_card_shadow_top">6dp</dimen>
+    <dimen name="adapter_card_shadow_width">1dp</dimen>
+    <dimen name="adapter_header_padding_horizontal">16dp</dimen>
+    <dimen name="adapter_header_padding_vertical">12dp</dimen>
+    <dimen name="announcement_height">96dp</dimen>
+    <dimen name="chat_handle_size">38dp</dimen>
+    <dimen name="chat_message_image_size">42dp</dimen>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
+    <eat-comment />
+
+    <dimen name="com_facebook_loginview_compound_drawable_padding">12dp</dimen>
+    <dimen name="com_facebook_loginview_padding_bottom">12dp</dimen>
+    <dimen name="com_facebook_loginview_padding_left">12dip</dimen>
+    <dimen name="com_facebook_loginview_padding_right">16dp</dimen>
+    <dimen name="com_facebook_loginview_padding_top">12dp</dimen>
+    <dimen name="com_facebook_loginview_text_size">16.0sp</dimen>
+    <dimen name="com_facebook_picker_place_image_size">64dp</dimen>
+    <dimen name="com_facebook_profilepictureview_preset_size_large">180dp</dimen>
+    <dimen name="com_facebook_profilepictureview_preset_size_normal">100dp</dimen>
+    <dimen name="com_facebook_profilepictureview_preset_size_small">50dp</dimen>
+    <dimen name="com_facebook_tooltip_horizontal_padding">10dp</dimen>
+    <dimen name="com_facebook_usersettingsfragment_profile_picture_height">64dp</dimen>
+    <dimen name="com_facebook_usersettingsfragment_profile_picture_width">64dp</dimen>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/dimens.xml -->
+    <eat-comment />
+
+    <dimen name="dave_size">48dp</dimen>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <eat-comment />
+
+    <dimen name="default_circle_indicator_radius">3dp</dimen>
+    <dimen name="default_circle_indicator_stroke_width">1dp</dimen>
+    <dimen name="default_line_indicator_gap_width">4dp</dimen>
+    <dimen name="default_line_indicator_line_width">12dp</dimen>
+    <dimen name="default_line_indicator_stroke_width">1dp</dimen>
+    <dimen name="default_title_indicator_clip_padding">4dp</dimen>
+    <dimen name="default_title_indicator_footer_indicator_height">4dp</dimen>
+    <dimen name="default_title_indicator_footer_indicator_underline_padding">20dp</dimen>
+    <dimen name="default_title_indicator_footer_line_height">2dp</dimen>
+    <dimen name="default_title_indicator_footer_padding">7dp</dimen>
+    <dimen name="default_title_indicator_text_size">15dp</dimen>
+    <dimen name="default_title_indicator_title_padding">5dp</dimen>
+    <dimen name="default_title_indicator_top_padding">7dp</dimen>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/dimens.xml -->
+    <eat-comment />
+
+    <dimen name="intra_list_item_padding">4dp</dimen>
+    <dimen name="list_item_padding">8dp</dimen>
+    <dimen name="map_polygon_stroke_width">2dp</dimen>
+    <dimen name="nav_item_height">72dp</dimen>
+    <dimen name="nav_item_icon_size">52dp</dimen>
+    <dimen name="navigation_drawer_width">240dp</dimen>
+    <dimen name="pin_icon_size">24dp</dimen>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
+    <eat-comment />
+
+    <drawable name="com_facebook_picker_default_separator_color">#33464c59</drawable>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.3.3/res/values/values.xml -->
+    <eat-comment />
+
+    <item name="text" type="id"/>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <eat-comment />
+
+    <integer name="default_circle_indicator_orientation">0</integer>
+    <integer name="default_title_indicator_footer_indicator_style">2</integer>
+    <integer name="default_title_indicator_line_position">0</integer>
+    <integer name="default_underline_indicator_fade_delay">300</integer>
+    <integer name="default_underline_indicator_fade_length">400</integer>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.89/res/values/version.xml -->
+    <eat-comment />
+
+    <integer name="google_play_services_version">5089000</integer>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/integers.xml -->
+    <eat-comment />
+
+    <integer name="nav_item_bg_slide_duration">100</integer>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/strings.xml -->
+    <eat-comment />
+
+    <string name="action_settings">Settings</string>
+    <string name="announcement_details">Announcement Details</string>
+    <string name="announcement_details_hint">Zingerman\'s for everybody!</string>
+    <string name="announcement_pinned">Pinned</string>
+    <string name="announcement_push_now">Push (Now)</string>
+    <string name="announcement_title">Announcement Title</string>
+    <string name="announcement_title_hint">Come get your food!</string>
+    <string name="announcements">Announcements</string>
+    <string name="announcements_new">New Announcement</string>
+    <string name="app_name">MHacks</string>
+    <string name="awards">Awards</string>
+    <string name="awards_new">New Award</string>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/generated/res/generated/debug/values/generated.xml -->
+    <eat-comment />
+
+    <item name="bugsnag_key" type="string">4b845cb8f12a5f2e96c95e2c2f7483d7</item>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/strings.xml -->
+    <eat-comment />
+
+    <string name="chat">Lounge</string>
+    <string name="close_thread">Close Thread</string>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
+    <eat-comment />
+
+    <string name="com_facebook_choose_friends">Choose Friends</string>
+    <string name="com_facebook_dialogloginactivity_ok_button">OK</string>
+    <string name="com_facebook_internet_permission_error_message">WebView login requires INTERNET
+        permission</string>
+    <string name="com_facebook_internet_permission_error_title">AndroidManifest Error</string>
+    <string name="com_facebook_loading">Loading...</string>
+    <string name="com_facebook_loginview_cancel_action">Cancel</string>
+    <string name="com_facebook_loginview_log_in_button">Log in with Facebook</string>
+    <string name="com_facebook_loginview_log_out_action">Log out</string>
+    <string name="com_facebook_loginview_log_out_button">Log out</string>
+    <string name="com_facebook_loginview_logged_in_as">Logged in as: %1$s</string>
+    <string name="com_facebook_loginview_logged_in_using_facebook">Logged in using Facebook</string>
+    <string name="com_facebook_logo_content_description">Facebook Logo</string>
+    <string name="com_facebook_nearby">Nearby</string>
+    <string name="com_facebook_picker_done_button_text">Done</string>
+    <string name="com_facebook_placepicker_subtitle_catetory_only_format">%1$s</string>
+    <string name="com_facebook_placepicker_subtitle_format">%1$s • %2$,d were here</string>
+    <string name="com_facebook_placepicker_subtitle_were_here_only_format">%1$,d were here</string>
+    <string name="com_facebook_requesterror_password_changed">Your Facebook password has changed.
+        Please log into this app again to reconnect your Facebook account.</string>
+    <string name="com_facebook_requesterror_permissions">This app doesn’t have permission to do
+        this. To change permissions, try logging into the app again.</string>
+    <string name="com_facebook_requesterror_reconnect">Please log into this app again to reconnect
+        your Facebook account.</string>
+    <string name="com_facebook_requesterror_relogin">Please log into this app again to reconnect
+        your Facebook account.</string>
+    <string name="com_facebook_requesterror_web_login">Your Facebook account is locked. Please log
+        into www.facebook.com to continue.</string>
+    <string name="com_facebook_tooltip_default">New! You\'re in control - choose what info you want
+        to share with apps.</string>
+    <string name="com_facebook_usersettingsfragment_log_in_button">Log in…</string>
+    <string name="com_facebook_usersettingsfragment_logged_in">Logged in</string>
+    <string name="com_facebook_usersettingsfragment_not_logged_in">Not logged in</string>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.89/res/values/common_strings.xml -->
+    <eat-comment />
+
+    <string name="common_google_play_services_enable_button" msgid="2523291102206661146">Enable Google Play services</string>
+    <string name="common_google_play_services_enable_text" msgid="227660514972886228">This app won\'t work unless you enable Google Play services.</string>
+    <string name="common_google_play_services_enable_title" msgid="5122002158466380389">Enable Google Play services</string>
+    <string name="common_google_play_services_error_notification_requested_by_msg">Requested by  <ns1:g id="app_name">%1$s</ns1:g></string>
+    <string name="common_google_play_services_install_button" msgid="7153882981874058840">Get Google Play services</string>
+    <string name="common_google_play_services_install_text_phone" msgid="2122112764540849864">This app won\'t run without Google Play services, which are missing from your phone.</string>
+    <string name="common_google_play_services_install_text_tablet" msgid="7351599665250191022">This app won\'t run without Google Play services, which are missing from your tablet.</string>
+    <string name="common_google_play_services_install_title" msgid="7215213145546190223">Get Google Play services</string>
+    <string name="common_google_play_services_invalid_account_text">The specified account does not exist on this device. Please choose a different account.</string>
+    <string name="common_google_play_services_invalid_account_title">Invalid Account</string>
+    <string name="common_google_play_services_needs_enabling_title">An application requires Google Play services to be enabled.</string>
+    <string name="common_google_play_services_network_error_text">A data connection is required to connect to Google Play services.</string>
+    <string name="common_google_play_services_network_error_title">Network Error</string>
+    <string name="common_google_play_services_notification_needs_installation_title">An application requires installation of Google Play services.</string>
+    <string name="common_google_play_services_notification_needs_update_title">An application requires an update for Google Play services.</string>
+    <string name="common_google_play_services_notification_ticker">Google Play services error</string>
+    <string name="common_google_play_services_unknown_issue">Unknown issue with Google Play services.</string>
+    <string name="common_google_play_services_unsupported_date_text">The date on the device appears to be incorrect. Please check the date on the device.</string>
+    <string name="common_google_play_services_unsupported_text">Google Play services, which some of your applications rely on, is not supported by your device. Please contact the manufacturer for assistance.</string>
+    <string name="common_google_play_services_unsupported_title">Google Play services</string>
+    <string name="common_google_play_services_update_button" msgid="6556509956452265614">Update</string>
+    <string name="common_google_play_services_update_text" msgid="9053896323427875356">This app won\'t run unless you update Google Play services.</string>
+    <string name="common_google_play_services_update_title" msgid="1788179980625863495">Update Google Play services</string>
+    <string name="common_signin_button_text">Sign in</string>
+    <string name="common_signin_button_text_long">Sign in with Google</string>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/strings.xml -->
+    <eat-comment />
+
+    <string name="concierge_email">Hey %1$s,</string>
+    <string name="concierge_tweet">Hey @%1$s,</string>
+    <string name="confirm_delete">Confirm Delete</string>
+    <string name="confirm_delete_message">Are you sure you want to delete this?</string>
+    <string name="delete">Delete</string>
+    <string name="divider_pipe">|</string>
+    <string name="error_logging_in">Login failed. Please check that you have accepted the necessary
+        permissions.</string>
+    <string name="event_details">Event Details</string>
+    <string name="event_details_hint">Come join us for some awesome stuff!</string>
+    <string name="event_title">Event Title</string>
+    <string name="event_title_hint">MHacks Begins</string>
+    <string name="events_new">New Event</string>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/generated/res/generated/debug/values/generated.xml -->
+    <eat-comment />
+
+    <item name="fb_app_id" type="string">"567361250010506"</item>
+    <item name="firebase_url" type="string">https://mhacks-f2014.firebaseio.com</item>
+    <item name="google_maps_api_key" type="string">AIzaSyDzuNdhsw4JbTTmpF8gx8iPFsr9xCgIcVI</item>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/strings.xml -->
+    <eat-comment />
+
+    <string name="hackers">Hackers</string>
+    <string name="host">Host</string>
+    <string name="icon">Icon</string>
+    <string name="location">Location</string>
+    <string name="log_in">Log In</string>
+    <string name="log_in_facebook">Log in with Facebook</string>
+    <string name="log_in_twitter">Log in with Twitter</string>
+    <string name="log_out">Log Out</string>
+    <string name="logging_in">Logging in…</string>
+    <string name="login_background_description">Login Background</string>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/lorem-strings.xml -->
+    <eat-comment />
+
+    <string name="lorem_announcement_title">Announcement Title</string>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/strings.xml -->
+    <eat-comment />
+
+    <string name="lorem_award_prize">Over 9000 Pairs of Google Glass</string>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/lorem-strings.xml -->
+    <eat-comment />
+
+    <string name="lorem_award_title">Award Title</string>
+    <string name="lorem_contact_name">Dave Fontenot</string>
+    <string name="lorem_date">Wednesday, September 31</string>
+    <string name="lorem_event_time">Saturday 12:30a</string>
+    <string name="lorem_event_title">Event Title</string>
+    <string name="lorem_ipsum_standard">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+        anim id est laborum.</string>
+    <string name="lorem_nav_item">Navigation Item</string>
+    <string name="lorem_sponsor">MHacks Staff</string>
+    <string name="lorem_user_full_name">Marvin Gaye</string>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/strings.xml -->
+    <eat-comment />
+
+    <string name="map">Map</string>
+    <string name="messages">Messages</string>
+    <string name="mhacks_concierge">MHacks Concierge</string>
+    <string name="mhacks_logo">MHacks Logo</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="next">Next</string>
+    <string name="no_threads">You have no open conversations. Visit the concierge to message
+        someone!</string>
+    <string name="not_implemented_yet">Not implemented yet.</string>
+    <string name="ordering">Ordering</string>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/generated/res/generated/debug/values/generated.xml -->
+    <eat-comment />
+
+    <item name="parse_application_id" type="string">O57r9DEn3iXwcwerGwbhcwy75uZqyv0SDxNL4xO1</item>
+    <item name="parse_client_key" type="string">fDVg3qtJ1IwhYFh2TY56MlxDYqRCHMtk6tkKKi4K</item>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/strings.xml -->
+    <eat-comment />
+
+    <string name="password">Password</string>
+    <string name="position">Position</string>
+    <string name="poster">Poster</string>
+    <string name="schedule">Schedule</string>
+    <string name="school_unknown">Unknown</string>
+    <string name="search">Search</string>
+    <string name="search_hint">Search</string>
+    <string name="sponsors">Sponsors</string>
+    <string name="time">Time</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="tweet_url">https://twitter.com/intent/tweet?text=%1$s</string>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/generated/res/generated/debug/values/generated.xml -->
+    <eat-comment />
+
+    <item name="twitter_key" type="string">"v7buks4MdFwouirPBY2r4Q"</item>
+    <item name="twitter_secret" type="string">"VqKOHeHH38WwCjd2R7dV90AhyQuyA1joVGz1q3cWSM"</item>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/strings.xml -->
+    <eat-comment />
+
+    <string name="user_name">Name</string>
+    <string name="user_new">New User</string>
+    <string name="username">Username</string>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.89/res/values/wallet_strings.xml -->
+    <eat-comment />
+
+    <string name="wallet_buy_button_place_holder" translation_description="Text on a button that allows a user to make a payment with Google Wallet [CHAR LIMIT=30]">Buy with Google</string>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.3.3/res/values/values.xml -->
+    <eat-comment />
+
+    <style name="Bubble.TextAppearance.Dark" parent="android:TextAppearance.Medium">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#ff7f7f7f</item>
+    </style>
+
+    <style name="Bubble.TextAppearance.Light" parent="Bubble.TextAppearance.Dark">
+        <item name="android:textColor">#ffeeeeee</item>
+    </style>
+
+    <style name="ClusterIcon.TextAppearance" parent="android:TextAppearance">
+        <item name="android:textColor">#ffeeeeee</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/themes.xml -->
+    <eat-comment />
+
+    <style name="MHacksLoginTheme" parent="android:Theme.Holo"></style>
+
+    <style name="MHacksTheme" parent="android:Theme.Holo">
+        <item name="android:actionBarStyle">@style/action_bar_style</item>
+        <item name="android:textAppearance">@style/text_appearance</item>
+        <item name="android:windowBackground">@color/bg_neutral</item>
+        <!-- <item name="android:homeAsUpIndicator">@null</item> -->
+    </style>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <eat-comment />
+
+    <style name="TextAppearance.TabPageIndicator" parent="Widget">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/vpi__dark_theme</item>
+    </style>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.89/res/values/admob_iap_style.xml -->
+    <eat-comment />
+
+    <style name="Theme.IAPTheme" parent="android:Theme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <eat-comment />
+
+    <style name="Theme.PageIndicatorDefaults" parent="android:Theme">
+        <item name="vpiIconPageIndicatorStyle">@style/Widget.IconPageIndicator</item>
+        <item name="vpiTabPageIndicatorStyle">@style/Widget.TabPageIndicator</item>
+    </style>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.89/res/values/wallet_styles.xml -->
+    <eat-comment />
+
+    <style name="WalletFragmentDefaultButtonTextAppearance">
+        <item name="android:textColor">@color/wallet_primary_text_holo_light</item>
+        <item name="android:textColorHighlight">@color/wallet_highlighted_text_holo_light</item>
+        <item name="android:textColorHint">@color/wallet_hint_foreground_holo_light</item>
+        <item name="android:textColorLink">@color/wallet_link_text_light</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="WalletFragmentDefaultDetailsHeaderTextAppearance" parent="WalletFragmentDefaultDetailsTextAppearance">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="WalletFragmentDefaultDetailsTextAppearance">
+        <item name="android:textColor">@color/wallet_secondary_text_holo_dark</item>
+        <item name="android:textColorHighlight">@color/wallet_highlighted_text_holo_dark</item>
+        <item name="android:textColorHint">@color/wallet_hint_foreground_holo_dark</item>
+        <item name="android:textColorLink">@color/wallet_holo_blue_light</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="WalletFragmentDefaultStyle">
+        <item name="buyButtonHeight">48dp</item>
+        <item name="buyButtonWidth">match_parent</item>
+        <item name="buyButtonText">buy_with_google</item>
+        <item name="buyButtonAppearance">classic</item>
+        <item name="maskedWalletDetailsTextAppearance">@style/WalletFragmentDefaultDetailsTextAppearance</item>
+        <item name="maskedWalletDetailsHeaderTextAppearance">@style/WalletFragmentDefaultDetailsHeaderTextAppearance</item>
+        <item name="maskedWalletDetailsBackground">@color/wallet_bright_foreground_holo_light</item>
+        <item name="maskedWalletDetailsButtonBackground">@android:drawable/btn_default</item>
+        <item name="maskedWalletDetailsButtonTextAppearance">@style/WalletFragmentDefaultButtonTextAppearance</item>
+        <item name="maskedWalletDetailsLogoTextColor">@color/wallet_bright_foreground_holo_dark</item>
+        <item name="maskedWalletDetailsLogoImageType">classic</item>
+    </style>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <eat-comment />
+
+    <style name="Widget" />
+
+    <style name="Widget.IconPageIndicator" parent="Widget">
+        <item name="android:layout_marginLeft">6dp</item>
+        <item name="android:layout_marginRight">6dp</item>
+    </style>
+
+    <style name="Widget.TabPageIndicator" parent="Widget">
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/vpi__tab_indicator</item>
+        <item name="android:paddingLeft">22dip</item>
+        <item name="android:paddingRight">22dip</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.TabPageIndicator</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:maxLines">1</item>
+    </style>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/themes.xml -->
+    <eat-comment />
+
+    <style name="action_bar_style" parent="android:Widget.Holo.ActionBar.Solid">
+        <item name="android:background">@color/darker_charcoal</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/styles.xml -->
+    <eat-comment />
+
+    <style name="adapter_card_body">
+        <item name="android:layout_gravity">left</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:background">@drawable/adapter_card_body</item>
+    </style>
+
+    <style name="adapter_card_details">
+        <item name="android:textAppearance">?android:attr/textAppearance</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:layout_alignParentLeft">true</item>
+    </style>
+
+    <style name="adapter_card_header">
+        <item name="android:paddingTop">@dimen/adapter_header_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/adapter_header_padding_vertical</item>
+        <item name="android:paddingLeft">@dimen/adapter_header_padding_horizontal</item>
+        <item name="android:paddingRight">@dimen/adapter_header_padding_horizontal</item>
+        <item name="android:background">@drawable/adapter_card_header</item>
+    </style>
+
+    <style name="adapter_card_header_text">
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_marginTop">4dp</item>
+    </style>
+
+    <style name="adapter_card_pinned_icon">
+        <item name="android:layout_width">@dimen/pin_icon_size</item>
+        <item name="android:layout_height">@dimen/pin_icon_size</item>
+        <item name="android:contentDescription">@string/icon</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:src">@drawable/ic_pin</item>
+    </style>
+
+    <style name="adapter_card_sub_item" parent="@style/adapter_card_body">
+        <item name="android:background">@drawable/adapter_card_sub_item</item>
+        <item name="android:layout_marginLeft">2dp</item>
+        <item name="android:layout_marginRight">2dp</item>
+    </style>
+
+    <style name="adapter_card_title">
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_alignParentLeft">true</item>
+    </style>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
+    <eat-comment />
+
+    <style name="com_facebook_loginview_default_style" parent="@android:style/Widget.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/com_facebook_button_blue</item>
+        <item name="android:textColor">@color/com_facebook_loginview_text_color</item>
+        <item name="android:textSize">@dimen/com_facebook_loginview_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingLeft">@dimen/com_facebook_loginview_padding_left</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="com_facebook_loginview_silver_style" parent="@android:style/Widget.Button">
+        <item name="android:width">205dp</item>
+        <item name="android:height">44dp</item>
+        <item name="android:background">@drawable/com_facebook_loginbutton_silver</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#4B5164</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/themes.xml -->
+    <eat-comment />
+
+    <style name="text_appearance" parent="android:TextAppearance">
+        <!-- <item name="android:textColor">@android:color/white</item> -->
+    </style>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
+    <eat-comment />
+
+    <style name="tooltip_bubble_text">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:shadowDy">-1</item>
+        <item name="android:shadowRadius">0.25</item>
+        <item name="android:shadowColor">#40000000</item>
+    </style>
+
+</resources>

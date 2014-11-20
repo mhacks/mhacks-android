@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="2" >
+
+    <dataSet config="20.0.0" >
+        <source path="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/assets" />
+    </dataSet>
+    <dataSet config="unspecified" >
+        <source path="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/assets" />
+    </dataSet>
+    <dataSet config="2.4.1" >
+        <source path="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/assets" />
+    </dataSet>
+    <dataSet config="0.3.3" >
+        <source path="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.3.3/assets" />
+    </dataSet>
+    <dataSet config="5.0.89" >
+        <source path="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.89/assets" />
+    </dataSet>
+    <dataSet config="main" >
+        <source path="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/assets" >
+            <file
+                name="ostrich-sans-regular.ttf"
+                path="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/assets/ostrich-sans-regular.ttf" />
+            <file
+                name="ostrich-sans-rounded.ttf"
+                path="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/assets/ostrich-sans-rounded.ttf" />
+        </source>
+    </dataSet>
+    <dataSet config="debug" >
+        <source path="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/debug/assets" />
+    </dataSet>
+
+</merger>

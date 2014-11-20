@@ -43,9 +43,7 @@ public class MHacksApplication extends Application {
         ParseObject.registerSubclass(SponsorTier.class);
 
         Parse.enableLocalDatastore(this);
-        Parse.initialize(this,
-                         getString(R.string.parse_application_id),
-                         getString(R.string.parse_client_key));
+        Parse.initialize(this,getString(R.string.parse_application_id) ,getString(R.string.parse_client_key));
         PushService.setDefaultPushCallback(this, MainActivity.class);
 
         ParseFacebookUtils.initialize(getString(R.string.fb_app_id));
