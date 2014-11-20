@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
 
 import com.mhacks.iv.android.R;
 
@@ -16,6 +17,8 @@ public class ScheduleFragment extends Fragment{
 
     private View mScheduleFragView;
 
+    private CalendarView scheduleCalendarView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -23,7 +26,7 @@ public class ScheduleFragment extends Fragment{
                              Bundle savedInstanceState) {
         mScheduleFragView = inflater.inflate(R.layout.fragment_schedule, container, false);
 
-        //Put code for instantiating views, etc here. (before the return statement.)
+        scheduleCalendarView = (CalendarView) mScheduleFragView.findViewById(R.id.schedule_calendar);
 
         return mScheduleFragView;
     }

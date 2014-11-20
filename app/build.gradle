@@ -87,7 +87,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v4:20+'
+    compile 'com.android.support:support-v4:21.0.0+'
     compile 'com.firebase:firebase-client:1.0.16+'
     compile 'com.google.guava:guava:+'
     compile 'com.squareup.picasso:picasso:2.3.3'

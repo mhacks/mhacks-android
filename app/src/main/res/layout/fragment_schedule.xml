@@ -4,10 +4,17 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--    FOR TESTING ONLY. DELETE THIS TEXT VIEW WHEN DESIGNING YOUR LAYOUT.    -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="ScheduleFragment"/>
+        android:id="@+id/schedule_scroll_view" >
+
+
+        <CalendarView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/schedule_calendar" />
+
+    </ScrollView>
 
 </LinearLayout>

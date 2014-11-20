@@ -53,20 +53,6 @@ public class MainActivity extends FragmentActivity
         super.onRestoreInstanceState(savedInstanceState);
         mShouldSync = savedInstanceState.getBoolean(SHOULD_SYNC, false);
     }
-/*
-    @Override
-    public void onNavigationDrawerItemSelected(NavItem item, Bundle args) {
-        if (args == null) {
-            args = new Bundle();
-        }
-        args.putBoolean(SHOULD_SYNC, mShouldSync);
-        mTitle = item.getTitle();
-        restoreActionBar();
-        item.replace(R.id.container, args);
-        invalidateOptionsMenu();
-        mShouldSync = false;
-    }
-*/
 
     public void restoreActionBar(String title) {
         final ActionBar actionBar = getActionBar();
