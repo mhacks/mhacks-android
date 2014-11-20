@@ -3,6 +3,7 @@ package com.mhacks.android.ui.nav;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,12 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.mhacks.iv.android.R;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 /**
  * Created by Omkar Moghe on 10/25/2014.
@@ -55,6 +62,16 @@ public class AwardsFragment extends Fragment{
         mAwardsFragView = inflater.inflate(R.layout.fragment_awards, container, false);
 
         //Put code for instantiating views, etc here. (before the return statement.)
+
+//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Award");
+//        query.findInBackground(new FindCallback<ParseObject>() {
+//            @Override
+//            public void done(List<ParseObject> awardList, ParseException e) {
+//                if (e == null) {
+//                    ;
+//                }
+//            }
+//        });
 
         CustomGrid adapter = new CustomGrid(mAwardsFragView.getContext(), descriptions, prizes, values, titles);
         GridView gridView = (GridView) mAwardsFragView.findViewById(R.id.gridView);
