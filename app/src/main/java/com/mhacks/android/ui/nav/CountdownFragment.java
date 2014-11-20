@@ -18,11 +18,15 @@ import com.mhacks.iv.android.R;
  * 3) Apply data/time to countdown
  */
 public class CountdownFragment extends Fragment {
+    private View mCountdownFragment;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_countdown, container, false);
+        mCountdownFragment = inflater.inflate(R.layout.fragment_countdown, container, false);
 
-        return view;
+        //Put code here <3
+
+        return mCountdownFragment;
     }
 }
