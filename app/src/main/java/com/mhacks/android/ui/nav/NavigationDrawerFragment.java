@@ -57,17 +57,20 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.nav_drawer_announcements:
+            case R.id.nav_drawer_countdown:
                 setPosition(0);
                 break;
-            case R.id.nav_drawer_schedule:
+            case R.id.nav_drawer_announcements:
                 setPosition(1);
                 break;
-            case R.id.nav_drawer_sponsors:
+            case R.id.nav_drawer_schedule:
                 setPosition(2);
                 break;
-            case R.id.nav_drawer_awards:
+            case R.id.nav_drawer_sponsors:
                 setPosition(3);
+                break;
+            case R.id.nav_drawer_awards:
+                setPosition(4);
                 break;
         }
     }

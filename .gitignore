@@ -1,5 +1,6 @@
 # Local configuration
 local.properties
+gradle.properties
 .git
 .gradle
 .idea
@@ -29,5 +30,7 @@ Thumbs.db
 # Keystore(s)
 *.keystore
 
+
 # MHacks
 app/src/main/java/com/mhacks/android/MHacks.java
+
