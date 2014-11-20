@@ -15,9 +15,8 @@ import java.util.Date;
 public class Announcement extends ParseObject implements Parcelable {
 
     public static final String AUTHOR_COL  = "author";
-    public static final String EVENT_COL   = "event";
     public static final String MESSAGE_COL = "message";
-    public static final String TIME_COL    = "time";
+    public static final String DATE_COL = "date";
     public static final String TITLE_COL   = "title";
 
     public Announcement() {}
@@ -30,14 +29,6 @@ public class Announcement extends ParseObject implements Parcelable {
         put(AUTHOR_COL, sponsor);
     }
 
-    public Event getEvent() {
-        return (Event) getParseObject(EVENT_COL);
-    }
-
-    public void setEvent(Event event) {
-        put(EVENT_COL, event);
-    }
-
     public String getMessage() {
         return getString(MESSAGE_COL);
     }
@@ -46,12 +37,12 @@ public class Announcement extends ParseObject implements Parcelable {
         put(MESSAGE_COL, message);
     }
 
-    public Date getTime() {
-        return getDate(TIME_COL);
+    public Date getDate() {
+        return getDate(DATE_COL);
     }
 
-    public void setTime(Date time) {
-        put(TIME_COL, time);
+    public void setDate(Date time) {
+        put(DATE_COL, time);
     }
 
     public String getTitle() {
@@ -71,10 +62,9 @@ public class Announcement extends ParseObject implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(getObjectId());
+        parcel.writeValue(getDate());
         parcel.writeParcelable(getAuthor(), i);
-        parcel.writeParcelable(getEvent(), i);
         parcel.writeString(getMessage());
-        parcel.writeValue(getTime());
         parcel.writeString(getTitle());
     }
 
@@ -93,9 +83,8 @@ public class Announcement extends ParseObject implements Parcelable {
     private Announcement(Parcel source) {
         setObjectId(source.readString());
         setAuthor((Sponsor) source.readParcelable(Sponsor.class.getClassLoader()));
-        setEvent((Event) source.readParcelable(Event.class.getClassLoader()));
+        setDate((Date) source.readValue(Date.class.getClassLoader()));
         setMessage(source.readString());
-        setTime((Date) source.readValue(Date.class.getClassLoader()));
         setTitle(source.readString());
     }
 }
