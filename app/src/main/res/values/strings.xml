@@ -69,5 +69,6 @@
     <string name="concierge_email">Hey %1$s,</string>
     <string name="tweet_url">https://twitter.com/intent/tweet?text=%1$s</string>
     <string name="log_out">Log Out</string>
+    <string name="refresh">Refresh</string>
 
 </resources>

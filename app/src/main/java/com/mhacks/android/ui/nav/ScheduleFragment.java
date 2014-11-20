@@ -6,14 +6,13 @@ import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
 import android.widget.Toast;
 
 import com.alamkanak.weekview.WeekView;
+import com.mhacks.android.ui.weekview.WeekViewModified;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.iv.android.R;
@@ -31,14 +30,15 @@ import java.util.List;
  * Created by Omkar Moghe on 10/25/2014.
  */
 public class ScheduleFragment extends Fragment implements ActionBar.TabListener,
-                                                          WeekView.EventClickListener,
-                                                          WeekView.EventLongPressListener,
-                                                          WeekView.MonthChangeListener{
+                                                          WeekViewModified.EventClickListener,
+                                                          WeekViewModified.EventLongPressListener,
+                                                          WeekViewModified.MonthChangeListener,
+                                                          WeekView.MonthChangeListener {
 
     public static final String TAG = "ScheduleFragment";
 
     private View      mScheduleFragView;
-    private WeekView  mWeekView;
+    private WeekViewModified  mWeekView;
     private ActionBar actionBar;
 
     private ParseUser mUser;
@@ -68,11 +68,8 @@ public class ScheduleFragment extends Fragment implements ActionBar.TabListener,
         mUser = ParseUser.getCurrentUser();
 
         // Week View set up.
-        mWeekView = (WeekView) mScheduleFragView.findViewById(R.id.week_view);
-        mWeekView.setOnEventClickListener(this);
-        mWeekView.setEventLongPressListener(this);
-        mWeekView.setMonthChangeListener(this);
-        mWeekView.setBackgroundColor(Color.WHITE);
+        mWeekView = (WeekViewModified) mScheduleFragView.findViewById(R.id.week_view);
+        setUpWeekView();
 
         // List of events to be displayed on the WeekView
         finalEvents = new ArrayList<WeekViewEvent>();
@@ -80,6 +77,21 @@ public class ScheduleFragment extends Fragment implements ActionBar.TabListener,
         getEvents();
 
         return mScheduleFragView;
+    }
+
+    private void setUpWeekView() {
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.YEAR, 2015);
+        today.set(Calendar.MONTH, Calendar.JANUARY);
+        today.set(Calendar.DATE, 16);
+        mWeekView.setOnEventClickListener(this);
+        mWeekView.setEventLongPressListener(this);
+        mWeekView.setMonthChangeListener((WeekView.MonthChangeListener) this);
+        mWeekView.setMonthChangeListener((WeekViewModified.MonthChangeListener) this);
+        mWeekView.setBackgroundColor(Color.WHITE);
+        mWeekView.setHorizontalScrollEnabled(false);
+        mWeekView.setToday(today);
+        onMonthChange(2015,1);
     }
 
     @Override
@@ -128,6 +140,7 @@ public class ScheduleFragment extends Fragment implements ActionBar.TabListener,
             startTime.setTime(event.getStartTime());
             //LOL don't look at the id code its sketch.
             long id = (event.getObjectId().charAt(0) + event.getObjectId().charAt(1) + event.getObjectId().charAt(2)) * event.getObjectId().charAt(3);
+            //TODO start time and end time have to be different SWAGGGGG
             WeekViewEvent weekViewEvent = new WeekViewEvent(id, event.getTitle(), startTime, startTime);
             weekViewEvent.setColor(getResources().getColor(R.color.palette_2));
             finalEvents.add(weekViewEvent);
@@ -135,11 +148,11 @@ public class ScheduleFragment extends Fragment implements ActionBar.TabListener,
     }
 
     @Override
-    public void onEventClick(WeekViewEvent weekViewEvent, RectF rectF) {
+    public void onEventClick(WeekViewEvent event, RectF eventRect) {
     }
 
     @Override
-    public void onEventLongPress(WeekViewEvent weekViewEvent, RectF rectF) {
+    public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
     }
 
     @Override
@@ -147,6 +160,4 @@ public class ScheduleFragment extends Fragment implements ActionBar.TabListener,
         getEvents();
         return finalEvents;
     }
-
-
 }

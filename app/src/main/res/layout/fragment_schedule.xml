@@ -9,7 +9,7 @@
         <!--android:layout_height="match_parent"-->
         <!--android:layout_width="match_parent">-->
 
-        <com.alamkanak.weekview.WeekView
+        <com.mhacks.android.ui.weekview.WeekViewModified
             android:id="@+id/week_view"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
