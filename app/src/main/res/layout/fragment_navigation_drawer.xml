@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- TODO MAKE THIS LOOK NOT LIKE SHIT
+<!-- TODO MAKE THIS NOT LOOK LIKE SHIT
 -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,8 +13,10 @@
         android:id="@+id/nav_drawer_countdown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textSize="24sp"
+        android:gravity="center_vertical"
+        android:paddingLeft="6dp"
+        android:paddingStart="6dp"
+        android:drawablePadding="6dp"
         android:text="@string/countdown"/>
 
     <TextView
@@ -22,8 +24,11 @@
         android:id="@+id/nav_drawer_announcements"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textSize="24sp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:gravity="center_vertical"
+        android:paddingLeft="6dp"
+        android:paddingStart="6dp"
+        android:drawablePadding="6dp"
         android:text="@string/announcements"/>
 
     <TextView
@@ -31,8 +36,11 @@
         android:id="@+id/nav_drawer_schedule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textSize="24sp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:gravity="center_vertical"
+        android:paddingLeft="6dp"
+        android:paddingStart="6dp"
+        android:drawablePadding="6dp"
         android:text="@string/schedule"/>
 
     <TextView
@@ -40,8 +48,11 @@
         android:id="@+id/nav_drawer_sponsors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textSize="24sp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:gravity="center_vertical"
+        android:paddingLeft="6dp"
+        android:paddingStart="6dp"
+        android:drawablePadding="6dp"
         android:text="@string/sponsors"/>
 
     <TextView
@@ -49,8 +60,11 @@
         android:id="@+id/nav_drawer_awards"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textSize="24sp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:gravity="center_vertical"
+        android:paddingLeft="6dp"
+        android:paddingStart="6dp"
+        android:drawablePadding="6dp"
         android:text="@string/awards"/>
 
 </LinearLayout>

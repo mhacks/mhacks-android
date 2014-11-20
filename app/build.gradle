@@ -94,6 +94,8 @@ dependencies {
     compile 'com.firebase:firebase-client:1.0.16+'
     compile 'com.google.guava:guava:+'
     compile 'com.squareup.picasso:picasso:2.3.3'
+//  updating the GMS play serivces to 6.1.71 causes a build error. due to something being compiled twice.
+    compile 'com.google.android.gms:play-services:5.0.+'
     compile 'com.google.maps.android:android-maps-utils:0.3+'
     compile 'com.github.alamkanak:android-week-view:1.1.5'
     compile('com.viewpagerindicator:library:2.4.1@aar') {

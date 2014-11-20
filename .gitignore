@@ -30,5 +30,7 @@ Thumbs.db
 # Keystore(s)
 *.keystore
 
-# MHacks Four UI
-# app/src/main/java/com/mhacks/android/ui/*
+
+# MHacks
+app/src/main/java/com/mhacks/android/MHacks.java
+

@@ -8,7 +8,15 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-
+import com.bugsnag.android.Bugsnag;
+import com.mhacks.android.data.model.Announcement;
+import com.mhacks.android.data.model.Award;
+import com.mhacks.android.data.model.CountdownItem;
+import com.mhacks.android.data.model.Event;
+import com.mhacks.android.data.model.EventType;
+import com.mhacks.android.data.model.Location;
+import com.mhacks.android.data.model.Sponsor;
+import com.mhacks.android.data.model.SponsorTier;
 import com.mhacks.android.ui.nav.AnnouncementsFragment;
 import com.mhacks.android.ui.nav.AwardsFragment;
 import com.mhacks.android.ui.nav.CountdownFragment;
@@ -16,6 +24,13 @@ import com.mhacks.android.ui.nav.NavigationDrawerFragment;
 import com.mhacks.android.ui.nav.ScheduleFragment;
 import com.mhacks.android.ui.nav.SponsorsFragment;
 import com.mhacks.iv.android.R;
+import com.parse.Parse;
+import com.parse.ParseBroadcastReceiver;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseObject;
+import com.parse.ParseTwitterUtils;
+import com.parse.ParseUser;
+import com.parse.PushService;
 
 import java.util.Date;
 
@@ -32,6 +47,8 @@ public class MainActivity extends ActionBarActivity
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence             mTitle;
+
+    private ParseUser mUser;
 
     private DrawerLayout mDrawerLayout;
 
@@ -55,6 +72,8 @@ public class MainActivity extends ActionBarActivity
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.navigation_drawer, mNavigationDrawerFragment);
+
+        mUser = ParseUser.getCurrentUser();
 
         setDefaultFragment();
     }
@@ -134,16 +153,4 @@ public class MainActivity extends ActionBarActivity
         fragmentTransaction.commit();
         restoreActionBar("Countdown Timer");
     }
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            getMenuInflater().inflate(R.menu.main, menu);
-            restoreActionBar();
-            return true;
-        }
-        return super.onCreateOptionsMenu(menu);
-    }
-*/
-
 }

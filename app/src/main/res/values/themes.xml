@@ -1,5 +1,4 @@
 <resources>
-
     <style name="AppTheme" parent="AppTheme.Base"/>
 
     <style name="AppTheme.Base" parent="Theme.AppCompat">
@@ -20,14 +19,10 @@
         <!--<item name="android:textColor">@android:color/white</item>-->
     </style>
 
-    <style name="action_bar_style" parent="android:Widget.Holo.ActionBar.Solid">
-        <item name="android:background">@color/darker_charcoal</item>
+    <style name="action_bar_style" parent="android:Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:background">@color/adapter_card_shadow_color</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="MHacksLoginTheme" parent="android:Theme.Holo">
-
     </style>
 
 </resources>
