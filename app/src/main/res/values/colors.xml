@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Material Design Base Colors -->
+    <color name="colorPrimary">@color/white</color>
+    <color name="colorPrimaryDark">@color/dev_purple</color>
+
 
 <!-- Begin JN Basic Colors -->
     <!-- Basic colors, laziness -->

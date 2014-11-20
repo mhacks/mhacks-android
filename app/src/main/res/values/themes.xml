@@ -1,5 +1,14 @@
 <resources>
 
+    <style name="AppTheme" parent="AppTheme.Base"/>
+
+    <style name="AppTheme.Base" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
     <style name="MHacksTheme" parent="android:Theme.Holo">
         <item name="android:actionBarStyle">@style/action_bar_style</item>
         <item name="android:textAppearance">@style/text_appearance</item>
