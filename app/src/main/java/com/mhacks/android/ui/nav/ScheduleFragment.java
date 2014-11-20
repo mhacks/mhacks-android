@@ -89,9 +89,9 @@ public class ScheduleFragment extends Fragment implements ActionBar.TabListener,
         mWeekView.setMonthChangeListener((WeekView.MonthChangeListener) this);
         mWeekView.setMonthChangeListener((WeekViewModified.MonthChangeListener) this);
         mWeekView.setBackgroundColor(Color.WHITE);
-        mWeekView.setHorizontalScrollEnabled(false);
+        //mWeekView.setHorizontalScrollEnabled(false);
         mWeekView.setToday(today);
-        onMonthChange(2015,1);
+        onMonthChange(today.get(Calendar.YEAR), today.get(Calendar.MONTH));
     }
 
     @Override
@@ -127,24 +127,37 @@ public class ScheduleFragment extends Fragment implements ActionBar.TabListener,
                 if (e == null) {
                     events = eventList;
                     createEvents(events);
+                    Toast.makeText(getActivity(), "" + events.size(), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), "No events found.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "No events found.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
     private void createEvents(List<Event> events) {
+        finalEvents.clear();
         for(Event event : events) {
+            //Create start event.
             Calendar startTime = Calendar.getInstance();
             startTime.setTime(event.getStartTime());
+            //Create end event.
+            Calendar endTime = (Calendar) startTime.clone();
+            int hourDuration = event.getDuration() / 3600;      //getDuration returns seconds as an int. Need to convert to hours.
+            int minuteDuration = event.getDuration() % 3600;    //Converting remainder of minutes to int minutes.
+            endTime.set(Calendar.HOUR_OF_DAY, startTime.get(Calendar.HOUR_OF_DAY) + hourDuration);
+            endTime.set(Calendar.MINUTE, startTime.get(Calendar.MINUTE) + minuteDuration);
+
             //LOL don't look at the id code its sketch.
             long id = (event.getObjectId().charAt(0) + event.getObjectId().charAt(1) + event.getObjectId().charAt(2)) * event.getObjectId().charAt(3);
-            //TODO start time and end time have to be different SWAGGGGG
-            WeekViewEvent weekViewEvent = new WeekViewEvent(id, event.getTitle(), startTime, startTime);
-            weekViewEvent.setColor(getResources().getColor(R.color.palette_2));
+
+            //Create a WeekViewEvent using the startTime and endTime
+            WeekViewEvent weekViewEvent = new WeekViewEvent(id, event.getTitle(), startTime, endTime);
+            //TODO get color for the event using event.getColor() and select from the lsit of colors.
+            weekViewEvent.setColor(getResources().getColor(R.color.palette_3));
             finalEvents.add(weekViewEvent);
         }
+        onMonthChange(2015, 1);
     }
 
     @Override
@@ -153,11 +166,11 @@ public class ScheduleFragment extends Fragment implements ActionBar.TabListener,
 
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
+
     }
 
     @Override
     public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-        getEvents();
         return finalEvents;
     }
 }

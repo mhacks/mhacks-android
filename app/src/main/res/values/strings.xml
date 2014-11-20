@@ -69,10 +69,7 @@
     <string name="concierge_email">Hey %1$s,</string>
     <string name="tweet_url">https://twitter.com/intent/tweet?text=%1$s</string>
     <string name="log_out">Log Out</string>
-<<<<<<< HEAD
     <string name="refresh">Refresh</string>
-=======
     <string name="countdown">Countdown Timer</string>
->>>>>>> five-dev
 
 </resources>
