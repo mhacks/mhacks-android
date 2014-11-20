@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 
 import com.mhacks.android.ui.nav.AnnouncementsFragment;
 import com.mhacks.android.ui.nav.AwardsFragment;
+import com.mhacks.android.ui.nav.CountdownFragment;
 import com.mhacks.android.ui.nav.NavigationDrawerFragment;
 import com.mhacks.android.ui.nav.ScheduleFragment;
 import com.mhacks.android.ui.nav.SponsorsFragment;
@@ -46,6 +47,8 @@ public class MainActivity extends FragmentActivity
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.navigation_drawer, mNavigationDrawerFragment);
+
+        setDefaultFragment();
     }
 
     @Override
@@ -76,24 +79,30 @@ public class MainActivity extends FragmentActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         switch (position) {
             case 0:
+                CountdownFragment countdownFragment = new CountdownFragment();
+                fragmentTransaction.replace(R.id.main_container, countdownFragment);
+                fragmentTransaction.commit();
+                restoreActionBar("Countdown Timer");
+                break;
+            case 1:
                 AnnouncementsFragment announcementsFragment = new AnnouncementsFragment();
                 fragmentTransaction.replace(R.id.main_container, announcementsFragment);
                 fragmentTransaction.commit();
                 restoreActionBar("Announcements");
                 break;
-            case 1:
+            case 2:
                 ScheduleFragment scheduleFragment = new ScheduleFragment();
                 fragmentTransaction.replace(R.id.main_container, scheduleFragment);
                 fragmentTransaction.commit();
                 restoreActionBar("Schedule");
                 break;
-            case 2:
+            case 3:
                 SponsorsFragment sponsorsFragment = new SponsorsFragment();
                 fragmentTransaction.replace(R.id.main_container, sponsorsFragment);
                 fragmentTransaction.commit();
                 restoreActionBar("Sponsors");
                 break;
-            case 3:
+            case 4:
                 AwardsFragment awardsFragment = new AwardsFragment();
                 fragmentTransaction.replace(R.id.main_container, awardsFragment);
                 fragmentTransaction.commit();
@@ -104,6 +113,18 @@ public class MainActivity extends FragmentActivity
         if (mDrawerLayout != null){
             mDrawerLayout.closeDrawer(findViewById(R.id.navigation_drawer));
         }
+    }
+
+    /*
+    Sets the default fragment to the CountdownFragment.
+     */
+    public void setDefaultFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        CountdownFragment countdownFragment = new CountdownFragment();
+        fragmentTransaction.replace(R.id.main_container, countdownFragment);
+        fragmentTransaction.commit();
+        restoreActionBar("Countdown Timer");
     }
 /*
     @Override
