@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<EditText xmlns:android="http://schemas.android.com/apk/res/android"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:cursorVisible="true"
-          android:hint="@string/search_hint"
-          android:imeOptions="actionDone"
-          android:inputType="text"/><!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/layout/actionbar_search.xml -->

@@ -143,6 +143,7 @@ public class ScheduleFragment extends Fragment implements ActionBar.TabListener,
             weekViewEvent.setColor(getResources().getColor(R.color.palette_3));
             finalEvents.add(weekViewEvent);
         }
+        onMonthChange(2015, 2);
         onMonthChange(2015, 1);
     }
 

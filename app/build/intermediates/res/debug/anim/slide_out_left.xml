@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<translate
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fromXDelta="0"
-    android:toXDelta="-100%"
-    android:duration="@integer/nav_item_bg_slide_duration"
-    android:interpolator="@android:anim/accelerate_decelerate_interpolator"/><!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/anim/slide_out_left.xml -->
