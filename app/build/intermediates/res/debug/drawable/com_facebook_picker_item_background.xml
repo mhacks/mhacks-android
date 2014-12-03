@@ -29,4 +29,4 @@
           android:drawable="@drawable/com_facebook_picker_list_focused"/>
     <item android:drawable="@android:color/transparent"/>
 </selector>
-<!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/facebook/res/drawable/com_facebook_picker_item_background.xml --><!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/drawable/com_facebook_picker_item_background.xml -->
+<!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/facebook/res/drawable/com_facebook_picker_item_background.xml --><!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/drawable/com_facebook_picker_item_background.xml -->

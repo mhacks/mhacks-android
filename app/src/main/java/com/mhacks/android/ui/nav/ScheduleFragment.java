@@ -39,7 +39,6 @@ public class ScheduleFragment extends Fragment implements ActionBar.TabListener,
 
     private View      mScheduleFragView;
     private WeekViewModified  mWeekView;
-    private ActionBar actionBar;
 
     private ParseUser mUser;
 
@@ -51,19 +50,6 @@ public class ScheduleFragment extends Fragment implements ActionBar.TabListener,
                              ViewGroup container,
                              Bundle savedInstanceState) {
         mScheduleFragView = inflater.inflate(R.layout.fragment_schedule, container, false);
-
-        actionBar = getActivity().getActionBar();
-
-        // Adds tabs to the action bar. Not sure if this is the best way to do that.
-        if (actionBar != null) {
-            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-            if (actionBar.getTabCount() != 3) {
-                actionBar.removeAllTabs();
-                actionBar.addTab(actionBar.newTab().setText("Fri").setTabListener(this));
-                actionBar.addTab(actionBar.newTab().setText("Sat").setTabListener(this));
-                actionBar.addTab(actionBar.newTab().setText("Sun").setTabListener(this));
-            }
-        }
 
         mUser = ParseUser.getCurrentUser();
 

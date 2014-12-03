@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- TODO MAKE THIS LOOK NOT LIKE SHIT
+<!-- TODO MAKE THIS NOT LOOK LIKE SHIT
 -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,11 +10,25 @@
 
     <TextView
         android:layout_marginTop="6dp"
+        android:id="@+id/nav_drawer_countdown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="6dp"
+        android:paddingStart="6dp"
+        android:drawablePadding="6dp"
+        android:text="@string/countdown"/>
+
+    <TextView
+        android:layout_marginTop="6dp"
         android:id="@+id/nav_drawer_announcements"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textSize="24sp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:gravity="center_vertical"
+        android:paddingLeft="6dp"
+        android:paddingStart="6dp"
+        android:drawablePadding="6dp"
         android:text="@string/announcements"/>
 
     <TextView
@@ -22,8 +36,11 @@
         android:id="@+id/nav_drawer_schedule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textSize="24sp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:gravity="center_vertical"
+        android:paddingLeft="6dp"
+        android:paddingStart="6dp"
+        android:drawablePadding="6dp"
         android:text="@string/schedule"/>
 
     <TextView
@@ -31,8 +48,11 @@
         android:id="@+id/nav_drawer_sponsors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textSize="24sp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:gravity="center_vertical"
+        android:paddingLeft="6dp"
+        android:paddingStart="6dp"
+        android:drawablePadding="6dp"
         android:text="@string/sponsors"/>
 
     <TextView
@@ -40,9 +60,12 @@
         android:id="@+id/nav_drawer_awards"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textSize="24sp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:gravity="center_vertical"
+        android:paddingLeft="6dp"
+        android:paddingStart="6dp"
+        android:drawablePadding="6dp"
         android:text="@string/awards"/>
 
 </LinearLayout>
-<!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/layout/fragment_navigation_drawer.xml -->
+<!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/layout/fragment_navigation_drawer.xml -->

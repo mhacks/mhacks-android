@@ -5,4 +5,4 @@
     android:fromYDelta="0"
     android:toYDelta="100%"
     android:duration="@integer/nav_item_bg_slide_duration"
-    android:interpolator="@android:anim/accelerate_decelerate_interpolator"/><!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/anim/slide_out_down.xml -->
+    android:interpolator="@android:anim/accelerate_decelerate_interpolator"/><!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/anim/slide_out_down.xml -->

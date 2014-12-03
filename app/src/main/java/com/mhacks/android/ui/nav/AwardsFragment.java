@@ -100,38 +100,38 @@ public class AwardsFragment extends Fragment{
         return mAwardsFragView;
     }
 
-    private class CustomGrid extends BaseAdapter {
-
-        private Context mContext;
-
-        public CustomGrid(Context c) {
-            mContext = c;
-        }
-
-        @Override
-        public int getCount() {
-            return 0;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View grid;
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            if (convertView == null) {
-                grid = new View(mContext);
-            }
-            grid = inflater.inflate(R.layout.award_grid_item, null);
-        }
-
-    }
+//    private class CustomGrid extends BaseAdapter {
+//
+//        private Context mContext;
+//
+//        public CustomGrid(Context c) {
+//            mContext = c;
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return 0;
+//        }
+//
+//        @Override
+//        public Object getItem(int i) {
+//            return null;
+//        }
+//
+//        @Override
+//        public long getItemId(int i) {
+//            return 0;
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            View grid;
+//            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            if (convertView == null) {
+//                grid = new View(mContext);
+//            }
+//            grid = inflater.inflate(R.layout.award_grid_item, null);
+//        }
+//
+//    }
 }

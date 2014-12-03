@@ -4,10 +4,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--    FOR TESTING ONLY. DELETE THIS TEXT VIEW WHEN DESIGNING YOUR LAYOUT.    -->
-    <TextView
+    <GridView
+        android:padding="5dp"
+        android:numColumns="auto_fit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="AwardsFragment"/>
+        android:id="@+id/gridView"
+        android:layout_gravity="center_horizontal" />
 
-</LinearLayout><!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/layout/fragment_awards.xml -->
+</LinearLayout><!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/layout/fragment_awards.xml -->
