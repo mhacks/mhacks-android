@@ -1,22 +1,17 @@
 package com.mhacks.android.ui;
 
-import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import com.bugsnag.android.Bugsnag;
-import com.mhacks.android.data.model.Announcement;
-import com.mhacks.android.data.model.Award;
-import com.mhacks.android.data.model.CountdownItem;
-import com.mhacks.android.data.model.Event;
-import com.mhacks.android.data.model.EventType;
-import com.mhacks.android.data.model.Location;
-import com.mhacks.android.data.model.Sponsor;
-import com.mhacks.android.data.model.SponsorTier;
+import android.view.Gravity;
+import android.view.MenuItem;
+import android.view.View;
+
 import com.mhacks.android.ui.nav.AnnouncementsFragment;
 import com.mhacks.android.ui.nav.AwardsFragment;
 import com.mhacks.android.ui.nav.CountdownFragment;
@@ -24,13 +19,7 @@ import com.mhacks.android.ui.nav.NavigationDrawerFragment;
 import com.mhacks.android.ui.nav.ScheduleFragment;
 import com.mhacks.android.ui.nav.SponsorsFragment;
 import com.mhacks.iv.android.R;
-import com.parse.Parse;
-import com.parse.ParseBroadcastReceiver;
-import com.parse.ParseFacebookUtils;
-import com.parse.ParseObject;
-import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
-import com.parse.PushService;
 
 import java.util.Date;
 
@@ -50,7 +39,9 @@ public class MainActivity extends ActionBarActivity
 
     private ParseUser mUser;
 
+    private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     private boolean mShouldSync = true;
 
@@ -60,19 +51,26 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
 
         // Add the toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
         }
 
+        // Get the DrawerLayout to set up the drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        // Set a drawerToggle to link the toolbar with the drawer
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                                                mToolbar, R.string.app_name, R.string.app_name);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         //Creating navigation drawer from fragment.
-        mNavigationDrawerFragment = new NavigationDrawerFragment();
+        mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
+        /*
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.navigation_drawer, mNavigationDrawerFragment);
-
+        fragmentTransaction.commit();
+        */
         mUser = ParseUser.getCurrentUser();
 
         setDefaultFragment();
@@ -84,13 +82,16 @@ public class MainActivity extends ActionBarActivity
         mShouldSync = savedInstanceState.getBoolean(SHOULD_SYNC, false);
     }
 
-    public void restoreActionBar(String title) {
+    public void setToolbarTitle(String title) {
+        mToolbar.setTitle(title);
+        /*
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
             actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setTitle(title);
         }
+        */
     }
 
     @Override
@@ -98,48 +99,6 @@ public class MainActivity extends ActionBarActivity
         super.onSaveInstanceState(outState);
         outState.putBoolean(SHOULD_SYNC, mShouldSync);
         outState.putLong(TIME_SAVED, new Date().getTime());
-    }
-
-    @Override
-    public void onNavigationDrawerItemSelected(int position) {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        switch (position) {
-            case 0:
-                CountdownFragment countdownFragment = new CountdownFragment();
-                fragmentTransaction.replace(R.id.main_container, countdownFragment);
-                fragmentTransaction.commit();
-                restoreActionBar("Countdown Timer");
-                break;
-            case 1:
-                AnnouncementsFragment announcementsFragment = new AnnouncementsFragment();
-                fragmentTransaction.replace(R.id.main_container, announcementsFragment);
-                fragmentTransaction.commit();
-                restoreActionBar("Announcements");
-                break;
-            case 2:
-                ScheduleFragment scheduleFragment = new ScheduleFragment();
-                fragmentTransaction.replace(R.id.main_container, scheduleFragment);
-                fragmentTransaction.commit();
-                restoreActionBar("Schedule");
-                break;
-            case 3:
-                SponsorsFragment sponsorsFragment = new SponsorsFragment();
-                fragmentTransaction.replace(R.id.main_container, sponsorsFragment);
-                fragmentTransaction.commit();
-                restoreActionBar("Sponsors");
-                break;
-            case 4:
-                AwardsFragment awardsFragment = new AwardsFragment();
-                fragmentTransaction.replace(R.id.main_container, awardsFragment);
-                fragmentTransaction.commit();
-                restoreActionBar("Awards");
-                break;
-        }
-
-        if (mDrawerLayout != null){
-            mDrawerLayout.closeDrawer(findViewById(R.id.navigation_drawer));
-        }
     }
 
     /*
@@ -151,6 +110,88 @@ public class MainActivity extends ActionBarActivity
         CountdownFragment countdownFragment = new CountdownFragment();
         fragmentTransaction.replace(R.id.main_container, countdownFragment);
         fragmentTransaction.commit();
-        restoreActionBar("Countdown Timer");
+
+        // Set the title of the toolbar to the current page's title
+        setToolbarTitle("Countdown Timer");
+    }
+
+    // After this are functions for the Drawer
+    @Override
+    public void onNavigationDrawerItemSelected(int position) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        switch (position) {
+            case 0:
+                CountdownFragment countdownFragment = new CountdownFragment();
+                fragmentTransaction.replace(R.id.main_container, countdownFragment);
+                fragmentTransaction.commit();
+                setToolbarTitle("Countdown Timer");
+                break;
+            case 1:
+                AnnouncementsFragment announcementsFragment = new AnnouncementsFragment();
+                fragmentTransaction.replace(R.id.main_container, announcementsFragment);
+                fragmentTransaction.commit();
+                setToolbarTitle("Announcements");
+                break;
+            case 2:
+                ScheduleFragment scheduleFragment = new ScheduleFragment();
+                fragmentTransaction.replace(R.id.main_container, scheduleFragment);
+                fragmentTransaction.commit();
+                setToolbarTitle("Schedule");
+                break;
+            case 3:
+                SponsorsFragment sponsorsFragment = new SponsorsFragment();
+                fragmentTransaction.replace(R.id.main_container, sponsorsFragment);
+                fragmentTransaction.commit();
+                setToolbarTitle("Sponsors");
+                break;
+            case 4:
+                AwardsFragment awardsFragment = new AwardsFragment();
+                fragmentTransaction.replace(R.id.main_container, awardsFragment);
+                fragmentTransaction.commit();
+                setToolbarTitle("Awards");
+                break;
+        }
+
+        if (mDrawerLayout != null){
+            mDrawerLayout.closeDrawer(findViewById(R.id.navigation_drawer));
+        }
+    }
+    /*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = new MenuInflater(this);
+        inflater.inflate(R.menu.menu_main,menu);
+        return true;
+    }
+    */
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(mDrawerLayout.isDrawerOpen(Gravity.START|Gravity.LEFT)){
+            mDrawerLayout.closeDrawers();
+            return;
+        }
+        super.onBackPressed();
     }
 }

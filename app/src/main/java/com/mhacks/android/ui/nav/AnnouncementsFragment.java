@@ -115,7 +115,6 @@ public class AnnouncementsFragment extends Fragment{
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            Log.d(TAG, "Setting view: " + position);
             View row;
             ViewHolder holder;
 
