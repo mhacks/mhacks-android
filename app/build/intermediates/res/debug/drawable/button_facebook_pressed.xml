@@ -7,4 +7,4 @@
     <corners android:radius="@dimen/adapter_card_radius"/>
     <solid android:color="@color/com_facebook_blue_pressed"/>
 
-</shape><!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/drawable/button_facebook_pressed.xml -->
+</shape><!-- From: file:/home/jawad/code/android/MHacks-Android/app/src/main/res/drawable/button_facebook_pressed.xml -->

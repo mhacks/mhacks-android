@@ -4,4 +4,4 @@
     <item android:state_pressed="true"
           android:drawable="@drawable/button_facebook_pressed"/>
     <item android:drawable="@drawable/button_facebook_default"/>
-</selector><!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/drawable/button_facebook_selector.xml -->
+</selector><!-- From: file:/home/jawad/code/android/MHacks-Android/app/src/main/res/drawable/button_facebook_selector.xml -->

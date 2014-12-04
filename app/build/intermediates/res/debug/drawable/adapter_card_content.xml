@@ -13,4 +13,4 @@
         android:left="@dimen/adapter_card_padding"
         android:right="@dimen/adapter_card_padding"
         android:top="@dimen/adapter_card_padding"/>
-</shape><!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/drawable/adapter_card_content.xml -->
+</shape><!-- From: file:/home/jawad/code/android/MHacks-Android/app/src/main/res/drawable/adapter_card_content.xml -->

@@ -22,4 +22,4 @@
     <!--item android:state_activated="true" android:color="@color/vpi__bright_foreground_holo_dark"/-->
     <item android:color="@color/vpi__bright_foreground_holo_dark"/> <!-- not selected -->
 </selector>
-<!-- From: file:/home/highlander/Projects/alien/Android-ViewPagerIndicator/library/res/color/vpi__dark_theme.xml --><!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/color/vpi__dark_theme.xml -->
+<!-- From: file:/home/highlander/Projects/alien/Android-ViewPagerIndicator/library/res/color/vpi__dark_theme.xml --><!-- From: file:/home/jawad/code/android/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/color/vpi__dark_theme.xml -->

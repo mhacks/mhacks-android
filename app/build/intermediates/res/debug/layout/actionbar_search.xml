@@ -5,4 +5,4 @@
           android:cursorVisible="true"
           android:hint="@string/search_hint"
           android:imeOptions="actionDone"
-          android:inputType="text"/><!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/layout/actionbar_search.xml -->
+          android:inputType="text"/><!-- From: file:/home/jawad/code/android/MHacks-Android/app/src/main/res/layout/actionbar_search.xml -->

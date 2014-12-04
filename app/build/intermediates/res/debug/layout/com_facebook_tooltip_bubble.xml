@@ -52,4 +52,4 @@
         android:src="@drawable/com_facebook_tooltip_blue_bottomnub"
         />
 </RelativeLayout>
-<!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/facebook/res/layout/com_facebook_tooltip_bubble.xml --><!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/layout/com_facebook_tooltip_bubble.xml -->
+<!-- From: file:/home/jawad/code/android/MHacks-Android/facebook/res/layout/com_facebook_tooltip_bubble.xml --><!-- From: file:/home/jawad/code/android/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/layout/com_facebook_tooltip_bubble.xml -->

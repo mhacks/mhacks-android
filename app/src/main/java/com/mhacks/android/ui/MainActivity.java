@@ -59,18 +59,17 @@ public class MainActivity extends ActionBarActivity
         // Get the DrawerLayout to set up the drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         // Set a drawerToggle to link the toolbar with the drawer
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                                                mToolbar, R.string.app_name, R.string.app_name);
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                mDrawerLayout,
+                mToolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         //Creating navigation drawer from fragment.
         mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
-        /*
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.navigation_drawer, mNavigationDrawerFragment);
-        fragmentTransaction.commit();
-        */
+
         mUser = ParseUser.getCurrentUser();
 
         setDefaultFragment();

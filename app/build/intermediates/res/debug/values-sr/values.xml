@@ -1,33 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
-
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.89/res/values-sr/common_strings.xml -->
-    <eat-comment />
-
-    <string name="common_google_play_services_enable_button" msgid="4181637455539816337">"Омогући Google Play услуге"</string>
-    <string name="common_google_play_services_enable_text" msgid="7627896071867667758">"Ова апликација неће функционисати ако не омогућите Google Play услуге."</string>
-    <string name="common_google_play_services_enable_title" msgid="529078775174559253">"Омогућавање Google Play услуга"</string>
-    <string name="common_google_play_services_error_notification_requested_by_msg" msgid="2443362625939284971">"Захтева <ns1:g id="APP_NAME">%1$s</ns1:g>"</string>
-    <string name="common_google_play_services_install_button" msgid="8515591849428043265">"Преузми Google Play услуге"</string>
-    <string name="common_google_play_services_install_text_phone" msgid="8685301130651051380">"Ова апликација не може да се покрене без Google Play услуга, које недостају на телефону."</string>
-    <string name="common_google_play_services_install_text_tablet" msgid="1589957570365247855">"Ова апликација не може да се покрене без Google Play услуга, које недостају на таблету."</string>
-    <string name="common_google_play_services_install_title" msgid="26645092511305524">"Преузимање Google Play услуга"</string>
-    <string name="common_google_play_services_invalid_account_text" msgid="4983316348021735578">"Наведени налог не постоји на овом уређају. Одаберите други налог."</string>
-    <string name="common_google_play_services_invalid_account_title" msgid="1066672360770936753">"Неважећи налог"</string>
-    <string name="common_google_play_services_needs_enabling_title" msgid="2583358409598976717">"Апликација захтева да Google Play услуге буду омогућене."</string>
-    <string name="common_google_play_services_network_error_text" msgid="9038847255613537209">"За повезивање са Google Play услугама потребна је веза за пренос података."</string>
-    <string name="common_google_play_services_network_error_title" msgid="3827284619958211114">"Грешка на мрежи"</string>
-    <string name="common_google_play_services_notification_needs_installation_title" msgid="8120534356798772974">"Апликација захтева инсталацију Google Play услуга."</string>
-    <string name="common_google_play_services_notification_needs_update_title" msgid="1388129345631079938">"Апликација захтева ажурирање Google Play услуга."</string>
-    <string name="common_google_play_services_notification_ticker" msgid="1852570676146674985">"Грешка Google Play услуга"</string>
-    <string name="common_google_play_services_unknown_issue" msgid="4762332809710093730">"Непознат проблем са Google Play услугама."</string>
-    <string name="common_google_play_services_unsupported_date_text" msgid="4725396522367789365">"Изгледа да су подаци на уређају нетачни. Проверите датум на уређају."</string>
-    <string name="common_google_play_services_unsupported_text" msgid="3542578567569488671">"Google Play услуге, које су потребне за функционисање неких од апликација, нису подржане на уређају. Контактирајте произвођача да бисте добили помоћ."</string>
-    <string name="common_google_play_services_unsupported_title" msgid="6334768798839376943">"Google Play услуге"</string>
-    <string name="common_google_play_services_update_button" msgid="8932944190611227642">"Ажурирај"</string>
-    <string name="common_google_play_services_update_text" msgid="448354684997260580">"Ова апликација не може да се покрене ако не ажурирате Google Play услуге."</string>
-    <string name="common_google_play_services_update_title" msgid="6006316683626838685">"Ажурирање Google Play услуга"</string>
-    <string name="common_signin_button_text" msgid="9071884888741449141">"Пријави ме"</string>
-    <string name="common_signin_button_text_long" msgid="2429381841831957106">"Пријави ме преко Google-а"</string>
-
+<resources>
+    <!-- From: file:/home/jawad/code/android/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values-sr/values.xml -->
+    <eat-comment/>
+    <string msgid="4600421777120114993" name="abc_action_bar_home_description">"Одлазак на Почетну"</string>
+    <string msgid="1397052879051804371" name="abc_action_bar_home_description_format">"%1$s, %2$s"</string>
+    <string msgid="6623331958280229229" name="abc_action_bar_home_subtitle_description_format">"%1$s, %2$s, %3$s"</string>
+    <string msgid="1594238315039666878" name="abc_action_bar_up_description">"Кретање нагоре"</string>
+    <string msgid="3588849162933574182" name="abc_action_menu_overflow_description">"Још опција"</string>
+    <string msgid="4076576682505996667" name="abc_action_mode_done">"Готово"</string>
+    <string msgid="7468859129482906941" name="abc_activity_chooser_view_see_all">"Прикажи све"</string>
+    <string msgid="2031811694353399454" name="abc_activitychooserview_choose_application">"Избор апликације"</string>
+    <string msgid="3691816814315814921" name="abc_searchview_description_clear">"Брисање упита"</string>
+    <string msgid="2550479030709304392" name="abc_searchview_description_query">"Упит за претрагу"</string>
+    <string msgid="8264924765203268293" name="abc_searchview_description_search">"Претрага"</string>
+    <string msgid="8928215447528550784" name="abc_searchview_description_submit">"Слање упита"</string>
+    <string msgid="893419373245838918" name="abc_searchview_description_voice">"Гласовна претрага"</string>
+    <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"Дели са"</string>
+    <string msgid="7165123711973476752" name="abc_shareactionprovider_share_with_application">"Дели са апликацијом %s"</string>
 </resources>

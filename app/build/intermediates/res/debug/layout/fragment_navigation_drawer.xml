@@ -1,48 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- TODO MAKE THIS LOOK NOT LIKE SHIT
--->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/white"
+    >
 
-    <TextView
-        android:layout_marginTop="6dp"
-        android:id="@+id/nav_drawer_announcements"
+    <!-- Container for the navigation buttons -->
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textSize="24sp"
-        android:text="@string/announcements"/>
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        >
 
-    <TextView
-        android:layout_marginTop="6dp"
-        android:id="@+id/nav_drawer_schedule"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textSize="24sp"
-        android:text="@string/schedule"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_navmain"
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    <TextView
-        android:layout_marginTop="6dp"
-        android:id="@+id/nav_drawer_sponsors"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textSize="24sp"
-        android:text="@string/sponsors"/>
+    </LinearLayout>
 
-    <TextView
-        android:layout_marginTop="6dp"
-        android:id="@+id/nav_drawer_awards"
+    <!-- Divider -->
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/margin_divider_topnbottom"
+        android:layout_marginBottom="@dimen/margin_divider_topnbottom"
+        android:layout_marginLeft="@dimen/margin_divider_sides"
+        android:layout_marginRight="@dimen/margin_divider_sides"
+        android:background="@color/gray"/>
+
+    <!-- Container for the side links -->
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textSize="24sp"
-        android:text="@string/awards"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="@dimen/margin_general">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Insert Something, like About"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_nav_subitems"/>
+
+    </LinearLayout>
 
 </LinearLayout>
-<!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/layout/fragment_navigation_drawer.xml -->
+<!-- From: file:/home/jawad/code/android/MHacks-Android/app/src/main/res/layout/fragment_navigation_drawer.xml -->
