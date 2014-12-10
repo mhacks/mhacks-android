@@ -5,11 +5,11 @@
     <shape
         android:innerRadiusRatio="2.5"
         android:shape="ring"
-        android:thickness="10dp">
+        android:thickness="@dimen/countdown_progressbar_thickness">
         <gradient
             android:angle="0"
-            android:endColor="#007DD6"
-            android:startColor="#007DD6"
+            android:endColor="@color/colorPrimaryDark"
+            android:startColor="@color/colorPrimaryDark"
             android:type="sweep"
             android:useLevel="false" />
     </shape>

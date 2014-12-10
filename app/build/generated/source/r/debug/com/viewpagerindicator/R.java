@@ -69,19 +69,19 @@ public final class R {
 		public static final int vpi__light_theme = 0x7f0700a1;
 	}
 	public static final class dimen {
-		public static final int default_circle_indicator_radius = 0x7f090043;
-		public static final int default_circle_indicator_stroke_width = 0x7f090044;
-		public static final int default_line_indicator_gap_width = 0x7f090045;
-		public static final int default_line_indicator_line_width = 0x7f090046;
-		public static final int default_line_indicator_stroke_width = 0x7f090047;
-		public static final int default_title_indicator_clip_padding = 0x7f090048;
-		public static final int default_title_indicator_footer_indicator_height = 0x7f090049;
-		public static final int default_title_indicator_footer_indicator_underline_padding = 0x7f09004a;
-		public static final int default_title_indicator_footer_line_height = 0x7f09004b;
-		public static final int default_title_indicator_footer_padding = 0x7f09004c;
-		public static final int default_title_indicator_text_size = 0x7f09004d;
-		public static final int default_title_indicator_title_padding = 0x7f09004e;
-		public static final int default_title_indicator_top_padding = 0x7f09004f;
+		public static final int default_circle_indicator_radius = 0x7f090044;
+		public static final int default_circle_indicator_stroke_width = 0x7f090045;
+		public static final int default_line_indicator_gap_width = 0x7f090046;
+		public static final int default_line_indicator_line_width = 0x7f090047;
+		public static final int default_line_indicator_stroke_width = 0x7f090048;
+		public static final int default_title_indicator_clip_padding = 0x7f090049;
+		public static final int default_title_indicator_footer_indicator_height = 0x7f09004a;
+		public static final int default_title_indicator_footer_indicator_underline_padding = 0x7f09004b;
+		public static final int default_title_indicator_footer_line_height = 0x7f09004c;
+		public static final int default_title_indicator_footer_padding = 0x7f09004d;
+		public static final int default_title_indicator_text_size = 0x7f09004e;
+		public static final int default_title_indicator_title_padding = 0x7f09004f;
+		public static final int default_title_indicator_top_padding = 0x7f090050;
 	}
 	public static final class drawable {
 		public static final int vpi__tab_indicator = 0x7f0200ae;

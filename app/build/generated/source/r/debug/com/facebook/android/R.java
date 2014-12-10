@@ -43,7 +43,7 @@ public final class R {
 		public static final int com_facebook_loginview_padding_right = 0x7f090038;
 		public static final int com_facebook_loginview_padding_top = 0x7f090039;
 		public static final int com_facebook_loginview_text_size = 0x7f09003a;
-		public static final int com_facebook_picker_divider_width = 0x7f090066;
+		public static final int com_facebook_picker_divider_width = 0x7f090067;
 		public static final int com_facebook_picker_place_image_size = 0x7f09003b;
 		public static final int com_facebook_profilepictureview_preset_size_large = 0x7f09003c;
 		public static final int com_facebook_profilepictureview_preset_size_normal = 0x7f09003d;

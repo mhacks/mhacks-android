@@ -356,6 +356,7 @@
     <dimen name="com_facebook_usersettingsfragment_profile_picture_width">64dp</dimen>
     <!-- From: file:/home/jawad/code/android/MHacks-Android/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
+    <dimen name="countdown_progressbar_thickness">10dp</dimen>
     <dimen name="dave_size">48dp</dimen>
     <!-- From: file:/home/jawad/code/android/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
     <eat-comment/>

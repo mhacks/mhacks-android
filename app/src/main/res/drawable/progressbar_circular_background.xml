@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="ring"
     android:innerRadiusRatio="2.5"
-    android:thickness="10dp"
+    android:thickness="@dimen/countdown_progressbar_thickness"
     android:useLevel="false">
 
     <solid android:color="#CCC" />
