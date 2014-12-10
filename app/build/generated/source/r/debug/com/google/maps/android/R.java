@@ -24,7 +24,7 @@ public final class R {
 	public static final class integer {
 	}
 	public static final class layout {
-		public static final int text_bubble = 0x7f030035;
+		public static final int text_bubble = 0x7f030034;
 	}
 	public static final class string {
 	}

@@ -4,14 +4,16 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.AnnouncementDud;
 import com.mhacks.iv.android.R;
 import com.parse.FindCallback;
@@ -20,6 +22,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,15 +35,15 @@ public class AnnouncementsFragment extends Fragment{
     ArrayList<AnnouncementDud> mAnnouncementsList;
 
     // Caches the listView layout
-    ListView mTestList;
+    RecyclerView mRecyclerView;
     // Adapter for the listView
-    TestListAdapter mTestAdapter;
+    MainNavAdapter mListAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_announcements, container, false);
-        mTestList = (ListView) view.findViewById(R.id.list);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.list_cards);
 
         return view;
     }
@@ -53,23 +56,30 @@ public class AnnouncementsFragment extends Fragment{
         mAnnouncementsList = new ArrayList<AnnouncementDud>();
 
         // Initialize the test ListView
-        initTestList();
+        initList();
 
         // Get Parse data of announcements for the first time
         initParseData();
     }
 
     // Set up the test listView for displaying announcements
-    private void initTestList() {
-        // Set up the adapter
-        mTestAdapter = new TestListAdapter(getActivity());
+    private void initList() {
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
 
-        // Make the listView use the adapter
-        mTestList.setAdapter(mTestAdapter);
+        // use a linear layout manager
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        // Create and set the adapter for this recyclerView
+        mListAdapter = new MainNavAdapter(getActivity());
+        mRecyclerView.setAdapter(mListAdapter);
     }
 
     private void initParseData() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Announcement");
+        query.addDescendingOrder(Announcement.DATE_COL);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -87,69 +97,70 @@ public class AnnouncementsFragment extends Fragment{
     // Update the announcements shown
     private void updateAnnouncements() {
         // Notify the adapter that the data changed
-        mTestAdapter.notifyDataSetChanged();
+        mListAdapter.notifyDataSetChanged();
     }
 
-    private class TestListAdapter extends BaseAdapter {
+    class MainNavAdapter extends RecyclerView.Adapter<MainNavAdapter.ViewHolder> {
         Context mContext;
 
         // Default constructor
-        public TestListAdapter(Context context) {
+        MainNavAdapter(Context context) {
             this.mContext = context;
         }
 
-        @Override
-        public int getCount() {
-            return mAnnouncementsList.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mAnnouncementsList.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View row;
-            ViewHolder holder;
-
-            if(convertView == null) {
-                // Then gotta set up this row for the first time
-                LayoutInflater inflater =
-                        (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                row = inflater.inflate(R.layout.announcement_list_item, parent, false);
-
-                // Create a ViewHolder to save all the different parts of the row
-                holder = new ViewHolder();
-                holder.titleView = (TextView) row.findViewById(R.id.info_text);
-                holder.descriptionView = (TextView) row.findViewById(R.id.info_description);
-
-                // Make the row reuse the ViewHolder
-                row.setTag(holder);
-            }
-            else { // Otherwise, use the recycled view
-                row = convertView;
-                holder = (ViewHolder) row.getTag();
-            }
-
-            // Set the data for this item
-            String title = mAnnouncementsList.get(position).getTitle();
-            String description = mAnnouncementsList.get(position).getMessage();
-            holder.titleView.setText(title);
-            holder.descriptionView.setText(description);
-
-            return row;
-        }
-
-        // Contains the view's objects
-        class ViewHolder {
+        // Simple class that holds all the views that need to be reused
+        class ViewHolder extends RecyclerView.ViewHolder{
             public TextView titleView;
+            public TextView dateView;
             public TextView descriptionView;
+
+            // Default constructor, itemView holds all the views that need to be saved
+            public ViewHolder(View itemView) {
+                super(itemView);
+
+                // Save the TextViews
+                this.titleView = (TextView) itemView.findViewById(R.id.info_title);
+                this.dateView = (TextView) itemView.findViewById(R.id.info_date);
+                this.descriptionView = (TextView) itemView.findViewById(R.id.info_description);
+            }
+        }
+
+        // Create new views (invoked by the layout manager)
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            // Create the view for this row
+            View row = LayoutInflater.from(mContext)
+                    .inflate(R.layout.announcement_list_item, viewGroup, false);
+
+            // Create a new viewHolder which caches all the views that needs to be saved
+            ViewHolder viewHolder = new ViewHolder(row);
+
+            return viewHolder;
+        }
+
+        // Replace the contents of a view (invoked by the layout manager)
+        @Override
+        public void onBindViewHolder(ViewHolder viewHolder, int i) {
+            // - get element from your dataset at this position
+            // - replace the contents of the view with that element
+
+            // Get the current announcement item
+            AnnouncementDud announcement = mAnnouncementsList.get(i);
+
+            // Set this item's views based off of the announcement data
+            viewHolder.titleView.setText(announcement.getTitle());
+            viewHolder.descriptionView.setText(announcement.getMessage());
+
+            // Get the date from this announcement and set it as a relative date
+            Date date = announcement.getDate();
+            CharSequence relativeDate = DateUtils.getRelativeTimeSpanString(date.getTime());
+            viewHolder.dateView.setText(relativeDate);
+        }
+
+        // Return the size of your dataset (invoked by the layout manager)
+        @Override
+        public int getItemCount() {
+            return mAnnouncementsList.size();
         }
     }
 }

@@ -58,7 +58,7 @@ android {
     buildTypes {
         release {
             debuggable false
-            runProguard false
+        //    runProguard false Deprecated with new gradle version
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", "parse_application_id", parse_application_id
             resValue "string", "parse_client_key", parse_client_key
@@ -72,7 +72,7 @@ android {
         }
         debug {
             debuggable true
-            runProguard false
+        //    runProguard false Deprecated with new gradle version
             resValue "string", "parse_application_id", parse_application_id
             resValue "string", "parse_client_key", parse_client_key
             resValue "string", "firebase_url", firebase_url

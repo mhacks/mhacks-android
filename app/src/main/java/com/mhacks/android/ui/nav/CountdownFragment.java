@@ -6,6 +6,9 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ProgressBar;
 
 import com.mhacks.iv.android.R;
 
@@ -18,15 +21,20 @@ import com.mhacks.iv.android.R;
  * 3) Apply data/time to countdown
  */
 public class CountdownFragment extends Fragment {
-    private View mCountdownFragment;
+    private ProgressBar mCircularProgress;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mCountdownFragment = inflater.inflate(R.layout.fragment_countdown, container, false);
+        View view = inflater.inflate(R.layout.fragment_countdown, container, false);
 
-        //Put code here <3
+        mCircularProgress = (ProgressBar) view.findViewById(R.id.progressbar_counter);
 
-        return mCountdownFragment;
+        // Animation testing
+    //    Animation animation = new RotateAnimation(0.0f, 90.0f, 250f, 273f);
+    //    animation.setFillAfter(true);
+    //    mCircularProgress.startAnimation(animation);
+
+        return view;
     }
 }

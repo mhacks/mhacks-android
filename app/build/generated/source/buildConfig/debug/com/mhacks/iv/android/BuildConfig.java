@@ -8,11 +8,6 @@ public final class BuildConfig {
   public static final String APPLICATION_ID = "com.mhacks.iv.android";
   public static final String BUILD_TYPE = "debug";
   public static final String FLAVOR = "";
-  public static final int VERSION_CODE = 1417650625;
+  public static final int VERSION_CODE = 1418253416;
   public static final String VERSION_NAME = "3.0.0";
-  /**
-   * @deprecated Use {@link #APPLICATION_ID}
-   */
-  @Deprecated
-  public static final String PACKAGE_NAME = "com.mhacks.iv.android";
 }

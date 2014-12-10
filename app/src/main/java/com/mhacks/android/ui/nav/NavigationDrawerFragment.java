@@ -13,13 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mhacks.iv.android.R;
 
 /**
  * Created by Omkar Moghe on 10/22/2014.
  */
-public class NavigationDrawerFragment extends Fragment implements View.OnClickListener {
+public class NavigationDrawerFragment extends Fragment {
     private static final String TAG = "MD/NavigationDrawerFragment";
 
     private NavigationDrawerCallbacks mCallbacks;
@@ -47,19 +48,6 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
         // Cache the main nav's RecyclerView
         mMainRecyclerNav = (RecyclerView) mNavDrawerView.findViewById(R.id.list_navmain);
 
-        /*
-        mAnnouncementsTextView =
-                (TextView) mNavDrawerView.findViewById(R.id.nav_drawer_announcements);
-        mScheduleTextView = (TextView) mNavDrawerView.findViewById(R.id.nav_drawer_schedule);
-        mSponsorsTextView = (TextView) mNavDrawerView.findViewById(R.id.nav_drawer_sponsors);
-        mAwardsTextView = (TextView) mNavDrawerView.findViewById(R.id.nav_drawer_awards);
-
-        mAnnouncementsTextView.setOnClickListener(this);
-        mScheduleTextView.setOnClickListener(this);
-        mSponsorsTextView.setOnClickListener(this);
-        mAwardsTextView.setOnClickListener(this);
-
-        */
         return mNavDrawerView;
     }
 
@@ -84,27 +72,6 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
         // Create and set the adapter for this recyclerView
         MainNavAdapter adapter = new MainNavAdapter(getActivity());
         mMainRecyclerNav.setAdapter(adapter);
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.nav_drawer_countdown:
-                setPosition(0);
-                break;
-            case R.id.nav_drawer_announcements:
-                setPosition(1);
-                break;
-            case R.id.nav_drawer_schedule:
-                setPosition(2);
-                break;
-            case R.id.nav_drawer_sponsors:
-                setPosition(3);
-                break;
-            case R.id.nav_drawer_awards:
-                setPosition(4);
-                break;
-        }
     }
 
     @Override
@@ -150,11 +117,15 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
 
         // Simple class that holds all the views that need to be reused
         class ViewHolder extends RecyclerView.ViewHolder{
-            TextView rowTitle;
+            View parentView; // The view which holds all the other views
+            TextView rowTitle; // The title of this item
 
             // Default constructor, itemView holds all the views that need to be saved
             public ViewHolder(View itemView) {
                 super(itemView);
+
+                // Save the entire itemView, for setting listeners and usch later
+                this.parentView = itemView;
 
                 // Save the TextView- all that's supported at the moment
                 this.rowTitle = (TextView) itemView.findViewById(R.id.row_title);
@@ -180,6 +151,20 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
             viewHolder.rowTitle.setText(rowTitles[i]);
+
+            // TODO: Make a better workaround for passing in the position to the listener
+            final int position = i;
+
+
+
+            // Set a listener for this entire view
+            viewHolder.parentView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Set the position of the current navigation
+                    setPosition(position);
+                }
+            });
         }
 
         // Return the size of your dataset (invoked by the layout manager)

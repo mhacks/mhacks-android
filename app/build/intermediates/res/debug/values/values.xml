@@ -393,6 +393,8 @@
     <dimen name="nav_item_icon_size">52dp</dimen>
     <dimen name="navigation_drawer_width">240dp</dimen>
     <dimen name="pin_icon_size">24dp</dimen>
+    <dimen name="text_announcement_date">14sp</dimen>
+    <dimen name="text_announcement_description">16sp</dimen>
     <dimen name="text_announcement_title">20sp</dimen>
     <dimen name="text_nav_main">20sp</dimen>
     <dimen name="text_nav_subitems">14sp</dimen>

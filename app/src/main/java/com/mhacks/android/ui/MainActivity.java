@@ -35,7 +35,6 @@ public class MainActivity extends ActionBarActivity
     public static final String TIME_SAVED  = "time_saved";
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
-    private CharSequence             mTitle;
 
     private ParseUser mUser;
 
@@ -83,14 +82,6 @@ public class MainActivity extends ActionBarActivity
 
     public void setToolbarTitle(String title) {
         mToolbar.setTitle(title);
-        /*
-        final ActionBar actionBar = getActionBar();
-        if (actionBar != null) {
-            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-            actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setTitle(title);
-        }
-        */
     }
 
     @Override
@@ -156,14 +147,6 @@ public class MainActivity extends ActionBarActivity
             mDrawerLayout.closeDrawer(findViewById(R.id.navigation_drawer));
         }
     }
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = new MenuInflater(this);
-        inflater.inflate(R.menu.menu_main,menu);
-        return true;
-    }
-    */
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

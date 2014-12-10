@@ -5,6 +5,18 @@
     android:orientation="vertical"
     >
 
+    <ProgressBar
+        android:id="@+id/progressbar_counter"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:indeterminate="false"
+        android:progressDrawable="@drawable/progressbar_circular_progressdraw"
+        android:background="@drawable/progressbar_circular_background"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:max="100"
+        android:progress="65" />
+
     <TextView
         android:id="@+id/timer"
         android:layout_width="wrap_content"
@@ -12,8 +24,10 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:paddingRight="10dip"
+        android:text="Off"
+        android:textColor="@color/black"
         android:textSize="50dp"
-        android:text="Off"/>
+        />
 
     <Button
         android:id="@+id/button"
