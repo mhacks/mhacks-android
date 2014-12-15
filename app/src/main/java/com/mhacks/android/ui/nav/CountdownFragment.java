@@ -55,7 +55,7 @@ public class CountdownFragment extends Fragment  {
         mCountdownTextView = (TextView) view.findViewById(R.id.timer_text);
 
         // TEST
-        Button button = (Button) view.findViewById(R.id.button);
+/*        Button button = (Button) view.findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +66,7 @@ public class CountdownFragment extends Fragment  {
                 HackingCountdownTimer timer = new HackingCountdownTimer(countdownLength, countdownUpdateIntervals);
                 timer.start();
             }
-        });
+        });*/
 
         return view;
     }
