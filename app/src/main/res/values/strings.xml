@@ -40,6 +40,15 @@
     <string name="chat">Lounge</string>
     <string name="messages">Messages</string>
 
+    <!-- Strings for the countdown page -->
+    <string name="countdown_timer_default">36:00:00</string>
+    <string name="countdown_toptitle_beforestart">Hacking starts</string>
+    <string name="countdown_toptitle_normal">Hacking started</string>
+    <string name="countdown_toptitle_timedefault">Friday, January 16. 2015 at 9:00 PM</string>
+    <string name="countdown_bottomtitle_normal">Hacks must be submitted by</string>
+    <string name="countdown_bottomtitle_done">Hacks were submitted</string>
+    <string name="countdown_bottomtitle_timedefault">Sunday, January 18, 2015 at 9:00 AM</string>
+
     <string name="lorem_award_prize">Over 9000 Pairs of Google Glass</string>
     <string name="announcements_new">New Announcement</string>
     <string name="awards_new">New Award</string>
