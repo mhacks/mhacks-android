@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values-xhdpi-v4/values.xml -->
-    <eat-comment />
-
+    <eat-comment/>
     <dimen name="com_facebook_picker_divider_width">2px</dimen>
-
 </resources>

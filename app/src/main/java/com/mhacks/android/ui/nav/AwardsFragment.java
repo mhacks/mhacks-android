@@ -87,7 +87,7 @@ public class AwardsFragment extends Fragment{
             }
         });
 
-        CustomGrid adapter = new CustomGrid(mAwardsFragView.getContext(), awardList);
+        CustomGrid adapter = new CustomGrid(mAwardsFragView.getContext());
         GridView gridView = (GridView) mAwardsFragView.findViewById(R.id.gridView);
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -131,6 +131,7 @@ public class AwardsFragment extends Fragment{
                 grid = new View(mContext);
             }
             grid = inflater.inflate(R.layout.award_grid_item, null);
+            return grid;
         }
 
     }

@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
-
+<resources>
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values-iw/values.xml -->
+    <eat-comment/>
+    <string msgid="4600421777120114993" name="abc_action_bar_home_description">"נווט לדף הבית"</string>
+    <string msgid="1397052879051804371" name="abc_action_bar_home_description_format">"‏%1$s‏, %2$s"</string>
+    <string msgid="6623331958280229229" name="abc_action_bar_home_subtitle_description_format">"‏%1$s‏, %2$s‏, %3$s"</string>
+    <string msgid="1594238315039666878" name="abc_action_bar_up_description">"נווט למעלה"</string>
+    <string msgid="3588849162933574182" name="abc_action_menu_overflow_description">"עוד אפשרויות"</string>
+    <string msgid="4076576682505996667" name="abc_action_mode_done">"בוצע"</string>
+    <string msgid="7468859129482906941" name="abc_activity_chooser_view_see_all">"ראה הכל"</string>
+    <string msgid="2031811694353399454" name="abc_activitychooserview_choose_application">"בחר אפליקציה"</string>
+    <string msgid="3691816814315814921" name="abc_searchview_description_clear">"מחק שאילתה"</string>
+    <string msgid="2550479030709304392" name="abc_searchview_description_query">"שאילתת חיפוש"</string>
+    <string msgid="8264924765203268293" name="abc_searchview_description_search">"חפש"</string>
+    <string msgid="8928215447528550784" name="abc_searchview_description_submit">"שלח שאילתה"</string>
+    <string msgid="893419373245838918" name="abc_searchview_description_voice">"חיפוש קולי"</string>
+    <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"שתף עם"</string>
+    <string msgid="7165123711973476752" name="abc_shareactionprovider_share_with_application">"‏שתף עם %s"</string>
     <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values-iw/values.xml -->
-    <eat-comment />
-
+    <eat-comment/>
     <string name="com_facebook_choose_friends">בחר חברים</string>
     <string name="com_facebook_dialogloginactivity_ok_button">אישור</string>
     <string name="com_facebook_internet_permission_error_message">ההתחברות לתצוגת אתר דורשת אישור
-        אינטרנט</string>
+        אינטרנט
+    </string>
     <string name="com_facebook_internet_permission_error_title">AndroidManifest שגיאת</string>
     <string name="com_facebook_loading">..מעלה</string>
     <string name="com_facebook_loginview_cancel_action">בטל</string>
@@ -23,45 +39,21 @@
     <string name="com_facebook_placepicker_subtitle_format">%1$s • %2$,d היו פה</string>
     <string name="com_facebook_placepicker_subtitle_were_here_only_format">%1$,d היו פה</string>
     <string name="com_facebook_requesterror_password_changed">.הסיסמה שלך בפייסבוק השתנתה, אנא חבר
-        מחדש את האפליקציה עם פייסבוק</string>
+        מחדש את האפליקציה עם פייסבוק
+    </string>
     <string name="com_facebook_requesterror_permissions">.חיבור האפליקציה עם פייסבוק נכשל בשל הרשאות
-        לא מספקות, אנא הענק הרשאות לאפליקציה בכדי שהפעולה תוכל להתבצע</string>
+        לא מספקות, אנא הענק הרשאות לאפליקציה בכדי שהפעולה תוכל להתבצע
+    </string>
     <string name="com_facebook_requesterror_reconnect">.ארעה שגיאה בעת החיבור עם פייסבוק, חבר בבקשה
-        מחדש את האפליקציה עם פייסבוק</string>
+        מחדש את האפליקציה עם פייסבוק
+    </string>
     <string name="com_facebook_requesterror_relogin">.האפליקציה אינה מחוברת לפייסבוק, אנא היכנס וחבר
-        מחדש את האפליקציה</string>
+        מחדש את האפליקציה
+    </string>
     <string name="com_facebook_requesterror_web_login">.כדי לאפשר מחדש לאפליקציה להתחבר עם פייסבוק
-        https://www.facebook.com או https://m.facebook.com אנא היכנס דרך</string>
+        https://www.facebook.com או https://m.facebook.com אנא היכנס דרך
+    </string>
     <string name="com_facebook_usersettingsfragment_log_in_button">התחבר…</string>
     <string name="com_facebook_usersettingsfragment_logged_in">מחובר</string>
     <string name="com_facebook_usersettingsfragment_not_logged_in">לא מחובר</string>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.89/res/values-iw/common_strings.xml -->
-    <eat-comment />
-
-    <string name="common_google_play_services_enable_button" msgid="4181637455539816337">"‏הפעל את שירותי Google Play"</string>
-    <string name="common_google_play_services_enable_text" msgid="7627896071867667758">"‏אפליקציה זו לא תעבוד אם לא תפעיל את שירותי Google Play."</string>
-    <string name="common_google_play_services_enable_title" msgid="529078775174559253">"‏הפעלת שירותי Google Play"</string>
-    <string name="common_google_play_services_error_notification_requested_by_msg" msgid="2443362625939284971">"התבקשה על ידי <ns1:g id="APP_NAME">%1$s</ns1:g>"</string>
-    <string name="common_google_play_services_install_button" msgid="8515591849428043265">"‏קבל את שירותי Google Play"</string>
-    <string name="common_google_play_services_install_text_phone" msgid="8685301130651051380">"‏אפליקציה זו לא תפעל ללא שירותי Google Play, החסרים בטלפון שלך."</string>
-    <string name="common_google_play_services_install_text_tablet" msgid="1589957570365247855">"‏אפליקציה זו לא תפעל ללא שירותי Google Play, החסרים בטאבלט שלך."</string>
-    <string name="common_google_play_services_install_title" msgid="26645092511305524">"‏קבל את שירותי Google Play"</string>
-    <string name="common_google_play_services_invalid_account_text" msgid="4983316348021735578">"החשבון שצוין לא קיים במכשיר זה. בחר חשבון אחר."</string>
-    <string name="common_google_play_services_invalid_account_title" msgid="1066672360770936753">"חשבון לא חוקי"</string>
-    <string name="common_google_play_services_needs_enabling_title" msgid="2583358409598976717">"‏קיימת אפליקציה המחייבת הפעלה של שירותי Google Play."</string>
-    <string name="common_google_play_services_network_error_text" msgid="9038847255613537209">"‏דרוש חיבור נתונים כדי להתחבר לשירותי Google Play."</string>
-    <string name="common_google_play_services_network_error_title" msgid="3827284619958211114">"שגיאת רשת."</string>
-    <string name="common_google_play_services_notification_needs_installation_title" msgid="8120534356798772974">"‏קיימת אפליקציה המחייבת התקנה של שירותי Google Play."</string>
-    <string name="common_google_play_services_notification_needs_update_title" msgid="1388129345631079938">"‏קיימת אפליקציה המחייבת עדכון עבור שירותי Google Play."</string>
-    <string name="common_google_play_services_notification_ticker" msgid="1852570676146674985">"‏שגיאה בשירותי Google Play"</string>
-    <string name="common_google_play_services_unknown_issue" msgid="4762332809710093730">"‏בעיה לא ידועה בשירותי Google Play."</string>
-    <string name="common_google_play_services_unsupported_date_text" msgid="4725396522367789365">"נראה שהתאריך במכשיר שגוי. בדוק את התאריך במכשיר."</string>
-    <string name="common_google_play_services_unsupported_text" msgid="3542578567569488671">"‏שירותי Google Play, שחלק מהאפליקציות שלך מתבססות עליהם, אינם נתמכים על ידי המכשיר שברשותך. צור קשר עם היצרן לקבלת סיוע."</string>
-    <string name="common_google_play_services_unsupported_title" msgid="6334768798839376943">"‏שירותי Google Play"</string>
-    <string name="common_google_play_services_update_button" msgid="8932944190611227642">"עדכן"</string>
-    <string name="common_google_play_services_update_text" msgid="448354684997260580">"‏אפליקציה זו לא תפעל אם לא תעדכן את שירותי Google Play."</string>
-    <string name="common_google_play_services_update_title" msgid="6006316683626838685">"‏עדכון שירותי Google Play"</string>
-    <string name="common_signin_button_text" msgid="9071884888741449141">"היכנס"</string>
-    <string name="common_signin_button_text_long" msgid="2429381841831957106">"‏היכנס באמצעות Google"</string>
-
 </resources>

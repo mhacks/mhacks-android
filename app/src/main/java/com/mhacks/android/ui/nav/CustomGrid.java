@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.mhacks.android.data.model.Award;
 import com.mhacks.iv.android.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,9 +21,9 @@ import java.util.List;
 public class CustomGrid extends BaseAdapter {
 
     private Context mContext;
-    private List<Award> awardList;
+    private ArrayList<Award> awardList;
 
-    public CustomGrid(Context c, List<Award> awardList) {
+    public CustomGrid(Context c, ArrayList<Award> awardList) {
         mContext = c;
         this.awardList = awardList;
     }
