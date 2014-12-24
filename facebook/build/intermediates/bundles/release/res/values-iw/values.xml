@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/home/jawad/code/android/MHacks-Android/facebook/res/values-iw/strings.xml -->
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/facebook/res/values-iw/strings.xml -->
     <eat-comment/>
     <string name="com_facebook_choose_friends">בחר חברים</string>
     <string name="com_facebook_dialogloginactivity_ok_button">אישור</string>

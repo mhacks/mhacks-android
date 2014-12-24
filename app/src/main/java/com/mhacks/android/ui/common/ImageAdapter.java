@@ -4,12 +4,22 @@ package com.mhacks.android.ui.common;
  * Created by Riyu on 11/12/14.
  */
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.iv.android.R;
 
 import java.lang.reflect.Array;
@@ -17,11 +27,11 @@ import java.util.ArrayList;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<String> url;
+    private ArrayList<Sponsor> url;
 
-    public ImageAdapter(Context c, ArrayList<String> urls) {
+    public ImageAdapter(Context c, ArrayList<Sponsor> urls) {
         mContext = c;
-        url = new ArrayList<String> ();
+        url = new ArrayList<Sponsor> ();
         for (int i = 0; i < urls.size(); ++i){
             url.add(urls.get(i));
         }
@@ -50,7 +60,7 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-        new ImageLoader(mContext).DisplayImage(url.get(position), imageView);
+        new ImageLoader(mContext).DisplayImage((url.get(position).getLogo().getUrl()), imageView);
 
         //imageView.setImageResource(mThumbIds[position]);
         return imageView;

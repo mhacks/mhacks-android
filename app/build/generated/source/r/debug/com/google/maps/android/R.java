@@ -19,12 +19,13 @@ public final class R {
 		public static final int none = 0x7f080003;
 		public static final int normal = 0x7f080000;
 		public static final int text = 0x7f08002c;
-		public static final int wrap_content = 0x7f080014;
 	}
 	public static final class integer {
 	}
 	public static final class layout {
-		public static final int text_bubble = 0x7f030034;
+		public static final int text_bubble = 0x7f030035;
+	}
+	public static final class raw {
 	}
 	public static final class string {
 	}

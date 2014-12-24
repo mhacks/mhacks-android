@@ -33,4 +33,4 @@
             android:name="com.mhacks.android.ui.nav.NavigationDrawerFragment"
             tools:layout="@layout/fragment_navigation_drawer" />
     </android.support.v4.widget.DrawerLayout>
-</LinearLayout><!-- From: file:/home/jawad/code/android/MHacks-Android/app/src/main/res/layout/activity_main.xml -->
+</LinearLayout><!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/layout/activity_main.xml -->

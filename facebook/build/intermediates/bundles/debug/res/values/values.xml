@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/home/jawad/code/android/MHacks-Android/facebook/res/values/styles.xml -->
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/facebook/res/values/styles.xml -->
     <eat-comment/>
     <color name="com_facebook_blue">#3B5998</color>
     <color name="com_facebook_loginview_text_color">#FFFFFF</color>
-    <!-- From: file:/home/jawad/code/android/MHacks-Android/facebook/res/values/colors.xml -->
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/facebook/res/values/colors.xml -->
     <eat-comment/>
     <color name="com_facebook_picker_search_bar_background">#f5f5f7</color>
     <color name="com_facebook_picker_search_bar_text">#bcbdc2</color>
-    <!-- From: file:/home/jawad/code/android/MHacks-Android/facebook/res/values/styles.xml -->
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/facebook/res/values/styles.xml -->
     <eat-comment/>
     <color name="com_facebook_usersettingsfragment_connected_shadow_color">#000000</color>
     <color name="com_facebook_usersettingsfragment_connected_text_color">#FFFFFF</color>
@@ -24,10 +24,10 @@
     <dimen name="com_facebook_loginview_padding_right">16dp</dimen>
     <dimen name="com_facebook_loginview_padding_top">12dp</dimen>
     <dimen name="com_facebook_loginview_text_size">16.0sp</dimen>
-    <!-- From: file:/home/jawad/code/android/MHacks-Android/facebook/res/values/colors.xml -->
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/facebook/res/values/colors.xml -->
     <eat-comment/>
     <dimen name="com_facebook_picker_place_image_size">64dp</dimen>
-    <!-- From: file:/home/jawad/code/android/MHacks-Android/facebook/res/values/styles.xml -->
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/facebook/res/values/styles.xml -->
     <eat-comment/>
     <dimen name="com_facebook_profilepictureview_preset_size_large">180dp</dimen>
     <dimen name="com_facebook_profilepictureview_preset_size_normal">100dp</dimen>
@@ -35,10 +35,10 @@
     <dimen name="com_facebook_tooltip_horizontal_padding">10dp</dimen>
     <dimen name="com_facebook_usersettingsfragment_profile_picture_height">64dp</dimen>
     <dimen name="com_facebook_usersettingsfragment_profile_picture_width">64dp</dimen>
-    <!-- From: file:/home/jawad/code/android/MHacks-Android/facebook/res/values/drawables.xml -->
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/facebook/res/values/drawables.xml -->
     <eat-comment/>
     <drawable name="com_facebook_picker_default_separator_color">#33464c59</drawable>
-    <!-- From: file:/home/jawad/code/android/MHacks-Android/facebook/res/values/strings.xml -->
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/facebook/res/values/strings.xml -->
     <eat-comment/>
     <string name="com_facebook_choose_friends">Choose Friends</string>
     <string name="com_facebook_dialogloginactivity_ok_button">OK</string>
@@ -80,7 +80,7 @@
     <string name="com_facebook_usersettingsfragment_log_in_button">Log in…</string>
     <string name="com_facebook_usersettingsfragment_logged_in">Logged in</string>
     <string name="com_facebook_usersettingsfragment_not_logged_in">Not logged in</string>
-    <!-- From: file:/home/jawad/code/android/MHacks-Android/facebook/res/values/styles.xml -->
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/facebook/res/values/styles.xml -->
     <eat-comment/>
     <style name="com_facebook_loginview_default_style" parent="@android:style/Widget.Button">
         <item name="android:layout_width">wrap_content</item>
