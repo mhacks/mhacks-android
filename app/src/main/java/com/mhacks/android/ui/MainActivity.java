@@ -8,6 +8,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+
 import com.bugsnag.android.Bugsnag;
 import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.Award;
@@ -32,6 +35,7 @@ import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.parse.PushService;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -54,6 +58,13 @@ public class MainActivity extends ActionBarActivity
 
     private boolean mShouldSync = true;
 
+    //Fragments
+    private CountdownFragment countdownFragment;
+    private AnnouncementsFragment announcementsFragment;
+    private ScheduleFragment scheduleFragment;
+    private SponsorsFragment sponsorsFragment;
+    private AwardsFragment awardsFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +85,13 @@ public class MainActivity extends ActionBarActivity
         fragmentTransaction.add(R.id.navigation_drawer, mNavigationDrawerFragment);
 
         mUser = ParseUser.getCurrentUser();
+
+        //Instantiate fragments
+        countdownFragment = new CountdownFragment();
+        announcementsFragment = new AnnouncementsFragment();
+        scheduleFragment = new ScheduleFragment();
+        sponsorsFragment = new SponsorsFragment();
+        awardsFragment = new AwardsFragment();
 
         setDefaultFragment();
     }
@@ -106,31 +124,26 @@ public class MainActivity extends ActionBarActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         switch (position) {
             case 0:
-                CountdownFragment countdownFragment = new CountdownFragment();
                 fragmentTransaction.replace(R.id.main_container, countdownFragment);
                 fragmentTransaction.commit();
                 restoreActionBar("Countdown Timer");
                 break;
             case 1:
-                AnnouncementsFragment announcementsFragment = new AnnouncementsFragment();
                 fragmentTransaction.replace(R.id.main_container, announcementsFragment);
                 fragmentTransaction.commit();
                 restoreActionBar("Announcements");
                 break;
             case 2:
-                ScheduleFragment scheduleFragment = new ScheduleFragment();
                 fragmentTransaction.replace(R.id.main_container, scheduleFragment);
                 fragmentTransaction.commit();
                 restoreActionBar("Schedule");
                 break;
             case 3:
-                SponsorsFragment sponsorsFragment = new SponsorsFragment();
                 fragmentTransaction.replace(R.id.main_container, sponsorsFragment);
                 fragmentTransaction.commit();
                 restoreActionBar("Sponsors");
                 break;
             case 4:
-                AwardsFragment awardsFragment = new AwardsFragment();
                 fragmentTransaction.replace(R.id.main_container, awardsFragment);
                 fragmentTransaction.commit();
                 restoreActionBar("Awards");

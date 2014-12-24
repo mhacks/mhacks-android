@@ -39,7 +39,7 @@ import java.util.List;
  * Created by Raquib-ul-Alam Kanak on 7/21/2014.
  * Website: http://april-shower.com
  */
-public class WeekViewModified extends WeekView {
+public class WeekViewModified extends View {
 
     public static final int LENGTH_SHORT = 1;
     public static final int LENGTH_LONG = 2;
