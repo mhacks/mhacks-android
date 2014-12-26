@@ -166,4 +166,8 @@ public class MainActivity extends ActionBarActivity
         fragmentTransaction.commit();
         restoreActionBar("Countdown Timer");
     }
+
+    public void scheduleFragmentClick(View v) {
+        scheduleFragment.scheduleFragmentClick(v);
+    }
 }

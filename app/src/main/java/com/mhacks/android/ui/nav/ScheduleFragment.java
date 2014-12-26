@@ -1,6 +1,8 @@
 package com.mhacks.android.ui.nav;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
@@ -45,6 +47,9 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
     private List<Event> finalEvents;
 
     private boolean firstRun = true;
+    private boolean eventDetailsOpen = false;
+
+    private EventDetailsFragment eventDetailsFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -89,7 +94,8 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         mWeekView.setDayBackgroundColor(getResources().getColor(R.color.day_bg_color));
         mWeekView.setTodayBackgroundColor(getResources().getColor(R.color.today_bg_color));
         mWeekView.setHeaderColumnBackgroundColor(Color.BLACK);
-
+        //Prevent scrolling.
+        mWeekView.setHorizontalScrollEnabled(false);
         //Add the view to the LinearLayout
         mScheduleContainer.addView(mWeekView);
     }
@@ -148,13 +154,21 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-        Toast.makeText(getActivity(), event.getName() + " - " + event.getId(), Toast.LENGTH_SHORT).show();
+        if (!eventDetailsOpen) {
+            eventDetailsFragment =
+                    EventDetailsFragment.newInstance(finalEvents.get((int) event.getId()));
+            getActivity().getFragmentManager()
+                         .beginTransaction()
+                         .add(R.id.drawer_layout, eventDetailsFragment)
+                         .addToBackStack(null)
+                         .commit();
+            eventDetailsOpen = true;
+        }
     }
 
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
     }
-
 
     @Override
     public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
@@ -164,6 +178,15 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
             return finalWeekViewEvents;
         } else {
             return new ArrayList<WeekViewEvent>();
+        }
+    }
+
+    public void scheduleFragmentClick(View v) {
+        switch (v.getId()) {
+            case R.id.event_close_button:
+                getActivity().getFragmentManager().beginTransaction().remove(eventDetailsFragment).commit();
+                eventDetailsOpen = false;
+                break;
         }
     }
 }
