@@ -26,16 +26,26 @@ import java.util.List;
 
 /**
  * Created by Omkar Moghe on 12/25/2014.
+ *
+ * Uses and Event object to create a detailed view with all the info about the event.
+ * Called from the WeekView's onEventClicked listener.
  */
 public class EventDetailsFragment extends Fragment {
 
     private static final String TAG = "EventDetailsFragment";
 
+    //Decalre Views.
     private View mEventDetailsFragView;
 
     private TextView eventTitle, eventTime, eventLocation, eventDescription, eventHost;
-    private View colorBlock;
+    private View colorBlock; //Header color. Matches color of event in calendar.
 
+    /**
+     * Creates a new instance of the EventDetailsFragment.
+     * @param event Event to display in detailed view.
+     * @param color Color of the event.
+     * @return An EventDetailsFragment with the passed Event and color.
+     */
     public static EventDetailsFragment newInstance(Event event, int color) {
         EventDetailsFragment f = new EventDetailsFragment();
 
@@ -47,10 +57,18 @@ public class EventDetailsFragment extends Fragment {
         return f;
     }
 
+    /**
+     * Returns the Event for this EventDetailsView.
+     * @return Event that was passed in when newInstance() was called.
+     */
     public Event getEvent () {
         return getArguments().getParcelable("event");
     }
 
+    /**
+     * Returns the color used to draw this event.
+     * @return Color of the event.
+     */
     public int getColor () {
         return getArguments().getInt("color");
     }
@@ -73,11 +91,15 @@ public class EventDetailsFragment extends Fragment {
         colorBlock = mEventDetailsFragView.findViewById(R.id.header_color_block);
         colorBlock.setBackgroundColor(getColor());
 
+        //Add correct details to the details view.
         setEventDetails();
 
         return mEventDetailsFragView;
     }
 
+    /**
+     * Method to use the Event object to populate the view using the appropriate info.
+     */
     public void setEventDetails() {
         Event event = getEvent();
 
@@ -86,13 +108,21 @@ public class EventDetailsFragment extends Fragment {
         //TODO get locations and display the location.
         eventDescription.setText(event.getDetails());
 
-        //Null pointer check for Sponsor.
+        //Null pointer check for Sponsor. Null Sponsor == The MHacks Team is hosting the event.
         if (event.getHost() != null)
             eventHost.setText(event.getHost().getName());
         else
             eventHost.setText("The MHacks Team <3");
     }
 
+    /**
+     * Takes the raw Date.toString() string and formats it into a more common format.
+     * Before:  Sun Jan 18 05:00:00 PST 2015
+     * After:   Sun, Jan 18, 2015
+     *          05:00:00
+     * @param rawDate String to formate into a more readable date.
+     * @return Readable string from Date.toString().
+     */
     public String formatDate (String rawDate) {
         String finalDate;
         String[] splitString = rawDate.split(" ");

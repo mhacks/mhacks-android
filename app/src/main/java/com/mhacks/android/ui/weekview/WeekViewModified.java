@@ -926,7 +926,7 @@ public class WeekViewModified extends View {
         invalidate();
     }
 
-    public int getHeaderRowPadding() {
+public int getHeaderRowPadding() {
         return mHeaderRowPadding;
     }
 

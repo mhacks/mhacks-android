@@ -26,6 +26,9 @@ import java.util.List;
 
 /**
  * Created by Omkar Moghe on 10/25/2014.
+ *
+ * Builds schedule with events pulled from the Parse database. Uses the EventDetailsFragment to
+ * create event details.
  */
 public class ScheduleFragment extends Fragment implements WeekViewModified.EventClickListener,
                                                           WeekViewModified.EventLongPressListener,
@@ -33,18 +36,23 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
 
     public static final String TAG = "ScheduleFragment";
 
+    //Declaring Views
     private View             mScheduleFragView;
     private WeekViewModified mWeekView;
     private LinearLayout mScheduleContainer;
 
+    //Parse user
     private ParseUser mUser;
 
+    /*Calendar view uses WeekViewEvent objects to build the calendar. WeekViewEvent objects built
+    using Event (ParseObject) pulled from the Parse database.*/
     private List<WeekViewEvent> finalWeekViewEvents;
     private List<Event> finalEvents;
 
-    private boolean firstRun = true;
-    private boolean eventDetailsOpen = false;
+    private boolean firstRun = true; //Sets up the WeekView on the initial start.
+    private boolean eventDetailsOpen = false; //Prevents multiple EventDetailFragments from opening.
 
+    //Declares the EventDetailsFragment
     private EventDetailsFragment eventDetailsFragment;
 
     @Override
@@ -55,11 +63,17 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
 
         mUser = ParseUser.getCurrentUser();
 
-        getEvents(Calendar.JANUARY);
+        //Called initially to build the schedule view and query events. 1 == January.
+        getEvents(1);
 
         return mScheduleFragView;
     }
 
+    /**
+     * Builds the calendar using the WeekViewModified class. Adds the view to the LinearLayout
+     * mScheduleContainer. Done programmatically to prevent the WeekView from being created before
+     * the Event query is finished. (Causes NullPointerException).
+     */
     private void setUpWeekView() {
         //Instantiate LinearLayout
         mScheduleContainer = (LinearLayout) mScheduleFragView.findViewById(R.id.schedule_container);
@@ -96,17 +110,19 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         mScheduleContainer.addView(mWeekView);
     }
 
-    /*
-    Queries events from Parse and assigns the list to the global List<Event> events.
+    /**
+     * Queries Event objects from Parse and assigns the list to the global List<Event> events.
+     * @param newMonth Month for which to get events.
      */
     public void getEvents(final int newMonth) {
         ParseQuery<Event> query = ParseQuery.getQuery("Event");
-        query.include("category");
-        query.include("host");
-        query.include("location");
+        query.include("category"); //Pulls EventType object.
+        query.include("host"); //Pulls Sponsor object.
+        query.include("location"); //Pulls Location JSON array.
         query.findInBackground(new FindCallback<Event>() {
             public void done(List<Event> eventList, ParseException e) {
                 if (e == null) {
+                    //Calls create events to build WeekViewEvent objects from Event objects.
                     createEvents(eventList, newMonth);
                 } else {
                     Toast.makeText(getActivity(), "No events found.", Toast.LENGTH_SHORT).show();
@@ -115,12 +131,20 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         });
     }
 
+    /**
+     * Uses a list of Event objects to build WeekViewEvent objects that the WeekView uses to draw
+     * the calendar.
+     * @param eventList List of Event objects
+     * @param newMonth Month for which to get events.
+     */
     public void createEvents(List<Event> eventList, int newMonth) {
         finalWeekViewEvents = new ArrayList<WeekViewEvent>();
         finalEvents = new ArrayList<Event>(eventList);
 
         //Id for the events. Doubles as the position of the event in both lists.
         long id = 0;
+
+        //For each loop that builds WeekViewEvent objects from each Event object.
         for(Event event : eventList) {
             //Create start event.
             Calendar startTime = Calendar.getInstance();
@@ -133,23 +157,23 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
             endTime.add(Calendar.HOUR, hourDuration);
             endTime.add(Calendar.MINUTE, minuteDuration);
 
-            //Set color based on EventType (Category). TODO figure out colors.
+            //Set color based on EventType (Category).
             int color;
             switch (event.getCategory().getColor()) {
-                case 0:
+                case 0: //Tech Talk
                     color = getResources().getColor(R.color.dev_orange);
                     break;
-                case 1:
+                case 1: //Special Event
                     color = getResources().getColor(R.color.dev_blue);
                     break;
-                case 2:
+                case 2: //Food
                     color = getResources().getColor(R.color.dev_green);
                     break;
                 case 3:
                     color = getResources().getColor(R.color.dev_red);
                     break;
                 default:
-                    color = getResources().getColor(R.color.palette_3);
+                    color = getResources().getColor(R.color.dev_purple);
             }
 
             //Create a WeekViewEvent
@@ -177,8 +201,9 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
             getActivity().getFragmentManager()
                          .beginTransaction()
                          .add(R.id.drawer_layout, eventDetailsFragment)
-                         .addToBackStack(null)
+                         .addToBackStack(null) //IMPORTANT. Allows the EventDetailsFragment to be closed.
                          .commit();
+            //Prevents other events from being clicked while one event's details are being shown.
             eventDetailsOpen = true;
         }
     }
@@ -189,17 +214,29 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
 
     @Override
     public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
+        /*Checks to see if the month being called is January (1). Not the best way to handle it but
+        it works for this case since we only care about 3 days (Jan 16-18, 2015).*/
         if (newMonth == 1) {
             getEvents(newMonth);
             return finalWeekViewEvents;
         } else {
+            /*onMonthChange is called 3 times by the view when it is created. This results in
+            duplicate events being created. Thus, I return an empty ArrayList of WeekViewEvent
+             objects if the month is not 1 (January).*/
             return new ArrayList<WeekViewEvent>();
         }
     }
 
+    /**
+     * Gets clicked view in the ScheduleFragment and the EventDetailsFragment and handles them
+     * appropriately.
+     * @param v View that was clicked
+     */
     public void scheduleFragmentClick(View v) {
+        //Swtich the id of the clicked view.
         switch (v.getId()) {
             case R.id.event_close_button:
+                //Close the EventDetailsFragment
                 getActivity().getFragmentManager().beginTransaction().remove(eventDetailsFragment).commit();
                 eventDetailsOpen = false;
                 break;
