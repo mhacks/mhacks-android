@@ -1,19 +1,15 @@
 package com.mhacks.android.ui.nav;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.ui.weekview.WeekViewModified;
@@ -105,6 +101,9 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
      */
     public void getEvents(final int newMonth) {
         ParseQuery<Event> query = ParseQuery.getQuery("Event");
+        query.include("category");
+        query.include("host");
+        query.include("location");
         query.findInBackground(new FindCallback<Event>() {
             public void done(List<Event> eventList, ParseException e) {
                 if (e == null) {
@@ -134,10 +133,28 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
             endTime.add(Calendar.HOUR, hourDuration);
             endTime.add(Calendar.MINUTE, minuteDuration);
 
-            //Create a WeekViewEvent using the startTime and endTime
+            //Set color based on EventType (Category). TODO figure out colors.
+            int color;
+            switch (event.getCategory().getColor()) {
+                case 0:
+                    color = getResources().getColor(R.color.dev_orange);
+                    break;
+                case 1:
+                    color = getResources().getColor(R.color.dev_blue);
+                    break;
+                case 2:
+                    color = getResources().getColor(R.color.dev_green);
+                    break;
+                case 3:
+                    color = getResources().getColor(R.color.dev_red);
+                    break;
+                default:
+                    color = getResources().getColor(R.color.palette_3);
+            }
+
+            //Create a WeekViewEvent
             WeekViewEvent weekViewEvent = new WeekViewEvent(id, event.getTitle(), startTime, endTime);
-            //TODO get color for the event using event.getColor() and select from the list of colors.
-            weekViewEvent.setColor(getResources().getColor(R.color.palette_3));
+            weekViewEvent.setColor(color);
 
             //Add the WeekViewEvent to the list.
             finalWeekViewEvents.add(weekViewEvent);
@@ -156,7 +173,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
         if (!eventDetailsOpen) {
             eventDetailsFragment =
-                    EventDetailsFragment.newInstance(finalEvents.get((int) event.getId()));
+                    EventDetailsFragment.newInstance(finalEvents.get((int) event.getId()), event.getColor());
             getActivity().getFragmentManager()
                          .beginTransaction()
                          .add(R.id.drawer_layout, eventDetailsFragment)
@@ -172,7 +189,6 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
 
     @Override
     public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-        Log.d(TAG, finalWeekViewEvents.size() + " events" + newMonth);
         if (newMonth == 1) {
             getEvents(newMonth);
             return finalWeekViewEvents;
