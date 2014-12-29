@@ -21,11 +21,8 @@ If you plan on building this project for release, you'll need to add a `signingC
 
 Credits
 -----
-
-As of this writing, this project shares much of its code base with the [Creators Co-Op Android App](https://github.com/CreatorsCoop/Creators-Android "Creators-Android"), since they require many of the same core features.
-
-We would also like to thank the maintainers of the following:
-
+We would like to thank the maintainers of the following:
+- [Alam Kanak's AndroidWeekView Library](https://github.com/alamkanak/Android-Week-View "AndroidWeekView")
 - [Square's Picasso Image Library](http://square.github.io/picasso/ "Picasso")
 - [Guava Google Core Libraries](https://code.google.com/p/guava-libraries/ "guava-libraries")
 - [Firebase Android Library](https://www.firebase.com/docs/android/quickstart.html "Firebase Android Quick Start")
