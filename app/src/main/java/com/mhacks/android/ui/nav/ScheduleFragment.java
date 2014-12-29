@@ -272,6 +272,9 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
                 getActivity().getFragmentManager().beginTransaction().remove(eventDetailsFragment).commit();
                 eventDetailsOpen = false;
                 break;
+            case R.id.refresh_button:
+                refreshEvents();
+                break;
         }
     }
 
@@ -280,13 +283,18 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
      * @return true if the app has internet access, false if not.
      */
     public boolean checkInternet() {
-        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni == null) {
-            // There are no active networks.
-            return false;
-        } else
-            return true;
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return !(networkInfo == null);
+    }
 
+    /**
+     * Refresh all the events from the Parse database and call the onMonthChange listener to
+     * re-draw the new events on the calendar.
+     */
+    public void refreshEvents () {
+        mScheduleContainer.removeView(mWeekView);
+        firstRun = true;
+        getEvents(1);
     }
 }

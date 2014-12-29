@@ -122,7 +122,7 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        
+
         switch (position) {
             case 0:
                 countdownFragment = new CountdownFragment();

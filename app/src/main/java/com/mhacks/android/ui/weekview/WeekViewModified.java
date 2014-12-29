@@ -1230,6 +1230,13 @@ public int getHeaderRowPadding() {
     }
 
     /**
+     * Removes all events from the calendar.
+     */
+    public void clearCalendar () {
+        mEventRects.clear();
+    }
+
+    /**
      * Gets today as a Calendar object.
      * @return Calendar mToday
      */

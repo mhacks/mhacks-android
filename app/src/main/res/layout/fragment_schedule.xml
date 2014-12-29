@@ -10,4 +10,8 @@
     android:animateLayoutChanges="true"
     android:background="@color/white">
 
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:onClick="scheduleFragmentClick"
+        android:id="@+id/refresh_button"/>
+
 </LinearLayout>
