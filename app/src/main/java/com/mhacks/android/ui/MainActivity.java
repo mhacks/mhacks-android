@@ -122,28 +122,34 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        
         switch (position) {
             case 0:
+                countdownFragment = new CountdownFragment();
                 fragmentTransaction.replace(R.id.main_container, countdownFragment);
                 fragmentTransaction.commit();
                 restoreActionBar("Countdown Timer");
                 break;
             case 1:
+                announcementsFragment = new AnnouncementsFragment();
                 fragmentTransaction.replace(R.id.main_container, announcementsFragment);
                 fragmentTransaction.commit();
                 restoreActionBar("Announcements");
                 break;
             case 2:
+                scheduleFragment = new ScheduleFragment();
                 fragmentTransaction.replace(R.id.main_container, scheduleFragment);
                 fragmentTransaction.commit();
                 restoreActionBar("Schedule");
                 break;
             case 3:
+                sponsorsFragment = new SponsorsFragment();
                 fragmentTransaction.replace(R.id.main_container, sponsorsFragment);
                 fragmentTransaction.commit();
                 restoreActionBar("Sponsors");
                 break;
             case 4:
+                awardsFragment = new AwardsFragment();
                 fragmentTransaction.replace(R.id.main_container, awardsFragment);
                 fragmentTransaction.commit();
                 restoreActionBar("Awards");
@@ -155,8 +161,8 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
-    /*
-    Sets the default fragment to the CountdownFragment.
+    /**
+     * Sets the default fragment to the CountdownFragment.
      */
     public void setDefaultFragment() {
         FragmentManager fragmentManager = getFragmentManager();
@@ -167,6 +173,10 @@ public class MainActivity extends ActionBarActivity
         restoreActionBar("Countdown Timer");
     }
 
+    /**
+     * Handles all the clicks for the ScheduleFragment and it's fragments.
+     * @param v clicked View
+     */
     public void scheduleFragmentClick(View v) {
         scheduleFragment.scheduleFragmentClick(v);
     }
