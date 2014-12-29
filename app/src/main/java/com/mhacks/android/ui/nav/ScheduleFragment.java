@@ -1,8 +1,15 @@
 package com.mhacks.android.ui.nav;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.RectF;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +26,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -56,15 +64,39 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
     private EventDetailsFragment eventDetailsFragment;
 
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater,
+                             final ViewGroup container,
                              Bundle savedInstanceState) {
         mScheduleFragView = inflater.inflate(R.layout.fragment_schedule, container, false);
 
         mUser = ParseUser.getCurrentUser();
 
-        //Called initially to build the schedule view and query events. 1 == January.
-        getEvents(1);
+        //Network connection check.
+        if (checkInternet()) {
+            getEvents(1); //Called initially to build the schedule view and query events. 1 == January.
+        } else {
+            new DialogFragment() {
+                @Override
+                public Dialog onCreateDialog(final Bundle savedInstanceState) {
+                    // Use the Builder class for convenient dialog construction
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage(R.string.no_internet_message)
+                           .setPositiveButton(R.string.no_internet_button,
+                                              new DialogInterface.OnClickListener() {
+                                                  public void onClick(DialogInterface dialog,
+                                                                      int id) {
+                                                      getActivity().getFragmentManager()
+                                                                   .beginTransaction()
+                                                                   .replace(R.id.main_container,
+                                                                            new ScheduleFragment())
+                                                                   .commit();
+                                                  }
+                                              });
+                    // Create the AlertDialog object and return it
+                    return builder.create();
+                }
+            }.show(getFragmentManager(), "No internet");
+        }
 
         return mScheduleFragView;
     }
@@ -201,8 +233,8 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
             getActivity().getFragmentManager()
                          .beginTransaction()
                          .add(R.id.drawer_layout, eventDetailsFragment)
-                         .addToBackStack(null) //IMPORTANT. Allows the EventDetailsFragment to be closed.
-                         .commit();
+                    .addToBackStack(null) //IMPORTANT. Allows the EventDetailsFragment to be closed.
+                    .commit();
             //Prevents other events from being clicked while one event's details are being shown.
             eventDetailsOpen = true;
         }
@@ -241,5 +273,20 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
                 eventDetailsOpen = false;
                 break;
         }
+    }
+
+    /**
+     * Check to see if the app has internet access.
+     * @return true if the app has internet access, false if not.
+     */
+    public boolean checkInternet() {
+        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni == null) {
+            // There are no active networks.
+            return false;
+        } else
+            return true;
+
     }
 }

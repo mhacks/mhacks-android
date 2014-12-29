@@ -22,6 +22,7 @@ import com.parse.ParseQuery;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -102,10 +103,11 @@ public class EventDetailsFragment extends Fragment {
      */
     public void setEventDetails() {
         Event event = getEvent();
+        ArrayList<Location> locations = getLocations(event);
 
         eventTitle.setText(event.getTitle());
         eventTime.setText(formatDate(event.getStartTime().toString()));
-        //TODO get locations and display the location.
+        eventLocation.setText(locations.get(0).getName());
         eventDescription.setText(event.getDetails());
 
         //Null pointer check for Sponsor. Null Sponsor == The MHacks Team is hosting the event.
@@ -130,5 +132,30 @@ public class EventDetailsFragment extends Fragment {
                     + splitString[5] + "\n" + splitString[3];
 
         return finalDate;
+    }
+
+    /**
+     * Gets all the locations for a given Event based on the objectId's of the location.
+     * @param event Event object for which locations are to be queried.
+     * @return ArrayList of Location objects for the given Event.
+     */
+    public ArrayList<Location> getLocations (Event event) {
+        JSONArray JSONlocations = event.getLocations(); //Locations stored in Parse as a JSON array.
+        ArrayList<Location> locations = new ArrayList<>(); //Array list to be returned.
+        try { //JSON Exception
+            for (int i = 0; i < JSONlocations.length(); i++) {
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Location");
+                try { //ParseException
+                    //Using query.get() instead of getInBackground() to force each query before moving on.
+                    locations.add((Location) query.get(JSONlocations.getJSONObject(i).getString("objectId")));
+                } catch (ParseException p) {
+                    Log.e(TAG, "Parse done goofed.", p);
+                }
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "JSON exception", e);
+        }
+
+        return locations;
     }
 }
