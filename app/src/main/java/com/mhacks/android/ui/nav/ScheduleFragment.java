@@ -11,7 +11,11 @@ import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -26,7 +30,6 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -47,7 +50,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
     //Declaring Views
     private View             mScheduleFragView;
     private WeekViewModified mWeekView;
-    private LinearLayout mScheduleContainer;
+    private LinearLayout     mScheduleContainer;
 
     //Parse user
     private ParseUser mUser;
@@ -55,13 +58,19 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
     /*Calendar view uses WeekViewEvent objects to build the calendar. WeekViewEvent objects built
     using Event (ParseObject) pulled from the Parse database.*/
     private List<WeekViewEvent> finalWeekViewEvents;
-    private List<Event> finalEvents;
+    private List<Event>         finalEvents;
 
-    private boolean firstRun = true; //Sets up the WeekView on the initial start.
+    private boolean firstRun         = true; //Sets up the WeekView on the initial start.
     private boolean eventDetailsOpen = false; //Prevents multiple EventDetailFragments from opening.
 
     //Declares the EventDetailsFragment
     private EventDetailsFragment eventDetailsFragment;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater,
@@ -74,7 +83,8 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         //Network connection check.
         if (checkInternet()) {
             getEvents(1); //Called initially to build the schedule view and query events. 1 == January.
-        } else {
+        }
+        else {
             new DialogFragment() {
                 @Override
                 public Dialog onCreateDialog(final Bundle savedInstanceState) {
@@ -236,6 +246,8 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
                          .add(R.id.drawer_layout, eventDetailsFragment)
                     .addToBackStack(null) //IMPORTANT. Allows the EventDetailsFragment to be closed.
                     .commit();
+            //Hide the toolbar so the event details are full screen.
+            ((ActionBarActivity) getActivity()).getSupportActionBar().hide();
             //Prevents other events from being clicked while one event's details are being shown.
             eventDetailsOpen = true;
         }
@@ -266,15 +278,16 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
      * @param v View that was clicked
      */
     public void scheduleFragmentClick(View v) {
-        //Swtich the id of the clicked view.
+        //Switch the id of the clicked view.
         switch (v.getId()) {
             case R.id.event_close_button:
                 //Close the EventDetailsFragment
                 getActivity().getFragmentManager().beginTransaction().remove(eventDetailsFragment).commit();
+                //Show the toolbar
+                ((ActionBarActivity) getActivity()).getSupportActionBar().show();
                 eventDetailsOpen = false;
                 break;
-            case R.id.refresh_button:
-                refreshEvents();
+            default:
                 break;
         }
     }
@@ -297,5 +310,21 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         mScheduleContainer.removeView(mWeekView);
         firstRun = true;
         getEvents(1);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_schedule_actions, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.schedule_action_refresh:
+                refreshEvents();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
