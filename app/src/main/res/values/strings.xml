@@ -95,4 +95,7 @@
     <string name="refresh">Refresh</string>
     <string name="countdown">Countdown Timer</string>
 
+    <string name="no_internet_message">Ruh Roh! There\'s no internet.</string>
+    <string name="no_internet_button">Like, check again Scoob.</string>
+
 </resources>

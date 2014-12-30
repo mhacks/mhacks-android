@@ -39,7 +39,7 @@ import java.util.List;
  * Created by Raquib-ul-Alam Kanak on 7/21/2014.
  * Website: http://april-shower.com
  */
-public class WeekViewModified extends WeekView {
+public class WeekViewModified extends View {
 
     public static final int LENGTH_SHORT = 1;
     public static final int LENGTH_LONG = 2;
@@ -926,7 +926,7 @@ public class WeekViewModified extends WeekView {
         invalidate();
     }
 
-    public int getHeaderRowPadding() {
+public int getHeaderRowPadding() {
         return mHeaderRowPadding;
     }
 
@@ -1227,6 +1227,13 @@ public class WeekViewModified extends WeekView {
         mToday.set(Calendar.HOUR_OF_DAY, 0);
         mToday.set(Calendar.MINUTE, 0);
         mToday.set(Calendar.SECOND, 0);
+    }
+
+    /**
+     * Removes all events from the calendar.
+     */
+    public void clearCalendar () {
+        mEventRects.clear();
     }
 
     /**

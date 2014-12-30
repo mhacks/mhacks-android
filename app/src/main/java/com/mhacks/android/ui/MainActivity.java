@@ -8,9 +8,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+
+import android.util.Log;
+import android.view.View;
+
+import com.bugsnag.android.Bugsnag;
+import com.mhacks.android.data.model.Announcement;
+import com.mhacks.android.data.model.Award;
+import com.mhacks.android.data.model.CountdownItem;
+import com.mhacks.android.data.model.Event;
+import com.mhacks.android.data.model.EventType;
+import com.mhacks.android.data.model.Location;
+import com.mhacks.android.data.model.Sponsor;
+import com.mhacks.android.data.model.SponsorTier;
 
 import com.mhacks.android.ui.nav.AnnouncementsFragment;
 import com.mhacks.android.ui.nav.AwardsFragment;
@@ -21,6 +35,7 @@ import com.mhacks.android.ui.nav.SponsorsFragment;
 import com.mhacks.iv.android.R;
 import com.parse.ParseUser;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -43,6 +58,13 @@ public class MainActivity extends ActionBarActivity
     private ActionBarDrawerToggle mDrawerToggle;
 
     private boolean mShouldSync = true;
+
+    //Fragments
+    private CountdownFragment countdownFragment;
+    private AnnouncementsFragment announcementsFragment;
+    private ScheduleFragment scheduleFragment;
+    private SponsorsFragment sponsorsFragment;
+    private AwardsFragment awardsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +92,13 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
 
         mUser = ParseUser.getCurrentUser();
+
+        //Instantiate fragments
+        countdownFragment = new CountdownFragment();
+        announcementsFragment = new AnnouncementsFragment();
+        scheduleFragment = new ScheduleFragment();
+        sponsorsFragment = new SponsorsFragment();
+        awardsFragment = new AwardsFragment();
 
         setDefaultFragment();
     }
@@ -110,33 +139,34 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
         switch (position) {
             case 0:
-                CountdownFragment countdownFragment = new CountdownFragment();
+                countdownFragment = new CountdownFragment();
                 fragmentTransaction.replace(R.id.main_container, countdownFragment);
                 fragmentTransaction.commit();
                 setToolbarTitle("Countdown Timer");
                 break;
             case 1:
-                AnnouncementsFragment announcementsFragment = new AnnouncementsFragment();
+                announcementsFragment = new AnnouncementsFragment();
                 fragmentTransaction.replace(R.id.main_container, announcementsFragment);
                 fragmentTransaction.commit();
                 setToolbarTitle("Announcements");
                 break;
             case 2:
-                ScheduleFragment scheduleFragment = new ScheduleFragment();
+                scheduleFragment = new ScheduleFragment();
                 fragmentTransaction.replace(R.id.main_container, scheduleFragment);
                 fragmentTransaction.commit();
                 setToolbarTitle("Schedule");
                 break;
             case 3:
-                SponsorsFragment sponsorsFragment = new SponsorsFragment();
+                sponsorsFragment = new SponsorsFragment();
                 fragmentTransaction.replace(R.id.main_container, sponsorsFragment);
                 fragmentTransaction.commit();
                 setToolbarTitle("Sponsors");
                 break;
             case 4:
-                AwardsFragment awardsFragment = new AwardsFragment();
+                awardsFragment = new AwardsFragment();
                 fragmentTransaction.replace(R.id.main_container, awardsFragment);
                 fragmentTransaction.commit();
                 setToolbarTitle("Awards");
@@ -175,5 +205,24 @@ public class MainActivity extends ActionBarActivity
             return;
         }
         super.onBackPressed();
+
+    /**
+     * Sets the default fragment to the CountdownFragment.
+     */
+    public void setDefaultFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        CountdownFragment countdownFragment = new CountdownFragment();
+        fragmentTransaction.replace(R.id.main_container, countdownFragment);
+        fragmentTransaction.commit();
+        restoreActionBar("Countdown Timer");
+    }
+
+    /**
+     * Handles all the clicks for the ScheduleFragment and it's fragments.
+     * @param v clicked View
+     */
+    public void scheduleFragmentClick(View v) {
+        scheduleFragment.scheduleFragmentClick(v);
     }
 }

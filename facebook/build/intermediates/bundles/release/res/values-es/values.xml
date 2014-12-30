@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<<<<<<< HEAD
     <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/facebook/res/values-es/strings.xml -->
+=======
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/facebook/res/values-es/strings.xml -->
+>>>>>>> schedule
     <eat-comment/>
     <string name="com_facebook_choose_friends">Elige Amigos</string>
     <string name="com_facebook_dialogloginactivity_ok_button">Aceptar</string>
