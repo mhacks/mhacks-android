@@ -120,20 +120,6 @@ public class MainActivity extends ActionBarActivity
         outState.putLong(TIME_SAVED, new Date().getTime());
     }
 
-    /*
-    Sets the default fragment to the CountdownFragment.
-     */
-    public void setDefaultFragment() {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        CountdownFragment countdownFragment = new CountdownFragment();
-        fragmentTransaction.replace(R.id.main_container, countdownFragment);
-        fragmentTransaction.commit();
-
-        // Set the title of the toolbar to the current page's title
-        setToolbarTitle("Countdown Timer");
-    }
-
     // After this are functions for the Drawer
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -200,11 +186,12 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onBackPressed() {
-        if(mDrawerLayout.isDrawerOpen(Gravity.START|Gravity.LEFT)){
+        if (mDrawerLayout.isDrawerOpen(Gravity.START | Gravity.LEFT)) {
             mDrawerLayout.closeDrawers();
             return;
         }
         super.onBackPressed();
+    }
 
     /**
      * Sets the default fragment to the CountdownFragment.
@@ -215,7 +202,8 @@ public class MainActivity extends ActionBarActivity
         CountdownFragment countdownFragment = new CountdownFragment();
         fragmentTransaction.replace(R.id.main_container, countdownFragment);
         fragmentTransaction.commit();
-        restoreActionBar("Countdown Timer");
+
+        setToolbarTitle("Countdown Timer");
     }
 
     /**
