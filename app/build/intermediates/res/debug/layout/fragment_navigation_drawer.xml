@@ -39,7 +39,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginLeft="@dimen/margin_general">
+        android:background="@color/white"
+        android:layout_marginLeft="@dimen/margin_general"
+        android:layout_marginStart="@dimen/margin_general">
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,4 +53,4 @@
     </LinearLayout>
 
 </LinearLayout>
-<!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/layout/fragment_navigation_drawer.xml -->
+<!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/layout/fragment_navigation_drawer.xml -->

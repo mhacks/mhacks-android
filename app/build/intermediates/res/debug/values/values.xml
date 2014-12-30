@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string-array name="nav_items">
         <item name="countdown">Countdown</item>
@@ -9,25 +9,25 @@
         <item name="sponsors">Sponsors</item>
         <item name="awards">Awards</item>
     </string-array>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
     <eat-comment/>
     <attr format="boolean" name="centered"/>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <attr format="reference" name="drawerArrowStyle"/>
     <attr format="dimension" name="height"/>
     <attr format="boolean" name="isLightTheme"/>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
     <eat-comment/>
     <attr format="color" name="selectedColor"/>
     <attr format="dimension" name="strokeWidth"/>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <attr format="string" name="title"/>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
     <eat-comment/>
     <attr format="color" name="unselectedColor"/>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <bool name="abc_action_bar_embed_tabs">true</bool>
     <bool name="abc_action_bar_embed_tabs_pre_jb">false</bool>
@@ -35,14 +35,14 @@
     <bool name="abc_config_actionMenuItemAllCaps">true</bool>
     <bool name="abc_config_allowActionMenuItemTextWithIcon">false</bool>
     <bool name="abc_config_showMenuShortcutsWhenKeyboardPresent">false</bool>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
     <eat-comment/>
     <bool name="default_circle_indicator_centered">true</bool>
     <bool name="default_circle_indicator_snap">false</bool>
     <bool name="default_line_indicator_centered">true</bool>
     <bool name="default_title_indicator_selected_bold">true</bool>
     <bool name="default_underline_indicator_fades">true</bool>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <color name="abc_input_method_navigation_guard">@android:color/black</color>
     <color name="abc_search_url_text_normal">#7fa87f</color>
@@ -50,7 +50,7 @@
     <color name="abc_search_url_text_selected">@android:color/black</color>
     <color name="accent_material_dark">@color/material_deep_teal_200</color>
     <color name="accent_material_light">@color/material_deep_teal_500</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="adapter_card_color">@color/darker_charcoal_semitransparent</color>
     <color name="adapter_card_shadow_color">@android:color/white</color>
@@ -59,13 +59,13 @@
     <color name="adapter_card_shadow_step_2">#20272727</color>
     <color name="adapter_card_shadow_step_3">#32272727</color>
     <color name="adapter_card_shadow_step_4">#44272727</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <color name="background_floating_material_dark">#ff424242</color>
     <color name="background_floating_material_light">#ffeeeeee</color>
     <color name="background_material_dark">#ff303030</color>
     <color name="background_material_light">#ffeeeeee</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="bg_announcements">#2f4382</color>
     <color name="bg_awards">#f6bb42</color>
@@ -80,7 +80,7 @@
     <color name="black_semitransparent">#88000000</color>
     <color name="blue">#0000FF</color>
     <color name="blue226">#00B4D5</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <color name="bright_foreground_disabled_material_dark">#80ffffff</color>
     <color name="bright_foreground_disabled_material_light">#80000000</color>
@@ -90,25 +90,25 @@
     <color name="bright_foreground_material_light">@android:color/black</color>
     <color name="button_material_dark">#ff5a595b</color>
     <color name="button_material_light">#ffd6d7d7</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="cardview_dark_background">#FF202020</color>
     <color name="cardview_light_background">#FFFAFAFA</color>
     <color name="cardview_shadow_end_color">#03000000</color>
     <color name="cardview_shadow_start_color">#37000000</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="charcoal">#272727</color>
     <color name="charcoal_semitransparent">#BB272727</color>
     <color name="colorPrimary">@color/white</color>
     <color name="colorPrimaryDark">@color/dev_purple</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
     <eat-comment/>
     <color name="com_facebook_blue">#3B5998</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="com_facebook_blue_pressed">#2b4172</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
     <eat-comment/>
     <color name="com_facebook_loginview_text_color">#FFFFFF</color>
     <color name="com_facebook_picker_search_bar_background">#f5f5f7</color>
@@ -116,12 +116,13 @@
     <color name="com_facebook_usersettingsfragment_connected_shadow_color">#000000</color>
     <color name="com_facebook_usersettingsfragment_connected_text_color">#FFFFFF</color>
     <color name="com_facebook_usersettingsfragment_not_connected_text_color">#A6AED7</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="darker_charcoal">#191919</color>
     <color name="darker_charcoal_semitransparent">#99191919</color>
     <color name="darkest_charcoal">#101010</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <color name="day_bg_color">#05000000</color>
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
     <eat-comment/>
     <color name="default_circle_indicator_fill_color">#FFFFFFFF</color>
     <color name="default_circle_indicator_page_color">#00000000</color>
@@ -132,7 +133,7 @@
     <color name="default_title_indicator_selected_color">#FFFFFFFF</color>
     <color name="default_title_indicator_text_color">#BBFFFFFF</color>
     <color name="default_underline_indicator_selected_color">#FF33B5E5</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="dev_blue">#0099CC</color>
     <color name="dev_green">#669900</color>
@@ -144,25 +145,27 @@
     <color name="dev_orange">#FF8800</color>
     <color name="dev_purple">#9933CC</color>
     <color name="dev_red">#CC0000</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <color name="dim_foreground_disabled_material_dark">#80bebebe</color>
     <color name="dim_foreground_disabled_material_light">#80323232</color>
     <color name="dim_foreground_material_dark">#ffbebebe</color>
     <color name="dim_foreground_material_light">#ff323232</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="gray">#C0C0C0</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <color name="header_column_text_color">#8f000000</color>
+    <color name="header_row_bg_color">#ffefefef</color>
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <color name="highlighted_text_material_dark">#6680cbc4</color>
     <color name="highlighted_text_material_light">#66009688</color>
     <color name="hint_foreground_material_dark">@color/bright_foreground_disabled_material_dark</color>
     <color name="hint_foreground_material_light">@color/bright_foreground_disabled_material_light</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="light_blue">#00FFFF</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <color name="link_text_material_dark">@color/material_deep_teal_200</color>
     <color name="link_text_material_light">@color/material_deep_teal_500</color>
@@ -171,8 +174,14 @@
     <color name="material_blue_grey_950">#ff21272b</color>
     <color name="material_deep_teal_200">#ff80cbc4</color>
     <color name="material_deep_teal_500">#ff009688</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/colors.xml -->
     <eat-comment/>
+    <color name="mh_palette_0">#FEF5F9</color>
+    <color name="mh_palette_1">#E0D5DD</color>
+    <color name="mh_palette_2">#7E7C8C</color>
+    <color name="mh_palette_3">#392F3F</color>
+    <color name="mh_purple">#AE86B7</color>
+    <color name="mh_yellow">#FFCA0B</color>
     <color name="mhacks_yellow">#FED136</color>
     <color name="nav_item_shadow_step_0">#08191919</color>
     <color name="nav_item_shadow_step_1">#20191919</color>
@@ -200,7 +209,7 @@
     <color name="palette_7">#e45177</color>
     <color name="palette_8">#44c3a6</color>
     <color name="palette_9">#a0d3e6</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <color name="primary_dark_material_dark">#ff000000</color>
     <color name="primary_dark_material_light">#ff757575</color>
@@ -210,11 +219,11 @@
     <color name="primary_text_default_material_light">#de000000</color>
     <color name="primary_text_disabled_material_dark">#4Dffffff</color>
     <color name="primary_text_disabled_material_light">#39000000</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="purple">#FF00FF</color>
     <color name="red">#FF0000</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <color name="ripple_material_dark">#40ffffff</color>
     <color name="ripple_material_light">#40000000</color>
@@ -224,12 +233,13 @@
     <color name="secondary_text_disabled_material_light">#24000000</color>
     <color name="switch_thumb_normal_material_dark">#ffbdbdbd</color>
     <color name="switch_thumb_normal_material_light">#fff1f1f1</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/colors.xml -->
     <eat-comment/>
+    <color name="today_bg_color">#18836bff</color>
     <color name="transparent">#00000000</color>
     <color name="twitter_blue">#55ACEE</color>
     <color name="twitter_blue_pressed">#3e7eaf</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
     <eat-comment/>
     <color name="vpi__background_holo_dark">#ff000000</color>
     <color name="vpi__background_holo_light">#fff3f3f3</color>
@@ -239,7 +249,7 @@
     <color name="vpi__bright_foreground_holo_light">@color/vpi__background_holo_dark</color>
     <color name="vpi__bright_foreground_inverse_holo_dark">@color/vpi__bright_foreground_holo_light</color>
     <color name="vpi__bright_foreground_inverse_holo_light">@color/vpi__bright_foreground_holo_dark</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="white">#FFF</color>
     <color name="yellow">#FFFF00</color>
@@ -278,7 +288,7 @@
     <declare-styleable name="com_facebook_picker_fragment"><attr format="boolean" name="show_pictures"/><attr format="string" name="extra_fields"/><attr format="boolean" name="show_title_bar"/><attr format="string" name="title_text"/><attr format="string" name="done_button_text"/><attr format="reference" name="title_bar_background"/><attr format="reference" name="done_button_background"/></declare-styleable>
     <declare-styleable name="com_facebook_place_picker_fragment"><attr format="integer" name="radius_in_meters"/><attr format="integer" name="results_limit"/><attr format="string" name="search_text"/><attr format="boolean" name="show_search_box"/></declare-styleable>
     <declare-styleable name="com_facebook_profile_picture_view"><attr name="preset_size"><enum name="small" value="-2"/><enum name="normal" value="-3"/><enum name="large" value="-4"/></attr><attr format="boolean" name="is_cropped"/></declare-styleable>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <dimen name="abc_action_bar_default_height_material">56dp</dimen>
     <dimen name="abc_action_bar_default_padding_material">4dp</dimen>
@@ -317,7 +327,7 @@
     <dimen name="abc_text_size_subtitle_material_toolbar">16dp</dimen>
     <dimen name="abc_text_size_title_material">20sp</dimen>
     <dimen name="abc_text_size_title_material_toolbar">20dp</dimen>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
@@ -330,16 +340,16 @@
     <dimen name="adapter_header_padding_horizontal">16dp</dimen>
     <dimen name="adapter_header_padding_vertical">12dp</dimen>
     <dimen name="announcement_height">96dp</dimen>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <dimen name="cardview_compat_inset_shadow">1dp</dimen>
     <dimen name="cardview_default_elevation">2dp</dimen>
     <dimen name="cardview_default_radius">2dp</dimen>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="chat_handle_size">38dp</dimen>
     <dimen name="chat_message_image_size">42dp</dimen>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
     <eat-comment/>
     <dimen name="com_facebook_loginview_compound_drawable_padding">12dp</dimen>
     <dimen name="com_facebook_loginview_padding_bottom">12dp</dimen>
@@ -354,11 +364,11 @@
     <dimen name="com_facebook_tooltip_horizontal_padding">10dp</dimen>
     <dimen name="com_facebook_usersettingsfragment_profile_picture_height">64dp</dimen>
     <dimen name="com_facebook_usersettingsfragment_profile_picture_width">64dp</dimen>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="countdown_progressbar_thickness">10dp</dimen>
     <dimen name="dave_size">48dp</dimen>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
     <eat-comment/>
     <dimen name="default_circle_indicator_radius">3dp</dimen>
     <dimen name="default_circle_indicator_stroke_width">1dp</dimen>
@@ -373,7 +383,7 @@
     <dimen name="default_title_indicator_text_size">15dp</dimen>
     <dimen name="default_title_indicator_title_padding">5dp</dimen>
     <dimen name="default_title_indicator_top_padding">7dp</dimen>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <item name="dialog_fixed_height_major" type="dimen">80%</item>
     <item name="dialog_fixed_height_minor" type="dimen">100%</item>
@@ -381,7 +391,7 @@
     <item name="dialog_fixed_width_minor" type="dimen">320dp</item>
     <item format="float" name="disabled_alpha_material_dark" type="dimen">0.30</item>
     <item format="float" name="disabled_alpha_material_light" type="dimen">0.26</item>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="intra_list_item_padding">4dp</dimen>
     <dimen name="list_item_padding">8dp</dimen>
@@ -402,10 +412,10 @@
     <dimen name="text_countdown_timertext">50sp</dimen>
     <dimen name="text_nav_main">20sp</dimen>
     <dimen name="text_nav_subitems">14sp</dimen>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
     <eat-comment/>
     <drawable name="com_facebook_picker_default_separator_color">#33464c59</drawable>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <item name="action_bar_activity_content" type="id"/>
     <item name="action_bar_spinner" type="id"/>
@@ -415,24 +425,24 @@
     <item name="progress_circular" type="id"/>
     <item name="progress_horizontal" type="id"/>
     <item name="split_action_bar" type="id"/>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.3.4/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.3.4/res/values/values.xml -->
     <eat-comment/>
     <item name="text" type="id"/>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <item name="up" type="id"/>
     <integer name="abc_max_action_buttons">2</integer>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
     <eat-comment/>
     <integer name="default_circle_indicator_orientation">0</integer>
     <integer name="default_title_indicator_footer_indicator_style">2</integer>
     <integer name="default_title_indicator_line_position">0</integer>
     <integer name="default_underline_indicator_fade_delay">300</integer>
     <integer name="default_underline_indicator_fade_length">400</integer>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/integers.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/integers.xml -->
     <eat-comment/>
     <integer name="nav_item_bg_slide_duration">100</integer>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <string name="abc_action_bar_home_description">Navigate home</string>
     <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
@@ -449,7 +459,7 @@
     <string name="abc_searchview_description_voice">Voice search</string>
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="action_settings">Settings</string>
     <string name="announcement_details">Announcement Details</string>
@@ -463,14 +473,14 @@
     <string name="app_name">MHacks</string>
     <string name="awards">Awards</string>
     <string name="awards_new">New Award</string>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/generated/res/generated/debug/values/generated.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/generated/res/generated/debug/values/generated.xml -->
     <eat-comment/>
     <item name="bugsnag_key" type="string">4b845cb8f12a5f2e96c95e2c2f7483d7</item>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="chat">Lounge</string>
     <string name="close_thread">Close Thread</string>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
     <eat-comment/>
     <string name="com_facebook_choose_friends">Choose Friends</string>
     <string name="com_facebook_dialogloginactivity_ok_button">OK</string>
@@ -512,7 +522,7 @@
     <string name="com_facebook_usersettingsfragment_log_in_button">Log in…</string>
     <string name="com_facebook_usersettingsfragment_logged_in">Logged in</string>
     <string name="com_facebook_usersettingsfragment_not_logged_in">Not logged in</string>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="concierge_email">Hey %1$s,</string>
     <string name="concierge_tweet">Hey @%1$s,</string>
@@ -536,19 +546,19 @@
     <string name="event_title">Event Title</string>
     <string name="event_title_hint">MHacks Begins</string>
     <string name="events_new">New Event</string>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/generated/res/generated/debug/values/generated.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/generated/res/generated/debug/values/generated.xml -->
     <eat-comment/>
     <item name="fb_app_id" type="string">"567361250010506"</item>
     <item name="firebase_url" type="string">https://mhacks-f2014.firebaseio.com</item>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="garbage_fill_long"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur id consequat nibh. Curabitur dictum consectetur aliquet. Aliquam sit amet libero vitae neque malesuada malesuada. Etiam nisi neque, cursus porttitor blandit eu, rhoncus eget ex. Phasellus dignissim ipsum vitae tincidunt vehicula. Nulla molestie finibus arcu, non ullamcorper sapien sollicitudin quis. Ut eu elit sed ante pretium cursus mattis non mi. Sed blandit rutrum sapien id tincidunt. Nunc ex sapien, rutrum quis diam quis, malesuada finibus dui.\n\nNam ultricies quis lacus sed volutpat. Nulla sed quam in mi condimentum posuere. Donec sed tincidunt ligula. Aenean euismod eleifend dictum. Vivamus dolor elit, gravida at volutpat sit amet, tincidunt ac arcu. Sed placerat enim nec justo suscipit, a condimentum nibh sollicitudin. Mauris rhoncus vel sapien dignissim pharetra. Nunc vestibulum, erat at scelerisque scelerisque, diam eros aliquet tellus, quis hendrerit nisi lectus sit amet libero. Proin et nisi ac augue vestibulum rutrum vel eget est. Vivamus elementum urna sit amet ex porta molestie. Nullam congue euismod est, nec bibendum urna porta vel. Cras convallis a massa id placerat. Morbi a fermentum nisi. Duis mattis et dui at sodales.\n\nNullam quis libero et tortor finibus euismod non non nisi. Ut cursus et turpis vel efficitur. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec quis leo erat. Phasellus nec euismod neque. Donec condimentum magna quis bibendum pharetra. Morbi fringilla tincidunt erat fringilla vehicula. Phasellus orci tellus, imperdiet sed ultrices vitae, tristique et libero. Proin condimentum tincidunt lobortis. Nunc ligula lectus, ultricies ac rhoncus nec, fermentum eu est. Aliquam et tellus metus. Etiam egestas quam in leo venenatis tempor.\n\nVivamus pretium a risus ut volutpat. Nulla at ornare velit. Curabitur dolor massa, dictum a orci nec, consectetur molestie elit. Donec convallis mi sed neque interdum, ac euismod urna pharetra. Duis lobortis commodo quam, et suscipit nibh luctus ut. Donec iaculis facilisis consectetur. Ut maximus est risus, nec tincidunt sapien ornare in. Ut elit felis, bibendum convallis tincidunt at, pellentesque vitae nulla. Nam molestie ante luctus mi finibus, non posuere lacus consectetur. Curabitur mattis nulla vel massa viverra egestas. Nam a nisi id lorem cursus imperdiet. Nulla nisl ipsum, condimentum ut quam id, hendrerit aliquet ante. </string>
     <string name="garbage_fill_medium">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
     <string name="garbage_fill_short">Lorem ipsum dolor sit amet</string>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/generated/res/generated/debug/values/generated.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/generated/res/generated/debug/values/generated.xml -->
     <eat-comment/>
     <item name="google_maps_api_key" type="string">AIzaSyDzuNdhsw4JbTTmpF8gx8iPFsr9xCgIcVI</item>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="hackers">Hackers</string>
     <string name="host">Host</string>
@@ -560,13 +570,13 @@
     <string name="log_out">Log Out</string>
     <string name="logging_in">Logging in…</string>
     <string name="login_background_description">Login Background</string>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/lorem-strings.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/lorem-strings.xml -->
     <eat-comment/>
     <string name="lorem_announcement_title">Announcement Title</string>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="lorem_award_prize">Over 9000 Pairs of Google Glass</string>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/lorem-strings.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/lorem-strings.xml -->
     <eat-comment/>
     <string name="lorem_award_title">Award Title</string>
     <string name="lorem_contact_name">Dave Fontenot</string>
@@ -583,7 +593,7 @@
     <string name="lorem_nav_item">Navigation Item</string>
     <string name="lorem_sponsor">MHacks Staff</string>
     <string name="lorem_user_full_name">Marvin Gaye</string>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="map">Map</string>
     <string name="messages">Messages</string>
@@ -592,16 +602,18 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="next">Next</string>
+    <string name="no_internet_button">Like, check again Scoob.</string>
+    <string name="no_internet_message">Ruh Roh! There\'s no internet.</string>
     <string name="no_threads">You have no open conversations. Visit the concierge to message
         someone!
     </string>
     <string name="not_implemented_yet">Not implemented yet.</string>
     <string name="ordering">Ordering</string>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/generated/res/generated/debug/values/generated.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/generated/res/generated/debug/values/generated.xml -->
     <eat-comment/>
     <item name="parse_application_id" type="string">O57r9DEn3iXwcwerGwbhcwy75uZqyv0SDxNL4xO1</item>
     <item name="parse_client_key" type="string">fDVg3qtJ1IwhYFh2TY56MlxDYqRCHMtk6tkKKi4K</item>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="password">Password</string>
     <string name="position">Position</string>
@@ -615,16 +627,16 @@
     <string name="time">Time</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="tweet_url">https://twitter.com/intent/tweet?text=%1$s</string>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/generated/res/generated/debug/values/generated.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/generated/res/generated/debug/values/generated.xml -->
     <eat-comment/>
     <item name="twitter_key" type="string">"v7buks4MdFwouirPBY2r4Q"</item>
     <item name="twitter_secret" type="string">"VqKOHeHH38WwCjd2R7dV90AhyQuyA1joVGz1q3cWSM"</item>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="user_name">Name</string>
     <string name="user_new">New User</string>
     <string name="username">Username</string>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/themes.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/themes.xml -->
     <eat-comment/>
     <style name="AppTheme" parent="AppTheme.Base"/>
     <style name="AppTheme.Base" parent="Theme.AppCompat">
@@ -634,7 +646,7 @@
         <item name="windowActionBar">false</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <style name="Base.TextAppearance.AppCompat" parent="android:TextAppearance">
         <item name="android:textColor">?android:textColorPrimary</item>
@@ -1394,7 +1406,7 @@ m>        <item name="android:textColorLink">@color/link_text_material_dark</ite
         <item name="android:scaleType">center</item>
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.3.4/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.3.4/res/values/values.xml -->
     <eat-comment/>
     <style name="Bubble.TextAppearance.Dark" parent="android:TextAppearance.Medium">
         <item name="android:textSize">14sp</item>
@@ -1403,7 +1415,7 @@ m>        <item name="android:textColorLink">@color/link_text_material_dark</ite
     <style name="Bubble.TextAppearance.Light" parent="Bubble.TextAppearance.Dark">
         <item name="android:textColor">#ffeeeeee</item>
     </style>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <style name="CardView">
         <item name="cardBackgroundColor">@color/cardview_light_background</item>
@@ -1419,14 +1431,14 @@ m>        <item name="android:textColorLink">@color/link_text_material_dark</ite
     <style name="CardView.Light">
         <item name="cardBackgroundColor">@color/cardview_light_background</item>
     </style>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.3.4/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.3.4/res/values/values.xml -->
     <eat-comment/>
     <style name="ClusterIcon.TextAppearance" parent="android:TextAppearance">
         <item name="android:textColor">#ffeeeeee</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
     </style>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/themes.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/themes.xml -->
     <eat-comment/>
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
@@ -1438,7 +1450,7 @@ m>        <item name="android:textColorLink">@color/link_text_material_dark</ite
         <item name="android:windowBackground">@color/bg_neutral</item>
         <!--<item name="android:homeAsUpIndicator">@null</item>-->
     </style>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <style name="Platform.AppCompat" parent="android:Theme">
         <item name="android:windowNoTitle">true</item>
@@ -1647,13 +1659,13 @@ m>        <item name="android:textColorLink">@color/link_text_material_dark</ite
     <style name="TextAppearance.AppCompat.Widget.PopupMenu.Large" parent="Base.TextAppearance.AppCompat.Widget.PopupMenu.Large"/>
     <style name="TextAppearance.AppCompat.Widget.PopupMenu.Small" parent="Base.TextAppearance.AppCompat.Widget.PopupMenu.Small"/>
     <style name="TextAppearance.AppCompat.Widget.Switch" parent="Base.TextAppearance.AppCompat.Widget.Switch"/>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
     <eat-comment/>
     <style name="TextAppearance.TabPageIndicator" parent="Widget">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/vpi__dark_theme</item>
     </style>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <style name="TextAppearance.Widget.AppCompat.ExpandedMenu.Item" parent="Base.TextAppearance.Widget.AppCompat.ExpandedMenu.Item"/>
     <style name="TextAppearance.Widget.AppCompat.Toolbar.Subtitle" parent="Base.TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
@@ -1674,23 +1686,23 @@ m>        <item name="android:textColorLink">@color/link_text_material_dark</ite
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
     </style>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
     <eat-comment/>
     <style name="Theme.PageIndicatorDefaults" parent="android:Theme">
         <item name="vpiIconPageIndicatorStyle">@style/Widget.IconPageIndicator</item>
         <item name="vpiTabPageIndicatorStyle">@style/Widget.TabPageIndicator</item>
     </style>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <style name="ThemeOverlay.AppCompat" parent="Base.ThemeOverlay.AppCompat"/>
     <style name="ThemeOverlay.AppCompat.ActionBar" parent="Base.ThemeOverlay.AppCompat.ActionBar"/>
     <style name="ThemeOverlay.AppCompat.Dark" parent="Base.ThemeOverlay.AppCompat.Dark"/>
     <style name="ThemeOverlay.AppCompat.Dark.ActionBar" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="ThemeOverlay.AppCompat.Light" parent="Base.ThemeOverlay.AppCompat.Light"/>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
     <eat-comment/>
     <style name="Widget"/>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
     <eat-comment/>
     <style name="Widget.AppCompat.ActionBar" parent="Base.Widget.AppCompat.ActionBar"/>
     <style name="Widget.AppCompat.ActionBar.Solid" parent="Base.Widget.AppCompat.ActionBar.Solid"/>
@@ -1745,7 +1757,7 @@ m>        <item name="android:textColorLink">@color/link_text_material_dark</ite
     <style name="Widget.AppCompat.Spinner.DropDown.ActionBar" parent="Base.Widget.AppCompat.Spinner.DropDown.ActionBar"/>
     <style name="Widget.AppCompat.Toolbar" parent="Base.Widget.AppCompat.Toolbar"/>
     <style name="Widget.AppCompat.Toolbar.Button.Navigation" parent="Base.Widget.AppCompat.Toolbar.Button.Navigation"/>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
     <eat-comment/>
     <style name="Widget.IconPageIndicator" parent="Widget">
         <item name="android:layout_marginLeft">6dp</item>
@@ -1762,14 +1774,14 @@ m>        <item name="android:textColorLink">@color/link_text_material_dark</ite
         <item name="android:textSize">12sp</item>
         <item name="android:maxLines">1</item>
     </style>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/themes.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/themes.xml -->
     <eat-comment/>
     <style name="action_bar_style" parent="android:Widget.Holo.Light.ActionBar.Solid">
         <item name="android:background">@color/adapter_card_shadow_color</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
     </style>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="adapter_card_body">
         <item name="android:layout_gravity">left</item>
@@ -1817,7 +1829,7 @@ m>        <item name="android:textColorLink">@color/link_text_material_dark</ite
         <item name="android:layout_alignParentTop">true</item>
         <item name="android:layout_alignParentLeft">true</item>
     </style>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
     <eat-comment/>
     <style name="com_facebook_loginview_default_style" parent="@android:style/Widget.Button">
         <item name="android:layout_width">wrap_content</item>
@@ -1838,12 +1850,12 @@ m>        <item name="android:textColorLink">@color/link_text_material_dark</ite
         <item name="android:textColor">#4B5164</item>
         <item name="android:gravity">center</item>
     </style>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/values/themes.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/themes.xml -->
     <eat-comment/>
     <style name="text_appearance" parent="android:TextAppearance">
         <!--<item name="android:textColor">@android:color/white</item>-->
     </style>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/res/values/values.xml -->
     <eat-comment/>
     <style name="tooltip_bubble_text">
         <item name="android:textColor">@android:color/white</item>

@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     >
 
     <!-- ViewGroup for top titles -->
@@ -97,4 +98,4 @@
         android:text="Start" />
         -->
 
-</RelativeLayout><!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/layout/fragment_countdown.xml -->
+</RelativeLayout><!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/layout/fragment_countdown.xml -->

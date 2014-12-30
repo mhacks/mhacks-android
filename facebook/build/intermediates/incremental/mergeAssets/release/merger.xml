@@ -1,6 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<merger version="3"><dataSet config="main"><source path="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/facebook/src/main/assets"/></dataSet><dataSet config="release"><source path="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/facebook/src/release/assets"/></dataSet></merger>
-=======
 <merger version="3"><dataSet config="main"><source path="C:\Users\Omkar Moghe\Desktop\MHacks-Android\facebook\src\main\assets"/></dataSet><dataSet config="release"><source path="C:\Users\Omkar Moghe\Desktop\MHacks-Android\facebook\src\release\assets"/></dataSet></merger>
->>>>>>> schedule
