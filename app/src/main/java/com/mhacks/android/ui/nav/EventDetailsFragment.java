@@ -23,6 +23,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,6 +42,13 @@ public class EventDetailsFragment extends Fragment {
 
     private TextView eventTitle, eventTime, eventLocation, eventDescription, eventHost;
     private View colorBlock; //Header color. Matches color of event in calendar.
+
+    //Date arrays
+    private final String[] dayOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
+                                        "Friday", "Saturday"};
+    private final String[] monthOfYear = {"January", "February", "March", "April", "May", "June",
+                                          "July", "August", "September", "October", "November",
+                                          "December"};
 
     /**
      * Creates a new instance of the EventDetailsFragment.
@@ -106,7 +115,7 @@ public class EventDetailsFragment extends Fragment {
         ArrayList<Location> locations = getLocations(event);
 
         eventTitle.setText(event.getTitle());
-        eventTime.setText(formatDate(event.getStartTime().toString()));
+        eventTime.setText(formatDate(event.getStartTime(), event.getDuration()));
         eventLocation.setText(locations.get(0).getName());
         eventDescription.setText(event.getDetails());
 
@@ -118,18 +127,49 @@ public class EventDetailsFragment extends Fragment {
     }
 
     /**
-     * Takes the raw Date.toString() string and formats it into a more common format.
-     * Before:  Sun Jan 18 05:00:00 PST 2015
-     * After:   Sun, Jan 18, 2015
-     *          05:00:00
-     * @param rawDate String to formate into a more readable date.
+     * Takes the Date object and duration and formats them into a more common format.
+     * After:   Sunday, Jan 18
+     *          5:00-6:00
+     * @param eventDate Date to format into a more readable date.
+     * @param duration Duration of event in seconds.
      * @return Readable string from Date.toString().
      */
-    public String formatDate (String rawDate) {
-        String finalDate;
-        String[] splitString = rawDate.split(" ");
-        finalDate = splitString[0] + ", " + splitString[1] + " " + splitString[2] + ", "
-                    + splitString[5] + "\n" + splitString[3];
+    public String formatDate (Date eventDate, int duration) {
+        String finalDate, day, month;
+        int date, year, startHour, startMinute, endHour, endMinute;
+
+        //Create Calendar object.
+        Calendar start = Calendar.getInstance();
+        start.setTime(eventDate);
+
+        //Create end event.
+        Calendar end = (Calendar) start.clone();
+        int hourDuration = duration / 3600;      //getDuration returns seconds as an int. Need to convert to hours.
+        int minuteDuration = duration % 3600;    //Converting remainder of minutes to int minutes.
+        end.add(Calendar.HOUR, hourDuration);
+        end.add(Calendar.MINUTE, minuteDuration);
+
+        day = dayOfWeek[start.get(Calendar.DAY_OF_WEEK) - 1]; //Get day of week as s string.
+        month = monthOfYear[start.get(Calendar.MONTH)]; //Get month as a string.
+        date = start.get(Calendar.DATE); //Get the date.
+        year = start.get(Calendar.YEAR); //Get year.
+        if (start.get(Calendar.HOUR) == 0) //Starting hour.
+            startHour = 12;
+        else
+            startHour = start.get(Calendar.HOUR);
+        startMinute = start.get(Calendar.MINUTE); //Starting minutes.
+        if (end.get(Calendar.HOUR) == 0) //Ending hour.
+            endHour = 12;
+        else
+            endHour = end.get(Calendar.HOUR);
+        endMinute = end.get(Calendar.MINUTE); //Ending minute.
+
+
+
+        //Build string to be displayed.
+        finalDate = day + ", " + month + " " + date + "\n" + startHour + ":" +
+                    String.format("%02d", startMinute) + " - " + endHour + ":" +
+                    String.format("%02d", endMinute);
 
         return finalDate;
     }
