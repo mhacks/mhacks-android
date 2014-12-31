@@ -60,8 +60,10 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
     private List<WeekViewEvent> finalWeekViewEvents;
     private List<Event>         finalEvents;
 
+    //Booleans
     private boolean firstRun         = true; //Sets up the WeekView on the initial start.
     private boolean eventDetailsOpen = false; //Prevents multiple EventDetailFragments from opening.
+    private boolean hasInternet = false; //Has to be true to refresh events and build the calendar.
 
     //Declares the EventDetailsFragment
     private EventDetailsFragment eventDetailsFragment;
@@ -83,29 +85,11 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         //Network connection check.
         if (checkInternet()) {
             getEvents(1); //Called initially to build the schedule view and query events. 1 == January.
+            hasInternet = true;
         }
         else {
-            new DialogFragment() {
-                @Override
-                public Dialog onCreateDialog(final Bundle savedInstanceState) {
-                    // Use the Builder class for convenient dialog construction
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage(R.string.no_internet_message)
-                           .setPositiveButton(R.string.no_internet_button,
-                                              new DialogInterface.OnClickListener() {
-                                                  public void onClick(DialogInterface dialog,
-                                                                      int id) {
-                                                      getActivity().getFragmentManager()
-                                                                   .beginTransaction()
-                                                                   .replace(R.id.main_container,
-                                                                            new ScheduleFragment())
-                                                                   .commit();
-                                                  }
-                                              });
-                    // Create the AlertDialog object and return it
-                    return builder.create();
-                }
-            }.show(getFragmentManager(), "No internet");
+            hasInternet = false;
+            showNoInternetDialog();
         }
 
         return mScheduleFragView;
@@ -307,9 +291,13 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
      * re-draw the new events on the calendar.
      */
     public void refreshEvents () {
-        mScheduleContainer.removeView(mWeekView);
-        firstRun = true;
-        getEvents(1);
+        if (hasInternet) {
+            mScheduleContainer.removeView(mWeekView);
+            firstRun = true;
+            getEvents(1);
+        } else {
+            showNoInternetDialog();
+        }
     }
 
     @Override
@@ -326,5 +314,32 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /**
+     * Shows a dialog notifying the user that the app does not have internet access.
+     */
+    private void showNoInternetDialog () {
+        new DialogFragment() {
+            @Override
+            public Dialog onCreateDialog(final Bundle savedInstanceState) {
+                // Use the Builder class for convenient dialog construction
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage(R.string.no_internet_message)
+                       .setPositiveButton(R.string.no_internet_button,
+                                          new DialogInterface.OnClickListener() {
+                                              public void onClick(DialogInterface dialog,
+                                                                  int id) {
+                                                  getActivity().getFragmentManager()
+                                                               .beginTransaction()
+                                                               .replace(R.id.main_container,
+                                                                        new ScheduleFragment())
+                                                               .commit();
+                                              }
+                                          });
+                // Create the AlertDialog object and return it
+                return builder.create();
+            }
+        }.show(getFragmentManager(), "No internet");
     }
 }
