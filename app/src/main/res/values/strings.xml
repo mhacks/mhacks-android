@@ -29,6 +29,7 @@
         <item name="schedule">Schedule</item>
         <item name="sponsors">Sponsors</item>
         <item name="awards">Awards</item>
+        <item name="map">Map</item>
     </string-array>
 
     <!--    TITLES OF FEATURES (in nav drawer and action bar)   -->

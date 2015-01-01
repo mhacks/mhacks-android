@@ -8,6 +8,7 @@
         <item name="schedule">Schedule</item>
         <item name="sponsors">Sponsors</item>
         <item name="awards">Awards</item>
+        <item name="map">Map</item>
     </string-array>
     <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/res/values/values.xml -->
     <eat-comment/>
