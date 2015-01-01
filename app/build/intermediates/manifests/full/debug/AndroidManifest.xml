@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mhacks.iv.android"
+<<<<<<< HEAD
     android:versionCode="1420073617"
+=======
+    android:versionCode="1420074675"
+>>>>>>> five-dev
     android:versionName="3.0.0" >
 
     <uses-sdk
