@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -227,6 +228,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
                     EventDetailsFragment.newInstance(finalEvents.get((int) event.getId()), event.getColor());
             getActivity().getFragmentManager()
                          .beginTransaction()
+                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                          .add(R.id.drawer_layout, eventDetailsFragment)
                     .addToBackStack(null) //IMPORTANT. Allows the EventDetailsFragment to be closed.
                     .commit();
@@ -265,11 +267,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         //Switch the id of the clicked view.
         switch (v.getId()) {
             case R.id.event_close_button:
-                //Close the EventDetailsFragment
-                getActivity().getFragmentManager().beginTransaction().remove(eventDetailsFragment).commit();
-                //Show the toolbar
-                ((ActionBarActivity) getActivity()).getSupportActionBar().show();
-                eventDetailsOpen = false;
+                closeEventDetails();
                 break;
             default:
                 break;
@@ -298,6 +296,16 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         } else {
             showNoInternetDialog();
         }
+    }
+
+    public void closeEventDetails () {
+        //Close the EventDetailsFragment
+        getActivity().getFragmentManager().beginTransaction()
+                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                     .remove(eventDetailsFragment).commit();
+        //Show the toolbar
+        ((ActionBarActivity) getActivity()).getSupportActionBar().show();
+        eventDetailsOpen = false;
     }
 
     @Override
