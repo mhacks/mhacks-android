@@ -18,6 +18,7 @@ import com.mhacks.android.ui.common.ImageLoader;
 import com.mhacks.iv.android.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
