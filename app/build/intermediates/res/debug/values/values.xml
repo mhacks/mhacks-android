@@ -2,6 +2,12 @@
 <resources>
     <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/strings.xml -->
     <eat-comment/>
+    <string-array name="map_array">
+        <item name="all">ALL</item>
+        <item name="bbb">BBB</item>
+        <item name="eecs">EECS</item>
+        <item name="gg_brown">GG Brown</item>
+    </string-array>
     <string-array name="nav_items">
         <item name="countdown">Countdown</item>
         <item name="announcements">Announcements</item>
@@ -597,6 +603,7 @@
     <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="map">Map</string>
+    <string name="map_view_description">Image of the seleced map.</string>
     <string name="messages">Messages</string>
     <string name="mhacks_concierge">MHacks Concierge</string>
     <string name="mhacks_logo">MHacks Logo</string>

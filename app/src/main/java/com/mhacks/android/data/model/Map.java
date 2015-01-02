@@ -19,6 +19,8 @@ public class Map extends ParseObject implements Parcelable{
     public static final String TITLE_COL   = "title";
     public static final String IMAGE_COL   = "image";
 
+    public Map () {}
+
     public int getOrder () {
         return getInt(ORDER_COL);
     }

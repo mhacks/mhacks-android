@@ -32,6 +32,14 @@
         <item name="map">Map</item>
     </string-array>
 
+    <!-- MapFragment Spinner Items (Maps) -->
+    <string-array name="map_array">
+        <item name="all">ALL</item>
+        <item name="bbb">BBB</item>
+        <item name="eecs">EECS</item>
+        <item name="gg_brown">GG Brown</item>
+    </string-array>
+
     <!--    TITLES OF FEATURES (in nav drawer and action bar)   -->
     <string name="announcements">Announcements</string>
     <string name="schedule">Schedule</string>
@@ -98,5 +106,6 @@
 
     <string name="no_internet_message">Ruh Roh! There\'s no internet.</string>
     <string name="no_internet_button">Like, check again Scoob.</string>
+    <string name="map_view_description">Image of the seleced map.</string>
 
 </resources>
