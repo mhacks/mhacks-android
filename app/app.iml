@@ -95,6 +95,7 @@
     <orderEntry type="library" exported="" name="android-week-view-1.1.7" level="project" />
     <orderEntry type="library" exported="" name="jackson-core-2.2.2" level="project" />
     <orderEntry type="library" exported="" name="firebase-client-1.0.16" level="project" />
+    <orderEntry type="library" exported="" name="ocpsoft-pretty-time-1.0.7" level="project" />
     <orderEntry type="library" exported="" name="jackson-databind-2.2.2" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="joda-time-2.6" level="project" />

@@ -100,5 +100,6 @@ dependencies {
         exclude group: 'com.google.android', module: 'support-v4'
     }
     compile project(':facebook')
-    compile files('libs/joda-time-2.6.jar')
+    compile 'com.ocpsoft:ocpsoft-pretty-time:1.0.7'
+    compile 'joda-time:joda-time:2.6'
 }
