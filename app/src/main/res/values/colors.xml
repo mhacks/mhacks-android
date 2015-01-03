@@ -11,6 +11,14 @@
     <color name="mh_palette_1">#E0D5DD</color>
     <color name="mh_palette_2">#7E7C8C</color>
     <color name="mh_palette_3">#392F3F</color>
+    
+    <!-- Event type colors -->
+    <color name="event_red">#E23052</color>
+    <color name="event_orange">#F97850</color>
+    <color name="event_yellow">#FFCA0B</color>
+    <color name="event_green">#239133</color>
+    <color name="event_blue">#0000FF</color>
+    <color name="event_purple">#8076E2</color>
 
     <!-- Begin JN Basic Colors -->
     <!-- Basic colors, laziness -->

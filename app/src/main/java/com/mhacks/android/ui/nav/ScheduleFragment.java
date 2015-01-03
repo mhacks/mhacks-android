@@ -188,20 +188,26 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
             //Set color based on EventType (Category).
             int color;
             switch (event.getCategory().getColor()) {
-                case 0: //Tech Talk
-                    color = getResources().getColor(R.color.dev_orange);
+                case 0: //Red
+                    color = getResources().getColor(R.color.event_red);
                     break;
-                case 1: //Special Event
-                    color = getResources().getColor(R.color.dev_blue);
+                case 1: //Orange
+                    color = getResources().getColor(R.color.event_orange);
                     break;
-                case 2: //Food
-                    color = getResources().getColor(R.color.dev_green);
+                case 2: //Yellow
+                    color = getResources().getColor(R.color.event_yellow);
                     break;
-                case 3:
-                    color = getResources().getColor(R.color.dev_red);
+                case 3: //Green
+                    color = getResources().getColor(R.color.event_green);
+                    break;
+                case 4: //Blue
+                    color = getResources().getColor(R.color.event_blue);
+                    break;
+                case 5: //Purple
+                    color = getResources().getColor(R.color.event_purple);
                     break;
                 default:
-                    color = getResources().getColor(R.color.dev_purple);
+                    color = getResources().getColor(R.color.mh_purple);
             }
 
             //Create a WeekViewEvent

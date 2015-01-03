@@ -160,6 +160,12 @@
     <color name="dim_foreground_material_light">#ff323232</color>
     <!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/values/colors.xml -->
     <eat-comment/>
+    <color name="event_blue">#0000FF</color>
+    <color name="event_green">#239133</color>
+    <color name="event_orange">#F97850</color>
+    <color name="event_purple">#8076E2</color>
+    <color name="event_red">#E23052</color>
+    <color name="event_yellow">#FFCA0B</color>
     <color name="gray">#C0C0C0</color>
     <color name="header_column_text_color">#8f000000</color>
     <color name="header_row_bg_color">#ffefefef</color>
