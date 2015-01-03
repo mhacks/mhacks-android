@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mhacks.android.ui.common.Util;
 import com.mhacks.iv.android.R;
 import com.parse.ConfigCallback;
 import com.parse.ParseConfig;
@@ -22,6 +24,7 @@ import com.parse.ParseException;
 
 import java.util.Date;
 import java.util.Random;
+import java.util.TimeZone;
 
 /**
  * Created by jawad on 04/11/14.
@@ -36,6 +39,10 @@ public class CountdownFragment extends Fragment  {
 
     private ProgressBar mCircularProgress;
     private TextView mCountdownTextView;
+
+    // TextViews for displaying when hacking starts+ends
+    private TextView mTopTitleTextView, mTopTimeTextView;
+    private TextView mBottomTitleTextView, mBottomTimeTextView;
 
     // Tags for getting parse data
     private static final String TAG_COUNTDOWN_STARTDATE = "countdownStartDate";
@@ -54,8 +61,14 @@ public class CountdownFragment extends Fragment  {
         mCircularProgress = (ProgressBar) view.findViewById(R.id.progressbar_counter);
         mCountdownTextView = (TextView) view.findViewById(R.id.timer_text);
 
-        // TEST
-/*        Button button = (Button) view.findViewById(R.id.button);
+        // Cache the necessary TextViews which display the starting/ending times
+        mTopTitleTextView = (TextView) view.findViewById(R.id.countdown_toptitle_intro);
+        mTopTimeTextView = (TextView) view.findViewById(R.id.countdown_toptitle_time);
+        mBottomTitleTextView = (TextView) view.findViewById(R.id.countdown_bottomtitle_intro);
+        mBottomTimeTextView = (TextView) view.findViewById(R.id.countdown_bottomtitle_time);
+
+/*        // FOR TESTING- code kept here for testing the timer if necessary
+        Button button = (Button) view.findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,7 +120,21 @@ public class CountdownFragment extends Fragment  {
      * @param duration - How long from this start date this countdown timer should end
      */
     private void initCountdown(Date startDate, long duration) {
-        // If the countdown
+        // Get the current time to compare against the start time
+        long curTime = Util.getCurrentTime();
+
+        // Get the start and end times, in milliseconds
+        long startTime = startDate.getTime();
+        long endTime = startTime + duration;
+
+        Log.d(TAG, "StartDate: " + startDate.toString() + " | Duration: " + duration);
+        Log.d(TAG, "Cur Time: " + curTime + " | Date: " + new Date(curTime).toString());
+        Log.d(TAG, "Start Time: " + startTime + " | Date: " + new Date(startTime).toString());
+        Log.d(TAG, "End Time: " + endTime + " Date: " + new Date(endTime).toString());
+
+        // Get a reference to the Resources in order to set the displayed texts
+
+        // If the curTime < startTime, then countdown shouldn't start yet
     }
 
     private class HackingCountdownTimer extends CountDownTimer {
