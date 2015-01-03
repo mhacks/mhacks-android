@@ -23,6 +23,9 @@ import com.parse.ConfigCallback;
 import com.parse.ParseConfig;
 import com.parse.ParseException;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import java.util.Date;
 import java.util.Random;
 import java.util.TimeZone;
@@ -122,14 +125,15 @@ public class CountdownFragment extends Fragment  {
      */
     private void initCountdown(Date startDate, long duration) {
         // Get the current time to compare against the start time
-        long curTime = Util.getCurrentTime();
+        DateTimeZone easternTimeZone = DateTimeZone.forID("America/Detroit");
+        DateTime curDateTime = new DateTime(easternTimeZone);
 
         // Get the start and end times, in milliseconds
         long startTime = startDate.getTime();
         long endTime = startTime + duration;
 
         Log.d(TAG, "StartDate: " + startDate.toString() + " | Duration: " + duration);
-        Log.d(TAG, "Cur Time: " + curTime + " | Date: " + new Date(curTime).toString());
+        Log.d(TAG, "Cur Time: " + curDateTime.getMillis() + " | Date: " + curDateTime.toString());
         Log.d(TAG, "Start Time: " + startTime + " | Date: " + new Date(startTime).toString());
         Log.d(TAG, "End Time: " + endTime + " Date: " + new Date(endTime).toString());
 
@@ -139,7 +143,7 @@ public class CountdownFragment extends Fragment  {
         String topTitle, topTime = null, bottomTitle, bottomTime = null;
 
         // If the curTime < startTime, then countdown shouldn't start yet
-        if(curTime < startTime) {
+        if(curDateTime.getMillis() < startTime) {
             // Get the title strings to display
             topTitle = resources.getString(R.string.countdown_toptitle_beforestart);
             bottomTitle = resources.getString(R.string.countdown_bottomtitle_normal);
@@ -151,7 +155,7 @@ public class CountdownFragment extends Fragment  {
             // TODO: Create a personal countdown to start the countdown
         }
         // Then if curTime is less than the end time, start the countdown!
-        else if(curTime < endTime) {
+        else if(curDateTime.getMillis() < endTime) {
             // Get the title strings to display
             topTitle = resources.getString(R.string.countdown_toptitle_normal);
             bottomTitle = resources.getString(R.string.countdown_bottomtitle_normal);
@@ -172,7 +176,6 @@ public class CountdownFragment extends Fragment  {
         mTopTimeTextView.setText(topTime);
         mBottomTitleTextView.setText(bottomTitle);
         mBottomTimeTextView.setText(bottomTime);
-
     }
 
     private class HackingCountdownTimer extends CountDownTimer {
