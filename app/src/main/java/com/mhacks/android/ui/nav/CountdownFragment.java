@@ -1,6 +1,7 @@
 package com.mhacks.android.ui.nav;
 
 import android.app.Fragment;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
@@ -133,8 +134,45 @@ public class CountdownFragment extends Fragment  {
         Log.d(TAG, "End Time: " + endTime + " Date: " + new Date(endTime).toString());
 
         // Get a reference to the Resources in order to set the displayed texts
+        Resources resources = getResources();
+        // The strings to set for the TextViews
+        String topTitle, topTime = null, bottomTitle, bottomTime = null;
 
         // If the curTime < startTime, then countdown shouldn't start yet
+        if(curTime < startTime) {
+            // Get the title strings to display
+            topTitle = resources.getString(R.string.countdown_toptitle_beforestart);
+            bottomTitle = resources.getString(R.string.countdown_bottomtitle_normal);
+
+            // Get the default time strings to display (no need to try formatting time)
+            topTime = resources.getString(R.string.countdown_toptitle_timedefault);
+            bottomTime = resources.getString(R.string.countdown_bottomtitle_timedefault);
+
+            // TODO: Create a personal countdown to start the countdown
+        }
+        // Then if curTime is less than the end time, start the countdown!
+        else if(curTime < endTime) {
+            // Get the title strings to display
+            topTitle = resources.getString(R.string.countdown_toptitle_normal);
+            bottomTitle = resources.getString(R.string.countdown_bottomtitle_normal);
+
+            //
+        }
+        // Otherwise, hacking already ended!
+        else {
+            // Get the title strings to display
+            topTitle = resources.getString(R.string.countdown_toptitle_normal);
+            bottomTitle = resources.getString(R.string.countdown_bottomtitle_done);
+
+            //
+        }
+
+        // Set the strings onto the appropriate TextViews
+        mTopTitleTextView.setText(topTitle);
+        mTopTimeTextView.setText(topTime);
+        mBottomTitleTextView.setText(bottomTitle);
+        mBottomTimeTextView.setText(bottomTime);
+
     }
 
     private class HackingCountdownTimer extends CountDownTimer {
