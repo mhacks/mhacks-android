@@ -2,6 +2,7 @@ package com.mhacks.android.ui.common;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
@@ -19,11 +20,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 
 /**
  * Created by Damian Wieczorek <damianw@umich.edu> on 7/28/14.
  */
 public abstract class Util {
+    private static final String LOGTAG = "MD/Util";
+
 
     // Various formatting tools for Date, String, etc
     public static abstract class Time {
@@ -141,5 +146,36 @@ public abstract class Util {
             }
         }
         catch(Exception ex){}
+    }
+
+    // Gets the current time in EST time zone and returns it in milliseconds
+    public static long getCurrentTime() {
+        /* Using Google's suggested Gregorian Calendar method:
+            http://developer.android.com/reference/java/util/GregorianCalendar.html
+         */
+
+        // get the supported ids for GMT-05:00 (Eastern Standard Time)
+        String[] ids = TimeZone.getAvailableIDs(-5 * 60 * 60 * 1000);
+        // if no ids were returned, something is wrong. get out.
+        if (ids.length == 0) {
+            Log.e(LOGTAG, "getCurrentTime: Failed to get current time");
+            return 0;
+        }
+
+        // create a Eastern Standard Time time zone
+        SimpleTimeZone est = new SimpleTimeZone(-8 * 60 * 60 * 1000, ids[0]);
+
+        // set up rules for daylight savings time
+        est.setStartRule(Calendar.APRIL, 1, Calendar.SUNDAY, 2 * 60 * 60 * 1000);
+        est.setEndRule(Calendar.OCTOBER, -1, Calendar.SUNDAY, 2 * 60 * 60 * 1000);
+
+        // create a GregorianCalendar with the Eastern Standard time zone
+        // and the current date and time
+        Calendar calendar = new GregorianCalendar(est);
+        Date trialTime = new Date();
+        calendar.setTime(trialTime);
+
+        // Return the current time in milliseconds
+        return calendar.getTimeInMillis();
     }
 }
