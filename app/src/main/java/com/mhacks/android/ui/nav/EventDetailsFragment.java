@@ -112,11 +112,11 @@ public class EventDetailsFragment extends Fragment {
      */
     public void setEventDetails() {
         Event event = getEvent();
-        ArrayList<Location> locations = getLocations(event);
+//        ArrayList<Location> locations = getLocations(event);
 
         eventTitle.setText(event.getTitle());
         eventTime.setText(formatDate(event.getStartTime(), event.getDuration()));
-        eventLocation.setText(locations.get(0).getName());
+//        eventLocation.setText(locations.get(0).getName());
         eventDescription.setText(event.getDetails());
 
         //Null pointer check for Sponsor. Null Sponsor == The MHacks Team is hosting the event.

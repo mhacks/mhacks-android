@@ -117,7 +117,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         mWeekView.setToday(today);
         //Set up visuals of the calendar
         mWeekView.setBackgroundColor(Color.WHITE);
-        mWeekView.setEventTextColor(Color.BLACK);
+        mWeekView.setEventTextColor(Color.WHITE);
         mWeekView.setNumberOfVisibleDays(3);
         mWeekView.setTextSize(22);
         mWeekView.setHourHeight(120);
@@ -179,13 +179,9 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
             query.findInBackground(new FindCallback<Event>() {
                 public void done(List<Event> eventList, ParseException e) {
                     if (e == null) {
-                        try {
-                            ParseObject.unpinAll(EVENT_PIN, eventList);
-                            ParseObject.pinAll(EVENT_PIN, eventList);
-                        }
-                        catch (ParseException e2) {
-                            Log.e(TAG, "Pin error.", e2);
-                        }
+                            ParseObject.unpinAllInBackground(EVENT_PIN, eventList);
+                            ParseObject.pinAllInBackground(EVENT_PIN, eventList);
+                        Log.d(TAG, eventList.size() + " events");
                         //Calls create events to build WeekViewEvent objects from Event objects.
                         createEvents(eventList, newMonth);
                     }
@@ -222,7 +218,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
             //Create end event.
             Calendar endTime = (Calendar) startTime.clone();
             int hourDuration = event.getDuration() / 3600;      //getDuration returns seconds as an int. Need to convert to hours.
-            int minuteDuration = event.getDuration() % 3600;    //Converting remainder of minutes to int minutes.
+            int minuteDuration = (event.getDuration() % 3600) / 60;    //Converting remainder of minutes to int minutes.
             endTime.add(Calendar.HOUR, hourDuration);
             endTime.add(Calendar.MINUTE, minuteDuration);
 
@@ -260,6 +256,9 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
 
             //Increment the id
             id++;
+
+            Log.d(TAG, weekViewEvent.getName() + " - " + weekViewEvent.getId());
+
         }
         //Sets boolean to true when all WeekViewEvent objects have been created.
         if (firstRun) {
@@ -270,6 +269,8 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
+        Log.d(TAG, event.getName() + " - " + event.getId());
+
         if (!eventDetailsOpen) {
             eventDetailsFragment =
                     EventDetailsFragment.newInstance(finalEvents.get((int) event.getId()), event.getColor());
@@ -295,7 +296,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         /*Checks to see if the month being called is January (1). Not the best way to handle it but
         it works for this case since we only care about 3 days (Jan 16-18, 2015).*/
         if (newMonth == 1) {
-            getLocalEvents(newMonth);
+            //getRemoteEvents(newMonth);
             return finalWeekViewEvents;
         } else {
             /*onMonthChange is called 3 times by the view when it is created. This results in
@@ -321,15 +322,6 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         }
     }
 
-    /**
-     * Check to see if the app has internet access.
-     * @return true if the app has internet access, false if not.
-     */
-    public boolean checkInternet() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return !(networkInfo == null);
-    }
 
     /**
      * Refresh all the events from the Parse database and call the onMonthChange listener to
@@ -356,6 +348,10 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         eventDetailsOpen = false;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //  TOOLBAR BUTTONS, ETC.
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.fragment_schedule_actions, menu);
@@ -370,6 +366,20 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //  Internet check and dialog.
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Check to see if the app has internet access.
+     * @return true if the app has internet access, false if not.
+     */
+    public boolean checkInternet() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return !(networkInfo == null);
     }
 
     /**

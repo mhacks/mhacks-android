@@ -91,6 +91,7 @@
     <orderEntry type="library" exported="" name="tubesock-0.0.8" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="jackson-databind-2.2.2" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="android-maps-utils-0.3.4" level="project" />
     <orderEntry type="library" exported="" name="android-week-view-1.1.7" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-21.0.3" level="project" />
@@ -98,7 +99,6 @@
     <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="jackson-annotations-2.2.2" level="project" />
     <orderEntry type="library" exported="" name="firebase-client-1.0.16" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-21.0.0" level="project" />
     <orderEntry type="library" exported="" name="bugsnag-android-2.2.0" level="project" />
     <orderEntry type="module" module-name="facebook" exported="" />
   </component>

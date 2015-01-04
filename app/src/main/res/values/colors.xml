@@ -14,11 +14,11 @@
     
     <!-- Event type colors -->
     <color name="event_red">#E23052</color>
-    <color name="event_orange">#F97850</color>
+    <color name="event_orange">#F78B31</color>
     <color name="event_yellow">#FFCA0B</color>
-    <color name="event_green">#239133</color>
-    <color name="event_blue">#0000FF</color>
-    <color name="event_purple">#8076E2</color>
+    <color name="event_green">#4D9973</color>
+    <color name="event_blue">#385DD6</color>
+    <color name="event_purple">#A86EDB</color>
 
     <!-- Begin JN Basic Colors -->
     <!-- Basic colors, laziness -->
