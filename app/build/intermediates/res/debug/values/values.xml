@@ -616,7 +616,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="next">Next</string>
-    <string name="no_internet_button">Like, check again Scoob.</string>
+    <string name="no_internet_cancel_button">Never mind.</string>
+    <string name="no_internet_check_again_button">Like, check again Scoob.</string>
     <string name="no_internet_message">Ruh Roh! There\'s no internet.</string>
     <string name="no_threads">You have no open conversations. Visit the concierge to message
         someone!

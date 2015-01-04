@@ -13,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,6 +29,7 @@ import com.mhacks.android.ui.weekview.WeekViewModified;
 import com.mhacks.iv.android.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -47,6 +49,9 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
                                                           WeekViewModified.MonthChangeListener {
 
     public static final String TAG = "ScheduleFragment";
+
+    //Local datastore pin name.
+    public static final String EVENT_PIN = "eventPin";
 
     //Declaring Views
     private View             mScheduleFragView;
@@ -84,14 +89,9 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         mUser = ParseUser.getCurrentUser();
 
         //Network connection check.
-        if (checkInternet()) {
-            getEvents(1); //Called initially to build the schedule view and query events. 1 == January.
-            hasInternet = true;
-        }
-        else {
-            hasInternet = false;
-            showNoInternetDialog();
-        }
+        hasInternet = checkInternet();
+
+        getLocalEvents(1); //Called initially to build the schedule view and query events. 1 == January.
 
         return mScheduleFragView;
     }
@@ -139,24 +139,65 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
     }
 
     /**
-     * Queries Event objects from Parse and assigns the list to the global List<Event> events.
+     * Queries Event objects from the local datastore and assigns the list to the global List<Event> events.
      * @param newMonth Month for which to get events.
      */
-    public void getEvents(final int newMonth) {
+    private void getLocalEvents(final int newMonth) {
         ParseQuery<Event> query = ParseQuery.getQuery("Event");
         query.include("category"); //Pulls EventType object.
         query.include("host"); //Pulls Sponsor object.
         query.include("location"); //Pulls Location JSON array.
+        query.fromPin(EVENT_PIN);
         query.findInBackground(new FindCallback<Event>() {
             public void done(List<Event> eventList, ParseException e) {
                 if (e == null) {
-                    //Calls create events to build WeekViewEvent objects from Event objects.
-                    createEvents(eventList, newMonth);
-                } else {
+                    //Check to see of the local datastore is empty.
+                    if (eventList.size() == 0) {
+                        getRemoteEvents(newMonth); //If it is, query the remote events.
+                    } else {
+                        //Calls create events to build WeekViewEvent objects from Event objects.
+                        createEvents(eventList, newMonth);
+                    }
+                }
+                else {
                     Toast.makeText(getActivity(), "No events found.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    /**
+     * Queries Event objects from Parse and assigns the list to the global List<Event> events.
+     * @param newMonth Month for which to get events.
+     */
+    private void getRemoteEvents(final int newMonth) {
+        if (hasInternet) {
+            ParseQuery<Event> query = ParseQuery.getQuery("Event");
+            query.include("category"); //Pulls EventType object.
+            query.include("host"); //Pulls Sponsor object.
+            query.include("location"); //Pulls Location JSON array.
+            query.findInBackground(new FindCallback<Event>() {
+                public void done(List<Event> eventList, ParseException e) {
+                    if (e == null) {
+                        try {
+                            ParseObject.unpinAll(EVENT_PIN, eventList);
+                            ParseObject.pinAll(EVENT_PIN, eventList);
+                        }
+                        catch (ParseException e2) {
+                            Log.e(TAG, "Pin error.", e2);
+                        }
+                        //Calls create events to build WeekViewEvent objects from Event objects.
+                        createEvents(eventList, newMonth);
+                    }
+                    else {
+                        Toast.makeText(getActivity(), "No events found.", Toast.LENGTH_SHORT)
+                             .show();
+                    }
+                }
+            });
+        } else {
+            showNoInternetDialog();
+        }
     }
 
     /**
@@ -254,7 +295,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         /*Checks to see if the month being called is January (1). Not the best way to handle it but
         it works for this case since we only care about 3 days (Jan 16-18, 2015).*/
         if (newMonth == 1) {
-            getEvents(newMonth);
+            getLocalEvents(newMonth);
             return finalWeekViewEvents;
         } else {
             /*onMonthChange is called 3 times by the view when it is created. This results in
@@ -295,10 +336,11 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
      * re-draw the new events on the calendar.
      */
     public void refreshEvents () {
+        hasInternet = checkInternet();
         if (hasInternet) {
             mScheduleContainer.removeView(mWeekView);
             firstRun = true;
-            getEvents(1);
+            getRemoteEvents(1); //Forces a remote Event query.
         } else {
             showNoInternetDialog();
         }
@@ -340,7 +382,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
                 // Use the Builder class for convenient dialog construction
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setMessage(R.string.no_internet_message)
-                       .setPositiveButton(R.string.no_internet_button,
+                       .setPositiveButton(R.string.no_internet_check_again_button,
                                           new DialogInterface.OnClickListener() {
                                               public void onClick(DialogInterface dialog,
                                                                   int id) {
@@ -349,6 +391,13 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
                                                                .replace(R.id.main_container,
                                                                         new ScheduleFragment())
                                                                .commit();
+                                              }
+                                          })
+                       .setNegativeButton(R.string.no_internet_cancel_button,
+                                          new DialogInterface.OnClickListener() {
+                                              public void onClick(DialogInterface dialog,
+                                                                  int id) {
+                                                  //Do nothing.
                                               }
                                           });
                 // Create the AlertDialog object and return it

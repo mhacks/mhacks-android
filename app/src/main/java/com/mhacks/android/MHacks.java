@@ -38,7 +38,7 @@ public class MHacks extends Application {
 
 
         // enabling local data store causes weird 'ParseObject not found for update' error
-        Parse.enableLocalDatastore(this);
+        Parse.enableLocalDatastore(getApplicationContext());
         Parse.initialize(this, getString(R.string.parse_application_id), getString(R.string.parse_client_key));
         PushService.startServiceIfRequired(getApplicationContext());
 
