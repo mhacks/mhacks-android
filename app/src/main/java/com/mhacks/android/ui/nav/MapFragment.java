@@ -19,6 +19,7 @@ import com.mhacks.iv.android.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ import java.util.List;
 public class MapFragment extends Fragment implements AdapterView.OnItemSelectedListener{
 
     public static final String TAG = "MapFragment";
+
+    public static final String MAP_PIN = "mapPin";
 
     //Views
     private View      mMapFragView;
@@ -72,7 +75,7 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
 
         mapView = (ImageView) mMapFragView.findViewById(R.id.map_view);
 
-        getMaps();
+        getLocalMaps();
 
         return mMapFragView;
     }
@@ -84,22 +87,24 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
     }
 
     /**
-     * Queries the Parse database for Map objects.
+     * Queries the local datastore for Map objects.
      */
-    public void getMaps() {
+    private void getLocalMaps() {
         ParseQuery<Map> query = ParseQuery.getQuery("Map");
+        query.fromPin(MAP_PIN);
         query.findInBackground(new FindCallback<Map>() {
             @Override
-            public void done(List<Map> mapsList, ParseException e) {
+            public void done(List<Map> mapList, ParseException e) {
                 if (e == null) {
-                    for (Map m : mapsList) {
-                        mapNames.set(m.getOrder(), m.getTitle());
-                        imageURLs.set(m.getOrder(), m.getImage().getUrl());
+                    if (mapList.size() == 0) {
+                        getRemoteMaps();
+                    } else {
+                        for (Map m : mapList) {
+                            mapNames.set(m.getOrder(), m.getTitle());
+                            imageURLs.set(m.getOrder(), m.getImage().getUrl());
+                        }
+                        setAdapter();
                     }
-
-
-                    setAdapter();
-                    Log.d(TAG, mapNames.size() + " - " + imageURLs.size());
                 } else {
                     Log.e(TAG, "Query failed.", e);
                 }
@@ -107,6 +112,35 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
         });
     }
 
+    /**
+     * Queries the Parse database for Map objects.
+     */
+    private void getRemoteMaps () {
+        ParseQuery<Map> query = ParseQuery.getQuery("Map");
+        query.findInBackground(new FindCallback<Map>() {
+            @Override
+            public void done(List<Map> mapList, ParseException e) {
+                if (e == null) {
+                    //Pin list to local datastore.
+                    ParseObject.unpinAllInBackground(MAP_PIN, mapList);
+                    ParseObject.pinAllInBackground(MAP_PIN, mapList);
+
+                    for (Map m : mapList) {
+                        mapNames.set(m.getOrder(), m.getTitle());
+                        imageURLs.set(m.getOrder(), m.getImage().getUrl());
+                    }
+                    setAdapter();
+                } else {
+                    Log.e(TAG, "Query failed.", e);
+                }
+            }
+        });
+    }
+
+    /**
+     * Sets the String array adapter to the names of the maps pulled from Parse. These are displayed
+     * in the spinner on the SupportActionBar (Toolbar).
+     */
     public void setAdapter () {
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(),
                                                                        android.R.layout.simple_spinner_item,
