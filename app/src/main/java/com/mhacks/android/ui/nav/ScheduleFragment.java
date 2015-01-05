@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.alamkanak.weekview.WeekViewEvent;
 import com.mhacks.android.data.model.Event;
+import com.mhacks.android.data.model.Location;
 import com.mhacks.android.ui.weekview.WeekViewModified;
 import com.mhacks.iv.android.R;
 import com.parse.FindCallback;
@@ -52,6 +53,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
 
     //Local datastore pin name.
     public static final String EVENT_PIN = "eventPin";
+    public static final String LOCATION_PIN = "locationPin";
 
     //Declaring Views
     private View             mScheduleFragView;
@@ -172,6 +174,21 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
      */
     private void getRemoteEvents(final int newMonth) {
         if (hasInternet) {
+            ParseQuery<Location> locQuery = ParseQuery.getQuery("Location");
+            locQuery.findInBackground(new FindCallback<Location>() {
+                public void done(List<Location> locList, ParseException f) {
+                    if (f == null) {
+                        ParseObject.unpinAllInBackground(LOCATION_PIN, locList);
+                        ParseObject.pinAllInBackground(LOCATION_PIN, locList);
+                        Log.d(TAG, locList.size() + " locations");
+                    }
+                    else {
+                        Toast.makeText(getActivity(), "No locations found.", Toast.LENGTH_SHORT)
+                             .show();
+                    }
+                }
+            });
+
             ParseQuery<Event> query = ParseQuery.getQuery("Event");
             query.include("category"); //Pulls EventType object.
             query.include("host"); //Pulls Sponsor object.
@@ -256,9 +273,6 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
 
             //Increment the id
             id++;
-
-            Log.d(TAG, weekViewEvent.getName() + " - " + weekViewEvent.getId());
-
         }
         //Sets boolean to true when all WeekViewEvent objects have been created.
         if (firstRun) {
@@ -269,8 +283,6 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-        Log.d(TAG, event.getName() + " - " + event.getId());
-
         if (!eventDetailsOpen) {
             eventDetailsFragment =
                     EventDetailsFragment.newInstance(finalEvents.get((int) event.getId()), event.getColor());
