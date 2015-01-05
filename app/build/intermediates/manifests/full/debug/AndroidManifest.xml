@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mhacks.iv.android"
-    android:versionCode="1420405818"
+    android:versionCode="1420423821"
     android:versionName="3.0.0" >
 
     <uses-sdk
@@ -34,9 +34,9 @@
     <application
         android:name="com.mhacks.android.MHacks"
         android:allowBackup="true"
-        android:icon="@drawable/mhacks_frame_light"
+        android:icon="@drawable/launcher_icon"
         android:label="@string/app_name"
-        android:logo="@drawable/mhacks_frame_light"
+        android:logo="@drawable/launcher_icon"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.mhacks.android.ui.MainActivity"

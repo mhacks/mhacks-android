@@ -112,12 +112,16 @@ public class EventDetailsFragment extends Fragment {
      */
     public void setEventDetails() {
         Event event = getEvent();
-//        ArrayList<Location> locations = getLocations(event);
+        ArrayList<Location> locations = getLocations(event);
 
         eventTitle.setText(event.getTitle());
         eventTime.setText(formatDate(event.getStartTime(), event.getDuration()));
-//        eventLocation.setText(locations.get(0).getName());
         eventDescription.setText(event.getDetails());
+
+        if (locations.size() > 0)
+            eventLocation.setText(locations.get(0).getName());
+        else
+            eventLocation.setText("Unable to fetch location.");
 
         //Null pointer check for Sponsor. Null Sponsor == The MHacks Team is hosting the event.
         if (event.getHost() != null)
@@ -185,9 +189,12 @@ public class EventDetailsFragment extends Fragment {
         try { //JSON Exception
             for (int i = 0; i < JSONlocations.length(); i++) {
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("Location");
+                query.fromLocalDatastore();
                 try { //ParseException
                     //Using query.get() instead of getInBackground() to force each query before moving on.
-                    locations.add((Location) query.get(JSONlocations.getJSONObject(i).getString("objectId")));
+                    Location location = (Location) query.get(JSONlocations.getJSONObject(i).getString("objectId"));
+                    if (location != null)
+                        locations.add(location);
                 } catch (ParseException p) {
                     Log.e(TAG, "Parse done goofed.", p);
                 }
