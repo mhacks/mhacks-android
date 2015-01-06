@@ -13,4 +13,4 @@
         android:id="@+id/gridView"
         android:layout_gravity="center_horizontal" />
 
-</LinearLayout><!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/layout/fragment_awards.xml -->
+</LinearLayout><!-- From: file:/home/jawad/code/android/MHacks-Android/app/src/main/res/layout/fragment_awards.xml -->

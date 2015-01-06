@@ -19,12 +19,17 @@ import android.widget.Toast;
 
 import com.mhacks.android.ui.common.Util;
 import com.mhacks.iv.android.R;
+import com.ocpsoft.pretty.time.Duration;
+import com.ocpsoft.pretty.time.PrettyTime;
 import com.parse.ConfigCallback;
 import com.parse.ParseConfig;
 import com.parse.ParseException;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.MutableDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.Date;
 import java.util.Random;
@@ -132,11 +137,21 @@ public class CountdownFragment extends Fragment  {
         long startTime = startDate.getTime();
         long endTime = startTime + duration;
 
+        Log.d(TAG, "------------------------------------------");
         Log.d(TAG, "StartDate: " + startDate.toString() + " | Duration: " + duration);
         Log.d(TAG, "Cur Time: " + curDateTime.getMillis() + " | Date: " + curDateTime.toString());
         Log.d(TAG, "Start Time: " + startTime + " | Date: " + new Date(startTime).toString());
         Log.d(TAG, "End Time: " + endTime + " Date: " + new Date(endTime).toString());
-
+/*
+        // Covert current date and start date to java util dates with UTC time zone
+            // [to adjust for different time zones, especially with PrettyTime library]
+        MutableDateTime startDateTimeM = new MutableDateTime(easternTimeZone);
+        startDateTimeM.setMillis(startTime);
+        Date javaStartDateUTC = startDateTimeM.toDateTime(DateTimeZone.UTC).toDate();
+        Date javaCurDateUTC = curDateTime.toDateTime(DateTimeZone.UTC).toDate();
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("MMMM, yyyy");
+        fmt.print(startDateTimeM);
+*/
         // Get a reference to the Resources in order to set the displayed texts
         Resources resources = getResources();
         // The strings to set for the TextViews

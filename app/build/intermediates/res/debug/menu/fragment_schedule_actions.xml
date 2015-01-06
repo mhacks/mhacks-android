@@ -6,4 +6,4 @@
         android:icon="@drawable/ic_action_refresh"
         android:title="@string/refresh"
         app:showAsAction="always" />
-</menu><!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/menu/fragment_schedule_actions.xml -->
+</menu><!-- From: file:/home/jawad/code/android/MHacks-Android/app/src/main/res/menu/fragment_schedule_actions.xml -->

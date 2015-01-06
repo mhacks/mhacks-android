@@ -26,6 +26,7 @@
             />
 
         <TextView
+            android:id="@+id/countdown_toptitle_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/countdown_toptitle_timedefault"
@@ -35,7 +36,7 @@
 
     </LinearLayout>
 
-    <!-- ViewGroup for top titles -->
+    <!-- ViewGroup for bottom titles -->
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -55,6 +56,7 @@
             />
 
         <TextView
+            android:id="@+id/countdown_bottomtitle_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/countdown_bottomtitle_timedefault"
@@ -98,4 +100,4 @@
         android:text="Start" />
         -->
 
-</RelativeLayout><!-- From: file:/C:/Users/Omkar%20Moghe/Desktop/MHacks-Android/app/src/main/res/layout/fragment_countdown.xml -->
+</RelativeLayout><!-- From: file:/home/jawad/code/android/MHacks-Android/app/src/main/res/layout/fragment_countdown.xml -->
