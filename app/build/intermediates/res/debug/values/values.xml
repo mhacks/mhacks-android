@@ -90,7 +90,7 @@
     <color name="bright_foreground_material_light">@android:color/black</color>
     <color name="button_material_dark">#ff5a595b</color>
     <color name="button_material_light">#ffd6d7d7</color>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="cardview_dark_background">#FF202020</color>
     <color name="cardview_light_background">#FFFAFAFA</color>
@@ -330,7 +330,7 @@
     <dimen name="adapter_header_padding_horizontal">16dp</dimen>
     <dimen name="adapter_header_padding_vertical">12dp</dimen>
     <dimen name="announcement_height">96dp</dimen>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <dimen name="cardview_compat_inset_shadow">1dp</dimen>
     <dimen name="cardview_default_elevation">2dp</dimen>
@@ -1403,7 +1403,7 @@ m>        <item name="android:textColorLink">@color/link_text_material_dark</ite
     <style name="Bubble.TextAppearance.Light" parent="Bubble.TextAppearance.Dark">
         <item name="android:textColor">#ffeeeeee</item>
     </style>
-    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.0/res/values/values.xml -->
+    <!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <style name="CardView">
         <item name="cardBackgroundColor">@color/cardview_light_background</item>

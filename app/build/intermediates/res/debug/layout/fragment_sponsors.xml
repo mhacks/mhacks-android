@@ -10,14 +10,14 @@
         android:text="SponsorsFragment"/>
     <GridView
         android:id="@+id/sponsor_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:numColumns="2"
         android:columnWidth="90dp"
-        android:numColumns="auto_fit"
-        android:verticalSpacing="10dp"
         android:horizontalSpacing="10dp"
-        android:stretchMode="columnWidth"
-        android:gravity="center">
+        android:verticalSpacing="20dp"
+        android:gravity="center"
+        android:stretchMode="columnWidth" >
 
     </GridView>
 

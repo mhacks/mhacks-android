@@ -14,6 +14,10 @@
         android:id="@+id/sponsor_title" />
     <TextView
         android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:id="@+id/sponsor_tier" />
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/sponsor_desc" />
 
