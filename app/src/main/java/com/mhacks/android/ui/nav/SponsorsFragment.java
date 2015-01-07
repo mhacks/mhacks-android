@@ -125,7 +125,7 @@ public class SponsorsFragment extends Fragment{
 
             builder.setView(profile)
                     // Add action buttons
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             DialogSponsor.this.getDialog().cancel();
                         }
