@@ -89,14 +89,17 @@ public class CountdownFragment extends Fragment  {
                     parseConfig = ParseConfig.getCurrentConfig();
                 }
 
-                // Get the date and duration from the config
-                Date startDate = parseConfig.getDate(TAG_COUNTDOWN_STARTDATE);
-                long duration = parseConfig.getLong(TAG_COUNTDOWN_DURATION);
+                if(parseConfig == null) {
+                    // If couldn't get the parseConfig, politely tell the user and prevent a crash
+                    Toast.makeText(getActivity(), "Couldn't retrieve countdown info", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    // Get the date and duration from the config
+                    Date startDate = parseConfig.getDate(TAG_COUNTDOWN_STARTDATE);
+                    long duration = parseConfig.getLong(TAG_COUNTDOWN_DURATION);
 
-//                Toast.makeText(getActivity(), "Date: " + startDate.toString()
-//                        + " | Duration: " + duration, Toast.LENGTH_SHORT).show();
-
-                initCountdown(startDate, duration);
+                    initCountdown(startDate, duration);
+                }
             }
         });
     }
