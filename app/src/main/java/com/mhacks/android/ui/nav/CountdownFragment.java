@@ -93,8 +93,8 @@ public class CountdownFragment extends Fragment  {
                 Date startDate = parseConfig.getDate(TAG_COUNTDOWN_STARTDATE);
                 long duration = parseConfig.getLong(TAG_COUNTDOWN_DURATION);
 
-                Toast.makeText(getActivity(), "Date: " + startDate.toString()
-                        + " | Duration: " + duration, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "Date: " + startDate.toString()
+//                        + " | Duration: " + duration, Toast.LENGTH_SHORT).show();
 
                 initCountdown(startDate, duration);
             }
