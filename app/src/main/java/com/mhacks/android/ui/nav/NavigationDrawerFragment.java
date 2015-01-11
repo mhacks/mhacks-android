@@ -12,8 +12,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mhacks.iv.android.R;
 
@@ -24,12 +26,12 @@ public class NavigationDrawerFragment extends Fragment {
     private static final String TAG = "MD/NavigationDrawerFragment";
 
     private NavigationDrawerCallbacks mCallbacks;
-    private int                       mCurrentSelectedPosition;
-    private ActionBarDrawerToggle     mDrawerToggle;
+    private int mCurrentSelectedPosition;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     private View mNavDrawerView;
 
-    private RecyclerView mMainRecyclerNav;
+    private ListView mListViewNav;
 
     private TextView mAnnouncementsTextView, mScheduleTextView, mSponsorsTextView, mAwardsTextView;
 
@@ -46,7 +48,7 @@ public class NavigationDrawerFragment extends Fragment {
         mNavDrawerView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
 
         // Cache the main nav's RecyclerView
-        mMainRecyclerNav = (RecyclerView) mNavDrawerView.findViewById(R.id.list_navmain);
+        mListViewNav = (ListView) mNavDrawerView.findViewById(R.id.listview);
 
         return mNavDrawerView;
     }
@@ -61,17 +63,9 @@ public class NavigationDrawerFragment extends Fragment {
 
     // Sets up the main navigation
     private void setupMainNav() {
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mMainRecyclerNav.setHasFixedSize(true);
-
-        // use a linear layout manager
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        mMainRecyclerNav.setLayoutManager(layoutManager);
-
-        // Create and set the adapter for this recyclerView
+        // Set up the main listView nav with the specified adapter
         MainNavAdapter adapter = new MainNavAdapter(getActivity());
-        mMainRecyclerNav.setAdapter(adapter);
+        mListViewNav.setAdapter(adapter);
     }
 
     @Override
@@ -101,7 +95,7 @@ public class NavigationDrawerFragment extends Fragment {
         void onNavigationDrawerItemSelected(int position);
     }
 
-    class MainNavAdapter extends RecyclerView.Adapter<MainNavAdapter.ViewHolder> {
+    class MainNavAdapter extends BaseAdapter {
         Context mContext;
 
         // Holds the titles of every row
@@ -115,60 +109,56 @@ public class NavigationDrawerFragment extends Fragment {
             rowTitles = context.getResources().getStringArray(R.array.nav_items);
         }
 
-        // Simple class that holds all the views that need to be reused
-        class ViewHolder extends RecyclerView.ViewHolder{
-            View parentView; // The view which holds all the other views
-            TextView rowTitle; // The title of this item
-
-            // Default constructor, itemView holds all the views that need to be saved
-            public ViewHolder(View itemView) {
-                super(itemView);
-
-                // Save the entire itemView, for setting listeners and usch later
-                this.parentView = itemView;
-
-                // Save the TextView- all that's supported at the moment
-                this.rowTitle = (TextView) itemView.findViewById(R.id.row_title);
-            }
-        }
-
-        // Create new views (invoked by the layout manager)
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            // Create the view for this row
-            View row = LayoutInflater.from(mContext)
-                    .inflate(R.layout.list_navmain_row, viewGroup, false);
-
-            // Create a new viewHolder which caches all the views that needs to be saved
-            ViewHolder viewHolder = new ViewHolder(row);
-
-            return viewHolder;
-        }
-
-        // Replace the contents of a view (invoked by the layout manager)
-        @Override
-        public void onBindViewHolder(ViewHolder viewHolder, int i) {
-            // - get element from your dataset at this position
-            // - replace the contents of the view with that element
-            viewHolder.rowTitle.setText(rowTitles[i]);
-
-            // TODO: Make a better workaround for passing in the position to the listener
-            final int position = i;
-
-            // Set a listener for this entire view
-            viewHolder.parentView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Set the position of the current navigation
-                    setPosition(position);
-                }
-            });
-        }
-
-        // Return the size of your dataset (invoked by the layout manager)
-        @Override
-        public int getItemCount() {
+        public int getCount() {
             return rowTitles.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return rowTitles[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View row = null;
+            ViewHolder holder;
+
+            if (convertView == null) {
+                // Then gotta set up this row for the first time
+                LayoutInflater inflater =
+                        (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                row = inflater.inflate(R.layout.list_navmain_row, parent, false);
+
+                // Create a ViewHolder to save all the different parts of the row
+                holder = new ViewHolder();
+                holder.rowTitle = (TextView) row.findViewById(R.id.row_title);
+                holder.rowIcon = (ImageView) row.findViewById(R.id.row_icon);
+
+                // Make the row reuse the ViewHolder
+                row.setTag(holder);
+            } else { // Otherwise, use the recycled view
+                row = convertView;
+                holder = (ViewHolder) row.getTag();
+            }   
+
+            // Set the title of this row
+            holder.rowTitle.setText(rowTitles[position]);
+
+            // TODO: Set the icon of this row
+
+            return row;
+        }
+
+        // Simple class that holds all the views that need to be reused
+        class ViewHolder {
+            TextView rowTitle; // The title of this item
+            ImageView rowIcon; // The icon imageView of this item
         }
     }
 }
