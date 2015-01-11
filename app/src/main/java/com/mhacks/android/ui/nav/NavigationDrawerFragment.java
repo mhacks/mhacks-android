@@ -82,6 +82,16 @@ public class NavigationDrawerFragment extends Fragment {
         mListViewNav.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Double check that the user didn't click on the current item again
+                if(position == mCurrentSelectedPosition) {
+                    // Try to close the drawer
+                    if(mCallbacks != null)
+                        mCallbacks.closeDrawer();
+                    
+                    return;
+                }
+
+                // Set the new position as the highlighted, selected row
                 mListViewNav.setItemChecked(position, true);
 
                 // Change the official fragment position
@@ -115,6 +125,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     public static interface NavigationDrawerCallbacks {
         void onNavigationDrawerItemSelected(int position);
+        void closeDrawer();
     }
 
     class MainNavAdapter extends BaseAdapter {
