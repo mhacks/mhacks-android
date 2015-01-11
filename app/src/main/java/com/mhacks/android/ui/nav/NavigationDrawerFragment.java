@@ -87,7 +87,7 @@ public class NavigationDrawerFragment extends Fragment {
                     // Try to close the drawer
                     if(mCallbacks != null)
                         mCallbacks.closeDrawer();
-                    
+
                     return;
                 }
 
