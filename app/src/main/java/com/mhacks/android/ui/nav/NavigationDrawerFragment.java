@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -66,6 +67,20 @@ public class NavigationDrawerFragment extends Fragment {
         // Set up the main listView nav with the specified adapter
         MainNavAdapter adapter = new MainNavAdapter(getActivity());
         mListViewNav.setAdapter(adapter);
+
+        // Set the ListView adapter to only allow one item to be "selected" at a time
+        mListViewNav.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
+        // Set the first item to already have been selected
+        mListViewNav.setItemChecked(0, true);
+
+        // Set up the selecting behaviour on the listView
+        mListViewNav.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mListViewNav.setItemChecked(position, true);
+            }
+        });
     }
 
     @Override
@@ -145,7 +160,7 @@ public class NavigationDrawerFragment extends Fragment {
             } else { // Otherwise, use the recycled view
                 row = convertView;
                 holder = (ViewHolder) row.getTag();
-            }   
+            }
 
             // Set the title of this row
             holder.rowTitle.setText(rowTitles[position]);
