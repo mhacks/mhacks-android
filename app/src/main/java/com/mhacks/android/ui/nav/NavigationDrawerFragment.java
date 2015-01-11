@@ -3,6 +3,8 @@ package com.mhacks.android.ui.nav;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -19,6 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mhacks.iv.android.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by Omkar Moghe on 10/22/2014.
@@ -79,6 +83,9 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mListViewNav.setItemChecked(position, true);
+
+                // Change the official fragment position
+                setPosition(position);
             }
         });
     }
@@ -116,12 +123,29 @@ public class NavigationDrawerFragment extends Fragment {
         // Holds the titles of every row
         String[] rowTitles;
 
+        // Holds all the icon drawables
+        ArrayList<Drawable> iconDrawables;
+
         // Default constructor
         MainNavAdapter(Context context) {
             this.mContext = context;
 
+            // Get a reference to the resources to get all the data for the rows
+            Resources res = context.getResources();
+
             // Get the rowTitles - the necessary data for now - from resources
-            rowTitles = context.getResources().getStringArray(R.array.nav_items);
+            rowTitles = res.getStringArray(R.array.nav_items);
+
+            // Get all the drawables and put them in order in an array
+                // NOTE: Order currently is Countdown -> Announcements -> Schedule ->
+                //              Sponsors -> Awards -> Map
+            iconDrawables = new ArrayList<>(rowTitles.length);
+            iconDrawables.add(res.getDrawable(R.drawable.nav_drawable_countdown));
+            iconDrawables.add(res.getDrawable(R.drawable.nav_drawable_announcements));
+            iconDrawables.add(res.getDrawable(R.drawable.nav_drawable_schedule));
+            iconDrawables.add(res.getDrawable(R.drawable.nav_drawable_sponsors));
+            iconDrawables.add(res.getDrawable(R.drawable.nav_drawable_awards));
+            iconDrawables.add(res.getDrawable(R.drawable.nav_drawable_map));
         }
 
         @Override
@@ -165,7 +189,8 @@ public class NavigationDrawerFragment extends Fragment {
             // Set the title of this row
             holder.rowTitle.setText(rowTitles[position]);
 
-            // TODO: Set the icon of this row
+            // Set the icon drawable of this row
+            holder.rowIcon.setImageDrawable(iconDrawables.get(position));
 
             return row;
         }
