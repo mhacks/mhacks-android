@@ -12,7 +12,11 @@ MHacks-Android.iml
 *.ap_
 .gradle
 build/
+app/build/
 *.dex
+
+# Facebook Build-time
+facebook/build/
 
 # Java Build-time
 *.class
