@@ -10,9 +10,7 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.AnnouncementDud;
 import com.mhacks.iv.android.R;
