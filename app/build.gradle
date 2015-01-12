@@ -58,7 +58,7 @@ android {
     buildTypes {
         release {
             debuggable false
-        //    runProguard false Deprecated with new gradle version
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", "parse_application_id", parse_application_id
             resValue "string", "parse_client_key", parse_client_key
@@ -72,7 +72,7 @@ android {
         }
         debug {
             debuggable true
-        //    runProguard false Deprecated with new gradle version
+            minifyEnabled false
             resValue "string", "parse_application_id", parse_application_id
             resValue "string", "parse_client_key", parse_client_key
             resValue "string", "firebase_url", firebase_url
@@ -87,15 +87,15 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:21.0.0"
-    compile 'com.android.support:support-v4:21.0.0+'
+    compile "com.android.support:appcompat-v7:21.0+"
+    compile 'com.android.support:support-v4:21.0+'
     compile 'com.android.support:cardview-v7:21.+'
     compile 'com.android.support:recyclerview-v7:21.0.+'
     compile 'com.firebase:firebase-client:1.0.16+'
     compile 'com.google.guava:guava:+'
     compile 'com.squareup.picasso:picasso:2.3.3'
     compile 'com.google.maps.android:android-maps-utils:0.3+'
-    compile 'com.github.alamkanak:android-week-view:1.1.5'
+    compile 'com.github.alamkanak:android-week-view:1.1.7'
     compile('com.viewpagerindicator:library:2.4.1@aar') {
         exclude group: 'com.google.android', module: 'support-v4'
     }

@@ -15,6 +15,7 @@ import android.view.View;
 import com.mhacks.android.ui.nav.AnnouncementsFragment;
 import com.mhacks.android.ui.nav.AwardsFragment;
 import com.mhacks.android.ui.nav.CountdownFragment;
+import com.mhacks.android.ui.nav.MapFragment;
 import com.mhacks.android.ui.nav.NavigationDrawerFragment;
 import com.mhacks.android.ui.nav.ScheduleFragment;
 import com.mhacks.android.ui.nav.SponsorsFragment;
@@ -44,6 +45,14 @@ public class MainActivity extends ActionBarActivity
 
     private boolean mShouldSync = true;
 
+    //Fragments
+    private CountdownFragment countdownFragment;
+    private AnnouncementsFragment announcementsFragment;
+    private ScheduleFragment scheduleFragment;
+    private SponsorsFragment sponsorsFragment;
+    private AwardsFragment awardsFragment;
+    private MapFragment mapFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +66,7 @@ public class MainActivity extends ActionBarActivity
 
         // Get the DrawerLayout to set up the drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         // Set a drawerToggle to link the toolbar with the drawer
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,
@@ -70,6 +80,14 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
 
         mUser = ParseUser.getCurrentUser();
+
+        //Instantiate fragments
+        countdownFragment = new CountdownFragment();
+        announcementsFragment = new AnnouncementsFragment();
+        scheduleFragment = new ScheduleFragment();
+        sponsorsFragment = new SponsorsFragment();
+        awardsFragment = new AwardsFragment();
+        mapFragment = new MapFragment();
 
         setDefaultFragment();
     }
@@ -91,56 +109,43 @@ public class MainActivity extends ActionBarActivity
         outState.putLong(TIME_SAVED, new Date().getTime());
     }
 
-    /*
-    Sets the default fragment to the CountdownFragment.
-     */
-    public void setDefaultFragment() {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        CountdownFragment countdownFragment = new CountdownFragment();
-        fragmentTransaction.replace(R.id.main_container, countdownFragment);
-        fragmentTransaction.commit();
-
-        // Set the title of the toolbar to the current page's title
-        setToolbarTitle("Countdown Timer");
-    }
-
     // After this are functions for the Drawer
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
         switch (position) {
             case 0:
-                CountdownFragment countdownFragment = new CountdownFragment();
-                fragmentTransaction.replace(R.id.main_container, countdownFragment);
-                fragmentTransaction.commit();
+                countdownFragment = new CountdownFragment();
+                fragmentTransaction.replace(R.id.main_container, countdownFragment).commit();
                 setToolbarTitle("Countdown Timer");
                 break;
             case 1:
-                AnnouncementsFragment announcementsFragment = new AnnouncementsFragment();
+                announcementsFragment = new AnnouncementsFragment();
                 fragmentTransaction.replace(R.id.main_container, announcementsFragment);
                 fragmentTransaction.commit();
                 setToolbarTitle("Announcements");
                 break;
             case 2:
-                ScheduleFragment scheduleFragment = new ScheduleFragment();
-                fragmentTransaction.replace(R.id.main_container, scheduleFragment);
-                fragmentTransaction.commit();
+                scheduleFragment = new ScheduleFragment();
+                fragmentTransaction.replace(R.id.main_container, scheduleFragment).commit();
                 setToolbarTitle("Schedule");
                 break;
             case 3:
-                SponsorsFragment sponsorsFragment = new SponsorsFragment();
-                fragmentTransaction.replace(R.id.main_container, sponsorsFragment);
-                fragmentTransaction.commit();
+                sponsorsFragment = new SponsorsFragment();
+                fragmentTransaction.replace(R.id.main_container, sponsorsFragment).commit();
                 setToolbarTitle("Sponsors");
                 break;
             case 4:
-                AwardsFragment awardsFragment = new AwardsFragment();
-                fragmentTransaction.replace(R.id.main_container, awardsFragment);
-                fragmentTransaction.commit();
+                awardsFragment = new AwardsFragment();
+                fragmentTransaction.replace(R.id.main_container, awardsFragment).commit();
                 setToolbarTitle("Awards");
                 break;
+            case 5:
+                mapFragment = new MapFragment();
+                fragmentTransaction.replace(R.id.main_container, mapFragment).commit();
+                setToolbarTitle("Map");
         }
 
         if (mDrawerLayout != null){
@@ -170,10 +175,31 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onBackPressed() {
-        if(mDrawerLayout.isDrawerOpen(Gravity.START|Gravity.LEFT)){
+        if (mDrawerLayout.isDrawerOpen(Gravity.START | Gravity.LEFT)) {
             mDrawerLayout.closeDrawers();
             return;
         }
         super.onBackPressed();
+    }
+
+    /**
+     * Sets the default fragment to the CountdownFragment.
+     */
+    public void setDefaultFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        CountdownFragment countdownFragment = new CountdownFragment();
+        fragmentTransaction.replace(R.id.main_container, countdownFragment);
+        fragmentTransaction.commit();
+
+        setToolbarTitle("Countdown Timer");
+    }
+
+    /**
+     * Handles all the clicks for the ScheduleFragment and it's fragments.
+     * @param v clicked View
+     */
+    public void scheduleFragmentClick(View v) {
+        scheduleFragment.scheduleFragmentClick(v);
     }
 }

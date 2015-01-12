@@ -4,8 +4,23 @@
     <color name="colorPrimary">@color/white</color>
     <color name="colorPrimaryDark">@color/dev_purple</color>
 
+    <!-- MHacks V colors -->
+    <color name="mh_purple">#AE86B7</color>
+    <color name="mh_yellow">#FFCA0B</color>
+    <color name="mh_palette_0">#FEF5F9</color>
+    <color name="mh_palette_1">#E0D5DD</color>
+    <color name="mh_palette_2">#7E7C8C</color>
+    <color name="mh_palette_3">#392F3F</color>
+    
+    <!-- Event type colors -->
+    <color name="event_red">#E23052</color>
+    <color name="event_orange">#F78B31</color>
+    <color name="event_yellow">#FFCA0B</color>
+    <color name="event_green">#4D9973</color>
+    <color name="event_blue">#385DD6</color>
+    <color name="event_purple">#A86EDB</color>
 
-<!-- Begin JN Basic Colors -->
+    <!-- Begin JN Basic Colors -->
     <!-- Basic colors, laziness -->
     <color name="white">#FFF</color>
     <color name="black">#000</color>
@@ -34,9 +49,17 @@
     <color name="dev_orange">#FF8800</color>
     <color name="dev_light_red">#FF4444</color>
     <color name="dev_red">#CC0000</color>
+    <!-- End JN Basic Colors -->
 
-<!-- End JN Basic Colors -->
+    <!--Colors for the calendar view. Used in ScheduleFragment-->
+    <color name="header_column_text_color">#8f000000</color>
+    <color name="header_row_bg_color">#ffefefef</color>
+    <color name="day_bg_color">#05000000</color>
+    <color name="today_bg_color">#18836bff</color>
 
+    <!--//////////////////////////////////////////////////////////////////////////////////////// -->
+
+    <!-- MHacks IV colors -->
     <color name="charcoal">#272727</color>
     <color name="charcoal_semitransparent">#BB272727</color>
     <color name="darker_charcoal">#191919</color>
@@ -94,5 +117,7 @@
     <color name="nav_item_shadow_step_2">#32191919</color>
     <color name="nav_item_shadow_step_3">#44191919</color>
     <color name="nav_item_shadow_step_4">@color/darker_charcoal_semitransparent</color>
+
+
 
 </resources>

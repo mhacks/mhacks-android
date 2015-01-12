@@ -46,7 +46,7 @@ public class SponsorsFragment extends Fragment{
     private Context context;
     private ArrayList<Sponsor> sponsors;
     private GridView sponsorView;
-
+    private ImageLoader imageLoader;
 
     @Nullable
     @Override
@@ -55,6 +55,7 @@ public class SponsorsFragment extends Fragment{
                              Bundle savedInstanceState) {
         mSponsorsFragView = inflater.inflate(R.layout.fragment_sponsors, container, false);
         sponsorView = (GridView) mSponsorsFragView.findViewById(R.id.sponsor_view);
+        imageLoader = new ImageLoader(mSponsorsFragView.getContext());
         sponsors = new ArrayList<Sponsor>();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Sponsor");
         query.include("tier");
@@ -87,7 +88,7 @@ public class SponsorsFragment extends Fragment{
                 for (int i = 0; i < sponsors.size(); ++i){
                     list_urls.add((sponsors.get(i).getLogo().getUrl()));
                 }*/
-                sponsorView.setAdapter(new ImageAdapter(mSponsorsFragView.getContext(), sponsors));
+                sponsorView.setAdapter(new ImageAdapter(mSponsorsFragView.getContext(), sponsors, imageLoader));
                 sponsorView.setOnItemClickListener(new OnItemClickListener() {
                     public void onItemClick(AdapterView parent, View v, int position, long id) {
                         DialogFragment dialogsponsor = new DialogSponsor().newInstance(position);
@@ -127,7 +128,7 @@ public class SponsorsFragment extends Fragment{
             sponsortier.setText(sponsors.get(mNum).getTier().getName());
             sponsorname.setText(sponsors.get(mNum).getName());
             sponsordesc.setText(sponsors.get(mNum).getDescription());
-            new ImageLoader(mSponsorsFragView.getContext()).DisplayImage((sponsors.get(mNum).getLogo().getUrl()), sponsorImage);
+            imageLoader.DisplayImage((sponsors.get(mNum).getLogo().getUrl()), sponsorImage);
 
             builder.setView(profile)
                     // Add action buttons

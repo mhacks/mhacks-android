@@ -196,7 +196,7 @@ public class ImageLoader {
             //Find the correct scale value. It should be the power of 2.
 
             // Set width/height of recreated image
-            final int REQUIRED_SIZE=85;
+            final int REQUIRED_SIZE=1000;
 
             int width_tmp=o.outWidth, height_tmp=o.outHeight;
             int scale=1;

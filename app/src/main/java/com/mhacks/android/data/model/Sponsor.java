@@ -2,16 +2,21 @@ package com.mhacks.android.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+
+import org.json.JSONException;
 
 /**
  * Created by Omkar Moghe on 10/13/2014.
  */
 @ParseClassName("Sponsor")
 public class Sponsor extends ParseObject implements Parcelable {
+
+    private static final String TAG = "Sponsor";
 
     public static final String DESCRIPTION_COL = "description";
     public static final String LOCATION_COL    = "location";
@@ -80,10 +85,10 @@ public class Sponsor extends ParseObject implements Parcelable {
         parcel.writeString(getObjectId());
         parcel.writeString(getDescription());
         parcel.writeParcelable(getLocation(), i);
-        parcel.writeValue(getLogo());
         parcel.writeString(getName());
         parcel.writeParcelable(getTier(), i);
         parcel.writeString(getWebsite());
+        parcel.writeValue(getLogo());
     }
 
     public static final Creator<Sponsor> CREATOR = new Creator<Sponsor>() {
@@ -99,7 +104,12 @@ public class Sponsor extends ParseObject implements Parcelable {
     };
 
     private Sponsor(Parcel source) {
-        //check for exception/error at runtime
-        setLogo((ParseFile) source.readValue(ParseFile.class.getClassLoader()));
+            setObjectId(source.readString());
+            setDescription(source.readString());
+            setLocation((Location) source.readParcelable(Location.class.getClassLoader()));
+            setName(source.readString());
+            setTier((SponsorTier) source.readParcelable(SponsorTier.class.getClassLoader()));
+            setWebsite(source.readString());
+            setLogo((ParseFile) source.readValue(ParseFile.class.getClassLoader()));
     }
 }

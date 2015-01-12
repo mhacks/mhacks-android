@@ -30,10 +30,10 @@ public class ImageAdapter extends BaseAdapter {
     private ArrayList<Sponsor> url;
     private ImageLoader il;
 
-    public ImageAdapter(Context c, ArrayList<Sponsor> urls ) {
+    public ImageAdapter(Context c, ArrayList<Sponsor> urls , ImageLoader imageLoader) {
         mContext = c;
+        il = imageLoader;
         url = new ArrayList<Sponsor> ();
-        il = new ImageLoader(mContext);
         for (int i = 0; i < urls.size(); ++i){
             url.add(urls.get(i));
         }
@@ -62,6 +62,7 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
+
         il.DisplayImage((url.get(position).getLogo().getUrl()), imageView);
 
         //imageView.setImageResource(mThumbIds[position]);

@@ -17,11 +17,11 @@ public class EventType extends ParseObject implements Parcelable {
 
     public EventType() {}
 
-    public String getColor() {
-        return getString(COLOR_COL);
+    public int getColor() {
+        return getInt(COLOR_COL);
     }
 
-    public void setColor(String color) {
+    public void setColor(int color) {
         put(COLOR_COL, color);
     }
 
@@ -41,7 +41,7 @@ public class EventType extends ParseObject implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(getObjectId());
-        parcel.writeString(getColor());
+        parcel.writeInt(getColor());
         parcel.writeString(getTitle());
     }
 
@@ -59,7 +59,7 @@ public class EventType extends ParseObject implements Parcelable {
 
     private EventType(Parcel source) {
         setObjectId(source.readString());
-        setColor(source.readString());
+        setColor(source.readInt());
         setTitle(source.readString());
     }
 

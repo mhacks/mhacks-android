@@ -155,8 +155,6 @@ public class NavigationDrawerFragment extends Fragment {
             // TODO: Make a better workaround for passing in the position to the listener
             final int position = i;
 
-
-
             // Set a listener for this entire view
             viewHolder.parentView.setOnClickListener(new View.OnClickListener() {
                 @Override
