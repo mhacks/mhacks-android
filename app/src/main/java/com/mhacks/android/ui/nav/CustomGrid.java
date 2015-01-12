@@ -1,6 +1,8 @@
 package com.mhacks.android.ui.nav;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +13,10 @@ import android.widget.TextView;
 
 import com.mhacks.android.data.model.Award;
 import com.mhacks.iv.android.R;
+import com.parse.GetDataCallback;
+import com.parse.ParseFile;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -21,14 +26,17 @@ public class CustomGrid extends BaseAdapter {
 
     private Context mContext;
     private List<Award> awardList;
+    private View grid;
 
     public CustomGrid(Context c, List<Award> awardList) {
         mContext = c;
         this.awardList = awardList;
+        Log.d("CustomGrid", "awardList size in CustomGrid constructor = " + this.awardList.size());
     }
 
     @Override
     public int getCount() {
+        Log.d("CustomGrid", "awardList size = " + awardList.size());
         return awardList.size();
     }
 
@@ -39,12 +47,11 @@ public class CustomGrid extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View grid;
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
             grid = inflater.inflate(R.layout.award_grid_item, null);
@@ -54,12 +61,15 @@ public class CustomGrid extends BaseAdapter {
             TextView prizeTextView = (TextView) grid.findViewById(R.id.prizeTextView);
             Log.d("CustomGrid", "Position " + position + ": prize " + awardList.get(position).getPrize());
             prizeTextView.setText(awardList.get(position).getPrize());
-            TextView valueTextView = (TextView) grid.findViewById(R.id.valueTextView);
-            Log.d("CustomGrid", "Position " + position + ": value " + awardList.get(position).getValue());
-            valueTextView.setText(awardList.get(position).getValue());
-            TextView descriptionTextView = (TextView) grid.findViewById(R.id.descriptionTextView);
-            Log.d("CustomGrid", "Position " + position + ": description " + awardList.get(position).getDescription());
-            descriptionTextView.setText(awardList.get(position).getDescription());
+            ParseFile logo = awardList.get(position).getSponsor().getLogo();
+            logo.getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] bitmapdata, com.parse.ParseException e) {
+                    ImageView sponsorImageView = (ImageView) grid.findViewById(R.id.sponsorImageView);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
+                    sponsorImageView.setImageBitmap(bitmap);
+                }
+            });
         }
         else {
             grid = convertView;

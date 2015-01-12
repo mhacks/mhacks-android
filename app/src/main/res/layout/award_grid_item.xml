@@ -1,45 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:padding="5dp"
-    android:layout_margin="5dp">
+    android:layout_margin="5dp"
+    android:id="@+id/relativeLayout">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/sponsorImageView"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:alpha=".50"
+        android:src="@drawable/ic_launcher"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/titleTextView"
-        android:text="text1"
-        android:layout_gravity="center"
-        android:gravity="center"/>
+        android:text="Title"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/prizeTextView"
-        android:text="text2"
-        android:layout_gravity="center"
-        android:gravity="center"/>
+        android:textColor="@color/black"
+        android:text="Prize"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/valueTextView"
-        android:text="text3"
-        android:layout_gravity="center"
-        android:gravity="center" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/descriptionTextView"
-        android:text="text4"
-        android:layout_gravity="center"
-        android:gravity="center"/>
-
-</LinearLayout>
+</RelativeLayout>
