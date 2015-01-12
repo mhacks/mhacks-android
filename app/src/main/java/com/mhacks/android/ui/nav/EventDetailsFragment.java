@@ -113,14 +113,18 @@ public class EventDetailsFragment extends Fragment {
     public void setEventDetails() {
         Event event = getEvent();
         ArrayList<Location> locations = getLocations(event);
+        String locationString = "";
 
         eventTitle.setText(event.getTitle());
         eventTime.setText(formatDate(event.getStartTime(), event.getDuration()));
         eventDescription.setText(event.getDetails());
 
-        if (locations.size() > 0)
-            eventLocation.setText(locations.get(0).getName());
-        else
+        if (locations.size() > 0) {
+            for (Location loc : locations) {
+                locationString += loc.getName() + " & ";
+            }
+            eventLocation.setText(locationString.substring(0, locationString.length()-2));
+        } else
             eventLocation.setText("Unable to fetch location.");
 
         //Null pointer check for Sponsor. Null Sponsor == The MHacks Team is hosting the event.

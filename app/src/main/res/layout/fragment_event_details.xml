@@ -16,8 +16,10 @@
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge" android:text="Event Title"
             android:id="@+id/event_title" android:layout_marginLeft="80dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
             android:layout_marginStart="80dp"
-            android:layout_marginTop="80dp"/>
+            android:layout_marginTop="60dp"/>
 
         <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:src="@drawable/ic_action_close_white"

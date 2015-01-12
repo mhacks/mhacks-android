@@ -36,7 +36,9 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 
 
 /**
@@ -229,14 +231,14 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         //For each loop that builds WeekViewEvent objects from each Event object.
         for(Event event : eventList) {
             //Create start event.
-            Calendar startTime = Calendar.getInstance();
+            GregorianCalendar startTime = new GregorianCalendar(TimeZone.getDefault());
             startTime.setTime(event.getStartTime());
 
             //Create end event.
-            Calendar endTime = (Calendar) startTime.clone();
+            GregorianCalendar endTime = (GregorianCalendar) startTime.clone();
             int hourDuration = event.getDuration() / 3600;      //getDuration returns seconds as an int. Need to convert to hours.
             int minuteDuration = (event.getDuration() % 3600) / 60;    //Converting remainder of minutes to int minutes.
-            endTime.add(Calendar.HOUR, hourDuration);
+            endTime.add(Calendar.HOUR_OF_DAY, hourDuration);
             endTime.add(Calendar.MINUTE, minuteDuration);
 
             //Set color based on EventType (Category).

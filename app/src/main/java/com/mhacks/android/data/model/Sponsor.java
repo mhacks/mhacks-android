@@ -85,10 +85,10 @@ public class Sponsor extends ParseObject implements Parcelable {
         parcel.writeString(getObjectId());
         parcel.writeString(getDescription());
         parcel.writeParcelable(getLocation(), i);
-        parcel.writeValue(getLogo());
         parcel.writeString(getName());
         parcel.writeParcelable(getTier(), i);
         parcel.writeString(getWebsite());
+        parcel.writeValue(getLogo());
     }
 
     public static final Creator<Sponsor> CREATOR = new Creator<Sponsor>() {
@@ -107,9 +107,9 @@ public class Sponsor extends ParseObject implements Parcelable {
             setObjectId(source.readString());
             setDescription(source.readString());
             setLocation((Location) source.readParcelable(Location.class.getClassLoader()));
-            setLogo((ParseFile) source.readValue(ParseFile.class.getClassLoader()));
             setName(source.readString());
             setTier((SponsorTier) source.readParcelable(SponsorTier.class.getClassLoader()));
             setWebsite(source.readString());
+            setLogo((ParseFile) source.readValue(ParseFile.class.getClassLoader()));
     }
 }

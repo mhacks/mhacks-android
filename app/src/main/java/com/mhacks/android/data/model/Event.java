@@ -125,8 +125,7 @@ public class Event extends ParseObject implements Parcelable {
             setLocations(new JSONArray(source.readString()));
             setStartTime((Date) source.readValue(Date.class.getClassLoader()));
             setTitle(source.readString());
-        }
-        catch (JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "JSON done goofed", e);
         }
     }
