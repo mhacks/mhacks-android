@@ -3,6 +3,7 @@
     <!-- Material Design Base Colors -->
     <color name="colorPrimary">@color/white</color>
     <color name="colorPrimaryDark">@color/dev_purple</color>
+    <color name="ps_drawer_background">#EEEEEE</color>
 
     <!-- MHacks V colors -->
     <color name="mh_purple">#AE86B7</color>

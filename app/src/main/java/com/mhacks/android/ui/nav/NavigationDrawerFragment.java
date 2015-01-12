@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -37,6 +38,7 @@ public class NavigationDrawerFragment extends Fragment {
     private View mNavDrawerView;
 
     private ListView mListViewNav;
+    private MainNavAdapter mListAdapter;
 
     private TextView mAnnouncementsTextView, mScheduleTextView, mSponsorsTextView, mAwardsTextView;
 
@@ -69,8 +71,8 @@ public class NavigationDrawerFragment extends Fragment {
     // Sets up the main navigation
     private void setupMainNav() {
         // Set up the main listView nav with the specified adapter
-        MainNavAdapter adapter = new MainNavAdapter(getActivity());
-        mListViewNav.setAdapter(adapter);
+        mListAdapter = new MainNavAdapter(getActivity());
+        mListViewNav.setAdapter(mListAdapter);
 
         // Set the ListView adapter to only allow one item to be "selected" at a time
         mListViewNav.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -93,6 +95,9 @@ public class NavigationDrawerFragment extends Fragment {
 
                 // Set the new position as the highlighted, selected row
                 mListViewNav.setItemChecked(position, true);
+
+                // "Activate" the correct icon
+                mListAdapter.highlightNewIcon(position);
 
                 // Change the official fragment position
                 setPosition(position);
@@ -129,13 +134,23 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     class MainNavAdapter extends BaseAdapter {
-        Context mContext;
+        private Context mContext;
 
         // Holds the titles of every row
-        String[] rowTitles;
+        private String[] rowTitles;
 
         // Holds all the icon drawables
-        ArrayList<Drawable> iconDrawables;
+        private ArrayList<Drawable> iconDrawables;
+
+        // Colors for different states of the icons
+        private int neutralColor;
+        private int activeColor;
+
+        // Holds a reference to the last active row
+        private int lastActiveRow = -1;
+
+        // List of all the cached icons
+        private ArrayList<ImageView> cachedIcons;
 
         // Default constructor
         MainNavAdapter(Context context) {
@@ -157,6 +172,32 @@ public class NavigationDrawerFragment extends Fragment {
             iconDrawables.add(res.getDrawable(R.drawable.nav_drawable_sponsors));
             iconDrawables.add(res.getDrawable(R.drawable.nav_drawable_awards));
             iconDrawables.add(res.getDrawable(R.drawable.nav_drawable_map));
+
+            // Cache the two colors used for the icon color filters
+            neutralColor = res.getColor(R.color.black);
+            activeColor = res.getColor(R.color.blue);
+
+            // Initialize the list of cached icons, for later
+            cachedIcons = new ArrayList<>(rowTitles.length);
+            // Add duds to the list, for ease of use
+            for(int i = 0; i < rowTitles.length; ++i) cachedIcons.add(null);
+        }
+
+        // Highlights the new icon's position
+        public void highlightNewIcon(int position) {
+            // First, if there is a previous active ImageView, reset its color filter
+            if(lastActiveRow != -1) {
+                ImageView lastActiveIcon = cachedIcons.get(lastActiveRow);
+                lastActiveIcon.clearColorFilter();
+                lastActiveIcon.setColorFilter(neutralColor, PorterDuff.Mode.SRC_ATOP);
+            }
+            // Get and set the active color filter to the correct icon
+            ImageView correctIcon = cachedIcons.get(position);
+            correctIcon.clearColorFilter();
+            correctIcon.setColorFilter(activeColor, PorterDuff.Mode.SRC_ATOP);
+
+            // Finally, cache the new position
+            lastActiveRow = position;
         }
 
         @Override
@@ -202,6 +243,27 @@ public class NavigationDrawerFragment extends Fragment {
 
             // Set the icon drawable of this row
             holder.rowIcon.setImageDrawable(iconDrawables.get(position));
+
+            // If the initial highlighting has not been done yet and this is position 0, then add the active color filter
+            if(lastActiveRow == -1 && position == 0) {
+                holder.rowIcon.clearColorFilter();
+                holder.rowIcon.setColorFilter(activeColor, PorterDuff.Mode.SRC_ATOP);
+
+                lastActiveRow = position;
+            }
+            // If this position is supposed to be an active row, then highlight its icon
+            else if(lastActiveRow == position) {
+                holder.rowIcon.clearColorFilter();
+                holder.rowIcon.setColorFilter(activeColor, PorterDuff.Mode.SRC_ATOP);
+            }
+            // Otherwise, create a default black color filter for the icon
+            else {
+                holder.rowIcon.clearColorFilter();
+                holder.rowIcon.setColorFilter(neutralColor, PorterDuff.Mode.SRC_ATOP);
+            }
+
+            // Cache the icon for later use in its proper position in the list
+            cachedIcons.set(position, holder.rowIcon);
 
             return row;
         }
