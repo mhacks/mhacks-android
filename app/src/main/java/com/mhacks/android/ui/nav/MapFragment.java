@@ -90,11 +90,12 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
                     if (mapList.size() == 0) {
                         getRemoteMaps();
                     } else {
+
                         //Fill them with empty strings.
                         for(int i = 0; i < mapList.size(); i++) {
                             mapNames.add("");
                         }
-                        
+
                         //Instantiate maps as a copy of mapList
                         maps = new ArrayList<Map>(mapList);
 
