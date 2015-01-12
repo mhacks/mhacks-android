@@ -2,24 +2,31 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <ImageView
         android:layout_width="188dp"
         android:layout_height="188dp"
-        android:id="@+id/sponsor_pic" />
+        android:id="@+id/sponsor_pic"
+        android:layout_gravity="center_horizontal"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="58dp"
-        android:id="@+id/sponsor_title" />
+        android:id="@+id/sponsor_title"
+        android:gravity="center_horizontal"
+        android:textColor="@color/black"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="58dp"
+        android:textColor="@color/black"
+        android:gravity="center_horizontal"
         android:id="@+id/sponsor_tier" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:textColor="@color/black"
+        android:gravity="center_horizontal"
         android:id="@+id/sponsor_desc" />
-
 
 </LinearLayout><!-- From: file:/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/src/main/res/layout/sponsor_profile.xml -->

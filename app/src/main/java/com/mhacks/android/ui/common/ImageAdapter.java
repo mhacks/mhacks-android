@@ -28,11 +28,12 @@ import java.util.ArrayList;
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<Sponsor> url;
+    private ImageLoader il;
 
     public ImageAdapter(Context c, ArrayList<Sponsor> urls ) {
-
         mContext = c;
         url = new ArrayList<Sponsor> ();
+        il = new ImageLoader(mContext);
         for (int i = 0; i < urls.size(); ++i){
             url.add(urls.get(i));
         }
@@ -61,56 +62,10 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-        new ImageLoader(mContext).DisplayImage((url.get(position).getLogo().getUrl()), imageView);
+        il.DisplayImage((url.get(position).getLogo().getUrl()), imageView);
 
         //imageView.setImageResource(mThumbIds[position]);
         return imageView;
     }
 
-    public class DialogSponsor extends DialogFragment {
-        View profile;
-        int mNum;
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            // Get the layout inflater
-            LayoutInflater inflater = getActivity().getLayoutInflater();
-
-            // Inflate and set the layout for the dialog
-            // Pass null as the parent view because its going in the dialog layout
-            profile = inflater.inflate(R.layout.sponsor_profile, null);
-            TextView sponsorname = (TextView) profile.findViewById(R.id.sponsor_title);
-            TextView sponsordesc = (TextView) profile.findViewById(R.id.sponsor_desc);
-            ImageView sponsorImage = (ImageView) profile.findViewById(R.id.sponsor_pic);
-            sponsorname.setText(url.get(mNum).getName());
-            sponsordesc.setText(url.get(mNum).getDescription());
-            new ImageLoader(mContext).DisplayImage((url.get(mNum).getLogo().getUrl()), sponsorImage);
-
-            builder.setView(profile)
-                    // Add action buttons
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            DialogSponsor.this.getDialog().cancel();
-                        }
-                    });
-            return builder.create();
-        }
-
-        DialogSponsor newInstance(int index) {
-            DialogSponsor f = new DialogSponsor();
-
-            // Supply num input as an argument.
-            Bundle args = new Bundle();
-            args.putInt("index", index);
-            f.setArguments(args);
-
-            return f;
-        }
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            mNum = getArguments().getInt("index");
-        }
-    }
 }

@@ -2448,10 +2448,10 @@ containing a value of this type.
         public static final int small=0x7f080022;
         public static final int split_action_bar=0x7f08002b;
         public static final int sponsor_desc=0x7f080085;
-        public static final int sponsor_list=0x7f080080;
         public static final int sponsor_pic=0x7f080082;
         public static final int sponsor_tier=0x7f080084;
         public static final int sponsor_title=0x7f080083;
+        public static final int sponsor_view=0x7f080080;
         public static final int submit_area=0x7f08004c;
         public static final int sunday=0x7f080019;
         public static final int tabMode=0x7f080002;

@@ -845,10 +845,10 @@ int id showTitle 0x7f080007
 int id small 0x7f080022
 int id split_action_bar 0x7f08002b
 int id sponsor_desc 0x7f080085
-int id sponsor_list 0x7f080080
 int id sponsor_pic 0x7f080082
 int id sponsor_tier 0x7f080084
 int id sponsor_title 0x7f080083
+int id sponsor_view 0x7f080080
 int id submit_area 0x7f08004c
 int id sunday 0x7f080019
 int id tabMode 0x7f080002
