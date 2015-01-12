@@ -57,10 +57,7 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
 
         //Instantiate lists.
         mapNames = new ArrayList<>();
-        //Fill them with empty strings.
-        for(int i = 0; i < 4; i++) {
-            mapNames.add("");
-        }
+
 
         //Inflate spinner view.
         mapSpinner = (Spinner) getActivity().findViewById(R.id.map_spinner);
@@ -93,12 +90,17 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
                     if (mapList.size() == 0) {
                         getRemoteMaps();
                     } else {
+                        //Fill them with empty strings.
+                        for(int i = 0; i < mapList.size(); i++) {
+                            mapNames.add("");
+                        }
+                        
                         //Instantiate maps as a copy of mapList
                         maps = new ArrayList<Map>(mapList);
 
                         for (Map m : mapList) {
-                            maps.set(m.getOrder(), m);
-                            mapNames.set(m.getOrder(), m.getTitle());
+                            maps.set(m.getOrder()-1, m);
+                            mapNames.set(m.getOrder()-1, m.getTitle());
                         }
                         setAdapter();
                     }
@@ -122,12 +124,17 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
                     ParseObject.unpinAllInBackground(MAP_PIN, mapList);
                     ParseObject.pinAllInBackground(MAP_PIN, mapList);
 
+                    //Fill them with empty strings.
+                    for(int i = 0; i < mapList.size(); i++) {
+                        mapNames.add("");
+                    }
+
                     //Instantiate maps as a copy of mapList
                     maps = new ArrayList<Map>(mapList);
 
                     for (Map m : mapList) {
-                        maps.set(m.getOrder(), m);
-                        mapNames.set(m.getOrder(), m.getTitle());
+                        maps.set(m.getOrder()-1, m);
+                        mapNames.set(m.getOrder()-1, m.getTitle());
                     }
                     setAdapter();
                 } else {
