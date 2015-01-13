@@ -10,6 +10,7 @@ import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,8 @@ import android.widget.TextView;
 import android.view.View.OnClickListener;
 import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.iv.android.R;
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -29,10 +32,11 @@ public class ImageAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<Sponsor> url;
     private ImageLoader il;
+    //private ImageView imageView;
 
-    public ImageAdapter(Context c, ArrayList<Sponsor> urls , ImageLoader imageLoader) {
+    public ImageAdapter(Context c, ArrayList<Sponsor> urls) {
         mContext = c;
-        il = imageLoader;
+        il = new ImageLoader(c);
         url = new ArrayList<Sponsor> ();
         for (int i = 0; i < urls.size(); ++i){
             url.add(urls.get(i));
@@ -63,7 +67,7 @@ public class ImageAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
-        il.DisplayImage((url.get(position).getLogo().getUrl()), imageView);
+        il.DisplayImage(url.get(position).getLogo().getUrl() , imageView);
 
         //imageView.setImageResource(mThumbIds[position]);
         return imageView;

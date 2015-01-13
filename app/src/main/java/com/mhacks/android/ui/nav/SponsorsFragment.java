@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -25,6 +26,7 @@ import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.android.ui.common.ImageAdapter;
 import com.mhacks.android.ui.common.ImageLoader;
 import com.parse.FindCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.GetCallback;
@@ -46,7 +48,6 @@ public class SponsorsFragment extends Fragment{
     private Context context;
     private ArrayList<Sponsor> sponsors;
     private GridView sponsorView;
-    private ImageLoader imageLoader;
 
     @Nullable
     @Override
@@ -55,7 +56,6 @@ public class SponsorsFragment extends Fragment{
                              Bundle savedInstanceState) {
         mSponsorsFragView = inflater.inflate(R.layout.fragment_sponsors, container, false);
         sponsorView = (GridView) mSponsorsFragView.findViewById(R.id.sponsor_view);
-        imageLoader = new ImageLoader(mSponsorsFragView.getContext());
         sponsors = new ArrayList<Sponsor>();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Sponsor");
         query.include("tier");
@@ -88,7 +88,7 @@ public class SponsorsFragment extends Fragment{
                 for (int i = 0; i < sponsors.size(); ++i){
                     list_urls.add((sponsors.get(i).getLogo().getUrl()));
                 }*/
-                sponsorView.setAdapter(new ImageAdapter(mSponsorsFragView.getContext(), sponsors, imageLoader));
+                sponsorView.setAdapter(new ImageAdapter(mSponsorsFragView.getContext(), sponsors));
                 sponsorView.setOnItemClickListener(new OnItemClickListener() {
                     public void onItemClick(AdapterView parent, View v, int position, long id) {
                         DialogFragment dialogsponsor = new DialogSponsor().newInstance(position);
@@ -123,12 +123,17 @@ public class SponsorsFragment extends Fragment{
             profile = inflater.inflate(R.layout.sponsor_profile, null);
             TextView sponsorname = (TextView) profile.findViewById(R.id.sponsor_title);
             TextView sponsordesc = (TextView) profile.findViewById(R.id.sponsor_desc);
-            ImageView sponsorImage = (ImageView) profile.findViewById(R.id.sponsor_pic);
+            final ImageView sponsorImage = (ImageView) profile.findViewById(R.id.sponsor_pic);
             TextView sponsortier = (TextView) profile.findViewById(R.id.sponsor_tier);
             sponsortier.setText(sponsors.get(mNum).getTier().getName());
             sponsorname.setText(sponsors.get(mNum).getName());
             sponsordesc.setText(sponsors.get(mNum).getDescription());
-            imageLoader.DisplayImage((sponsors.get(mNum).getLogo().getUrl()), sponsorImage);
+            sponsors.get(mNum).getLogo().getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] bytes, ParseException e) {
+                    sponsorImage.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+                }
+            });
 
             builder.setView(profile)
                     // Add action buttons
