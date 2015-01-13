@@ -1,6 +1,7 @@
 package com.mhacks.android.ui.nav;
 
 import android.app.Fragment;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarActivity;
@@ -17,6 +18,7 @@ import com.mhacks.android.data.model.Map;
 import com.mhacks.android.ui.common.ImageLoader;
 import com.mhacks.iv.android.R;
 import com.parse.FindCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -40,14 +42,11 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
     private View      mMapFragView;
     private ImageView mapView;
 
-    //ImageLoader
-    private ImageLoader imageLoader;
-
     //Spinner
     private Spinner mapSpinner;
 
     private ArrayList<String> mapNames;
-    private ArrayList<String> imageURLs;
+    private ArrayList<Map> maps;
 
     @Nullable
     @Override
@@ -58,15 +57,7 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
 
         //Instantiate lists.
         mapNames = new ArrayList<>();
-        imageURLs = new ArrayList<>();
-        //Fill them with empty strings.
-        for(int i = 0; i < 4; i++) {
-            mapNames.add("");
-            imageURLs.add("");
-        }
 
-        //Instantiate ImageLoader
-        imageLoader = new ImageLoader(mMapFragView.getContext());
 
         //Inflate spinner view.
         mapSpinner = (Spinner) getActivity().findViewById(R.id.map_spinner);
@@ -99,9 +90,18 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
                     if (mapList.size() == 0) {
                         getRemoteMaps();
                     } else {
+
+                        //Fill them with empty strings.
+                        for(int i = 0; i < mapList.size(); i++) {
+                            mapNames.add("");
+                        }
+
+                        //Instantiate maps as a copy of mapList
+                        maps = new ArrayList<Map>(mapList);
+
                         for (Map m : mapList) {
-                            mapNames.set(m.getOrder(), m.getTitle());
-                            imageURLs.set(m.getOrder(), m.getImage().getUrl());
+                            maps.set(m.getOrder()-1, m);
+                            mapNames.set(m.getOrder()-1, m.getTitle());
                         }
                         setAdapter();
                     }
@@ -125,9 +125,17 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
                     ParseObject.unpinAllInBackground(MAP_PIN, mapList);
                     ParseObject.pinAllInBackground(MAP_PIN, mapList);
 
+                    //Fill them with empty strings.
+                    for(int i = 0; i < mapList.size(); i++) {
+                        mapNames.add("");
+                    }
+
+                    //Instantiate maps as a copy of mapList
+                    maps = new ArrayList<Map>(mapList);
+
                     for (Map m : mapList) {
-                        mapNames.set(m.getOrder(), m.getTitle());
-                        imageURLs.set(m.getOrder(), m.getImage().getUrl());
+                        maps.set(m.getOrder()-1, m);
+                        mapNames.set(m.getOrder()-1, m.getTitle());
                     }
                     setAdapter();
                 } else {
@@ -152,8 +160,12 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Log.d(TAG, imageURLs.get(position));
-        imageLoader.DisplayImage(imageURLs.get(position), mapView);
+        maps.get(position).getImage().getDataInBackground(new GetDataCallback() {
+            @Override
+            public void done(byte[] bytes, ParseException e) {
+                mapView.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+            }
+        });
     }
 
     @Override

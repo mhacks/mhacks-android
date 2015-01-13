@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -45,7 +46,7 @@ public class SponsorsFragment extends Fragment{
     private Context context;
     private ArrayList<Sponsor> sponsors;
     private GridView sponsorView;
-
+    private ImageLoader imageLoader;
 
     @Nullable
     @Override
@@ -53,20 +54,23 @@ public class SponsorsFragment extends Fragment{
                              ViewGroup container,
                              Bundle savedInstanceState) {
         mSponsorsFragView = inflater.inflate(R.layout.fragment_sponsors, container, false);
-        sponsorView = (GridView) mSponsorsFragView.findViewById(R.id.sponsor_list);
+        sponsorView = (GridView) mSponsorsFragView.findViewById(R.id.sponsor_view);
+        imageLoader = new ImageLoader(mSponsorsFragView.getContext());
         sponsors = new ArrayList<Sponsor>();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Sponsor");
+        query.include("tier");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> object, ParseException e) {
                 if (e == null) {
-                    //sponsors.add("Hey");
-                    Log.v("Parse",Integer.toString(object.size()));
-                    for (int i = 0; i < object.size(); i++) {
-                        if (object.get(i) != null) {
-                            Sponsor c = (Sponsor) object.get(i);
-                            Log.v("Parse","I'm inside this");
-                            Log.v("Parse",c.getName());
-                            sponsors.add(c);
+                    // sort by tier
+                    for (int x = 0; x < 3; x++) {
+                        for (int i = 0; i < object.size(); i++) {
+                            if (object.get(i) != null) {
+                                Sponsor c = (Sponsor) object.get(i);
+                                if (c.getTier().getLevel() == x){
+                                    sponsors.add(c);
+                                }
+                            }
                         }
                     }
                             /*
@@ -78,13 +82,13 @@ public class SponsorsFragment extends Fragment{
                     Log.e("Error", e.getMessage());
                     e.printStackTrace();
                 }
+
                 //gridview.setAdapter(new ImageAdapter(this));
-                ArrayList <String> list_urls= new ArrayList<String>();
+                /*ArrayList <String> list_urls= new ArrayList<String>();
                 for (int i = 0; i < sponsors.size(); ++i){
                     list_urls.add((sponsors.get(i).getLogo().getUrl()));
-                    //Didn't use levels in case we scrap unobtanium
-                }
-                sponsorView.setAdapter(new ImageAdapter(mSponsorsFragView.getContext(), sponsors));
+                }*/
+                sponsorView.setAdapter(new ImageAdapter(mSponsorsFragView.getContext(), sponsors, imageLoader));
                 sponsorView.setOnItemClickListener(new OnItemClickListener() {
                     public void onItemClick(AdapterView parent, View v, int position, long id) {
                         DialogFragment dialogsponsor = new DialogSponsor().newInstance(position);
@@ -120,13 +124,15 @@ public class SponsorsFragment extends Fragment{
             TextView sponsorname = (TextView) profile.findViewById(R.id.sponsor_title);
             TextView sponsordesc = (TextView) profile.findViewById(R.id.sponsor_desc);
             ImageView sponsorImage = (ImageView) profile.findViewById(R.id.sponsor_pic);
+            TextView sponsortier = (TextView) profile.findViewById(R.id.sponsor_tier);
+            sponsortier.setText(sponsors.get(mNum).getTier().getName());
             sponsorname.setText(sponsors.get(mNum).getName());
             sponsordesc.setText(sponsors.get(mNum).getDescription());
-            new ImageLoader(mSponsorsFragView.getContext()).DisplayImage((sponsors.get(mNum).getLogo().getUrl()), sponsorImage);
+            imageLoader.DisplayImage((sponsors.get(mNum).getLogo().getUrl()), sponsorImage);
 
             builder.setView(profile)
                     // Add action buttons
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             DialogSponsor.this.getDialog().cancel();
                         }
@@ -152,5 +158,6 @@ public class SponsorsFragment extends Fragment{
         }
     }
 }
+
 
 
