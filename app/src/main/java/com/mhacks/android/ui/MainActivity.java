@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.mhacks.android.ui.nav.AnnouncementsFragment;
@@ -217,10 +218,22 @@ public class MainActivity extends ActionBarActivity
     public void showNoInternetOverlay() {
         View noInternetOverlay = findViewById(R.id.no_internet_overlay);
         noInternetOverlay.setVisibility(View.VISIBLE);
+        noInternetOverlay.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
     }
 
     public void hideNoInternetOverlay() {
         View noInternetOverlay = findViewById(R.id.no_internet_overlay);
         noInternetOverlay.setVisibility(View.GONE);
+        noInternetOverlay.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
     }
 }
