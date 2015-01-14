@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import com.mhacks.android.ui.nav.AnnouncementsFragment;
 import com.mhacks.android.ui.nav.AwardsFragment;
 import com.mhacks.android.ui.nav.CountdownFragment;
@@ -35,6 +37,8 @@ public class MainActivity extends ActionBarActivity
 
     public static final String SHOULD_SYNC = "sync";
     public static final String TIME_SAVED  = "time_saved";
+
+    private static final int OVERLAY_FADE_DURATION = 400;
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
@@ -216,7 +220,8 @@ public class MainActivity extends ActionBarActivity
      */
 
     public void showNoInternetOverlay() {
-        View noInternetOverlay = findViewById(R.id.no_internet_overlay);
+        final View noInternetOverlay = findViewById(R.id.no_internet_overlay);
+        noInternetOverlay.setAlpha(1.0f);
         noInternetOverlay.setVisibility(View.VISIBLE);
         noInternetOverlay.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -224,16 +229,40 @@ public class MainActivity extends ActionBarActivity
                 return true;
             }
         });
+
+        Animation fadeIn = new AlphaAnimation(0.0f, 1.0f);
+        fadeIn.setDuration(OVERLAY_FADE_DURATION);
+        noInternetOverlay.startAnimation(fadeIn);
     }
 
     public void hideNoInternetOverlay() {
-        View noInternetOverlay = findViewById(R.id.no_internet_overlay);
-        noInternetOverlay.setVisibility(View.GONE);
+        final View noInternetOverlay = findViewById(R.id.no_internet_overlay);
         noInternetOverlay.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return false;
             }
         });
+
+        Animation fadeOut = new AlphaAnimation(1.0f, 0.0f);
+        fadeOut.setDuration(OVERLAY_FADE_DURATION);
+        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                noInternetOverlay.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        noInternetOverlay.startAnimation(fadeOut);
     }
 }

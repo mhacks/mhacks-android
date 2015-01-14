@@ -92,7 +92,6 @@ public class CountdownFragment extends Fragment  {
 
         // Start everything off by getting the parse data
         initParseData();
-        ((MainActivity)getActivity()).showNoInternetOverlay();
     }
 
     // Gets the parse data to start things off
@@ -111,7 +110,7 @@ public class CountdownFragment extends Fragment  {
 
                 if(startDate == null) {
                     // If couldn't get the parseConfig, politely tell the user and prevent a crash
-                    Toast.makeText(getActivity(), "Couldn't retrieve countdown info", Toast.LENGTH_SHORT).show();
+                    ((MainActivity)getActivity()).showNoInternetOverlay();
                 } else {
                     initCountdownIfNecessary(startDate, duration * 1000);
                 }
