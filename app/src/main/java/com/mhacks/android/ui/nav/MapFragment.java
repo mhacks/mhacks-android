@@ -157,7 +157,6 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
         mapSpinner.setAdapter(spinnerAdapter);
         spinnerAdapter.notifyDataSetChanged();
     }
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         maps.get(position).getImage().getDataInBackground(new GetDataCallback() {

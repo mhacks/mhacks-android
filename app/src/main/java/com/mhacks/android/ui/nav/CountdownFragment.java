@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mhacks.android.ui.MainActivity;
 import com.mhacks.iv.android.R;
 import com.parse.ConfigCallback;
 import com.parse.ParseConfig;
@@ -91,6 +92,7 @@ public class CountdownFragment extends Fragment  {
 
         // Start everything off by getting the parse data
         initParseData();
+        ((MainActivity)getActivity()).showNoInternetOverlay();
     }
 
     // Gets the parse data to start things off
@@ -103,16 +105,15 @@ public class CountdownFragment extends Fragment  {
                     parseConfig = ParseConfig.getCurrentConfig();
                 }
 
-                if(parseConfig == null) {
+                // Get the date and duration from the config
+                Date startDate = parseConfig.getDate(TAG_COUNTDOWN_STARTDATE);
+                long duration = parseConfig.getLong(TAG_COUNTDOWN_DURATION);
+
+                if(startDate == null) {
                     // If couldn't get the parseConfig, politely tell the user and prevent a crash
                     Toast.makeText(getActivity(), "Couldn't retrieve countdown info", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    // Get the date and duration from the config
-                    Date startDate = parseConfig.getDate(TAG_COUNTDOWN_STARTDATE);
-                    long duration = parseConfig.getLong(TAG_COUNTDOWN_DURATION);
-
-                    initCountdownIfNecessary(startDate, duration*1000);
+                } else {
+                    initCountdownIfNecessary(startDate, duration * 1000);
                 }
             }
         });

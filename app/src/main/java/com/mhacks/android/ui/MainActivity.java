@@ -208,4 +208,19 @@ public class MainActivity extends ActionBarActivity
     public void scheduleFragmentClick(View v) {
         scheduleFragment.scheduleFragmentClick(v);
     }
+
+    /**
+     * These are for when the remote data can't be fetched
+     * and there's nothing in the local cache
+     */
+
+    public void showNoInternetOverlay() {
+        View noInternetOverlay = findViewById(R.id.no_internet_overlay);
+        noInternetOverlay.setVisibility(View.VISIBLE);
+    }
+
+    public void hideNoInternetOverlay() {
+        View noInternetOverlay = findViewById(R.id.no_internet_overlay);
+        noInternetOverlay.setVisibility(View.GONE);
+    }
 }
