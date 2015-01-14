@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\exploded-aar\com.google.maps.android\android-maps-utils\0.3.4\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="cf251baf39f5c5138224b67b4106eb6331abbd13">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\classes-94aa5822964c66ebe89ecdde270dae5467c9e579.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\android-sdks\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-2a07c2f273f2f8ac9ffe8b071177ac728afb965f.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\.gradle\caches\modules-2\files-2.1\com.firebase\firebase-client\1.0.16\ddb3ceb5e4206bd2c392ddba9b8285649a053a66\firebase-client-1.0.16.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="ddb3ceb5e4206bd2c392ddba9b8285649a053a66">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\firebase-client-1.0.16-a292f031ff1ea5b3f87918f242e34adf54f888db.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\exploded-aar\MHacks-Android\facebook\unspecified\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="fca12efc41d693598a65250e5174499436b6533f">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\classes-dc72f36e3a5642a0ef148979fdd89d028707b896.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\exploded-aar\com.github.alamkanak\android-week-view\1.1.7\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="7b049637c80f63053a44e358dcfc4d06eaae2961">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\classes-ade54f404143477443cd1f0199ff878e79bd598d.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\.gradle\caches\modules-2\files-2.1\com.google.guava\guava\18.0\cce0823396aa693798f8882e64213b1772032b09\guava-18.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="cce0823396aa693798f8882e64213b1772032b09">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\guava-18.0-451e85b7e0ed25b949776c56390d410a272694e0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\exploded-aar\com.viewpagerindicator\library\2.4.1\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="88e8e18d365173ad04a543d76c157e0b644f0b3f">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\classes-d3402b78a07ba980bc3b445fa02c40eb869025e0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.3.3\1262995965440e28ba5c4d480c9c9ab4ccce84cc\picasso-2.3.3.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="1262995965440e28ba5c4d480c9c9ab4ccce84cc">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\picasso-2.3.3-ffd1fff2c81c5596d6c4f9a2024533fe2acc0a87.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-databind\2.2.2\3c8f6018eaa72d43b261181e801e6f8676c16ef6\jackson-databind-2.2.2.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="3c8f6018eaa72d43b261181e801e6f8676c16ef6">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\jackson-databind-2.2.2-fc2ac9cc690e33a341ae5790a359ac9b162d7ca5.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\libs\bugsnag-android-2.2.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="29daab26cd1393f6ba001466dc103a4969f75d09">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\bugsnag-android-2.2.0-61d4aed018df70f68d1a047307c5d6dcb0c934ec.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="4b8945fc23a7461c6fdde15753456d64b0a9358b">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\classes-a7af986666aaf95a174c92b3a71883299c3fb423.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-core\2.2.2\d20be6a5ddd6f8cfd36ebf6dea329873a1c41f1b\jackson-core-2.2.2.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="d20be6a5ddd6f8cfd36ebf6dea329873a1c41f1b">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\jackson-core-2.2.2-65cbe4fb51dc4fc41e373a15b2082be57a47b087.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\exploded-aar\MHacks-Android\facebook\unspecified\libs\bolts.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="1e5ba33c837d05dcca9dc40a0ab458f8599d7aef">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\bolts-512decf25b11588d09b663161b70392b0955d82d.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\classes-b4bd478f2bbc551ecc9ac460fc4dd8a101780272.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-6e767a0c4f1dec36cf9ad85ab3c118b88c7bcfdc.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="00b0b7233e1ec64acebfac40d4983d32d4712426">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\classes-a0a795cb3423a66f063c1a49a40065a5c2eb8c8f.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\libs\Parse-1.7.1.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="87c45f9f66da531a65f065ee32f603c7e6db1528">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\Parse-1.7.1-180c9ed883763db973f3c2a7b3720ffc216b5582.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\classes-ba3b77d297ead19618c7c40afcb2f44b00595e5b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-annotations\2.2.2\285cb9c666f0f0f3dd8a1be04e1f457eb7b15113\jackson-annotations-2.2.2.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="285cb9c666f0f0f3dd8a1be04e1f457eb7b15113">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\jackson-annotations-2.2.2-067d88b1a9aca93325c882e6ebe4fea4b17c2de9.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\.gradle\caches\modules-2\files-2.1\com.firebase\tubesock\0.0.8\7e88ecf193992e8b3f533ebf9be4736052e9d9ed\tubesock-0.0.8.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="7e88ecf193992e8b3f533ebf9be4736052e9d9ed">
+        <dex dex="C:\Users\Omkar Moghe\Desktop\MHacks-Android\app\build\intermediates\pre-dexed\debug\tubesock-0.0.8-60a4a33ea2a4e6c4f78d03a8c9fb34d8c021c714.jar" />
+    </item>
+
+</items>

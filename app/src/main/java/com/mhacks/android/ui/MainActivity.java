@@ -170,6 +170,12 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
+    public void closeDrawer() {
+        if (mDrawerLayout != null){
+            mDrawerLayout.closeDrawer(findViewById(R.id.navigation_drawer));
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {

@@ -18,7 +18,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.view.View.OnClickListener;
 import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.iv.android.R;
 
@@ -28,9 +28,11 @@ import java.util.ArrayList;
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<Sponsor> url;
+    private ImageLoader il;
 
-    public ImageAdapter(Context c, ArrayList<Sponsor> urls) {
+    public ImageAdapter(Context c, ArrayList<Sponsor> urls , ImageLoader imageLoader) {
         mContext = c;
+        il = imageLoader;
         url = new ArrayList<Sponsor> ();
         for (int i = 0; i < urls.size(); ++i){
             url.add(urls.get(i));
@@ -54,15 +56,17 @@ public class ImageAdapter extends BaseAdapter {
         ImageView imageView;
         if (convertView == null) {  // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setLayoutParams(new GridView.LayoutParams(200, 150));
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             imageView.setPadding(8, 8, 8, 8);
         } else {
             imageView = (ImageView) convertView;
         }
-        new ImageLoader(mContext).DisplayImage((url.get(position).getLogo().getUrl()), imageView);
+
+        il.DisplayImage((url.get(position).getLogo().getUrl()), imageView);
 
         //imageView.setImageResource(mThumbIds[position]);
         return imageView;
     }
+
 }

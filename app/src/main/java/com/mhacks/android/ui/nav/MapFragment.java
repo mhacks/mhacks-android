@@ -3,7 +3,9 @@ package com.mhacks.android.ui.nav;
 import android.app.Fragment;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,10 +59,7 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
 
         //Instantiate lists.
         mapNames = new ArrayList<>();
-        //Fill them with empty strings.
-        for(int i = 0; i < 4; i++) {
-            mapNames.add("");
-        }
+
 
         //Inflate spinner view.
         mapSpinner = (Spinner) getActivity().findViewById(R.id.map_spinner);
@@ -93,6 +92,12 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
                     if (mapList.size() == 0) {
                         getRemoteMaps();
                     } else {
+
+                        //Fill them with empty strings.
+                        for(int i = 0; i < mapList.size(); i++) {
+                            mapNames.add("");
+                        }
+
                         //Instantiate maps as a copy of mapList
                         maps = new ArrayList<Map>(mapList);
 
@@ -121,6 +126,11 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
                     //Pin list to local datastore.
                     ParseObject.unpinAllInBackground(MAP_PIN, mapList);
                     ParseObject.pinAllInBackground(MAP_PIN, mapList);
+
+                    //Fill them with empty strings.
+                    for(int i = 0; i < mapList.size(); i++) {
+                        mapNames.add("");
+                    }
 
                     //Instantiate maps as a copy of mapList
                     maps = new ArrayList<Map>(mapList);
