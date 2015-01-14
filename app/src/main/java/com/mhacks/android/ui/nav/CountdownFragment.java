@@ -110,13 +110,15 @@ public class CountdownFragment extends Fragment  {
         ParseConfig.getInBackground(new ConfigCallback() {
             @Override
             public void done(ParseConfig parseConfig, ParseException e) {
-                if (e != null) {
+                if (e != null || parseConfig == null) {
                     Log.e(TAG, "Failed to fetch. Using Cached Config if it's available.");
 
                     // If we don't have any local data, let the user know we need internet
                     if(!canUseLocalData) {
                         ((MainActivity)getActivity()).showNoInternetOverlay();
                     }
+
+                    return;
                 }
 
                 // Get the date and duration from the config
