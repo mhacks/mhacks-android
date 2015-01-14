@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mhacks.iv.android"
-    android:versionCode="1421132294"
+    android:versionCode="1421229166"
     android:versionName="3.0.0" >
 
     <uses-sdk
