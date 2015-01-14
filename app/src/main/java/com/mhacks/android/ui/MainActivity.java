@@ -122,33 +122,26 @@ public class MainActivity extends ActionBarActivity
 
         switch (position) {
             case 0:
-                countdownFragment = new CountdownFragment();
                 fragmentTransaction.replace(R.id.main_container, countdownFragment).commit();
                 setToolbarTitle("Countdown Timer");
                 break;
             case 1:
-                announcementsFragment = new AnnouncementsFragment();
-                fragmentTransaction.replace(R.id.main_container, announcementsFragment);
-                fragmentTransaction.commit();
+                fragmentTransaction.replace(R.id.main_container, announcementsFragment).commit();
                 setToolbarTitle("Announcements");
                 break;
             case 2:
-                scheduleFragment = new ScheduleFragment();
                 fragmentTransaction.replace(R.id.main_container, scheduleFragment).commit();
                 setToolbarTitle("Schedule");
                 break;
             case 3:
-                sponsorsFragment = new SponsorsFragment();
                 fragmentTransaction.replace(R.id.main_container, sponsorsFragment).commit();
                 setToolbarTitle("Sponsors");
                 break;
             case 4:
-                awardsFragment = new AwardsFragment();
                 fragmentTransaction.replace(R.id.main_container, awardsFragment).commit();
                 setToolbarTitle("Awards");
                 break;
             case 5:
-                mapFragment = new MapFragment();
                 fragmentTransaction.replace(R.id.main_container, mapFragment).commit();
                 setToolbarTitle("Map");
         }
@@ -199,7 +192,6 @@ public class MainActivity extends ActionBarActivity
     public void setDefaultFragment() {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        CountdownFragment countdownFragment = new CountdownFragment();
         fragmentTransaction.replace(R.id.main_container, countdownFragment);
         fragmentTransaction.commit();
 
