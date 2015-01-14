@@ -198,7 +198,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
             query.findInBackground(new FindCallback<Event>() {
                 public void done(List<Event> eventList, ParseException e) {
                     if (e == null) {
-                            ParseObject.unpinAllInBackground(EVENT_PIN, finalEvents);
+                            ParseObject.unpinAllInBackground(EVENT_PIN);
                             ParseObject.pinAllInBackground(EVENT_PIN, eventList);
                         Log.d(TAG, eventList.size() + " events");
                         //Calls create events to build WeekViewEvent objects from Event objects.
