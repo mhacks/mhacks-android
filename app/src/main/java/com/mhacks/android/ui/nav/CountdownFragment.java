@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mhacks.android.ui.MainActivity;
 import com.mhacks.iv.android.R;
@@ -91,27 +90,45 @@ public class CountdownFragment extends Fragment  {
         super.onActivityCreated(savedInstanceState);
 
         // Start everything off by getting the parse data
-        initParseData();
+        getLatestParseData();
     }
 
     // Gets the parse data to start things off
-    private void initParseData() {
+    private void getLatestParseData() {
+        // First try for the local data to show something to the user
+        ParseConfig localConfig = ParseConfig.getCurrentConfig();
+        Date startDate = localConfig.getDate(TAG_COUNTDOWN_STARTDATE);
+        long duration = localConfig.getLong(TAG_COUNTDOWN_DURATION);
+
+        final boolean canUseLocalData = (startDate != null); // Kinda weird
+        if(canUseLocalData) {
+            ((MainActivity)getActivity()).hideNoInternetOverlay();
+            initCountdownIfNecessary(startDate, duration * 1000);
+        }
+
+        // Then get the remote data
         ParseConfig.getInBackground(new ConfigCallback() {
             @Override
             public void done(ParseConfig parseConfig, ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Failed to fetch. Using Cached Config.");
-                    parseConfig = ParseConfig.getCurrentConfig();
+                    Log.e(TAG, "Failed to fetch. Using Cached Config if it's available.");
+
+                    // If we don't have any local data, let the user know we need internet
+                    if(!canUseLocalData) {
+                        ((MainActivity)getActivity()).showNoInternetOverlay();
+                    }
                 }
 
                 // Get the date and duration from the config
                 Date startDate = parseConfig.getDate(TAG_COUNTDOWN_STARTDATE);
                 long duration = parseConfig.getLong(TAG_COUNTDOWN_DURATION);
 
-                if(startDate == null) {
-                    // If couldn't get the parseConfig, politely tell the user and prevent a crash
+                if(startDate == null && !canUseLocalData) {
+                    // If something was wrong with the remote data and we don't have local data, let the user know
                     ((MainActivity)getActivity()).showNoInternetOverlay();
                 } else {
+                    // Hey check it out something went right
+                    ((MainActivity)getActivity()).hideNoInternetOverlay();
                     initCountdownIfNecessary(startDate, duration * 1000);
                 }
             }

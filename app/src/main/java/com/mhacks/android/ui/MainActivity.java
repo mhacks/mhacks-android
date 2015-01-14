@@ -221,6 +221,10 @@ public class MainActivity extends ActionBarActivity
 
     public void showNoInternetOverlay() {
         final View noInternetOverlay = findViewById(R.id.no_internet_overlay);
+        if (noInternetOverlay.getVisibility() == View.VISIBLE) {
+            return;
+        }
+
         noInternetOverlay.setAlpha(1.0f);
         noInternetOverlay.setVisibility(View.VISIBLE);
         noInternetOverlay.setOnTouchListener(new View.OnTouchListener() {
@@ -237,6 +241,10 @@ public class MainActivity extends ActionBarActivity
 
     public void hideNoInternetOverlay() {
         final View noInternetOverlay = findViewById(R.id.no_internet_overlay);
+        if (noInternetOverlay.getVisibility() == View.GONE) {
+            return;
+        }
+
         noInternetOverlay.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
