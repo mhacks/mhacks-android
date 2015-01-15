@@ -7,8 +7,10 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -64,6 +66,7 @@ public class SponsorsFragment extends Fragment{
         sponsors = new ArrayList<Sponsor>();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Sponsor");
         query.include("tier");
+        query.include("location");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> object, ParseException e) {
                 if (e == null) {
@@ -142,6 +145,20 @@ public class SponsorsFragment extends Fragment{
                     mNum = i;
                 }
             }
+            final String weblink = sponsors.get(mNum).getWebsite();
+            TextView sponsorwebsite = (TextView) profile.findViewById(R.id.sponsor_website);
+            sponsorwebsite.setText(sponsors.get(mNum).getWebsite());
+            sponsorwebsite.setTextColor(R.color.blue);
+            sponsorwebsite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse(weblink));
+                    startActivity(intent);
+                }
+            });
+            TextView sponsorloc = (TextView) profile.findViewById(R.id.sponsor_location);
+            sponsorloc.setText(sponsors.get(mNum).getLocation().getName());
             sponsors.get(mNum).getLogo().getDataInBackground(new GetDataCallback() {
                 @Override
                 public void done(byte[] bytes, ParseException e) {
