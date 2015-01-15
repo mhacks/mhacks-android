@@ -7,11 +7,12 @@
     android:weightSum="1">
 
     <ImageView
-        android:layout_width="188dp"
-        android:layout_height="188dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:id="@+id/sponsor_pic"
-        android:layout_gravity="center_horizontal"/>
-    <TextView
+        android:layout_gravity="center_horizontal"
+        android:padding="8dp"/>
+     <TextView
         android:layout_width="match_parent"
         android:layout_height="34dp"
         android:id="@+id/sponsor_title"

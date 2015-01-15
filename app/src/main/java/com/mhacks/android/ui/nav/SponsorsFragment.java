@@ -90,13 +90,17 @@ public class SponsorsFragment extends Fragment{
                     Log.e("Error", e.getMessage());
                     e.printStackTrace();
                 }
-
+                // old adapter code
                 //gridview.setAdapter(new ImageAdapter(this));
                 /*ArrayList <String> list_urls= new ArrayList<String>();
                 for (int i = 0; i < sponsors.size(); ++i){
                     list_urls.add((sponsors.get(i).getLogo().getUrl()));
                 }*/
+
+                // new apapter code
                 buildAdapter();
+
+                // old adapter code
                 /*sponsorView.setAdapter(new ImageAdapter(mSponsorsFragView.getContext(), sponsors));
                 sponsorView.setOnItemClickListener(new OnItemClickListener() {
                     public void onItemClick(AdapterView parent, View v, int position, long id) {
@@ -198,6 +202,7 @@ public class SponsorsFragment extends Fragment{
         }
     }
 
+    // creates 3 seperate gridviews for 3 seperate sponsor tiers with headers
     private void buildAdapter() {
         for (int i = 0; i < 3; i++){
             final ArrayList<Sponsor> section = new ArrayList<Sponsor>();
