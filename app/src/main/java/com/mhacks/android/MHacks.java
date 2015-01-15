@@ -12,8 +12,10 @@ import com.mhacks.android.data.model.Location;
 import com.mhacks.android.data.model.Map;
 import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.android.data.model.SponsorTier;
+import com.mhacks.android.ui.MainActivity;
 import com.mhacks.iv.android.R;
 import com.parse.Parse;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.PushService;
 
@@ -39,8 +41,12 @@ public class MHacks extends Application {
 
         // enabling local data store causes weird 'ParseObject not found for update' error
         Parse.enableLocalDatastore(getApplicationContext());
-        Parse.initialize(this, getString(R.string.parse_application_id), getString(R.string.parse_client_key));
+        Parse.initialize(this,
+                         getString(R.string.parse_application_id),
+                         getString(R.string.parse_client_key));
         PushService.startServiceIfRequired(getApplicationContext());
+        PushService.setDefaultPushCallback(this, MainActivity.class);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
 
         Bugsnag.register(this, getString(R.string.bugsnag_key));
     }
