@@ -1,11 +1,15 @@
 package com.mhacks.android.ui;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
 import com.parse.ParsePushBroadcastReceiver;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Omkar Moghe on 1/12/2015.
@@ -30,7 +34,16 @@ public class PushHandler extends ParsePushBroadcastReceiver {
 
     @Override
     protected void onPushOpen(Context context, Intent intent) {
-        super.onPushOpen(context, intent);
-        Log.d(TAG, "push opened");
+        intent.setClass(context, MainActivity.class);
+        intent.setAction(MainActivity.class.getName());
+        intent.setFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        context.startActivity(intent);
+    }
+
+    @Override
+    protected Class<? extends Activity> getActivity(Context context, Intent intent) {
+        return super.getActivity(context, intent);
     }
 }

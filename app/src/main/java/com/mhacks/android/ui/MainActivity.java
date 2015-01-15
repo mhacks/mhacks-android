@@ -2,6 +2,7 @@ package com.mhacks.android.ui;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -25,6 +26,9 @@ import com.parse.ParseException;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Date;
 
@@ -107,6 +111,27 @@ public class MainActivity extends ActionBarActivity
         mapFragment = new MapFragment();
 
         setDefaultFragment();
+
+        //Push notification intent.
+        Intent intent = getIntent();
+        if (intent.getExtras().getString("com.parse.Data") != null) {
+            try {
+                JSONObject payload = new JSONObject(intent.getExtras().getString("com.parse.Data"));
+                Log.d(TAG, payload.getString("uri"));
+                if (payload.has("announcementID")) {
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.main_container, announcementsFragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
+                else if (payload.has("eventID")) {
+
+                }
+            }
+            catch (JSONException e) {
+                Log.e(TAG, "Fuck you JSON", e);
+            }
+        }
     }
 
     @Override

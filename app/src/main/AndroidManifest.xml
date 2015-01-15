@@ -62,7 +62,7 @@
                 <!--
                   IMPORTANT: Change "com.parse.tutorials.pushnotifications" to match your app's package name.
                 -->
-                <category android:name="com.mhacks.iv.android" />
+                <category android:name="com.mhacks.iv.android"/>
             </intent-filter>
         </receiver>
         <receiver android:name="com.mhacks.android.ui.PushHandler" android:exported="false">
@@ -72,6 +72,7 @@
                 <action android:name="com.parse.push.intent.OPEN" />
             </intent-filter>
         </receiver>
+
 
     </application>
 
