@@ -180,7 +180,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
                     // Display the new events and get outta the way
                     Log.d(TAG, eventList.size() + " events");
                     createEvents(eventList, newMonth);
-                    ((MainActivity)getActivity()).hideNoInternetOverlay();
+                    if(getActivity() != null) ((MainActivity)getActivity()).hideNoInternetOverlay();
                 }
             }
         });

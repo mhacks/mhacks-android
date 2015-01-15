@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.mhacks.android.data.model.Map;
+import com.mhacks.android.ui.MainActivity;
 import com.mhacks.android.ui.common.ImageLoader;
 import com.mhacks.iv.android.R;
 import com.parse.FindCallback;
@@ -79,39 +80,47 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
         mapSpinner.setVisibility(View.GONE);
     }
 
+    private ParseQuery<Map> getBaseQuery() {
+        ParseQuery<Map> query = ParseQuery.getQuery("Map");
+        return query;
+    }
+
     /**
      * Queries the local datastore for Map objects.
      */
     private void getLocalMaps() {
-        ParseQuery<Map> query = ParseQuery.getQuery("Map");
+        ParseQuery<Map> query = getBaseQuery();
         query.fromPin(MAP_PIN);
         query.findInBackground(new FindCallback<Map>() {
             @Override
             public void done(List<Map> mapList, ParseException e) {
-                if (e == null) {
-                    if (mapList.size() == 0) {
-                        getRemoteMaps();
-                    } else {
-
-                        //Fill them with empty strings.
-                        for(int i = 0; i < mapList.size(); i++) {
-                            mapNames.add("");
-                        }
-
-                        //Instantiate maps as a copy of mapList
-                        maps = new ArrayList<Map>(mapList);
-
-                        for (Map m : mapList) {
-                            maps.set(m.getOrder(), m);
-                            mapNames.set(m.getOrder(), m.getTitle());
-                        }
-                        setAdapter();
-                    }
+                if (e != null || mapList == null || mapList.size() <= 0) {
+                    Log.e(TAG, "Couldn't get the local maps, falling back on remote");
                 } else {
-                    Log.e(TAG, "Query failed.", e);
+                    Log.d(TAG, "Got the local maps");
+                    processMapList(mapList);
                 }
+
+                getRemoteMaps();
             }
         });
+    }
+
+    private void processMapList(List<Map> mapList) {
+        //Fill them with empty strings.
+        mapNames = new ArrayList<String>();
+        for(int i = 0; i < mapList.size(); i++) {
+            mapNames.add("");
+        }
+
+        //Instantiate maps as a copy of mapList
+        maps = new ArrayList<Map>(mapList);
+        for (Map m : mapList) {
+            maps.set(m.getOrder(), m);
+            mapNames.set(m.getOrder(), m.getTitle());
+        }
+
+        setAdapter();
     }
 
     /**
@@ -122,26 +131,26 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
         query.findInBackground(new FindCallback<Map>() {
             @Override
             public void done(List<Map> mapList, ParseException e) {
-                if (e == null) {
-                    //Pin list to local datastore.
-                    ParseObject.unpinAllInBackground(MAP_PIN, mapList);
+                if(e != null || mapList == null || mapList.size() <= 0) {
+                    Log.e(TAG, "Couldn't get the remote maps");
+
+                    // We don't have anything locally, let the user know we need internet
+                    if(maps == null || maps.size() <= 0) {
+                        if(getActivity() != null) ((MainActivity)getActivity()).showNoInternetOverlay();
+                    } else {
+                        // We do have local stuff, no make sure we aren't in the way
+                        if(getActivity() != null) ((MainActivity)getActivity()).hideNoInternetOverlay();
+                    }
+                } else {
+                    Log.d(TAG, "Got the remote maps, displaying them");
+
+                    // We got the remote maps, so unpin the old ones and pin the new ones
+                    ParseObject.unpinAllInBackground(MAP_PIN);
                     ParseObject.pinAllInBackground(MAP_PIN, mapList);
 
-                    //Fill them with empty strings.
-                    for(int i = 0; i < mapList.size(); i++) {
-                        mapNames.add("");
-                    }
-
-                    //Instantiate maps as a copy of mapList
-                    maps = new ArrayList<Map>(mapList);
-
-                    for (Map m : mapList) {
-                        maps.set(m.getOrder(), m);
-                        mapNames.set(m.getOrder(), m.getTitle());
-                    }
-                    setAdapter();
-                } else {
-                    Log.e(TAG, "Query failed.", e);
+                    // Display the new maps and get outta the way
+                    processMapList(mapList);
+                    if(getActivity() != null) ((MainActivity)getActivity()).hideNoInternetOverlay();
                 }
             }
         });
