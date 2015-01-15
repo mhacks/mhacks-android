@@ -38,7 +38,6 @@ import java.util.List;
 public class MapFragment extends Fragment implements AdapterView.OnItemSelectedListener{
 
     public static final String TAG = "MapFragment";
-
     public static final String MAP_PIN = "mapPin";
 
     //Views
