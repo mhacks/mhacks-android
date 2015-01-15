@@ -4,57 +4,48 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.mhacks.android.data.model.Sponsor;
-import com.mhacks.android.ui.common.ImageAdapter;
-import com.mhacks.android.ui.common.ImageLoader;
-import com.parse.FindCallback;
-import com.parse.GetDataCallback;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.GetCallback;
-import com.parse.ParseException;
+import com.mhacks.android.data.model.SponsorTier;
+import com.mhacks.android.ui.MainActivity;
+import com.parse.*;
 
 import com.mhacks.iv.android.R;
+import com.squareup.picasso.Picasso;
+import com.tonicartos.widget.stickygridheaders.StickyGridHeadersBaseAdapter;
+import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 /**
  * Created by Omkar Moghe on 10/25/2014.
  */
-public class SponsorsFragment extends Fragment{
+public class SponsorsFragment extends Fragment implements OnItemClickListener {
+
+    private static final String TAG = "Sponsors";
+    private static final String SPONSOR_PIN = "sponsorPin";
 
     private View mSponsorsFragView;
-    private ImageAdapter adapter;
-    private Context context;
-    private ArrayList<Sponsor> sponsors;
-    //private GridView sponsorView;
-    private ImageAdapter imageAdapter;
-    //private ArrayList<Sponsor> section;
+    private StickyGridHeadersGridView mSponsorsView;
+    private SponsorsAdapter mAdapter;
+
+    // This model for the data is a little wonky, but the grid view adapter is also wonky
+    private ArrayList<Sponsor> mSponsors;
+    private ArrayList<Integer> mSponsorsPerTier;
+    private ArrayList<SponsorTier> mTiers;
 
     @Nullable
     @Override
@@ -62,116 +53,258 @@ public class SponsorsFragment extends Fragment{
                              ViewGroup container,
                              Bundle savedInstanceState) {
         mSponsorsFragView = inflater.inflate(R.layout.fragment_sponsors, container, false);
-        //sponsorView = (GridView) mSponsorsFragView.findViewById(R.id.sponsor_view);
-        sponsors = new ArrayList<Sponsor>();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Sponsor");
-        query.include("tier");
-        query.include("location");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> object, ParseException e) {
-                if (e == null) {
-                    // sort by tier
-                    for (int x = 0; x < 3; x++) {
-                        for (int i = 0; i < object.size(); i++) {
-                            if (object.get(i) != null) {
-                                Sponsor c = (Sponsor) object.get(i);
-                                if (c.getTier().getLevel() == x){
-                                    sponsors.add(c);
-                                }
-                            }
-                        }
-                    }
-                            /*
-                             GridView Item Click Listener
-            listView.setOnItemClickListener(new OnItemClickListener() {
-                             */
-                }
-                else {
-                    Log.e("Error", e.getMessage());
-                    e.printStackTrace();
-                }
-                // old adapter code
-                //gridview.setAdapter(new ImageAdapter(this));
-                /*ArrayList <String> list_urls= new ArrayList<String>();
-                for (int i = 0; i < sponsors.size(); ++i){
-                    list_urls.add((sponsors.get(i).getLogo().getUrl()));
-                }*/
+        mSponsorsView = (StickyGridHeadersGridView) mSponsorsFragView.findViewById(R.id.sponsor_view);
 
-                // new apapter code
-                buildAdapter();
+        mSponsors = new ArrayList<Sponsor>();
+        mSponsorsPerTier = new ArrayList<Integer>();
+        mTiers = new ArrayList<SponsorTier>();
 
-                // old adapter code
-                /*sponsorView.setAdapter(new ImageAdapter(mSponsorsFragView.getContext(), sponsors));
-                sponsorView.setOnItemClickListener(new OnItemClickListener() {
-                    public void onItemClick(AdapterView parent, View v, int position, long id) {
-                        DialogFragment dialogsponsor = new DialogSponsor().newInstance(position);
-                        dialogsponsor.show(getFragmentManager(), sponsors.get(position).getName());
-                    }
-                });*/
+        setUpGridView();
+        getLatestParseData();
 
-            }
-
-        });
         return mSponsorsFragView;
     }
 
+    private void setUpGridView() {
+        mSponsorsView.setOnItemClickListener(this);
+        mSponsorsView.setNumColumns(5);
+        mSponsorsView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
+
+        mAdapter = new SponsorsAdapter(mSponsors, mSponsorsPerTier, mTiers);
+        mSponsorsView.setAdapter(mAdapter);
+    }
+
+    private void getLatestParseData() {
+        getLocalParseData();
+    }
+
+    private ParseQuery<ParseObject> getBaseQuery() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Sponsor");
+        query.include("tier");
+        query.include("location");
+        return query;
+    }
+
+    private void getLocalParseData() {
+        ParseQuery<ParseObject> query = getBaseQuery();
+        query.fromPin(SPONSOR_PIN);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if(e != null || parseObjects == null || parseObjects.size() <= 0) {
+                    Log.e(TAG, "Couldn't get the local sponsors, falling back on remote");
+                } else {
+                    Log.d(TAG, "Got the local sponsors");
+                    processAndDisplaySponsors(parseObjects);
+                }
+
+                getRemoteParseData();
+            }
+        });
+    }
+
+    private void getRemoteParseData() {
+        ParseQuery<ParseObject> query = getBaseQuery();
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if(e != null || parseObjects == null || parseObjects.size() <= 0) {
+                    Log.e(TAG, "Couldn't get the remote sponsors");
+
+                    // We don't have anything locally, let the user know we need internet
+                    if(mSponsors == null || mSponsors.size() <= 0) {
+                        if(getActivity() != null) ((MainActivity)getActivity()).showNoInternetOverlay();
+                    } else {
+                        // We do have local stuff, no make sure we aren't in the way
+                        if(getActivity() != null) ((MainActivity)getActivity()).hideNoInternetOverlay();
+                    }
+                } else {
+                    Log.d(TAG, "Got the remote sponsors, displaying them");
+
+                    // We got the remote maps, so unpin the old ones and pin the new ones
+                    ParseObject.unpinAllInBackground(SPONSOR_PIN);
+                    ParseObject.pinAllInBackground(SPONSOR_PIN, parseObjects);
+
+                    // Display the new maps and get outta the way
+                    processAndDisplaySponsors(parseObjects);
+                    if(getActivity() != null) ((MainActivity)getActivity()).hideNoInternetOverlay();
+                }
+            }
+        });
+    }
+
+    private void processAndDisplaySponsors(List<ParseObject> sponsorList) {
+        // First, sort the sponsors alphabetically
+        Collections.sort(sponsorList, new Comparator<ParseObject>() {
+            @Override
+            public int compare(ParseObject lhs, ParseObject rhs) {
+                return lhs.getString("name").compareToIgnoreCase(rhs.getString("name"));
+            }
+        });
+
+        // Then split them into tiers
+        HashMap<Integer, ArrayList<Sponsor>> splitSponsors = new HashMap<Integer, ArrayList<Sponsor>>();
+        HashSet<SponsorTier> tiers = new HashSet<SponsorTier>();
+
+        for(ParseObject sponsor : sponsorList) {
+            SponsorTier tier = (SponsorTier) sponsor.getParseObject("tier");
+
+            if(splitSponsors.get(tier.getLevel()) == null) {
+                splitSponsors.put(tier.getLevel(), new ArrayList<Sponsor>());
+            }
+
+            splitSponsors.get(tier.getLevel()).add((Sponsor) sponsor);
+            tiers.add(tier);
+        }
+
+        // Sort the tiers
+        mTiers.clear();
+        mTiers.addAll(tiers);
+        Collections.sort(mTiers, new Comparator<SponsorTier>() {
+            @Override
+            public int compare(SponsorTier lhs, SponsorTier rhs) {
+                return lhs.getLevel() - rhs.getLevel();
+            }
+        });
+
+        // Record the number of sponsors in each tier and add them to the main list
+        mSponsors.clear();
+        mSponsorsPerTier.clear();
+        for(SponsorTier tier : mTiers) {
+            mSponsorsPerTier.add(splitSponsors.get(tier.getLevel()).size());
+            mSponsors.addAll(splitSponsors.get(tier.getLevel()));
+        }
+
+        // Let the adapter know we have new stuff
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private class SponsorsAdapter extends BaseAdapter implements StickyGridHeadersBaseAdapter {
+        private ArrayList<Sponsor> mSponsors;
+        private ArrayList<Integer> mSponsorsPerTier;
+        private ArrayList<SponsorTier> mTiers;
+
+        public SponsorsAdapter(ArrayList<Sponsor> sponsors, ArrayList<Integer> sponsorsPerTier, ArrayList<SponsorTier> tiers) {
+            mSponsors = sponsors;
+            mSponsorsPerTier = sponsorsPerTier;
+            mTiers = tiers;
+        }
+
+        @Override
+        public int getCountForHeader(int header) {
+            return mSponsorsPerTier.get(header);
+        }
+
+        @Override
+        public int getNumHeaders() {
+            return mTiers.size();
+        }
+
+        @Override
+        public View getHeaderView(int position, View convertView, ViewGroup parent) {
+            final TextView textView;
+            if(convertView == null) {
+                textView = new TextView(getActivity());
+                textView.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, GridView.LayoutParams.WRAP_CONTENT));
+                textView.setBackgroundColor(getResources().getColor(R.color.adapter_card_shadow_step_2));
+                textView.setTextColor(getResources().getColor(R.color.mh_palette_2));
+                textView.setTextSize(20);
+                textView.setPadding(12, 0, 0, 0);
+            } else {
+                textView = (TextView) convertView;
+            }
+
+            textView.setText(mTiers.get(position).getName());
+
+            return textView;
+        }
+
+        @Override
+        public int getCount() {
+            return mSponsors.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mSponsors.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            final ImageView imageView;
+            if(convertView == null) {
+                imageView = new ImageView(getActivity());
+                imageView.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, 175)); // Yay hardcoding
+                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                imageView.setPadding(26, 26, 26, 26);
+            } else {
+                imageView = (ImageView) convertView;
+                Picasso.with(getActivity()).cancelRequest(imageView);
+            }
+
+            // Set the image to the sponsor's logo
+            ParseFile logo = mSponsors.get(position).getLogo();
+            Picasso.with(getActivity()).load(logo.getUrl()).into(imageView);
+
+            return imageView;
+        }
+    }
+
     @Override
-    public void onActivityCreated (Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-
-
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        DialogFragment sponsorDialog = new DialogSponsor().newInstance(mSponsors.get(position));
+        sponsorDialog.show(getFragmentManager(), mSponsors.get(position).getName());
     }
 
     public class DialogSponsor extends DialogFragment {
-        View profile;
+        View mProfile;
+        String mImageLocation;
         String mName;
         String mTier;
         String mDesc;
+        String mWebsite;
+        String mLocation;
+
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            // Get the layout inflater
             LayoutInflater inflater = getActivity().getLayoutInflater();
+            mProfile = inflater.inflate(R.layout.sponsor_profile, null);
 
-            // Inflate and set the layout for the dialog
-            // Pass null as the parent view because its going in the dialog layout
-            profile = inflater.inflate(R.layout.sponsor_profile, null);
-            TextView sponsorname = (TextView) profile.findViewById(R.id.sponsor_title);
-            TextView sponsordesc = (TextView) profile.findViewById(R.id.sponsor_desc);
-            final ImageView sponsorImage = (ImageView) profile.findViewById(R.id.sponsor_pic);
-            TextView sponsortier = (TextView) profile.findViewById(R.id.sponsor_tier);
-            sponsortier.setText(mTier);
-            sponsorname.setText(mName);
-            sponsordesc.setText(mDesc);
-            int mNum = 0;
-            for (int i = 0; i < sponsors.size(); i++){
-                if (mName == sponsors.get(i).getName()){
-                    mNum = i;
-                }
+            ImageView sponsorImage = (ImageView) mProfile.findViewById(R.id.sponsor_pic);
+            Picasso.with(getActivity()).load(mImageLocation).into(sponsorImage);
+
+            TextView sponsorName = (TextView) mProfile.findViewById(R.id.sponsor_title);
+            sponsorName.setText(mName);
+
+            TextView sponsorDesc = (TextView) mProfile.findViewById(R.id.sponsor_desc);
+            if(mDesc.length() <= 0) {
+                sponsorDesc.setVisibility(View.GONE);
+            } else {
+                sponsorDesc.setText(mDesc);
             }
-            final String weblink = sponsors.get(mNum).getWebsite();
-            TextView sponsorwebsite = (TextView) profile.findViewById(R.id.sponsor_website);
-            sponsorwebsite.setText(sponsors.get(mNum).getWebsite());
-            sponsorwebsite.setTextColor(R.color.blue);
-            sponsorwebsite.setOnClickListener(new View.OnClickListener() {
+
+            TextView sponsorTier = (TextView) mProfile.findViewById(R.id.sponsor_tier);
+            sponsorTier.setText(mTier);
+
+            TextView sponsorWebsite = (TextView) mProfile.findViewById(R.id.sponsor_website);
+            sponsorWebsite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW,
-                            Uri.parse(weblink));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mWebsite));
                     startActivity(intent);
                 }
             });
-            TextView sponsorloc = (TextView) profile.findViewById(R.id.sponsor_location);
-            sponsorloc.setText(sponsors.get(mNum).getLocation().getName());
-            sponsors.get(mNum).getLogo().getDataInBackground(new GetDataCallback() {
-                @Override
-                public void done(byte[] bytes, ParseException e) {
-                    sponsorImage.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
-                }
-            });
 
-            builder.setView(profile)
-                    // Add action buttons
+            TextView sponsorLoc = (TextView) mProfile.findViewById(R.id.sponsor_location);
+            sponsorLoc.setText(mLocation);
+
+            builder.setView(mProfile)
                     .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             DialogSponsor.this.getDialog().cancel();
@@ -180,14 +313,16 @@ public class SponsorsFragment extends Fragment{
             return builder.create();
         }
 
-        DialogSponsor newInstance(String name, String tier, String desc) {
+        DialogSponsor newInstance(Sponsor sponsor) {
             DialogSponsor f = new DialogSponsor();
 
-            // Supply num input as an argument.
             Bundle args = new Bundle();
-            args.putString("name", name);
-            args.putString("tier", tier);
-            args.putString("desc", desc);
+            args.putString("image", sponsor.getLogo().getUrl());
+            args.putString("name", sponsor.getName());
+            args.putString("tier", sponsor.getTier().getName());
+            args.putString("desc", sponsor.getDescription());
+            args.putString("website", sponsor.getWebsite());
+            args.putString("location", sponsor.getLocation().getName());
             f.setArguments(args);
 
             return f;
@@ -196,67 +331,12 @@ public class SponsorsFragment extends Fragment{
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            mImageLocation = getArguments().getString("image");
             mName = getArguments().getString("name");
             mTier = getArguments().getString("tier");
             mDesc = getArguments().getString("desc");
-        }
-    }
-
-    // creates 3 seperate gridviews for 3 seperate sponsor tiers with headers
-    private void buildAdapter() {
-        for (int i = 0; i < 3; i++){
-            final ArrayList<Sponsor> section = new ArrayList<Sponsor>();
-            // seperates into sponsor sections
-            for(int x = 0; x < sponsors.size(); x++){
-                if (i == sponsors.get(x).getTier().getLevel()){
-
-                    section.add(sponsors.get(x));
-                }
-            }
-            // keeps track of the index of sponsors
-            //creates a new adapter
-            imageAdapter = new ImageAdapter(getActivity(), section);
-
-      // create the view
-            LinearLayout applayout = (LinearLayout) getActivity()
-                    .findViewById(R.id.sponsor_view);
-
-      // create the tier header
-            TextView appSectionHeader = new TextView(getActivity());
-            appSectionHeader.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
-            appSectionHeader.setText(section.get(0).getTier().getName());
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) appSectionHeader
-                    .getLayoutParams();
-            params.setMargins(15, 8, 15, 8); // left, top, right, bottom
-            appSectionHeader.setLayoutParams(params);
-            appSectionHeader.setVisibility(View.VISIBLE);
-            appSectionHeader.setTextSize(20);
-            appSectionHeader.setTextColor(R.color.black);
-
-      // create GridView
-            GridView appSectionGridView = new GridView(getActivity());
-            appSectionGridView.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
-            appSectionGridView.setVerticalSpacing(10);
-            appSectionGridView.setHorizontalSpacing(10);
-            appSectionGridView.setNumColumns(4);
-            appSectionGridView.setGravity(Gravity.CENTER);
-            appSectionGridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
-            appSectionGridView.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View v, int position,
-                                        long id) {
-          /* position of clicked app and adapter it was located in */
-                    DialogFragment dialogsponsor = new DialogSponsor().newInstance(section.get(position).getName(),section.get(position).getTier().getName(),section.get(position).getDescription());
-                    dialogsponsor.show(getFragmentManager(), section.get(position).getName());
-                }
-            });
-            appSectionGridView.setAdapter(imageAdapter);
-            applayout.addView(appSectionHeader);
-            applayout.addView(appSectionGridView);
+            mWebsite = getArguments().getString("website");
+            mLocation = getArguments().getString("location");
         }
     }
 }
