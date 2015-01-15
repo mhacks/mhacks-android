@@ -10,8 +10,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import com.mhacks.android.ui.nav.AnnouncementsFragment;
 import com.mhacks.android.ui.nav.AwardsFragment;
 import com.mhacks.android.ui.nav.CountdownFragment;
@@ -34,6 +37,8 @@ public class MainActivity extends ActionBarActivity
 
     public static final String SHOULD_SYNC = "sync";
     public static final String TIME_SAVED  = "time_saved";
+
+    private static final int OVERLAY_FADE_DURATION = 400;
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
@@ -117,37 +122,36 @@ public class MainActivity extends ActionBarActivity
 
         switch (position) {
             case 0:
-                countdownFragment = new CountdownFragment();
                 fragmentTransaction.replace(R.id.main_container, countdownFragment).commit();
                 setToolbarTitle("Countdown Timer");
                 break;
             case 1:
-                announcementsFragment = new AnnouncementsFragment();
-                fragmentTransaction.replace(R.id.main_container, announcementsFragment);
-                fragmentTransaction.commit();
+                fragmentTransaction.replace(R.id.main_container, announcementsFragment).commit();
                 setToolbarTitle("Announcements");
                 break;
             case 2:
-                scheduleFragment = new ScheduleFragment();
                 fragmentTransaction.replace(R.id.main_container, scheduleFragment).commit();
                 setToolbarTitle("Schedule");
                 break;
             case 3:
-                sponsorsFragment = new SponsorsFragment();
                 fragmentTransaction.replace(R.id.main_container, sponsorsFragment).commit();
                 setToolbarTitle("Sponsors");
                 break;
             case 4:
-                awardsFragment = new AwardsFragment();
                 fragmentTransaction.replace(R.id.main_container, awardsFragment).commit();
                 setToolbarTitle("Awards");
                 break;
             case 5:
-                mapFragment = new MapFragment();
                 fragmentTransaction.replace(R.id.main_container, mapFragment).commit();
                 setToolbarTitle("Map");
         }
 
+        if (mDrawerLayout != null){
+            mDrawerLayout.closeDrawer(findViewById(R.id.navigation_drawer));
+        }
+    }
+
+    public void closeDrawer() {
         if (mDrawerLayout != null){
             mDrawerLayout.closeDrawer(findViewById(R.id.navigation_drawer));
         }
@@ -188,7 +192,6 @@ public class MainActivity extends ActionBarActivity
     public void setDefaultFragment() {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        CountdownFragment countdownFragment = new CountdownFragment();
         fragmentTransaction.replace(R.id.main_container, countdownFragment);
         fragmentTransaction.commit();
 
@@ -201,5 +204,65 @@ public class MainActivity extends ActionBarActivity
      */
     public void scheduleFragmentClick(View v) {
         scheduleFragment.scheduleFragmentClick(v);
+    }
+
+    /**
+     * These are for when the remote data can't be fetched
+     * and there's nothing in the local cache
+     */
+
+    public void showNoInternetOverlay() {
+        final View noInternetOverlay = findViewById(R.id.no_internet_overlay);
+        if (noInternetOverlay.getVisibility() == View.VISIBLE) {
+            return;
+        }
+
+        noInternetOverlay.setAlpha(1.0f);
+        noInternetOverlay.setVisibility(View.VISIBLE);
+        noInternetOverlay.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+
+        Animation fadeIn = new AlphaAnimation(0.0f, 1.0f);
+        fadeIn.setDuration(OVERLAY_FADE_DURATION);
+        noInternetOverlay.startAnimation(fadeIn);
+    }
+
+    public void hideNoInternetOverlay() {
+        final View noInternetOverlay = findViewById(R.id.no_internet_overlay);
+        if (noInternetOverlay.getVisibility() == View.GONE) {
+            return;
+        }
+
+        noInternetOverlay.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+
+        Animation fadeOut = new AlphaAnimation(1.0f, 0.0f);
+        fadeOut.setDuration(OVERLAY_FADE_DURATION);
+        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                noInternetOverlay.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        noInternetOverlay.startAnimation(fadeOut);
     }
 }

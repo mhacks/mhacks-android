@@ -16,6 +16,7 @@
     </string>
     <string name="icon">Icon</string>
     <string name="divider_pipe">|</string>
+    <string name="no_internet">No Internet Connection</string>
 
     <!-- Test Strings -->
     <string name="garbage_fill_short">Lorem ipsum dolor sit amet</string>

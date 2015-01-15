@@ -2,27 +2,55 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal">
+    android:orientation="vertical">
 
-    <TextView
+    <RelativeLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Prize"
-        android:layout_margin="1dp"
-        android:id="@+id/prizeTextView"/>
+        android:id="@+id/innerLayout1"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Description"
-        android:id="@+id/descriptionTextView"
-        android:layout_margin="1dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sponsorImageView"
+            android:src="@drawable/ic_launcher"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ok"
-        android:id="@+id/okButton"
-        android:layout_gravity="center_horizontal" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/innerLayout2"
+            android:layout_toRightOf="@+id/sponsorImageView"
+            android:layout_marginLeft="15dp"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prize"
+                android:id="@+id/prizeTextView"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:id="@+id/descriptionTextView"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
 </LinearLayout>

@@ -7,12 +7,15 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.AnnouncementDud;
+import com.mhacks.android.ui.MainActivity;
 import com.mhacks.iv.android.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -26,8 +29,11 @@ import java.util.List;
 /**
  * Created by Omkar Moghe on 10/25/2014.
  */
-public class AnnouncementsFragment extends Fragment{
+public class AnnouncementsFragment extends Fragment {
     private static final String TAG = "MD/Announcements";
+
+    //Local datastore pin name.
+    public static final String ANNOUNCEMENT_PIN = "announcementPin";
 
     // Caches all the Announcements found
     ArrayList<AnnouncementDud> mAnnouncementsList;
@@ -50,14 +56,16 @@ public class AnnouncementsFragment extends Fragment{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // Initialize the list that holds all the announcements
-        mAnnouncementsList = new ArrayList<AnnouncementDud>();
+        // Only reset this if we need to
+        if(mAnnouncementsList == null) {
+            mAnnouncementsList = new ArrayList<AnnouncementDud>();
+        }
 
         // Initialize the test ListView
         initList();
 
         // Get Parse data of announcements for the first time
-        initParseData();
+        getLatestParseData();
     }
 
     // Set up the test listView for displaying announcements
@@ -75,19 +83,70 @@ public class AnnouncementsFragment extends Fragment{
         mRecyclerView.setAdapter(mListAdapter);
     }
 
-    private void initParseData() {
+    private void getLatestParseData() {
+        getLocalParseDataAndUpdateWithRemote();
+    }
+
+    private ParseQuery<ParseObject> getBaseQuery() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Announcement");
         query.addDescendingOrder(Announcement.DATE_COL);
+        return query;
+    }
+
+    private void getLocalParseDataAndUpdateWithRemote() {
+        ParseQuery<ParseObject> query = getBaseQuery();
+        query.fromPin(ANNOUNCEMENT_PIN);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
-                // Add the data to the announcements list
-                for(ParseObject parseObject : parseObjects) {
-                    mAnnouncementsList.add( new AnnouncementDud(parseObject) );
+                if (e != null || parseObjects == null) {
+                    Log.e(TAG, "Couldn't get the local announcements, falling back on remote");
+                } else {
+                    Log.d(TAG, "Got the local announcements, displaying them and fetching remote");
+                    displayAnnouncementsFromList(parseObjects);
                 }
 
-                // Update the data
-                updateAnnouncements();
+                getRemoteParseData();
+            }
+        });
+    }
+
+    private void displayAnnouncementsFromList(List<ParseObject> parseObjects) {
+        // Add the data to the announcements list
+        mAnnouncementsList = new ArrayList<AnnouncementDud>();
+        for(ParseObject parseObject : parseObjects) {
+            mAnnouncementsList.add( new AnnouncementDud(parseObject) );
+        }
+
+        // Update the data
+        updateAnnouncements();
+    }
+
+    private void getRemoteParseData() {
+        ParseQuery<ParseObject> query = getBaseQuery();
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e != null || parseObjects == null) {
+                    Log.e(TAG, "Couldn't get the remote announcements");
+
+                    // If we don't have any announcements in memory, tell the user we need internet
+                    if(mAnnouncementsList == null || mAnnouncementsList.size() <= 0) {
+                        if(getActivity() != null) ((MainActivity)getActivity()).showNoInternetOverlay();
+                    } else {
+                        // Otherwise, let them know they aren't looking at the latest news
+                        Toast.makeText(getActivity(), "Couldn't get the latest news!", Toast.LENGTH_LONG).show();
+                        if(getActivity() != null) ((MainActivity)getActivity()).hideNoInternetOverlay();
+                    }
+                } else {
+                    // We got the remote announcements, unpin the old ones and pin the new ones
+                    ParseObject.unpinAllInBackground(ANNOUNCEMENT_PIN);
+                    ParseObject.pinAllInBackground(ANNOUNCEMENT_PIN, parseObjects);
+
+                    // Display them to the user and make sure we aren't getting in the way
+                    displayAnnouncementsFromList(parseObjects);
+                    if(getActivity() != null) ((MainActivity)getActivity()).hideNoInternetOverlay();
+                }
             }
         });
     }

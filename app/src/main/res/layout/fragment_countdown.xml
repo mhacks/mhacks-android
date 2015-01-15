@@ -20,15 +20,14 @@
             android:id="@+id/countdown_toptitle_intro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/countdown_toptitle_beforestart"
             android:textColor="@color/black"
             android:textSize="@dimen/text_countdown_normaltitles"
             />
 
         <TextView
+            android:id="@+id/countdown_toptitle_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/countdown_toptitle_timedefault"
             android:textColor="@color/black"
             android:textSize="@dimen/text_countdown_normaltitles"
             />
@@ -49,15 +48,14 @@
             android:id="@+id/countdown_bottomtitle_intro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/countdown_bottomtitle_normal"
             android:textColor="@color/black"
             android:textSize="@dimen/text_countdown_normaltitles"
             />
 
         <TextView
+            android:id="@+id/countdown_bottomtitle_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/countdown_bottomtitle_timedefault"
             android:textColor="@color/black"
             android:textSize="@dimen/text_countdown_normaltitles"
             />
