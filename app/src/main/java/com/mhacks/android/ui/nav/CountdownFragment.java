@@ -102,7 +102,7 @@ public class CountdownFragment extends Fragment  {
 
         final boolean canUseLocalData = (startDate != null); // Kinda weird
         if(canUseLocalData) {
-            ((MainActivity)getActivity()).hideNoInternetOverlay();
+            if(getActivity() != null) ((MainActivity)getActivity()).hideNoInternetOverlay();
             initCountdownIfNecessary(startDate, duration * 1000);
         }
 
@@ -115,7 +115,7 @@ public class CountdownFragment extends Fragment  {
 
                     // If we don't have any local data, let the user know we need internet
                     if(!canUseLocalData) {
-                        ((MainActivity)getActivity()).showNoInternetOverlay();
+                        if(getActivity() != null) ((MainActivity)getActivity()).showNoInternetOverlay();
                     }
 
                     return;
@@ -127,10 +127,10 @@ public class CountdownFragment extends Fragment  {
 
                 if(startDate == null && !canUseLocalData) {
                     // If something was wrong with the remote data and we don't have local data, let the user know
-                    ((MainActivity)getActivity()).showNoInternetOverlay();
+                    if(getActivity() != null) ((MainActivity)getActivity()).showNoInternetOverlay();
                 } else {
                     // Hey check it out something went right
-                    ((MainActivity)getActivity()).hideNoInternetOverlay();
+                    if(getActivity() != null) ((MainActivity)getActivity()).hideNoInternetOverlay();
                     initCountdownIfNecessary(startDate, duration * 1000);
                 }
             }

@@ -132,11 +132,11 @@ public class AnnouncementsFragment extends Fragment {
 
                     // If we don't have any announcements in memory, tell the user we need internet
                     if(mAnnouncementsList == null || mAnnouncementsList.size() <= 0) {
-                        ((MainActivity)getActivity()).showNoInternetOverlay();
+                        if(getActivity() != null) ((MainActivity)getActivity()).showNoInternetOverlay();
                     } else {
                         // Otherwise, let them know they aren't looking at the latest news
                         Toast.makeText(getActivity(), "Couldn't get the latest news!", Toast.LENGTH_LONG).show();
-                        ((MainActivity)getActivity()).hideNoInternetOverlay();
+                        if(getActivity() != null) ((MainActivity)getActivity()).hideNoInternetOverlay();
                     }
                 } else {
                     // We got the remote announcements, unpin the old ones and pin the new ones
@@ -145,7 +145,7 @@ public class AnnouncementsFragment extends Fragment {
 
                     // Display them to the user and make sure we aren't getting in the way
                     displayAnnouncementsFromList(parseObjects);
-                    ((MainActivity)getActivity()).hideNoInternetOverlay();
+                    if(getActivity() != null) ((MainActivity)getActivity()).hideNoInternetOverlay();
                 }
             }
         });
