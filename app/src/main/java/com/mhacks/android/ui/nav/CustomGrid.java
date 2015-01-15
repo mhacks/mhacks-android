@@ -61,15 +61,6 @@ public class CustomGrid extends BaseAdapter {
             TextView prizeTextView = (TextView) grid.findViewById(R.id.prizeTextView);
             Log.d("CustomGrid", "Position " + position + ": prize " + awardList.get(position).getPrize());
             prizeTextView.setText(awardList.get(position).getPrize());
-            ParseFile logo = awardList.get(position).getSponsor().getLogo();
-            logo.getDataInBackground(new GetDataCallback() {
-                @Override
-                public void done(byte[] bitmapdata, com.parse.ParseException e) {
-                    ImageView sponsorImageView = (ImageView) grid.findViewById(R.id.sponsorImageView);
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
-                    sponsorImageView.setImageBitmap(bitmap);
-                }
-            });
         }
         else {
             grid = convertView;

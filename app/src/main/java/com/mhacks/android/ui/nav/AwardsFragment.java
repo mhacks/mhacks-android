@@ -1,22 +1,31 @@
 package com.mhacks.android.ui.nav;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.mhacks.android.data.model.Award;
 import com.mhacks.iv.android.R;
 import com.parse.FindCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -61,20 +70,30 @@ public class AwardsFragment extends Fragment{
                     gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            final Dialog dialog = new Dialog(mAwardsFragView.getContext());
-                            dialog.setContentView(R.layout.award_dialog);
-                            dialog.setTitle(awardList.get(position).getTitle());
-                            TextView prizeTextView = (TextView) dialog.findViewById(R.id.prizeTextView);
-                            prizeTextView.setText(awardList.get(position).getPrize());
-                            TextView descriptionTextView = (TextView) dialog.findViewById(R.id.descriptionTextView);
-                            descriptionTextView.setText(awardList.get(position).getDescription());
-                            Button okButton = (Button) dialog.findViewById(R.id.okButton);
-                            okButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(mAwardsFragView.getContext(), R.style.Base_Theme_AppCompat_Light_Dialog));
+                            LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+                            final View dialogView = layoutInflater.inflate(R.layout.award_dialog, null);
+                            builder.setView(dialogView);
+                            builder.setTitle(awardList.get(position).getTitle());
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
                                     dialog.dismiss();
                                 }
                             });
+                            AlertDialog dialog = builder.create();
+                            ParseFile logo = awardList.get(position).getSponsor().getLogo();
+                            logo.getDataInBackground(new GetDataCallback() {
+                                @Override
+                                public void done(byte[] bitmapdata, com.parse.ParseException e) {
+                                    ImageView sponsorImageView = (ImageView) dialogView.findViewById(R.id.sponsorImageView);
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
+                                    sponsorImageView.setImageBitmap(bitmap);
+                                }
+                            });
+                            TextView prizeTextView = (TextView) dialogView.findViewById(R.id.prizeTextView);
+                            prizeTextView.setText(awardList.get(position).getPrize());
+                            TextView descriptionTextView = (TextView) dialogView.findViewById(R.id.descriptionTextView);
+                            descriptionTextView.setText(awardList.get(position).getDescription());
                             dialog.show();
                         }
                     });
