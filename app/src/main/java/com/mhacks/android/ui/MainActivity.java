@@ -13,17 +13,22 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.mhacks.android.data.model.Event;
 import com.mhacks.android.ui.nav.AnnouncementsFragment;
 import com.mhacks.android.ui.nav.AwardsFragment;
 import com.mhacks.android.ui.nav.CountdownFragment;
+import com.mhacks.android.ui.nav.EventDetailsFragment;
 import com.mhacks.android.ui.nav.MapFragment;
 import com.mhacks.android.ui.nav.NavigationDrawerFragment;
 import com.mhacks.android.ui.nav.ScheduleFragment;
 import com.mhacks.android.ui.nav.SponsorsFragment;
 import com.mhacks.iv.android.R;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParsePush;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -112,20 +117,49 @@ public class MainActivity extends ActionBarActivity
 
         setDefaultFragment();
 
-        //Push notification intent.
+        //Push notification intent check.
+        checkIntent();
+    }
+
+    /**
+     * Method to check whether the MainActivity was started from a push notification intent or not.
+     * If it was, the method switched to the correct view based on the JSON payload from the push
+     * notification.
+     */
+    public void checkIntent() {
         Intent intent = getIntent();
-        if (intent.getExtras().getString("com.parse.Data") != null) {
+        if (intent.hasExtra("com.data.Parse")) {
             try {
                 JSONObject payload = new JSONObject(intent.getExtras().getString("com.parse.Data"));
-                Log.d(TAG, payload.getString("uri"));
                 if (payload.has("announcementID")) {
+                    Log.d(TAG, payload.getString("announcementID"));
                     getFragmentManager().beginTransaction()
-                            .replace(R.id.main_container, announcementsFragment)
-                            .addToBackStack(null)
-                            .commit();
+                                        .replace(R.id.main_container, announcementsFragment)
+                                        .addToBackStack(null)
+                                        .commit();
                 }
                 else if (payload.has("eventID")) {
-
+                    String eventID = payload.getString("eventID");
+                    ParseQuery<Event> query = ParseQuery.getQuery("Event");
+                    query.include("category");
+                    query.getInBackground(eventID, new GetCallback<Event>() {
+                        public void done(Event object, ParseException e) {
+                            if (e == null) {
+                                int color = scheduleFragment.getEventColor(object.getCategory().getColor());
+                                EventDetailsFragment eventDetailsFragment =
+                                        EventDetailsFragment.newInstance(object, color);
+                                getFragmentManager().beginTransaction()
+                                                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                                    .addToBackStack(null)
+                                                    .add(R.id.drawer_layout, eventDetailsFragment)
+                                                    .commit();
+                            } else {
+                                Toast.makeText(getApplicationContext(),
+                                               "Unable to retrieve event. Check the schedule for updates.",
+                                               Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }
             }
             catch (JSONException e) {
@@ -160,33 +194,38 @@ public class MainActivity extends ActionBarActivity
         switch (position) {
             case 0:
                 countdownFragment = new CountdownFragment();
-                fragmentTransaction.replace(R.id.main_container, countdownFragment).commit();
+                fragmentTransaction.replace(R.id.main_container, countdownFragment)
+                                   .addToBackStack(null).commit();
                 setToolbarTitle("Countdown Timer");
                 break;
             case 1:
                 announcementsFragment = new AnnouncementsFragment();
-                fragmentTransaction.replace(R.id.main_container, announcementsFragment);
-                fragmentTransaction.commit();
+                fragmentTransaction.replace(R.id.main_container, announcementsFragment)
+                                   .addToBackStack(null).commit();
                 setToolbarTitle("Announcements");
                 break;
             case 2:
                 scheduleFragment = new ScheduleFragment();
-                fragmentTransaction.replace(R.id.main_container, scheduleFragment).commit();
+                fragmentTransaction.replace(R.id.main_container, scheduleFragment)
+                                   .addToBackStack(null).commit();
                 setToolbarTitle("Schedule");
                 break;
             case 3:
                 sponsorsFragment = new SponsorsFragment();
-                fragmentTransaction.replace(R.id.main_container, sponsorsFragment).commit();
+                fragmentTransaction.replace(R.id.main_container, sponsorsFragment)
+                                   .addToBackStack(null).commit();
                 setToolbarTitle("Sponsors");
                 break;
             case 4:
                 awardsFragment = new AwardsFragment();
-                fragmentTransaction.replace(R.id.main_container, awardsFragment).commit();
+                fragmentTransaction.replace(R.id.main_container, awardsFragment)
+                                   .addToBackStack(null).commit();
                 setToolbarTitle("Awards");
                 break;
             case 5:
                 mapFragment = new MapFragment();
-                fragmentTransaction.replace(R.id.main_container, mapFragment).commit();
+                fragmentTransaction.replace(R.id.main_container, mapFragment)
+                                   .addToBackStack(null).commit();
                 setToolbarTitle("Map");
         }
 

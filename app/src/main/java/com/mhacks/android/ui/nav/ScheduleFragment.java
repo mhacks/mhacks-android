@@ -242,29 +242,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
             endTime.add(Calendar.MINUTE, minuteDuration);
 
             //Set color based on EventType (Category).
-            int color;
-            switch (event.getCategory().getColor()) {
-                case 0: //Red
-                    color = getResources().getColor(R.color.event_red);
-                    break;
-                case 1: //Orange
-                    color = getResources().getColor(R.color.event_orange);
-                    break;
-                case 2: //Yellow
-                    color = getResources().getColor(R.color.event_yellow);
-                    break;
-                case 3: //Green
-                    color = getResources().getColor(R.color.event_green);
-                    break;
-                case 4: //Blue
-                    color = getResources().getColor(R.color.event_blue);
-                    break;
-                case 5: //Purple
-                    color = getResources().getColor(R.color.event_purple);
-                    break;
-                default:
-                    color = getResources().getColor(R.color.mh_purple);
-            }
+            int color = getEventColor(event.getCategory().getColor());
 
             //Create a WeekViewEvent
             WeekViewEvent weekViewEvent = new WeekViewEvent(id, event.getTitle(), startTime, endTime);
@@ -283,6 +261,31 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         }
     }
 
+    /**
+     * Takes the event type based on the EventType class in Parse and returns the corresponding
+     * color of the event.
+     * @param eventType Event type/category.
+     * @return color of the event.
+     */
+    public int getEventColor(int eventType) {
+        switch (eventType) {
+            case 0: //Red
+                return getResources().getColor(R.color.event_red);
+            case 1: //Orange
+                return getResources().getColor(R.color.event_orange);
+            case 2: //Yellow
+                return getResources().getColor(R.color.event_yellow);
+            case 3: //Green
+                return getResources().getColor(R.color.event_green);
+            case 4: //Blue
+                return getResources().getColor(R.color.event_blue);
+            case 5: //Purple
+                return getResources().getColor(R.color.event_purple);
+            default:
+                return getResources().getColor(R.color.mh_purple);
+        }
+    }
+
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
         if (!eventDetailsOpen) {
@@ -291,8 +294,8 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
             getActivity().getFragmentManager()
                          .beginTransaction()
                          .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                         .add(R.id.drawer_layout, eventDetailsFragment)
                     .addToBackStack(null) //IMPORTANT. Allows the EventDetailsFragment to be closed.
+                         .add(R.id.drawer_layout, eventDetailsFragment)
                     .commit();
             //Hide the toolbar so the event details are full screen.
             ((ActionBarActivity) getActivity()).getSupportActionBar().hide();
