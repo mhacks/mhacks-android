@@ -7,15 +7,6 @@
     android:layout_margin="5dp"
     android:id="@+id/relativeLayout">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/sponsorImageView"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:alpha=".50"
-        android:src="@drawable/ic_launcher"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,7 +15,8 @@
         android:text="Title"
         android:textColor="@color/black"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:gravity="center"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -34,6 +26,8 @@
         android:textColor="@color/black"
         android:text="Prize"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp" />
+        android:layout_below="@+id/titleTextView"
+        android:layout_marginTop="5dp"
+        android:gravity="center"/>
 
 </RelativeLayout>
