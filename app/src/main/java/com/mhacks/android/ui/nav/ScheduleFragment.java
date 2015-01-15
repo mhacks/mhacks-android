@@ -68,7 +68,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
                              final ViewGroup container,
                              Bundle savedInstanceState) {
         mScheduleFragView = inflater.inflate(R.layout.fragment_schedule, container, false);
-        
+
         mUser = ParseUser.getCurrentUser();
         hasWeekViewBeenSetUp = false;
         getLocalEvents(JANUARY_MONTH); //Called initially to build the schedule view and query events

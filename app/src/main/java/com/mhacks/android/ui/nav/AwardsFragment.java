@@ -100,6 +100,7 @@ public class AwardsFragment extends Fragment {
     private ParseQuery<ParseObject> getBaseQuery() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Award");
         query.include("sponsor");
+        query.addDescendingOrder("value");
         return query;
     }
 

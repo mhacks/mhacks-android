@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -304,12 +305,16 @@ public class SponsorsFragment extends Fragment implements OnItemClickListener {
             TextView sponsorLoc = (TextView) mProfile.findViewById(R.id.sponsor_location);
             sponsorLoc.setText(mLocation);
 
-            builder.setView(mProfile)
-                    .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            DialogSponsor.this.getDialog().cancel();
-                        }
-                    });
+            Button okButton = (Button) mProfile.findViewById(R.id.sponsor_profile_ok);
+            okButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DialogSponsor.this.getDialog().cancel();
+                }
+            });
+
+            builder.setView(mProfile);
+
             return builder.create();
         }
 
@@ -331,6 +336,7 @@ public class SponsorsFragment extends Fragment implements OnItemClickListener {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+
             mImageLocation = getArguments().getString("image");
             mName = getArguments().getString("name");
             mTier = getArguments().getString("tier");

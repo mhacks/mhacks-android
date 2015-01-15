@@ -23,11 +23,11 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/prizeTextView"
-        android:textColor="@color/black"
+        android:textColor="@color/header_column_text_color"
         android:text="Prize"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/titleTextView"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="1dp"
         android:gravity="center"/>
 
 </RelativeLayout>

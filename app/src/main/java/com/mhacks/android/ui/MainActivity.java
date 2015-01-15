@@ -23,6 +23,8 @@ import com.mhacks.android.ui.nav.NavigationDrawerFragment;
 import com.mhacks.android.ui.nav.ScheduleFragment;
 import com.mhacks.android.ui.nav.SponsorsFragment;
 import com.mhacks.iv.android.R;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.Date;
