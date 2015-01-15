@@ -3,19 +3,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:animateLayoutChanges="true"
-    android:layout_height="match_parent">
-
-    <GridView
-        android:id="@+id/sponsor_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:numColumns="2"
-        android:columnWidth="90dp"
-        android:horizontalSpacing="10dp"
-        android:verticalSpacing="20dp"
-        android:gravity="center"
-        android:stretchMode="columnWidth" >
-
-    </GridView>
+    android:layout_height="match_parent"
+    android:id="@+id/sponsor_view"
+    android:visibility="visible">
 
 </LinearLayout>

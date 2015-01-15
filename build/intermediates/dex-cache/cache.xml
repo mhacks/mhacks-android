@@ -2,151 +2,151 @@
 <items version="2" >
 
     <item
-        jar="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/exploded-aar/com.github.alamkanak/android-week-view/1.1.7/classes.jar"
+        jar="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/classes.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="7b049637c80f63053a44e358dcfc4d06eaae2961">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/classes-bdcd9fe8356579d3166b7e5c1247c7503eaca317.jar" />
+        sha1="3e175e180b1af03d94373ccbd52a5aa740881ae4">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/classes-30281b8fd6d924a11be2fc5b7485bbe4179aca7c.jar" />
     </item>
     <item
-        jar="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/libs/Parse-1.7.1.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="87c45f9f66da531a65f065ee32f603c7e6db1528">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/Parse-1.7.1-1272646b1247c28c2043c31fbb327e2ca656ed0a.jar" />
-    </item>
-    <item
-        jar="/Users/boztalay/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.3.3/1262995965440e28ba5c4d480c9c9ab4ccce84cc/picasso-2.3.3.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="1262995965440e28ba5c4d480c9c9ab4ccce84cc">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/picasso-2.3.3-8a20a26b457f73a36d8639e263ce17e84a87e758.jar" />
-    </item>
-    <item
-        jar="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-bfa7ab2682c5c4b8d90f79569d35956db47ac77c.jar" />
-    </item>
-    <item
-        jar="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/classes.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="88e8e18d365173ad04a543d76c157e0b644f0b3f">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/classes-f7d89411ef075517d8d9cd623c82c46dec780228.jar" />
-    </item>
-    <item
-        jar="/Users/boztalay/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.2.2/285cb9c666f0f0f3dd8a1be04e1f457eb7b15113/jackson-annotations-2.2.2.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="285cb9c666f0f0f3dd8a1be04e1f457eb7b15113">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/jackson-annotations-2.2.2-e58f42f04532905701dd3d63b0f086be50f1ba51.jar" />
-    </item>
-    <item
-        jar="/Users/boztalay/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/18.0/cce0823396aa693798f8882e64213b1772032b09/guava-18.0.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="cce0823396aa693798f8882e64213b1772032b09">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/guava-18.0-51348f7ac615ea33543d60ce76ef82760d45bd18.jar" />
-    </item>
-    <item
-        jar="/Users/boztalay/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.2.2/3c8f6018eaa72d43b261181e801e6f8676c16ef6/jackson-databind-2.2.2.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="3c8f6018eaa72d43b261181e801e6f8676c16ef6">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/jackson-databind-2.2.2-dfcb283f89c9217b50a69d78cc96aa8039ce4730.jar" />
-    </item>
-    <item
-        jar="/Users/boztalay/.gradle/caches/modules-2/files-2.1/joda-time/joda-time/2.6/5015880733b0bc0ce813a3ed5601064c1d413671/joda-time-2.6.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="5015880733b0bc0ce813a3ed5601064c1d413671">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/joda-time-2.6-045ee2bf1ff982ec2c5227df50e99db1509be688.jar" />
-    </item>
-    <item
-        jar="/Users/boztalay/.gradle/caches/modules-2/files-2.1/com.firebase/tubesock/0.0.8/7e88ecf193992e8b3f533ebf9be4736052e9d9ed/tubesock-0.0.8.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="7e88ecf193992e8b3f533ebf9be4736052e9d9ed">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/tubesock-0.0.8-6d76ad44781708da8d4101b48bfcd6415d1dac93.jar" />
-    </item>
-    <item
-        jar="/Applications/Android Studio.app/Contents/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-5c200f74ea7778495d16ab433a7a3a073c17a235.jar" />
-    </item>
-    <item
-        jar="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.3.4/classes.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="cf251baf39f5c5138224b67b4106eb6331abbd13">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/classes-e3cca840bc4bcda72e36ebd225414040004fd86a.jar" />
-    </item>
-    <item
-        jar="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/classes-35c3cd63bc434d6ee26d9baf1baddd677054aa7d.jar" />
-    </item>
-    <item
-        jar="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/21.0.3/classes.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="4b8945fc23a7461c6fdde15753456d64b0a9358b">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/classes-dc2042d96874bf2041b4f2e350f6f3d070902f75.jar" />
-    </item>
-    <item
-        jar="/Users/boztalay/.gradle/caches/modules-2/files-2.1/com.firebase/firebase-client/1.0.16/ddb3ceb5e4206bd2c392ddba9b8285649a053a66/firebase-client-1.0.16.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="ddb3ceb5e4206bd2c392ddba9b8285649a053a66">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/firebase-client-1.0.16-317aec751d3c57b78c5339ef83c8a52f74522855.jar" />
-    </item>
-    <item
-        jar="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/libs/bugsnag-android-2.2.0.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="29daab26cd1393f6ba001466dc103a4969f75d09">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/bugsnag-android-2.2.0-ca2890b6f36002a3a1541053065297ac1caadeba.jar" />
-    </item>
-    <item
-        jar="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/libs/bolts.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="1e5ba33c837d05dcca9dc40a0ab458f8599d7aef">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/bolts-17fe229ff8282c7f3f7bcc32f3f33618a3a9eb90.jar" />
-    </item>
-    <item
-        jar="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.3/classes.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="00b0b7233e1ec64acebfac40d4983d32d4712426">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/classes-61fd20279f4d7720e34fe6cbd98ee91367920266.jar" />
-    </item>
-    <item
-        jar="/Users/boztalay/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.2.2/d20be6a5ddd6f8cfd36ebf6dea329873a1c41f1b/jackson-core-2.2.2.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="d20be6a5ddd6f8cfd36ebf6dea329873a1c41f1b">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/jackson-core-2.2.2-d9dacd7af315fe39b163e48bf1e406282b0005a6.jar" />
-    </item>
-    <item
-        jar="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jar="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
         jumboMode="false"
         revision="20.0.0"
         sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/classes-0bf7f1bb75be43f27b1add6ae16bdb37a1f0dec1.jar" />
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/classes-d61038fd124c946db4c2a6786a6d5904373f9cd7.jar" />
     </item>
     <item
-        jar="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/classes.jar"
+        jar="/Users/Riyu/.gradle/caches/modules-2/files-2.1/joda-time/joda-time/2.6/5015880733b0bc0ce813a3ed5601064c1d413671/joda-time-2.6.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="7b28d467dfac26d38f06a748a2dedb83724c71a8">
-        <dex dex="/Users/boztalay/Desktop/Folders/Github/mhacks/MHacks-Android/app/build/intermediates/pre-dexed/debug/classes-a6990541d212b4c3fd7d56ee69ff9ea74464fd42.jar" />
+        sha1="5015880733b0bc0ce813a3ed5601064c1d413671">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/joda-time-2.6-8e7e8c001604ab2a76df4bf70cc43a45ee824e74.jar" />
+    </item>
+    <item
+        jar="/Users/Riyu/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.2.2/285cb9c666f0f0f3dd8a1be04e1f457eb7b15113/jackson-annotations-2.2.2.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="285cb9c666f0f0f3dd8a1be04e1f457eb7b15113">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/jackson-annotations-2.2.2-9bb2504aafe4ee3a4a24f91f5a0ef4d839af5082.jar" />
+    </item>
+    <item
+        jar="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-e7049df9f386eb02df47bfb42c96b9f392848e05.jar" />
+    </item>
+    <item
+        jar="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.viewpagerindicator/library/2.4.1/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="88e8e18d365173ad04a543d76c157e0b644f0b3f">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/classes-c7ce033cd1fcb582c94d4701d4fe2712597a9452.jar" />
+    </item>
+    <item
+        jar="/Users/Riyu/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.2.2/3c8f6018eaa72d43b261181e801e6f8676c16ef6/jackson-databind-2.2.2.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="3c8f6018eaa72d43b261181e801e6f8676c16ef6">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/jackson-databind-2.2.2-40ee59a0f342381f0ec9c29f97eda2e810195657.jar" />
+    </item>
+    <item
+        jar="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/libs/Parse-1.7.1.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="87c45f9f66da531a65f065ee32f603c7e6db1528">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/Parse-1.7.1-1d2117ffb19b234cf146472c791875562b574d19.jar" />
+    </item>
+    <item
+        jar="/Users/Riyu/Documents/sdk 3.57.42 AM/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-84ef39419a7af9181baedb991f839f707d3e2337.jar" />
+    </item>
+    <item
+        jar="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.3.4/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="cf251baf39f5c5138224b67b4106eb6331abbd13">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/classes-929a8307914e00b124011d1b855bffad226968f6.jar" />
+    </item>
+    <item
+        jar="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="4b8945fc23a7461c6fdde15753456d64b0a9358b">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/classes-bfe90453c890342013392d631128d436f97365a7.jar" />
+    </item>
+    <item
+        jar="/Users/Riyu/.gradle/caches/modules-2/files-2.1/com.firebase/firebase-client/1.0.16/ddb3ceb5e4206bd2c392ddba9b8285649a053a66/firebase-client-1.0.16.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="ddb3ceb5e4206bd2c392ddba9b8285649a053a66">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/firebase-client-1.0.16-e7d2cc7c2d13f36ea1df8d6939b90f047ff5292d.jar" />
+    </item>
+    <item
+        jar="/Users/Riyu/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/18.0/cce0823396aa693798f8882e64213b1772032b09/guava-18.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="cce0823396aa693798f8882e64213b1772032b09">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/guava-18.0-82b01e93c791fb2726e60000dde6a18a4e2442ee.jar" />
+    </item>
+    <item
+        jar="/Users/Riyu/.gradle/caches/modules-2/files-2.1/com.firebase/tubesock/0.0.8/7e88ecf193992e8b3f533ebf9be4736052e9d9ed/tubesock-0.0.8.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="7e88ecf193992e8b3f533ebf9be4736052e9d9ed">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/tubesock-0.0.8-7d39a4b490fed75189bd07879198ddca87d41687.jar" />
+    </item>
+    <item
+        jar="/Users/Riyu/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.3.3/1262995965440e28ba5c4d480c9c9ab4ccce84cc/picasso-2.3.3.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="1262995965440e28ba5c4d480c9c9ab4ccce84cc">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/picasso-2.3.3-cbf9485e415ea0dae6b8c2c0a026157b2c45a63a.jar" />
+    </item>
+    <item
+        jar="/Users/Riyu/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.2.2/d20be6a5ddd6f8cfd36ebf6dea329873a1c41f1b/jackson-core-2.2.2.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="d20be6a5ddd6f8cfd36ebf6dea329873a1c41f1b">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/jackson-core-2.2.2-3a058a417573128d0e948801e5d8e5c2418b08f7.jar" />
+    </item>
+    <item
+        jar="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/classes-e679278e563f0fed5e3a08584d66acd039ef5e02.jar" />
+    </item>
+    <item
+        jar="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.github.alamkanak/android-week-view/1.1.7/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="7b049637c80f63053a44e358dcfc4d06eaae2961">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/classes-dfec2bccf74b7d4ddc5a3cfe79654439dac2ca57.jar" />
+    </item>
+    <item
+        jar="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="00b0b7233e1ec64acebfac40d4983d32d4712426">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/classes-53c35c30a76596fb0273ee2b16d12541b8970462.jar" />
+    </item>
+    <item
+        jar="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/libs/bugsnag-android-2.2.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="29daab26cd1393f6ba001466dc103a4969f75d09">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/bugsnag-android-2.2.0-3b276ade2ebfbf14c8e65163b0c581383eb8211e.jar" />
+    </item>
+    <item
+        jar="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/exploded-aar/MHacks-Android/facebook/unspecified/libs/bolts.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="1e5ba33c837d05dcca9dc40a0ab458f8599d7aef">
+        <dex dex="/Users/Riyu/Documents/Mhacks_app/MHacks-Android/app/build/intermediates/pre-dexed/debug/bolts-3e132a1d086754e12d0ed96072541f16d40249c0.jar" />
     </item>
 
 </items>
