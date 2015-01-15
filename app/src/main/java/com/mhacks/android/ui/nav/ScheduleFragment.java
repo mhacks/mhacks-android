@@ -323,6 +323,10 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //  HANDLES BUTTON CICKS FOR ScheduleFragment AND EventDetailsFragment
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Gets clicked view in the ScheduleFragment and the EventDetailsFragment and handles them
      * appropriately.
@@ -339,7 +343,6 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         }
     }
 
-
     /**
      * Refresh all the events from the Parse database and call the onMonthChange listener to
      * re-draw the new events on the calendar.
@@ -355,13 +358,17 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         }
     }
 
+    /**
+     * Finds the instance of the EventDetails fragment that is in the R.id.drawer_layout and closes
+     * it. Uses findFragmentById because the MainActivity can create an EventDetailsFragment from
+     * a push notification when the ScheduleFragment itself is not open, (ie eventDetailsFragment
+     * has not yet been declared or instantiated).
+     */
     public void closeEventDetails () {
         //Close the EventDetailsFragment
         getActivity().getFragmentManager().beginTransaction()
                      .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                     .remove(eventDetailsFragment).commit();
-        //Show the toolbar
-        ((ActionBarActivity) getActivity()).getSupportActionBar().show();
+                     .remove(getFragmentManager().findFragmentById(R.id.drawer_layout)).commit();
         eventDetailsOpen = false;
     }
 

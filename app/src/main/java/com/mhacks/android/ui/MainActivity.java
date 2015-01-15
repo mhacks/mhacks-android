@@ -58,6 +58,8 @@ public class MainActivity extends ActionBarActivity
 
     private boolean mShouldSync = true;
 
+    private boolean pushEDF = false; //True if EventDetailsFragment was opened from a push notif.
+
     //Fragments
     private CountdownFragment countdownFragment;
     private AnnouncementsFragment announcementsFragment;
@@ -128,24 +130,27 @@ public class MainActivity extends ActionBarActivity
      */
     public void checkIntent() {
         Intent intent = getIntent();
-        if (intent.hasExtra("com.data.Parse")) {
+        if (intent.getExtras() != null) {
             try {
                 JSONObject payload = new JSONObject(intent.getExtras().getString("com.parse.Data"));
+                Log.d(TAG, payload.toString(4));
                 if (payload.has("announcementID")) {
                     Log.d(TAG, payload.getString("announcementID"));
                     getFragmentManager().beginTransaction()
                                         .replace(R.id.main_container, announcementsFragment)
                                         .addToBackStack(null)
                                         .commit();
+                    setToolbarTitle("Announcements");
                 }
                 else if (payload.has("eventID")) {
+                    Log.d(TAG, payload.getString("eventID"));
                     String eventID = payload.getString("eventID");
                     ParseQuery<Event> query = ParseQuery.getQuery("Event");
                     query.include("category");
                     query.getInBackground(eventID, new GetCallback<Event>() {
                         public void done(Event object, ParseException e) {
                             if (e == null) {
-                                int color = scheduleFragment.getEventColor(object.getCategory().getColor());
+                                int color = getEventColor(object.getCategory().getColor());
                                 EventDetailsFragment eventDetailsFragment =
                                         EventDetailsFragment.newInstance(object, color);
                                 getFragmentManager().beginTransaction()
@@ -153,6 +158,10 @@ public class MainActivity extends ActionBarActivity
                                                     .addToBackStack(null)
                                                     .add(R.id.drawer_layout, eventDetailsFragment)
                                                     .commit();
+
+                                //Let's other methods know that this EventDetailsFragment was opened
+                                //from a push notification.
+                                pushEDF = true;
                             } else {
                                 Toast.makeText(getApplicationContext(),
                                                "Unable to retrieve event. Check the schedule for updates.",
@@ -160,6 +169,8 @@ public class MainActivity extends ActionBarActivity
                             }
                         }
                     });
+                } else {
+                    Log.d(TAG, "neither string found");
                 }
             }
             catch (JSONException e) {
@@ -287,6 +298,37 @@ public class MainActivity extends ActionBarActivity
      * @param v clicked View
      */
     public void scheduleFragmentClick(View v) {
-        scheduleFragment.scheduleFragmentClick(v);
+        if (v.getId() == R.id.event_close_button && pushEDF) {
+            getFragmentManager().beginTransaction()
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .remove(getFragmentManager().findFragmentById(R.id.drawer_layout))
+                                .commit();
+            pushEDF = false;
+        } else scheduleFragment.scheduleFragmentClick(v);
+    }
+
+    /**
+     * Takes the event type based on the EventType class in Parse and returns the corresponding
+     * color of the event.
+     * @param eventType Event type/category.
+     * @return color of the event.
+     */
+    public int getEventColor(int eventType) {
+        switch (eventType) {
+            case 0: //Red
+                return getResources().getColor(R.color.event_red);
+            case 1: //Orange
+                return getResources().getColor(R.color.event_orange);
+            case 2: //Yellow
+                return getResources().getColor(R.color.event_yellow);
+            case 3: //Green
+                return getResources().getColor(R.color.event_green);
+            case 4: //Blue
+                return getResources().getColor(R.color.event_blue);
+            case 5: //Purple
+                return getResources().getColor(R.color.event_purple);
+            default:
+                return getResources().getColor(R.color.mh_purple);
+        }
     }
 }
