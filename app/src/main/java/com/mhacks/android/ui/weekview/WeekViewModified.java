@@ -1233,7 +1233,9 @@ public int getHeaderRowPadding() {
      * Removes all events from the calendar.
      */
     public void clearCalendar () {
-        mEventRects.clear();
+        if(mEventRects != null) {
+            mEventRects.clear();
+        }
     }
 
     /**

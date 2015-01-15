@@ -51,7 +51,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
     private List<Event> finalEvents;
 
     //Booleans
-    private boolean firstRun = true; //Sets up the WeekView on the initial start.
+    private boolean hasWeekViewBeenSetUp = false; //Sets up the WeekView on the initial start.
     private boolean eventDetailsOpen = false; //Prevents multiple EventDetailFragments from opening.
 
     //Declares the EventDetailsFragment
@@ -68,9 +68,9 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
                              final ViewGroup container,
                              Bundle savedInstanceState) {
         mScheduleFragView = inflater.inflate(R.layout.fragment_schedule, container, false);
-
+        
         mUser = ParseUser.getCurrentUser();
-
+        hasWeekViewBeenSetUp = false;
         getLocalEvents(JANUARY_MONTH); //Called initially to build the schedule view and query events
 
         return mScheduleFragView;
@@ -249,7 +249,12 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
             id++;
         }
 
-        setUpWeekView();
+        if(hasWeekViewBeenSetUp && mWeekView != null) {
+            mWeekView.notifyDatasetChanged();
+        } else {
+            setUpWeekView();
+            hasWeekViewBeenSetUp = true;
+        }
     }
 
     @Override
