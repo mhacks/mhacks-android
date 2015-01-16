@@ -282,7 +282,7 @@ public class SponsorsFragment extends Fragment implements OnItemClickListener {
         sponsorDialog.show(getFragmentManager(), mSponsors.get(position).getName());
     }
 
-    public class DialogSponsor extends DialogFragment {
+    public static class DialogSponsor extends DialogFragment {
         View mProfile;
         String mImageLocation;
         String mName;
