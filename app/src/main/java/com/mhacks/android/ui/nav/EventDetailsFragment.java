@@ -9,13 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.alamkanak.weekview.WeekViewEvent;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.Location;
-import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.iv.android.R;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -26,7 +24,6 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Omkar Moghe on 12/25/2014.
@@ -205,6 +202,7 @@ public class EventDetailsFragment extends Fragment {
                         locations.add(location);
                 } catch (ParseException p) {
                     Log.e(TAG, "Parse done goofed.", p);
+                    Toast.makeText(getActivity(), "Refresh the schedule to get the latest data", Toast.LENGTH_LONG);
                 }
             }
         } catch (JSONException e) {

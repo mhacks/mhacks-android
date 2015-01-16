@@ -136,7 +136,7 @@ public class MainActivity extends ActionBarActivity
      */
     public void checkIntent() {
         Intent intent = getIntent();
-        if (intent.getExtras() != null) {
+        if (intent.getExtras() != null && intent.getExtras().getString("com.parse.Data") != null) {
             try {
                 JSONObject payload = new JSONObject(intent.getExtras().getString("com.parse.Data"));
                 Log.d(TAG, payload.toString(4));
