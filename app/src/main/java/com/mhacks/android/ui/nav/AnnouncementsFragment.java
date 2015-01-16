@@ -23,6 +23,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -125,7 +126,12 @@ public class AnnouncementsFragment extends Fragment {
         // Add the data to the announcements list
         mAnnouncementsList = new ArrayList<AnnouncementDud>();
         for(ParseObject parseObject : parseObjects) {
-            mAnnouncementsList.add( new AnnouncementDud(parseObject) );
+            //Check to see if the announcement is ahead of the current time.
+            AnnouncementDud announcement = new AnnouncementDud(parseObject);
+            Calendar currentTime = Calendar.getInstance();
+            Calendar announcementTime = Calendar.getInstance();
+            announcementTime.setTime(announcement.getDate());
+            if (currentTime.compareTo(announcementTime) != -1) mAnnouncementsList.add(announcement);
         }
 
         // Update the data
