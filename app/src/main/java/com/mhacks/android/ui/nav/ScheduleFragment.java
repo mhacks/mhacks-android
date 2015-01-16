@@ -11,6 +11,7 @@ import android.view.*;
 import android.widget.LinearLayout;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.mhacks.android.data.model.Event;
+import com.mhacks.android.data.model.Location;
 import com.mhacks.android.ui.MainActivity;
 import com.mhacks.android.ui.weekview.WeekViewModified;
 import org.mhacks.android.R;
@@ -33,6 +34,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
 
     //Local datastore pin name.
     private static final String EVENT_PIN = "eventPin";
+    private static final String LOCATION_PIN = "locationPin";
 
     // Month number for which to get events
     private static final int JANUARY_MONTH = 1;
@@ -163,6 +165,16 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
      * @param newMonth Month for which to get events.
      */
     private void getRemoteEvents(final int newMonth) {
+        ParseQuery<Location> locQuery = ParseQuery.getQuery("Location");
+        locQuery.findInBackground(new FindCallback<Location>() {
+            public void done(List<Location> locList, ParseException f) {
+                if (f == null && locList != null && locList.size() > 0) {
+                    ParseObject.unpinAllInBackground(LOCATION_PIN);
+                    ParseObject.pinAllInBackground(LOCATION_PIN, locList);
+                }
+            }
+        });
+
         ParseQuery<Event> query = getBaseEventQuery();
         query.findInBackground(new FindCallback<Event>() {
             public void done(List<Event> eventList, ParseException e) {
@@ -220,7 +232,12 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
             endTime.add(Calendar.MINUTE, minuteDuration);
 
             //Set color based on EventType (Category).
-            int color = getEventColor(event.getCategory().getColor());
+            int color;
+            if (event.getCategory() != null) {
+                color = getEventColor(event.getCategory().getColor());
+            } else {
+                color = getEventColor(-1);
+            }
 
             //Create a WeekViewEvent
             WeekViewEvent weekViewEvent = new WeekViewEvent(id, event.getTitle(), startTime, endTime);
