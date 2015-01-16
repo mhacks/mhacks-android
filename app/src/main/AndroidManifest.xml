@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    package="com.mhacks.iv.android"
+    package="org.mhacks.android"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -14,9 +14,9 @@
 
     <!-- Parse push notification stuff -->
     <permission
-        android:name="com.mhacks.iv.android.permission.C2D_MESSAGE"
+        android:name="org.mhacks.android.permission.C2D_MESSAGE"
         android:protectionLevel="signature"/>
-    <uses-permission android:name="com.mhacks.iv.android.permission.C2D_MESSAGE"/>
+    <uses-permission android:name="org.mhacks.android.permission.C2D_MESSAGE"/>
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -64,7 +64,7 @@
                 <!--
                   IMPORTANT: Change "com.parse.tutorials.pushnotifications" to match your app's package name.
                 -->
-                <category android:name="com.mhacks.iv.android"/>
+                <category android:name="org.mhacks.android"/>
             </intent-filter>
         </receiver>
         <receiver android:name="com.mhacks.android.ui.PushHandler" android:exported="false">

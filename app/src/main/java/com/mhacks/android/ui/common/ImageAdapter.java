@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 import com.mhacks.android.data.model.Sponsor;
-import com.mhacks.iv.android.R;
+import org.mhacks.android.R;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 

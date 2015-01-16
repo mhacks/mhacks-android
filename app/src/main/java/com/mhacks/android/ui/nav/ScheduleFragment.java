@@ -13,7 +13,7 @@ import com.alamkanak.weekview.WeekViewEvent;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.ui.MainActivity;
 import com.mhacks.android.ui.weekview.WeekViewModified;
-import com.mhacks.iv.android.R;
+import org.mhacks.android.R;
 import com.parse.*;
 
 import java.util.*;

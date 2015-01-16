@@ -14,7 +14,7 @@ import android.widget.Spinner;
 
 import com.mhacks.android.data.model.Map;
 import com.mhacks.android.ui.MainActivity;
-import com.mhacks.iv.android.R;
+import org.mhacks.android.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;

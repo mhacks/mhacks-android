@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.Location;
-import com.mhacks.iv.android.R;
+import org.mhacks.android.R;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;

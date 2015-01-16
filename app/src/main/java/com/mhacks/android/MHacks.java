@@ -13,7 +13,7 @@ import com.mhacks.android.data.model.Map;
 import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.android.data.model.SponsorTier;
 import com.mhacks.android.ui.MainActivity;
-import com.mhacks.iv.android.R;
+import org.mhacks.android.R;
 import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;

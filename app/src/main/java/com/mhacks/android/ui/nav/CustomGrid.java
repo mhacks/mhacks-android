@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.mhacks.android.data.model.Award;
-import com.mhacks.iv.android.R;
+import org.mhacks.android.R;
 
 import java.util.ArrayList;
 import java.util.List;

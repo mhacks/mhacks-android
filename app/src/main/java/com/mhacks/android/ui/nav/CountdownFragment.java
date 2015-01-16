@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mhacks.android.ui.MainActivity;
-import com.mhacks.iv.android.R;
+import org.mhacks.android.R;
 import com.parse.ConfigCallback;
 import com.parse.ParseConfig;
 import com.parse.ParseException;

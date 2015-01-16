@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mhacks.iv.android.R;
+import org.mhacks.android.R;
 
 import java.util.ArrayList;
 

@@ -23,7 +23,7 @@ import android.widget.TextView;
 import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.android.data.model.SponsorTier;
 import com.mhacks.android.ui.MainActivity;
-import com.mhacks.iv.android.R;
+import org.mhacks.android.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;

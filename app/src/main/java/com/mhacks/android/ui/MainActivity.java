@@ -27,7 +27,7 @@ import com.mhacks.android.ui.nav.MapFragment;
 import com.mhacks.android.ui.nav.NavigationDrawerFragment;
 import com.mhacks.android.ui.nav.ScheduleFragment;
 import com.mhacks.android.ui.nav.SponsorsFragment;
-import com.mhacks.iv.android.R;
+import org.mhacks.android.R;
 import com.parse.ParseObject;
 import com.parse.GetCallback;
 import com.parse.ParseException;
