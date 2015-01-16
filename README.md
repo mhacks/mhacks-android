@@ -2,7 +2,7 @@ The Official MHacks Android App
 ===========================
 Screenshots
 -----
-![](https://raw.githubusercontent.com/mhacks/MHacks-Android/five-dev/mhacks_android_github_sc.png)
+![](https://raw.githubusercontent.com/mhacks/MHacks-Android/master/mhacks_android_github_sc.png)
 
 Building
 -----
