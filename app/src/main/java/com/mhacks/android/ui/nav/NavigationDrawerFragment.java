@@ -8,9 +8,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,14 +30,11 @@ public class NavigationDrawerFragment extends Fragment {
 
     private NavigationDrawerCallbacks mCallbacks;
     private int mCurrentSelectedPosition;
-    private ActionBarDrawerToggle mDrawerToggle;
 
     private View mNavDrawerView;
 
     private ListView mListViewNav;
     private MainNavAdapter mListAdapter;
-
-    private TextView mAnnouncementsTextView, mScheduleTextView, mSponsorsTextView, mAwardsTextView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

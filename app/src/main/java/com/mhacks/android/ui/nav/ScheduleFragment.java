@@ -77,6 +77,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
 
     @Override
     public void onDestroyView() {
+        super.onDestroyView();
         if(currentQuery != null) currentQuery.cancel();
     }
 

@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import bolts.Task;
 import com.mhacks.android.ui.MainActivity;
 import com.mhacks.iv.android.R;
 import com.parse.ConfigCallback;
@@ -32,11 +31,7 @@ import java.util.TimeZone;
 /**
  * Created by jawad on 04/11/14.
  */
-/* TODO List
- * 1) Get data from parse
- * 2) Create countdown object+layout+settings
- * 3) Apply data/time to countdown
- */
+
 public class CountdownFragment extends Fragment  {
     private static final String TAG = "MD/CountdownFrag";
 

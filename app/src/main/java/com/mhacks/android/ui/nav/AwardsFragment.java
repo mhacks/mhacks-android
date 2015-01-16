@@ -4,27 +4,26 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.mhacks.android.data.model.Award;
 import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.android.ui.MainActivity;
 import com.mhacks.iv.android.R;
 import com.parse.FindCallback;
-import com.parse.GetDataCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.squareup.picasso.Picasso;
@@ -61,6 +60,7 @@ public class AwardsFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        super.onDestroyView();
         if(currentQuery != null) currentQuery.cancel();
     }
 
