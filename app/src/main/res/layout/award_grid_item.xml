@@ -15,7 +15,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/titleTextView"
             android:text="Title"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:gravity="center"/>
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/prizeTextView"
-            android:textColor="@color/header_column_text_color"
+            android:textColor="@color/white"
             android:text="Prize"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/titleTextView"

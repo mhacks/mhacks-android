@@ -101,6 +101,6 @@ public class CustomGrid extends BaseAdapter {
         }
         mLastColors.add(colorIndex);
 
-        return 0xAA000000 | (color & 0x00FFFFFF);
+        return 0xCC000000 | (color & 0x00FFFFFF);
     }
 }
