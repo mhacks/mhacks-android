@@ -2,30 +2,42 @@ package com.mhacks.android.ui;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import com.mhacks.android.data.model.Event;
 import com.mhacks.android.ui.nav.AnnouncementsFragment;
 import com.mhacks.android.ui.nav.AwardsFragment;
 import com.mhacks.android.ui.nav.CountdownFragment;
+import com.mhacks.android.ui.nav.EventDetailsFragment;
 import com.mhacks.android.ui.nav.MapFragment;
 import com.mhacks.android.ui.nav.NavigationDrawerFragment;
 import com.mhacks.android.ui.nav.ScheduleFragment;
 import com.mhacks.android.ui.nav.SponsorsFragment;
 import com.mhacks.iv.android.R;
 import com.parse.ParseObject;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Date;
 
@@ -51,6 +63,8 @@ public class MainActivity extends ActionBarActivity
     private ActionBarDrawerToggle mDrawerToggle;
 
     private boolean mShouldSync = true;
+
+    private boolean pushEDF = false; //True if EventDetailsFragment was opened from a push notif.
 
     //Fragments
     private CountdownFragment countdownFragment;
@@ -88,6 +102,19 @@ public class MainActivity extends ActionBarActivity
 
         mUser = ParseUser.getCurrentUser();
 
+        //Subscribe to Parse push notifications.
+        ParsePush.subscribeInBackground("", new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.d("com.parse.push", "successfully subscribed to the broadcast channel.");
+                }
+                else {
+                    Log.e("com.parse.push", "failed to subscribe for push", e);
+                }
+            }
+        });
+
         //Instantiate fragments
         countdownFragment = new CountdownFragment();
         announcementsFragment = new AnnouncementsFragment();
@@ -97,6 +124,65 @@ public class MainActivity extends ActionBarActivity
         mapFragment = new MapFragment();
 
         setDefaultFragment();
+
+        //Push notification intent check.
+        checkIntent();
+    }
+
+    /**
+     * Method to check whether the MainActivity was started from a push notification intent or not.
+     * If it was, the method switched to the correct view based on the JSON payload from the push
+     * notification.
+     */
+    public void checkIntent() {
+        Intent intent = getIntent();
+        if (intent.getExtras() != null) {
+            try {
+                JSONObject payload = new JSONObject(intent.getExtras().getString("com.parse.Data"));
+                Log.d(TAG, payload.toString(4));
+                if (payload.has("announcementID")) {
+                    Log.d(TAG, payload.getString("announcementID"));
+                    getFragmentManager().beginTransaction()
+                                        .replace(R.id.main_container, announcementsFragment)
+                                        .addToBackStack(null)
+                                        .commit();
+                    setToolbarTitle("Announcements");
+                }
+                else if (payload.has("eventID")) {
+                    Log.d(TAG, payload.getString("eventID"));
+                    String eventID = payload.getString("eventID");
+                    ParseQuery<Event> query = ParseQuery.getQuery("Event");
+                    query.include("category");
+                    query.getInBackground(eventID, new GetCallback<Event>() {
+                        public void done(Event object, ParseException e) {
+                            if (e == null) {
+                                int color = getEventColor(object.getCategory().getColor());
+                                EventDetailsFragment eventDetailsFragment =
+                                        EventDetailsFragment.newInstance(object, color);
+                                getFragmentManager().beginTransaction()
+                                                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                                    .addToBackStack(null)
+                                                    .add(R.id.drawer_layout, eventDetailsFragment)
+                                                    .commit();
+
+                                //Let's other methods know that this EventDetailsFragment was opened
+                                //from a push notification.
+                                pushEDF = true;
+                            } else {
+                                Toast.makeText(getApplicationContext(),
+                                               "Unable to retrieve event. Check the schedule for updates.",
+                                               Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } else {
+                    Log.d(TAG, "neither string found");
+                }
+            }
+            catch (JSONException e) {
+                Log.e(TAG, "Fuck you JSON", e);
+            }
+        }
     }
 
     @Override
@@ -124,27 +210,33 @@ public class MainActivity extends ActionBarActivity
 
         switch (position) {
             case 0:
-                fragmentTransaction.replace(R.id.main_container, countdownFragment).commit();
+                fragmentTransaction.replace(R.id.main_container, countdownFragment)
+                                   .addToBackStack(null).commit();
                 setToolbarTitle("Countdown Timer");
                 break;
             case 1:
-                fragmentTransaction.replace(R.id.main_container, announcementsFragment).commit();
+                fragmentTransaction.replace(R.id.main_container, announcementsFragment)
+                                   .addToBackStack(null).commit();
                 setToolbarTitle("Announcements");
                 break;
             case 2:
-                fragmentTransaction.replace(R.id.main_container, scheduleFragment).commit();
+                fragmentTransaction.replace(R.id.main_container, scheduleFragment)
+                                   .addToBackStack(null).commit();
                 setToolbarTitle("Schedule");
                 break;
             case 3:
-                fragmentTransaction.replace(R.id.main_container, sponsorsFragment).commit();
+                fragmentTransaction.replace(R.id.main_container, sponsorsFragment)
+                                   .addToBackStack(null).commit();
                 setToolbarTitle("Sponsors");
                 break;
             case 4:
-                fragmentTransaction.replace(R.id.main_container, awardsFragment).commit();
+                fragmentTransaction.replace(R.id.main_container, awardsFragment)
+                                   .addToBackStack(null).commit();
                 setToolbarTitle("Awards");
                 break;
             case 5:
-                fragmentTransaction.replace(R.id.main_container, mapFragment).commit();
+                fragmentTransaction.replace(R.id.main_container, mapFragment)
+                                   .addToBackStack(null).commit();
                 setToolbarTitle("Map");
         }
 
@@ -205,7 +297,38 @@ public class MainActivity extends ActionBarActivity
      * @param v clicked View
      */
     public void scheduleFragmentClick(View v) {
-        scheduleFragment.scheduleFragmentClick(v);
+        if (v.getId() == R.id.event_close_button && pushEDF) {
+            getFragmentManager().beginTransaction()
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .remove(getFragmentManager().findFragmentById(R.id.drawer_layout))
+                                .commit();
+            pushEDF = false;
+        } else scheduleFragment.scheduleFragmentClick(v);
+    }
+
+    /**
+     * Takes the event type based on the EventType class in Parse and returns the corresponding
+     * color of the event.
+     * @param eventType Event type/category.
+     * @return color of the event.
+     */
+    public int getEventColor(int eventType) {
+        switch (eventType) {
+            case 0: //Red
+                return getResources().getColor(R.color.event_red);
+            case 1: //Orange
+                return getResources().getColor(R.color.event_orange);
+            case 2: //Yellow
+                return getResources().getColor(R.color.event_yellow);
+            case 3: //Green
+                return getResources().getColor(R.color.event_green);
+            case 4: //Blue
+                return getResources().getColor(R.color.event_blue);
+            case 5: //Purple
+                return getResources().getColor(R.color.event_purple);
+            default:
+                return getResources().getColor(R.color.mh_purple);
+        }
     }
 
     /**
