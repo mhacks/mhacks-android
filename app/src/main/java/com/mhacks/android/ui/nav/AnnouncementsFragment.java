@@ -43,6 +43,9 @@ public class AnnouncementsFragment extends Fragment {
     // Adapter for the listView
     MainNavAdapter mListAdapter;
 
+    //Current query
+    private ParseQuery<Announcement> currentQuery;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +53,12 @@ public class AnnouncementsFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list_cards);
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (currentQuery != null) currentQuery.cancel();
     }
 
     @Override
@@ -87,18 +96,19 @@ public class AnnouncementsFragment extends Fragment {
         getLocalParseDataAndUpdateWithRemote();
     }
 
-    private ParseQuery<ParseObject> getBaseQuery() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Announcement");
+    private ParseQuery<Announcement> getBaseQuery() {
+        ParseQuery<Announcement> query = ParseQuery.getQuery("Announcement");
         query.addDescendingOrder(Announcement.DATE_COL);
+        currentQuery = query;
         return query;
     }
 
     private void getLocalParseDataAndUpdateWithRemote() {
-        ParseQuery<ParseObject> query = getBaseQuery();
+        ParseQuery<Announcement> query = getBaseQuery();
         query.fromPin(ANNOUNCEMENT_PIN);
-        query.findInBackground(new FindCallback<ParseObject>() {
+        query.findInBackground(new FindCallback<Announcement>() {
             @Override
-            public void done(List<ParseObject> parseObjects, ParseException e) {
+            public void done(List<Announcement> parseObjects, ParseException e) {
                 if (e != null || parseObjects == null) {
                     Log.e(TAG, "Couldn't get the local announcements, falling back on remote");
                 } else {
@@ -111,10 +121,10 @@ public class AnnouncementsFragment extends Fragment {
         });
     }
 
-    private void displayAnnouncementsFromList(List<ParseObject> parseObjects) {
+    private void displayAnnouncementsFromList(List<Announcement> parseObjects) {
         // Add the data to the announcements list
         mAnnouncementsList = new ArrayList<AnnouncementDud>();
-        for(ParseObject parseObject : parseObjects) {
+        for(Announcement parseObject : parseObjects) {
             mAnnouncementsList.add( new AnnouncementDud(parseObject) );
         }
 
@@ -123,10 +133,10 @@ public class AnnouncementsFragment extends Fragment {
     }
 
     private void getRemoteParseData() {
-        ParseQuery<ParseObject> query = getBaseQuery();
-        query.findInBackground(new FindCallback<ParseObject>() {
+        ParseQuery<Announcement> query = getBaseQuery();
+        query.findInBackground(new FindCallback<Announcement>() {
             @Override
-            public void done(List<ParseObject> parseObjects, ParseException e) {
+            public void done(List<Announcement> parseObjects, ParseException e) {
                 if (e != null || parseObjects == null) {
                     Log.e(TAG, "Couldn't get the remote announcements");
 

@@ -41,6 +41,9 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
     //Spinner
     private Spinner mapSpinner;
 
+    //Current query
+    private ParseQuery<Map> currentQuery;
+
     private ArrayList<String> mapNames;
     private ArrayList<Map> mMaps;
 
@@ -70,10 +73,12 @@ public class MapFragment extends Fragment implements AdapterView.OnItemSelectedL
     public void onDestroyView() {
         super.onDestroyView();
         mapSpinner.setVisibility(View.GONE);
+        if (currentQuery != null) currentQuery.cancel();
     }
 
     private ParseQuery<Map> getBaseQuery() {
         ParseQuery<Map> query = ParseQuery.getQuery("Map");
+        currentQuery = query;
         return query;
     }
 

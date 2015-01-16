@@ -48,6 +48,9 @@ public class SponsorsFragment extends Fragment implements OnItemClickListener {
     private ArrayList<Integer> mSponsorsPerTier;
     private ArrayList<SponsorTier> mTiers;
 
+    //Current query
+    private ParseQuery<Sponsor> currentQuery;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -66,6 +69,12 @@ public class SponsorsFragment extends Fragment implements OnItemClickListener {
         return mSponsorsFragView;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (currentQuery != null) currentQuery.cancel();
+    }
+
     private void setUpGridView() {
         mSponsorsView.setOnItemClickListener(this);
         mSponsorsView.setNumColumns(5);
@@ -79,19 +88,20 @@ public class SponsorsFragment extends Fragment implements OnItemClickListener {
         getLocalParseData();
     }
 
-    private ParseQuery<ParseObject> getBaseQuery() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Sponsor");
+    private ParseQuery<Sponsor> getBaseQuery() {
+        ParseQuery<Sponsor> query = ParseQuery.getQuery("Sponsor");
         query.include("tier");
         query.include("location");
+        currentQuery = query;
         return query;
     }
 
     private void getLocalParseData() {
-        ParseQuery<ParseObject> query = getBaseQuery();
+        ParseQuery<Sponsor> query = getBaseQuery();
         query.fromPin(SPONSOR_PIN);
-        query.findInBackground(new FindCallback<ParseObject>() {
+        query.findInBackground(new FindCallback<Sponsor>() {
             @Override
-            public void done(List<ParseObject> parseObjects, ParseException e) {
+            public void done(List<Sponsor> parseObjects, ParseException e) {
                 if(e != null || parseObjects == null || parseObjects.size() <= 0) {
                     Log.e(TAG, "Couldn't get the local sponsors, falling back on remote");
                 } else {
@@ -105,10 +115,10 @@ public class SponsorsFragment extends Fragment implements OnItemClickListener {
     }
 
     private void getRemoteParseData() {
-        ParseQuery<ParseObject> query = getBaseQuery();
-        query.findInBackground(new FindCallback<ParseObject>() {
+        ParseQuery<Sponsor> query = getBaseQuery();
+        query.findInBackground(new FindCallback<Sponsor>() {
             @Override
-            public void done(List<ParseObject> parseObjects, ParseException e) {
+            public void done(List<Sponsor> parseObjects, ParseException e) {
                 if(e != null || parseObjects == null || parseObjects.size() <= 0) {
                     Log.e(TAG, "Couldn't get the remote sponsors");
 
@@ -134,7 +144,7 @@ public class SponsorsFragment extends Fragment implements OnItemClickListener {
         });
     }
 
-    private void processAndDisplaySponsors(List<ParseObject> sponsorList) {
+    private void processAndDisplaySponsors(List<Sponsor> sponsorList) {
         // First, sort the sponsors alphabetically
         Collections.sort(sponsorList, new Comparator<ParseObject>() {
             @Override
