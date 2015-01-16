@@ -43,6 +43,7 @@ public class AwardsFragment extends Fragment {
     private View mAwardsFragView;
     private List<Award> mAwardList;
     private CustomGrid mAdapter;
+    private ParseQuery<Award> currentQuery;
 
     @Nullable
     @Override
@@ -56,6 +57,11 @@ public class AwardsFragment extends Fragment {
         getLatestParseData();
 
         return mAwardsFragView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        if(currentQuery != null) currentQuery.cancel();
     }
 
     private void setUpGridView() {

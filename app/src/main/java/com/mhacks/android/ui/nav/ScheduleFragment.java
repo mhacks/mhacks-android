@@ -42,8 +42,8 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
     private WeekViewModified mWeekView;
     private LinearLayout mScheduleContainer;
 
-    //Parse user
-    private ParseUser mUser;
+    //Current query
+    private ParseQuery<Event> currentQuery;
 
     /*Calendar view uses WeekViewEvent objects to build the calendar. WeekViewEvent objects built
     using Event (ParseObject) pulled from the Parse database.*/
@@ -69,11 +69,15 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
                              Bundle savedInstanceState) {
         mScheduleFragView = inflater.inflate(R.layout.fragment_schedule, container, false);
 
-        mUser = ParseUser.getCurrentUser();
         hasWeekViewBeenSetUp = false;
         getLocalEvents(JANUARY_MONTH); //Called initially to build the schedule view and query events
 
         return mScheduleFragView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        if(currentQuery != null) currentQuery.cancel();
     }
 
     /**
@@ -126,6 +130,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         query.include("category"); //Pulls EventType object.
         query.include("host"); //Pulls Sponsor object.
         query.include("location"); //Pulls Location JSON array.
+        currentQuery = query;
         return query;
     }
 
