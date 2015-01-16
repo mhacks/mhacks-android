@@ -24,7 +24,7 @@
         <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:src="@drawable/ic_action_close_white"
             android:id="@+id/event_close_button"
-            android:background="@null"
+            android:background="@color/transparent"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"

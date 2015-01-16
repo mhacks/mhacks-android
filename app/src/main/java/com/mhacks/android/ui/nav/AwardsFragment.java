@@ -159,7 +159,11 @@ public class AwardsFragment extends Fragment {
             mProfile = inflater.inflate(R.layout.award_dialog, null);
 
             ImageView sponsorImage = (ImageView) mProfile.findViewById(R.id.award_sponsor_pic);
-            Picasso.with(getActivity()).load(mImageLocation).into(sponsorImage);
+            if (mImageLocation != null) {
+                Picasso.with(getActivity()).load(mImageLocation).into(sponsorImage);
+            } else {
+                sponsorImage.setImageResource(R.drawable.launcher_icon);
+            }
 
             TextView awardTitle = (TextView) mProfile.findViewById(R.id.award_title);
             awardTitle.setText(mTitle);
@@ -208,10 +212,10 @@ public class AwardsFragment extends Fragment {
             Sponsor sponsor = award.getSponsor();
 
             Bundle args = new Bundle();
-            args.putString("image", sponsor.getLogo().getUrl());
+            if (sponsor != null) args.putString("image", sponsor.getLogo().getUrl());
             args.putString("title", award.getTitle());
             args.putString("prize", award.getPrize());
-            args.putString("sponsor", award.getSponsor().getName());
+            if (sponsor != null) args.putString("sponsor", award.getSponsor().getName());
             args.putString("website", award.getWebsite());
             args.putString("desc", award.getDescription());
             f.setArguments(args);
@@ -229,6 +233,8 @@ public class AwardsFragment extends Fragment {
             mSponsor = getArguments().getString("sponsor");
             mWebsite = getArguments().getString("website");
             mDesc = getArguments().getString("desc");
+
+            if (mSponsor == null) mSponsor = "MHacks";
         }
     }
 }
