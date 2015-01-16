@@ -143,7 +143,7 @@ public class AwardsFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
     }
 
-    public class AwardDialog extends DialogFragment {
+    public static class AwardDialog extends DialogFragment {
         View mProfile;
         String mImageLocation;
         String mTitle;
