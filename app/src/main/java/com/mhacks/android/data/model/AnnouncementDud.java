@@ -13,7 +13,7 @@ public class AnnouncementDud {
     private String title;
     private String message;
 
-    public AnnouncementDud(Announcement announcement) {
+    public AnnouncementDud(ParseObject announcement) {
         // Get the data from the parseObject first, only for readability and sanity
         String author = announcement.getString(Announcement.AUTHOR_COL);
         Date date = announcement.getDate(Announcement.DATE_COL);
