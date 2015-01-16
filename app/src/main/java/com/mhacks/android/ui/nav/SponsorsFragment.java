@@ -356,6 +356,3 @@ public class SponsorsFragment extends Fragment implements OnItemClickListener {
         }
     }
 }
-
-
-
