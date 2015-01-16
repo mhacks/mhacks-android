@@ -1,10 +1,14 @@
 package com.mhacks.android.ui.nav;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -12,11 +16,9 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
 import com.mhacks.android.data.model.Award;
+import com.mhacks.android.data.model.Sponsor;
 import com.mhacks.android.ui.MainActivity;
 import com.mhacks.iv.android.R;
 import com.parse.FindCallback;
@@ -25,6 +27,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,36 +66,8 @@ public class AwardsFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(mAwardsFragView.getContext(), R.style.Base_Theme_AppCompat_Light_Dialog));
-                LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-                final View dialogView = layoutInflater.inflate(R.layout.award_dialog, null);
-                builder.setView(dialogView);
-                builder.setTitle(mAwardList.get(position).getTitle());
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
-
-                AlertDialog dialog = builder.create();
-
-                ParseFile logo = mAwardList.get(position).getSponsor().getLogo();
-                logo.getDataInBackground(new GetDataCallback() {
-                    @Override
-                    public void done(byte[] bitmapdata, com.parse.ParseException e) {
-                        ImageView sponsorImageView = (ImageView) dialogView.findViewById(R.id.sponsorImageView);
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
-                        sponsorImageView.setImageBitmap(bitmap);
-                    }
-                });
-
-                TextView prizeTextView = (TextView) dialogView.findViewById(R.id.prizeTextView);
-                prizeTextView.setText(mAwardList.get(position).getPrize());
-
-                TextView descriptionTextView = (TextView) dialogView.findViewById(R.id.descriptionTextView);
-                descriptionTextView.setText(mAwardList.get(position).getDescription());
-
-                dialog.show();
+                DialogFragment sponsorDialog = new AwardDialog().newInstance(mAwardList.get(position));
+                sponsorDialog.show(getFragmentManager(), mAwardList.get(position).getTitle());
             }
         });
     }
@@ -165,5 +140,94 @@ public class AwardsFragment extends Fragment {
         }
 
         mAdapter.notifyDataSetChanged();
+    }
+
+    public class AwardDialog extends DialogFragment {
+        View mProfile;
+        String mImageLocation;
+        String mTitle;
+        String mPrize;
+        String mSponsor;
+        String mWebsite;
+        String mDesc;
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            mProfile = inflater.inflate(R.layout.award_dialog, null);
+
+            ImageView sponsorImage = (ImageView) mProfile.findViewById(R.id.award_sponsor_pic);
+            Picasso.with(getActivity()).load(mImageLocation).into(sponsorImage);
+
+            TextView awardTitle = (TextView) mProfile.findViewById(R.id.award_title);
+            awardTitle.setText(mTitle);
+
+            TextView awardDesc = (TextView) mProfile.findViewById(R.id.award_desc);
+            if(mDesc.length() <= 0) {
+                awardDesc.setVisibility(View.GONE);
+            } else {
+                awardDesc.setText(mDesc);
+            }
+
+            TextView awardPrize = (TextView) mProfile.findViewById(R.id.award_prize);
+            awardPrize.setText(mPrize);
+
+            TextView awardWebsite = (TextView) mProfile.findViewById(R.id.award_website);
+            if(mWebsite != null && mWebsite.length() > 0) {
+                awardWebsite.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mWebsite));
+                        startActivity(intent);
+                    }
+                });
+            } else {
+                awardWebsite.setVisibility(View.INVISIBLE);
+            }
+
+            TextView awardSponsor = (TextView) mProfile.findViewById(R.id.award_sponsor);
+            awardSponsor.setText(mSponsor);
+
+            Button okButton = (Button) mProfile.findViewById(R.id.award_detail_ok);
+            okButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AwardDialog.this.getDialog().cancel();
+                }
+            });
+
+            builder.setView(mProfile);
+
+            return builder.create();
+        }
+
+        AwardDialog newInstance(Award award) {
+            AwardDialog f = new AwardDialog();
+            Sponsor sponsor = award.getSponsor();
+
+            Bundle args = new Bundle();
+            args.putString("image", sponsor.getLogo().getUrl());
+            args.putString("title", award.getTitle());
+            args.putString("prize", award.getPrize());
+            args.putString("sponsor", award.getSponsor().getName());
+            args.putString("website", award.getWebsite());
+            args.putString("desc", award.getDescription());
+            f.setArguments(args);
+
+            return f;
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+            mImageLocation = getArguments().getString("image");
+            mTitle = getArguments().getString("title");
+            mPrize = getArguments().getString("prize");
+            mSponsor = getArguments().getString("sponsor");
+            mWebsite = getArguments().getString("website");
+            mDesc = getArguments().getString("desc");
+        }
     }
 }
