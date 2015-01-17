@@ -276,9 +276,11 @@ public class MainActivity extends ActionBarActivity
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(Gravity.START | Gravity.LEFT)) {
             mDrawerLayout.closeDrawers();
-            return;
+        } else if (getFragmentManager().getBackStackEntryCount() != 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
         }
-        super.onBackPressed();
     }
 
     /**
