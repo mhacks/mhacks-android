@@ -297,8 +297,16 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
             //Hide the toolbar so the event details are full screen.
             ((ActionBarActivity) getActivity()).getSupportActionBar().hide();
             //Prevents other events from being clicked while one event's details are being shown.
-            eventDetailsOpen = true;
+            setEventDetailsOpened(true);
         }
+    }
+
+    public boolean getEventDetailsOpened () {
+        return eventDetailsOpen;
+    }
+
+    public void setEventDetailsOpened(Boolean bool) {
+        eventDetailsOpen = bool;
     }
 
     @Override
@@ -360,7 +368,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         getActivity().getFragmentManager().beginTransaction()
                      .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                      .remove(getFragmentManager().findFragmentById(R.id.drawer_layout)).commit();
-        eventDetailsOpen = false;
+        setEventDetailsOpened(false);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

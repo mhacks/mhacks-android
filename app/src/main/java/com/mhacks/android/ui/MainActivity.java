@@ -279,6 +279,7 @@ public class MainActivity extends ActionBarActivity
             mDrawerLayout.closeDrawers();
         } else if (getFragmentManager().getBackStackEntryCount() != 0) {
             getFragmentManager().popBackStack();
+            if (scheduleFragment.getEventDetailsOpened()) scheduleFragment.setEventDetailsOpened(false);
         } else {
             super.onBackPressed();
         }
