@@ -169,7 +169,7 @@ public class AwardsFragment extends Fragment {
             awardTitle.setText(mTitle);
 
             TextView awardDesc = (TextView) mProfile.findViewById(R.id.award_desc);
-            if(mDesc.length() <= 0) {
+            if(mDesc != null && mDesc.length() <= 0) {
                 awardDesc.setVisibility(View.GONE);
             } else {
                 awardDesc.setText(mDesc);

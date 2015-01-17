@@ -154,6 +154,7 @@ public class MainActivity extends ActionBarActivity
                     ParseQuery<Event> query = ParseQuery.getQuery("Event");
                     query.include("category");
                     query.include("locations");
+                    query.include("host");
                     query.getInBackground(eventID, new GetCallback<Event>() {
                         public void done(Event object, ParseException e) {
                             if (e == null) {

@@ -97,10 +97,10 @@ public class Event extends ParseObject implements Parcelable {
         parcel.writeParcelable(getCategory(), i);
         parcel.writeString(getDetails());
         parcel.writeInt(getDuration());
-        parcel.writeParcelable(getHost(), i);
         parcel.writeString(getLocations().toString()); //JSONArray to string.
         parcel.writeValue(getStartTime());
         parcel.writeString(getTitle());
+        parcel.writeParcelable(getHost(), i);
     }
 
     public static final Creator<Event> CREATOR = new Creator<Event>() {
@@ -121,10 +121,10 @@ public class Event extends ParseObject implements Parcelable {
             setCategory((EventType) source.readParcelable(EventType.class.getClassLoader()));
             setDetails(source.readString());
             setDuration(source.readInt());
-            setHost((Sponsor) source.readParcelable(Sponsor.class.getClassLoader()));
             setLocations(new JSONArray(source.readString()));
             setStartTime((Date) source.readValue(Date.class.getClassLoader()));
             setTitle(source.readString());
+            setHost((Sponsor) source.readParcelable(Sponsor.class.getClassLoader()));
         } catch (JSONException e) {
             Log.e(TAG, "JSON done goofed", e);
         }
