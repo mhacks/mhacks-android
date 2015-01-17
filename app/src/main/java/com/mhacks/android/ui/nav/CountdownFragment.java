@@ -48,7 +48,7 @@ public class CountdownFragment extends Fragment  {
 
     // For testing the countdown timer
     private final long countdownLength = 10 * 1000;
-    private final long countdownUpdateIntervals = 1*500;
+    private final long countdownUpdateIntervals = 1*750;
 
     @Nullable
     @Override
@@ -245,12 +245,12 @@ public class CountdownFragment extends Fragment  {
 
         @Override
         public void onTick(long millisUntilFinished) {
-            // Put the time remaining prettily into the HH:mm:ss format
-            Date d = new Date(millisUntilFinished);
-            String result = outFormat.format(d);
+            long hours = millisUntilFinished / 3600000;
+            long minutes = (millisUntilFinished - (hours * 3600000) ) / 60000;
+            long seconds = (millisUntilFinished - (hours * 3600000) - (minutes * 60000));
 
             // Update the countdown timer textView
-            mCountdownTextView.setText(result);
+            mCountdownTextView.setText(hours + ":" + minutes + (":" + seconds).substring(0, 3));
 
             // Update the progress [maxProgressInt - maxProgressInt*timeRemaining/total time]
             int progress = (int) (100 - 100*millisUntilFinished/totalHackingTimeInMillis);
