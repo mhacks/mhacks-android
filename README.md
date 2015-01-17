@@ -18,6 +18,8 @@ To build the project for debug, you should only need to import it into Android s
 
 If you plan on building this project for release, you'll need to add a `signingConfig` block to app/build.gradle with your keys. This will depend on how you plan on signing it.
 
+NOTE: You may need to clean your project and sync Gradle files before your first run. `Build > Clean project`
+
 
 Credits
 -----
