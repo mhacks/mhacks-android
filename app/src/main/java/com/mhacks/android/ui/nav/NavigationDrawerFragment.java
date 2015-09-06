@@ -169,7 +169,7 @@ public class NavigationDrawerFragment extends Fragment {
 
             // Cache the two colors used for the icon color filters
             neutralColor = res.getColor(R.color.black);
-            activeColor = res.getColor(R.color.blue);
+            activeColor = res.getColor(R.color.mh_yellow);
 
             // Initialize the list of cached icons, for later
             cachedIcons = new ArrayList<>(rowTitles.length);

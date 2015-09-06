@@ -332,7 +332,7 @@ public class MainActivity extends ActionBarActivity
             case 5: //Purple
                 return getResources().getColor(R.color.event_purple);
             default:
-                return getResources().getColor(R.color.mh_purple);
+                return getResources().getColor(R.color.mh_yellow);
         }
     }
 

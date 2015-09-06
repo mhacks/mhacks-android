@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="0.20"
-            android:textColor="@color/mh_purple"
+            android:textColor="@color/mh_yellow"
             android:textSize="16sp"
             android:text="Website"/>
         <View

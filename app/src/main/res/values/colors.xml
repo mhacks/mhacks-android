@@ -2,12 +2,12 @@
 <resources>
     <!-- Material Design Base Colors -->
     <color name="colorPrimary">@color/white</color>
-    <color name="colorPrimaryDark">@color/mh_purple</color>
+    <color name="colorPrimaryDark">@color/mh_yellow</color>
     <color name="ps_drawer_background">#EEEEEE</color>
 
-    <!-- MHacks V colors -->
+    <!-- MHacks colors -->
     <color name="mh_purple">#A86EDB</color>
-    <color name="mh_yellow">#FFCA0B</color>
+    <color name="mh_yellow">#FEC10E</color>
     <color name="mh_palette_0">#FEF5F9</color>
     <color name="mh_palette_1">#E0D5DD</color>
     <color name="mh_palette_2">#7E7C8C</color>

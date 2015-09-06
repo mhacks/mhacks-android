@@ -279,7 +279,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
             case 5: //Purple
                 return getResources().getColor(R.color.event_purple);
             default:
-                return getResources().getColor(R.color.mh_purple);
+                return getResources().getColor(R.color.mh_yellow);
         }
     }
 
