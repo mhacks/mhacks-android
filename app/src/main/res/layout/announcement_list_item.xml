@@ -52,7 +52,9 @@
             android:layout_margin="5dp"
             android:text="@string/garbage_fill_medium"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_announcement_description"/>
+            android:textSize="@dimen/text_announcement_description"
+            android:autoLink="email|web"
+            android:linksClickable="true"/>
 
     </LinearLayout>
 
