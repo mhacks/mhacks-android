@@ -16,36 +16,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/info_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Lorem ipsum doler"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_announcement_title"
-            />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"
-            />
 
             <TextView
                 android:id="@+id/info_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="1/15/16"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="Sep 12"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/text_announcement_date"/>
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/info_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@id/info_date"
+                android:text="Lorem ipsum dolor sit amet asodifnaoidf adsofinasd"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_announcement_title"
+            />
+
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/info_description"
