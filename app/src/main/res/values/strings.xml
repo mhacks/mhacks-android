@@ -29,7 +29,7 @@
         <item name="announcements">Announcements</item>
         <item name="schedule">Schedule</item>
         <item name="sponsors">Sponsors</item>
-        <item name="awards">Awards</item>
+        <!--<item name="awards">Awards</item>-->
         <item name="map">Map</item>
     </string-array>
 

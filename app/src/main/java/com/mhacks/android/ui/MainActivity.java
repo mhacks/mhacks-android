@@ -231,12 +231,12 @@ public class MainActivity extends ActionBarActivity
                                    .addToBackStack(null).commit();
                 setToolbarTitle("Sponsors");
                 break;
+//            case 4:
+//                fragmentTransaction.replace(R.id.main_container, awardsFragment)
+//                                   .addToBackStack(null).commit();
+//                setToolbarTitle("Awards");
+//                break;
             case 4:
-                fragmentTransaction.replace(R.id.main_container, awardsFragment)
-                                   .addToBackStack(null).commit();
-                setToolbarTitle("Awards");
-                break;
-            case 5:
                 fragmentTransaction.replace(R.id.main_container, mapFragment)
                                    .addToBackStack(null).commit();
                 setToolbarTitle("Map");

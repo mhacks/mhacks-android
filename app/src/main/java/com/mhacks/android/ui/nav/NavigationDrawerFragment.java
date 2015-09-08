@@ -164,7 +164,7 @@ public class NavigationDrawerFragment extends Fragment {
             iconDrawables.add(res.getDrawable(R.drawable.nav_drawable_announcements));
             iconDrawables.add(res.getDrawable(R.drawable.nav_drawable_schedule));
             iconDrawables.add(res.getDrawable(R.drawable.nav_drawable_sponsors));
-            iconDrawables.add(res.getDrawable(R.drawable.nav_drawable_awards));
+//            iconDrawables.add(res.getDrawable(R.drawable.nav_drawable_awards));
             iconDrawables.add(res.getDrawable(R.drawable.nav_drawable_map));
 
             // Cache the two colors used for the icon color filters
