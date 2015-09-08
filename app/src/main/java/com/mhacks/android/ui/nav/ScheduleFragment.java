@@ -37,7 +37,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
     private static final String LOCATION_PIN = "locationPin";
 
     // Month number for which to get events
-    private static final int JANUARY_MONTH = 1;
+    private static final int SEPTEMBER_MONTH = 9;
 
     //Declaring Views
     private View mScheduleFragView;
@@ -72,7 +72,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         mScheduleFragView = inflater.inflate(R.layout.fragment_schedule, container, false);
 
         hasWeekViewBeenSetUp = false;
-        getLocalEvents(JANUARY_MONTH); //Called initially to build the schedule view and query events
+        getLocalEvents(SEPTEMBER_MONTH); //Called initially to build the schedule view and query events
 
         return mScheduleFragView;
     }
@@ -96,11 +96,11 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         mWeekView.setOnEventClickListener(this);
         mWeekView.setMonthChangeListener((WeekViewModified.MonthChangeListener) this);
         mWeekView.setEventLongPressListener(this);
-        //Set Jan 16th as "today"
+        //Set Sept 11 as "today"
         Calendar today = Calendar.getInstance();
         today.set(Calendar.YEAR, 2015);
-        today.set(Calendar.MONTH, Calendar.JANUARY);
-        today.set(Calendar.DATE, 16);
+        today.set(Calendar.MONTH, Calendar.SEPTEMBER);
+        today.set(Calendar.DATE, 11);
         mWeekView.setToday(today);
         //Set up visuals of the calendar
         mWeekView.setBackgroundColor(Color.WHITE);
@@ -315,9 +315,9 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
 
     @Override
     public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-        /*Checks to see if the month being called is January (1). Not the best way to handle it but
-        it works for this case since we only care about 3 days (Jan 16-18, 2015).*/
-        if (newMonth == JANUARY_MONTH) {
+        /* Checks to see if the month being called is September (9). Not the best way to handle it but
+        it works for this case since we only care about 3 days */
+        if (newMonth == SEPTEMBER_MONTH) {
             //getRemoteEvents(newMonth);
             return finalWeekViewEvents;
         } else {
@@ -354,7 +354,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
      * re-draw the new events on the calendar.
      */
     public void refreshEvents() {
-        getRemoteEvents(JANUARY_MONTH); //Forces a remote Event query.
+        getRemoteEvents(SEPTEMBER_MONTH); //Forces a remote Event query.
     }
 
     /**
