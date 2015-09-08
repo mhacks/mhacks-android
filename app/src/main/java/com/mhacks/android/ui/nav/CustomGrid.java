@@ -24,13 +24,19 @@ public class CustomGrid extends BaseAdapter {
     private Context mContext;
     private List<Award> mAwardList;
     private Random mRand;
-    private ArrayList<Integer> mLastColors;
+    private ArrayList<Integer> mColors;
 
     public CustomGrid(Context context, List<Award> awardList) {
         mContext = context;
         mAwardList = awardList;
         mRand = new Random();
-        mLastColors = new ArrayList<Integer>();
+        mColors = new ArrayList<Integer>();
+
+        mColors.add(R.color.event_red);
+        mColors.add(R.color.event_orange);
+        mColors.add(R.color.event_green);
+        mColors.add(R.color.event_blue);
+        mColors.add(R.color.mh_purple);
     }
 
     @Override
@@ -66,41 +72,13 @@ public class CustomGrid extends BaseAdapter {
         TextView prizeTextView = (TextView) view.findViewById(R.id.prizeTextView);
         prizeTextView.setText(mAwardList.get(position).getPrize());
 
-        view.setBackgroundColor(getRandomColor());
+        view.setBackgroundColor(getColor(position));
 
         return view;
     }
 
-    private int getRandomColor() {
-        int colorIndex;
-        int color;
-
-        do {
-            colorIndex = mRand.nextInt(5);
-        } while(!mLastColors.isEmpty() && mLastColors.contains(colorIndex));
-
-        switch (colorIndex) {
-            case 0: //Red
-                color = mContext.getResources().getColor(R.color.event_red);
-                break;
-            case 1: //Orange
-                color = mContext.getResources().getColor(R.color.event_orange);
-                break;
-            case 2: //Yellow
-                color = mContext.getResources().getColor(R.color.event_yellow);
-                break;
-            case 3: //Green
-                color = mContext.getResources().getColor(R.color.event_green);
-                break;
-            default: //Blue
-                color = mContext.getResources().getColor(R.color.event_blue);
-        }
-
-        if(mLastColors.size() >= NUM_COLORS_TO_KEEP) {
-            mLastColors.remove(0);
-        }
-        mLastColors.add(colorIndex);
-
+    private int getColor(int position) {
+        int color = mContext.getResources().getColor(this.mColors.get(position % this.mColors.size()));
         return 0xCC000000 | (color & 0x00FFFFFF);
     }
 }
