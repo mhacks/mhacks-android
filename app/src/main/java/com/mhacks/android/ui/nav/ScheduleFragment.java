@@ -96,16 +96,10 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         mWeekView.setOnEventClickListener(this);
         mWeekView.setMonthChangeListener((WeekViewModified.MonthChangeListener) this);
         mWeekView.setEventLongPressListener(this);
-        //Set Sept 11 as "today"
-        Calendar today = Calendar.getInstance();
-        today.set(Calendar.YEAR, 2015);
-        today.set(Calendar.MONTH, Calendar.SEPTEMBER);
-        today.set(Calendar.DATE, 11);
-        mWeekView.setToday(today);
         //Set up visuals of the calendar
         mWeekView.setBackgroundColor(Color.WHITE);
         mWeekView.setEventTextColor(Color.WHITE);
-        mWeekView.setNumberOfVisibleDays(3);
+        mWeekView.setNumberOfVisibleDays(1);
         mWeekView.setTextSize(22);
         mWeekView.setHourHeight(120);
         mWeekView.setHeaderColumnPadding(8);
@@ -119,8 +113,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         mWeekView.setTodayBackgroundColor(getResources().getColor(R.color.today_bg_color));
         mWeekView.setHeaderColumnBackgroundColor(Color.BLACK);
         mWeekView.setOverlappingEventGap(2);
-        //Prevent scrolling.
-        mWeekView.setHorizontalScrollEnabled(false);
+        mWeekView.setHorizontalScrollEnabled(true);
         //Add the view to the LinearLayout
         mScheduleContainer.addView(mWeekView);
     }

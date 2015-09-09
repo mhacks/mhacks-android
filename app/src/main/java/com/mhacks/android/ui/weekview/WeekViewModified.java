@@ -140,10 +140,10 @@ public class WeekViewModified extends View {
             mStickyScroller.forceFinished(true);
 
             if (mCurrentFlingDirection == Direction.HORIZONTAL && horizontalScrollEnabled){
-                mScroller.fling((int) mCurrentOrigin.x, 0, (int) velocityX, 0, Integer.MIN_VALUE, Integer.MAX_VALUE, 0, 0);
+                mScroller.fling((int) mCurrentOrigin.x, 0, (int) (velocityX / 1.85), 0, Integer.MIN_VALUE, Integer.MAX_VALUE, 0, 0);
             }
             else if (mCurrentFlingDirection == Direction.VERTICAL && verticalScrollEnabled){
-                mScroller.fling(0, (int) mCurrentOrigin.y, 0, (int) velocityY, 0, 0, (int) -(mHourHeight * 24 + mHeaderTextHeight + mHeaderRowPadding * 2 - getHeight()), 0);
+                mScroller.fling(0, (int) mCurrentOrigin.y, 0, (int) (velocityY / 1.85), 0, 0, (int) -(mHourHeight * 24 + mHeaderTextHeight + mHeaderRowPadding * 2 - getHeight()), 0);
             }
 
             ViewCompat.postInvalidateOnAnimation(WeekViewModified.this);
