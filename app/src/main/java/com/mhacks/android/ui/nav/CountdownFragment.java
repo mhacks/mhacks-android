@@ -169,7 +169,7 @@ public class CountdownFragment extends Fragment  {
         String topTitle, topTime = null, bottomTitle, bottomTime = null;
 
         // Returns date times in the format similar to "DayName, MonthName DD, YYYY at HH:MM AM/PM."
-        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("EEEE, MMMM d, yyyy 'at' HH:mm a.");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("EEEE, MMMM d, yyyy 'at' hh:mm a.");
 
         if(curTime < startTime) {
             // If so, it's not hack time just yet
