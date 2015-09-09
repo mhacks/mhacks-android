@@ -90,7 +90,7 @@ public class WeekViewModified extends View {
     private int mHourSeparatorHeight = 2;
     private int mTodayHeaderTextColor = Color.rgb(39, 137, 228);
     private int mEventTextSize = 12;
-    private int mEventTextColor = Color.BLACK;
+    private int mEventTextColor = Color.WHITE;
     private int mEventPadding = 8;
     private int mHeaderColumnBackgroundColor = Color.WHITE;
     private int mDefaultEventColor;
