@@ -97,7 +97,7 @@ public class WeekViewModified extends View {
     private boolean mIsFirstDraw = true;
     private int mDayNameLength = LENGTH_LONG;
     private int mOverlappingEventGap = 0;
-    private int mEventMarginVertical = 0;
+    private int mEventMarginVertical = 1;
     private Calendar mFirstVisibleDay;
     private Calendar mLastVisibleDay;
     private boolean horizontalScrollEnabled = true;

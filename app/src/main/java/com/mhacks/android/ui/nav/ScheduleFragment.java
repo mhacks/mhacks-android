@@ -118,7 +118,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         mWeekView.setDayBackgroundColor(getResources().getColor(R.color.day_bg_color));
         mWeekView.setTodayBackgroundColor(getResources().getColor(R.color.today_bg_color));
         mWeekView.setHeaderColumnBackgroundColor(Color.BLACK);
-        mWeekView.setOverlappingEventGap(4);
+        mWeekView.setOverlappingEventGap(2);
         //Prevent scrolling.
         mWeekView.setHorizontalScrollEnabled(false);
         //Add the view to the LinearLayout
