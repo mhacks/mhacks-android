@@ -270,7 +270,7 @@ public class SponsorsFragment extends Fragment implements OnItemClickListener {
 
             // Set the image to the sponsor's logo
             ParseFile logo = mSponsors.get(position).getLogo();
-            Picasso.with(getActivity()).load(logo.getUrl()).noFade().into(imageView);
+            Picasso.with(getActivity()).load(logo.getUrl()).into(imageView);
 
             return imageView;
         }
