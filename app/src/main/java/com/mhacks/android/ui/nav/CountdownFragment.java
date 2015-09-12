@@ -249,8 +249,14 @@ public class CountdownFragment extends Fragment  {
             long minutes = (millisUntilFinished - (hours * 3600000) ) / 60000;
             long seconds = (millisUntilFinished - (hours * 3600000) - (minutes * 60000));
 
+            // Padding hrs, mins, and secs to prevent out of range on substring & to improve ux
+            String hrs, min, sec;
+            hrs = (hours < 10) ? "0" + String.valueOf(hours) : String.valueOf(hours);
+            min = (minutes < 10) ? "0" + String.valueOf(minutes) : String.valueOf(minutes);
+            sec = (seconds < 10) ? "0" + String.valueOf(seconds) : String.valueOf(seconds);
+
             // Update the countdown timer textView
-            mCountdownTextView.setText(hours + ":" + minutes + (":" + seconds).substring(0, 3));
+            mCountdownTextView.setText(hrs + ":" + min + (":" + sec).substring(0, 3));
 
             // Update the progress [maxProgressInt - maxProgressInt*timeRemaining/total time]
             int progress = (int) (100 - 100*millisUntilFinished/totalHackingTimeInMillis);
