@@ -154,7 +154,7 @@ public class EventDetailsFragment extends Fragment {
         //Create end event.
         Calendar end = (Calendar) start.clone();
         int hourDuration = duration / 3600;      //getDuration returns seconds as an int. Need to convert to hours.
-        int minuteDuration = duration % 3600;    //Converting remainder of minutes to int minutes.
+        int minuteDuration = (duration % 3600) / 60;    //Converting remainder of minutes to int minutes.
         end.add(Calendar.HOUR, hourDuration);
         end.add(Calendar.MINUTE, minuteDuration);
 
