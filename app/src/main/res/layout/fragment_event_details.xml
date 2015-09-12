@@ -32,77 +32,82 @@
             android:contentDescription="Closes the event view and returns to the calendar."/>
     </FrameLayout>
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:id="@+id/event_details_listview"
-        android:orientation="vertical">
+    <ScrollView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:scrollbars="vertical">
 
-        <FrameLayout android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:id="@+id/event_details_listview"
+            android:orientation="vertical">
 
-            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:src="@drawable/icon_time_grey"
-                android:layout_marginLeft="30dp"
-                android:layout_marginStart="30dp"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:id="@+id/details_time"
-                android:textColor="@color/black"
-                android:layout_marginLeft="80dp"
-                android:layout_marginStart="80dp"
-                android:text="Event time"/>
-        </FrameLayout>
+            <FrameLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp">
 
-        <FrameLayout android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp">
-            <!--TODO have an onClick for the location-->
+                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:src="@drawable/icon_time_grey"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:id="@+id/details_time"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="80dp"
+                    android:layout_marginStart="80dp"
+                    android:text="Event time"/>
+            </FrameLayout>
 
-            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:src="@drawable/icon_location_grey"
-                android:layout_marginLeft="30dp"
-                android:layout_marginStart="30dp"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:id="@+id/details_location"
-                android:textColor="@color/black"
-                android:layout_marginLeft="80dp"
-                android:layout_marginStart="80dp"
-                android:text="Event location"/>
-        </FrameLayout>
+            <FrameLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp">
+                <!--TODO have an onClick for the location-->
 
-        <FrameLayout android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp">
+                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:src="@drawable/icon_location_grey"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:id="@+id/details_location"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="80dp"
+                    android:layout_marginStart="80dp"
+                    android:text="Event location"/>
+            </FrameLayout>
 
-            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:src="@drawable/icon_subject_grey"
-                android:layout_marginLeft="30dp"
-                android:layout_marginStart="30dp"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:id="@+id/details_description"
-                android:textColor="@color/black"
-                android:layout_marginLeft="80dp"
-                android:layout_marginStart="80dp"
-                android:paddingRight="30dp"
-                android:paddingEnd="30dp"
-                android:text="Event description"/>
-        </FrameLayout>
+            <FrameLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp">
 
-        <FrameLayout android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp">
+                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:src="@drawable/icon_subject_grey"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:id="@+id/details_description"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="80dp"
+                    android:layout_marginStart="80dp"
+                    android:paddingRight="30dp"
+                    android:paddingEnd="30dp"
+                    android:text="Event description"/>
+            </FrameLayout>
 
-            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:src="@drawable/icon_person_grey"
-                android:layout_marginLeft="30dp"
-                android:layout_marginStart="30dp"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:id="@+id/details_host"
-                android:textColor="@color/black"
-                android:layout_marginLeft="80dp"
-                android:layout_marginStart="80dp"
-                android:text="Event host"/>
-        </FrameLayout>
+            <FrameLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp">
 
-    </LinearLayout>
+                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:src="@drawable/icon_person_grey"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:id="@+id/details_host"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="80dp"
+                    android:layout_marginStart="80dp"
+                    android:text="Event host"/>
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>
