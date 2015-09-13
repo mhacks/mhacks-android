@@ -45,7 +45,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 21
         versionCode((int) (System.currentTimeMillis() / 1000))
-        versionName "3.0.0"
+        versionName "6.0.1"
         resValue "string", "parse_application_id", parse_application_id
         resValue "string", "parse_client_key", parse_client_key
         resValue "string", "firebase_url", firebase_url
