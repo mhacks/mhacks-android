@@ -164,7 +164,7 @@ public class CountdownFragment extends Fragment  {
         Log.d(TAG, "Joda End Date: " + localEndDT.toString() + " | " + localEndDT.getMillis() + " | Supposed: " + endTime);
 
         // Get a resources reference, to get the necessary display strings
-        Resources res = getResources();
+        Resources res = getActivity().getResources();
         // Holds the strings to display
         String topTitle, topTime = null, bottomTitle, bottomTime = null;
 
