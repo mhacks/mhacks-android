@@ -130,7 +130,7 @@ public class AnnouncementsFragment extends Fragment {
             AnnouncementDud announcement = new AnnouncementDud(parseObject);
             Calendar currentTime = Calendar.getInstance();
             Calendar announcementTime = Calendar.getInstance();
-            announcementTime.setTime(announcement.getDate());
+            if (announcement.getDate() != null) announcementTime.setTime(announcement.getDate());
             if (currentTime.compareTo(announcementTime) != -1) mAnnouncementsList.add(announcement);
         }
 
