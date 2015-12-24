@@ -101,6 +101,5 @@ dependencies {
     compile('com.viewpagerindicator:library:2.4.1@aar') {
         exclude group: 'com.google.android', module: 'support-v4'
     }
-    compile project(':facebook')
     compile 'joda-time:joda-time:2.6'
 }
