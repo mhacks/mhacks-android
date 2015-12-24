@@ -1,14 +1,11 @@
-package com.mhacks.android.data.model;
+package com.mhacks.android.data_old.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
-
-import org.json.JSONException;
 
 /**
  * Created by Omkar Moghe on 10/13/2014.

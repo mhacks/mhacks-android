@@ -1,4 +1,4 @@
-package com.mhacks.android.data.model;
+package com.mhacks.android.data_old.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -1,90 +1,54 @@
 package com.mhacks.android.data.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import com.parse.ParseClassName;
-import com.parse.ParseObject;
-
 import java.util.Date;
 
 /**
- * Created by Omid Ghomeshi on 10/13/14.
+ * Created by boztalay on 6/3/15.
  */
-@ParseClassName("Annoucement")
-public class Announcement extends ParseObject implements Parcelable {
+public class Announcement extends ModelObject {
+    public String name;
+    public String info;
+    public Date broadcastTime;
+    public int role;
+    public int hackathon_id;
 
-    public static final String AUTHOR_COL  = "author";
-    public static final String MESSAGE_COL = "message";
-    public static final String DATE_COL = "date";
-    public static final String TITLE_COL   = "title";
-
-    public Announcement() {}
-
-    public Sponsor getAuthor() {
-        return (Sponsor) getParseObject(AUTHOR_COL);
+    public String getName() {
+        return name;
     }
 
-    public void setAuthor(Sponsor sponsor) {
-        put(AUTHOR_COL, sponsor);
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getMessage() {
-        return getString(MESSAGE_COL);
+    public String getInfo() {
+        return info;
     }
 
-    public void setMessage(String message) {
-        put(MESSAGE_COL, message);
+    public void setInfo(String info) {
+        this.info = info;
     }
 
-    public Date getDate() {
-        return getDate(DATE_COL);
+    public Date getBroadcastTime() {
+        return broadcastTime;
     }
 
-    public void setDate(Date time) {
-        put(DATE_COL, time);
+    public void setBroadcastTime(Date broadcastTime) {
+        this.broadcastTime = broadcastTime;
     }
 
-    public String getTitle() {
-        return getString(TITLE_COL);
+    public int getRole() {
+        return role;
     }
 
-    public void setTitle(String title) {
-        put(TITLE_COL, title);
+    public void setRole(int role) {
+        this.role = role;
     }
 
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public int getHackathon_id() {
+        return hackathon_id;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(getObjectId());
-        parcel.writeValue(getDate());
-        parcel.writeParcelable(getAuthor(), i);
-        parcel.writeString(getMessage());
-        parcel.writeString(getTitle());
-    }
-
-    public static final Creator<Announcement> CREATOR = new Creator<Announcement>() {
-        @Override
-        public Announcement createFromParcel(Parcel source) {
-            return new Announcement(source);
-        }
-
-        @Override
-        public Announcement[] newArray(int size) {
-            return new Announcement[size];
-        }
-    };
-
-    private Announcement(Parcel source) {
-        setObjectId(source.readString());
-        setAuthor((Sponsor) source.readParcelable(Sponsor.class.getClassLoader()));
-        setDate((Date) source.readValue(Date.class.getClassLoader()));
-        setMessage(source.readString());
-        setTitle(source.readString());
+    public void setHackathon_id(int hackathon_id) {
+        this.hackathon_id = hackathon_id;
     }
 }

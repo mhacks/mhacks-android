@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mhacks.android.data.model.Event;
-import com.mhacks.android.data.model.Location;
+import com.mhacks.android.data_old.model.Event;
+import com.mhacks.android.data_old.model.Location;
 import org.mhacks.android.R;
 import com.parse.ParseException;
 import com.parse.ParseObject;

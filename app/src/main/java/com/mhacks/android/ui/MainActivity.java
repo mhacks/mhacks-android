@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import com.mhacks.android.data.model.Event;
+import com.mhacks.android.data_old.model.Event;
 import com.mhacks.android.ui.nav.AnnouncementsFragment;
 import com.mhacks.android.ui.nav.AwardsFragment;
 import com.mhacks.android.ui.nav.CountdownFragment;
@@ -28,7 +28,7 @@ import com.mhacks.android.ui.nav.NavigationDrawerFragment;
 import com.mhacks.android.ui.nav.ScheduleFragment;
 import com.mhacks.android.ui.nav.SponsorsFragment;
 import org.mhacks.android.R;
-import com.parse.ParseObject;
+
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParsePush;

@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
-import com.mhacks.android.data.model.Map;
+import com.mhacks.android.data_old.model.Map;
 import com.mhacks.android.ui.MainActivity;
 import org.mhacks.android.R;
 import com.parse.FindCallback;

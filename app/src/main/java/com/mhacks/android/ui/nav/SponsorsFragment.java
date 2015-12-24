@@ -20,8 +20,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mhacks.android.data.model.Sponsor;
-import com.mhacks.android.data.model.SponsorTier;
+import com.mhacks.android.data_old.model.Sponsor;
+import com.mhacks.android.data_old.model.SponsorTier;
 import com.mhacks.android.ui.MainActivity;
 import org.mhacks.android.R;
 import com.parse.FindCallback;

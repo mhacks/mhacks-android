@@ -1,54 +1,43 @@
 package com.mhacks.android.data.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import com.parse.ParseClassName;
-import com.parse.ParseObject;
-
 /**
- * Created by Omkar Moghe on 10/13/2014.
+ * Created by boztalay on 6/3/15.
  */
-@ParseClassName("Location")
-public class Location extends ParseObject implements Parcelable {
-
-    public static final String NAME_COL = "name";
-
-    public Location() {}
+public class Location extends ModelObject {
+    public String name;
+    public String latitude;
+    public String longitude;
+    public int hackathon_id;
 
     public String getName() {
-        return getString(NAME_COL);
+        return name;
     }
 
     public void setName(String name) {
-        put(NAME_COL, name);
+        this.name = name;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getLatitude() {
+        return latitude;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(getObjectId());
-        parcel.writeString(getName());
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 
-    public static final Creator<Location> CREATOR = new Creator<Location>() {
-        @Override
-        public Location createFromParcel(Parcel source) {
-            return new Location(source);
-        }
+    public String getLongitude() {
+        return longitude;
+    }
 
-        @Override
-        public Location[] newArray(int size) {
-            return new Location[size];
-        }
-    };
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
 
-    private Location(Parcel source) {
-        setObjectId(source.readString());
-        setName(source.readString());
+    public int getHackathon_id() {
+        return hackathon_id;
+    }
+
+    public void setHackathon_id(int hackathon_id) {
+        this.hackathon_id = hackathon_id;
     }
 }
