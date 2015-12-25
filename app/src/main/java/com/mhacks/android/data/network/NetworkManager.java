@@ -2,7 +2,7 @@ package com.mhacks.android.data.network;
 
 import android.util.Log;
 
-import com.arbrr.onehack.data.model.*;
+import com.mhacks.android.data.model.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -12,10 +12,9 @@ import java.util.Comparator;
 import java.util.List;
 
 import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import retrofit.converter.GsonConverter;
+import retrofit.GsonConverterFactory;
+import retrofit.Retrofit;
+import retrofit.Response;
 
 /**
  * Created by boztalay on 6/4/15.
@@ -48,13 +47,13 @@ public class NetworkManager {
                 .setDateFormat(DATE_FORMAT)
                 .create();
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setEndpoint(baseUrl)
-                .setConverter(new GsonConverter(gson))
+        Retrofit retrofit = new Retrofit.Builder()
+                //.setLogLevel(Retrofit.LogLevel.FULL)
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
-        this.networkService = restAdapter.create(OneHackNetworkService.class);
+        this.networkService = retrofit.create(OneHackNetworkService.class);
 
         hackathonsAttending = new ArrayList<Hackathon>();
     }

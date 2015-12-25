@@ -1,6 +1,6 @@
 package com.mhacks.android.data.network;
 
-import com.arbrr.onehack.data.model.*;
+import com.mhacks.android.data.model.*;
 
 import java.util.List;
 
@@ -14,7 +14,10 @@ import retrofit.http.PUT;
 import retrofit.http.Path;
 
 /**
- * Created by boztalay on 6/3/15.
+ * Created by boztalay on 6/3/15 for the OneHack backend.
+ * Updated by omkarmoghe on 12/25/15 for the MHacks modular backend.
+ *
+ * NOTE: All endpoints must begin with a '/'.
  */
 public interface OneHackNetworkService {
     @GET("/users/me")
