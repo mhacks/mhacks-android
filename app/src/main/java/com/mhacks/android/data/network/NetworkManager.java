@@ -18,6 +18,8 @@ import retrofit.Response;
 
 /**
  * Created by boztalay on 6/4/15.
+ * Updated by omkarmoghe on 12/25/15 for the MHacks modular backend & Retrofit 2.0.0-beta-2.
+ *
  */
 public class NetworkManager {
 
@@ -59,71 +61,36 @@ public class NetworkManager {
     }
 
     public void logUserIn(String email, String password, final OneHackCallback<User> callback) {
-        networkService.logUserIn(new LoginParams(email, password, getGcmToken()),
-                                 new Callback<ModelObject>() {
-                                     @Override
-                                     public void success(ModelObject token, Response response) {
-                                         Log.d(tag, "Successfully logged in");
-                                         apiToken = token.token;
+        networkService.logUserIn(new LoginParams(email, password, getGcmToken()), new Callback<ModelObject>() {
+            @Override
+            public void onResponse(Response<ModelObject> response,
+                                   Retrofit retrofit) {
+                apiToken = response.body().token;
 
-                                         // Now that we have the token, go get the user
-                                         networkService.getCurrentUser(apiToken,
-                                                                       new Callback<User>() {
-                                                                           @Override
-                                                                           public void success(final User user,
-                                                                                               Response response) {
-                                                                               Log.d(tag,
-                                                                                     "Successfully got the current user");
+                // Now that we have the token, go get the user
+                networkService.getCurrentUser(apiToken, new Callback<User>() {
+                    @Override
+                    public void onResponse(Response<User> response,
+                                           Retrofit retrofit) {
+                        currentUser = response.body();
+                        callback.success(response.body());
+                    }
 
-                                                                               // Finally, get all of the hackathons that the user is attending
-                                                                               getAttendingHackathons(
-                                                                                       new OneHackCallback<List<Hackathon>>() {
-                                                                                           @Override
-                                                                                           public void success(
-                                                                                                   List<Hackathon> hackathons) {
-                                                                                               Log.d(tag,
-                                                                                                     "Successfully got the attending hackathons");
+                    @Override
+                    public void onFailure(Throwable t) {
+                        Log.d(tag,
+                              "Couldn't get the current user when logging in");
+                        callback.failure(t);
+                    }
+                });
+            }
 
-                                                                                               currentUser =
-                                                                                                       user;
-                                                                                               hackathonsAttending
-                                                                                                       .clear();
-                                                                                               hackathonsAttending
-                                                                                                       .addAll(hackathons);
-                                                                                               setCurrentHackathon();
-
-                                                                                               callback.success(
-                                                                                                       user);
-                                                                                           }
-
-                                                                                           @Override
-                                                                                           public void failure(
-                                                                                                   Throwable error) {
-                                                                                               Log.d(tag,
-                                                                                                     "Failed to get the attending hackathons while logging in");
-                                                                                               callback.failure(
-                                                                                                       error);
-                                                                                           }
-                                                                                       });
-                                                                           }
-
-                                                                           @Override
-                                                                           public void failure(
-                                                                                   RetrofitError retrofitError) {
-                                                                               Log.d(tag,
-                                                                                     "Couldn't get the current user when logging in");
-                                                                               callback.failure(
-                                                                                       retrofitError);
-                                                                           }
-                                                                       });
-                                     }
-
-                                     @Override
-                                     public void failure(RetrofitError retrofitError) {
-                                         Log.d(tag, "Couldn't create the session when logging in");
-                                         callback.failure(retrofitError);
-                                     }
-                                 });
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d(tag, "Couldn't create the session when logging in");
+                callback.failure(t);
+            }
+        });
     }
 
     public void signUserUp(String email, String password, String firstName, String lastName, String company, final OneHackCallback<User> callback) {
@@ -137,29 +104,29 @@ public class NetworkManager {
 
         networkService.signUserUp(user, new Callback<ModelObject>() {
             @Override
-            public void success(ModelObject token, Response response) {
-                apiToken = token.token;
+            public void onResponse(Response<ModelObject> response, Retrofit retrofit) {
+                apiToken = response.body().token;
 
                 // Now that we have the token, go get the user
                 networkService.getCurrentUser(apiToken, new Callback<User>() {
                     @Override
-                    public void success(User user, Response response) {
+                    public void onResponse(Response<User> response, Retrofit retrofit) {
                         Log.d(tag, "Successfully signed the user up");
-                        callback.success(user);
+                        callback.success(response.body());
                     }
 
                     @Override
-                    public void failure(RetrofitError retrofitError) {
+                    public void onFailure(Throwable t) {
                         Log.d(tag, "Couldn't get the current user after signing up");
-                        callback.failure(retrofitError);
+                        callback.failure(t);
                     }
                 });
             }
 
             @Override
-            public void failure(RetrofitError retrofitError) {
+            public void onFailure(Throwable t) {
                 Log.d(tag, "Couldn't create the new user");
-                callback.failure(retrofitError);
+                callback.failure(t);
             }
         });
     }
@@ -167,215 +134,118 @@ public class NetworkManager {
     public void logUserOut(final OneHackCallback<Void> callback) {
         networkService.logUserOut(new Callback<GenericResponse>() {
             @Override
-            public void success(GenericResponse genericResponse, Response response) {
+            public void onResponse(Response<GenericResponse> response, Retrofit retrofit) {
                 Log.d(tag, "Successfully logged the user out");
                 callback.success(null);
             }
 
             @Override
-            public void failure(RetrofitError retrofitError) {
+            public void onFailure(Throwable t) {
                 Log.d(tag, "Couldn't log the user out");
-                callback.failure(retrofitError);
-            }
-        });
-    }
-
-    public void getHackathons(final OneHackCallback<List<Hackathon>> callback) {
-        networkService.getHackathons(apiToken, new Callback<List<Hackathon>>() {
-            @Override
-            public void success(List<Hackathon> hackathons, Response response) {
-                Log.d(tag, "Successfully got " + hackathons.size() + " hackathons");
-
-                // Sorts alphabetically
-                Collections.sort(hackathons, new Comparator<Hackathon>() {
-                    @Override
-                    public int compare(Hackathon lhs, Hackathon rhs) {
-                        return lhs.getName().compareTo(rhs.getName());
-                    }
-                });
-
-                callback.success(hackathons);
-            }
-
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                Log.d(tag, "Couldn't get hackathons");
-                callback.failure(retrofitError);
-            }
-        });
-    }
-
-    public void getAttendingHackathons(final OneHackCallback<List<Hackathon>> callback) {
-        networkService.getAttendingHackathons(apiToken, new Callback<List<Hackathon>>() {
-            @Override
-            public void success(List<Hackathon> hackathons, Response response) {
-                Log.d(tag, "Successfully got " + hackathons.size() + " attending hackathons");
-
-                // Sorts alphabetically
-                Collections.sort(hackathons, new Comparator<Hackathon>() {
-                    @Override
-                    public int compare(Hackathon lhs, Hackathon rhs) {
-                        return lhs.getName().compareTo(rhs.getName());
-                    }
-                });
-
-                callback.success(hackathons);
-            }
-
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                Log.d(tag, "Couldn't get attending hackathons");
-                callback.failure(retrofitError);
-            }
-        });
-    }
-
-    public void getHackathon(int hackathonId, final OneHackCallback<Hackathon> callback) {
-        networkService.getHackathon(apiToken, hackathonId, new Callback<Hackathon>() {
-            @Override
-            public void success(Hackathon hackathon, Response response) {
-                Log.d(tag, "Successfully got the hackathon " + hackathon.name);
-                callback.success(hackathon);
-            }
-
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                Log.d(tag, "Couldn't get a hackathon");
-                callback.failure(retrofitError);
-            }
-        });
-    }
-
-    public void createHackathon(Hackathon hackathon, final OneHackCallback<Hackathon> callback) {
-        networkService.createHackathon(apiToken, hackathon, new Callback<Hackathon>() {
-            @Override
-            public void success(Hackathon hackathon, Response response) {
-                Log.d(tag, "Successfully created the hackathon " + hackathon.name);
-                callback.success(hackathon);
-            }
-
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                Log.d(tag, "Couldn't create the hackathon");
-                callback.failure(retrofitError);
+                callback.failure(t);
             }
         });
     }
 
     public void getAnnouncements(final OneHackCallback<List<Announcement>> callback) {
-        networkService.getAnnouncements(currentHackathon.getId(),
-                                        new Callback<List<Announcement>>() {
-                                            @Override
-                                            public void success(List<Announcement> announcements,
-                                                                Response response) {
-                                                Log.d(tag,
-                                                      "Successfully got " + announcements.size() +
-                                                      " announcements");
+        networkService.getAnnouncements(currentHackathon.getId(), new Callback<List<Announcement>>() {
+            @Override
+            public void onResponse(Response<List<Announcement>> response, Retrofit retrofit) {
 
-                                                // Sorts reverse chronologically
-                                                Collections.sort(announcements,
-                                                                 new Comparator<Announcement>() {
-                                                                     @Override
-                                                                     public int compare(Announcement lhs,
-                                                                                        Announcement rhs) {
-                                                                         return rhs.getBroadcastTime()
-                                                                                   .compareTo(lhs.getBroadcastTime());
-                                                                     }
-                                                                 });
+                Log.d(tag,
+                      "Successfully got " + response.body().size() +
+                      " announcements");
 
-                                                callback.success(announcements);
-                                            }
+                // Sorts reverse chronologically
+                Collections.sort(response.body(), new Comparator<Announcement>() {
+                    @Override
+                    public int compare(Announcement lhs,
+                                       Announcement rhs) {
+                        return rhs.getBroadcastTime()
+                                  .compareTo(lhs.getBroadcastTime());
+                    }
+                });
 
-                                            @Override
-                                            public void failure(RetrofitError retrofitError) {
-                                                Log.d(tag, "Couldn't get announcements");
-                                                callback.failure(retrofitError);
-                                            }
-                                        });
+                callback.success(response.body());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d(tag, "Couldn't get announcements");
+                callback.failure(t);
+            }
+        });
     }
 
     public void getAnnouncement(int announcementId, final OneHackCallback<Announcement> callback) {
-        networkService.getAnnouncement(currentHackathon.getId(),
-                                       announcementId,
-                                       new Callback<Announcement>() {
-                                           @Override
-                                           public void success(Announcement announcement,
-                                                               Response response) {
-                                               Log.d(tag, "Successfully got the announcement");
-                                               callback.success(announcement);
-                                           }
+        networkService.getAnnouncement(currentHackathon.getId(), announcementId, new Callback<Announcement>() {
+            @Override
+            public void onResponse(Response<Announcement> response, Retrofit retrofit) {
+                Log.d(tag, "Successfully got the announcement");
+                callback.success(response.body());
+            }
 
-                                           @Override
-                                           public void failure(RetrofitError retrofitError) {
-                                               Log.d(tag, "Couldn't get the announcement");
-                                               callback.failure(retrofitError);
-                                           }
-                                       });
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d(tag, "Couldn't get the announcement");
+                callback.failure(t);
+            }
+        });
     }
 
     public void createAnnouncement(Announcement announcement, final OneHackCallback<Announcement> callback) {
-        networkService.createAnnouncement(apiToken,
-                                          currentHackathon.getId(),
-                                          announcement,
-                                          new Callback<Announcement>() {
-                                              @Override
-                                              public void success(Announcement announcement,
-                                                                  Response response) {
-                                                  Log.d(tag,
-                                                        "Succcessfully created the announcement");
-                                                  callback.success(announcement);
-                                              }
+        networkService.createAnnouncement(apiToken, currentHackathon.getId(), announcement, new Callback<Announcement>() {
+            @Override
+            public void onResponse(Response<Announcement> response, Retrofit retrofit) {
+                Log.d(tag, "Succcessfully created the announcement");
+                callback.success(response.body());
+            }
 
-                                              @Override
-                                              public void failure(RetrofitError retrofitError) {
-                                                  Log.d(tag, "Couldn't create the announcement");
-                                                  callback.failure(retrofitError);
-                                              }
-                                          });
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d(tag, "Couldn't create the announcement");
+                callback.failure(t);
+            }
+        });
     }
 
     public void deleteAnnouncement(Announcement announcement, final OneHackCallback<GenericResponse> callback) {
-        networkService.deleteAnnouncement(apiToken,
-                                          currentHackathon.getId(),
-                                          announcement.id,
-                                          new Callback<GenericResponse>() {
-                                              @Override
-                                              public void success(GenericResponse genericResponse,
-                                                                  Response response) {
-                                                  Log.d(tag,
-                                                        "Successfully deleted the announcement");
-                                                  callback.success(genericResponse);
-                                              }
+        networkService.deleteAnnouncement(apiToken, currentHackathon.getId(), announcement.id, new Callback<GenericResponse>() {
+            @Override
+            public void onResponse(Response<GenericResponse> response, Retrofit retrofit) {
+                Log.d(tag, "Successfully deleted the announcement");
+                callback.success(response.body());
+            }
 
-                                              @Override
-                                              public void failure(RetrofitError retrofitError) {
-                                                  Log.d(tag, "Couldn't delete the announcement");
-                                                  callback.failure(retrofitError);
-                                              }
-                                          });
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d(tag, "Couldn't delete the announcement");
+                callback.failure(t);
+            }
+        });
     }
 
     public void getEvents(final OneHackCallback<List<Event>> callback) {
         networkService.getEvents(currentHackathon.getId(), new Callback<List<Event>>() {
             @Override
-            public void success(List<Event> events, Response response) {
-                Log.d(tag, "Successfully got " + events.size() + " events");
+            public void onResponse(Response<List<Event>> response, Retrofit retrofit) {
+                Log.d(tag, "Successfully got " + response.body().size() + " events");
 
                 // Sorts chronologically
-                Collections.sort(events, new Comparator<Event>() {
+                Collections.sort(response.body(), new Comparator<Event>() {
                     @Override
                     public int compare(Event lhs, Event rhs) {
                         return lhs.getStartTime().compareTo(rhs.getStartTime());
                     }
                 });
 
-                callback.success(events);
+                callback.success(response.body());
             }
 
             @Override
-            public void failure(RetrofitError retrofitError) {
+            public void onFailure(Throwable t) {
                 Log.d(tag, "Couldn't get the events");
-                callback.failure(retrofitError);
+                callback.failure(t);
             }
         });
     }
@@ -383,126 +253,111 @@ public class NetworkManager {
     public void getEvent(int eventId, final OneHackCallback<Event> callback) {
         networkService.getEvent(currentHackathon.getId(), eventId, new Callback<Event>() {
             @Override
-            public void success(Event event, Response response) {
+            public void onResponse(Response<Event> response, Retrofit retrofit) {
                 Log.d(tag, "Successfully got the event");
-                callback.success(event);
+                callback.success(response.body());
             }
 
             @Override
-            public void failure(RetrofitError retrofitError) {
+            public void onFailure(Throwable t) {
                 Log.d(tag, "Couldn't get the event");
-                callback.failure(retrofitError);
+                callback.failure(t);
             }
         });
     }
 
     public void createEvent(Event event, final OneHackCallback<Event> callback) {
-        networkService.createEvent(apiToken,
-                                   currentHackathon.getId(),
-                                   event,
-                                   new Callback<Event>() {
-                                       @Override
-                                       public void success(Event event, Response response) {
-                                           Log.d(tag, "Successfully created the event");
-                                           callback.success(event);
-                                       }
+        networkService.createEvent(apiToken, currentHackathon.getId(), event, new Callback<Event>() {
+            @Override
+            public void onResponse(Response<Event> response, Retrofit retrofit) {
+                Log.d(tag, "Successfully created the event");
+                callback.success(response.body());
+            }
 
-                                       @Override
-                                       public void failure(RetrofitError retrofitError) {
-                                           Log.d(tag, "Couldn't create the event");
-                                           callback.failure(retrofitError);
-                                       }
-                                   });
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d(tag, "Couldn't create the event");
+                callback.failure(t);
+            }
+        });
     }
 
     public void updateEvent(Event event, final OneHackCallback<Event> callback) {
-        networkService.updateEvent(apiToken,
-                                   currentHackathon.getId(),
-                                   event.id,
-                                   event,
-                                   new Callback<Event>() {
-                                       @Override
-                                       public void success(Event event, Response response) {
-                                           Log.d(tag, "Successfully updated the event");
-                                           callback.success(event);
-                                       }
+        networkService.updateEvent(apiToken, currentHackathon.getId(), event.id, event, new Callback<Event>() {
+            @Override
+            public void onResponse(Response<Event> response, Retrofit retrofit) {
+                Log.d(tag, "Successfully updated the event");
+                callback.success(response.body());
+            }
 
-                                       @Override
-                                       public void failure(RetrofitError retrofitError) {
-                                           Log.d(tag, "Couldn't update the event");
-                                           callback.failure(retrofitError);
-                                       }
-                                   });
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d(tag, "Couldn't update the event");
+                callback.failure(t);
+            }
+        });
     }
 
     public void deleteEvent(Event event, final OneHackCallback<GenericResponse> callback) {
-        networkService.deleteEvent(apiToken,
-                                   currentHackathon.getId(),
-                                   event.id,
-                                   new Callback<GenericResponse>() {
-                                       @Override
-                                       public void success(GenericResponse genericResponse,
-                                                           Response response) {
-                                           Log.d(tag, "Successfully deleted the event");
-                                           callback.success(genericResponse);
-                                       }
+        networkService.deleteEvent(apiToken, currentHackathon.getId(), event.id, new Callback<GenericResponse>() {
+            @Override
+            public void onResponse(Response<GenericResponse> response, Retrofit retrofit) {
+                Log.d(tag, "Successfully deleted the event");
+                callback.success(response.body());
+            }
 
-                                       @Override
-                                       public void failure(RetrofitError retrofitError) {
-                                           Log.d(tag, "Couldn't delete the event");
-                                           callback.failure(retrofitError);
-                                       }
-                                   });
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d(tag, "Couldn't delete the event");
+                callback.failure(t);
+            }
+        });
     }
 
     public void getLocations(final OneHackCallback<List<Location>> callback) {
         networkService.getLocations(currentHackathon.getId(), new Callback<List<Location>>() {
             @Override
-            public void success(List<Location> locations, Response response) {
-                Log.d(tag, "Successfully got " + locations.size() + " locations");
-                callback.success(locations);
+            public void onResponse(Response<List<Location>> response, Retrofit retrofit) {
+                Log.d(tag, "Successfully got " + response.body().size() + " locations");
+                callback.success(response.body());
             }
 
             @Override
-            public void failure(RetrofitError retrofitError) {
+            public void onFailure(Throwable t) {
                 Log.d(tag, "Couldn't get the locations");
-                callback.failure(retrofitError);
+                callback.failure(t);
             }
         });
     }
 
     public void createLocation(Location location, final OneHackCallback<Location> callback) {
-        networkService.createLocation(apiToken,
-                                      currentHackathon.getId(),
-                                      location,
-                                      new Callback<Location>() {
-                                          @Override
-                                          public void success(Location location,
-                                                              Response response) {
-                                              Log.d(tag, "Successfully created the location");
-                                              callback.success(location);
-                                          }
+        networkService.createLocation(apiToken, currentHackathon.getId(), location, new Callback<Location>() {
+            @Override
+            public void onResponse(Response<Location> response, Retrofit retrofit) {
+                Log.d(tag, "Successfully created the location");
+                callback.success(response.body());
+            }
 
-                                          @Override
-                                          public void failure(RetrofitError retrofitError) {
-                                              Log.d(tag, "Couldn't create the location");
-                                              callback.failure(retrofitError);
-                                          }
-                                      });
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d(tag, "Couldn't create the location");
+                callback.failure(t);
+            }
+        });
     }
 
     public void getContacts(final OneHackCallback<List<User>> callback) {
         networkService.getContacts(apiToken, currentHackathon.getId(), new Callback<List<User>>() {
             @Override
-            public void success(List<User> users, Response response) {
-                Log.d(tag, "Successfully got " + users.size() + " contacts");
-                callback.success(users);
+            public void onResponse(Response<List<User>> response, Retrofit retrofit) {
+                Log.d(tag, "Successfully got " + response.body().size() + " contacts");
+                callback.success(response.body());
             }
 
             @Override
-            public void failure(RetrofitError retrofitError) {
+            public void onFailure(Throwable t) {
                 Log.d(tag, "Couldn't get the contacts");
-                callback.failure(retrofitError);
+                callback.failure(t);
             }
         });
     }
@@ -510,72 +365,65 @@ public class NetworkManager {
     public void createHackerRole(HackerRole hackerRole, final OneHackCallback<HackerRole> callback) {
         networkService.createHackerRole(apiToken, hackerRole, new Callback<HackerRole>() {
             @Override
-            public void success(HackerRole hackerRole, Response response) {
+            public void onResponse(Response<HackerRole> response, Retrofit retrofit) {
                 Log.d(tag, "Successfully created the hacker role");
-                callback.success(hackerRole);
+                callback.success(response.body());
             }
 
             @Override
-            public void failure(RetrofitError retrofitError) {
+            public void onFailure(Throwable t) {
                 Log.d(tag, "Couldn't create the hacker role");
-                callback.failure(retrofitError);
+                callback.failure(t);
             }
         });
     }
 
     public void updateHackerRole(HackerRole hackerRole, final OneHackCallback<HackerRole> callback) {
-        networkService.updateHackerRole(apiToken,
-                                        hackerRole.id,
-                                        hackerRole,
-                                        new Callback<HackerRole>() {
-                                            @Override
-                                            public void success(HackerRole hackerRole,
-                                                                Response response) {
-                                                Log.d(tag, "Successfully updated the hacker role");
-                                                callback.success(hackerRole);
-                                            }
+        networkService.updateHackerRole(apiToken, hackerRole.id, hackerRole, new Callback<HackerRole>() {
+            @Override
+            public void onResponse(Response<HackerRole> response, Retrofit retrofit) {
+                Log.d(tag, "Successfully updated the hacker role");
+                callback.success(response.body());
+            }
 
-                                            @Override
-                                            public void failure(RetrofitError retrofitError) {
-                                                Log.d(tag, "Couldn't update the hacker role");
-                                                callback.failure(retrofitError);
-                                            }
-                                        });
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d(tag, "Couldn't update the hacker role");
+                callback.failure(t);
+            }
+        });
     }
 
     public void getAwards(final OneHackCallback<List<Award>> callback) {
         networkService.getAwards(currentHackathon.getId(), new Callback<List<Award>>() {
             @Override
-            public void success(List<Award> awards, Response response) {
-                Log.d(tag, "Successfully got " + awards.size() + " awards");
-                callback.success(awards);
+            public void onResponse(Response<List<Award>> response, Retrofit retrofit) {
+                Log.d(tag, "Successfully got " + response.body().size() + " awards");
+                callback.success(response.body());
             }
 
             @Override
-            public void failure(RetrofitError retrofitError) {
+            public void onFailure(Throwable t) {
                 Log.d(tag, "Couldn't get the awards");
-                callback.failure(retrofitError);
+                callback.failure(t);
             }
         });
     }
 
     public void createAward(Award award, final OneHackCallback<Award> callback) {
-        networkService.createAward(apiToken,
-                                   currentHackathon.getId(),
-                                   award,
-                                   new Callback<Award>() {
-                                       @Override
-                                       public void success(Award award, Response response) {
-                                           Log.d(tag, "Successfully created the award");
-                                           callback.success(award);
-                                       }
+        networkService.createAward(apiToken, currentHackathon.getId(), award, new Callback<Award>() {
+            @Override
+            public void onResponse(Response<Award> response, Retrofit retrofit) {
+                Log.d(tag, "Successfully created the award");
+                callback.success(response.body());
+            }
 
-                                       @Override
-                                       public void failure(RetrofitError retrofitError) {
-                                           Log.d(tag, "Couldn't create the award");
-                                           callback.failure(retrofitError);
-                                       }
-                                   });
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d(tag, "Couldn't create the award");
+                callback.failure(t);
+            }
+        });
     }
 
     //----- Helpers
