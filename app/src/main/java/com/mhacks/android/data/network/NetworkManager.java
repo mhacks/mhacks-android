@@ -18,7 +18,7 @@ import retrofit.Response;
 
 /**
  * Created by boztalay on 6/4/15.
- * Updated by omkarmoghe on 12/25/15 for the MHacks modular backend & Retrofit 2.0.0-beta-2.
+ * Updated by omkarmoghe on 12/25/15 for the MHacks modular backend & Retrofit 2.0.0-beta2.
  *
  */
 public class NetworkManager {
@@ -30,7 +30,6 @@ public class NetworkManager {
 
     private OneHackNetworkService networkService;
     private String                apiToken;
-    private ArrayList<Hackathon>  hackathonsAttending;
     private Hackathon             currentHackathon;
     private User                  currentUser;
 
@@ -56,8 +55,6 @@ public class NetworkManager {
                 .build();
 
         this.networkService = retrofit.create(OneHackNetworkService.class);
-
-        hackathonsAttending = new ArrayList<Hackathon>();
     }
 
     public void logUserIn(String email, String password, final OneHackCallback<User> callback) {
@@ -427,20 +424,6 @@ public class NetworkManager {
     }
 
     //----- Helpers
-
-    public void setCurrentHackathon() {
-        if(hackathonsAttending.size() > 0) {
-            currentHackathon = hackathonsAttending.get(0);
-        } else {
-            // TODO make this user-friendlier
-            throw new RuntimeException("This user isn't attending any hackathons!");
-        }
-    }
-
-    public Hackathon getCurrentHackathon() {
-        return currentHackathon;
-    }
-
     public boolean isUserHacker() {
         return currentHackathon.isUserHacker(currentUser);
     }
