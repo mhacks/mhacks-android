@@ -12,12 +12,11 @@ import com.mhacks.android.data_old.model.Location;
 import com.mhacks.android.data_old.model.Map;
 import com.mhacks.android.data_old.model.Sponsor;
 import com.mhacks.android.data_old.model.SponsorTier;
-import com.mhacks.android.ui.MainActivity;
-import org.mhacks.android.R;
 import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
-import com.parse.PushService;
+
+import org.mhacks.android.R;
 
 /**
  * Created by Omkar Moghe on 11/15/2014.
@@ -44,11 +43,9 @@ public class MHacks extends Application {
         Parse.initialize(this,
                          getString(R.string.parse_application_id),
                          getString(R.string.parse_client_key));
-        PushService.startServiceIfRequired(getApplicationContext());
-        PushService.setDefaultPushCallback(this, MainActivity.class);
         ParseInstallation.getCurrentInstallation().saveInBackground();
 
-        Bugsnag.register(this, getString(R.string.bugsnag_key));
+        Bugsnag.init(this, getString(R.string.bugsnag_key));
     }
 
 }

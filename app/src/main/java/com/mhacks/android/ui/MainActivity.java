@@ -18,6 +18,10 @@ import android.widget.Toast;
 
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+
+import com.mhacks.android.data.model.User;
+import com.mhacks.android.data.network.HackathonCallback;
+import com.mhacks.android.data.network.NetworkManager;
 import com.mhacks.android.data_old.model.Event;
 import com.mhacks.android.ui.nav.AnnouncementsFragment;
 import com.mhacks.android.ui.nav.AwardsFragment;
@@ -127,6 +131,20 @@ public class MainActivity extends ActionBarActivity
 
         //Push notification intent check.
         checkIntent();
+
+        // testing the network manager
+        NetworkManager networkManager = NetworkManager.getInstance();
+        networkManager.logUserIn("admin@admin.com", "admin", new HackathonCallback<User>() {
+            @Override
+            public void success(User response) {
+                Log.d(TAG, "log in successful");
+            }
+
+            @Override
+            public void failure(Throwable error) {
+
+            }
+        });
     }
 
     /**
