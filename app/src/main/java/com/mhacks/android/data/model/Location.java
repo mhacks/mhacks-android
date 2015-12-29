@@ -9,6 +9,9 @@ public class Location extends ModelObject {
     public String longitude;
     public int hackathon_id;
 
+    public Location() {
+    }
+
     public String getName() {
         return name;
     }

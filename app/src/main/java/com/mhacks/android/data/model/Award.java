@@ -10,6 +10,8 @@ public class Award extends ModelObject {
     public int hackathon_id;
     public String company;
 
+    public Award() {}
+
     public String getName() {
         return name;
     }

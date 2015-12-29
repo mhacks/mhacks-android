@@ -25,6 +25,9 @@ public class HackerRole extends ModelObject {
         }
     }
 
+    public HackerRole() {
+    }
+
     public boolean isHacker() {
         return Role.HACKER.isRoleSelf(role);
     }

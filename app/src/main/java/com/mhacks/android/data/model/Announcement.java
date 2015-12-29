@@ -12,6 +12,9 @@ public class Announcement extends ModelObject {
     public int role;
     public int hackathon_id;
 
+    public Announcement() {
+    }
+
     public String getName() {
         return name;
     }

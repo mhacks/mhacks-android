@@ -15,6 +15,9 @@ public class Event extends ModelObject {
     public int    hackathon_id;
     public int    location_id;
 
+    public Event() {
+    }
+
     public String getName() {
         return name;
     }

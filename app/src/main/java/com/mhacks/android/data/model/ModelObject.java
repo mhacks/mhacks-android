@@ -11,6 +11,9 @@ public class ModelObject {
     public Date created_at;
     public Date updated_at;
 
+    public ModelObject() {
+    }
+
     public String getToken() {
         return token;
     }

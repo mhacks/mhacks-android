@@ -13,6 +13,9 @@ public class User extends ModelObject {
     public String twitter;
     public boolean admin;
 
+    public User() {
+    }
+
     public String getGcm_token() {
         return gcm_token;
     }

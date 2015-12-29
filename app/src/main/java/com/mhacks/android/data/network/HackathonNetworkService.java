@@ -4,7 +4,7 @@ import com.mhacks.android.data.model.*;
 
 import java.util.List;
 
-import retrofit.Callback;
+import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
@@ -17,115 +17,101 @@ import retrofit.http.Path;
  * Created by boztalay on 6/3/15 for the OneHack backend.
  * Updated by omkarmoghe on 12/25/15 for the MHacks modular backend.
  *
- * NOTE: All endpoints must begin with a '/'.
+ * NOTE: DO NOT begin endpoints with a '/'.
+ *       See com.mhacks.android.data.network.NetworkManager.BASE_URL for path.
  */
 public interface HackathonNetworkService {
     // USER
-    @GET("/users/me")
-    void getCurrentUser(@Header("Authorization") String token, Callback<User> callback);
+    @GET("users/me")
+    Call<User> getCurrentUser(@Header("Authorization") String token);
 
-    @POST("/users/")
-    void signUserUp(@Body User user, Callback<ModelObject> callback);
+    @POST("users/")
+    Call<ModelObject> signUserUp(@Body User user);
 
-    @POST("/sessions")
-    void logUserIn(@Body LoginParams loginParams, Callback<ModelObject> callback);
+    @POST("sessions")
+    Call<ModelObject> logUserIn(@Body LoginParams loginParams);
 
-    @DELETE("/sessions")
-    void logUserOut(Callback<GenericResponse> callback);
+    @DELETE("sessions")
+    Call<GenericResponse> logUserOut();
 
     // HACKATHONS
     // deprecated as of MHacks Refactor W16
-    @GET("/hackathons")
-    void getHackathons(@Header("Authorization") String token, Callback<List<Hackathon>> callback);
+    @GET("hackathons")
+    Call<List<Hackathon>> getHackathons(@Header("Authorization") String token);
 
-    @GET("/hackathons/attending")
-    void getAttendingHackathons(@Header("Authorization") String token,
-                                Callback<List<Hackathon>> callback);
+    @GET("hackathons/attending")
+    Call<List<Hackathon>> getAttendingHackathons(@Header("Authorization") String token);
 
-    @GET("/hackathons/{hackathon_id}")
-    void getHackathon(@Header("Authorization") String token,
-                      @Path("hackathon_id") int hackathon_id,
-                      Callback<Hackathon> callback);
+    @GET("hackathons/{hackathon_id}")
+    Call<Hackathon> getHackathon(@Header("Authorization") String token,
+                                 @Path("hackathon_id") int hackathon_id);
 
-    @POST("/hackathons")
-    void createHackathon(@Header("Authorization") String token,
-                         @Body Hackathon hackathon,
-                         Callback<Hackathon> callback);
+    @POST("hackathons")
+    Call<Hackathon> createHackathon(@Header("Authorization") String token,
+                                    @Body Hackathon hackathon);
 
     // ANNOUNCEMENTS
-    @GET("/announcements")
-    void getAnnouncements(Callback<List<Announcement>> callback);
+    @GET("announcements")
+    Call<List<Announcement>> getAnnouncements();
 
-    @GET("/announcements/{announcement_id}")
-    void getAnnouncement(@Path("announcement_id") int announcement_id,
-                         Callback<Announcement> callback);
+    @GET("announcements/{announcement_id}")
+    Call<Announcement> getAnnouncement(@Path("announcement_id") int announcement_id);
 
-    @POST("/announcements")
-    void createAnnouncement(@Header("Authorization") String token,
-                            @Body Announcement announcement,
-                            Callback<Announcement> callback);
+    @POST("announcements")
+    Call<Announcement> createAnnouncement(@Header("Authorization") String token,
+                                          @Body Announcement announcement);
 
-    @DELETE("/announcements/{announcement_id}")
-    void deleteAnnouncement(@Header("Authorization") String token,
-                            @Path("announcement_id") int announcement_id,
-                            Callback<GenericResponse> callback);
+    @DELETE("announcements/{announcement_id}")
+    Call<GenericResponse> deleteAnnouncement(@Header("Authorization") String token,
+                                             @Path("announcement_id") int announcement_id);
 
     // EVENTS
-    @GET("/events")
-    void getEvents(Callback<List<Event>> callback);
+    @GET("events")
+    Call<List<Event>> getEvents();
 
-    @GET("/events/{event_id}")
-    void getEvent(@Path("event_id") int event_id,
-                  Callback<Event> callback);
+    @GET("events/{event_id}")
+    Call<Event> getEvent(@Path("event_id") int event_id);
 
-    @POST("/events")
-    void createEvent(@Header("Authorization") String token,
-                     @Body Event event,
-                     Callback<Event> callback);
+    @POST("events")
+    Call<Event> createEvent(@Header("Authorization") String token,
+                            @Body Event event);
 
-    @PUT("/events/{event_id}")
-    void updateEvent(@Header("Authorization") String token,
-                     @Path("event_id") int event_id,
-                     @Body Event event,
-                     Callback<Event> callback);
+    @PUT("events/{event_id}")
+    Call<Event> updateEvent(@Header("Authorization") String token,
+                            @Path("event_id") int event_id,
+                            @Body Event event);
 
-    @DELETE("/events/{event_id}")
-    void deleteEvent(@Header("Authorization") String token,
-                     @Path("event_id") int event_id,
-                     Callback<GenericResponse> callback);
+    @DELETE("events/{event_id}")
+    Call<GenericResponse> deleteEvent(@Header("Authorization") String token,
+                                      @Path("event_id") int event_id);
 
     // LOCATIONS
-    @GET("/locations")
-    void getLocations(Callback<List<Location>> callback);
+    @GET("locations")
+    Call<List<Location>> getLocations();
 
-    @POST("/locations")
-    void createLocation(@Header("Authorization") String token,
-                        @Body Location location,
-                        Callback<Location> callback);
+    @POST("locations")
+    Call<Location> createLocation(@Header("Authorization") String token,
+                                  @Body Location location);
 
     // CONTACTS
-    @GET("/contacts")
-    void getContacts(@Header("Authorization") String token,
-                     Callback<List<User>> callback);
+    @GET("contacts")
+    Call<List<User>> getContacts(@Header("Authorization") String token);
 
     // ROLES
-    @POST("/hacker_roles")
-    void createHackerRole(@Header("Authorization") String token,
-                          @Body HackerRole hackerRole,
-                          Callback<HackerRole> callback);
+    @POST("hacker_roles")
+    Call<HackerRole> createHackerRole(@Header("Authorization") String token,
+                                      @Body HackerRole hackerRole);
 
-    @PUT("/hacker_roles/{hacker_role_id}")
-    void updateHackerRole(@Header("Authorization") String token,
-                          @Path("hacker_role_id") int hacker_role_id,
-                          @Body HackerRole hackerRole,
-                          Callback<HackerRole> callback);
+    @PUT("hacker_roles/{hacker_role_id}")
+    Call<HackerRole> updateHackerRole(@Header("Authorization") String token,
+                                      @Path("hacker_role_id") int hacker_role_id,
+                                      @Body HackerRole hackerRole);
 
     // AWARDS
-    @GET("/awards")
-    void getAwards(Callback<List<Award>> callback);
+    @GET("awards")
+    Call<List<Award>> getAwards();
 
-    @POST("/awards")
-    void createAward(@Header("Authorization") String token,
-                     @Body Award award,
-                     Callback<Award> callback);
+    @POST("awards")
+    Call<Award> createAward(@Header("Authorization") String token,
+                            @Body Award award);
 }

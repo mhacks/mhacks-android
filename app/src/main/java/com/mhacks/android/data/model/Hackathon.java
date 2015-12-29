@@ -15,6 +15,9 @@ public class Hackathon extends ModelObject {
     public String hexColor;
     public List<HackerRole> hacker_roles;
 
+    public Hackathon() {
+    }
+
     public boolean isUserHacker(User user) {
         HackerRole hackerRole = getHackerRole();
         return hackerRole.isHacker();

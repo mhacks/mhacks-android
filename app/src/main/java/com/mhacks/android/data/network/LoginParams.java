@@ -6,11 +6,11 @@ package com.mhacks.android.data.network;
 public class LoginParams {
     public String email;
     public String password;
-    public String gcm_token;
+    //public String gcm_token;
 
-    public LoginParams(String email, String password, String apns_token) {
+    public LoginParams(String email, String password, String gcm_token) {
         this.email = email;
         this.password = password;
-        this.gcm_token = gcm_token;
+        //this.gcm_token = gcm_token;
     }
 }

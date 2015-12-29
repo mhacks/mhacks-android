@@ -19,6 +19,7 @@ import android.widget.Toast;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
+import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
@@ -44,6 +45,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Omkar Moghe on 10/22/2014.
@@ -133,16 +135,29 @@ public class MainActivity extends ActionBarActivity
         checkIntent();
 
         // testing the network manager
-        NetworkManager networkManager = NetworkManager.getInstance();
+        final NetworkManager networkManager = NetworkManager.getInstance();
         networkManager.logUserIn("admin@admin.com", "admin", new HackathonCallback<User>() {
             @Override
             public void success(User response) {
                 Log.d(TAG, "log in successful");
+
+                networkManager.getAnnouncements(new HackathonCallback<List<Announcement>>() {
+                    @Override
+                    public void success(List<Announcement> response) {
+                        Toast.makeText(getApplicationContext(), response.size() + " events retrieved.", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, response.size() + " events retrieved.");
+                    }
+
+                    @Override
+                    public void failure(Throwable error) {
+                        Log.d(TAG, "fuck all of this");
+                    }
+                });
             }
 
             @Override
             public void failure(Throwable error) {
-
+                Log.d(TAG, "dishonor whole family");
             }
         });
     }
