@@ -12,6 +12,7 @@ MHacks-Android.iml
 *.ap_
 .gradle
 build/
+build/intermediates/dex-cache/cache.xml
 app/build/
 *.dex
 

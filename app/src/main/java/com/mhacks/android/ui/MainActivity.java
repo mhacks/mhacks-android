@@ -1,23 +1,24 @@
 package com.mhacks.android.ui;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
-
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.User;
@@ -32,8 +33,16 @@ import com.mhacks.android.ui.nav.MapFragment;
 import com.mhacks.android.ui.nav.NavigationDrawerFragment;
 import com.mhacks.android.ui.nav.ScheduleFragment;
 import com.mhacks.android.ui.nav.SponsorsFragment;
-import org.mhacks.android.R;
-
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParsePush;
@@ -43,6 +52,7 @@ import com.parse.SaveCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.mhacks.android.R;
 
 import java.util.Date;
 import java.util.List;
@@ -50,7 +60,7 @@ import java.util.List;
 /**
  * Created by Omkar Moghe on 10/22/2014.
  */
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     public static final String TAG = "MainActivity";
@@ -60,13 +70,17 @@ public class MainActivity extends ActionBarActivity
 
     private static final int OVERLAY_FADE_DURATION = 400;
 
-    private NavigationDrawerFragment mNavigationDrawerFragment;
-
     private ParseUser mUser;
 
+    // Toolbar
     private Toolbar mToolbar;
-    private DrawerLayout mDrawerLayout;
+
+    // Navigation Drawer
+    private Drawer                mDrawer;
+
+    private DrawerLayout          mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
+    private NavigationDrawerFragment mNavigationDrawerFragment;
 
     private boolean mShouldSync = true;
 
@@ -160,6 +174,115 @@ public class MainActivity extends ActionBarActivity
                 Log.d(TAG, "dishonor whole family");
             }
         });
+
+        buildNavigationDrawer();
+    }
+
+    /**
+     * Method to build the navigation drawer and set up it's behaviors and styling.
+     * Interface callbacks for the navigation drawer are within this method.
+     */
+    private void buildNavigationDrawer() {
+        // Drawer items
+        PrimaryDrawerItem countdown = new PrimaryDrawerItem().withName("Countdown")
+                                                             .withIcon(R.drawable.ic_time)
+                                                             .withSelectedColorRes(R.color.primary_dark);
+        PrimaryDrawerItem announcements = new PrimaryDrawerItem().withName("Announcements")
+                                                                 .withIcon(R.drawable.ic_announcement)
+                                                                 .withSelectedTextColorRes(R.color.primary_dark);
+        PrimaryDrawerItem events = new PrimaryDrawerItem().withName("Events")
+                                                          .withIcon(R.drawable.ic_event)
+                                                          .withSelectedTextColorRes(R.color.primary_dark);
+        PrimaryDrawerItem contacts = new PrimaryDrawerItem().withName("Contacts")
+                                                            .withIcon(R.drawable.ic_contact)
+                                                            .withSelectedTextColorRes(R.color.primary_dark);
+        PrimaryDrawerItem awards = new PrimaryDrawerItem().withName("Awards")
+                                                          .withIcon(R.drawable.ic_award)
+                                                          .withSelectedTextColorRes(R.color.primary_dark);
+        PrimaryDrawerItem map = new PrimaryDrawerItem().withName("Map")
+                                                       .withIcon(R.drawable.ic_map)
+                                                       .withSelectedTextColorRes(R.color.primary_dark);
+        SecondaryDrawerItem settings = new SecondaryDrawerItem().withName("Settings")
+                                                                .withIcon(R.drawable.ic_settings)
+                                                                .withSelectedTextColorRes(R.color.primary_dark);
+
+        // User profile
+        ProfileDrawerItem userProfile = new ProfileDrawerItem().withName("User_Name")
+                                                               .withTextColorRes(R.color.black);
+        userProfile.withSelectedColorRes(R.color.primary_dark);
+
+        // Account Header
+        AccountHeader accountHeader = new AccountHeaderBuilder()
+                .withActivity(this)
+                .addProfiles(userProfile)
+                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                    @Override
+                    public boolean onProfileChanged(View view,
+                                                    IProfile profile,
+                                                    boolean currentProfile) {
+                        return true;
+                    }
+                })
+                .withTextColorRes(R.color.black)
+                .build();
+
+        // Build drawer
+        mDrawer = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(mToolbar)
+                .withAccountHeader(accountHeader)
+                .addDrawerItems(countdown, announcements, events, contacts, awards,
+                                new DividerDrawerItem(),
+                                settings)
+                .build();
+
+        // Configure item selection listener
+        mDrawer.setOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+            @Override
+            public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                Log.d(TAG, "nav position: " + position);
+
+                // switch 'i' aka position of item
+                switch (position) {
+                    case 0:
+                        updateFragment(countdownFragment);
+                        break;
+                    case 1:
+                        updateFragment(announcementsFragment);
+                        break;
+                    case 2:
+                        updateFragment(scheduleFragment);
+                        break;
+                    case 3:
+                        updateFragment(null);
+                        break;
+                    case 4:
+                        updateFragment(awardsFragment);
+                        break;
+                    default:
+                        return false;
+                }
+
+                mDrawer.closeDrawer();
+                return true;
+            }
+        });
+
+        mDrawer.openDrawer();
+    }
+
+    /**
+     * Updates the main_fragment_container with the given fragment.
+     * @param fragment fragment to replace the main container with
+     */
+    private void updateFragment(Fragment fragment) {
+        if (fragment == null) return; // only used for pre-release while fragments are not finalized
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_container, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     /**
