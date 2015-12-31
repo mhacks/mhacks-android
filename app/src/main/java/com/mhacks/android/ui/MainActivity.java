@@ -4,20 +4,14 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.mhacks.android.data.model.Announcement;
@@ -30,7 +24,6 @@ import com.mhacks.android.ui.nav.AwardsFragment;
 import com.mhacks.android.ui.nav.CountdownFragment;
 import com.mhacks.android.ui.nav.EventDetailsFragment;
 import com.mhacks.android.ui.nav.MapFragment;
-import com.mhacks.android.ui.nav.NavigationDrawerFragment;
 import com.mhacks.android.ui.nav.ScheduleFragment;
 import com.mhacks.android.ui.nav.SponsorsFragment;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -60,8 +53,7 @@ import java.util.List;
 /**
  * Created by Omkar Moghe on 10/22/2014.
  */
-public class MainActivity extends AppCompatActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
 
@@ -77,10 +69,6 @@ public class MainActivity extends AppCompatActivity
 
     // Navigation Drawer
     private Drawer                mDrawer;
-
-    private DrawerLayout          mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
-    private NavigationDrawerFragment mNavigationDrawerFragment;
 
     private boolean mShouldSync = true;
 
@@ -105,21 +93,6 @@ public class MainActivity extends AppCompatActivity
             setSupportActionBar(mToolbar);
         }
 
-        // Get the DrawerLayout to set up the drawer
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        // Set a drawerToggle to link the toolbar with the drawer
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,
-                mDrawerLayout,
-                mToolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        //Creating navigation drawer from fragment.
-        mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
-
         mUser = ParseUser.getCurrentUser();
 
         //Subscribe to Parse push notifications.
@@ -143,7 +116,7 @@ public class MainActivity extends AppCompatActivity
         awardsFragment = new AwardsFragment();
         mapFragment = new MapFragment();
 
-        setDefaultFragment();
+        updateFragment(countdownFragment);
 
         //Push notification intent check.
         checkIntent();
@@ -243,20 +216,21 @@ public class MainActivity extends AppCompatActivity
                 Log.d(TAG, "nav position: " + position);
 
                 // switch 'i' aka position of item
+                // indexing starts at 1 for some reason... probably because of the account header
                 switch (position) {
-                    case 0:
+                    case 1:
                         updateFragment(countdownFragment);
                         break;
-                    case 1:
+                    case 2:
                         updateFragment(announcementsFragment);
                         break;
-                    case 2:
+                    case 3:
                         updateFragment(scheduleFragment);
                         break;
-                    case 3:
+                    case 4:
                         updateFragment(null);
                         break;
-                    case 4:
+                    case 5:
                         updateFragment(awardsFragment);
                         break;
                     default:
@@ -267,8 +241,6 @@ public class MainActivity extends AppCompatActivity
                 return true;
             }
         });
-
-        mDrawer.openDrawer();
     }
 
     /**
@@ -360,97 +332,16 @@ public class MainActivity extends AppCompatActivity
         outState.putLong(TIME_SAVED, new Date().getTime());
     }
 
-    // After this are functions for the Drawer
-    @Override
-    public void onNavigationDrawerItemSelected(int position) {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        switch (position) {
-            case 0:
-                fragmentTransaction.replace(R.id.main_container, countdownFragment)
-                                   .addToBackStack(null).commit();
-                setToolbarTitle("Countdown Timer");
-                break;
-            case 1:
-                fragmentTransaction.replace(R.id.main_container, announcementsFragment)
-                                   .addToBackStack(null).commit();
-                setToolbarTitle("Announcements");
-                break;
-            case 2:
-                fragmentTransaction.replace(R.id.main_container, scheduleFragment)
-                                   .addToBackStack(null).commit();
-                setToolbarTitle("Schedule");
-                break;
-            case 3:
-                fragmentTransaction.replace(R.id.main_container, sponsorsFragment)
-                                   .addToBackStack(null).commit();
-                setToolbarTitle("Sponsors");
-                break;
-//            case 4:
-//                fragmentTransaction.replace(R.id.main_container, awardsFragment)
-//                                   .addToBackStack(null).commit();
-//                setToolbarTitle("Awards");
-//                break;
-            case 4:
-                fragmentTransaction.replace(R.id.main_container, mapFragment)
-                                   .addToBackStack(null).commit();
-                setToolbarTitle("Map");
-        }
-
-        if (mDrawerLayout != null){
-            mDrawerLayout.closeDrawer(findViewById(R.id.navigation_drawer));
-        }
-    }
-
-    public void closeDrawer() {
-        if (mDrawerLayout != null){
-            mDrawerLayout.closeDrawer(findViewById(R.id.navigation_drawer));
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
     @Override
     public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(Gravity.START | Gravity.LEFT)) {
-            mDrawerLayout.closeDrawers();
+        if (mDrawer.isDrawerOpen()) {
+            mDrawer.closeDrawer();
         } else if (getFragmentManager().getBackStackEntryCount() != 0) {
             getFragmentManager().popBackStack();
             if (scheduleFragment.getEventDetailsOpened()) scheduleFragment.setEventDetailsOpened(false);
         } else {
             super.onBackPressed();
         }
-    }
-
-    /**
-     * Sets the default fragment to the CountdownFragment.
-     */
-    public void setDefaultFragment() {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_container, countdownFragment);
-        fragmentTransaction.commit();
-
-        setToolbarTitle("Countdown Timer");
     }
 
     /**
