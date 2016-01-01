@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                                                           .withIcon(R.drawable.ic_award)
                                                           .withSelectedTextColorRes(R.color.primary_dark);
         PrimaryDrawerItem map = new PrimaryDrawerItem().withName("Map")
-                                                       .withIcon(R.drawable.ic_map)
+                                                       .withIcon(R.drawable.ic_location)
                                                        .withSelectedTextColorRes(R.color.primary_dark);
         SecondaryDrawerItem settings = new SecondaryDrawerItem().withName("Settings")
                                                                 .withIcon(R.drawable.ic_settings)

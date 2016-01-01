@@ -2,11 +2,25 @@
 <items version="2" >
 
     <item
+        jar="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\exploded-aar\com.mikepenz\materialdrawer\4.6.3\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="387e4a88def451c34bb636d7969cd1c9033a4b9f">
+        <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\com.mikepenz-materialdrawer-4.6.3_e8afb8ca87ed6eca94d780f6f0da6b7780faa07b.jar" />
+    </item>
+    <item
         jar="C:\Users\Omkar Moghe\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.3.1\ecb6e1f8e4b0e84c4b886c2f14a1500caf309757\gson-2.3.1.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
         <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\gson-2.3.1_45bf344c3bafeb7df522d550f21f2d7046ebde4a.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit\retrofit\2.0.0-beta2\880d9e0997b2d1bfc98e0d121ced33ee5d04aac4\retrofit-2.0.0-beta2.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="880d9e0997b2d1bfc98e0d121ced33ee5d04aac4">
+        <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\retrofit-2.0.0-beta2_519eb5cccee284f4c0866c6f923c24f11cb8b982.jar" />
     </item>
     <item
         jar="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
@@ -28,48 +42,6 @@
         revision="23.0.2"
         sha1="1477ec5caf8319ab4b51eb43553cd66aa86fdea5">
         <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\okhttp-2.7.0_dd75e86660e079f38a6d5f9b3c7a2dd1c15fba48.jar" />
-    </item>
-    <item
-        jar="C:\Users\Omkar Moghe\.gradle\caches\modules-2\files-2.1\com.google.guava\guava\20.0-SNAPSHOT\cba1b9851125dae6066f79e9f9dc4a6b44bbddd1\guava-20.0-SNAPSHOT.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="cba1b9851125dae6066f79e9f9dc4a6b44bbddd1">
-        <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\guava-20.0-SNAPSHOT_82c20f81dc72f65ff25c70d5179d7eda923daaba.jar" />
-    </item>
-    <item
-        jar="C:\Users\Omkar Moghe\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-tasks\1.3.0\8a62fd16fcc1c06f284fc98e6cbded2a5af1dd4c\bolts-tasks-1.3.0.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="8a62fd16fcc1c06f284fc98e6cbded2a5af1dd4c">
-        <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\bolts-tasks-1.3.0_e3b16dcd768d34d42d074447a30575a8cabd886a.jar" />
-    </item>
-    <item
-        jar="C:\Users\Omkar Moghe\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.6.0\98476622f10715998eacf9240d6b479f12c66143\okio-1.6.0.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="98476622f10715998eacf9240d6b479f12c66143">
-        <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\okio-1.6.0_c7e6442c8c38f2495b9b779cdd206447061f827c.jar" />
-    </item>
-    <item
-        jar="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\exploded-aar\com.mikepenz\iconics-core\2.5.3\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="9ef5fb87bb1b632d7843294019eafb00ad443330">
-        <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\com.mikepenz-iconics-core-2.5.3_6f4fcb967275312d1eb939cef366c3c6a8426240.jar" />
-    </item>
-    <item
-        jar="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\exploded-aar\com.mikepenz\materialdrawer\4.6.3\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="387e4a88def451c34bb636d7969cd1c9033a4b9f">
-        <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\com.mikepenz-materialdrawer-4.6.3_e8afb8ca87ed6eca94d780f6f0da6b7780faa07b.jar" />
-    </item>
-    <item
-        jar="C:\Users\Omkar Moghe\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit\retrofit\2.0.0-beta2\880d9e0997b2d1bfc98e0d121ced33ee5d04aac4\retrofit-2.0.0-beta2.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="880d9e0997b2d1bfc98e0d121ced33ee5d04aac4">
-        <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\retrofit-2.0.0-beta2_519eb5cccee284f4c0866c6f923c24f11cb8b982.jar" />
     </item>
     <item
         jar="C:\Users\Omkar Moghe\.gradle\caches\modules-2\files-2.1\com.bugsnag\bugsnag-android\3.2.7\e575f2e140d668cfd0ed08c30626b1e79da16377\bugsnag-android-3.2.7.jar"
@@ -96,7 +68,7 @@
         jar="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\incremental-classes\debug\classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="d9f5a16eec8d2471d2805ba5a62517fc8405258e">
+        sha1="165646e3b646dc6b7873555c9dc94522b2a42e3d">
         <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\classes_4fad7ba5c1fc0a5bc50ed0f165d3be9c58c1922b.jar" />
     </item>
     <item
@@ -107,18 +79,18 @@
         <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\joda-time-2.6_8d0bf70100643ec41bc26e09ea64a105c8718ab2.jar" />
     </item>
     <item
-        jar="C:\Users\Omkar Moghe\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.3.3\1262995965440e28ba5c4d480c9c9ab4ccce84cc\picasso-2.3.3.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="1262995965440e28ba5c4d480c9c9ab4ccce84cc">
-        <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\picasso-2.3.3_ffd1fff2c81c5596d6c4f9a2024533fe2acc0a87.jar" />
-    </item>
-    <item
         jar="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\exploded-aar\com.mikepenz\materialize\0.5.1\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="25e8af11fff99ad02250f52f2436e25f60cc1bbe">
         <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\com.mikepenz-materialize-0.5.1_0075d6153f20577cc7ab07ca8005b5c2f02ad2f0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\.gradle\caches\modules-2\files-2.1\com.google.guava\guava\20.0-SNAPSHOT\cba1b9851125dae6066f79e9f9dc4a6b44bbddd1\guava-20.0-SNAPSHOT.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="cba1b9851125dae6066f79e9f9dc4a6b44bbddd1">
+        <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\guava-20.0-SNAPSHOT_82c20f81dc72f65ff25c70d5179d7eda923daaba.jar" />
     </item>
     <item
         jar="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.1\jars\classes.jar"
@@ -128,11 +100,25 @@
         <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.1.1_8ac25eea88abed327c3f918b1477e55ae3a1bf7b.jar" />
     </item>
     <item
+        jar="C:\Users\Omkar Moghe\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\picasso-2.5.2_1bb053975deb5ab356c25e8a8c40eeb941dbeb41.jar" />
+    </item>
+    <item
         jar="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\exploded-aar\com.google.maps.android\android-maps-utils\0.3.4\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="cf251baf39f5c5138224b67b4106eb6331abbd13">
         <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\com.google.maps.android-android-maps-utils-0.3.4_cc4a84b338d3e4dcd14758b61366a6339a0dad04.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-tasks\1.3.0\8a62fd16fcc1c06f284fc98e6cbded2a5af1dd4c\bolts-tasks-1.3.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8a62fd16fcc1c06f284fc98e6cbded2a5af1dd4c">
+        <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\bolts-tasks-1.3.0_e3b16dcd768d34d42d074447a30575a8cabd886a.jar" />
     </item>
     <item
         jar="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.1.1\jars\classes.jar"
@@ -170,6 +156,13 @@
         <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.1_c639b597cc755d82ed553f9c5bd7a5f32801664e.jar" />
     </item>
     <item
+        jar="C:\Users\Omkar Moghe\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.6.0\98476622f10715998eacf9240d6b479f12c66143\okio-1.6.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="98476622f10715998eacf9240d6b479f12c66143">
+        <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\okio-1.6.0_c7e6442c8c38f2495b9b779cdd206447061f827c.jar" />
+    </item>
+    <item
         jar="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
@@ -182,6 +175,13 @@
         revision="23.0.2"
         sha1="392c3d09e0f5e7087544093cc0cb23bb9c7af5fa">
         <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\converter-gson-2.0.0-beta2_a3313c20f26b30c8f1917ecf7d471d2f014e663b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\exploded-aar\com.mikepenz\iconics-core\2.5.3\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="9ef5fb87bb1b632d7843294019eafb00ad443330">
+        <dex dex="C:\Users\Omkar Moghe\Code\MHacks-Android\app\build\intermediates\pre-dexed\debug\com.mikepenz-iconics-core-2.5.3_6f4fcb967275312d1eb939cef366c3c6a8426240.jar" />
     </item>
 
 </items>

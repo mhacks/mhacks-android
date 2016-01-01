@@ -92,7 +92,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:23.+'
     compile 'com.android.support:recyclerview-v7:+'
     compile 'com.google.guava:guava:+'
-    compile 'com.squareup.picasso:picasso:2.3.3'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.google.maps.android:android-maps-utils:0.3+'
     compile 'com.github.alamkanak:android-week-view:1.1.7'
     compile 'com.tonicartos:stickygridheaders:1.0.1'
