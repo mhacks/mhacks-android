@@ -1,4 +1,4 @@
-package com.mhacks.android.ui.nav;
+package com.mhacks.android.ui.awards;
 
 import android.content.Context;
 import android.view.LayoutInflater;

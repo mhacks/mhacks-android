@@ -1,4 +1,4 @@
-package com.mhacks.android.ui;
+package com.mhacks.android.data.network;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.mhacks.android.ui.MainActivity;
 import com.parse.ParseAnalytics;
 import com.parse.ParsePushBroadcastReceiver;
 

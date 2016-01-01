@@ -19,13 +19,13 @@ import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
 import com.mhacks.android.data_old.model.Event;
-import com.mhacks.android.ui.nav.AnnouncementsFragment;
-import com.mhacks.android.ui.nav.AwardsFragment;
-import com.mhacks.android.ui.nav.CountdownFragment;
-import com.mhacks.android.ui.nav.EventDetailsFragment;
-import com.mhacks.android.ui.nav.MapFragment;
-import com.mhacks.android.ui.nav.ScheduleFragment;
-import com.mhacks.android.ui.nav.SponsorsFragment;
+import com.mhacks.android.ui.announcements.AnnouncementsFragment;
+import com.mhacks.android.ui.awards.AwardsFragment;
+import com.mhacks.android.ui.countdown.CountdownFragment;
+import com.mhacks.android.ui.events.EventDetailsFragment;
+import com.mhacks.android.ui.map.MapFragment;
+import com.mhacks.android.ui.events.ScheduleFragment;
+import com.mhacks.android.ui.sponsors.SponsorsFragment;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -54,7 +54,7 @@ import java.util.List;
  * Created by Omkar Moghe on 10/22/2014.
  */
 public class MainActivity extends AppCompatActivity {
-
+    // TODO: REMOVE ALL PARSE STUFF AND MOVE TO NEW BACKEND / GCM
     public static final String TAG = "MainActivity";
 
     public static final String SHOULD_SYNC = "sync";
@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withToolbar(mToolbar)
                 .withAccountHeader(accountHeader)
-                .addDrawerItems(countdown, announcements, events, contacts, awards,
+                .addDrawerItems(countdown, announcements, events, contacts, awards, map,
                                 new DividerDrawerItem(),
                                 settings)
                 .build();
@@ -228,10 +228,13 @@ public class MainActivity extends AppCompatActivity {
                         updateFragment(scheduleFragment);
                         break;
                     case 4:
-                        updateFragment(null);
+                        updateFragment(sponsorsFragment);
                         break;
                     case 5:
                         updateFragment(awardsFragment);
+                        break;
+                    case 6:
+                        updateFragment(mapFragment);
                         break;
                     default:
                         return false;

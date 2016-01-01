@@ -1,4 +1,4 @@
-package com.mhacks.android.ui.nav;
+package com.mhacks.android.ui.countdown;
 
 import android.app.Fragment;
 import android.content.res.Resources;

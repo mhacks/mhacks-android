@@ -1,4 +1,4 @@
-package com.mhacks.android.ui.nav;
+package com.mhacks.android.ui.events;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -13,7 +13,7 @@ import com.alamkanak.weekview.WeekViewEvent;
 import com.mhacks.android.data_old.model.Event;
 import com.mhacks.android.data_old.model.Location;
 import com.mhacks.android.ui.MainActivity;
-import com.mhacks.android.ui.weekview.WeekViewModified;
+
 import org.mhacks.android.R;
 import com.parse.*;
 

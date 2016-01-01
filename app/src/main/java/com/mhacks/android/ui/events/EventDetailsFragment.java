@@ -1,4 +1,4 @@
-package com.mhacks.android.ui.nav;
+package com.mhacks.android.ui.events;
 
 import android.app.Fragment;
 import android.os.Bundle;

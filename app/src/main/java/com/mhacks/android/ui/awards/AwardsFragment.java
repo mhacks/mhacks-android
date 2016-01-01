@@ -1,4 +1,4 @@
-package com.mhacks.android.ui.nav;
+package com.mhacks.android.ui.awards;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -17,6 +17,7 @@ import com.mhacks.android.data_old.model.Award;
 import com.mhacks.android.data_old.model.Sponsor;
 import com.mhacks.android.ui.MainActivity;
 import org.mhacks.android.R;
+
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -34,9 +35,9 @@ public class AwardsFragment extends Fragment {
     public static final String TAG = "AwardsFragment";
     public static final String AWARD_PIN = "awardPin";
 
-    private View mAwardsFragView;
-    private List<Award> mAwardList;
-    private CustomGrid mAdapter;
+    private View              mAwardsFragView;
+    private List<Award>       mAwardList;
+    private CustomGrid        mAdapter;
     private ParseQuery<Award> currentQuery;
 
     @Nullable

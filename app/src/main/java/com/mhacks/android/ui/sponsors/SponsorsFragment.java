@@ -1,4 +1,4 @@
-package com.mhacks.android.ui.nav;
+package com.mhacks.android.ui.sponsors;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

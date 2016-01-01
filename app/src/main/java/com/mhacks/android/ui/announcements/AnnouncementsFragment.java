@@ -1,4 +1,4 @@
-package com.mhacks.android.ui.nav;
+package com.mhacks.android.ui.announcements;
 
 import android.app.Fragment;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.mhacks.android.ui.weekview;
+package com.mhacks.android.ui.events;
 
 import android.content.Context;
 import android.content.res.TypedArray;

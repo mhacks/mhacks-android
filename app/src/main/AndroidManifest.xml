@@ -66,7 +66,7 @@
                 <category android:name="org.mhacks.android"/>
             </intent-filter>
         </receiver>
-        <receiver android:name="com.mhacks.android.ui.PushHandler" android:exported="false">
+        <receiver android:name="com.mhacks.android.data.network.PushHandler" android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
                 <action android:name="com.parse.push.intent.DELETE" />
