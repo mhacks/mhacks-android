@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.*;
 import android.widget.LinearLayout;
@@ -288,7 +289,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
                          .add(R.id.drawer_layout, eventDetailsFragment)
                     .commit();
             //Hide the toolbar so the event details are full screen.
-            ((ActionBarActivity) getActivity()).getSupportActionBar().hide();
+            ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
             //Prevents other events from being clicked while one event's details are being shown.
             setEventDetailsOpened(true);
         }

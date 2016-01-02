@@ -62,10 +62,11 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int OVERLAY_FADE_DURATION = 400;
 
-    private ParseUser mUser;
-
     // Toolbar
     private Toolbar mToolbar;
+
+    // CurrentUser
+    private User mUser;
 
     // Navigation Drawer
     private Drawer                mDrawer;
@@ -92,8 +93,6 @@ public class MainActivity extends AppCompatActivity {
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
         }
-
-        mUser = ParseUser.getCurrentUser();
 
         //Subscribe to Parse push notifications.
         ParsePush.subscribeInBackground("", new SaveCallback() {
@@ -127,6 +126,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void success(User response) {
                 Log.d(TAG, "log in successful");
+                mUser = response;
+                buildNavigationDrawer();
 
                 networkManager.getAnnouncements(new HackathonCallback<List<Announcement>>() {
                     @Override
@@ -147,8 +148,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "dishonor whole family");
             }
         });
-
-        buildNavigationDrawer();
     }
 
     /**
@@ -159,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         // Drawer items
         PrimaryDrawerItem countdown = new PrimaryDrawerItem().withName("Countdown")
                                                              .withIcon(R.drawable.ic_time)
-                                                             .withSelectedColorRes(R.color.primary_dark);
+                                                             .withSelectedTextColorRes(R.color.primary_dark);
         PrimaryDrawerItem announcements = new PrimaryDrawerItem().withName("Announcements")
                                                                  .withIcon(R.drawable.ic_announcement)
                                                                  .withSelectedTextColorRes(R.color.primary_dark);
@@ -180,7 +179,8 @@ public class MainActivity extends AppCompatActivity {
                                                                 .withSelectedTextColorRes(R.color.primary_dark);
 
         // User profile
-        ProfileDrawerItem userProfile = new ProfileDrawerItem().withName("User_Name")
+        String userName = (mUser != null) ? mUser.firstName + " " + mUser.lastName : "User_Name";
+        ProfileDrawerItem userProfile = new ProfileDrawerItem().withName(userName)
                                                                .withTextColorRes(R.color.black);
         userProfile.withSelectedColorRes(R.color.primary_dark);
 
