@@ -23,7 +23,7 @@ import retrofit.Response;
 public class NetworkManager {
 
     private static final String TAG      = "NetworkManager";
-    private static final String BASE_URL = "http://testonehack.herokuapp.com/v1/"; // TODO: figure out a better way to build this string.
+    private static final String BASE_URL = "http://ec2-52-5-127-162.compute-1.amazonaws.com/v1/"; // TODO: figure out a better way to build this string.
 
     private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
@@ -288,7 +288,7 @@ public class NetworkManager {
     }
 
     public void updateEvent(Event event, final HackathonCallback<Event> callback) {
-        networkService.updateEvent(apiToken, event.id, event)
+        networkService.updateEvent(apiToken, event)
                       .enqueue(new Callback<Event>() {
                           @Override
                           public void onResponse(Response<Event> response, Retrofit retrofit) {

@@ -21,7 +21,7 @@ import retrofit.http.Path;
  *       See com.mhacks.android.data.network.NetworkManager.BASE_URL for path.
  */
 public interface HackathonNetworkService {
-    // USER
+    // USER TODO: update paths
     @GET("users/me")
     Call<User> getCurrentUser(@Header("Authorization") String token);
 
@@ -35,7 +35,7 @@ public interface HackathonNetworkService {
     Call<GenericResponse> logUserOut();
 
     // HACKATHONS
-    // deprecated as of MHacks Refactor W16
+    // deprecated as of MHacks: Refactor W16
     @GET("hackathons")
     Call<List<Hackathon>> getHackathons(@Header("Authorization") String token);
 
@@ -51,45 +51,47 @@ public interface HackathonNetworkService {
                                     @Body Hackathon hackathon);
 
     // ANNOUNCEMENTS
-    @GET("announcements")
+    @GET("announcements/index")
     Call<List<Announcement>> getAnnouncements();
 
-    @GET("announcements/{announcement_id}")
+    @GET("announcements/show/{announcement_id}")
     Call<Announcement> getAnnouncement(@Path("announcement_id") int announcement_id);
 
-    @POST("announcements")
+    @POST("announcements/create")
     Call<Announcement> createAnnouncement(@Header("Authorization") String token,
                                           @Body Announcement announcement);
 
-    @DELETE("announcements/{announcement_id}")
+    @PUT("announcements/update")
+    Call<Announcement> updateAnnouncement(@Body Announcement announcement);
+
+    @DELETE("announcements/destroy/{announcement_id}")
     Call<GenericResponse> deleteAnnouncement(@Header("Authorization") String token,
                                              @Path("announcement_id") int announcement_id);
 
     // EVENTS
-    @GET("events")
+    @GET("events/index")
     Call<List<Event>> getEvents();
 
-    @GET("events/{event_id}")
+    @GET("events/show/{event_id}")
     Call<Event> getEvent(@Path("event_id") int event_id);
 
-    @POST("events")
+    @POST("events/create")
     Call<Event> createEvent(@Header("Authorization") String token,
                             @Body Event event);
 
-    @PUT("events/{event_id}")
+    @PUT("events/update")
     Call<Event> updateEvent(@Header("Authorization") String token,
-                            @Path("event_id") int event_id,
                             @Body Event event);
 
-    @DELETE("events/{event_id}")
+    @DELETE("events/destroy/{event_id}")
     Call<GenericResponse> deleteEvent(@Header("Authorization") String token,
                                       @Path("event_id") int event_id);
 
     // LOCATIONS
-    @GET("locations")
+    @GET("locations/index")
     Call<List<Location>> getLocations();
 
-    @POST("locations")
+    @POST("locations/create")
     Call<Location> createLocation(@Header("Authorization") String token,
                                   @Body Location location);
 
@@ -108,10 +110,10 @@ public interface HackathonNetworkService {
                                       @Body HackerRole hackerRole);
 
     // AWARDS
-    @GET("awards")
+    @GET("awards/index")
     Call<List<Award>> getAwards();
 
-    @POST("awards")
+    @POST("awards/create")
     Call<Award> createAward(@Header("Authorization") String token,
                             @Body Award award);
 }
