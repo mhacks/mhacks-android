@@ -30,7 +30,6 @@ public class NetworkManager {
     private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     private HackathonNetworkService networkService;
-    private String                  apiToken;
     private Token                   mToken;
     private User                    currentUser;
 
@@ -96,23 +95,7 @@ public class NetworkManager {
                       .enqueue(new Callback<ModelObject>() {
                           @Override
                           public void onResponse(Response<ModelObject> response, Retrofit retrofit) {
-                              apiToken = response.body().token;
 
-                              // Now that we have the token, go get the user
-                              networkService.getCurrentUser(apiToken)
-                                            .enqueue(new Callback<User>() {
-                                                @Override
-                                                public void onResponse(Response<User> response, Retrofit retrofit) {
-                                                    Log.d(TAG, "Successfully signed the user up");
-                                                    callback.success(response.body());
-                                                }
-
-                                                @Override
-                                                public void onFailure(Throwable t) {
-                                                    Log.d(TAG, "Couldn't get the current user after signing up");
-                                                    callback.failure(t);
-                                                }
-                                            });
                           }
 
                           @Override
@@ -192,7 +175,12 @@ public class NetworkManager {
     }
 
     public void createAnnouncement(Announcement announcement, final HackathonCallback<Announcement> callback) {
-        networkService.createAnnouncement(apiToken, announcement)
+        networkService.createAnnouncement(mToken.getAccess_token(),
+                                          mToken.getClient(),
+                                          mToken.getExpiry(),
+                                          mToken.getToken_type(),
+                                          mToken.getUid(),
+                                          announcement)
                       .enqueue(new Callback<Announcement>() {
                           @Override
                           public void onResponse(Response<Announcement> response, Retrofit retrofit) {
@@ -211,7 +199,13 @@ public class NetworkManager {
     }
 
     public void updateAnnouncement(Announcement announcement, final HackathonCallback<Announcement> callback) {
-        networkService.updateAnnouncement(announcement.getId(), announcement)
+        networkService.updateAnnouncement(mToken.getAccess_token(),
+                                          mToken.getClient(),
+                                          mToken.getExpiry(),
+                                          mToken.getToken_type(),
+                                          mToken.getUid(),
+                                          announcement.getId(),
+                                          announcement)
                       .enqueue(new Callback<Announcement>() {
                           @Override
                           public void onResponse(Response<Announcement> response,
@@ -231,7 +225,12 @@ public class NetworkManager {
     }
 
     public void deleteAnnouncement(Announcement announcement, final HackathonCallback<GenericResponse> callback) {
-        networkService.deleteAnnouncement(apiToken, announcement.id)
+        networkService.deleteAnnouncement(mToken.getAccess_token(),
+                                          mToken.getClient(),
+                                          mToken.getExpiry(),
+                                          mToken.getToken_type(),
+                                          mToken.getUid(),
+                                          announcement.id)
                       .enqueue(new Callback<GenericResponse>() {
                           @Override
                           public void onResponse(Response<GenericResponse> response, Retrofit retrofit) {
@@ -297,7 +296,12 @@ public class NetworkManager {
     }
 
     public void createEvent(Event event, final HackathonCallback<Event> callback) {
-        networkService.createEvent(apiToken, event)
+        networkService.createEvent(mToken.getAccess_token(),
+                                   mToken.getClient(),
+                                   mToken.getExpiry(),
+                                   mToken.getToken_type(),
+                                   mToken.getUid(),
+                                   event)
                       .enqueue(new Callback<Event>() {
                           @Override
                           public void onResponse(Response<Event> response, Retrofit retrofit) {
@@ -316,7 +320,13 @@ public class NetworkManager {
     }
 
     public void updateEvent(Event event, final HackathonCallback<Event> callback) {
-        networkService.updateEvent(event.getId(), apiToken, event)
+        networkService.updateEvent(mToken.getAccess_token(),
+                                   mToken.getClient(),
+                                   mToken.getExpiry(),
+                                   mToken.getToken_type(),
+                                   mToken.getUid(),
+                                   event.getId(),
+                                   event)
                       .enqueue(new Callback<Event>() {
                           @Override
                           public void onResponse(Response<Event> response, Retrofit retrofit) {
@@ -335,7 +345,12 @@ public class NetworkManager {
     }
 
     public void deleteEvent(Event event, final HackathonCallback<GenericResponse> callback) {
-        networkService.deleteEvent(apiToken, event.id)
+        networkService.deleteEvent(mToken.getAccess_token(),
+                                   mToken.getClient(),
+                                   mToken.getExpiry(),
+                                   mToken.getToken_type(),
+                                   mToken.getUid(),
+                                   event.id)
                       .enqueue(new Callback<GenericResponse>() {
                           @Override
                           public void onResponse(Response<GenericResponse> response, Retrofit retrofit) {
@@ -373,7 +388,12 @@ public class NetworkManager {
     }
 
     public void createLocation(Location location, final HackathonCallback<Location> callback) {
-        networkService.createLocation(apiToken, location)
+        networkService.createLocation(mToken.getAccess_token(),
+                                      mToken.getClient(),
+                                      mToken.getExpiry(),
+                                      mToken.getToken_type(),
+                                      mToken.getUid(),
+                                      location)
                       .enqueue(new Callback<Location>() {
                           @Override
                           public void onResponse(Response<Location> response, Retrofit retrofit) {
@@ -392,7 +412,7 @@ public class NetworkManager {
     }
 
     public void getContacts(final HackathonCallback<List<User>> callback) {
-        networkService.getContacts(apiToken)
+        networkService.getContacts()
                       .enqueue(new Callback<List<User>>() {
                           @Override
                           public void onResponse(Response<List<User>> response, Retrofit retrofit) {
@@ -411,7 +431,7 @@ public class NetworkManager {
     }
 
     public void createHackerRole(HackerRole hackerRole, final HackathonCallback<HackerRole> callback) {
-        networkService.createHackerRole(apiToken, hackerRole)
+        networkService.createHackerRole(hackerRole)
                       .enqueue(new Callback<HackerRole>() {
                           @Override
                           public void onResponse(Response<HackerRole> response, Retrofit retrofit) {
@@ -430,7 +450,7 @@ public class NetworkManager {
     }
 
     public void updateHackerRole(HackerRole hackerRole, final HackathonCallback<HackerRole> callback) {
-        networkService.updateHackerRole(apiToken, hackerRole.id, hackerRole)
+        networkService.updateHackerRole(hackerRole.id, hackerRole)
                       .enqueue(new Callback<HackerRole>() {
                           @Override
                           public void onResponse(Response<HackerRole> response, Retrofit retrofit) {
@@ -468,7 +488,12 @@ public class NetworkManager {
     }
 
     public void createAward(Award award, final HackathonCallback<Award> callback) {
-        networkService.createAward(apiToken, award)
+        networkService.createAward(mToken.getAccess_token(),
+                                   mToken.getClient(),
+                                   mToken.getExpiry(),
+                                   mToken.getToken_type(),
+                                   mToken.getUid(),
+                                   award)
                       .enqueue(new Callback<Award>() {
                           @Override
                           public void onResponse(Response<Award> response, Retrofit retrofit) {

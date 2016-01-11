@@ -2,6 +2,7 @@ package com.mhacks.android.data.network;
 
 import com.mhacks.android.data.model.*;
 
+import java.util.Date;
 import java.util.List;
 
 import retrofit.Call;
@@ -9,6 +10,7 @@ import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.Headers;
 import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Path;
@@ -23,7 +25,7 @@ import retrofit.http.Path;
 public interface HackathonNetworkService {
     // USER TODO: update paths
     @GET("users/me")
-    Call<User> getCurrentUser(@Header("Authorization") String token);
+    Call<User> getCurrentUser();
 
     @POST("users/")
     Call<ModelObject> signUserUp(@Body User user);
@@ -37,18 +39,16 @@ public interface HackathonNetworkService {
     // HACKATHONS
     // deprecated as of MHacks: Refactor W16
     @GET("hackathons")
-    Call<List<Hackathon>> getHackathons(@Header("Authorization") String token);
+    Call<List<Hackathon>> getHackathons();
 
     @GET("hackathons/attending")
-    Call<List<Hackathon>> getAttendingHackathons(@Header("Authorization") String token);
+    Call<List<Hackathon>> getAttendingHackathons();
 
     @GET("hackathons/{hackathon_id}")
-    Call<Hackathon> getHackathon(@Header("Authorization") String token,
-                                 @Path("hackathon_id") int hackathon_id);
+    Call<Hackathon> getHackathon(@Path("hackathon_id") int hackathon_id);
 
     @POST("hackathons")
-    Call<Hackathon> createHackathon(@Header("Authorization") String token,
-                                    @Body Hackathon hackathon);
+    Call<Hackathon> createHackathon(@Body Hackathon hackathon);
 
     // ANNOUNCEMENTS
     @GET("announcements")
@@ -58,15 +58,28 @@ public interface HackathonNetworkService {
     Call<Announcement> getAnnouncement(@Path("announcement_id") int announcement_id);
 
     @POST("announcements")
-    Call<Announcement> createAnnouncement(@Header("Authorization") String token,
+    Call<Announcement> createAnnouncement(@Header("access-token") String accessToken,
+                                          @Header("client") String client,
+                                          @Header("expiry") Date expiry,
+                                          @Header("token-type") String tokenType,
+                                          @Header("uid") String uid,
                                           @Body Announcement announcement);
 
     @PUT("announcements/{announcement_id}")
-    Call<Announcement> updateAnnouncement(@Path("announcement_id") int announcement_id,
+    Call<Announcement> updateAnnouncement(@Header("access-token") String accessToken,
+                                          @Header("client") String client,
+                                          @Header("expiry") Date expiry,
+                                          @Header("token-type") String tokenType,
+                                          @Header("uid") String uid,
+                                          @Path("announcement_id") int announcement_id,
                                           @Body Announcement announcement);
 
     @DELETE("announcements/{announcement_id}")
-    Call<GenericResponse> deleteAnnouncement(@Header("Authorization") String token,
+    Call<GenericResponse> deleteAnnouncement(@Header("access-token") String accessToken,
+                                             @Header("client") String client,
+                                             @Header("expiry") Date expiry,
+                                             @Header("token-type") String tokenType,
+                                             @Header("uid") String uid,
                                              @Path("announcement_id") int announcement_id);
 
     // EVENTS
@@ -77,16 +90,28 @@ public interface HackathonNetworkService {
     Call<Event> getEvent(@Path("event_id") int event_id);
 
     @POST("events")
-    Call<Event> createEvent(@Header("Authorization") String token,
+    Call<Event> createEvent(@Header("access-token") String accessToken,
+                            @Header("client") String client,
+                            @Header("expiry") Date expiry,
+                            @Header("token-type") String tokenType,
+                            @Header("uid") String uid,
                             @Body Event event);
 
     @PUT("events/{event_id}")
-    Call<Event> updateEvent(@Path("event_id") int event_id,
-                            @Header("Authorization") String token,
+    Call<Event> updateEvent(@Header("access-token") String accessToken,
+                            @Header("client") String client,
+                            @Header("expiry") Date expiry,
+                            @Header("token-type") String tokenType,
+                            @Header("uid") String uid,
+                            @Path("event_id") int event_id,
                             @Body Event event);
 
     @DELETE("events/{event_id}")
-    Call<GenericResponse> deleteEvent(@Header("Authorization") String token,
+    Call<GenericResponse> deleteEvent(@Header("access-token") String accessToken,
+                                      @Header("client") String client,
+                                      @Header("expiry") Date expiry,
+                                      @Header("token-type") String tokenType,
+                                      @Header("uid") String uid,
                                       @Path("event_id") int event_id);
 
     // LOCATIONS
@@ -94,21 +119,23 @@ public interface HackathonNetworkService {
     Call<List<Location>> getLocations();
 
     @POST("locations")
-    Call<Location> createLocation(@Header("Authorization") String token,
+    Call<Location> createLocation(@Header("access-token") String accessToken,
+                                  @Header("client") String client,
+                                  @Header("expiry") Date expiry,
+                                  @Header("token-type") String tokenType,
+                                  @Header("uid") String uid,
                                   @Body Location location);
 
     // CONTACTS
     @GET("contacts")
-    Call<List<User>> getContacts(@Header("Authorization") String token);
+    Call<List<User>> getContacts();
 
     // ROLES
     @POST("hacker_roles")
-    Call<HackerRole> createHackerRole(@Header("Authorization") String token,
-                                      @Body HackerRole hackerRole);
+    Call<HackerRole> createHackerRole(@Body HackerRole hackerRole);
 
     @PUT("hacker_roles/{hacker_role_id}")
-    Call<HackerRole> updateHackerRole(@Header("Authorization") String token,
-                                      @Path("hacker_role_id") int hacker_role_id,
+    Call<HackerRole> updateHackerRole(@Path("hacker_role_id") int hacker_role_id,
                                       @Body HackerRole hackerRole);
 
     // AWARDS
@@ -116,6 +143,10 @@ public interface HackathonNetworkService {
     Call<List<Award>> getAwards();
 
     @POST("awards")
-    Call<Award> createAward(@Header("Authorization") String token,
+    Call<Award> createAward(@Header("access-token") String accessToken,
+                            @Header("client") String client,
+                            @Header("expiry") Date expiry,
+                            @Header("token-type") String tokenType,
+                            @Header("uid") String uid,
                             @Body Award award);
 }
