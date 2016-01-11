@@ -28,8 +28,8 @@ public interface HackathonNetworkService {
     @POST("users/")
     Call<ModelObject> signUserUp(@Body User user);
 
-    @POST("sessions")
-    Call<ModelObject> logUserIn(@Body LoginParams loginParams);
+    @POST("auth/sign_in")
+    Call<User> logUserIn(@Body LoginParams loginParams);
 
     @DELETE("sessions")
     Call<GenericResponse> logUserOut();
@@ -51,47 +51,49 @@ public interface HackathonNetworkService {
                                     @Body Hackathon hackathon);
 
     // ANNOUNCEMENTS
-    @GET("announcements/index")
+    @GET("announcements")
     Call<List<Announcement>> getAnnouncements();
 
-    @GET("announcements/show/{announcement_id}")
+    @GET("announcements/{announcement_id}")
     Call<Announcement> getAnnouncement(@Path("announcement_id") int announcement_id);
 
-    @POST("announcements/create")
+    @POST("announcements")
     Call<Announcement> createAnnouncement(@Header("Authorization") String token,
                                           @Body Announcement announcement);
 
-    @PUT("announcements/update")
-    Call<Announcement> updateAnnouncement(@Body Announcement announcement);
+    @PUT("announcements/{announcement_id}")
+    Call<Announcement> updateAnnouncement(@Path("announcement_id") int announcement_id,
+                                          @Body Announcement announcement);
 
-    @DELETE("announcements/destroy/{announcement_id}")
+    @DELETE("announcements/{announcement_id}")
     Call<GenericResponse> deleteAnnouncement(@Header("Authorization") String token,
                                              @Path("announcement_id") int announcement_id);
 
     // EVENTS
-    @GET("events/index")
+    @GET("events")
     Call<List<Event>> getEvents();
 
-    @GET("events/show/{event_id}")
+    @GET("events/{event_id}")
     Call<Event> getEvent(@Path("event_id") int event_id);
 
-    @POST("events/create")
+    @POST("events")
     Call<Event> createEvent(@Header("Authorization") String token,
                             @Body Event event);
 
-    @PUT("events/update")
-    Call<Event> updateEvent(@Header("Authorization") String token,
+    @PUT("events/{event_id}")
+    Call<Event> updateEvent(@Path("event_id") int event_id,
+                            @Header("Authorization") String token,
                             @Body Event event);
 
-    @DELETE("events/destroy/{event_id}")
+    @DELETE("events/{event_id}")
     Call<GenericResponse> deleteEvent(@Header("Authorization") String token,
                                       @Path("event_id") int event_id);
 
     // LOCATIONS
-    @GET("locations/index")
+    @GET("locations")
     Call<List<Location>> getLocations();
 
-    @POST("locations/create")
+    @POST("locations")
     Call<Location> createLocation(@Header("Authorization") String token,
                                   @Body Location location);
 
@@ -110,10 +112,10 @@ public interface HackathonNetworkService {
                                       @Body HackerRole hackerRole);
 
     // AWARDS
-    @GET("awards/index")
+    @GET("awards")
     Call<List<Award>> getAwards();
 
-    @POST("awards/create")
+    @POST("awards")
     Call<Award> createAward(@Header("Authorization") String token,
                             @Body Award award);
 }

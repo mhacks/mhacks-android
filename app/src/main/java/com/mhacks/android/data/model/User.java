@@ -12,6 +12,7 @@ public class User extends ModelObject {
     public String company;
     public String twitter;
     public boolean admin;
+    public int roles;
 
     public User() {
     }
@@ -78,5 +79,13 @@ public class User extends ModelObject {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    public int getRoles() {
+        return roles;
+    }
+
+    public void setRoles(int roles) {
+        this.roles = roles;
     }
 }

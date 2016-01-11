@@ -2,6 +2,7 @@ package com.mhacks.android.data.network;
 
 import android.util.Log;
 
+import com.mhacks.android.data.auth.Token;
 import com.mhacks.android.data.model.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -29,6 +30,7 @@ public class NetworkManager {
 
     private HackathonNetworkService networkService;
     private String                  apiToken;
+    private Token                   mToken;
     private User                    currentUser;
 
     private static NetworkManager instance;
@@ -56,28 +58,20 @@ public class NetworkManager {
 
     public void logUserIn(String email, String password, final HackathonCallback<User> callback) {
         networkService.logUserIn(new LoginParams(email, password, getGcmToken()))
-                      .enqueue(new Callback<ModelObject>() {
+                      .enqueue(new Callback<User>() {
                           @Override
-                          public void onResponse(Response<ModelObject> response,
+                          public void onResponse(Response<User> response,
                                                  Retrofit retrofit) {
                               // Get api token from response
-                              apiToken = response.body().getToken();
+                              mToken = new Token();
+                              mToken.setAccess_token(response.headers().get("access-token"));
+                              mToken.setClient(response.headers().get("client"));
+                              mToken.setExpiry(response.headers().getDate("expiry"));
+                              mToken.setToken_type(response.headers().get("token-type"));
+                              mToken.setUid(response.headers().get("uid"));
 
-                              // Now that we have the token, go get the user
-                              networkService.getCurrentUser(apiToken)
-                                            .enqueue(new Callback<User>() {
-                                                @Override
-                                                public void onResponse(Response<User> response, Retrofit retrofit) {
-                                                    currentUser = response.body();
-                                                    callback.success(response.body());
-                                                }
-
-                                                @Override
-                                                public void onFailure(Throwable t) {
-                                                    Log.d(TAG, "Couldn't get the current user when logging in");
-                                                    callback.failure(t);
-                                                }
-                                            });
+                              currentUser = response.body();
+                              callback.success(response.body());
                           }
 
                           @Override
@@ -198,7 +192,25 @@ public class NetworkManager {
                       .enqueue(new Callback<Announcement>() {
                           @Override
                           public void onResponse(Response<Announcement> response, Retrofit retrofit) {
-                              Log.d(TAG, "Succcessfully created the announcement");
+                              Log.d(TAG, "Successfully created the announcement");
+                              callback.success(response.body());
+                          }
+
+                          @Override
+                          public void onFailure(Throwable t) {
+                              Log.d(TAG, "Couldn't create the announcement");
+                              callback.failure(t);
+                          }
+                      });
+    }
+
+    public void updateAnnouncement(Announcement announcement, final HackathonCallback<Announcement> callback) {
+        networkService.updateAnnouncement(announcement.getId(), announcement)
+                      .enqueue(new Callback<Announcement>() {
+                          @Override
+                          public void onResponse(Response<Announcement> response,
+                                                 Retrofit retrofit) {
+                              Log.d(TAG, "Successfully updated the announcement");
                               callback.success(response.body());
                           }
 
@@ -288,7 +300,7 @@ public class NetworkManager {
     }
 
     public void updateEvent(Event event, final HackathonCallback<Event> callback) {
-        networkService.updateEvent(apiToken, event)
+        networkService.updateEvent(event.getId(), apiToken, event)
                       .enqueue(new Callback<Event>() {
                           @Override
                           public void onResponse(Response<Event> response, Retrofit retrofit) {
