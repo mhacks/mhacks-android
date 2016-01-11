@@ -6,6 +6,7 @@ import com.mhacks.android.data.auth.Token;
 import com.mhacks.android.data.model.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.okhttp.Headers;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -144,6 +145,7 @@ public class NetworkManager {
                       .enqueue(new Callback<List<Announcement>>() {
                           @Override
                           public void onResponse(Response<List<Announcement>> response, Retrofit retrofit) {
+                              updateToken(response.headers());
 
                               Log.d(TAG,
                                     "Successfully got " + response.body().size() +
@@ -175,6 +177,8 @@ public class NetworkManager {
                       .enqueue(new Callback<Announcement>() {
                           @Override
                           public void onResponse(Response<Announcement> response, Retrofit retrofit) {
+                              updateToken(response.headers());
+
                               Log.d(TAG, "Successfully got the announcement");
                               callback.success(response.body());
                           }
@@ -192,6 +196,8 @@ public class NetworkManager {
                       .enqueue(new Callback<Announcement>() {
                           @Override
                           public void onResponse(Response<Announcement> response, Retrofit retrofit) {
+                              updateToken(response.headers());
+
                               Log.d(TAG, "Successfully created the announcement");
                               callback.success(response.body());
                           }
@@ -210,6 +216,8 @@ public class NetworkManager {
                           @Override
                           public void onResponse(Response<Announcement> response,
                                                  Retrofit retrofit) {
+                              updateToken(response.headers());
+
                               Log.d(TAG, "Successfully updated the announcement");
                               callback.success(response.body());
                           }
@@ -227,6 +235,8 @@ public class NetworkManager {
                       .enqueue(new Callback<GenericResponse>() {
                           @Override
                           public void onResponse(Response<GenericResponse> response, Retrofit retrofit) {
+                              updateToken(response.headers());
+
                               Log.d(TAG, "Successfully deleted the announcement");
                               callback.success(response.body());
                           }
@@ -244,6 +254,8 @@ public class NetworkManager {
                       .enqueue(new Callback<List<Event>>() {
                           @Override
                           public void onResponse(Response<List<Event>> response, Retrofit retrofit) {
+                              updateToken(response.headers());
+
                               Log.d(TAG, "Successfully got " + response.body().size() + " events");
 
                               // Sorts chronologically
@@ -270,6 +282,8 @@ public class NetworkManager {
                       .enqueue(new Callback<Event>() {
                           @Override
                           public void onResponse(Response<Event> response, Retrofit retrofit) {
+                              updateToken(response.headers());
+
                               Log.d(TAG, "Successfully got the event");
                               callback.success(response.body());
                           }
@@ -287,6 +301,8 @@ public class NetworkManager {
                       .enqueue(new Callback<Event>() {
                           @Override
                           public void onResponse(Response<Event> response, Retrofit retrofit) {
+                              updateToken(response.headers());
+
                               Log.d(TAG, "Successfully created the event");
                               callback.success(response.body());
                           }
@@ -304,6 +320,8 @@ public class NetworkManager {
                       .enqueue(new Callback<Event>() {
                           @Override
                           public void onResponse(Response<Event> response, Retrofit retrofit) {
+                              updateToken(response.headers());
+
                               Log.d(TAG, "Successfully updated the event");
                               callback.success(response.body());
                           }
@@ -321,6 +339,8 @@ public class NetworkManager {
                       .enqueue(new Callback<GenericResponse>() {
                           @Override
                           public void onResponse(Response<GenericResponse> response, Retrofit retrofit) {
+                              updateToken(response.headers());
+
                               Log.d(TAG, "Successfully deleted the event");
                               callback.success(response.body());
                           }
@@ -338,6 +358,8 @@ public class NetworkManager {
                       .enqueue(new Callback<List<Location>>() {
                           @Override
                           public void onResponse(Response<List<Location>> response, Retrofit retrofit) {
+                              updateToken(response.headers());
+
                               Log.d(TAG, "Successfully got " + response.body().size() + " locations");
                               callback.success(response.body());
                           }
@@ -355,6 +377,8 @@ public class NetworkManager {
                       .enqueue(new Callback<Location>() {
                           @Override
                           public void onResponse(Response<Location> response, Retrofit retrofit) {
+                              updateToken(response.headers());
+
                               Log.d(TAG, "Successfully created the location");
                               callback.success(response.body());
                           }
@@ -372,6 +396,8 @@ public class NetworkManager {
                       .enqueue(new Callback<List<User>>() {
                           @Override
                           public void onResponse(Response<List<User>> response, Retrofit retrofit) {
+                              updateToken(response.headers());
+
                               Log.d(TAG, "Successfully got " + response.body().size() + " contacts");
                               callback.success(response.body());
                           }
@@ -389,6 +415,8 @@ public class NetworkManager {
                       .enqueue(new Callback<HackerRole>() {
                           @Override
                           public void onResponse(Response<HackerRole> response, Retrofit retrofit) {
+                              updateToken(response.headers());
+
                               Log.d(TAG, "Successfully created the hacker role");
                               callback.success(response.body());
                           }
@@ -406,6 +434,8 @@ public class NetworkManager {
                       .enqueue(new Callback<HackerRole>() {
                           @Override
                           public void onResponse(Response<HackerRole> response, Retrofit retrofit) {
+                              updateToken(response.headers());
+
                               Log.d(TAG, "Successfully updated the hacker role");
                               callback.success(response.body());
                           }
@@ -423,6 +453,8 @@ public class NetworkManager {
                       .enqueue(new Callback<List<Award>>() {
                           @Override
                           public void onResponse(Response<List<Award>> response, Retrofit retrofit) {
+                              updateToken(response.headers());
+
                               Log.d(TAG, "Successfully got " + response.body().size() + " awards");
                               callback.success(response.body());
                           }
@@ -440,6 +472,8 @@ public class NetworkManager {
                       .enqueue(new Callback<Award>() {
                           @Override
                           public void onResponse(Response<Award> response, Retrofit retrofit) {
+                              updateToken(response.headers());
+
                               Log.d(TAG, "Successfully created the award");
                               callback.success(response.body());
                           }
@@ -450,6 +484,16 @@ public class NetworkManager {
                               callback.failure(t);
                           }
                       });
+    }
+
+    private void updateToken(Headers headers) {
+        if (headers.get("access-token") != null) {
+            mToken.setAccess_token(headers.get("access-token"));
+            mToken.setClient(headers.get("client"));
+            mToken.setExpiry(headers.getDate("expiry"));
+            mToken.setToken_type(headers.get("token-type"));
+            mToken.setUid(headers.get("uid"));
+        }
     }
 
     // TODO all dat GCM stuff
