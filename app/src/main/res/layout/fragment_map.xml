@@ -8,8 +8,5 @@
     android:layout_height="match_parent">
 
 
-    <ImageView android:layout_width="fill_parent" android:layout_height="fill_parent"
-        android:id="@+id/map_view" android:layout_gravity="center"
-        android:contentDescription="@string/map_view_description"/>
 
 </LinearLayout>

@@ -4,12 +4,6 @@ apply plugin: 'com.google.gms.google-services'
 ext {
     parse_application_id = ext.MHACKS_PARSE_APP_ID
     parse_client_key = ext.MHACKS_PARSE_CLIENT_KEY
-    firebase_url = ext.MHACKS_FIREBASE_URL
-    bugsnag_key = ext.MHACKS_BUGSNAG_KEY
-    google_maps_api_key = ext.MHACKS_GOOGLE_MAPS_API_KEY
-    fb_app_id = ext.MHACKS_FACEBOOK_APP_ID
-    twitter_key = ext.MHACKS_TWITTER_KEY
-    twitter_secret = ext.MHACKS_TWITTER_SECRET
 }
 
 android {
@@ -49,12 +43,12 @@ android {
         versionName "6.0.1"
         resValue "string", "parse_application_id", parse_application_id
         resValue "string", "parse_client_key", parse_client_key
-        resValue "string", "firebase_url", firebase_url
+        /*resValue "string", "firebase_url", firebase_url
         resValue "string", "bugsnag_key", bugsnag_key
         resValue "string", "google_maps_api_key", google_maps_api_key
         resValue "string", "fb_app_id", fb_app_id
         resValue "string", "twitter_key", twitter_key
-        resValue "string", "twitter_secret", twitter_secret
+        resValue "string", "twitter_secret", twitter_secret*/
     }
     buildTypes {
         release {
@@ -63,12 +57,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", "parse_application_id", parse_application_id
             resValue "string", "parse_client_key", parse_client_key
-            resValue "string", "firebase_url", firebase_url
+            /*resValue "string", "firebase_url", firebase_url
             resValue "string", "bugsnag_key", bugsnag_key
             resValue "string", "google_maps_api_key", google_maps_api_key
             resValue "string", "fb__app_id", fb_app_id
             resValue "string", "twitter_key", twitter_key
-            resValue "string", "twitter_secret", twitter_secret
+            resValue "string", "twitter_secret", twitter_secret*/
             signingConfig signingConfigs.release
         }
         debug {
@@ -76,12 +70,12 @@ android {
             minifyEnabled false
             resValue "string", "parse_application_id", parse_application_id
             resValue "string", "parse_client_key", parse_client_key
-            resValue "string", "firebase_url", firebase_url
+           /* resValue "string", "firebase_url", firebase_url
             resValue "string", "bugsnag_key", bugsnag_key
             resValue "string", "google_maps_api_key", google_maps_api_key
             resValue "string", "fb_app_id", fb_app_id
             resValue "string", "twitter_key", twitter_key
-            resValue "string", "twitter_secret", twitter_secret
+            resValue "string", "twitter_secret", twitter_secret*/
         }
     }
 }
