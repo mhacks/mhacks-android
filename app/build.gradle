@@ -4,6 +4,7 @@ apply plugin: 'com.google.gms.google-services'
 ext {
     parse_application_id = ext.MHACKS_PARSE_APP_ID
     parse_client_key = ext.MHACKS_PARSE_CLIENT_KEY
+    google_maps_api_key = ext.GOOGLE_MAPS_API_KEY
 }
 
 android {
@@ -43,6 +44,7 @@ android {
         versionName "6.0.1"
         resValue "string", "parse_application_id", parse_application_id
         resValue "string", "parse_client_key", parse_client_key
+        resValue "string", "google_maps_api_key", google_maps_api_key
         /*resValue "string", "firebase_url", firebase_url
         resValue "string", "bugsnag_key", bugsnag_key
         resValue "string", "google_maps_api_key", google_maps_api_key
@@ -57,9 +59,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", "parse_application_id", parse_application_id
             resValue "string", "parse_client_key", parse_client_key
+            resValue "string", "google_maps_api_key", google_maps_api_key
             /*resValue "string", "firebase_url", firebase_url
             resValue "string", "bugsnag_key", bugsnag_key
-            resValue "string", "google_maps_api_key", google_maps_api_key
             resValue "string", "fb__app_id", fb_app_id
             resValue "string", "twitter_key", twitter_key
             resValue "string", "twitter_secret", twitter_secret*/
@@ -70,9 +72,9 @@ android {
             minifyEnabled false
             resValue "string", "parse_application_id", parse_application_id
             resValue "string", "parse_client_key", parse_client_key
-           /* resValue "string", "firebase_url", firebase_url
-            resValue "string", "bugsnag_key", bugsnag_key
             resValue "string", "google_maps_api_key", google_maps_api_key
+            /* resValue "string", "firebase_url", firebase_url
+            resValue "string", "bugsnag_key", bugsnag_key
             resValue "string", "fb_app_id", fb_app_id
             resValue "string", "twitter_key", twitter_key
             resValue "string", "twitter_secret", twitter_secret*/
