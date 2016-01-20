@@ -19,6 +19,7 @@ import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
 import com.mhacks.android.ui.announcements.AnnouncementsFragment;
 import com.mhacks.android.ui.countdown.CountdownFragment;
+import com.mhacks.android.ui.map.MapViewFragment;
 import com.mhacks.android.ui.events.ScheduleFragment;
 import com.mhacks.android.ui.settings.SettingsFragment;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private AnnouncementsFragment announcementsFragment;
     private ScheduleFragment scheduleFragment;
     private SettingsFragment settingsFragment;
+    private MapViewFragment mapViewFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         announcementsFragment = new AnnouncementsFragment();
         scheduleFragment = new ScheduleFragment();
         settingsFragment = new SettingsFragment();
+        mapViewFragment = new MapViewFragment();
 
         updateFragment(countdownFragment);
 
@@ -177,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                         updateFragment(scheduleFragment);
                         break;
                     case 4:
-                        //updateFragment(mapViewFragment);
+                        updateFragment(mapViewFragment);
                         break;
                     case 6:
                         updateFragment(settingsFragment);

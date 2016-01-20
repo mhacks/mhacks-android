@@ -24,9 +24,9 @@ import java.util.List;
  *
  * Displays mMaps of the MHacks V venues.
  */
-public class MapFragment extends Fragment implements AdapterView.OnItemSelectedListener{
+public class MapViewFragment extends Fragment implements AdapterView.OnItemSelectedListener{
 
-    public static final String TAG = "MapFragment";
+    public static final String TAG = "MapViewFragment";
     public static final String MAP_PIN = "mapPin";
 
     //Views

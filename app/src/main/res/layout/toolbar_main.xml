@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="?attr/colorPrimary">
 
-    <!-- For the MapFragment. Visibility is set to GONE otherwise. -->
+    <!-- For the MapViewFragment. Visibility is set to GONE otherwise. -->
     <Spinner android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:id="@+id/map_spinner"
         android:layout_marginLeft="100dp"
