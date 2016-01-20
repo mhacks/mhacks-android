@@ -12,9 +12,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
 import com.mhacks.android.ui.MainActivity;
 import org.mhacks.android.R;
 import com.squareup.picasso.Picasso;
@@ -72,6 +74,8 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
     @Override
     public void onMapReady(GoogleMap map){
         Log.d(TAG, "Map Ready");
+        //TODO: Make initial position modular
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(42.2919466, -83.7153427), 16));
     }
 
 
