@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
         // testing the network manager
         final NetworkManager networkManager = NetworkManager.getInstance();
-        networkManager.logUserIn("admin@admin.com", "admin", new HackathonCallback<User>() {
+        networkManager.logUserIn("omoghe@umich.edu", "kanye2020", new HackathonCallback<User>() {
             @Override
             public void success(User response) {
                 Log.d(TAG, "log in successful");

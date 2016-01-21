@@ -5,9 +5,8 @@ package com.mhacks.android.data.model;
  */
 public class Location extends ModelObject {
     public String name;
-    public String latitude;
-    public String longitude;
-    public int hackathon_id;
+    public double latitude;
+    public double longitude;
 
     public Location() {
     }
@@ -20,27 +19,19 @@ public class Location extends ModelObject {
         this.name = name;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
-    }
-
-    public int getHackathon_id() {
-        return hackathon_id;
-    }
-
-    public void setHackathon_id(int hackathon_id) {
-        this.hackathon_id = hackathon_id;
     }
 }

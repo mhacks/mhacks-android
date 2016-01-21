@@ -6,21 +6,31 @@ import java.util.Date;
  * Created by boztalay on 6/3/15.
  */
 public class Announcement extends ModelObject {
-    public String name;
+    public String title;
     public String info;
     public Date broadcastTime;
-    public int role;
-    public int hackathon_id;
+    /*
+    Using bits:
+    1 - Emergency (red)
+    2- Logistics (blue)
+    4 - Food (maize mother fucker)
+    8 - Swag (green)
+    16 - Sponsor (purple)
+    32 - Other (brown)
+     */
+    public int category;
+    public String ownerId;
+    public boolean approved;
 
     public Announcement() {
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getInfo() {
@@ -39,19 +49,27 @@ public class Announcement extends ModelObject {
         this.broadcastTime = broadcastTime;
     }
 
-    public int getRole() {
-        return role;
+    public int getCategory() {
+        return category;
     }
 
-    public void setRole(int role) {
-        this.role = role;
+    public void setCategory(int category) {
+        this.category = category;
     }
 
-    public int getHackathon_id() {
-        return hackathon_id;
+    public String getOwnerId() {
+        return ownerId;
     }
 
-    public void setHackathon_id(int hackathon_id) {
-        this.hackathon_id = hackathon_id;
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 }

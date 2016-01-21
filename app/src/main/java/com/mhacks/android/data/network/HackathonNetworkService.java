@@ -27,7 +27,7 @@ public interface HackathonNetworkService {
     @GET("users/me")
     Call<User> getCurrentUser();
 
-    @POST("users/")
+    @POST("users")
     Call<ModelObject> signUserUp(@Body User user);
 
     @POST("auth/sign_in")

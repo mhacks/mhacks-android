@@ -6,24 +6,31 @@ import java.util.Date;
  * Created by boztalay on 6/3/15.
  */
 public class Event extends ModelObject {
-
-    public String name;
+    public String title;
     public String info;
-    public Date   startTime;
-    public Date   endTime;
-    public int    role;
-    public int    hackathon_id;
-    public int    location_id;
+    public String[] locations;
+    public Date start_time;
+    public Date end_time;
+    /*
+    0 - Logistics (blue)
+        (opening ceremony, expo, buses etc.)
+    1 - Social (red)
+    2 - Food (maize mother fucker)
+    3 - Tech Talk (purple)
+    4 - Other (brown)
+     */
+    public int category;
+    public boolean approved;
 
     public Event() {
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getInfo() {
@@ -34,43 +41,43 @@ public class Event extends ModelObject {
         this.info = info;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public String[] getLocations() {
+        return locations;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setLocations(String[] locations) {
+        this.locations = locations;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public Date getStart_time() {
+        return start_time;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setStart_time(Date start_time) {
+        this.start_time = start_time;
     }
 
-    public int getRole() {
-        return role;
+    public Date getEnd_time() {
+        return end_time;
     }
 
-    public void setRole(int role) {
-        this.role = role;
+    public void setEnd_time(Date end_time) {
+        this.end_time = end_time;
     }
 
-    public int getHackathon_id() {
-        return hackathon_id;
+    public int getCategory() {
+        return category;
     }
 
-    public void setHackathon_id(int hackathon_id) {
-        this.hackathon_id = hackathon_id;
+    public void setCategory(int category) {
+        this.category = category;
     }
 
-    public int getLocation_id() {
-        return location_id;
+    public boolean isApproved() {
+        return approved;
     }
 
-    public void setLocation_id(int location_id) {
-        this.location_id = location_id;
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 }

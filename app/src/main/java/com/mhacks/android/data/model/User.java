@@ -4,41 +4,19 @@ package com.mhacks.android.data.model;
  * Created by boztalay on 6/3/15.
  */
 public class User extends ModelObject {
-    public String gcm_token;
-    public String email;
-    public String password;
     public String firstName;
     public String lastName;
-    public String company;
-    public String twitter;
-    public boolean admin;
-    public int roles;
+    public String uid; // user's email address
+    /*
+    0 - hacker (can’t do anything whatsoever)
+        Can continue as guest
+    1 - sponsor (can make requests + need approvals)
+    2 - organizer (can make requests + need approvals)
+    3 - admin (do whatever the fuck they want)
+     */
+    public int role;
 
     public User() {
-    }
-
-    public String getGcm_token() {
-        return gcm_token;
-    }
-
-    public void setGcm_token(String gcm_token) {
-        this.gcm_token = gcm_token;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFirstName() {
@@ -57,35 +35,19 @@ public class User extends ModelObject {
         this.lastName = lastName;
     }
 
-    public String getCompany() {
-        return company;
+    public String getUid() {
+        return uid;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
-    public String getTwitter() {
-        return twitter;
+    public int getRole() {
+        return role;
     }
 
-    public void setTwitter(String twitter) {
-        this.twitter = twitter;
-    }
-
-    public boolean isAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
-    }
-
-    public int getRoles() {
-        return roles;
-    }
-
-    public void setRoles(int roles) {
-        this.roles = roles;
+    public void setRole(int role) {
+        this.role = role;
     }
 }
