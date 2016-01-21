@@ -6,11 +6,11 @@ import java.util.Date;
  * Created by boztalay on 6/3/15.
  */
 public class Event extends ModelObject {
-    public String title;
-    public String info;
+    public String   title;
+    public String   info;
     public String[] locations;
-    public Date start_time;
-    public Date end_time;
+    public Date     startTime;
+    public Date     endTime;
     /*
     0 - Logistics (blue)
         (opening ceremony, expo, buses etc.)
@@ -19,8 +19,8 @@ public class Event extends ModelObject {
     3 - Tech Talk (purple)
     4 - Other (brown)
      */
-    public int category;
-    public boolean approved;
+    public int      category;
+    public boolean  approved;
 
     public Event() {
     }
@@ -49,20 +49,20 @@ public class Event extends ModelObject {
         this.locations = locations;
     }
 
-    public Date getStart_time() {
-        return start_time;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setStart_time(Date start_time) {
-        this.start_time = start_time;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public Date getEnd_time() {
-        return end_time;
+    public Date getEndTime() {
+        return endTime;
     }
 
-    public void setEnd_time(Date end_time) {
-        this.end_time = end_time;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public int getCategory() {

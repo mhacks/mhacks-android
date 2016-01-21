@@ -82,30 +82,6 @@ public class NetworkManager {
                       });
     }
 
-    public void signUserUp(String email, String password, String firstName, String lastName, String company, final HackathonCallback<User> callback) {
-        User user = new User();
-        user.gcm_token = getGcmToken();
-        user.email = email;
-        user.password = password;
-        user.firstName = firstName;
-        user.lastName = lastName;
-        user.company = company;
-
-        networkService.signUserUp(user)
-                      .enqueue(new Callback<ModelObject>() {
-                          @Override
-                          public void onResponse(Response<ModelObject> response, Retrofit retrofit) {
-
-                          }
-
-                          @Override
-                          public void onFailure(Throwable t) {
-                              Log.d(TAG, "Couldn't create the new user");
-                              callback.failure(t);
-                          }
-                      });
-    }
-
     public void logUserOut(final HackathonCallback<Void> callback) {
         networkService.logUserOut()
                       .enqueue(new Callback<GenericResponse>() {
@@ -406,106 +382,6 @@ public class NetworkManager {
                           @Override
                           public void onFailure(Throwable t) {
                               Log.d(TAG, "Couldn't create the location");
-                              callback.failure(t);
-                          }
-                      });
-    }
-
-    public void getContacts(final HackathonCallback<List<User>> callback) {
-        networkService.getContacts()
-                      .enqueue(new Callback<List<User>>() {
-                          @Override
-                          public void onResponse(Response<List<User>> response, Retrofit retrofit) {
-                              updateToken(response.headers());
-
-                              Log.d(TAG, "Successfully got " + response.body().size() + " contacts");
-                              callback.success(response.body());
-                          }
-
-                          @Override
-                          public void onFailure(Throwable t) {
-                              Log.d(TAG, "Couldn't get the contacts");
-                              callback.failure(t);
-                          }
-                      });
-    }
-
-    public void createHackerRole(HackerRole hackerRole, final HackathonCallback<HackerRole> callback) {
-        networkService.createHackerRole(hackerRole)
-                      .enqueue(new Callback<HackerRole>() {
-                          @Override
-                          public void onResponse(Response<HackerRole> response, Retrofit retrofit) {
-                              updateToken(response.headers());
-
-                              Log.d(TAG, "Successfully created the hacker role");
-                              callback.success(response.body());
-                          }
-
-                          @Override
-                          public void onFailure(Throwable t) {
-                              Log.d(TAG, "Couldn't create the hacker role");
-                              callback.failure(t);
-                          }
-                      });
-    }
-
-    public void updateHackerRole(HackerRole hackerRole, final HackathonCallback<HackerRole> callback) {
-        networkService.updateHackerRole(hackerRole.id, hackerRole)
-                      .enqueue(new Callback<HackerRole>() {
-                          @Override
-                          public void onResponse(Response<HackerRole> response, Retrofit retrofit) {
-                              updateToken(response.headers());
-
-                              Log.d(TAG, "Successfully updated the hacker role");
-                              callback.success(response.body());
-                          }
-
-                          @Override
-                          public void onFailure(Throwable t) {
-                              Log.d(TAG, "Couldn't update the hacker role");
-                              callback.failure(t);
-                          }
-                      });
-    }
-
-    public void getAwards(final HackathonCallback<List<Award>> callback) {
-        networkService.getAwards()
-                      .enqueue(new Callback<List<Award>>() {
-                          @Override
-                          public void onResponse(Response<List<Award>> response, Retrofit retrofit) {
-                              updateToken(response.headers());
-
-                              Log.d(TAG, "Successfully got " + response.body().size() + " awards");
-                              callback.success(response.body());
-                          }
-
-                          @Override
-                          public void onFailure(Throwable t) {
-                              Log.d(TAG, "Couldn't get the awards");
-                              callback.failure(t);
-                          }
-                      });
-    }
-
-    public void createAward(Award award, final HackathonCallback<Award> callback) {
-        networkService.createAward(mToken.getAccess_token(),
-                                   mToken.getClient(),
-                                   mToken.getExpiry(),
-                                   mToken.getToken_type(),
-                                   mToken.getUid(),
-                                   award)
-                      .enqueue(new Callback<Award>() {
-                          @Override
-                          public void onResponse(Response<Award> response, Retrofit retrofit) {
-                              updateToken(response.headers());
-
-                              Log.d(TAG, "Successfully created the award");
-                              callback.success(response.body());
-                          }
-
-                          @Override
-                          public void onFailure(Throwable t) {
-                              Log.d(TAG, "Couldn't create the award");
                               callback.failure(t);
                           }
                       });

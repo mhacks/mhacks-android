@@ -36,20 +36,6 @@ public interface HackathonNetworkService {
     @DELETE("sessions")
     Call<GenericResponse> logUserOut();
 
-    // HACKATHONS
-    // deprecated as of MHacks: Refactor W16
-    @GET("hackathons")
-    Call<List<Hackathon>> getHackathons();
-
-    @GET("hackathons/attending")
-    Call<List<Hackathon>> getAttendingHackathons();
-
-    @GET("hackathons/{hackathon_id}")
-    Call<Hackathon> getHackathon(@Path("hackathon_id") int hackathon_id);
-
-    @POST("hackathons")
-    Call<Hackathon> createHackathon(@Body Hackathon hackathon);
-
     // ANNOUNCEMENTS
     @GET("announcements")
     Call<List<Announcement>> getAnnouncements();
@@ -71,7 +57,7 @@ public interface HackathonNetworkService {
                                           @Header("expiry") Date expiry,
                                           @Header("token-type") String tokenType,
                                           @Header("uid") String uid,
-                                          @Path("announcement_id") int announcement_id,
+                                          @Path("announcement_id") String announcement_id,
                                           @Body Announcement announcement);
 
     @DELETE("announcements/{announcement_id}")
@@ -80,7 +66,7 @@ public interface HackathonNetworkService {
                                              @Header("expiry") Date expiry,
                                              @Header("token-type") String tokenType,
                                              @Header("uid") String uid,
-                                             @Path("announcement_id") int announcement_id);
+                                             @Path("announcement_id") String announcement_id);
 
     // EVENTS
     @GET("events")
@@ -103,7 +89,7 @@ public interface HackathonNetworkService {
                             @Header("expiry") Date expiry,
                             @Header("token-type") String tokenType,
                             @Header("uid") String uid,
-                            @Path("event_id") int event_id,
+                            @Path("event_id") String event_id,
                             @Body Event event);
 
     @DELETE("events/{event_id}")
@@ -112,7 +98,7 @@ public interface HackathonNetworkService {
                                       @Header("expiry") Date expiry,
                                       @Header("token-type") String tokenType,
                                       @Header("uid") String uid,
-                                      @Path("event_id") int event_id);
+                                      @Path("event_id") String event_id);
 
     // LOCATIONS
     @GET("locations")
@@ -126,27 +112,4 @@ public interface HackathonNetworkService {
                                   @Header("uid") String uid,
                                   @Body Location location);
 
-    // CONTACTS
-    @GET("contacts")
-    Call<List<User>> getContacts();
-
-    // ROLES
-    @POST("hacker_roles")
-    Call<HackerRole> createHackerRole(@Body HackerRole hackerRole);
-
-    @PUT("hacker_roles/{hacker_role_id}")
-    Call<HackerRole> updateHackerRole(@Path("hacker_role_id") int hacker_role_id,
-                                      @Body HackerRole hackerRole);
-
-    // AWARDS
-    @GET("awards")
-    Call<List<Award>> getAwards();
-
-    @POST("awards")
-    Call<Award> createAward(@Header("access-token") String accessToken,
-                            @Header("client") String client,
-                            @Header("expiry") Date expiry,
-                            @Header("token-type") String tokenType,
-                            @Header("uid") String uid,
-                            @Body Award award);
 }
