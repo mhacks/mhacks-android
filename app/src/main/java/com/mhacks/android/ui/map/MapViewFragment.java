@@ -2,6 +2,8 @@ package com.mhacks.android.ui.map;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -16,11 +18,17 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.mhacks.android.ui.MainActivity;
 import org.mhacks.android.R;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,6 +84,15 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
         Log.d(TAG, "Map Ready");
         //TODO: Make initial position modular
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(42.2919466, -83.7153427), 16));
+        LatLng NORTHEAST = new LatLng(42.294290, -83.712580);
+        LatLng SOUTHWEST = new LatLng(42.291277, -83.716620);
+        LatLngBounds corners = new LatLngBounds(SOUTHWEST, NORTHEAST);
+
+        GroundOverlayOptions annArbaugh = new GroundOverlayOptions()
+                .image(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeStream(getActivity()
+                        .getResources().openRawResource(R.raw.grand_map_1_right_size))))
+                .positionFromBounds(corners);
+        map.addGroundOverlay(annArbaugh);
     }
 
 
