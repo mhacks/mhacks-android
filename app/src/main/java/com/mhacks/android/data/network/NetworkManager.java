@@ -2,12 +2,16 @@ package com.mhacks.android.data.network;
 
 import android.util.Log;
 
+import com.google.gson.FieldNamingPolicy;
 import com.mhacks.android.data.auth.Token;
 import com.mhacks.android.data.model.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mhacks.android.data.network.deserializer.ModelDeserializer;
+import com.mhacks.android.data.network.deserializer.UserDeserializer;
 import com.squareup.okhttp.Headers;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -45,19 +49,23 @@ public class NetworkManager {
 
     public NetworkManager() {
         Gson gson = new GsonBuilder()
-                .setDateFormat(DATE_FORMAT)
+                .registerTypeAdapter(User.class, new UserDeserializer())
+                .registerTypeAdapter(Announcement.class, new ModelDeserializer<Announcement>())
+                .registerTypeAdapter(Event.class, new ModelDeserializer<Event>())
+                .registerTypeAdapter(Location.class, new ModelDeserializer<Location>())
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
         this.networkService = retrofit.create(HackathonNetworkService.class);
     }
 
     public void logUserIn(String email, String password, final HackathonCallback<User> callback) {
-        networkService.logUserIn(new LoginParams(email, password, getGcmToken()))
+        networkService.logUserIn(new LoginParams(email, password))
                       .enqueue(new Callback<User>() {
                           @Override
                           public void onResponse(Response<User> response,
@@ -70,30 +78,16 @@ public class NetworkManager {
                               mToken.setToken_type(response.headers().get("token-type"));
                               mToken.setUid(response.headers().get("uid"));
 
+                              Log.d(TAG, "yo yo");
+                              Log.d(TAG, mToken.getAccess_token());
+
                               currentUser = response.body();
                               callback.success(response.body());
                           }
 
                           @Override
                           public void onFailure(Throwable t) {
-                              Log.d(TAG, "Couldn't create the session when logging in");
-                              callback.failure(t);
-                          }
-                      });
-    }
-
-    public void logUserOut(final HackathonCallback<Void> callback) {
-        networkService.logUserOut()
-                      .enqueue(new Callback<GenericResponse>() {
-                          @Override
-                          public void onResponse(Response<GenericResponse> response, Retrofit retrofit) {
-                              Log.d(TAG, "Successfully logged the user out");
-                              callback.success(null);
-                          }
-
-                          @Override
-                          public void onFailure(Throwable t) {
-                              Log.d(TAG, "Couldn't log the user out");
+                              Log.e(TAG, "Couldn't create the session when logging in", t);
                               callback.failure(t);
                           }
                       });
@@ -385,6 +379,15 @@ public class NetworkManager {
                               callback.failure(t);
                           }
                       });
+    }
+
+    /**
+     * Returns the current user logged in via the NetworkManager instance.
+     * @return current user if successfully logged in, null otherwise
+     */
+    public User getCurrentUser() {
+        if (instance != null && instance.currentUser != null) return instance.currentUser;
+        else return null;
     }
 
     private void updateToken(Headers headers) {

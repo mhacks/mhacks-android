@@ -8,7 +8,7 @@ public class LoginParams {
     public String password;
     //public String gcm_token;
 
-    public LoginParams(String email, String password, String gcm_token) {
+    public LoginParams(String email, String password) {
         this.email = email;
         this.password = password;
         //this.gcm_token = gcm_token;

@@ -120,32 +120,18 @@ public class MainActivity extends AppCompatActivity {
         //Push notification intent check.
         checkIntent();
 
-        // testing the network manager
         final NetworkManager networkManager = NetworkManager.getInstance();
         networkManager.logUserIn("omoghe@umich.edu", "kanye2020", new HackathonCallback<User>() {
             @Override
             public void success(User response) {
-                Log.d(TAG, "log in successful");
-                mUser = response;
+                Log.d(TAG, "yeezus");
+                Log.d(TAG, response.getFirstName());
                 buildNavigationDrawer();
-
-                networkManager.getAnnouncements(new HackathonCallback<List<Announcement>>() {
-                    @Override
-                    public void success(List<Announcement> response) {
-                        Toast.makeText(getApplicationContext(), response.size() + " events retrieved.", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, response.size() + " events retrieved.");
-                    }
-
-                    @Override
-                    public void failure(Throwable error) {
-                        Log.d(TAG, "fuck all of this");
-                    }
-                });
             }
 
             @Override
             public void failure(Throwable error) {
-                Log.d(TAG, "dishonor whole family");
+
             }
         });
     }
