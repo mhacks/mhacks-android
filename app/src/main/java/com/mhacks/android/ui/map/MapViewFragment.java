@@ -93,6 +93,9 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
                         .getResources().openRawResource(R.raw.grand_map_1_right_size))))
                 .positionFromBounds(corners);
         map.addGroundOverlay(annArbaugh);
+        map.getUiSettings().setMyLocationButtonEnabled(true);
+        //TODO: stop it from complaining about disabled permissions
+        map.setMyLocationEnabled(true);
     }
 
 
