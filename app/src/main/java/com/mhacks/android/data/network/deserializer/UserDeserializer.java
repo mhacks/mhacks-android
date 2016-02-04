@@ -2,10 +2,10 @@ package com.mhacks.android.data.network.deserializer;
 
 import android.util.Log;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.mhacks.android.data.model.User;
 
@@ -22,11 +22,17 @@ public class UserDeserializer implements JsonDeserializer<User> {
     @Override
     public User deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
-        JsonElement data = json.getAsJsonObject().get("data");
-        Log.d(TAG, "DESERIALIZING");
-        Log.d(TAG, data.toString());
-        User obj = new Gson().fromJson(data.toString(), User.class);
-        Log.d(TAG, obj.firstName);
-        return obj;
+        JsonObject data = json.getAsJsonObject().get("data").getAsJsonObject();
+
+        User user = new User();
+        user.setId(data.get("id").getAsInt());
+        user.setEmail(data.get("email").getAsString());
+        user.setFirstName(data.get("first_name").getAsString());
+        user.setLastName(data.get("last_name").getAsString());
+        user.setUid(data.get("uid").getAsString());
+        user.setRoles(data.get("roles").getAsInt());
+
+        Log.d(TAG, user.firstName);
+        return user;
     }
 }

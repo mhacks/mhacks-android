@@ -124,9 +124,20 @@ public class MainActivity extends AppCompatActivity {
         networkManager.logUserIn("omoghe@umich.edu", "kanye2020", new HackathonCallback<User>() {
             @Override
             public void success(User response) {
-                Log.d(TAG, "yeezus");
-                Log.d(TAG, response.getFirstName());
+                mUser = response;
                 buildNavigationDrawer();
+
+                networkManager.getAnnouncement("9", new HackathonCallback<Announcement>() {
+                    @Override
+                    public void success(Announcement response) {
+                        Log.d(TAG, response.getName());
+                    }
+
+                    @Override
+                    public void failure(Throwable error) {
+
+                    }
+                });
             }
 
             @Override

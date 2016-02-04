@@ -3,7 +3,8 @@ package com.mhacks.android.data.model;
 /**
  * Created by boztalay on 6/3/15.
  */
-public class User extends ModelObject {
+public class User {
+    public int id;
     public String firstName;
     public String lastName;
     public String uid;
@@ -25,6 +26,7 @@ public class User extends ModelObject {
     }
 
     public String email; // user's email address
+
     /*
     0 - hacker (can’t do anything whatsoever)
         Can continue as guest
@@ -59,5 +61,13 @@ public class User extends ModelObject {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

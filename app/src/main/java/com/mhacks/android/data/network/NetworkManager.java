@@ -3,23 +3,25 @@ package com.mhacks.android.data.network;
 import android.util.Log;
 
 import com.google.gson.FieldNamingPolicy;
-import com.mhacks.android.data.auth.Token;
-import com.mhacks.android.data.model.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mhacks.android.data.auth.Token;
+import com.mhacks.android.data.model.Announcement;
+import com.mhacks.android.data.model.Event;
+import com.mhacks.android.data.model.Location;
+import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.network.deserializer.ModelDeserializer;
 import com.mhacks.android.data.network.deserializer.UserDeserializer;
 import com.squareup.okhttp.Headers;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
 import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * Created by boztalay on 6/4/15.
@@ -50,10 +52,8 @@ public class NetworkManager {
     public NetworkManager() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(User.class, new UserDeserializer())
-                .registerTypeAdapter(Announcement.class, new ModelDeserializer<Announcement>())
-                .registerTypeAdapter(Event.class, new ModelDeserializer<Event>())
-                .registerTypeAdapter(Location.class, new ModelDeserializer<Location>())
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .setDateFormat(DATE_FORMAT)
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -77,9 +77,6 @@ public class NetworkManager {
                               mToken.setExpiry(response.headers().getDate("expiry"));
                               mToken.setToken_type(response.headers().get("token-type"));
                               mToken.setUid(response.headers().get("uid"));
-
-                              Log.d(TAG, "yo yo");
-                              Log.d(TAG, mToken.getAccess_token());
 
                               currentUser = response.body();
                               callback.success(response.body());
@@ -119,13 +116,13 @@ public class NetworkManager {
 
                           @Override
                           public void onFailure(Throwable t) {
-                              Log.d(TAG, "Couldn't get announcements");
+                              Log.e(TAG, "Couldn't get announcements", t);
                               callback.failure(t);
                           }
                       });
     }
 
-    public void getAnnouncement(int announcementId, final HackathonCallback<Announcement> callback) {
+    public void getAnnouncement(String announcementId, final HackathonCallback<Announcement> callback) {
         networkService.getAnnouncement(announcementId)
                       .enqueue(new Callback<Announcement>() {
                           @Override
@@ -246,7 +243,7 @@ public class NetworkManager {
                       });
     }
 
-    public void getEvent(int eventId, final HackathonCallback<Event> callback) {
+    public void getEvent(String eventId, final HackathonCallback<Event> callback) {
         networkService.getEvent(eventId)
                       .enqueue(new Callback<Event>() {
                           @Override
