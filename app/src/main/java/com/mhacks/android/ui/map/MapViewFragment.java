@@ -44,38 +44,33 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
 
     //Views
     private View      mMapFragView;
+    private boolean created = false;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
+        if(!created) {
+            mMapFragView = inflater.inflate(R.layout.fragment_map, container, false);
 
-        mMapFragView = inflater.inflate(R.layout.fragment_map, container, false);
+            //TODO: stop it from complaining about API 14 http://stackoverflow.com/questions/26592889/mapfragment-or-mapview-getmap-returns-null-on-lollipop#answer-27681586
+            MapFragment mapFragment = (MapFragment) getChildFragmentManager()
+                    .findFragmentById(R.id.map_view_container);
 
-        //TODO: stop it from complaining about API 14 http://stackoverflow.com/questions/26592889/mapfragment-or-mapview-getmap-returns-null-on-lollipop#answer-27681586
-        MapFragment mapFragment = (MapFragment) getChildFragmentManager()
-                .findFragmentById(R.id.map_view_container);
-
-        if(mapFragment == null){
-            Log.e(TAG, "Could not get Fragment");
-            //TODO: some sort of error code in the UI
+            if (mapFragment == null) {
+                Log.e(TAG, "Could not get Fragment");
+                //TODO: some sort of error code in the UI
+            } else {
+                mapFragment.getMapAsync(this);
+            }
         }
-        else{
-            mapFragment.getMapAsync(this);
-        }
-
+        created = true;
         return mMapFragView;
     }
 
     @Override
     public void onDestroyView() {
-        //TODO: stop it from complaining about API 14 http://stackoverflow.com/questions/26592889/mapfragment-or-mapview-getmap-returns-null-on-lollipop#answer-27681586
-        FragmentManager fm = getChildFragmentManager();
-        Fragment mapFragment = fm.findFragmentById(R.id.map_view_container);
-        if (mapFragment != null) {
-            fm.beginTransaction().remove(mapFragment).commit();
-        }
         super.onDestroyView();
     }
 
