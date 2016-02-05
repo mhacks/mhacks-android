@@ -31,13 +31,14 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Omkar Moghe on 12/31/2014.
  *
  * Displays mMaps of the MHacks V venues.
  */
-public class MapViewFragment extends Fragment implements AdapterView.OnItemSelectedListener, OnMapReadyCallback{
+public class MapViewFragment extends Fragment implements AdapterView.OnItemSelectedListener, OnMapReadyCallback, OnTaskCompleted{
 
     public static final String TAG = "MapViewFragment";
     public static final String MAP_PIN = "mapPin";
@@ -45,12 +46,22 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
     //Views
     private View      mMapFragView;
     private boolean created = false;
+    private ReentrantLock mapLock = new ReentrantLock();
+    private boolean mapReady = false;
+    @Nullable
+    private GoogleMap gMap = null;
+    @Nullable
+    private GroundOverlayOptions option = null;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
+        LatLng NORTHEAST = new LatLng(42.294290, -83.712580);
+        LatLng SOUTHWEST = new LatLng(42.291277, -83.716620);
+        LatLngBounds corners = new LatLngBounds(SOUTHWEST, NORTHEAST);
+
         if(!created) {
             mMapFragView = inflater.inflate(R.layout.fragment_map, container, false);
 
@@ -64,6 +75,8 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
             } else {
                 mapFragment.getMapAsync(this);
             }
+            GroundOverlayLoader loader = new GroundOverlayLoader(MapViewFragment.this, this.getActivity(), corners);
+            loader.execute();
         }
         created = true;
         return mMapFragView;
@@ -77,22 +90,40 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
     @Override
     public void onMapReady(GoogleMap map){
         Log.d(TAG, "Map Ready");
+        if(map == null){
+            Log.e(TAG, "Map is null!");
+            return;
+        }
+        gMap = map;
         //TODO: Make initial position modular
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(42.2919466, -83.7153427), 16));
-        LatLng NORTHEAST = new LatLng(42.294290, -83.712580);
-        LatLng SOUTHWEST = new LatLng(42.291277, -83.716620);
-        LatLngBounds corners = new LatLngBounds(SOUTHWEST, NORTHEAST);
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(42.2919466, -83.7153427), 16));
 
-        GroundOverlayOptions annArbaugh = new GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeStream(getActivity()
-                        .getResources().openRawResource(R.raw.grand_map_1_right_size))))
-                .positionFromBounds(corners);
-        map.addGroundOverlay(annArbaugh);
-        map.getUiSettings().setMyLocationButtonEnabled(true);
+        mapLock.lock();
+        Log.d(TAG, "Lock acquired by mapready");
+        mapReady = true;
+        if(option != null){
+            gMap.addGroundOverlay(option);
+        }
+        mapLock.unlock();
+
+        gMap.getUiSettings().setMyLocationButtonEnabled(true);
         //TODO: stop it from complaining about disabled permissions
-        map.setMyLocationEnabled(true);
+        gMap.setMyLocationEnabled(true);
     }
 
+    @Override
+    public void onTaskCompleted(GroundOverlayOptions options){
+        mapLock.lock();
+        Log.d(TAG, "Lock acquired by task completed");
+        option = options;
+        if(mapReady){
+            if(gMap == null){
+                Log.e(TAG, "Map is null!");
+            }
+            gMap.addGroundOverlay(option);
+        }
+        mapLock.unlock();
+    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
