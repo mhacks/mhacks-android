@@ -20,7 +20,7 @@ public class ModelDeserializer<T> implements JsonDeserializer<T> {
     public T deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
         JsonElement results = json.getAsJsonObject().get("results");
-        //Log.d(TAG, results.getAsJsonArray().getAsString());
+        Log.d(TAG, results.getAsJsonArray().toString());
         return new Gson().fromJson(results.toString(), typeOfT);
     }
 }

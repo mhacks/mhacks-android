@@ -39,7 +39,7 @@ public interface HackathonNetworkService {
 
     // ANNOUNCEMENTS
     @GET("announcements")
-    Call<List<Announcement>> getAnnouncements();
+    Call<AnnouncementList> getAnnouncements();
 
     @GET("announcements/{announcement_id}")
     Call<Announcement> getAnnouncement(@Path("announcement_id") String announcement_id);
@@ -71,7 +71,7 @@ public interface HackathonNetworkService {
 
     // EVENTS
     @GET("events")
-    Call<List<Event>> getEvents();
+    Call<EventList> getEvents();
 
     @GET("events/{event_id}")
     Call<Event> getEvent(@Path("event_id") String event_id);

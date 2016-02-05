@@ -6,11 +6,13 @@ import java.util.Date;
  * Created by boztalay on 6/3/15.
  */
 public class Event extends ModelObject {
-    public String   title;
+    public String   name;
     public String   info;
-    public String[] locations;
+    public String[] locationIds;
     public Date     startTime;
     public Date     endTime;
+    public String   userId;
+
     /*
     0 - Logistics (blue)
         (opening ceremony, expo, buses etc.)
@@ -20,17 +22,17 @@ public class Event extends ModelObject {
     4 - Other (brown)
      */
     public int      category;
-    public boolean  approved;
+    public boolean  isApproved;
 
     public Event() {
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getInfo() {
@@ -41,12 +43,12 @@ public class Event extends ModelObject {
         this.info = info;
     }
 
-    public String[] getLocations() {
-        return locations;
+    public String[] getLocationIds() {
+        return locationIds;
     }
 
-    public void setLocations(String[] locations) {
-        this.locations = locations;
+    public void setLocationIds(String[] locationIds) {
+        this.locationIds = locationIds;
     }
 
     public Date getStartTime() {
@@ -74,10 +76,18 @@ public class Event extends ModelObject {
     }
 
     public boolean isApproved() {
-        return approved;
+        return isApproved;
     }
 
     public void setApproved(boolean approved) {
-        this.approved = approved;
+        this.isApproved = approved;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

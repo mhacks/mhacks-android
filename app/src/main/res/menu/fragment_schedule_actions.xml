@@ -4,16 +4,16 @@
     <!--Refresh-->
     <item android:id="@+id/schedule_action_refresh"
         android:icon="@drawable/ic_action_refresh"
-        android:title="@string/refresh"
+        android:name="@string/refresh"
         app:showAsAction="always" />
     <!--Others-->
     <!--<item android:id="@+id/schedule_action_friday"-->
-        <!--android:title="Friday"-->
+        <!--android:name="Friday"-->
         <!--app:showAsAction="never" />-->
     <!--<item android:id="@+id/schedule_action_saturday"-->
-        <!--android:title="Saturday"-->
+        <!--android:name="Saturday"-->
         <!--app:showAsAction="never" />-->
     <!--<item android:id="@+id/schedule_action_sunday"-->
-        <!--android:title="Sunday"-->
+        <!--android:name="Sunday"-->
         <!--app:showAsAction="never" />-->
 </menu>

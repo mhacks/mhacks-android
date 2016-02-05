@@ -7,10 +7,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mhacks.android.data.auth.Token;
 import com.mhacks.android.data.model.Announcement;
+import com.mhacks.android.data.model.AnnouncementList;
 import com.mhacks.android.data.model.Event;
+import com.mhacks.android.data.model.EventList;
 import com.mhacks.android.data.model.Location;
 import com.mhacks.android.data.model.User;
-import com.mhacks.android.data.network.deserializer.ModelDeserializer;
 import com.mhacks.android.data.network.deserializer.UserDeserializer;
 import com.squareup.okhttp.Headers;
 
@@ -92,17 +93,15 @@ public class NetworkManager {
 
     public void getAnnouncements(final HackathonCallback<List<Announcement>> callback) {
         networkService.getAnnouncements()
-                      .enqueue(new Callback<List<Announcement>>() {
+                      .enqueue(new Callback<AnnouncementList>() {
                           @Override
-                          public void onResponse(Response<List<Announcement>> response, Retrofit retrofit) {
+                          public void onResponse(Response<AnnouncementList> response, Retrofit retrofit) {
                               updateToken(response.headers());
 
-                              Log.d(TAG,
-                                    "Successfully got " + response.body().size() +
-                                    " announcements");
+                              List<Announcement> announcements = response.body().getResults();
 
                               // Sorts reverse chronologically
-                              Collections.sort(response.body(), new Comparator<Announcement>() {
+                              Collections.sort(announcements, new Comparator<Announcement>() {
                                   @Override
                                   public int compare(Announcement lhs,
                                                      Announcement rhs) {
@@ -111,7 +110,8 @@ public class NetworkManager {
                                   }
                               });
 
-                              callback.success(response.body());
+                              callback.success(announcements
+                                              );
                           }
 
                           @Override
@@ -217,22 +217,24 @@ public class NetworkManager {
 
     public void getEvents(final HackathonCallback<List<Event>> callback) {
         networkService.getEvents()
-                      .enqueue(new Callback<List<Event>>() {
+                      .enqueue(new Callback<EventList>() {
                           @Override
-                          public void onResponse(Response<List<Event>> response, Retrofit retrofit) {
+                          public void onResponse(Response<EventList> response, Retrofit retrofit) {
                               updateToken(response.headers());
 
-                              Log.d(TAG, "Successfully got " + response.body().size() + " events");
+                              Log.d(TAG, "Successfully got " + response.body().getResults().size() + " events");
+
+                              List<Event> events = response.body().getResults();
 
                               // Sorts chronologically
-                              Collections.sort(response.body(), new Comparator<Event>() {
+                              Collections.sort(events, new Comparator<Event>() {
                                   @Override
                                   public int compare(Event lhs, Event rhs) {
                                       return lhs.getStartTime().compareTo(rhs.getStartTime());
                                   }
                               });
 
-                              callback.success(response.body());
+                              callback.success(events);
                           }
 
                           @Override
@@ -342,13 +344,13 @@ public class NetworkManager {
                           public void onResponse(Response<List<Location>> response, Retrofit retrofit) {
                               updateToken(response.headers());
 
-                              Log.d(TAG, "Successfully got " + response.body().size() + " locations");
+                              Log.d(TAG, "Successfully got " + response.body().size() + " locationIds");
                               callback.success(response.body());
                           }
 
                           @Override
                           public void onFailure(Throwable t) {
-                              Log.d(TAG, "Couldn't get the locations");
+                              Log.d(TAG, "Couldn't get the locationIds");
                               callback.failure(t);
                           }
                       });

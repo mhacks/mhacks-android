@@ -18,14 +18,11 @@ import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
-import com.mhacks.android.data_old.model.Event;
 import com.mhacks.android.ui.announcements.AnnouncementsFragment;
-import com.mhacks.android.ui.awards.AwardsFragment;
 import com.mhacks.android.ui.countdown.CountdownFragment;
 import com.mhacks.android.ui.events.EventDetailsFragment;
-import com.mhacks.android.ui.map.MapFragment;
 import com.mhacks.android.ui.events.ScheduleFragment;
-import com.mhacks.android.ui.sponsors.SponsorsFragment;
+import com.mhacks.android.ui.map.MapFragment;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -40,7 +37,6 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.json.JSONException;
@@ -79,8 +75,6 @@ public class MainActivity extends AppCompatActivity {
     private CountdownFragment countdownFragment;
     private AnnouncementsFragment announcementsFragment;
     private ScheduleFragment scheduleFragment;
-    private SponsorsFragment sponsorsFragment;
-    private AwardsFragment awardsFragment;
     private MapFragment mapFragment;
 
     @Override
@@ -111,14 +105,9 @@ public class MainActivity extends AppCompatActivity {
         countdownFragment = new CountdownFragment();
         announcementsFragment = new AnnouncementsFragment();
         scheduleFragment = new ScheduleFragment();
-        sponsorsFragment = new SponsorsFragment();
-        awardsFragment = new AwardsFragment();
         mapFragment = new MapFragment();
 
         updateFragment(countdownFragment);
-
-        //Push notification intent check.
-        checkIntent();
 
         final NetworkManager networkManager = NetworkManager.getInstance();
         networkManager.logUserIn("omoghe@umich.edu", "kanye2020", new HackathonCallback<User>() {
@@ -127,10 +116,13 @@ public class MainActivity extends AppCompatActivity {
                 mUser = response;
                 buildNavigationDrawer();
 
-                networkManager.getAnnouncement("9", new HackathonCallback<Announcement>() {
+                networkManager.getAnnouncements(new HackathonCallback<List<Announcement>>() {
                     @Override
-                    public void success(Announcement response) {
-                        Log.d(TAG, response.getName());
+                    public void success(List<Announcement> response) {
+                        Log.d(TAG, "" + response.size());
+                        for (Announcement a : response) {
+                            Log.d(TAG, a.getName());
+                        }
                     }
 
                     @Override
@@ -161,12 +153,6 @@ public class MainActivity extends AppCompatActivity {
                                                                  .withSelectedTextColorRes(R.color.primary_dark);
         PrimaryDrawerItem events = new PrimaryDrawerItem().withName("Events")
                                                           .withIcon(R.drawable.ic_event)
-                                                          .withSelectedTextColorRes(R.color.primary_dark);
-        PrimaryDrawerItem contacts = new PrimaryDrawerItem().withName("Contacts")
-                                                            .withIcon(R.drawable.ic_contact)
-                                                            .withSelectedTextColorRes(R.color.primary_dark);
-        PrimaryDrawerItem awards = new PrimaryDrawerItem().withName("Awards")
-                                                          .withIcon(R.drawable.ic_award)
                                                           .withSelectedTextColorRes(R.color.primary_dark);
         PrimaryDrawerItem map = new PrimaryDrawerItem().withName("Map")
                                                        .withIcon(R.drawable.ic_location)
@@ -201,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withToolbar(mToolbar)
                 .withAccountHeader(accountHeader)
-                .addDrawerItems(countdown, announcements, events, contacts, awards, map,
+                .addDrawerItems(countdown, announcements, events, map,
                                 new DividerDrawerItem(),
                                 settings)
                 .build();
@@ -225,12 +211,6 @@ public class MainActivity extends AppCompatActivity {
                         updateFragment(scheduleFragment);
                         break;
                     case 4:
-                        updateFragment(sponsorsFragment);
-                        break;
-                    case 5:
-                        updateFragment(awardsFragment);
-                        break;
-                    case 6:
                         updateFragment(mapFragment);
                         break;
                     default:
@@ -255,64 +235,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.main_container, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-    }
-
-    /**
-     * Method to check whether the MainActivity was started from a push notification intent or not.
-     * If it was, the method switched to the correct view based on the JSON payload from the push
-     * notification.
-     */
-    public void checkIntent() {
-        Intent intent = getIntent();
-        if (intent.getExtras() != null && intent.getExtras().getString("com.parse.Data") != null) {
-            try {
-                JSONObject payload = new JSONObject(intent.getExtras().getString("com.parse.Data"));
-                Log.d(TAG, payload.toString(4));
-                if (payload.has("announcementID")) {
-                    Log.d(TAG, payload.getString("announcementID"));
-                    getFragmentManager().beginTransaction()
-                                        .replace(R.id.main_container, announcementsFragment)
-                                        .addToBackStack(null)
-                                        .commit();
-                    setToolbarTitle("Announcements");
-                }
-                else if (payload.has("eventID")) {
-                    Log.d(TAG, payload.getString("eventID"));
-                    String eventID = payload.getString("eventID");
-                    ParseQuery<Event> query = ParseQuery.getQuery("Event");
-                    query.include("category");
-                    query.include("locations");
-                    query.include("host");
-                    query.getInBackground(eventID, new GetCallback<Event>() {
-                        public void done(Event object, ParseException e) {
-                            if (e == null) {
-                                int color = getEventColor(object.getCategory().getColor());
-                                EventDetailsFragment eventDetailsFragment =
-                                        EventDetailsFragment.newInstance(object, color);
-                                getFragmentManager().beginTransaction()
-                                                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                                    .addToBackStack(null)
-                                                    .add(R.id.drawer_layout, eventDetailsFragment)
-                                                    .commit();
-
-                                //Let's other methods know that this EventDetailsFragment was opened
-                                //from a push notification.
-                                pushEDF = true;
-                            } else {
-                                Toast.makeText(getApplicationContext(),
-                                               "Unable to retrieve event. Check the schedule for updates.",
-                                               Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                } else {
-                    Log.d(TAG, "neither string found");
-                }
-            }
-            catch (JSONException e) {
-                Log.e(TAG, "Fuck you JSON", e);
-            }
-        }
     }
 
     @Override

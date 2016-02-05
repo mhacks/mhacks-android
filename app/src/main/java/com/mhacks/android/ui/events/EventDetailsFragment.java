@@ -185,8 +185,8 @@ public class EventDetailsFragment extends Fragment {
     }
 
     /**
-     * Gets all the locations for a given Event based on the objectId's of the location.
-     * @param event Event object for which locations are to be queried.
+     * Gets all the locationIds for a given Event based on the objectId's of the location.
+     * @param event Event object for which locationIds are to be queried.
      * @return ArrayList of Location objects for the given Event.
      */
     public ArrayList<Location> getLocations (Event event) {

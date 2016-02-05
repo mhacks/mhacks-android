@@ -5,6 +5,6 @@
         android:id="@+id/chat_new"
         android:orderInCategory="10"
         android:showAsAction="always"
-        android:title="@string/awards_new"
+        android:name="@string/awards_new"
         android:icon="@android:drawable/ic_menu_add"/>
 </menu>

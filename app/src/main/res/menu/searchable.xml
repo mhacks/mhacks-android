@@ -8,6 +8,6 @@
         android:icon="@android:drawable/ic_menu_search"
         android:orderInCategory="0"
         android:showAsAction="always|collapseActionView"
-        android:title="@string/search"/>
+        android:name="@string/search"/>
 
 </menu>

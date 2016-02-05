@@ -126,7 +126,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         ParseQuery<Event> query = ParseQuery.getQuery("Event");
         query.include("category"); //Pulls EventType object.
         query.include("host"); //Pulls Sponsor object.
-        query.include("locations"); //Pulls Location JSON array.
+        query.include("locationIds"); //Pulls Location JSON array.
         currentQuery = query;
         return query;
     }
