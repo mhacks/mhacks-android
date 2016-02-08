@@ -5,20 +5,35 @@ import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
 import com.alamkanak.weekview.WeekViewEvent;
-import com.mhacks.android.data_old.model.Event;
-import com.mhacks.android.data_old.model.Location;
+import com.mhacks.android.data.model.Event;
+import com.mhacks.android.data.network.HackathonCallback;
+import com.mhacks.android.data.network.NetworkManager;
 import com.mhacks.android.ui.MainActivity;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import org.mhacks.android.R;
-import com.parse.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.TimeZone;
 
 
 /**
@@ -27,229 +42,64 @@ import java.util.*;
  * Builds schedule with events pulled from the Parse database. Uses the EventDetailsFragment to
  * create event details.
  */
-public class ScheduleFragment extends Fragment implements WeekViewModified.EventClickListener,
-        WeekViewModified.EventLongPressListener,
-        WeekViewModified.MonthChangeListener {
+public class ScheduleFragment extends Fragment {
 
     public static final String TAG = "ScheduleFragment";
 
-    //Local datastore pin name.
-    private static final String EVENT_PIN = "eventPin";
-    private static final String LOCATION_PIN = "locationPin";
-
-    // Month number for which to get events
-    private static final int SEPTEMBER_MONTH = 9;
-
-    //Declaring Views
-    private View mScheduleFragView;
-    private WeekViewModified mWeekView;
+    // Declaring Views
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
     private LinearLayout mScheduleContainer;
 
-    //Current query
-    private ParseQuery<Event> currentQuery;
+    // Event data structures
+    private ArrayList<Event>         mEvents;
 
-    /*Calendar view uses WeekViewEvent objects to build the calendar. WeekViewEvent objects built
-    using Event (ParseObject) pulled from the Parse database.*/
-    private List<WeekViewEvent> finalWeekViewEvents;
-    private List<Event> finalEvents;
-
-    //Booleans
-    private boolean hasWeekViewBeenSetUp = false; //Sets up the WeekView on the initial start.
+    // Booleans
     private boolean eventDetailsOpen = false; //Prevents multiple EventDetailFragments from opening.
 
-    //Declares the EventDetailsFragment
+    // Declares the EventDetailsFragment
     private EventDetailsFragment eventDetailsFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
+        NetworkManager networkManager = NetworkManager.getInstance();
+        networkManager.getEvents(new HackathonCallback<List<Event>>() {
+            @Override
+            public void success(List<Event> response) {
+                mEvents = new ArrayList<Event>(response);
+                //TODO: build views
+            }
+
+            @Override
+            public void failure(Throwable error) {
+                mEvents = new ArrayList<Event>();
+            }
+        });
     }
 
     @Override
     public View onCreateView(final LayoutInflater inflater,
                              final ViewGroup container,
                              Bundle savedInstanceState) {
-        mScheduleFragView = inflater.inflate(R.layout.fragment_schedule, container, false);
+        View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
-        hasWeekViewBeenSetUp = false;
-        getLocalEvents(SEPTEMBER_MONTH); //Called initially to build the schedule view and query events
+        tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
+        viewPager = (ViewPager) view.findViewById(R.id.view_pager);
+        mScheduleContainer = (LinearLayout) view.findViewById(R.id.schedule_container);
 
-        return mScheduleFragView;
+        // Add tabs
+        tabLayout.addTab(tabLayout.newTab().setText("Fri"));
+        tabLayout.addTab(tabLayout.newTab().setText("Sat"));
+        tabLayout.addTab(tabLayout.newTab().setText("Sun"));
+
+        return view;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(currentQuery != null) currentQuery.cancel();
-    }
-
-    /**
-     * Builds the calendar using the WeekViewModified class. Adds the view to the LinearLayout
-     * mScheduleContainer. Done programmatically to prevent the WeekView from being created before
-     * the Event query is finished. (Causes NullPointerException).
-     */
-    private void setUpWeekView() {
-        //Instantiate LinearLayout
-        mScheduleContainer = (LinearLayout) mScheduleFragView.findViewById(R.id.schedule_container);
-        mWeekView = new WeekViewModified(getActivity());
-        //Set listeners
-        mWeekView.setOnEventClickListener(this);
-        mWeekView.setMonthChangeListener((WeekViewModified.MonthChangeListener) this);
-        mWeekView.setEventLongPressListener(this);
-        //Set up visuals of the calendar
-        mWeekView.setBackgroundColor(Color.WHITE);
-        mWeekView.setEventTextColor(Color.WHITE);
-        mWeekView.setNumberOfVisibleDays(1);
-        mWeekView.setTextSize(22);
-        mWeekView.setHourHeight(120);
-        mWeekView.setHeaderColumnPadding(8);
-        mWeekView.setHeaderColumnTextColor(getResources().getColor(R.color.header_column_text_color));
-        mWeekView.setHeaderRowPadding(16);
-        mWeekView.setColumnGap(8);
-        mWeekView.setHourSeparatorColor(Color.WHITE);
-        mWeekView.setHeaderColumnBackgroundColor(Color.WHITE);
-        mWeekView.setHeaderRowBackgroundColor(getResources().getColor(R.color.header_row_bg_color));
-        mWeekView.setDayBackgroundColor(getResources().getColor(R.color.day_bg_color));
-        mWeekView.setTodayBackgroundColor(getResources().getColor(R.color.today_bg_color));
-        mWeekView.setHeaderColumnBackgroundColor(Color.BLACK);
-        mWeekView.setOverlappingEventGap(2);
-        mWeekView.setHorizontalScrollEnabled(true);
-        //Add the view to the LinearLayout
-        mScheduleContainer.addView(mWeekView);
-    }
-
-    /**
-     * Creates a base query to use for getting events from Parse
-     */
-    private ParseQuery<Event> getBaseEventQuery() {
-        ParseQuery<Event> query = ParseQuery.getQuery("Event");
-        query.include("category"); //Pulls EventType object.
-        query.include("host"); //Pulls Sponsor object.
-        query.include("locationIds"); //Pulls Location JSON array.
-        currentQuery = query;
-        return query;
-    }
-
-    /**
-     * Queries Event objects from the local datastore and assigns the list to the global List<Event> events.
-     *
-     * @param newMonth Month for which to get events.
-     */
-    private void getLocalEvents(final int newMonth) {
-        ParseQuery<Event> query = getBaseEventQuery();
-        query.fromPin(EVENT_PIN);
-        query.findInBackground(new FindCallback<Event>() {
-            public void done(List<Event> eventList, ParseException e) {
-                if (e != null || eventList == null) {
-                    Log.e(TAG, "Couldn't get any local events, falling back on remote");
-                } else {
-                    Log.d(TAG, "Found local events, displaying them, then updating from remote");
-                    createEvents(eventList, newMonth);
-                }
-
-                getRemoteEvents(newMonth);
-            }
-        });
-    }
-
-    /**
-     * Queries Event objects from Parse and assigns the list to the global List<Event> events.
-     *
-     * @param newMonth Month for which to get events.
-     */
-    private void getRemoteEvents(final int newMonth) {
-        ParseQuery<Location> locQuery = ParseQuery.getQuery("Location");
-        locQuery.findInBackground(new FindCallback<Location>() {
-            public void done(List<Location> locList, ParseException f) {
-                if (f == null && locList != null && locList.size() > 0) {
-                    ParseObject.unpinAllInBackground(LOCATION_PIN);
-                    ParseObject.pinAllInBackground(LOCATION_PIN, locList);
-                }
-            }
-        });
-
-        ParseQuery<Event> query = getBaseEventQuery();
-        query.findInBackground(new FindCallback<Event>() {
-            public void done(List<Event> eventList, ParseException e) {
-                if (e != null || eventList == null) {
-                    Log.e(TAG, "Couldn't fetch the remote events");
-
-                    // We don't have anything locally, let the user know we need internet
-                    if(finalEvents == null || finalEvents.size() <= 0) {
-                        if(getActivity() != null) ((MainActivity)getActivity()).showNoInternetOverlay();
-                    } else {
-                        // We do have local stuff, no make sure we aren't in the way
-                        if(getActivity() != null) ((MainActivity)getActivity()).hideNoInternetOverlay();
-                    }
-                } else {
-                    Log.d(TAG, "Got the remote events, displaying them");
-
-                    // We got the remote events, so unpin the old ones and pin the new ones
-                    ParseObject.unpinAllInBackground(EVENT_PIN);
-                    ParseObject.pinAllInBackground(EVENT_PIN, eventList);
-
-                    // Display the new events and get outta the way
-                    Log.d(TAG, eventList.size() + " events");
-                    createEvents(eventList, newMonth);
-                    if(getActivity() != null) ((MainActivity)getActivity()).hideNoInternetOverlay();
-                }
-            }
-        });
-    }
-
-    /**
-     * Uses a list of Event objects to build WeekViewEvent objects that the WeekView uses to draw
-     * the calendar.
-     *
-     * @param eventList List of Event objects
-     * @param newMonth  Month for which to get events.
-     */
-    public void createEvents(List<Event> eventList, int newMonth) {
-        finalWeekViewEvents = new ArrayList<WeekViewEvent>();
-        finalEvents = new ArrayList<Event>(eventList);
-
-        //Id for the events. Doubles as the position of the event in both lists.
-        long id = 0;
-
-        //For each loop that builds WeekViewEvent objects from each Event object.
-        for (Event event : eventList) {
-            //Create start event.
-            GregorianCalendar startTime = new GregorianCalendar(TimeZone.getDefault());
-            startTime.setTime(event.getStartTime());
-
-            //Create end event.
-            GregorianCalendar endTime = (GregorianCalendar) startTime.clone();
-            int hourDuration = event.getDuration() / 3600;      //getDuration returns seconds as an int. Need to convert to hours.
-            int minuteDuration = (event.getDuration() % 3600) / 60;    //Converting remainder of minutes to int minutes.
-            endTime.add(Calendar.HOUR_OF_DAY, hourDuration);
-            endTime.add(Calendar.MINUTE, minuteDuration);
-
-            //Set color based on EventType (Category).
-            int color;
-            if (event.getCategory() != null) {
-                color = getEventColor(event.getCategory().getColor());
-            } else {
-                color = getEventColor(-1);
-            }
-
-            //Create a WeekViewEvent
-            WeekViewEvent weekViewEvent = new WeekViewEvent(id, event.getTitle(), startTime, endTime);
-            weekViewEvent.setColor(color);
-
-            //Add the WeekViewEvent to the list.
-            finalWeekViewEvents.add(weekViewEvent);
-
-            //Increment the id
-            id++;
-        }
-
-        if(hasWeekViewBeenSetUp && mWeekView != null) {
-            mWeekView.notifyDatasetChanged();
-        } else {
-            setUpWeekView();
-            hasWeekViewBeenSetUp = true;
-        }
+        //TODO: cancel query
     }
 
     /**
@@ -277,24 +127,6 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         }
     }
 
-    @Override
-    public void onEventClick(WeekViewEvent event, RectF eventRect) {
-        if (!eventDetailsOpen) {
-            eventDetailsFragment =
-                    EventDetailsFragment.newInstance(finalEvents.get((int) event.getId()), event.getColor());
-            getActivity().getFragmentManager()
-                         .beginTransaction()
-                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .addToBackStack(null) //IMPORTANT. Allows the EventDetailsFragment to be closed.
-                         .add(R.id.drawer_layout, eventDetailsFragment)
-                    .commit();
-            //Hide the toolbar so the event details are full screen.
-            ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-            //Prevents other events from being clicked while one event's details are being shown.
-            setEventDetailsOpened(true);
-        }
-    }
-
     public boolean getEventDetailsOpened () {
         return eventDetailsOpen;
     }
@@ -303,24 +135,6 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
         eventDetailsOpen = bool;
     }
 
-    @Override
-    public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
-    }
-
-    @Override
-    public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-        /* Checks to see if the month being called is September (9). Not the best way to handle it but
-        it works for this case since we only care about 3 days */
-        if (newMonth == SEPTEMBER_MONTH) {
-            //getRemoteEvents(newMonth);
-            return finalWeekViewEvents;
-        } else {
-            /*onMonthChange is called 3 times by the view when it is created. This results in
-            duplicate events being created. Thus, I return an empty ArrayList of WeekViewEvent
-             objects if the month is not 1 (January).*/
-            return new ArrayList<WeekViewEvent>();
-        }
-    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //  HANDLES BUTTON CICKS FOR ScheduleFragment AND EventDetailsFragment
@@ -348,7 +162,7 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
      * re-draw the new events on the calendar.
      */
     public void refreshEvents() {
-        getRemoteEvents(SEPTEMBER_MONTH); //Forces a remote Event query.
+        //Forces a remote Event query.
     }
 
     /**
@@ -363,25 +177,5 @@ public class ScheduleFragment extends Fragment implements WeekViewModified.Event
                      .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                      .remove(getFragmentManager().findFragmentById(R.id.drawer_layout)).commit();
         setEventDetailsOpened(false);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    //  TOOLBAR BUTTONS, ETC.
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.fragment_schedule_actions, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.schedule_action_refresh:
-                refreshEvents();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }
