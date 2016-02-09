@@ -34,27 +34,18 @@ public class DayListFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
 
     // events
-    private ArrayList<Event> events;
+    private ArrayList<Event> events = new ArrayList<>();
 
     public DayListFragment() {
+    }
+
+    public void setEvents(ArrayList<Event> events) {
+        this.events = events;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        networkManager.getEvents(new HackathonCallback<List<Event>>() {
-            @Override
-            public void success(List<Event> response) {
-                events = new ArrayList<Event>(response);
-                updateRecyclerView();
-            }
-
-            @Override
-            public void failure(Throwable error) {
-                Log.e(TAG, "ruh roh", error);
-            }
-        });
     }
 
     @Nullable
@@ -68,11 +59,9 @@ public class DayListFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        return view;
-    }
-
-    private void updateRecyclerView() {
         mAdapter = new DayListViewAdapter(events, getContext());
         mRecyclerView.setAdapter(mAdapter);
+
+        return view;
     }
 }

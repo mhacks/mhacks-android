@@ -12,9 +12,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mhacks.android.data_old.model.Event;
-import com.mhacks.android.data_old.model.Location;
 import org.mhacks.android.R;
+
+import com.mhacks.android.data.model.Event;
+import com.mhacks.android.data.model.Location;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -59,7 +60,6 @@ public class EventDetailsFragment extends Fragment {
         EventDetailsFragment f = new EventDetailsFragment();
 
         Bundle args = new Bundle();
-        args.putParcelable("event", event);
         args.putInt("color", color);
         f.setArguments(args);
 
@@ -117,9 +117,9 @@ public class EventDetailsFragment extends Fragment {
         ArrayList<Location> locations = getLocations(event);
         String locationString = "";
 
-        eventTitle.setText(event.getTitle());
-        eventTime.setText(formatDate(event.getStartTime(), event.getDuration()));
-        eventDescription.setText(event.getDetails());
+        eventTitle.setText(event.getName());
+        eventTime.setText(formatDate(event.getStartTime(), 1));
+        eventDescription.setText(event.getInfo());
 
         if (locations.size() > 0) {
             for (Location loc : locations) {
@@ -130,8 +130,8 @@ public class EventDetailsFragment extends Fragment {
             eventLocation.setText("Unable to fetch location.");
 
         //Null pointer check for Sponsor. Null Sponsor == The MHacks Team is hosting the event.
-        if (event.getHost() != null)
-            eventHost.setText(event.getHost().getName());
+        if (event.getUserId() != null)
+            eventHost.setText(event.getUserId());
         else
             eventHost.setText("The MHacks Team <3");
     }
@@ -189,28 +189,8 @@ public class EventDetailsFragment extends Fragment {
      * @param event Event object for which locationIds are to be queried.
      * @return ArrayList of Location objects for the given Event.
      */
-    public ArrayList<Location> getLocations (Event event) {
-        JSONArray JSONlocations = event.getLocations(); //Locations stored in Parse as a JSON array.
-        ArrayList<Location> locations = new ArrayList<>(); //Array list to be returned.
-        try { //JSON Exception
-            for (int i = 0; i < JSONlocations.length(); i++) {
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("Location");
-                query.fromLocalDatastore();
-                try { //ParseException
-                    //Using query.get() instead of getInBackground() to force each query before moving on.
-                    Location location = (Location) query.get(JSONlocations.getJSONObject(i).getString("objectId"));
-                    if (location != null)
-                        locations.add(location);
-                } catch (ParseException p) {
-                    Log.e(TAG, "Parse done goofed.", p);
-                    Toast.makeText(getActivity(), "Refresh the schedule to get the latest data", Toast.LENGTH_LONG);
-                }
-            }
-        } catch (JSONException e) {
-            Log.e(TAG, "JSON exception", e);
-        }
-
-        return locations;
+    public ArrayList<Location> getLocations(Event event) {
+        return new ArrayList<Location>();
     }
 
     @Override

@@ -12,10 +12,14 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.mhacks.android.data.model.Event;
+import com.mhacks.android.data.network.HackathonCallback;
+import com.mhacks.android.data.network.NetworkManager;
 
 import org.mhacks.android.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 
 /**
@@ -27,6 +31,9 @@ import java.util.ArrayList;
 public class ScheduleFragment extends Fragment {
 
     public static final String TAG = "ScheduleFragment";
+
+    // network manager
+    private final NetworkManager networkManager = NetworkManager.getInstance();
 
     // Declaring Views
     private TabLayout tabLayout;
@@ -64,7 +71,42 @@ public class ScheduleFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText("Sun"));
 
         pagerAdapter = new DayListPagerAdapter(((AppCompatActivity) getActivity()).getSupportFragmentManager());
-        viewPager.setAdapter(pagerAdapter);
+
+        networkManager.getEvents(new HackathonCallback<List<Event>>() {
+            @Override
+            public void success(List<Event> response) {
+                mEvents = new ArrayList<Event>(response);
+
+                ArrayList<Event> friday = new ArrayList<Event>();
+                ArrayList<Event> saturday = new ArrayList<Event>();
+                ArrayList<Event> sunday = new ArrayList<Event>();
+
+                for (Event e : mEvents) {
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(e.getStartTime());
+                    switch (c.get(Calendar.DAY_OF_WEEK)) {
+                        case Calendar.FRIDAY:
+                            friday.add(e);
+                            break;
+                        case Calendar.SATURDAY:
+                            saturday.add(e);
+                            break;
+                        case Calendar.SUNDAY:
+                            sunday.add(e);
+                            break;
+                    }
+                }
+
+                pagerAdapter.setEvents(friday, saturday, sunday);
+                viewPager.setAdapter(pagerAdapter);
+                viewPager.setCurrentItem(0);
+            }
+
+            @Override
+            public void failure(Throwable error) {
+
+            }
+        });
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -91,6 +133,12 @@ public class ScheduleFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         //TODO: cancel query
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        pagerAdapter.notifyDataSetChanged();
     }
 
     /**

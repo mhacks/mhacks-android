@@ -19,7 +19,6 @@ import com.mhacks.android.data.network.NetworkManager;
 import com.mhacks.android.ui.announcements.AnnouncementsFragment;
 import com.mhacks.android.ui.countdown.CountdownFragment;
 import com.mhacks.android.ui.events.ScheduleFragment;
-import com.mhacks.android.ui.map.MapFragment;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -68,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
     private CountdownFragment countdownFragment;
     private AnnouncementsFragment announcementsFragment;
     private ScheduleFragment scheduleFragment;
-    private MapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,24 +79,10 @@ public class MainActivity extends AppCompatActivity {
             setSupportActionBar(mToolbar);
         }
 
-        //Subscribe to Parse push notifications.
-        ParsePush.subscribeInBackground("", new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    Log.d("com.parse.push", "successfully subscribed to the broadcast channel.");
-                }
-                else {
-                    Log.e("com.parse.push", "failed to subscribe for push", e);
-                }
-            }
-        });
-
         //Instantiate fragments
         countdownFragment = new CountdownFragment();
         announcementsFragment = new AnnouncementsFragment();
         scheduleFragment = new ScheduleFragment();
-        mapFragment = new MapFragment();
 
         updateFragment(countdownFragment);
 
@@ -204,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                         updateFragment(scheduleFragment);
                         break;
                     case 4:
-                        updateFragment(mapFragment);
+                        //updateFragment(mapViewFragment);
                         break;
                     default:
                         return false;

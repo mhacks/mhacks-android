@@ -12,13 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.mhacks.android.ui.MainActivity;
+
+import com.mhacks.android.data.model.Announcement;
+import com.mhacks.android.data.network.HackathonCallback;
+import com.mhacks.android.data.network.NetworkManager;
+
 import org.mhacks.android.R;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,7 +34,7 @@ public class AnnouncementsFragment extends Fragment {
     public static final String ANNOUNCEMENT_PIN = "announcementPin";
 
     // Caches all the Announcements found
-    ArrayList<AnnouncementDud> mAnnouncementsList;
+    ArrayList<Announcement> mAnnouncementsList;
 
     // Caches the listView layout
     RecyclerView mRecyclerView;
@@ -43,7 +42,7 @@ public class AnnouncementsFragment extends Fragment {
     MainNavAdapter mListAdapter;
 
     //Current query
-    private ParseQuery<ParseObject> currentQuery;
+    private final NetworkManager networkManager = NetworkManager.getInstance();
 
     @Nullable
     @Override
@@ -57,7 +56,7 @@ public class AnnouncementsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (currentQuery != null) currentQuery.cancel();
+        // TODO cancel active requests
     }
 
     @Override
@@ -66,14 +65,14 @@ public class AnnouncementsFragment extends Fragment {
 
         // Only reset this if we need to
         if(mAnnouncementsList == null) {
-            mAnnouncementsList = new ArrayList<AnnouncementDud>();
+            mAnnouncementsList = new ArrayList<Announcement>();
         }
 
         // Initialize the test ListView
         initList();
 
         // Get Parse data of announcements for the first time
-        getLatestParseData();
+        getAnnouncements();
     }
 
     // Set up the test listView for displaying announcements
@@ -91,76 +90,24 @@ public class AnnouncementsFragment extends Fragment {
         mRecyclerView.setAdapter(mListAdapter);
     }
 
-    private void getLatestParseData() {
-        getLocalParseDataAndUpdateWithRemote();
-    }
-
-    private ParseQuery<ParseObject> getBaseQuery() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Announcement");
-        query.addDescendingOrder(Announcement.DATE_COL);
-        currentQuery = query;
-        return query;
-    }
-
-    private void getLocalParseDataAndUpdateWithRemote() {
-        ParseQuery<ParseObject> query = getBaseQuery();
-        query.fromPin(ANNOUNCEMENT_PIN);
-        query.findInBackground(new FindCallback<ParseObject>() {
+    private void getAnnouncements() {
+        networkManager.getAnnouncements(new HackathonCallback<List<Announcement>>() {
             @Override
-            public void done(List<ParseObject> parseObjects, ParseException e) {
-                if (e != null || parseObjects == null) {
-                    Log.e(TAG, "Couldn't get the local announcements, falling back on remote");
-                } else {
-                    Log.d(TAG, "Got the local announcements, displaying them and fetching remote");
-                    displayAnnouncementsFromList(parseObjects);
-                }
+            public void success(List<Announcement> response) {
+                mAnnouncementsList = new ArrayList<Announcement>();
+                for (Announcement announcement : response) {
+                    Calendar currentTime = Calendar.getInstance();
+                    Calendar announcementTime = Calendar.getInstance();
+                    if (announcement.getBroadcastTime() != null) announcementTime.setTime(announcement.getBroadcastTime());
+                    if (currentTime.compareTo(announcementTime) != -1) mAnnouncementsList.add(announcement);
 
-                getRemoteParseData();
+                    updateAnnouncements();
+                }
             }
-        });
-    }
 
-    private void displayAnnouncementsFromList(List<ParseObject> parseObjects) {
-        // Add the data to the announcements list
-        mAnnouncementsList = new ArrayList<AnnouncementDud>();
-        for(ParseObject parseObject : parseObjects) {
-            //Check to see if the announcement is ahead of the current time.
-            AnnouncementDud announcement = new AnnouncementDud(parseObject);
-            Calendar currentTime = Calendar.getInstance();
-            Calendar announcementTime = Calendar.getInstance();
-            if (announcement.getDate() != null) announcementTime.setTime(announcement.getDate());
-            if (currentTime.compareTo(announcementTime) != -1) mAnnouncementsList.add(announcement);
-        }
-
-        // Update the data
-        updateAnnouncements();
-    }
-
-    private void getRemoteParseData() {
-        ParseQuery<ParseObject> query = getBaseQuery();
-        query.findInBackground(new FindCallback<ParseObject>() {
             @Override
-            public void done(List<ParseObject> parseObjects, ParseException e) {
-                if (e != null || parseObjects == null) {
-                    Log.e(TAG, "Couldn't get the remote announcements");
-
-                    // If we don't have any announcements in memory, tell the user we need internet
-                    if(mAnnouncementsList == null || mAnnouncementsList.size() <= 0) {
-                        if(getActivity() != null) ((MainActivity)getActivity()).showNoInternetOverlay();
-                    } else {
-                        // Otherwise, let them know they aren't looking at the latest news
-                        Toast.makeText(getActivity(), "Couldn't get the latest news!", Toast.LENGTH_LONG).show();
-                        if(getActivity() != null) ((MainActivity)getActivity()).hideNoInternetOverlay();
-                    }
-                } else {
-                    // We got the remote announcements, unpin the old ones and pin the new ones
-                    ParseObject.unpinAllInBackground(ANNOUNCEMENT_PIN);
-                    ParseObject.pinAllInBackground(ANNOUNCEMENT_PIN, parseObjects);
-
-                    // Display them to the user and make sure we aren't getting in the way
-                    displayAnnouncementsFromList(parseObjects);
-                    if(getActivity() != null) ((MainActivity)getActivity()).hideNoInternetOverlay();
-                }
+            public void failure(Throwable error) {
+                Log.e(TAG, "Couldn't get announcements", error);
             }
         });
     }
@@ -216,14 +163,14 @@ public class AnnouncementsFragment extends Fragment {
             // - replace the contents of the view with that element
 
             // Get the current announcement item
-            AnnouncementDud announcement = mAnnouncementsList.get(i);
+            Announcement announcement = mAnnouncementsList.get(i);
 
             // Set this item's views based off of the announcement data
-            viewHolder.titleView.setText(announcement.getTitle());
-            viewHolder.descriptionView.setText(announcement.getMessage());
+            viewHolder.titleView.setText(announcement.getName());
+            viewHolder.descriptionView.setText(announcement.getInfo());
 
             // Get the date from this announcement and set it as a relative date
-            Date date = announcement.getDate();
+            Date date = announcement.getBroadcastTime();
             CharSequence relativeDate = DateUtils.getRelativeTimeSpanString(date.getTime());
             viewHolder.dateView.setText(relativeDate);
         }

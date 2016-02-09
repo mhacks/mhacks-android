@@ -86,7 +86,7 @@ public class CountdownFragment extends Fragment  {
         super.onActivityCreated(savedInstanceState);
 
         // Start everything off by getting the parse data
-        getLatestParseData();
+        //getLatestParseData();
     }
 
     // Gets the parse data to start things off
