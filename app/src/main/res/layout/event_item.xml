@@ -17,7 +17,7 @@
             android:orientation="horizontal">
 
             <FrameLayout android:layout_width="10dp"
-                android:id="@+id/event_color"
+                    android:id="@+id/event_color"
                 android:layout_height="match_parent"
                 android:background="@color/event_blue"/>
 
@@ -35,7 +35,7 @@
                         android:text="Event Title"/>
 
                     <TextView android:layout_width="wrap_content" android:layout_height="25dp"
-                        android:id="@+id/event_date"
+                        android:id="@+id/event_time"
                         android:layout_margin="5dp"
                         android:layout_gravity="end|right"
                         android:text="3/2/1996"

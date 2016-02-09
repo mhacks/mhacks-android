@@ -15,7 +15,7 @@ public class DayListPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return null;
+        return new DayListFragment();
     }
 
     @Override

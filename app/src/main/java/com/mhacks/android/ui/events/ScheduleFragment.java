@@ -2,38 +2,20 @@ package com.mhacks.android.ui.events;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.graphics.Color;
-import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.alamkanak.weekview.WeekViewEvent;
 import com.mhacks.android.data.model.Event;
-import com.mhacks.android.data.network.HackathonCallback;
-import com.mhacks.android.data.network.NetworkManager;
-import com.mhacks.android.ui.MainActivity;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
 import org.mhacks.android.R;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.TimeZone;
 
 
 /**
@@ -49,6 +31,7 @@ public class ScheduleFragment extends Fragment {
     // Declaring Views
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private DayListPagerAdapter pagerAdapter;
     private LinearLayout mScheduleContainer;
 
     // Event data structures
@@ -63,19 +46,6 @@ public class ScheduleFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NetworkManager networkManager = NetworkManager.getInstance();
-        networkManager.getEvents(new HackathonCallback<List<Event>>() {
-            @Override
-            public void success(List<Event> response) {
-                mEvents = new ArrayList<Event>(response);
-                //TODO: build views
-            }
-
-            @Override
-            public void failure(Throwable error) {
-                mEvents = new ArrayList<Event>();
-            }
-        });
     }
 
     @Override
@@ -92,6 +62,27 @@ public class ScheduleFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText("Fri"));
         tabLayout.addTab(tabLayout.newTab().setText("Sat"));
         tabLayout.addTab(tabLayout.newTab().setText("Sun"));
+
+        pagerAdapter = new DayListPagerAdapter(((AppCompatActivity) getActivity()).getSupportFragmentManager());
+        viewPager.setAdapter(pagerAdapter);
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         return view;
     }
@@ -110,20 +101,18 @@ public class ScheduleFragment extends Fragment {
      */
     public int getEventColor(int eventType) {
         switch (eventType) {
-            case 0: //Red
-                return getResources().getColor(R.color.event_red);
-            case 1: //Orange
-                return getResources().getColor(R.color.event_orange);
-            case 2: //Yellow
-                return getResources().getColor(R.color.event_yellow);
-            case 3: //Green
-                return getResources().getColor(R.color.event_green);
-            case 4: //Blue
+            case 0: // Logistics - GO BLUE
                 return getResources().getColor(R.color.event_blue);
-            case 5: //Purple
+            case 1: // Social - Red
+                return getResources().getColor(R.color.event_red);
+            case 2: // Food - MAIZE
+                return getResources().getColor(R.color.event_yellow);
+            case 3: // Tech Talk - Purple
                 return getResources().getColor(R.color.event_purple);
+            case 4: // Other - Green
+                return getResources().getColor(R.color.event_green);
             default:
-                return getResources().getColor(R.color.mh_yellow);
+                return getResources().getColor(R.color.event_blue);
         }
     }
 

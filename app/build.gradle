@@ -42,7 +42,7 @@ android {
 
     defaultConfig {
         applicationId "org.mhacks.android"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 23
         versionCode((int) (System.currentTimeMillis() / 1000))
         versionName "6.0.1"

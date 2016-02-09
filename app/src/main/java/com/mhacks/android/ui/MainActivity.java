@@ -3,7 +3,6 @@ package com.mhacks.android.ui;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.Toast;
 
 import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.User;
@@ -20,7 +18,6 @@ import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
 import com.mhacks.android.ui.announcements.AnnouncementsFragment;
 import com.mhacks.android.ui.countdown.CountdownFragment;
-import com.mhacks.android.ui.events.EventDetailsFragment;
 import com.mhacks.android.ui.events.ScheduleFragment;
 import com.mhacks.android.ui.map.MapFragment;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -33,14 +30,10 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParsePush;
-import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.mhacks.android.R;
 
 import java.util.Date;
