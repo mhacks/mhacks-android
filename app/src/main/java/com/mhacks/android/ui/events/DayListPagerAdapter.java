@@ -3,6 +3,7 @@ package com.mhacks.android.ui.events;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
 import com.mhacks.android.data.model.Event;
 
@@ -12,6 +13,8 @@ import java.util.ArrayList;
  * Created by Omkar Moghe on 2/8/2016.
  */
 public class DayListPagerAdapter extends FragmentPagerAdapter {
+
+    public static final String TAG = "DayListPagerAdapter";
 
     private ArrayList<Event> friday;
     private ArrayList<Event> saturday;
@@ -30,7 +33,7 @@ public class DayListPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         DayListFragment dayListFragment = new DayListFragment();
-
+        Log.d(TAG, "" + position);
         switch (position) {
             case 0:
                 dayListFragment.setEvents(friday);

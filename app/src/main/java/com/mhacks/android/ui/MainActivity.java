@@ -12,10 +12,13 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.iid.InstanceID;
 import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
+import com.mhacks.android.data.network.gcm.MyInstanceIDListenerService;
 import com.mhacks.android.ui.announcements.AnnouncementsFragment;
 import com.mhacks.android.ui.countdown.CountdownFragment;
 import com.mhacks.android.ui.events.ScheduleFragment;
@@ -35,6 +38,7 @@ import com.parse.SaveCallback;
 
 import org.mhacks.android.R;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -198,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
     }
 
     /**

@@ -34,3 +34,7 @@ Thumbs.db
 
 # Keystore(s)
 *.keystore
+
+# GCM JSON
+google-services.json
+

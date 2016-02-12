@@ -99,7 +99,7 @@ public class ScheduleFragment extends Fragment {
 
                 pagerAdapter.setEvents(friday, saturday, sunday);
                 viewPager.setAdapter(pagerAdapter);
-                viewPager.setCurrentItem(0);
+                viewPager.setOffscreenPageLimit(0);
             }
 
             @Override
@@ -138,7 +138,6 @@ public class ScheduleFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        pagerAdapter.notifyDataSetChanged();
     }
 
     /**
