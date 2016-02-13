@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
+import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.mhacks.android.data.model.Announcement;
@@ -72,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
     private AnnouncementsFragment announcementsFragment;
     private ScheduleFragment scheduleFragment;
 
+    //GCM
+    private GoogleCloudMessaging gcm;
+    private GcmPubSub pubSub;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
         scheduleFragment = new ScheduleFragment();
 
         updateFragment(countdownFragment);
+
+        gcm = GoogleCloudMessaging.getInstance(this);
 
         final NetworkManager networkManager = NetworkManager.getInstance();
         networkManager.logUserIn("omoghe@umich.edu", "kanye2020", new HackathonCallback<User>() {
