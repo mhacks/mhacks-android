@@ -3,6 +3,11 @@ package com.mhacks.android.ui;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.AsyncTaskLoader;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,14 +17,20 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+
 import com.google.android.gms.iid.InstanceID;
 import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
+import com.mhacks.android.data.network.gcm.MyGcmListenerService;
 import com.mhacks.android.data.network.gcm.MyInstanceIDListenerService;
+import com.mhacks.android.data.network.gcm.RegistrationConstants;
+import com.mhacks.android.data.network.gcm.RegistrationIntentService;
 import com.mhacks.android.ui.announcements.AnnouncementsFragment;
 import com.mhacks.android.ui.countdown.CountdownFragment;
 import com.mhacks.android.ui.events.ScheduleFragment;
@@ -75,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
 
     //GCM
     private GoogleCloudMessaging gcm;
-    private GcmPubSub pubSub;
-
+    String regid;
+    String PROJECT_NUMBER = "1083581096121";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
         updateFragment(countdownFragment);
 
-        gcm = GoogleCloudMessaging.getInstance(this);
+        getRegId();
 
         final NetworkManager networkManager = NetworkManager.getInstance();
         networkManager.logUserIn("omoghe@umich.edu", "kanye2020", new HackathonCallback<User>() {
@@ -125,6 +136,46 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
+    }
+
+    public void getRegId(){
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                String msg = "";
+                if (checkPlayServices()){
+                    try {
+                        if (gcm == null) {
+                            gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
+                        }
+                        regid = gcm.register(PROJECT_NUMBER);
+                    /*InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
+                    String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
+                            GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);*/
+                        msg = "Device registered, reg id =" + regid;
+                        Log.i("GCM",  msg);
+
+                    } catch (IOException ex) {
+                        msg = "Error :" + ex.getMessage();
+                        Log.i("GCMError",  msg);
+
+                    }
+                    return msg;
+                }
+                else {
+                    Log.e(TAG, "No valid Google Play Services APK found.");
+                    msg = "No valid Google Play Services APK found.";
+                    return msg;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String msg) {
+
+            }
+        }.execute(null, null, null);
     }
 
     /**
@@ -210,6 +261,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this, GooglePlayServicesUtil.GOOGLE_PLAY_SERVICES_VERSION_CODE).show();
+            } else {
+                Log.e(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
     }
 
     /**

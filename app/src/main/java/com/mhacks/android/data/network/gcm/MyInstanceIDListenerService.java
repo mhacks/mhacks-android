@@ -39,10 +39,10 @@ public class MyInstanceIDListenerService extends InstanceIDListenerService {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    @Override
+    /*@Override
     public void zzah(boolean b) {
         super.zzah(b);
-    }
+    }*/
 
     @Override
     public void onTokenRefresh() {

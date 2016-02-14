@@ -94,5 +94,5 @@ dependencies {
     }
     compile 'com.parse:parse-android:1.11.0'
     compile 'com.bugsnag:bugsnag-android:+'
-    compile "com.google.android.gms:play-services-gcm:8.4.0"
+    compile "com.google.android.gms:play-services-gcm:8.3.0"
 }
