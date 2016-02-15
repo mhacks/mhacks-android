@@ -1,5 +1,6 @@
 package com.mhacks.android.ui;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -9,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -72,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
     // CurrentUser
     private User mUser;
 
+    private boolean val;
+
     // Navigation Drawer
     private Drawer                mDrawer;
 
@@ -104,9 +108,31 @@ public class MainActivity extends AppCompatActivity {
         announcementsFragment = new AnnouncementsFragment();
         scheduleFragment = new ScheduleFragment();
 
-        updateFragment(countdownFragment);
+        // If Activity opened from push notification, value will reflect fragment that will initially open
+        String notif = getIntent().getStringExtra("notif_link");
 
-        getRegId();
+
+        if (notif != null){
+            // Opens Announcements
+            if (notif.equals("Announcements")){
+                updateFragment(announcementsFragment);
+            }
+            else{
+                updateFragment(countdownFragment);
+            }
+        }
+        else {
+            updateFragment(countdownFragment);
+        }
+
+        // Checks for correct GPS service number before doing GCM stuff
+        if (checkPlayServices()){
+            // Grabs the Google Cloud Messager REG ID and sends it to the backend
+            getRegId();
+        }
+        else {
+            Log.e(TAG, "No valid Google Play Services APK found.");
+        }
 
         final NetworkManager networkManager = NetworkManager.getInstance();
         networkManager.logUserIn("omoghe@umich.edu", "kanye2020", new HackathonCallback<User>() {
@@ -145,11 +171,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected String doInBackground(Void... params) {
                 String msg = "";
-                if (checkPlayServices()){
                     try {
                         if (gcm == null) {
                             gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
                         }
+                        // reg_id
                         regid = gcm.register(PROJECT_NUMBER);
                     /*InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
                     String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
@@ -164,12 +190,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                     return msg;
                 }
-                else {
-                    Log.e(TAG, "No valid Google Play Services APK found.");
-                    msg = "No valid Google Play Services APK found.";
-                    return msg;
-                }
-            }
 
             @Override
             protected void onPostExecute(String msg) {
@@ -263,18 +283,35 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Checks if the user can obtain the correct Google Play Services number
     private boolean checkPlayServices() {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this, GooglePlayServicesUtil.GOOGLE_PLAY_SERVICES_VERSION_CODE).show();
-            } else {
-                Log.e(TAG, "This device is not supported.");
-                finish();
+        val = true;
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                String msg = "";
+                int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
+                if (resultCode != ConnectionResult.SUCCESS)
+
+                {
+                    if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                        //GooglePlayServicesUtil.getErrorDialog(resultCode, this ,GooglePlayServicesUtil.GOOGLE_PLAY_SERVICES_VERSION_CODE).show();
+                    } else {
+                        Log.e(TAG, "This device is not supported.");
+                        finish();
+                    }
+
+                    return "false";
+                }
+
+                return "true";
             }
-            return false;
-        }
-        return true;
+            @Override
+            protected void onPostExecute(String msg) {
+                val = (msg=="true");
+            }
+        }.execute(null, null, null);
+        return val;
     }
 
     /**

@@ -14,6 +14,7 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.i("GCMInfo",  "RECIEVED SOMETHING");
+        // wakes up phone when recieves a notification
         ComponentName comp = new ComponentName(context.getPackageName(),
                 GcmIntentService.class.getName());
         startWakefulService(context, (intent.setComponent(comp)));

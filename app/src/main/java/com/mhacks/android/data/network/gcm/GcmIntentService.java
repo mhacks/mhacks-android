@@ -54,7 +54,8 @@ public class GcmIntentService extends IntentService {
                         .setContentTitle("MHacks")
                         .setContentText(mes);
 
-        Intent clickable_intent = new Intent(this, AnnouncementsFragment.class);
+        Intent clickable_intent = new Intent(this, MainActivity.class);
+        clickable_intent.putExtra("notif_link", "Announcements");
         clickable_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, clickable_intent, 0);
 
