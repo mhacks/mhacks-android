@@ -46,12 +46,12 @@ public class GcmIntentService extends IntentService {
 
         String messageType = gcm.getMessageType(intent);
 
-        //mes = extras.getString("title");
+        mes = extras.getString("message");
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(com.google.android.gms.gcm.R.drawable.common_plus_signin_btn_icon_dark)
-                        .setContentTitle("title")
-                        .setContentText("text");
+                        .setContentTitle("MHacks")
+                        .setContentText(mes);
 
         Log.i("GCMInfo",  "IN INTENT");
         //Log.i("GCMtitle",  mes);
