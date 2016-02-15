@@ -17,6 +17,7 @@ import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.mhacks.android.ui.MainActivity;
 import com.mhacks.android.data.network.gcm.GcmBroadcastReceiver;
+import com.mhacks.android.ui.announcements.AnnouncementsFragment;
 
 public class GcmIntentService extends IntentService {
     public static final int NOTIFICATION_ID = 1;
@@ -52,6 +53,13 @@ public class GcmIntentService extends IntentService {
                         .setSmallIcon(com.google.android.gms.gcm.R.drawable.common_plus_signin_btn_icon_dark)
                         .setContentTitle("MHacks")
                         .setContentText(mes);
+
+        Intent clickable_intent = new Intent(this, AnnouncementsFragment.class);
+        clickable_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, clickable_intent, 0);
+
+        mBuilder.setContentIntent(pendingIntent);
+
 
         Log.i("GCMInfo",  "IN INTENT");
         //Log.i("GCMtitle",  mes);
