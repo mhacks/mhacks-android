@@ -92,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
     private GoogleCloudMessaging gcm;
     String regid;
     String PROJECT_NUMBER;
+    String notif;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // If Activity opened from push notification, value will reflect fragment that will initially open
-        String notif = getIntent().getStringExtra("notif_link");
+        notif = getIntent().getStringExtra("notif_link");
         PROJECT_NUMBER = getString(R.string.gcm_server_id);
 
         //Instantiate fragments
@@ -120,6 +122,14 @@ public class MainActivity extends AppCompatActivity {
             public void success(User response) {
                 mUser = response;
                 buildNavigationDrawer();
+
+                // Lastly once we are fully built we can update the fragment based on push notifs
+                if (notif != null){
+                    // Opens Announcements
+                    if (notif.equals("Announcements")){
+                        mDrawer.setSelection(2, true);
+                    }
+                }
 
 
                 // Checks for correct GPS service number before doing GCM stuff
@@ -154,13 +164,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Lastly once we are fully built we can update the fragment based on push notifs
-        if (notif != null){
-            // Opens Announcements
-            if (notif.equals("Announcements")){
-                mDrawer.setSelection(2, true);
-            }
-        }
     }
 
     public void getRegId(){
@@ -325,6 +328,7 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.replace(R.id.main_container, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
