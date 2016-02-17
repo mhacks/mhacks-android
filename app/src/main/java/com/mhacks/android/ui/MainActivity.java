@@ -112,27 +112,7 @@ public class MainActivity extends AppCompatActivity {
         announcementsFragment = new AnnouncementsFragment();
         scheduleFragment = new ScheduleFragment();
 
-        if (notif != null){
-            // Opens Announcements
-            if (notif.equals("Announcements")){
-                mDrawer.setSelection(2, true);
-            }
-            else{
-                updateFragment(countdownFragment);
-            }
-        }
-        else {
-            updateFragment(countdownFragment);
-        }
-
-        // Checks for correct GPS service number before doing GCM stuff
-        if (checkPlayServices()){
-            // Grabs the Google Cloud Messager REG ID and sends it to the backend
-            getRegId();
-        }
-        else {
-            Log.e(TAG, "No valid Google Play Services APK found.");
-        }
+        updateFragment(countdownFragment);
 
         final NetworkManager networkManager = NetworkManager.getInstance();
         networkManager.logUserIn("omoghe@umich.edu", "kanye2020", new HackathonCallback<User>() {
@@ -140,6 +120,17 @@ public class MainActivity extends AppCompatActivity {
             public void success(User response) {
                 mUser = response;
                 buildNavigationDrawer();
+
+
+                // Checks for correct GPS service number before doing GCM stuff
+                if (checkPlayServices()){
+                    // Grabs the Google Cloud Messager REG ID and sends it to the backend
+                    getRegId();
+                }
+                else {
+                    Log.e(TAG, "No valid Google Play Services APK found.");
+                }
+
 
                 networkManager.getAnnouncements(new HackathonCallback<List<Announcement>>() {
                     @Override
@@ -163,7 +154,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        // Lastly once we are fully built we can update the fragment based on push notifs
+        if (notif != null){
+            // Opens Announcements
+            if (notif.equals("Announcements")){
+                mDrawer.setSelection(2, true);
+            }
+        }
     }
 
     public void getRegId(){
