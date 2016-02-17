@@ -176,10 +176,15 @@ public class MainActivity extends AppCompatActivity {
                             gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
                         }
                         // reg_id
+                        Bundle data = new Bundle();
+
                         regid = gcm.register(PROJECT_NUMBER);
+
+                        data.putString("regid",regid);
                     /*InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
                     String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
                             GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);*/
+                        gcm.send(PROJECT_NUMBER + "@gcm.googleapis.com", "regid", data);
                         msg = "Device registered, reg id =" + regid;
                         Log.i("GCM",  msg);
 
