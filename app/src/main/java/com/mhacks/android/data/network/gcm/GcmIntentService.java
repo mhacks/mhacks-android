@@ -57,12 +57,13 @@ public class GcmIntentService extends IntentService {
         Intent clickable_intent = new Intent(this, MainActivity.class);
         clickable_intent.putExtra("notif_link", "Announcements");
         clickable_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, clickable_intent, 0);
 
         mBuilder.setContentIntent(pendingIntent);
+        mBuilder.setAutoCancel(true);
 
-
-        Log.i("GCMInfo",  "IN INTENT");
+        Log.i("GCMInfo",  "IN INTENT message:" + mes);
         //Log.i("GCMtitle",  mes);
 
         int mNotificationId = 001;

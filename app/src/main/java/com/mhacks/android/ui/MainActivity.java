@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     //GCM
     private GoogleCloudMessaging gcm;
     String regid;
-    String PROJECT_NUMBER = "1083581096121";
+    String PROJECT_NUMBER;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,19 +103,19 @@ public class MainActivity extends AppCompatActivity {
             setSupportActionBar(mToolbar);
         }
 
+        // If Activity opened from push notification, value will reflect fragment that will initially open
+        String notif = getIntent().getStringExtra("notif_link");
+        PROJECT_NUMBER = getString(R.string.gcm_server_id);
+
         //Instantiate fragments
         countdownFragment = new CountdownFragment();
         announcementsFragment = new AnnouncementsFragment();
         scheduleFragment = new ScheduleFragment();
 
-        // If Activity opened from push notification, value will reflect fragment that will initially open
-        String notif = getIntent().getStringExtra("notif_link");
-
-
         if (notif != null){
             // Opens Announcements
             if (notif.equals("Announcements")){
-                updateFragment(announcementsFragment);
+                mDrawer.setSelection(2, true);
             }
             else{
                 updateFragment(countdownFragment);
