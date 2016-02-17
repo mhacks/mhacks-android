@@ -116,6 +116,14 @@ public class MainActivity extends AppCompatActivity {
 
         updateFragment(countdownFragment);
 
+
+        if (notif != null){
+            // Opens Announcements
+            if (notif.equals("Announcements")){
+                updateFragment(announcementsFragment);;
+            }
+        }
+
         final NetworkManager networkManager = NetworkManager.getInstance();
         networkManager.logUserIn("omoghe@umich.edu", "kanye2020", new HackathonCallback<User>() {
             @Override
@@ -127,10 +135,9 @@ public class MainActivity extends AppCompatActivity {
                 if (notif != null){
                     // Opens Announcements
                     if (notif.equals("Announcements")){
-                        mDrawer.setSelection(2, true);
+                        mDrawer.setSelectionAtPosition(2);
                     }
                 }
-
 
                 // Checks for correct GPS service number before doing GCM stuff
                 if (checkPlayServices()){
