@@ -2,9 +2,11 @@ package com.mhacks.android.ui.map;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,8 +16,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -31,6 +35,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -53,32 +58,50 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
     @Nullable
     private GroundOverlayOptions option = null;
 
+    private static final LatLng NORTHEAST = new LatLng(42.294290, -83.712580);
+    private static final LatLng SOUTHWEST = new LatLng(42.291277, -83.716620);
+    private static final LatLngBounds CORNERS = new LatLngBounds(SOUTHWEST, NORTHEAST);
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        LatLng NORTHEAST = new LatLng(42.294290, -83.712580);
-        LatLng SOUTHWEST = new LatLng(42.291277, -83.716620);
-        LatLngBounds corners = new LatLngBounds(SOUTHWEST, NORTHEAST);
+
 
         if(!created) {
-            mMapFragView = inflater.inflate(R.layout.fragment_map, container, false);
-
-            //TODO: stop it from complaining about API 14 http://stackoverflow.com/questions/26592889/mapfragment-or-mapview-getmap-returns-null-on-lollipop#answer-27681586
-            MapFragment mapFragment = (MapFragment) getChildFragmentManager()
-                    .findFragmentById(R.id.map_view_container);
-
-            if (mapFragment == null) {
-                Log.e(TAG, "Could not get Fragment");
-                //TODO: some sort of error code in the UI
-            } else {
-                mapFragment.getMapAsync(this);
+            try {
+                MapsInitializer.initialize(getActivity().getApplicationContext());
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
-            GroundOverlayLoader loader = new GroundOverlayLoader(MapViewFragment.this, this.getActivity(), corners);
-            loader.execute();
+
+            mMapFragView = inflater.inflate(R.layout.fragment_map, container, false);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    //TODO: stop it from complaining about API 14 http://stackoverflow.com/questions/26592889/mapfragment-or-mapview-getmap-returns-null-on-lollipop#answer-27681586
+                    FragmentManager fm = getChildFragmentManager();
+                    MapFragment mapFragment = MapFragment.newInstance();
+                    mMapFragView.findViewById(R.id.loading_bar).setVisibility(View.GONE);
+                    fm.beginTransaction().replace(R.id.map_view_container, mapFragment).commit();
+                    if (mapFragment == null) {
+                        Log.e(TAG, "Could not get Fragment");
+                        //TODO: some sort of error code in the UI
+                    } else {
+
+                        mapFragment.getMapAsync(MapViewFragment.this);
+                        GroundOverlayLoader loader = new GroundOverlayLoader(MapViewFragment.this, MapViewFragment.this.getActivity(), CORNERS);
+                        loader.execute();
+
+                    }
+                }
+            }, 1000);
+
+            created = true;
         }
-        created = true;
         return mMapFragView;
     }
 
