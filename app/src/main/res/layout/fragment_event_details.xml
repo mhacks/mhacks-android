@@ -57,7 +57,7 @@
 
             <FrameLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp">
+                android:layout_marginTop="30dp" android:id="@+id/location_name_frame">
                 <!--TODO have an onClick for the location-->
 
                 <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
 
             <FrameLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp">
+                android:layout_marginTop="30dp" android:id="@+id/info_frame">
 
                 <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:src="@drawable/icon_subject_grey"
@@ -88,23 +88,6 @@
                     android:paddingRight="30dp"
                     android:paddingEnd="30dp"
                     android:text="Event description"/>
-            </FrameLayout>
-
-            <FrameLayout android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp">
-
-                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:src="@drawable/icon_person_grey"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginStart="30dp"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:id="@+id/details_host"
-                    android:textColor="@color/black"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginStart="80dp"
-                    android:text="Event host"/>
             </FrameLayout>
 
         </LinearLayout>

@@ -32,9 +32,9 @@ import retrofit.Retrofit;
 public class NetworkManager {
 
     private static final String TAG      = "NetworkManager";
-    private static final String BASE_URL = "http://ec2-52-5-127-162.compute-1.amazonaws.com/v1/"; // TODO: figure out a better way to build this string.
+    private static final String BASE_URL = "http://ec2-52-70-71-221.compute-1.amazonaws.com/v1/";
 
-    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
     private HackathonNetworkService networkService;
     private Token                   mToken;
@@ -239,7 +239,7 @@ public class NetworkManager {
 
                           @Override
                           public void onFailure(Throwable t) {
-                              Log.d(TAG, "Couldn't get the events");
+                              Log.e(TAG, "Couldn't get the events", t);
                               callback.failure(t);
                           }
                       });

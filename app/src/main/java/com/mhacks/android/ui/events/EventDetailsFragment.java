@@ -5,27 +5,22 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.mhacks.android.R;
 
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.Location;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Omkar Moghe on 12/25/2014.
@@ -37,18 +32,24 @@ public class EventDetailsFragment extends Fragment {
 
     private static final String TAG = "EventDetailsFragment";
 
-    //Decalre Views.
-    private View mEventDetailsFragView;
-
-    private TextView eventTitle, eventTime, eventLocation, eventDescription, eventHost;
+    // Decalre Views.
+    private View     mEventDetailsFragView;
+    private TextView eventNameTV, eventTimeTV, eventLocationNameTV, eventInfoTV;
     private View colorBlock; //Header color. Matches color of event in calendar.
+    private FrameLayout eventInfoFrame, eventLocationNameFrame;
 
-    //Date arrays
+    // Date arrays
     private final String[] dayOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
                                         "Friday", "Saturday"};
     private final String[] monthOfYear = {"January", "February", "March", "April", "May", "June",
                                           "July", "August", "September", "October", "November",
                                           "December"};
+
+    // Event Details
+    private String eventName, eventInfo, eventLocationName;
+    private String[] eventLocationIds;
+    private Date eventStartTime, eventEndTime;
+    private int eventColor;
 
     /**
      * Creates a new instance of the EventDetailsFragment.
@@ -60,26 +61,34 @@ public class EventDetailsFragment extends Fragment {
         EventDetailsFragment f = new EventDetailsFragment();
 
         Bundle args = new Bundle();
+        args.putString("name", event.getName());
+        args.putString("info", event.getInfo());
+        args.putCharSequenceArray("locationIds", event.getLocationIds());
+        args.putString("locationName", event.getLocationName());
+        args.putLong("startTime", event.getStartTime().getTime());
+        args.putLong("endTime", event.getEndTime().getTime());
         args.putInt("color", color);
         f.setArguments(args);
 
         return f;
     }
 
-    /**
-     * Returns the Event for this EventDetailsView.
-     * @return Event that was passed in when newInstance() was called.
-     */
-    public Event getEvent () {
-        return getArguments().getParcelable("event");
-    }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        Bundle args = getArguments();
 
-    /**
-     * Returns the color used to draw this event.
-     * @return Color of the event.
-     */
-    public int getColor () {
-        return getArguments().getInt("color");
+        // Either has all of the keys or none, so only checking for the name.
+        if (args.containsKey("name")) {
+            eventName = args.getString("name");
+            eventInfo = args.getString("info");
+            eventLocationName = args.getString("locationName");
+            eventLocationIds = args.getStringArray("locationIds");
+            eventStartTime = new Date(args.getLong("startTime"));
+            eventEndTime = new Date(args.getLong("endTime"));
+            eventColor = args.getInt("color");
+        }
+
+        super.onCreate(savedInstanceState);
     }
 
     @Nullable
@@ -90,15 +99,17 @@ public class EventDetailsFragment extends Fragment {
         mEventDetailsFragView = inflater.inflate(R.layout.fragment_event_details, container, false);
 
         //Instantiate TextViews
-        eventTitle = (TextView) mEventDetailsFragView.findViewById(R.id.event_title);
-        eventTime = (TextView) mEventDetailsFragView.findViewById(R.id.details_time);
-        eventLocation = (TextView) mEventDetailsFragView.findViewById(R.id.details_location);
-        eventDescription = (TextView) mEventDetailsFragView.findViewById(R.id.details_description);
-        eventHost = (TextView) mEventDetailsFragView.findViewById(R.id.details_host);
+        eventNameTV = (TextView) mEventDetailsFragView.findViewById(R.id.event_title);
+        eventTimeTV = (TextView) mEventDetailsFragView.findViewById(R.id.details_time);
+        eventLocationNameTV = (TextView) mEventDetailsFragView.findViewById(R.id.details_location);
+        eventInfoTV = (TextView) mEventDetailsFragView.findViewById(R.id.details_description);
+
+        eventInfoFrame = (FrameLayout) mEventDetailsFragView.findViewById(R.id.info_frame);
+        eventLocationNameFrame = (FrameLayout) mEventDetailsFragView.findViewById(R.id.location_name_frame);
 
         //Instantiate color header block
         colorBlock = mEventDetailsFragView.findViewById(R.id.header_color_block);
-        colorBlock.setBackgroundColor(getColor());
+        colorBlock.setBackgroundColor(eventColor);
 
         //Add correct details to the details view.
         setEventDetails();
@@ -113,89 +124,49 @@ public class EventDetailsFragment extends Fragment {
      * Method to use the Event object to populate the view using the appropriate info.
      */
     public void setEventDetails() {
-        Event event = getEvent();
-        ArrayList<Location> locations = getLocations(event);
+        ArrayList<Location> locations = getLocations(eventLocationIds);
         String locationString = "";
 
-        eventTitle.setText(event.getName());
-        eventTime.setText(formatDate(event.getStartTime(), 1));
-        eventDescription.setText(event.getInfo());
+        // These better exist...
+        eventNameTV.setText(eventName);
+        eventTimeTV.setText(formatDate(eventStartTime, eventEndTime));
 
-        if (locations.size() > 0) {
-            for (Location loc : locations) {
-                locationString += loc.getName() + " & ";
-            }
-            eventLocation.setText(locationString.substring(0, locationString.length()-2));
-        } else
-            eventLocation.setText("Unable to fetch location.");
+        // Can be empty
+        if (eventInfo.length() != 0) eventInfoTV.setText(eventInfo);
+        else eventInfoFrame.setVisibility(View.GONE);
 
-        //Null pointer check for Sponsor. Null Sponsor == The MHacks Team is hosting the event.
-        if (event.getUserId() != null)
-            eventHost.setText(event.getUserId());
-        else
-            eventHost.setText("The MHacks Team <3");
+        if (eventLocationName.length() != 0) eventLocationNameTV.setText(eventLocationName);
+        else eventLocationNameFrame.setVisibility(View.GONE);
     }
 
     /**
      * Takes the Date object and duration and formats them into a more common format.
      * After:   Sunday, Jan 18
      *          5:00-6:00
-     * @param eventDate Date to format into a more readable date.
-     * @param duration Duration of event in seconds.
+     * @param startTime Start Date of event.
+     * @param endTime End date of event.
      * @return Readable string from Date.toString().
      */
-    public String formatDate (Date eventDate, int duration) {
-        String finalDate, day, month;
-        int date, year, startHour, startMinute, endHour, endMinute;
+    public String formatDate (Date startTime, Date endTime) {
+        SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE, MMM d", Locale.US);
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.US);
 
-        //Create Calendar object.
-        Calendar start = Calendar.getInstance();
-        start.setTime(eventDate);
-
-        //Create end event.
-        Calendar end = (Calendar) start.clone();
-        int hourDuration = duration / 3600;      //getDuration returns seconds as an int. Need to convert to hours.
-        int minuteDuration = (duration % 3600) / 60;    //Converting remainder of minutes to int minutes.
-        end.add(Calendar.HOUR, hourDuration);
-        end.add(Calendar.MINUTE, minuteDuration);
-
-        day = dayOfWeek[start.get(Calendar.DAY_OF_WEEK) - 1]; //Get day of week as s string.
-        month = monthOfYear[start.get(Calendar.MONTH)]; //Get month as a string.
-        date = start.get(Calendar.DATE); //Get the date.
-        year = start.get(Calendar.YEAR); //Get year.
-        if (start.get(Calendar.HOUR) == 0) //Starting hour.
-            startHour = 12;
-        else
-            startHour = start.get(Calendar.HOUR);
-        startMinute = start.get(Calendar.MINUTE); //Starting minutes.
-        if (end.get(Calendar.HOUR) == 0) //Ending hour.
-            endHour = 12;
-        else
-            endHour = end.get(Calendar.HOUR);
-        endMinute = end.get(Calendar.MINUTE); //Ending minute.
-
-
-
-        //Build string to be displayed.
-        finalDate = day + ", " + month + " " + date + "\n" + startHour + ":" +
-                    String.format("%02d", startMinute) + " - " + endHour + ":" +
-                    String.format("%02d", endMinute);
-
-        return finalDate;
+        return dayFormat.format(startTime) + "\n"
+               +  timeFormat.format(startTime) + " - " + timeFormat.format(endTime);
     }
 
     /**
      * Gets all the locationIds for a given Event based on the objectId's of the location.
-     * @param event Event object for which locationIds are to be queried.
+     * @param locationIds to be queried.
      * @return ArrayList of Location objects for the given Event.
      */
-    public ArrayList<Location> getLocations(Event event) {
+    public ArrayList<Location> getLocations(String[] locationIds) {
         return new ArrayList<Location>();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ((ActionBarActivity) getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 }

@@ -9,6 +9,7 @@ public class Event extends ModelObject {
     public String   name;
     public String   info;
     public String[] locationIds;
+    public String locationName;
     public Date     startTime;
     public Date     endTime;
     public String   userId;
@@ -89,5 +90,13 @@ public class Event extends ModelObject {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 }

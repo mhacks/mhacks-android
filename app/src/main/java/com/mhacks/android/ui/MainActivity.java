@@ -91,31 +91,16 @@ public class MainActivity extends AppCompatActivity {
         updateFragment(countdownFragment);
 
         final NetworkManager networkManager = NetworkManager.getInstance();
-        networkManager.logUserIn("omoghe@umich.edu", "kanye2020", new HackathonCallback<User>() {
+        networkManager.logUserIn("omoghe@umich.edu", "deleted for commit", new HackathonCallback<User>() {
             @Override
             public void success(User response) {
                 mUser = response;
                 buildNavigationDrawer();
-
-                networkManager.getAnnouncements(new HackathonCallback<List<Announcement>>() {
-                    @Override
-                    public void success(List<Announcement> response) {
-                        Log.d(TAG, "" + response.size());
-                        for (Announcement a : response) {
-                            Log.d(TAG, a.getName());
-                        }
-                    }
-
-                    @Override
-                    public void failure(Throwable error) {
-
-                    }
-                });
             }
 
             @Override
             public void failure(Throwable error) {
-
+                buildNavigationDrawer();
             }
         });
     }
@@ -143,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                                                                 .withSelectedTextColorRes(R.color.primary_dark);
 
         // User profile
-        String userName = (mUser != null) ? mUser.firstName + " " + mUser.lastName : "User_Name";
+        String userName = (mUser != null) ? mUser.firstName + " " + mUser.lastName : "MHacks: Refactor";
         ProfileDrawerItem userProfile = new ProfileDrawerItem().withName(userName)
                                                                .withTextColorRes(R.color.black);
         userProfile.withSelectedColorRes(R.color.primary_dark);
