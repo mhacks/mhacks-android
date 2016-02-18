@@ -22,6 +22,7 @@ import com.mhacks.android.data.network.gcm.MyInstanceIDListenerService;
 import com.mhacks.android.ui.announcements.AnnouncementsFragment;
 import com.mhacks.android.ui.countdown.CountdownFragment;
 import com.mhacks.android.ui.events.ScheduleFragment;
+import com.mhacks.android.ui.settings.SettingsFragment;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     private CountdownFragment countdownFragment;
     private AnnouncementsFragment announcementsFragment;
     private ScheduleFragment scheduleFragment;
+    private SettingsFragment settingsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         countdownFragment = new CountdownFragment();
         announcementsFragment = new AnnouncementsFragment();
         scheduleFragment = new ScheduleFragment();
+        settingsFragment = new SettingsFragment();
 
         updateFragment(countdownFragment);
 
@@ -180,6 +183,8 @@ public class MainActivity extends AppCompatActivity {
                     case 4:
                         //updateFragment(mapViewFragment);
                         break;
+                    case 6:
+                        updateFragment(settingsFragment);
                     default:
                         return false;
                 }
