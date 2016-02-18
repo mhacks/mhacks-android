@@ -14,14 +14,14 @@
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="fill_parent">
 
         <!-- Main layout -->
         <FrameLayout
             android:id="@+id/main_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/colorPrimary" />
+            android:background="@color/ow_drawer_background" />
 
         <!-- The no-internet overlay -->
         <RelativeLayout

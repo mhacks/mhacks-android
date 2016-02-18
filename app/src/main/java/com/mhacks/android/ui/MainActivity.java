@@ -113,25 +113,26 @@ public class MainActivity extends AppCompatActivity {
         // Drawer items
         PrimaryDrawerItem countdown = new PrimaryDrawerItem().withName("Countdown")
                                                              .withIcon(R.drawable.ic_time)
-                                                             .withSelectedTextColorRes(R.color.primary_dark);
+                                                             .withSelectedTextColorRes(R.color.primary);
         PrimaryDrawerItem announcements = new PrimaryDrawerItem().withName("Announcements")
                                                                  .withIcon(R.drawable.ic_announcement)
-                                                                 .withSelectedTextColorRes(R.color.primary_dark);
+                                                                 .withSelectedTextColorRes(R.color.primary);
         PrimaryDrawerItem events = new PrimaryDrawerItem().withName("Events")
                                                           .withIcon(R.drawable.ic_event)
-                                                          .withSelectedTextColorRes(R.color.primary_dark);
+                                                          .withSelectedTextColorRes(R.color.primary);
         PrimaryDrawerItem map = new PrimaryDrawerItem().withName("Map")
                                                        .withIcon(R.drawable.ic_location)
-                                                       .withSelectedTextColorRes(R.color.primary_dark);
+                                                       .withSelectedTextColorRes(R.color.primary);
         SecondaryDrawerItem settings = new SecondaryDrawerItem().withName("Settings")
                                                                 .withIcon(R.drawable.ic_settings)
-                                                                .withSelectedTextColorRes(R.color.primary_dark);
+                                                                .withSelectedTextColorRes(R.color.primary);
 
         // User profile
         String userName = (mUser != null) ? mUser.firstName + " " + mUser.lastName : "MHacks: Refactor";
         ProfileDrawerItem userProfile = new ProfileDrawerItem().withName(userName)
-                                                               .withTextColorRes(R.color.black);
-        userProfile.withSelectedColorRes(R.color.primary_dark);
+                                                               .withTextColorRes(R.color.black)
+                                                               .withSelectedColorRes(R.color.primary)
+                                                               .withIcon(getResources().getDrawable(R.mipmap.launcher_icon));
 
         // Account Header
         AccountHeader accountHeader = new AccountHeaderBuilder()
