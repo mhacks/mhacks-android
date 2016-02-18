@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -37,6 +38,7 @@ public class EventDetailsFragment extends Fragment {
     private TextView eventNameTV, eventTimeTV, eventLocationNameTV, eventInfoTV;
     private View colorBlock; //Header color. Matches color of event in calendar.
     private FrameLayout eventInfoFrame, eventLocationNameFrame;
+    private Button showOnMapButton;
 
     // Date arrays
     private final String[] dayOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
@@ -107,6 +109,14 @@ public class EventDetailsFragment extends Fragment {
         eventInfoFrame = (FrameLayout) mEventDetailsFragView.findViewById(R.id.info_frame);
         eventLocationNameFrame = (FrameLayout) mEventDetailsFragView.findViewById(R.id.location_name_frame);
 
+        showOnMapButton = (Button) mEventDetailsFragView.findViewById(R.id.show_on_map);
+        showOnMapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: show on map
+            }
+        });
+
         //Instantiate color header block
         colorBlock = mEventDetailsFragView.findViewById(R.id.header_color_block);
         colorBlock.setBackgroundColor(eventColor);
@@ -124,8 +134,7 @@ public class EventDetailsFragment extends Fragment {
      * Method to use the Event object to populate the view using the appropriate info.
      */
     public void setEventDetails() {
-        ArrayList<Location> locations = getLocations(eventLocationIds);
-        String locationString = "";
+        showOnMapButton.setBackgroundColor(eventColor);
 
         // These better exist...
         eventNameTV.setText(eventName);
