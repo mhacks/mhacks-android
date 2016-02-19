@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import com.mhacks.android.data.auth.Token;
 import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.AnnouncementList;
+import com.mhacks.android.data.model.Countdown;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.EventList;
 import com.mhacks.android.data.model.Location;
@@ -383,34 +384,49 @@ public class NetworkManager {
 
     public void getMap(final HackathonCallback<Map> callback) {
         networkService.getMap()
-                .enqueue(new Callback<Map>() {
-                    @Override
-                    public void onResponse(Response<Map> response, Retrofit retrofit) {
-                        callback.success(response.body());
-                    }
+                      .enqueue(new Callback<Map>() {
+                          @Override
+                          public void onResponse(Response<Map> response, Retrofit retrofit) {
+                              callback.success(response.body());
+                          }
 
-                    @Override
-                    public void onFailure(Throwable t) {
-                        Log.e(TAG, "Couldn't get the map", t);
-                        callback.failure(t);
-                    }
-                });
+                          @Override
+                          public void onFailure(Throwable t) {
+                              Log.e(TAG, "Couldn't get the map", t);
+                              callback.failure(t);
+                          }
+                      });
     }
 
     public void sendToken(com.mhacks.android.data.model.Token token, final HackathonCallback<com.mhacks.android.data.model.Token> callback) {
         networkService.sendToken(token)
-                .enqueue(new Callback<com.mhacks.android.data.model.Token>() {
-                    @Override
-                    public void onResponse(Response<com.mhacks.android.data.model.Token> response,
-                                           Retrofit retrofit) {
-                        callback.success(response.body());
-                    }
+                      .enqueue(new Callback<com.mhacks.android.data.model.Token>() {
+                          @Override
+                          public void onResponse(Response<com.mhacks.android.data.model.Token> response,
+                                                 Retrofit retrofit) {
+                              callback.success(response.body());
+                          }
 
-                    @Override
-                    public void onFailure(Throwable t) {
-                        callback.failure(t);
-                    }
-                });
+                          @Override
+                          public void onFailure(Throwable t) {
+                              callback.failure(t);
+                          }
+                      });
+    }
+
+    public void getCountdown(final HackathonCallback<Countdown> callback) {
+        networkService.getCountdown()
+                      .enqueue(new Callback<Countdown>() {
+                          @Override
+                          public void onResponse(Response<Countdown> response, Retrofit retrofit) {
+                              callback.success(response.body());
+                          }
+
+                          @Override
+                          public void onFailure(Throwable t) {
+                              callback.failure(t);
+                          }
+                      });
     }
 
     /**

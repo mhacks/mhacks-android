@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.mhacks.android.data.model.Countdown;
+import com.mhacks.android.data.network.HackathonCallback;
+import com.mhacks.android.data.network.NetworkManager;
 import com.mhacks.android.ui.MainActivity;
 import org.mhacks.android.R;
 import com.parse.ConfigCallback;
@@ -35,10 +38,6 @@ import java.util.TimeZone;
 public class CountdownFragment extends Fragment  {
     private static final String TAG = "MD/CountdownFrag";
 
-    // Tags for getting parse data
-    private static final String TAG_COUNTDOWN_STARTDATE = "countdownStartDate";
-    private static final String TAG_COUNTDOWN_DURATION = "countdownDuration";
-
     // Countdown views
     private ProgressBar mCircularProgress;
     private TextView mCountdownTextView;
@@ -49,6 +48,9 @@ public class CountdownFragment extends Fragment  {
     // For testing the countdown timer
     private final long countdownLength = 10 * 1000;
     private final long countdownUpdateIntervals = 1*750;
+
+    private Date startDate;
+    private long duration;
 
     @Nullable
     @Override
@@ -64,20 +66,6 @@ public class CountdownFragment extends Fragment  {
         mBottomTitleText = (TextView) view.findViewById(R.id.countdown_bottomtitle_intro);
         mBottomTimeText = (TextView) view.findViewById(R.id.countdown_bottomtitle_time);
 
-        // TEST
-/*        Button button = (Button) view.findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Random random = new Random();
-                int progress = random.nextInt(100);
-                mCircularProgress.setProgress(progress);
-
-                HackingCountdownTimer timer = new HackingCountdownTimer(countdownLength, countdownUpdateIntervals);
-                timer.start();
-            }
-        });*/
-
         return view;
     }
 
@@ -85,52 +73,22 @@ public class CountdownFragment extends Fragment  {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // Start everything off by getting the parse data
-        //getLatestParseData();
-    }
-
-    // Gets the parse data to start things off
-    private void getLatestParseData() {
-        // First try for the local data to show something to the user
-        ParseConfig localConfig = ParseConfig.getCurrentConfig();
-        Date startDate = localConfig.getDate(TAG_COUNTDOWN_STARTDATE);
-        long duration = localConfig.getLong(TAG_COUNTDOWN_DURATION);
-
-        final boolean canUseLocalData = (startDate != null); // Kinda weird
-        if(canUseLocalData) {
-            if(getActivity() != null) ((MainActivity)getActivity()).hideNoInternetOverlay();
-            initCountdownIfNecessary(startDate, duration * 1000);
-        }
-
-        // Then get the remote data
-        ParseConfig.getInBackground(new ConfigCallback() {
+        NetworkManager networkManager = NetworkManager.getInstance();
+        networkManager.getCountdown(new HackathonCallback<Countdown>() {
             @Override
-            public void done(ParseConfig parseConfig, ParseException e) {
-                if (e != null || parseConfig == null) {
-                    Log.e(TAG, "Failed to fetch. Using Cached Config if it's available.");
+            public void success(Countdown response) {
+                startDate = new Date(response.getStartTime() * 1000);
+                duration = response.getCountdownDuration();
+                initCountdownIfNecessary(startDate, duration);
+            }
 
-                    // If we don't have any local data, let the user know we need internet
-                    if(!canUseLocalData) {
-                        if(getActivity() != null) ((MainActivity)getActivity()).showNoInternetOverlay();
-                    }
+            @Override
+            public void failure(Throwable error) {
 
-                    return;
-                }
-
-                // Get the date and duration from the config
-                Date startDate = parseConfig.getDate(TAG_COUNTDOWN_STARTDATE);
-                long duration = parseConfig.getLong(TAG_COUNTDOWN_DURATION);
-
-                if(startDate == null && !canUseLocalData) {
-                    // If something was wrong with the remote data and we don't have local data, let the user know
-                    if(getActivity() != null) ((MainActivity)getActivity()).showNoInternetOverlay();
-                } else {
-                    // Hey check it out something went right
-                    if(getActivity() != null) ((MainActivity)getActivity()).hideNoInternetOverlay();
-                    initCountdownIfNecessary(startDate, duration * 1000);
-                }
             }
         });
+        // Start everything off by getting the parse data
+        //getLatestParseData();
     }
 
     /**
@@ -152,7 +110,7 @@ public class CountdownFragment extends Fragment  {
 
         // Get the endDT in local time
         DateTime localEndDT = new DateTime(localStartDT);
-        localEndDT = localEndDT.plus(duration);
+        localEndDT = localEndDT.plus(duration - 10800000);
 
         // Get the current, start, and end times in millis
         long curTime = localDateTime.getMillis();
