@@ -38,7 +38,7 @@ public class GroundOverlayLoader extends AsyncTask<Object, Object, Object>{
         bMapOptions.inSampleSize = 4;
         options = new GroundOverlayOptions()
                 .image(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(activity
-                        .getResources(), R.drawable.map_no_edges, bMapOptions)))
+                        .getResources(), R.drawable.grand_map, bMapOptions)))
                 .positionFromBounds(bounds);
         return null;
     }

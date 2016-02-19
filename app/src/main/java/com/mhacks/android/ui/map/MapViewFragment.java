@@ -19,6 +19,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.mhacks.android.data.model.Location;
 
@@ -36,6 +37,7 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
 
     public static final String TAG = "MapViewFragment";
     public static final String MAP_PIN = "mapPin";
+    private ArrayList<Marker> mMarkers = new ArrayList<>();
 
     //Views
     private View      mMapFragView;
@@ -47,7 +49,6 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
     @Nullable
     private GroundOverlayOptions option = null;
 
-//    NetworkManager networkManager = NetworkManager.getInstance();
     private static final LatLng NORTHEAST = new LatLng(42.29353, -83.713641);
     private static final LatLng SOUTHWEST = new LatLng(42.29182, -83.716611);
     private static final LatLngBounds CORNERS = new LatLngBounds(SOUTHWEST, NORTHEAST);
@@ -95,15 +96,21 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
         else{
             if(gMap != null){
                 ArrayList<Location> _locations = LocationsQueue.locations;
+                float zoom = (float) 16.0;
                 if(!_locations.isEmpty()){
-                    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(42.2919466, -83.7153427), 16));
+                    double swLat = 42.287503;
+                    double swLong = -83.718795;
                     for (int i = 0; i < _locations.size(); i++){
-                        gMap.addMarker(new MarkerOptions().position(new LatLng(_locations.get(i).getLatitude(),
+                        if(_locations.get(i).getLatitude() < swLat || _locations.get(i).getLongitude() < swLong) zoom = (float) 13.25;
+                        Marker _marker = gMap.addMarker(new MarkerOptions().position(new LatLng(_locations.get(i).getLatitude(),
                                 _locations.get(i).getLongitude())).title(_locations.get(i).getName()));
+                        mMarkers.add(_marker);
                     }
+
                     _locations.clear();
                 }
-        }
+                gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(42.2919466, -83.7153427), zoom));
+            }
             else{
                 Log.e(TAG, "Map was not loaded");
             }
@@ -113,6 +120,10 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
 
     @Override
     public void onDestroyView() {
+        for(Marker _marker: mMarkers){
+            _marker.remove();
+        }
+        mMarkers.clear();
         super.onDestroyView();
     }
 
@@ -136,13 +147,20 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
         mapLock.unlock();
 
         ArrayList<Location> _locations = LocationsQueue.locations;
+        float zoom = (float) 16.0;
         if(!_locations.isEmpty()){
+            double swLat = 42.287503;
+            double swLong = -83.718795;
             for (int i = 0; i < _locations.size(); i++){
-                gMap.addMarker(new MarkerOptions().position(new LatLng(_locations.get(i).getLatitude(),
+                if(_locations.get(i).getLatitude() < swLat || _locations.get(i).getLongitude() < swLong) zoom = (float) 13.25;
+                Marker _marker = gMap.addMarker(new MarkerOptions().position(new LatLng(_locations.get(i).getLatitude(),
                         _locations.get(i).getLongitude())).title(_locations.get(i).getName()));
+                mMarkers.add(_marker);
             }
+
             _locations.clear();
         }
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(42.2919466, -83.7153427), zoom));
 
         gMap.getUiSettings().setMyLocationButtonEnabled(true);
         //TODO: stop it from complaining about disabled permissions
