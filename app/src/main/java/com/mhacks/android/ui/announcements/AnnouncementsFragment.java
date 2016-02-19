@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.mhacks.android.data.model.Announcement;
@@ -131,6 +132,7 @@ public class AnnouncementsFragment extends Fragment {
             public TextView titleView;
             public TextView dateView;
             public TextView descriptionView;
+            public FrameLayout colorView;
 
             // Default constructor, itemView holds all the views that need to be saved
             public ViewHolder(View itemView) {
@@ -140,6 +142,7 @@ public class AnnouncementsFragment extends Fragment {
                 this.titleView = (TextView) itemView.findViewById(R.id.info_title);
                 this.dateView = (TextView) itemView.findViewById(R.id.info_date);
                 this.descriptionView = (TextView) itemView.findViewById(R.id.info_description);
+                this.colorView = (FrameLayout) itemView.findViewById(R.id.announcement_color);
             }
         }
 
@@ -168,6 +171,33 @@ public class AnnouncementsFragment extends Fragment {
             // Set this item's views based off of the announcement data
             viewHolder.titleView.setText(announcement.getName());
             viewHolder.descriptionView.setText(announcement.getInfo());
+
+            int category = announcement.getCategory();
+            int current = 1;
+            for (int a = 0; a < 5; ++a) {
+                current = 1 << a;
+                if ((category & current) != 0) break;
+            }
+            switch (current) {
+                case 1:
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_red));
+                    break;
+                case 2:
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_blue));
+                    break;
+                case 4:
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_yellow));
+                    break;
+                case 8:
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_green));
+                    break;
+                case 16:
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_purple));
+                    break;
+                case 32:
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.md_brown_500));
+                    break;
+            }
 
             // Get the date from this announcement and set it as a relative date
             Date date = announcement.getBroadcastTime();
