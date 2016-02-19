@@ -17,9 +17,11 @@ import android.widget.LinearLayout;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
+import com.google.android.gms.maps.MapFragment;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
+import com.mhacks.android.ui.map.MapViewFragment;
 
 import org.mhacks.android.R;
 
@@ -244,6 +246,8 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
                      .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                      .remove(getFragmentManager().findFragmentById(R.id.drawer_layout)).commit();
         setEventDetailsOpened(false);
+
+
     }
 
     @Override
@@ -251,6 +255,7 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
         if (!eventDetailsOpen) {
             eventDetailsFragment =
                     EventDetailsFragment.newInstance(mEvents.get((int) event.getId()), event.getColor());
+            eventDetailsFragment.setParent(this);
             getActivity().getFragmentManager()
                          .beginTransaction()
                          .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -278,4 +283,5 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
 
     }
+
 }

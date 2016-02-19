@@ -102,7 +102,7 @@ public interface HackathonNetworkService {
 
     // LOCATIONS
     @GET("locations")
-    Call<List<Location>> getLocations();
+    Call<LocationList> getLocations();
 
     @POST("locations")
     Call<Location> createLocation(@Header("access-token") String accessToken,

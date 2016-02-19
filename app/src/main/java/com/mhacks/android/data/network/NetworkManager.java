@@ -12,6 +12,7 @@ import com.mhacks.android.data.model.Countdown;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.EventList;
 import com.mhacks.android.data.model.Location;
+import com.mhacks.android.data.model.LocationList;
 import com.mhacks.android.data.model.Map;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.network.deserializer.UserDeserializer;
@@ -341,18 +342,18 @@ public class NetworkManager {
 
     public void getLocations(final HackathonCallback<List<Location>> callback) {
         networkService.getLocations()
-                      .enqueue(new Callback<List<Location>>() {
+                      .enqueue(new Callback<LocationList>() {
                           @Override
-                          public void onResponse(Response<List<Location>> response, Retrofit retrofit) {
+                          public void onResponse(Response<LocationList> response, Retrofit retrofit) {
                               updateToken(response.headers());
 
-                              Log.d(TAG, "Successfully got " + response.body().size() + " locationIds");
-                              callback.success(response.body());
+                              Log.d(TAG, "Successfully got " + response.body().getResults().size() + " locationIds");
+                              callback.success(response.body().getResults());
                           }
 
                           @Override
                           public void onFailure(Throwable t) {
-                              Log.d(TAG, "Couldn't get the locationIds");
+                              Log.e(TAG, "Couldn't get the locationIds", t);
                               callback.failure(t);
                           }
                       });

@@ -3,10 +3,11 @@ package com.mhacks.android.data.model;
 /**
  * Created by boztalay on 6/3/15.
  */
-public class Location extends ModelObject {
+public class Location {
     public String name;
     public double latitude;
     public double longitude;
+    public int id;
 
     public Location() {
     }
@@ -33,5 +34,13 @@ public class Location extends ModelObject {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
