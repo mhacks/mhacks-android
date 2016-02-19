@@ -19,8 +19,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.mhacks.android.data.model.Location;
+
 import org.mhacks.android.R;
 
+import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -88,6 +92,22 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
 
             created = true;
         }
+        else{
+            if(gMap != null){
+                ArrayList<Location> _locations = LocationsQueue.locations;
+                if(!_locations.isEmpty()){
+                    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(42.2919466, -83.7153427), 16));
+                    for (int i = 0; i < _locations.size(); i++){
+                        gMap.addMarker(new MarkerOptions().position(new LatLng(_locations.get(i).getLatitude(),
+                                _locations.get(i).getLongitude())).title(_locations.get(i).getName()));
+                    }
+                    _locations.clear();
+                }
+        }
+            else{
+                Log.e(TAG, "Map was not loaded");
+            }
+        }
         return mMapFragView;
     }
 
@@ -114,6 +134,15 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
             gMap.addGroundOverlay(option);
         }
         mapLock.unlock();
+
+        ArrayList<Location> _locations = LocationsQueue.locations;
+        if(!_locations.isEmpty()){
+            for (int i = 0; i < _locations.size(); i++){
+                gMap.addMarker(new MarkerOptions().position(new LatLng(_locations.get(i).getLatitude(),
+                        _locations.get(i).getLongitude())).title(_locations.get(i).getName()));
+            }
+            _locations.clear();
+        }
 
         gMap.getUiSettings().setMyLocationButtonEnabled(true);
         //TODO: stop it from complaining about disabled permissions
