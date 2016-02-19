@@ -120,6 +120,9 @@ public interface HackathonNetworkService {
     @POST("push_notif")
     Call<Token> sendToken(@Body Token token);
 
+    @POST("push_notif/edit")
+    Call<Token> updateToken(@Body Token token);
+
     // COUNTDOWN
     @GET("countdown")
     Call<Countdown> getCountdown();

@@ -415,6 +415,22 @@ public class NetworkManager {
                       });
     }
 
+    public void updateToken(com.mhacks.android.data.model.Token token, final HackathonCallback<com.mhacks.android.data.model.Token> callback) {
+        networkService.updateToken(token)
+                .enqueue(new Callback<com.mhacks.android.data.model.Token>() {
+                    @Override
+                    public void onResponse(Response<com.mhacks.android.data.model.Token> response,
+                                           Retrofit retrofit) {
+                        callback.success(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        callback.failure(t);
+                    }
+                });
+    }
+
     public void getCountdown(final HackathonCallback<Countdown> callback) {
         networkService.getCountdown()
                       .enqueue(new Callback<Countdown>() {

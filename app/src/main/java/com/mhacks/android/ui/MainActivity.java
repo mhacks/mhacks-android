@@ -43,6 +43,7 @@ import org.mhacks.android.R;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by Omkar Moghe on 10/22/2014.
@@ -145,9 +146,20 @@ public class MainActivity extends AppCompatActivity {
 
                     final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     String gcmPush = sharedPref.getString("gcm", "");
-                    Log.d(TAG, "" + gcmPush);
+                    Set<String> channels =  sharedPref.getStringSet(SettingsFragment.PUSH_NOTIFICATION_CHANNELS, null);
+
+                    int pref = 1;
+                    if (channels != null) {
+                        String[] channelPrefs = channels.toArray(new String[channels.size()]);
+                        for (int i = 0; i < channelPrefs.length; ++i) {
+                            pref += Integer.parseInt(channelPrefs[i]);
+                        }
+                    } else pref = 63;
+
+                    final Token token = new Token(regid, pref);
+                    Log.d(TAG, gcmPush);
+                    Log.d(TAG, "" + pref);
                     if (!gcmPush.equals(regid)) {
-                        Token token = new Token(regid, 63);
                         NetworkManager networkManager = NetworkManager.getInstance();
                         networkManager.sendToken(token, new HackathonCallback<Token>() {
                             @Override
@@ -159,6 +171,19 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void failure(Throwable error) {
                                 Log.e(TAG, "gcm didnt work", error);
+                            }
+                        });
+                    } else {
+                        NetworkManager networkManager = NetworkManager.getInstance();
+                        networkManager.updateToken(token, new HackathonCallback<Token>() {
+                            @Override
+                            public void success(Token response) {
+                                Log.d(TAG, "notification preferences updated");
+                            }
+
+                            @Override
+                            public void failure(Throwable error) {
+
                             }
                         });
                     }
