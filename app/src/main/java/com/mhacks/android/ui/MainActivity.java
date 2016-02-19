@@ -1,17 +1,10 @@
 package com.mhacks.android.ui;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.AsyncTaskLoader;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.provider.Settings;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -24,25 +17,15 @@ import android.view.animation.Animation;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-
-import com.google.android.gms.iid.InstanceID;
-import com.mhacks.android.data.model.Announcement;
-import com.mhacks.android.data.model.User;
-import com.mhacks.android.data.network.HackathonCallback;
-import com.mhacks.android.data.network.NetworkManager;
-import com.mhacks.android.data.network.gcm.MyGcmListenerService;
-import com.mhacks.android.data.network.gcm.MyInstanceIDListenerService;
-import com.mhacks.android.data.network.gcm.RegistrationConstants;
-import com.mhacks.android.data.network.gcm.RegistrationIntentService;
+import com.mhacks.android.data.model.Token;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
 import com.mhacks.android.ui.announcements.AnnouncementsFragment;
 import com.mhacks.android.ui.countdown.CountdownFragment;
-import com.mhacks.android.ui.map.MapViewFragment;
 import com.mhacks.android.ui.events.ScheduleFragment;
+import com.mhacks.android.ui.map.MapViewFragment;
 import com.mhacks.android.ui.settings.SettingsFragment;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -157,7 +140,26 @@ public class MainActivity extends AppCompatActivity {
                     /*InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
                     String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
                             GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);*/
-                    gcm.send(PROJECT_NUMBER + "@gcm.googleapis.com", "regid", data);
+
+                    final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    boolean pushed = sharedPref.getBoolean("gcm_pushed", false);
+                    if (!pushed) {
+                        Token token = new Token(regid, 63);
+                        NetworkManager networkManager = NetworkManager.getInstance();
+                        networkManager.sendToken(token,
+                                                 new HackathonCallback<com.mhacks.android.data.auth.Token>() {
+                                                     @Override
+                                                     public void success(com.mhacks.android.data.auth.Token response) {
+                                                         sharedPref.edit().putBoolean("gcm_pushed", true).apply();
+                                                     }
+
+                                                     @Override
+                                                     public void failure(Throwable error) {
+
+                                                     }
+                                                 });
+                    }
+
                     msg = "Device registered, reg id =" + regid;
                     Log.i("GCM",  msg);
 

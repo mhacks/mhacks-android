@@ -397,7 +397,7 @@ public class NetworkManager {
                 });
     }
 
-    public void sendToken(Token token, final HackathonCallback<Token> callback) {
+    public void sendToken(com.mhacks.android.data.model.Token token, final HackathonCallback<Token> callback) {
         
     }
 
