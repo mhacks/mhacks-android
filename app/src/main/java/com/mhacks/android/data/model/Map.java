@@ -3,7 +3,7 @@ package com.mhacks.android.data.model;
 /**
  * Created by Omkar Moghe on 1/21/2016.
  */
-public class Map extends ModelObject {
+public class Map {
     public String imageUrl;
     public double southWestLat;
     public double southWestLon;

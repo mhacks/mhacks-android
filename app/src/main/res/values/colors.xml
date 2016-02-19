@@ -8,9 +8,9 @@
     <!-- MHacks: Refactor -->
     <!-- Prefix with mhr_ -->
     <color name="mhr_charcaol">#555544</color>
-    <color name="mhr_orange">#FEC111</color>
-    <color name="mhr_orange_tint">#FFD44E</color>
-    <color name="mhr_orange_shade">#F78F1E</color>
+    <color name="mhr_orange">#ffc107</color>
+    <color name="mhr_orange_tint">#ffd54f</color>
+    <color name="mhr_orange_shade">#FFA000</color>
 
     <!-- Event type colors -->
     <color name="event_red">#E23052</color>
@@ -23,7 +23,7 @@
     <!-- Begin JN Basic Colors -->
     <!-- Basic colors, laziness -->
     <color name="white">#FFF</color>
-    <color name="black">#000</color>
+    <color name="black">#000000</color>
     <color name="gray">#C0C0C0</color>
     <color name="red">#FF0000</color>
     <color name="blue">#0000FF</color>

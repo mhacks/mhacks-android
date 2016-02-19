@@ -11,6 +11,7 @@ import com.mhacks.android.data.model.AnnouncementList;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.EventList;
 import com.mhacks.android.data.model.Location;
+import com.mhacks.android.data.model.Map;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.network.deserializer.UserDeserializer;
 import com.squareup.okhttp.Headers;
@@ -378,6 +379,22 @@ public class NetworkManager {
                               callback.failure(t);
                           }
                       });
+    }
+
+    public void getMap(final HackathonCallback<Map> callback) {
+        networkService.getMap()
+                .enqueue(new Callback<Map>() {
+                    @Override
+                    public void onResponse(Response<Map> response, Retrofit retrofit) {
+                        callback.success(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        Log.e(TAG, "Couldn't get the map", t);
+                        callback.failure(t);
+                    }
+                });
     }
 
     /**

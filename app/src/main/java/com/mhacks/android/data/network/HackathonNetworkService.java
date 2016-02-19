@@ -112,4 +112,7 @@ public interface HackathonNetworkService {
                                   @Header("uid") String uid,
                                   @Body Location location);
 
+    // MAPS
+    @GET("map")
+    Call<Map> getMap();
 }

@@ -20,7 +20,7 @@
         <FrameLayout
             android:id="@+id/main_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:background="@color/ow_drawer_background" />
 
         <!-- The no-internet overlay -->

@@ -3,7 +3,9 @@ package com.mhacks.android.ui;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -12,13 +14,9 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.iid.InstanceID;
-import com.mhacks.android.data.model.Announcement;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
-import com.mhacks.android.data.network.gcm.MyInstanceIDListenerService;
 import com.mhacks.android.ui.announcements.AnnouncementsFragment;
 import com.mhacks.android.ui.countdown.CountdownFragment;
 import com.mhacks.android.ui.events.ScheduleFragment;
@@ -33,21 +31,15 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-import com.parse.ParseException;
-import com.parse.ParsePush;
-import com.parse.SaveCallback;
 
 import org.mhacks.android.R;
 
-import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Omkar Moghe on 10/22/2014.
  */
 public class MainActivity extends AppCompatActivity {
-    // TODO: REMOVE ALL PARSE STUFF AND MOVE TO NEW BACKEND / GCM
     public static final String TAG = "MainActivity";
 
     public static final String SHOULD_SYNC = "sync";
@@ -65,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
     private Drawer                mDrawer;
 
     private boolean mShouldSync = true;
-
-    private boolean pushEDF = false; //True if EventDetailsFragment was opened from a push notif.
 
     //Fragments
     private CountdownFragment countdownFragment;
@@ -93,19 +83,25 @@ public class MainActivity extends AppCompatActivity {
 
         updateFragment(countdownFragment);
 
+        // Log in if possible.
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String username = sharedPref.getString(SettingsFragment.USERNAME_KEY,  "");
+        String password = sharedPref.getString(SettingsFragment.PASSWORD_KEY, "");
         final NetworkManager networkManager = NetworkManager.getInstance();
-        networkManager.logUserIn("omoghe@umich.edu", "deleted for commit", new HackathonCallback<User>() {
-            @Override
-            public void success(User response) {
-                mUser = response;
-                buildNavigationDrawer();
-            }
+        if (username.length() != 0 && password.length() != 0) {
+            networkManager.logUserIn(username, password, new HackathonCallback<User>() {
+                @Override
+                public void success(User response) {
+                    mUser = response;
+                    buildNavigationDrawer();
+                }
 
-            @Override
-            public void failure(Throwable error) {
-                buildNavigationDrawer();
-            }
-        });
+                @Override
+                public void failure(Throwable error) {
+                    buildNavigationDrawer();
+                }
+            });
+        } else buildNavigationDrawer();
     }
 
     /**
@@ -216,10 +212,6 @@ public class MainActivity extends AppCompatActivity {
         mShouldSync = savedInstanceState.getBoolean(SHOULD_SYNC, false);
     }
 
-    public void setToolbarTitle(String title) {
-        mToolbar.setTitle(title);
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -244,38 +236,7 @@ public class MainActivity extends AppCompatActivity {
      * @param v clicked View
      */
     public void scheduleFragmentClick(View v) {
-        if (v.getId() == R.id.event_close_button && pushEDF) {
-            getFragmentManager().beginTransaction()
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .remove(getFragmentManager().findFragmentById(R.id.drawer_layout))
-                                .commit();
-            pushEDF = false;
-        } else scheduleFragment.scheduleFragmentClick(v);
-    }
-
-    /**
-     * Takes the event type based on the EventType class in Parse and returns the corresponding
-     * color of the event.
-     * @param eventType Event type/category.
-     * @return color of the event.
-     */
-    public int getEventColor(int eventType) {
-        switch (eventType) {
-            case 0: //Red
-                return getResources().getColor(R.color.event_red);
-            case 1: //Orange
-                return getResources().getColor(R.color.event_orange);
-            case 2: //Yellow
-                return getResources().getColor(R.color.event_yellow);
-            case 3: //Green
-                return getResources().getColor(R.color.event_green);
-            case 4: //Blue
-                return getResources().getColor(R.color.event_blue);
-            case 5: //Purple
-                return getResources().getColor(R.color.event_purple);
-            default:
-                return getResources().getColor(R.color.mh_yellow);
-        }
+        if (v.getId() == R.id.event_close_button) scheduleFragment.scheduleFragmentClick(v);
     }
 
     /**
