@@ -1,13 +1,10 @@
 # The Official MHacks Android App
-<a href="https://play.google.com/store/apps/details?id=org.mhacks.android">
-  <img alt="Get it on Google Play"
-       src="https://developer.android.com/images/brand/en_generic_rgb_wo_60.png" />
-</a>
+<a href="https://play.google.com/store/apps/details?id=org.mhacks.android&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-AC-global-none-all-co-pr-py-PartBadges-Oct1515-1"><img width="300" alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge-border.png" /></a>
 
 # About
 The goal of this project is to provide a modular and open source Android client for hackathons of all sizes. Feel free to fork this project and deploy this client for your event.
 
-If you use our code, please link back to this GitHub page.
+If you use our code, please link back to this GitHub page and shoot us a line. We'd love to see what you're working on!
 
 # Building
 The project has been built with Android Studio, and consequently uses the Gradle build system.
@@ -22,7 +19,7 @@ If you plan on building this project for release, you'll need to add a `signingC
 **NOTE: You may need to clean your project and sync Gradle files before your first run.** `Build > Clean project`
 
 # Credits
-We would like to thank the maintainers of the following:
+We would like to thank the maintainers of the following for past and present version of the app:
 - [Square OkHTTP](http://square.github.io/okhttp/ "Square OkHTTP")
 - [Square Retrofit](http://square.github.io/retrofit/ "Square Retrofit")
 - [MaterialDrawer](http://mikepenz.github.io/MaterialDrawer/ "Mike Penz's Material Drawer")
@@ -36,7 +33,7 @@ We would like to thank the maintainers of the following:
 # License
 The MIT License (MIT)
 
-Copyright (c) <2016> <MHacks>
+Copyright (c) 2016 MHacks
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

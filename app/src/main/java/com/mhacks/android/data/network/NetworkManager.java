@@ -11,6 +11,7 @@ import com.mhacks.android.data.model.AnnouncementList;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.EventList;
 import com.mhacks.android.data.model.Location;
+import com.mhacks.android.data.model.Map;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.network.deserializer.UserDeserializer;
 import com.squareup.okhttp.Headers;
@@ -32,9 +33,9 @@ import retrofit.Retrofit;
 public class NetworkManager {
 
     private static final String TAG      = "NetworkManager";
-    private static final String BASE_URL = "http://ec2-52-5-127-162.compute-1.amazonaws.com/v1/"; // TODO: figure out a better way to build this string.
+    private static final String BASE_URL = "http://ec2-52-70-71-221.compute-1.amazonaws.com/v1/";
 
-    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
     private HackathonNetworkService networkService;
     private Token                   mToken;
@@ -239,7 +240,7 @@ public class NetworkManager {
 
                           @Override
                           public void onFailure(Throwable t) {
-                              Log.d(TAG, "Couldn't get the events");
+                              Log.e(TAG, "Couldn't get the events", t);
                               callback.failure(t);
                           }
                       });
@@ -378,6 +379,26 @@ public class NetworkManager {
                               callback.failure(t);
                           }
                       });
+    }
+
+    public void getMap(final HackathonCallback<Map> callback) {
+        networkService.getMap()
+                .enqueue(new Callback<Map>() {
+                    @Override
+                    public void onResponse(Response<Map> response, Retrofit retrofit) {
+                        callback.success(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        Log.e(TAG, "Couldn't get the map", t);
+                        callback.failure(t);
+                    }
+                });
+    }
+
+    public void sendToken(Token token, final HackathonCallback<Token> callback) {
+        
     }
 
     /**

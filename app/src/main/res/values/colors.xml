@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Material Design Base Colors -->
-    <color name="colorPrimary">@color/white</color>
-    <color name="colorPrimaryDark">@color/mh_yellow</color>
-    <color name="ps_drawer_background">#EEEEEE</color>
+    <color name="colorPrimary">@color/mhr_orange</color>
+    <color name="colorPrimaryDark">@color/mhr_orange_shade</color>
+    <color name="ow_drawer_background">#EEEEEE</color>
 
-    <!-- MHacks colors -->
-    <color name="mh_purple">#A86EDB</color>
-    <color name="mh_yellow">#FEC10E</color>
-    <color name="mh_palette_0">#FEF5F9</color>
-    <color name="mh_palette_1">#E0D5DD</color>
-    <color name="mh_palette_2">#7E7C8C</color>
-    <color name="mh_palette_3">#392F3F</color>
-    
+    <!-- MHacks: Refactor -->
+    <!-- Prefix with mhr_ -->
+    <color name="mhr_charcaol">#555544</color>
+    <color name="mhr_orange">#ffc107</color>
+    <color name="mhr_orange_tint">#ffd54f</color>
+    <color name="mhr_orange_shade">#FFA000</color>
+
     <!-- Event type colors -->
     <color name="event_red">#E23052</color>
     <color name="event_orange">#F78B31</color>
@@ -24,7 +23,7 @@
     <!-- Begin JN Basic Colors -->
     <!-- Basic colors, laziness -->
     <color name="white">#FFF</color>
-    <color name="black">#000</color>
+    <color name="black">#000000</color>
     <color name="gray">#C0C0C0</color>
     <color name="red">#FF0000</color>
     <color name="blue">#0000FF</color>
@@ -58,7 +57,15 @@
     <color name="day_bg_color">#05000000</color>
     <color name="today_bg_color">#18836bff</color>
 
-    <!--//////////////////////////////////////////////////////////////////////////////////////// -->
+    <!--////////////////////////////// LEGACY ////////////////////////////////////////// -->
+
+    <!-- MHacks 6-->
+    <color name="mh_purple">#A86EDB</color>
+    <color name="mh_yellow">#FEC10E</color>
+    <color name="mh_palette_0">#FEF5F9</color>
+    <color name="mh_palette_1">#E0D5DD</color>
+    <color name="mh_palette_2">#7E7C8C</color>
+    <color name="mh_palette_3">#392F3F</color>
 
     <!-- MHacks IV colors -->
     <color name="charcoal">#272727</color>

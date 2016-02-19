@@ -24,7 +24,6 @@ import retrofit.http.Path;
  *       See com.mhacks.android.data.network.NetworkManager.BASE_URL for path.
  */
 public interface HackathonNetworkService {
-    // USER TODO: update paths
     @GET("users/me")
     Call<User> getCurrentUser();
 
@@ -113,4 +112,11 @@ public interface HackathonNetworkService {
                                   @Header("uid") String uid,
                                   @Body Location location);
 
+    // MAPS
+    @GET("map")
+    Call<Map> getMap();
+
+    // Push token
+    @POST("push_notif")
+    Call<Token> sendToken(@Body Token token);
 }

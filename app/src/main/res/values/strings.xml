@@ -18,6 +18,25 @@
     <string name="divider_pipe">|</string>
     <string name="no_internet">No Internet Connection</string>
 
+    <!-- SettingsFragment Preferences -->
+    <string-array name="notif_channels">
+        <item>Logistics</item>
+        <item>Food</item>
+        <item>Swag</item>
+        <item>Sponsorship</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="notif_channels_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <!-- /SettingsFragment Preferences -->
+
     <!-- Test Strings -->
     <string name="garbage_fill_short">Lorem ipsum dolor sit amet</string>
     <string name="garbage_fill_medium">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
@@ -33,7 +52,7 @@
         <item name="map">Map</item>
     </string-array>
 
-    <!-- MapFragment Spinner Items (Maps) -->
+    <!-- MapViewFragment Spinner Items (Maps) (may not need this anymore)-->
     <string-array name="map_array">
         <item name="all">ALL</item>
         <item name="bbb">BBB</item>

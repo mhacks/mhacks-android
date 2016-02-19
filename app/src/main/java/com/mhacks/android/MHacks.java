@@ -13,7 +13,7 @@ public class MHacks extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //Bugsnag.init(this, getString(R.string.bugsnag_key));
+//        Bugsnag.init(this, getString(R.string.bugsnag_key));
     }
 
 }

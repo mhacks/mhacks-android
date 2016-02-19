@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Login"
+        android:key="pref_key_login_settings">
+
+        <EditTextPreference
+            android:key="pref_key_username"
+            android:title="Username"
+            android:textColor="@color/black"
+            android:summary="Username or email used to sign up for your account."/>
+
+        <EditTextPreference
+            android:key="pref_key_password"
+            android:title="Password"
+            android:summary="Your password."
+            android:textColor="@color/black"
+            android:inputType="textPassword"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Push Notifications"
+        android:key="pref_key_push_notifications">
+
+        <MultiSelectListPreference
+            android:title="Channels"
+            android:summary="Select which types of notifications you want to receive."
+            android:key="pref_key_notification_types"
+            android:entries="@array/notif_channels"
+            android:entryValues="@array/notif_channels_values"
+            android:defaultValue="@array/notif_channels_values" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

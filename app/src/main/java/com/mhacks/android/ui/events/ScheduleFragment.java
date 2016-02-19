@@ -2,15 +2,21 @@ package com.mhacks.android.ui.events;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.graphics.Color;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.alamkanak.weekview.MonthLoader;
+import com.alamkanak.weekview.WeekView;
+import com.alamkanak.weekview.WeekViewEvent;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
@@ -19,7 +25,9 @@ import org.mhacks.android.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 
 
 /**
@@ -28,7 +36,9 @@ import java.util.List;
  * Builds schedule with events pulled from the Parse database. Uses the EventDetailsFragment to
  * create event details.
  */
-public class ScheduleFragment extends Fragment {
+public class ScheduleFragment extends Fragment implements WeekView.EventClickListener,
+                                                          MonthLoader.MonthChangeListener,
+                                                          WeekView.EventLongPressListener {
 
     public static final String TAG = "ScheduleFragment";
 
@@ -36,13 +46,12 @@ public class ScheduleFragment extends Fragment {
     private final NetworkManager networkManager = NetworkManager.getInstance();
 
     // Declaring Views
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private DayListPagerAdapter pagerAdapter;
     private LinearLayout mScheduleContainer;
+    private WeekView mWeekView;
 
     // Event data structures
     private ArrayList<Event>         mEvents;
+    private ArrayList<WeekViewEvent> weekViewEvents;
 
     // Booleans
     private boolean eventDetailsOpen = false; //Prevents multiple EventDetailFragments from opening.
@@ -61,45 +70,55 @@ public class ScheduleFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
-        tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
-        viewPager = (ViewPager) view.findViewById(R.id.view_pager);
         mScheduleContainer = (LinearLayout) view.findViewById(R.id.schedule_container);
+        mWeekView = (WeekView) view.findViewById(R.id.week_view);
+        setUpWeekView();
 
-        // Add tabs
-        tabLayout.addTab(tabLayout.newTab().setText("Fri"));
-        tabLayout.addTab(tabLayout.newTab().setText("Sat"));
-        tabLayout.addTab(tabLayout.newTab().setText("Sun"));
+        return view;
+    }
 
-        pagerAdapter = new DayListPagerAdapter(((AppCompatActivity) getActivity()).getSupportFragmentManager());
+    /**
+     * Builds the calendar using the WeekView class.
+     * Done programmatically because the XML wouldn't auto-complete at the time. - Omkar
+     */
+    private void setUpWeekView() {
+        //Set listeners
+        mWeekView.setOnEventClickListener(this);
+        mWeekView.setMonthChangeListener(this);
+        mWeekView.setEventLongPressListener(this);
+        //Set up visuals of the calendar
+        mWeekView.setBackgroundColor(Color.WHITE);
+        mWeekView.setEventTextColor(Color.WHITE);
+        mWeekView.setNumberOfVisibleDays(1);
+        mWeekView.setTextSize(22);
+        mWeekView.setHourHeight(120);
+        mWeekView.setHeaderColumnPadding(8);
+        mWeekView.setHeaderColumnTextColor(getResources().getColor(R.color.header_column_text_color));
+        mWeekView.setHeaderRowPadding(16);
+        mWeekView.setColumnGap(8);
+        mWeekView.setHourSeparatorColor(Color.WHITE);
+        mWeekView.setHourSeparatorHeight(4);
+        mWeekView.setHeaderColumnBackgroundColor(Color.WHITE);
+        mWeekView.setHeaderRowBackgroundColor(getResources().getColor(R.color.header_row_bg_color));
+        mWeekView.setDayBackgroundColor(getResources().getColor(R.color.day_bg_color));
+        mWeekView.setTodayBackgroundColor(getResources().getColor(R.color.today_bg_color));
+        mWeekView.setHeaderColumnBackgroundColor(Color.BLACK);
+        mWeekView.setOverlappingEventGap(2);
+    }
 
+    public void getEvents() {
         networkManager.getEvents(new HackathonCallback<List<Event>>() {
             @Override
             public void success(List<Event> response) {
                 mEvents = new ArrayList<Event>(response);
+                Log.d(TAG, "got " + mEvents.size() + " events");
 
-                ArrayList<Event> friday = new ArrayList<Event>();
-                ArrayList<Event> saturday = new ArrayList<Event>();
-                ArrayList<Event> sunday = new ArrayList<Event>();
-
-                for (Event e : mEvents) {
-                    Calendar c = Calendar.getInstance();
-                    c.setTime(e.getStartTime());
-                    switch (c.get(Calendar.DAY_OF_WEEK)) {
-                        case Calendar.FRIDAY:
-                            friday.add(e);
-                            break;
-                        case Calendar.SATURDAY:
-                            saturday.add(e);
-                            break;
-                        case Calendar.SUNDAY:
-                            sunday.add(e);
-                            break;
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mWeekView.notifyDatasetChanged();
                     }
-                }
-
-                pagerAdapter.setEvents(friday, saturday, sunday);
-                viewPager.setAdapter(pagerAdapter);
-                viewPager.setOffscreenPageLimit(0);
+                });
             }
 
             @Override
@@ -107,32 +126,44 @@ public class ScheduleFragment extends Fragment {
 
             }
         });
+    }
 
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
+    public ArrayList<WeekViewEvent> createWeekViewEvents(ArrayList<Event> events, int month) {
+        weekViewEvents = new ArrayList<WeekViewEvent>();
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+        long id = 0;
 
-            }
+        for (Event event : events) {
+            // Create start event.
+            GregorianCalendar startTime = new GregorianCalendar(TimeZone.getDefault());
+            startTime.setTime(event.getStartTime());
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            // Create end event.
+            GregorianCalendar endTime = (GregorianCalendar) startTime.clone();
+            endTime.setTime(event.getEndTime());
 
-            }
-        });
+            // Set color based on EventType (Category).
+            int color = getEventColor(event.getCategory());
 
-        return view;
+            // Create a WeekViewEvent
+            WeekViewEvent weekViewEvent = new WeekViewEvent(id, event.getName(), startTime, endTime);
+            weekViewEvent.setColor(color);
+
+            // Add the WeekViewEvent to the list.
+            // NOTE: WeekView indexes at 1, Calendar indexes at 0.
+            if (startTime.get(Calendar.MONTH) == month - 1) weekViewEvents.add(weekViewEvent);
+
+            // Increment the id
+            id++;
+        }
+
+        Log.d(TAG, "created " + weekViewEvents.size() + " events");
+        return weekViewEvents;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //TODO: cancel query
     }
 
     @Override
@@ -198,7 +229,7 @@ public class ScheduleFragment extends Fragment {
      * re-draw the new events on the calendar.
      */
     public void refreshEvents() {
-        //Forces a remote Event query.
+        getEvents();
     }
 
     /**
@@ -213,5 +244,38 @@ public class ScheduleFragment extends Fragment {
                      .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                      .remove(getFragmentManager().findFragmentById(R.id.drawer_layout)).commit();
         setEventDetailsOpened(false);
+    }
+
+    @Override
+    public void onEventClick(WeekViewEvent event, RectF eventRect) {
+        if (!eventDetailsOpen) {
+            eventDetailsFragment =
+                    EventDetailsFragment.newInstance(mEvents.get((int) event.getId()), event.getColor());
+            getActivity().getFragmentManager()
+                         .beginTransaction()
+                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                         .addToBackStack(null) //IMPORTANT. Allows the EventDetailsFragment to be closed.
+                         .add(R.id.drawer_layout, eventDetailsFragment)
+                         .commit();
+            //Hide the toolbar so the event details are full screen.
+            ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+            //Prevents other events from being clicked while one event's details are being shown.
+            setEventDetailsOpened(true);
+        }
+    }
+
+    @Override
+    public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
+        if (mEvents == null || mEvents.size() == 0) {
+            getEvents();
+            return new ArrayList<WeekViewEvent>();
+        } else {
+            return createWeekViewEvents(mEvents, newMonth);
+        }
+    }
+
+    @Override
+    public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
+
     }
 }

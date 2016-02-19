@@ -44,6 +44,7 @@ android {
         versionName "6.0.1"
         resValue "string", "gcm_server_id", gcm_server_id
         resValue "string", "google_maps_api_key", google_maps_api_key
+        resValue "string", "bugsnag_key", bugsnag_key
     }
     buildTypes {
         release {
@@ -52,6 +53,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", "gcm_server_id", gcm_server_id
             resValue "string", "google_maps_api_key", google_maps_api_key
+            resValue "string", "bugsnag_key", bugsnag_key
             signingConfig signingConfigs.release
         }
         debug {
@@ -59,6 +61,7 @@ android {
             minifyEnabled false
             resValue "string", "gcm_server_id", gcm_server_id
             resValue "string", "google_maps_api_key", google_maps_api_key
+            resValue "string", "bugsnag_key", bugsnag_key
         }
     }
 }
@@ -73,7 +76,8 @@ dependencies {
     compile 'com.google.guava:guava:+'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.google.maps.android:android-maps-utils:0.3+'
-    compile 'com.github.alamkanak:android-week-view:1.1.7'
+    compile 'com.github.alamkanak:android-week-view:1.2.6'
+    compile 'com.google.android.gms:play-services-maps:8.3.0'
     compile 'com.tonicartos:stickygridheaders:1.0.1'
     compile('com.viewpagerindicator:library:2.4.1@aar') {
         exclude group: 'com.google.android', module: 'support-v4'

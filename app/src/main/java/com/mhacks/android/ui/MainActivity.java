@@ -11,6 +11,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -33,9 +36,14 @@ import com.mhacks.android.data.network.gcm.MyGcmListenerService;
 import com.mhacks.android.data.network.gcm.MyInstanceIDListenerService;
 import com.mhacks.android.data.network.gcm.RegistrationConstants;
 import com.mhacks.android.data.network.gcm.RegistrationIntentService;
+import com.mhacks.android.data.model.User;
+import com.mhacks.android.data.network.HackathonCallback;
+import com.mhacks.android.data.network.NetworkManager;
 import com.mhacks.android.ui.announcements.AnnouncementsFragment;
 import com.mhacks.android.ui.countdown.CountdownFragment;
+import com.mhacks.android.ui.map.MapViewFragment;
 import com.mhacks.android.ui.events.ScheduleFragment;
+import com.mhacks.android.ui.settings.SettingsFragment;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -46,21 +54,16 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-import com.parse.ParseException;
-import com.parse.ParsePush;
-import com.parse.SaveCallback;
 
 import org.mhacks.android.R;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Omkar Moghe on 10/22/2014.
  */
 public class MainActivity extends AppCompatActivity {
-    // TODO: REMOVE ALL PARSE STUFF AND MOVE TO NEW BACKEND / GCM
     public static final String TAG = "MainActivity";
 
     public static final String SHOULD_SYNC = "sync";
@@ -81,12 +84,12 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean mShouldSync = true;
 
-    private boolean pushEDF = false; //True if EventDetailsFragment was opened from a push notif.
-
     //Fragments
     private CountdownFragment countdownFragment;
     private AnnouncementsFragment announcementsFragment;
     private ScheduleFragment scheduleFragment;
+    private SettingsFragment settingsFragment;
+    private MapViewFragment mapViewFragment;
 
     //GCM
     private GoogleCloudMessaging gcm;
@@ -113,9 +116,10 @@ public class MainActivity extends AppCompatActivity {
         countdownFragment = new CountdownFragment();
         announcementsFragment = new AnnouncementsFragment();
         scheduleFragment = new ScheduleFragment();
+        settingsFragment = new SettingsFragment();
+        mapViewFragment = new MapViewFragment();
 
         updateFragment(countdownFragment);
-
 
         if (notif != null){
             // Opens Announcements
@@ -124,52 +128,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        final NetworkManager networkManager = NetworkManager.getInstance();
-        networkManager.logUserIn("omoghe@umich.edu", "kanye2020", new HackathonCallback<User>() {
-            @Override
-            public void success(User response) {
-                mUser = response;
-                buildNavigationDrawer();
+        if (checkPlayServices()){
+            // Grabs the Google Cloud Messager REG ID and sends it to the backend
+            getRegId();
+        }
+        else {
+            Log.e(TAG, "No valid Google Play Services APK found.");
+        }
 
-                // Lastly once we are fully built we can update the fragment based on push notifs
-                if (notif != null){
-                    // Opens Announcements
-                    if (notif.equals("Announcements")){
-                        mDrawer.setSelectionAtPosition(2);
-                    }
-                }
-
-                // Checks for correct GPS service number before doing GCM stuff
-                if (checkPlayServices()){
-                    // Grabs the Google Cloud Messager REG ID and sends it to the backend
-                    getRegId();
-                }
-                else {
-                    Log.e(TAG, "No valid Google Play Services APK found.");
-                }
-
-
-                networkManager.getAnnouncements(new HackathonCallback<List<Announcement>>() {
-                    @Override
-                    public void success(List<Announcement> response) {
-                        Log.d(TAG, "" + response.size());
-                        for (Announcement a : response) {
-                            Log.d(TAG, a.getName());
-                        }
-                    }
-
-                    @Override
-                    public void failure(Throwable error) {
-
-                    }
-                });
-            }
-
-            @Override
-            public void failure(Throwable error) {
-
-            }
-        });
 
     }
 
@@ -178,36 +144,56 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected String doInBackground(Void... params) {
                 String msg = "";
-                    try {
-                        if (gcm == null) {
-                            gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
-                        }
-                        // reg_id
-                        Bundle data = new Bundle();
+                try {
+                    if (gcm == null) {
+                        gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
+                    }
+                    // reg_id
+                    Bundle data = new Bundle();
 
-                        regid = gcm.register(PROJECT_NUMBER);
+                    regid = gcm.register(PROJECT_NUMBER);
 
-                        data.putString("regid",regid);
+                    data.putString("regid",regid);
                     /*InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
                     String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
                             GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);*/
-                        gcm.send(PROJECT_NUMBER + "@gcm.googleapis.com", "regid", data);
-                        msg = "Device registered, reg id =" + regid;
-                        Log.i("GCM",  msg);
+                    gcm.send(PROJECT_NUMBER + "@gcm.googleapis.com", "regid", data);
+                    msg = "Device registered, reg id =" + regid;
+                    Log.i("GCM",  msg);
 
-                    } catch (IOException ex) {
-                        msg = "Error :" + ex.getMessage();
-                        Log.i("GCMError",  msg);
+                } catch (IOException ex) {
+                    msg = "Error :" + ex.getMessage();
+                    Log.i("GCMError",  msg);
 
-                    }
-                    return msg;
                 }
+                return msg;
+            }
 
             @Override
             protected void onPostExecute(String msg) {
 
             }
         }.execute(null, null, null);
+
+        // Log in if possible.
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String username = sharedPref.getString(SettingsFragment.USERNAME_KEY,  "");
+        String password = sharedPref.getString(SettingsFragment.PASSWORD_KEY, "");
+        final NetworkManager networkManager = NetworkManager.getInstance();
+        if (username.length() != 0 && password.length() != 0) {
+            networkManager.logUserIn(username, password, new HackathonCallback<User>() {
+                @Override
+                public void success(User response) {
+                    mUser = response;
+                    buildNavigationDrawer();
+                }
+
+                @Override
+                public void failure(Throwable error) {
+                    buildNavigationDrawer();
+                }
+            });
+        } else buildNavigationDrawer();
     }
 
     /**
@@ -218,25 +204,26 @@ public class MainActivity extends AppCompatActivity {
         // Drawer items
         PrimaryDrawerItem countdown = new PrimaryDrawerItem().withName("Countdown")
                                                              .withIcon(R.drawable.ic_time)
-                                                             .withSelectedTextColorRes(R.color.primary_dark);
+                                                             .withSelectedTextColorRes(R.color.primary);
         PrimaryDrawerItem announcements = new PrimaryDrawerItem().withName("Announcements")
                                                                  .withIcon(R.drawable.ic_announcement)
-                                                                 .withSelectedTextColorRes(R.color.primary_dark);
+                                                                 .withSelectedTextColorRes(R.color.primary);
         PrimaryDrawerItem events = new PrimaryDrawerItem().withName("Events")
                                                           .withIcon(R.drawable.ic_event)
-                                                          .withSelectedTextColorRes(R.color.primary_dark);
+                                                          .withSelectedTextColorRes(R.color.primary);
         PrimaryDrawerItem map = new PrimaryDrawerItem().withName("Map")
                                                        .withIcon(R.drawable.ic_location)
-                                                       .withSelectedTextColorRes(R.color.primary_dark);
+                                                       .withSelectedTextColorRes(R.color.primary);
         SecondaryDrawerItem settings = new SecondaryDrawerItem().withName("Settings")
                                                                 .withIcon(R.drawable.ic_settings)
-                                                                .withSelectedTextColorRes(R.color.primary_dark);
+                                                                .withSelectedTextColorRes(R.color.primary);
 
         // User profile
-        String userName = (mUser != null) ? mUser.firstName + " " + mUser.lastName : "User_Name";
+        String userName = (mUser != null) ? mUser.firstName + " " + mUser.lastName : "MHacks: Refactor";
         ProfileDrawerItem userProfile = new ProfileDrawerItem().withName(userName)
-                                                               .withTextColorRes(R.color.black);
-        userProfile.withSelectedColorRes(R.color.primary_dark);
+                                                               .withTextColorRes(R.color.black)
+                                                               .withSelectedColorRes(R.color.primary)
+                                                               .withIcon(getResources().getDrawable(R.mipmap.launcher_icon));
 
         // Account Header
         AccountHeader accountHeader = new AccountHeaderBuilder()
@@ -282,8 +269,10 @@ public class MainActivity extends AppCompatActivity {
                         updateFragment(scheduleFragment);
                         break;
                     case 4:
-                        //updateFragment(mapViewFragment);
+                        updateFragment(mapViewFragment);
                         break;
+                    case 6:
+                        updateFragment(settingsFragment);
                     default:
                         return false;
                 }
@@ -347,10 +336,6 @@ public class MainActivity extends AppCompatActivity {
         mShouldSync = savedInstanceState.getBoolean(SHOULD_SYNC, false);
     }
 
-    public void setToolbarTitle(String title) {
-        mToolbar.setTitle(title);
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -375,38 +360,7 @@ public class MainActivity extends AppCompatActivity {
      * @param v clicked View
      */
     public void scheduleFragmentClick(View v) {
-        if (v.getId() == R.id.event_close_button && pushEDF) {
-            getFragmentManager().beginTransaction()
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .remove(getFragmentManager().findFragmentById(R.id.drawer_layout))
-                                .commit();
-            pushEDF = false;
-        } else scheduleFragment.scheduleFragmentClick(v);
-    }
-
-    /**
-     * Takes the event type based on the EventType class in Parse and returns the corresponding
-     * color of the event.
-     * @param eventType Event type/category.
-     * @return color of the event.
-     */
-    public int getEventColor(int eventType) {
-        switch (eventType) {
-            case 0: //Red
-                return getResources().getColor(R.color.event_red);
-            case 1: //Orange
-                return getResources().getColor(R.color.event_orange);
-            case 2: //Yellow
-                return getResources().getColor(R.color.event_yellow);
-            case 3: //Green
-                return getResources().getColor(R.color.event_green);
-            case 4: //Blue
-                return getResources().getColor(R.color.event_blue);
-            case 5: //Purple
-                return getResources().getColor(R.color.event_purple);
-            default:
-                return getResources().getColor(R.color.mh_yellow);
-        }
+        if (v.getId() == R.id.event_close_button) scheduleFragment.scheduleFragmentClick(v);
     }
 
     /**
