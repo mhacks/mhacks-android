@@ -2,6 +2,7 @@ package com.mhacks.android.ui.map;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -164,7 +165,9 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
 
         gMap.getUiSettings().setMyLocationButtonEnabled(true);
         //TODO: stop it from complaining about disabled permissions
-        gMap.setMyLocationEnabled(true);
+        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            gMap.setMyLocationEnabled(true);
+        }
     }
 
     @Override
