@@ -33,9 +33,12 @@ public class GroundOverlayLoader extends AsyncTask<Object, Object, Object>{
 
     @Override
     protected Object doInBackground(Object... args){
+        BitmapFactory.Options bMapOptions = new BitmapFactory.Options();
+        bMapOptions.inJustDecodeBounds = false;
+        bMapOptions.inSampleSize = 4;
         options = new GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeStream(activity
-                        .getResources().openRawResource(R.raw.map_no_edges))))
+                .image(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(activity
+                        .getResources(), R.drawable.map_no_edges, bMapOptions)))
                 .positionFromBounds(bounds);
         return null;
     }
