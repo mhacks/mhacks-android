@@ -2,9 +2,6 @@ package com.mhacks.android.ui.map;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -13,29 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.mhacks.android.ui.MainActivity;
 import org.mhacks.android.R;
-import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -58,8 +43,9 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
     @Nullable
     private GroundOverlayOptions option = null;
 
-    private static final LatLng NORTHEAST = new LatLng(42.294290, -83.712580);
-    private static final LatLng SOUTHWEST = new LatLng(42.291277, -83.716620);
+//    NetworkManager networkManager = NetworkManager.getInstance();
+    private static final LatLng NORTHEAST = new LatLng(42.29353, -83.713641);
+    private static final LatLng SOUTHWEST = new LatLng(42.29182, -83.716611);
     private static final LatLngBounds CORNERS = new LatLngBounds(SOUTHWEST, NORTHEAST);
 
     @Nullable
