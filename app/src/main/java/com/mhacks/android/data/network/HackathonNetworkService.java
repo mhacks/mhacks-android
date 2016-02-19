@@ -115,4 +115,8 @@ public interface HackathonNetworkService {
     // MAPS
     @GET("map")
     Call<Map> getMap();
+
+    // Push token
+    @POST("push_notif")
+    Call<Token> sendToken(@Body Token token);
 }

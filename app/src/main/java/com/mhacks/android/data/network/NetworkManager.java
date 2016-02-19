@@ -397,6 +397,10 @@ public class NetworkManager {
                 });
     }
 
+    public void sendToken(Token token, final HackathonCallback<Token> callback) {
+        
+    }
+
     /**
      * Returns the current user logged in via the NetworkManager instance.
      * @return current user if successfully logged in, null otherwise
