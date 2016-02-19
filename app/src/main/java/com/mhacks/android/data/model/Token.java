@@ -6,7 +6,7 @@ package com.mhacks.android.data.model;
 public class Token {
     public String token;
     public int preferences;
-    public boolean isGcm = true;
+    public boolean is_gcm = true;
 
     public Token() {
     }
@@ -32,7 +32,7 @@ public class Token {
         this.preferences = preferences;
     }
 
-    public boolean isGcm() {
-        return isGcm;
+    public boolean isIs_gcm() {
+        return is_gcm;
     }
 }

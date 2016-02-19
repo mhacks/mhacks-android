@@ -397,8 +397,20 @@ public class NetworkManager {
                 });
     }
 
-    public void sendToken(com.mhacks.android.data.model.Token token, final HackathonCallback<Token> callback) {
-        
+    public void sendToken(com.mhacks.android.data.model.Token token, final HackathonCallback<com.mhacks.android.data.model.Token> callback) {
+        networkService.sendToken(token)
+                .enqueue(new Callback<com.mhacks.android.data.model.Token>() {
+                    @Override
+                    public void onResponse(Response<com.mhacks.android.data.model.Token> response,
+                                           Retrofit retrofit) {
+                        callback.success(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        callback.failure(t);
+                    }
+                });
     }
 
     /**

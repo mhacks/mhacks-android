@@ -19,6 +19,9 @@ import com.mhacks.android.ui.MainActivity;
 import com.mhacks.android.data.network.gcm.GcmBroadcastReceiver;
 import com.mhacks.android.ui.announcements.AnnouncementsFragment;
 
+import org.mhacks.android.R;
+
+
 public class GcmIntentService extends IntentService {
     public static final int NOTIFICATION_ID = 1;
     private NotificationManager mNotificationManager;
@@ -50,7 +53,7 @@ public class GcmIntentService extends IntentService {
         mes = extras.getString("message");
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(com.google.android.gms.gcm.R.drawable.common_plus_signin_btn_icon_dark)
+                        .setSmallIcon(R.drawable.notif_icon)
                         .setContentTitle("MHacks")
                         .setContentText(mes);
 

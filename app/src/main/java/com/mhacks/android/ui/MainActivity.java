@@ -142,22 +142,23 @@ public class MainActivity extends AppCompatActivity {
                             GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);*/
 
                     final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    boolean pushed = sharedPref.getBoolean("gcm_pushed", false);
-                    if (!pushed) {
+                    String gcmPush = sharedPref.getString("gcm", "");
+                    Log.d(TAG, "" + gcmPush);
+                    if (!gcmPush.equals(regid)) {
                         Token token = new Token(regid, 63);
                         NetworkManager networkManager = NetworkManager.getInstance();
-                        networkManager.sendToken(token,
-                                                 new HackathonCallback<com.mhacks.android.data.auth.Token>() {
-                                                     @Override
-                                                     public void success(com.mhacks.android.data.auth.Token response) {
-                                                         sharedPref.edit().putBoolean("gcm_pushed", true).apply();
-                                                     }
+                        networkManager.sendToken(token, new HackathonCallback<Token>() {
+                            @Override
+                            public void success(Token response) {
+                                Log.d(TAG, "gcm sent successfully");
+                                sharedPref.edit().putString("gcm", regid).apply();
+                            }
 
-                                                     @Override
-                                                     public void failure(Throwable error) {
-
-                                                     }
-                                                 });
+                            @Override
+                            public void failure(Throwable error) {
+                                Log.e(TAG, "gcm didnt work", error);
+                            }
+                        });
                     }
 
                     msg = "Device registered, reg id =" + regid;
