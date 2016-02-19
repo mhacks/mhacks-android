@@ -41,7 +41,7 @@ android {
         minSdkVersion 17
         targetSdkVersion 23
         versionCode((int) (System.currentTimeMillis() / 1000))
-        versionName "6.0.1"
+        versionName "7.0.2"
         resValue "string", "gcm_server_id", gcm_server_id
         resValue "string", "google_maps_api_key", google_maps_api_key
         resValue "string", "bugsnag_key", bugsnag_key
