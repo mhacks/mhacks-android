@@ -60,7 +60,9 @@ public class MapViewFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        if(!created) {
+//        Log.e(TAG, "onCreateView");
+        if(mMapFragView == null) {
+//            Log.e(TAG, "In if statement in onCreateView");
             mMapFragView = inflater.inflate(R.layout.fragment_map, container, false);
         }
         return mMapFragView;
@@ -104,7 +106,7 @@ public class MapViewFragment extends Fragment implements
     }
 
     @Override
-    public void onTaskCompleted(GroundOverlayOptions options){
+    public void onTaskCompleted(GroundOverlayOptions options, MapFragment mapFragment){
         mapLock.lock();
         Log.d(TAG, "Lock acquired by task completed");
         option = options;
@@ -115,6 +117,7 @@ public class MapViewFragment extends Fragment implements
             gMap.addGroundOverlay(option);
         }
         mapLock.unlock();
+        updateMapFragment(mapFragment);
     }
 
     @Override
@@ -132,42 +135,40 @@ public class MapViewFragment extends Fragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(!created) {
-            try {
-                // for BitmapFactory
-                MapsInitializer.initialize(getActivity().getApplicationContext());
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                    MapFragment mapFragment = MapFragment.newInstance();
-                    FragmentManager fm = getChildFragmentManager();
-                    mMapFragView.findViewById(R.id.loading_bar).setVisibility(View.GONE);
-                    fm.beginTransaction().replace(R.id.map_view_container, mapFragment).commit();
-                    if (mapFragment == null) {
-                        Log.e(TAG, "Could not get Fragment");
-                        //TODO: some sort of error code in the UI
-                    } else {
-                        mapFragment.getMapAsync(MapViewFragment.this);
-                        if(option == null){
-                            GroundOverlayLoader loader = new GroundOverlayLoader(MapViewFragment.this, MapViewFragment.this.getActivity(), CORNERS);
-                            loader.execute();
-                        }
-
-                    }
-                }
-            }, 1000);
-
-            created = true;
-        }
-        else{
+        if(created) {
             updateCameraWithLocations();
+            return;
         }
+
+        try {
+            // for BitmapFactory
+            MapsInitializer.initialize(getActivity().getApplicationContext());
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+            MapFragment mapFragment = MapFragment.newInstance();
+                mapFragment.getMapAsync(MapViewFragment.this);
+                if(option == null){
+                    GroundOverlayLoader loader =
+                            new GroundOverlayLoader(
+                                    MapViewFragment.this,
+                                    MapViewFragment.this.getActivity(),
+                                    CORNERS,
+                                    mapFragment);
+                    loader.execute();
+                }
+                else {
+                    updateMapFragment(mapFragment);
+                }
+
+            }
+        }, 1000);
+        created = true;
     }
 
     private void updateCameraWithLocations(){
@@ -181,14 +182,35 @@ public class MapViewFragment extends Fragment implements
             double swLat = 42.287503;
             double swLong = -83.718795;
             for (int i = 0; i < _locations.size(); i++){
-                if(_locations.get(i).getLatitude() < swLat || _locations.get(i).getLongitude() < swLong) zoom = (float) 13.25;
-                Marker _marker = gMap.addMarker(new MarkerOptions().position(new LatLng(_locations.get(i).getLatitude(),
-                        _locations.get(i).getLongitude())).title(_locations.get(i).getName()));
+                Location currentLocation = _locations.get(i);
+                if(currentLocation.getLatitude() < swLat
+                        || currentLocation.getLongitude() < swLong){
+                    zoom = (float) 13.25;
+                }
+                Marker _marker = gMap.addMarker(
+                        new MarkerOptions()
+                                .position(
+                                        new LatLng(
+                                                currentLocation.getLatitude(),
+                                                currentLocation.getLongitude()))
+                                .title(currentLocation.getName()));
                 mMarkers.add(_marker);
             }
 
             _locations.clear();
         }
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(42.2919466, -83.7153427), zoom));
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                new LatLng(42.2919466, -83.7153427),
+                zoom));
+    }
+
+    private void updateMapFragment(MapFragment mapFragment){
+        try{
+            FragmentManager fm = getChildFragmentManager();
+            fm.beginTransaction().replace(R.id.map_view_container, mapFragment).commit();
+        } catch (IllegalStateException e){
+            Log.e(TAG, "Activity was destroyed");
+            created = false;
+        }
     }
 }
