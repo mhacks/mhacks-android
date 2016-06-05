@@ -34,7 +34,8 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  * Displays mMaps of the MHacks V venues.
  */
-public class MapViewFragment extends Fragment implements AdapterView.OnItemSelectedListener, OnMapReadyCallback, OnTaskCompleted{
+public class MapViewFragment extends Fragment implements
+        AdapterView.OnItemSelectedListener, OnMapReadyCallback, OnTaskCompleted{
 
     public static final String TAG = "MapViewFragment";
     public static final String MAP_PIN = "mapPin";
@@ -59,64 +60,8 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         if(!created) {
-            try {
-                MapsInitializer.initialize(getActivity().getApplicationContext());
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
             mMapFragView = inflater.inflate(R.layout.fragment_map, container, false);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                    //TODO: stop it from complaining about API 14 http://stackoverflow.com/questions/26592889/mapfragment-or-mapview-getmap-returns-null-on-lollipop#answer-27681586
-                    FragmentManager fm = getChildFragmentManager();
-                    MapFragment mapFragment = MapFragment.newInstance();
-                    mMapFragView.findViewById(R.id.loading_bar).setVisibility(View.GONE);
-                    fm.beginTransaction().replace(R.id.map_view_container, mapFragment).commit();
-                    if (mapFragment == null) {
-                        Log.e(TAG, "Could not get Fragment");
-                        //TODO: some sort of error code in the UI
-                    } else {
-
-                        mapFragment.getMapAsync(MapViewFragment.this);
-                        if(option == null){
-                            GroundOverlayLoader loader = new GroundOverlayLoader(MapViewFragment.this, MapViewFragment.this.getActivity(), CORNERS);
-                            loader.execute();
-                        }
-
-                    }
-                }
-            }, 1000);
-
-            created = true;
-        }
-        else{
-            if(gMap != null){
-                ArrayList<Location> _locations = LocationsQueue.locations;
-                float zoom = (float) 16.0;
-                if(!_locations.isEmpty()){
-                    double swLat = 42.287503;
-                    double swLong = -83.718795;
-                    for (int i = 0; i < _locations.size(); i++){
-                        if(_locations.get(i).getLatitude() < swLat || _locations.get(i).getLongitude() < swLong) zoom = (float) 13.25;
-                        Marker _marker = gMap.addMarker(new MarkerOptions().position(new LatLng(_locations.get(i).getLatitude(),
-                                _locations.get(i).getLongitude())).title(_locations.get(i).getName()));
-                        mMarkers.add(_marker);
-                    }
-
-                    _locations.clear();
-                }
-                gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(42.2919466, -83.7153427), zoom));
-            }
-            else{
-                Log.e(TAG, "Map was not loaded");
-            }
         }
         return mMapFragView;
     }
@@ -149,21 +94,7 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
         }
         mapLock.unlock();
 
-        ArrayList<Location> _locations = LocationsQueue.locations;
-        float zoom = (float) 16.0;
-        if(!_locations.isEmpty()){
-            double swLat = 42.287503;
-            double swLong = -83.718795;
-            for (int i = 0; i < _locations.size(); i++){
-                if(_locations.get(i).getLatitude() < swLat || _locations.get(i).getLongitude() < swLong) zoom = (float) 13.25;
-                Marker _marker = gMap.addMarker(new MarkerOptions().position(new LatLng(_locations.get(i).getLatitude(),
-                        _locations.get(i).getLongitude())).title(_locations.get(i).getName()));
-                mMarkers.add(_marker);
-            }
-
-            _locations.clear();
-        }
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(42.2919466, -83.7153427), zoom));
+        updateCameraWithLocations();
 
         gMap.getUiSettings().setMyLocationButtonEnabled(true);
         //TODO: stop it from complaining about disabled permissions
@@ -196,5 +127,68 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
     public void onDestroy() {
         created = false;
         super.onDestroy();
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(!created) {
+            try {
+                // for BitmapFactory
+                MapsInitializer.initialize(getActivity().getApplicationContext());
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    MapFragment mapFragment = MapFragment.newInstance();
+                    FragmentManager fm = getChildFragmentManager();
+                    mMapFragView.findViewById(R.id.loading_bar).setVisibility(View.GONE);
+                    fm.beginTransaction().replace(R.id.map_view_container, mapFragment).commit();
+                    if (mapFragment == null) {
+                        Log.e(TAG, "Could not get Fragment");
+                        //TODO: some sort of error code in the UI
+                    } else {
+                        mapFragment.getMapAsync(MapViewFragment.this);
+                        if(option == null){
+                            GroundOverlayLoader loader = new GroundOverlayLoader(MapViewFragment.this, MapViewFragment.this.getActivity(), CORNERS);
+                            loader.execute();
+                        }
+
+                    }
+                }
+            }, 1000);
+
+            created = true;
+        }
+        else{
+            updateCameraWithLocations();
+        }
+    }
+
+    private void updateCameraWithLocations(){
+        if(gMap == null){
+            Log.e(TAG, "Map was null!");
+            return;
+        }
+        ArrayList<Location> _locations = LocationsQueue.locations;
+        float zoom = (float) 16.0;
+        if(!_locations.isEmpty()){
+            double swLat = 42.287503;
+            double swLong = -83.718795;
+            for (int i = 0; i < _locations.size(); i++){
+                if(_locations.get(i).getLatitude() < swLat || _locations.get(i).getLongitude() < swLong) zoom = (float) 13.25;
+                Marker _marker = gMap.addMarker(new MarkerOptions().position(new LatLng(_locations.get(i).getLatitude(),
+                        _locations.get(i).getLongitude())).title(_locations.get(i).getName()));
+                mMarkers.add(_marker);
+            }
+
+            _locations.clear();
+        }
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(42.2919466, -83.7153427), zoom));
     }
 }

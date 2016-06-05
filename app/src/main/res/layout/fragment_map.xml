@@ -11,7 +11,8 @@
         <!--android:layout_gravity="center"-->
         <!--/>-->
 
-    <fragment android:name="com.mhacks.android.ui.map.LoadingFragment"
+    <fragment
+        android:name="com.mhacks.android.ui.map.LoadingFragment"
         android:id="@+id/map_view_container"
         android:orientation="vertical"
         android:layout_width="match_parent"
