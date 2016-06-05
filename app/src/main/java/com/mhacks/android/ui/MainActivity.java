@@ -105,12 +105,12 @@ public class MainActivity extends AppCompatActivity {
         settingsFragment = new SettingsFragment();
         mapViewFragment = new MapViewFragment();
 
-        updateFragment(countdownFragment);
+        updateFragment(countdownFragment, false);
 
         if (notif != null){
             // Opens Announcements
             if (notif.equals("Announcements")){
-                updateFragment(announcementsFragment);;
+                updateFragment(announcementsFragment, true);
             }
         }
 
@@ -290,19 +290,19 @@ public class MainActivity extends AppCompatActivity {
                 // indexing starts at 1 for some reason... probably because of the account header
                 switch (position) {
                     case 1:
-                        updateFragment(countdownFragment);
+                        updateFragment(countdownFragment, true);
                         break;
                     case 2:
-                        updateFragment(announcementsFragment);
+                        updateFragment(announcementsFragment, true);
                         break;
                     case 3:
-                        updateFragment(scheduleFragment);
+                        updateFragment(scheduleFragment, true);
                         break;
                     case 4:
-                        updateFragment(mapViewFragment);
+                        updateFragment(mapViewFragment, true);
                         break;
                     case 6:
-                        updateFragment(settingsFragment);
+                        updateFragment(settingsFragment, true);
                     default:
                         return false;
                 }
@@ -349,14 +349,14 @@ public class MainActivity extends AppCompatActivity {
      * Updates the main_fragment_container with the given fragment.
      * @param fragment fragment to replace the main container with
      */
-    private void updateFragment(Fragment fragment) {
+    private void updateFragment(Fragment fragment, boolean addToBackStack) {
         if (fragment == null) return; // only used for pre-release while fragments are not finalized
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.replace(R.id.main_container, fragment);
-        fragmentTransaction.addToBackStack(null);
+        if (addToBackStack) fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
