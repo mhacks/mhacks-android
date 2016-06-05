@@ -41,7 +41,7 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
     private ArrayList<Marker> mMarkers = new ArrayList<>();
 
     //Views
-    private View      mMapFragView;
+    private View mMapFragView;
     private boolean created = false;
     private ReentrantLock mapLock = new ReentrantLock();
     private boolean mapReady = false;
@@ -85,8 +85,10 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
                     } else {
 
                         mapFragment.getMapAsync(MapViewFragment.this);
-                        GroundOverlayLoader loader = new GroundOverlayLoader(MapViewFragment.this, MapViewFragment.this.getActivity(), CORNERS);
-                        loader.execute();
+                        if(option == null){
+                            GroundOverlayLoader loader = new GroundOverlayLoader(MapViewFragment.this, MapViewFragment.this.getActivity(), CORNERS);
+                            loader.execute();
+                        }
 
                     }
                 }
@@ -185,11 +187,14 @@ public class MapViewFragment extends Fragment implements AdapterView.OnItemSelec
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-    }
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) { }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    public void onNothingSelected(AdapterView<?> parent) { }
 
+    @Override
+    public void onDestroy() {
+        created = false;
+        super.onDestroy();
     }
 }
