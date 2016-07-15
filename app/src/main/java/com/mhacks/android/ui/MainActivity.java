@@ -19,6 +19,7 @@ import android.webkit.WebView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.mhacks.android.data.model.Registration;
 import com.mhacks.android.data.model.Token;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.network.HackathonCallback;
@@ -27,6 +28,7 @@ import com.mhacks.android.ui.announcements.AnnouncementsFragment;
 import com.mhacks.android.ui.countdown.CountdownFragment;
 import com.mhacks.android.ui.events.ScheduleFragment;
 import com.mhacks.android.ui.map.MapViewFragment;
+import com.mhacks.android.ui.registration.RegistrationFragment;
 import com.mhacks.android.ui.settings.SettingsFragment;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
     private ScheduleFragment scheduleFragment;
     private SettingsFragment settingsFragment;
     private MapViewFragment mapViewFragment;
+    private RegistrationFragment registrationFragment;
 
     //GCM
     private GoogleCloudMessaging gcm;
@@ -104,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
         scheduleFragment = new ScheduleFragment();
         settingsFragment = new SettingsFragment();
         mapViewFragment = new MapViewFragment();
+        registrationFragment = new RegistrationFragment();
+
 
         updateFragment(countdownFragment, false);
 
@@ -244,6 +249,9 @@ public class MainActivity extends AppCompatActivity {
         PrimaryDrawerItem map = new PrimaryDrawerItem().withName("Map")
                                                        .withIcon(R.drawable.ic_location)
                                                        .withSelectedTextColorRes(R.color.primary);
+        PrimaryDrawerItem register = new PrimaryDrawerItem().withName("Registration")
+                                                            .withIcon(R.drawable.ic_event)
+                                                            .withSelectedTextColorRes(R.color.primary);
         SecondaryDrawerItem settings = new SecondaryDrawerItem().withName("Settings")
                                                                 .withIcon(R.drawable.ic_settings)
                                                                 .withSelectedTextColorRes(R.color.primary);
@@ -275,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withToolbar(mToolbar)
                 .withAccountHeader(accountHeader)
-                .addDrawerItems(countdown, announcements, events, map,
+                .addDrawerItems(countdown, announcements, events, map, register,
                                 new DividerDrawerItem(),
                                 settings)
                 .build();
@@ -301,7 +309,10 @@ public class MainActivity extends AppCompatActivity {
                     case 4:
                         updateFragment(mapViewFragment, true);
                         break;
-                    case 6:
+                    case 5:
+                        updateFragment(registrationFragment, true);
+                        break;
+                    case 7:
                         updateFragment(settingsFragment, true);
                     default:
                         return false;
