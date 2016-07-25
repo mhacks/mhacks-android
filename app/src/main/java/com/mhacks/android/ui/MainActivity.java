@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         registrationFragment = new RegistrationFragment();
 
 
-        updateFragment(countdownFragment, false);
+        updateFragment(registrationFragment, false);
 
         if (notif != null){
             // Opens Announcements

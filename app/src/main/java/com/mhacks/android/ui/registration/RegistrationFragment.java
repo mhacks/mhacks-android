@@ -9,11 +9,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import org.mhacks.android.R;
 
@@ -23,7 +26,10 @@ import org.mhacks.android.R;
 public class RegistrationFragment extends Fragment{
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
 
-    Button button;
+    FloatingActionsMenu Menu_button;
+    FloatingActionButton Register_button;
+    FloatingActionButton Food_button;
+    FloatingActionButton Tech_button;
     TextView text_content;
     TextView text_format;
 
@@ -34,10 +40,23 @@ public class RegistrationFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_registration , container, false);
-        button =  (Button)  view.findViewById(R.id.qr_button);
-        button.setOnClickListener(new View.OnClickListener() {
+        Menu_button =  (FloatingActionsMenu)  view.findViewById(R.id.qr_button);
+        Register_button =  (FloatingActionButton)  view.findViewById(R.id.reg_button);
+        Food_button =  (FloatingActionButton)  view.findViewById(R.id.food_button);
+        Tech_button =  (FloatingActionButton)  view.findViewById(R.id.tech_button);
+        Register_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                scanQR(v);
+                scanQR(v, "REG");
+            }
+        });
+        Food_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                scanQR(v, "FOOD");
+            }
+        });
+        Tech_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                scanQR(v, "TECH");
             }
         });
         text_format = (TextView) view.findViewById(R.id.scan_info_format);
@@ -45,9 +64,10 @@ public class RegistrationFragment extends Fragment{
         return view;
     }
 
-    public void scanQR(View v){
+    public void scanQR(View v, String qr_type){
         try {
             Intent intent = new Intent(ACTION_SCAN);
+            intent.putExtra("QR_Type", qr_type);
             intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
             startActivityForResult(intent, 0);
         }
@@ -83,6 +103,7 @@ public class RegistrationFragment extends Fragment{
             if (resultCode == Activity.RESULT_OK){
                 String contents = intent.getStringExtra("SCAN_RESULT");
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+                String qr_type = intent.getStringExtra("QR_Type");
                 text_format.setText(format);
                 text_content.setText(contents);
             }
