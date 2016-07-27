@@ -79,6 +79,7 @@ dependencies {
     compile 'com.github.alamkanak:android-week-view:1.2.6'
     compile 'com.google.android.gms:play-services-maps:8.3.0'
     compile 'com.tonicartos:stickygridheaders:1.0.1'
+    compile 'com.getbase:floatingactionbutton:1.10.1'
     compile('com.viewpagerindicator:library:2.4.1@aar') {
         exclude group: 'com.google.android', module: 'support-v4'
     }
