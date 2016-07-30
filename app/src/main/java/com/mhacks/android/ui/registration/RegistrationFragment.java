@@ -3,20 +3,28 @@ package com.mhacks.android.ui.registration;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SearchViewCompat;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.support.v7.widget.SearchView;
 import android.widget.TextView;
-
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import org.mhacks.android.R;
 
@@ -34,7 +42,10 @@ public class RegistrationFragment extends Fragment{
     TextView text_format;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {super.onCreate(savedInstanceState);}
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Nullable
     @Override
@@ -110,4 +121,15 @@ public class RegistrationFragment extends Fragment{
         }
     }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        SearchManager searchManager =
+                (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getActivity().getComponentName()));
+    }
 }
