@@ -1,8 +1,8 @@
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/mhr_charcaol</item>
+    <style name="MHacksTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="AppTheme.Base" parent="Theme.AppCompat">
@@ -16,26 +16,6 @@
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@color/white</item>
-    </style>
-
-    <!-- Deprecated stuff below -->
-
-
-    <style name="MHacksTheme" parent="android:Theme.Holo">
-        <item name="android:actionBarStyle">@style/action_bar_style</item>
-        <item name="android:textAppearance">@style/text_appearance</item>
-        <item name="android:windowBackground">@color/bg_neutral</item>
-        <!--<item name="android:homeAsUpIndicator">@null</item>-->
-    </style>
-
-    <style name="text_appearance" parent="android:TextAppearance">
-        <!--<item name="android:textColor">@android:color/white</item>-->
-    </style>
-
-    <style name="action_bar_style" parent="android:Widget.Holo.Light.ActionBar.Solid">
-        <item name="android:background">@color/adapter_card_shadow_color</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

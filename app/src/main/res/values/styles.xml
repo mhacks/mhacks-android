@@ -32,7 +32,7 @@
         <item name="android:layout_marginRight">2dp</item>
     </style>
 
-    <style name="adapter_card_title">
+    <style name="adapter_card_name">
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
         <item name="android:layout_alignParentTop">true</item>
         <item name="android:layout_alignParentLeft">true</item>

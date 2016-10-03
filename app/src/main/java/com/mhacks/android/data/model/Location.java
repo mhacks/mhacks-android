@@ -2,12 +2,13 @@ package com.mhacks.android.data.model;
 
 /**
  * Created by boztalay on 6/3/15.
+ * Updated by omkarmoghe on 10/2/16.
  */
-public class Location {
+public class Location extends ModelObject{
     public String name;
     public double latitude;
     public double longitude;
-    public int id;
+    public String floor;
 
     public Location() {
     }
@@ -36,11 +37,11 @@ public class Location {
         this.longitude = longitude;
     }
 
-    public int getId() {
-        return id;
+    public String getFloor() {
+        return floor;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setFloor(String floor) {
+        this.floor = floor;
     }
 }

@@ -15,11 +15,6 @@ public class MyInstanceIDListenerService extends InstanceIDListenerService {
     }
 
     @Override
-    public void zzp(Intent intent) {
-        super.zzp(intent);
-    }
-
-    @Override
     public void onCreate() {
         super.onCreate();
     }

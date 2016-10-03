@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="adapter_card_header">
-        <item name="android:paddingTop">@dimen/adapter_header_padding_vertical</item>
-        <item name="android:paddingBottom">@dimen/adapter_header_padding_vertical</item>
-        <item name="android:paddingLeft">@dimen/adapter_header_padding_horizontal</item>
-        <item name="android:paddingRight">@dimen/adapter_header_padding_horizontal</item>
-        <item name="android:background">@drawable/adapter_card_header</item>
+    <style title="adapter_card_header">
+        <item title="android:paddingTop">@dimen/adapter_header_padding_vertical</item>
+        <item title="android:paddingBottom">@dimen/adapter_header_padding_vertical</item>
+        <item title="android:paddingLeft">@dimen/adapter_header_padding_horizontal</item>
+        <item title="android:paddingRight">@dimen/adapter_header_padding_horizontal</item>
+        <item title="android:background">@drawable/adapter_card_header</item>
     </style>
 
-    <style name="adapter_card_header_text">
-        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:fontFamily">sans-serif-condensed</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:layout_marginTop">4dp</item>
+    <style title="adapter_card_header_text">
+        <item title="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item title="android:textAllCaps">true</item>
+        <item title="android:fontFamily">sans-serif-condensed</item>
+        <item title="android:textStyle">bold</item>
+        <item title="android:textColor">@android:color/white</item>
+        <item title="android:layout_marginTop">4dp</item>
     </style>
 
-    <style name="adapter_card_body">
-        <item name="android:layout_gravity">left</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">12dp</item>
-        <item name="android:paddingLeft">16dp</item>
-        <item name="android:paddingRight">16dp</item>
-        <item name="android:background">@drawable/adapter_card_body</item>
+    <style title="adapter_card_body">
+        <item title="android:layout_gravity">left</item>
+        <item title="android:paddingTop">10dp</item>
+        <item title="android:paddingBottom">12dp</item>
+        <item title="android:paddingLeft">16dp</item>
+        <item title="android:paddingRight">16dp</item>
+        <item title="android:background">@drawable/adapter_card_body</item>
     </style>
 
-    <style name="adapter_card_title">
-        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
-        <item name="android:layout_alignParentTop">true</item>
-        <item name="android:layout_alignParentLeft">true</item>
+    <style title="adapter_card_title">
+        <item title="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item title="android:layout_alignParentTop">true</item>
+        <item title="android:layout_alignParentLeft">true</item>
     </style>
 
-    <style name="adapter_card_details">
-        <item name="android:textAppearance">?android:attr/textAppearance</item>
-        <item name="android:paddingTop">2dp</item>
-        <item name="android:paddingBottom">2dp</item>
-        <item name="android:layout_alignParentLeft">true</item>
+    <style title="adapter_card_details">
+        <item title="android:textAppearance">?android:attr/textAppearance</item>
+        <item title="android:paddingTop">2dp</item>
+        <item title="android:paddingBottom">2dp</item>
+        <item title="android:layout_alignParentLeft">true</item>
     </style>
 
-    <style name="adapter_card_pinned_icon">
-        <item name="android:layout_width">@dimen/pin_icon_size</item>
-        <item name="android:layout_height">@dimen/pin_icon_size</item>
-        <item name="android:contentDescription">@string/icon</item>
-        <item name="android:layout_centerVertical">true</item>
-        <item name="android:layout_alignParentRight">true</item>
-        <item name="android:src">@drawable/ic_pin</item>
+    <style title="adapter_card_pinned_icon">
+        <item title="android:layout_width">@dimen/pin_icon_size</item>
+        <item title="android:layout_height">@dimen/pin_icon_size</item>
+        <item title="android:contentDescription">@string/icon</item>
+        <item title="android:layout_centerVertical">true</item>
+        <item title="android:layout_alignParentRight">true</item>
+        <item title="android:src">@drawable/ic_pin</item>
     </style>
 
 </resources>

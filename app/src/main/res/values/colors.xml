@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Material Design Base Colors -->
-    <color name="colorPrimary">@color/mhr_orange</color>
-    <color name="colorPrimaryDark">@color/mhr_orange_shade</color>
-    <color name="ow_drawer_background">#EEEEEE</color>
+    <color name="colorPrimary">@color/mh8_blue</color>
+    <color name="colorPrimaryDark">@color/mh8_darkblue</color>
+    <color name="colorAccent">@color/mh8_yellow</color>
+    <color name="ow_drawer_background">#FAFAFA</color>
+
+    <!-- MHacks 8 Colors -->
+    <color name="mh8_blue">#00BCD4</color>
+    <color name="mh8_darkblue">#0097A7</color>
+    <color name="mh8_yellow">#E5D11C</color>
 
     <!-- MHacks: Refactor -->
     <!-- Prefix with mhr_ -->
@@ -125,7 +131,10 @@
     <color name="nav_item_shadow_step_2">#32191919</color>
     <color name="nav_item_shadow_step_3">#44191919</color>
     <color name="nav_item_shadow_step_4">@color/darker_charcoal_semitransparent</color>
-
+    <color name="primary_material_light">#00bcd4</color>
+    <color name="primary_dark_material_light">#0097a7</color>
+    <color name="accent_material_light">#e5d11c</color>
+    <color name="background_material_light">#fafafa</color>
 
 
 </resources>

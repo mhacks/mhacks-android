@@ -1,14 +1,7 @@
 package com.mhacks.android.ui.common;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
-
-import com.bugsnag.android.Bugsnag;
-import com.google.common.base.Function;
-import com.parse.ParseException;
-import com.parse.ParseFile;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -73,27 +66,6 @@ public abstract class Util {
 
             return calendar;
         }
-
-    }
-
-    // Useful Functions... thank you guava
-    public static abstract class Func {
-
-        public static Function<ParseFile, Bitmap> PFILE_TO_BITMAP =
-                new Function<ParseFile, Bitmap>() {
-                    @Override
-                    public Bitmap apply(ParseFile input) {
-                        try {
-                            byte[] data = input.getData();
-                            return BitmapFactory.decodeByteArray(data, 0, data.length);
-                        }
-                        catch (ParseException e) {
-                            e.printStackTrace();
-                            Bugsnag.notify(e);
-                        }
-                        return null;
-                    }
-                };
 
     }
 

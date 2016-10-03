@@ -15,16 +15,12 @@ import android.widget.TextView;
 import com.mhacks.android.data.model.Countdown;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
-import com.mhacks.android.ui.MainActivity;
-import org.mhacks.android.R;
-import com.parse.ConfigCallback;
-import com.parse.ParseConfig;
-import com.parse.ParseException;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.mhacks.android.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

@@ -27,6 +27,7 @@ import org.mhacks.android.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -138,11 +139,11 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
         for (Event event : events) {
             // Create start event.
             GregorianCalendar startTime = new GregorianCalendar(TimeZone.getDefault());
-            startTime.setTime(event.getStartTime());
+            startTime.setTime(new Date(event.getStart()));
 
             // Create end event.
             GregorianCalendar endTime = (GregorianCalendar) startTime.clone();
-            endTime.setTime(event.getEndTime());
+            endTime.add(Calendar.SECOND, (int) event.getDuration());
 
             // Set color based on EventType (Category).
             int color = getEventColor(event.getCategory());
@@ -152,8 +153,7 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
             weekViewEvent.setColor(color);
 
             // Add the WeekViewEvent to the list.
-            // NOTE: WeekView indexes at 1, Calendar indexes at 0.
-            if (startTime.get(Calendar.MONTH) == month - 1) weekViewEvents.add(weekViewEvent);
+            if (startTime.get(Calendar.MONTH) == month) weekViewEvents.add(weekViewEvent);
 
             // Increment the id
             id++;
@@ -275,7 +275,8 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
             getEvents();
             return new ArrayList<WeekViewEvent>();
         } else {
-            return createWeekViewEvents(mEvents, newMonth);
+            // NOTE: WeekView indexes at 1, Calendar indexes at 0.
+            return createWeekViewEvents(mEvents, newMonth - 1);
         }
     }
 

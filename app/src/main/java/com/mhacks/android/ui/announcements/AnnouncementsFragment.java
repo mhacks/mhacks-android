@@ -31,7 +31,7 @@ import java.util.List;
 public class AnnouncementsFragment extends Fragment {
     private static final String TAG = "MD/Announcements";
 
-    //Local datastore pin name.
+    //Local datastore pin title.
     public static final String ANNOUNCEMENT_PIN = "announcementPin";
 
     // Caches all the Announcements found
@@ -99,7 +99,7 @@ public class AnnouncementsFragment extends Fragment {
                 for (Announcement announcement : response) {
                     Calendar currentTime = Calendar.getInstance();
                     Calendar announcementTime = Calendar.getInstance();
-                    if (announcement.getBroadcastTime() != null) announcementTime.setTime(announcement.getBroadcastTime());
+                    announcementTime.setTime(new Date(announcement.getBroadcastAt()));
                     if (currentTime.compareTo(announcementTime) != -1) mAnnouncementsList.add(announcement);
 
                     updateAnnouncements();
@@ -169,7 +169,7 @@ public class AnnouncementsFragment extends Fragment {
             Announcement announcement = mAnnouncementsList.get(i);
 
             // Set this item's views based off of the announcement data
-            viewHolder.titleView.setText(announcement.getName());
+            viewHolder.titleView.setText(announcement.getTitle());
             viewHolder.descriptionView.setText(announcement.getInfo());
 
             int category = announcement.getCategory();
@@ -200,7 +200,7 @@ public class AnnouncementsFragment extends Fragment {
             }
 
             // Get the date from this announcement and set it as a relative date
-            Date date = announcement.getBroadcastTime();
+            Date date = new Date(announcement.getBroadcastAt());
             CharSequence relativeDate = DateUtils.getRelativeTimeSpanString(date.getTime());
             viewHolder.dateView.setText(relativeDate);
         }

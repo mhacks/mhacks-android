@@ -7,13 +7,13 @@
         Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
         anim id est laborum.
     </string>
-    <string name="lorem_announcement_title">Announcement Title</string>
-    <string name="lorem_event_title">Event Title</string>
+    <string name="lorem_announcement_name">Announcement Title</string>
+    <string name="lorem_event_name">Event Title</string>
     <string name="lorem_event_time">Saturday 12:30a</string>
     <string name="lorem_user_full_name">Marvin Gaye</string>
     <string name="lorem_nav_item">Navigation Item</string>
     <string name="lorem_date">Wednesday, September 31</string>
     <string name="lorem_sponsor">MHacks Staff</string>
-    <string name="lorem_award_title">Award Title</string>
+    <string name="lorem_award_name">Award Title</string>
     <string name="lorem_contact_name">Dave Fontenot</string>
 </resources>

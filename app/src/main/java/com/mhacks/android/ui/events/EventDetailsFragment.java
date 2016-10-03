@@ -73,12 +73,12 @@ public class EventDetailsFragment extends Fragment {
         EventDetailsFragment f = new EventDetailsFragment();
 
         Bundle args = new Bundle();
-        args.putString("name", event.getName());
+        args.putString("title", event.getName());
         args.putString("info", event.getInfo());
-        args.putCharSequenceArray("locationIds", event.getLocationIds());
-        args.putString("locationName", event.getLocationName());
-        args.putLong("startTime", event.getStartTime().getTime());
-        args.putLong("endTime", event.getEndTime().getTime());
+        args.putCharSequenceArray("locationIds", event.getLocations()
+                                                      .toArray(new CharSequence[event.getLocations().size()]));
+        args.putLong("startTime", event.getStart());
+        args.putLong("duration", event.getDuration());
         args.putInt("color", color);
         f.setArguments(args);
 
@@ -89,14 +89,13 @@ public class EventDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         Bundle args = getArguments();
 
-        // Either has all of the keys or none, so only checking for the name.
-        if (args.containsKey("name")) {
-            eventName = args.getString("name");
+        // Either has all of the keys or none, so only checking for the title.
+        if (args.containsKey("title")) {
+            eventName = args.getString("title");
             eventInfo = args.getString("info");
-            eventLocationName = args.getString("locationName");
             eventLocationIds = args.getStringArray("locationIds");
             eventStartTime = new Date(args.getLong("startTime"));
-            eventEndTime = new Date(args.getLong("endTime"));
+            eventEndTime = new Date(args.getLong("startTime") + (args.getLong("duration") * 1000));
             eventColor = args.getInt("color");
         }
 

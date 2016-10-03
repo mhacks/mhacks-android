@@ -1,18 +1,18 @@
 package com.mhacks.android.data.model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by boztalay on 6/3/15.
+ * Updated by omkarmoghe on 10/2/16.
  */
 public class Event extends ModelObject {
     public String   name;
     public String   info;
-    public String[] locationIds;
-    public String locationName;
-    public Date     startTime;
-    public Date     endTime;
-    public String   userId;
+    public long     start;
+    public long     duration;
+    public List<String> locations;
 
     /*
     0 - Logistics (blue)
@@ -23,7 +23,7 @@ public class Event extends ModelObject {
     4 - Other (brown)
      */
     public int      category;
-    public boolean  isApproved;
+    public boolean  approved;
 
     public Event() {
     }
@@ -44,28 +44,28 @@ public class Event extends ModelObject {
         this.info = info;
     }
 
-    public String[] getLocationIds() {
-        return locationIds;
+    public long getStart() {
+        return start;
     }
 
-    public void setLocationIds(String[] locationIds) {
-        this.locationIds = locationIds;
+    public void setStart(long start) {
+        this.start = start;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public long getDuration() {
+        return duration;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public List<String> getLocations() {
+        return locations;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setLocations(List<String> locations) {
+        this.locations = locations;
     }
 
     public int getCategory() {
@@ -77,26 +77,10 @@ public class Event extends ModelObject {
     }
 
     public boolean isApproved() {
-        return isApproved;
+        return approved;
     }
 
     public void setApproved(boolean approved) {
-        this.isApproved = approved;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getLocationName() {
-        return locationName;
-    }
-
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
+        this.approved = approved;
     }
 }

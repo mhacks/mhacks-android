@@ -5,5 +5,5 @@
         android:id="@+id/threads_close"
         android:showAsAction="always"
         android:icon="@android:drawable/ic_menu_close_clear_cancel"
-        android:name="@string/close_thread"/>
+        android:title="@string/close_thread"/>
 </menu>

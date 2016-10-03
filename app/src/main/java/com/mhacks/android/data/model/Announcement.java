@@ -1,22 +1,13 @@
 package com.mhacks.android.data.model;
 
-import android.util.Log;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Created by boztalay on 6/3/15.
+ * Modified by omkarmoghe on 10/3/16
  */
 public class Announcement extends ModelObject {
-    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-
-
-    public String  name;
-    public String  info;
-    public Date    broadcastTime;
+    public String title;
+    public String info;
+    public long   broadcastAt;
 
     /*
     Using bits:
@@ -28,18 +19,18 @@ public class Announcement extends ModelObject {
     32 - Other (brown)
      */
     public int     category;
-    public String  userId;
-    public boolean isApproved;
+    public boolean approved;
+    public boolean deleted;
 
     public Announcement() {
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getInfo() {
@@ -50,21 +41,12 @@ public class Announcement extends ModelObject {
         this.info = info;
     }
 
-    public Date getBroadcastTime() {
-        return broadcastTime;
+    public long getBroadcastAt() {
+        return broadcastAt;
     }
 
-    public void setBroadcastTime(String date) {
-        DateFormat df = new SimpleDateFormat(DATE_FORMAT);
-        try {
-        this.broadcastTime = df.parse(date);
-        } catch (ParseException p) {
-            Log.e("Announcment", "shit", p);
-        }
-    }
-
-    public void setBroadcastTime(Date broadcastTime) {
-        this.broadcastTime = broadcastTime;
+    public void setBroadcastAt(long date) {
+        this.broadcastAt = date;
     }
 
     public int getCategory() {
@@ -75,19 +57,19 @@ public class Announcement extends ModelObject {
         this.category = category;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public boolean isApproved() {
-        return isApproved;
+        return approved;
     }
 
     public void setApproved(boolean approved) {
-        this.isApproved = approved;
+        this.approved = approved;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="api_version">v1</string>
-    <string name="api_endpoint">http://testonehack.herokuapp.com/</string>
+    <string title="api_version">v1</string>
+    <string title="api_endpoint">http://testonehack.herokuapp.com/</string>
 </resources>

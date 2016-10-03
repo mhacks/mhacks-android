@@ -1,38 +1,61 @@
 package com.mhacks.android.data.model;
 
+import java.util.Date;
+
 /**
  * Created by Omkar Moghe on 2/18/2016.
  */
 public class Token {
-    public String token;
-    public int preferences;
-    public boolean is_gcm = true;
+    public String name;
+    public String registrationId;
+    public int deviceId;
+    public boolean active = true;
+    public Date dateCreated;
 
     public Token() {
     }
 
-    public Token(String token, int preferences) {
-        this.token = token;
-        this.preferences = preferences;
+    public Token(String registrationId) {
+        this.registrationId = registrationId;
     }
 
-    public String getToken() {
-        return token;
+    public String getName() {
+        return name;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getPreferences() {
-        return preferences;
+    public String getRegistrationId() {
+        return registrationId;
     }
 
-    public void setPreferences(int preferences) {
-        this.preferences = preferences;
+    public void setRegistrationId(String registrationId) {
+        this.registrationId = registrationId;
     }
 
-    public boolean isIs_gcm() {
-        return is_gcm;
+    public int getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(int deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 }

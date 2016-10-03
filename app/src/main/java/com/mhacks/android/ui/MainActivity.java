@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,7 +15,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.webkit.WebView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     } else pref = 63;
 
-                    final Token token = new Token(regid, pref);
+                    final Token token = new Token(regid);
                     Log.d(TAG, gcmPush);
                     Log.d(TAG, "" + pref);
                     if (!gcmPush.equals(regid)) {
@@ -174,18 +174,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                     } else {
-                        NetworkManager networkManager = NetworkManager.getInstance();
-                        networkManager.updateToken(token, new HackathonCallback<Token>() {
-                            @Override
-                            public void success(Token response) {
-                                Log.d(TAG, "notification preferences updated");
-                            }
-
-                            @Override
-                            public void failure(Throwable error) {
-
-                            }
-                        });
+                        // TODO: update user prefs
                     }
 
                     msg = "Device registered, reg id =" + regid;
@@ -211,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
         String password = sharedPref.getString(SettingsFragment.PASSWORD_KEY, "");
         final NetworkManager networkManager = NetworkManager.getInstance();
         if (username.length() != 0 && password.length() != 0) {
-            networkManager.logUserIn(username, password, new HackathonCallback<User>() {
+            networkManager.login(username, password, "", new HackathonCallback<User>() {
                 @Override
                 public void success(User response) {
                     mUser = response;
@@ -249,11 +238,11 @@ public class MainActivity extends AppCompatActivity {
                                                                 .withSelectedTextColorRes(R.color.primary);
 
         // User profile
-        String userName = (mUser != null) ? mUser.firstName + " " + mUser.lastName : "MHacks: Refactor";
+        String userName = (mUser != null) ? mUser.getName() : "MHacks 8";
         ProfileDrawerItem userProfile = new ProfileDrawerItem().withName(userName)
                                                                .withTextColorRes(R.color.black)
                                                                .withSelectedColorRes(R.color.primary)
-                                                               .withIcon(getResources().getDrawable(R.mipmap.launcher_icon));
+                                                               .withIcon(ContextCompat.getDrawable(this, R.mipmap.launcher_icon));
 
         // Account Header
         AccountHeader accountHeader = new AccountHeaderBuilder()
