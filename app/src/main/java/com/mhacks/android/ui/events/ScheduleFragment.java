@@ -5,9 +5,7 @@ import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,11 +16,9 @@ import android.widget.LinearLayout;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
-import com.google.android.gms.maps.MapFragment;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
-import com.mhacks.android.ui.map.MapViewFragment;
 
 import org.mhacks.android.R;
 

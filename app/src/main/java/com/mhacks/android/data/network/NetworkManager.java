@@ -1,6 +1,5 @@
 package com.mhacks.android.data.network;
 
-import android.app.DownloadManager;
 import android.util.Log;
 
 import com.google.gson.FieldNamingPolicy;
@@ -14,22 +13,19 @@ import com.mhacks.android.data.model.Location;
 import com.mhacks.android.data.model.Login;
 import com.mhacks.android.data.model.Map;
 import com.mhacks.android.data.model.ModelList;
-import com.mhacks.android.data.model.ModelObject;
 import com.mhacks.android.data.model.Scan;
 import com.mhacks.android.data.model.ScanEvent;
 import com.mhacks.android.data.model.Token;
 import com.mhacks.android.data.model.User;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -62,12 +58,20 @@ public class NetworkManager {
 
     public NetworkManager() {
         Gson gson = new GsonBuilder()
+                .setLenient()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
+
+        // Logging
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.addInterceptor(logging);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
+//                .client(httpClient.build()) // only for logging/debugging
                 .build();
 
         this.networkService = retrofit.create(HackathonNetworkService.class);
@@ -340,20 +344,20 @@ public class NetworkManager {
 
     public void getLocation(String locationId, final HackathonCallback<Location> callback) {
         networkService.getLocation(locationId, mToken)
-                .enqueue(new Callback<Location>() {
-                    @Override
-                    public void onResponse(Call<Location> call, Response<Location> response) {
-                        Location l = response.body();
-                        if (l == null) Log.d(TAG, "fuck, the location is null");
-                        callback.success(response.body());
-                    }
+                      .enqueue(new Callback<Location>() {
+                          @Override
+                          public void onResponse(Call<Location> call, Response<Location> response) {
+                              Location l = response.body();
+                              if (l == null) Log.d(TAG, "fuck, the location is null");
+                              callback.success(response.body());
+                          }
 
-                    @Override
-                    public void onFailure(Call<Location> call, Throwable t) {
-                        Log.e(TAG, "unable to get location");
-                        callback.failure(t);
-                    }
-                });
+                          @Override
+                          public void onFailure(Call<Location> call, Throwable t) {
+                              Log.e(TAG, "unable to get location");
+                              callback.failure(t);
+                          }
+                      });
     }
 
     public void updateLocation(final Location location, final HackathonCallback<Location> callback) {
@@ -407,68 +411,68 @@ public class NetworkManager {
 
     public void sendToken(Token token, final HackathonCallback<Token> callback) {
         networkService.sendGcmToken(mToken, token.getName(), token.getRegistrationId(), token.isActive())
-                .enqueue(new Callback<Token>() {
-                    @Override
-                    public void onResponse(Call<Token> call, Response<Token> response) {
-                        callback.success(response.body());
-                    }
+                      .enqueue(new Callback<Token>() {
+                          @Override
+                          public void onResponse(Call<Token> call, Response<Token> response) {
+                              callback.success(response.body());
+                          }
 
-                    @Override
-                    public void onFailure(Call<Token> call, Throwable t) {
-                        Log.e(TAG, "unable to send GCM token", t);
-                        callback.failure(t);
-                    }
-                });
+                          @Override
+                          public void onFailure(Call<Token> call, Throwable t) {
+                              Log.e(TAG, "unable to send GCM token", t);
+                              callback.failure(t);
+                          }
+                      });
     }
 
     public void getFloors(final HackathonCallback<List<Floor>> callback) {
         networkService.getFloors(mToken)
-                .enqueue(new Callback<ModelList<Floor>>() {
-                    @Override
-                    public void onResponse(Call<ModelList<Floor>> call,
-                                           Response<ModelList<Floor>> response) {
-                        callback.success(response.body().getResults());
-                    }
+                      .enqueue(new Callback<ModelList<Floor>>() {
+                          @Override
+                          public void onResponse(Call<ModelList<Floor>> call,
+                                                 Response<ModelList<Floor>> response) {
+                              callback.success(response.body().getResults());
+                          }
 
-                    @Override
-                    public void onFailure(Call<ModelList<Floor>> call, Throwable t) {
-                        Log.e(TAG, "unable to get floors");
-                        callback.failure(t);
-                    }
-                });
+                          @Override
+                          public void onFailure(Call<ModelList<Floor>> call, Throwable t) {
+                              Log.e(TAG, "unable to get floors");
+                              callback.failure(t);
+                          }
+                      });
     }
 
     public void createFloor(Floor floor, final HackathonCallback<List<Floor>> callback) {
         networkService.createFloor(mToken, floor)
-                .enqueue(new Callback<ModelList<Floor>>() {
-                    @Override
-                    public void onResponse(Call<ModelList<Floor>> call,
-                                           Response<ModelList<Floor>> response) {
-                        callback.success(response.body().getResults());
-                    }
+                      .enqueue(new Callback<ModelList<Floor>>() {
+                          @Override
+                          public void onResponse(Call<ModelList<Floor>> call,
+                                                 Response<ModelList<Floor>> response) {
+                              callback.success(response.body().getResults());
+                          }
 
-                    @Override
-                    public void onFailure(Call<ModelList<Floor>> call, Throwable t) {
-                        Log.d(TAG, "unable to create floor");
-                        callback.failure(t);
-                    }
-                });
+                          @Override
+                          public void onFailure(Call<ModelList<Floor>> call, Throwable t) {
+                              Log.d(TAG, "unable to create floor");
+                              callback.failure(t);
+                          }
+                      });
     }
 
     public void getFloor(String floorId, final HackathonCallback<Floor> callback) {
         networkService.getFloor(floorId, mToken)
-                .enqueue(new Callback<Floor>() {
-                    @Override
-                    public void onResponse(Call<Floor> call, Response<Floor> response) {
-                        callback.success(response.body());
-                    }
+                      .enqueue(new Callback<Floor>() {
+                          @Override
+                          public void onResponse(Call<Floor> call, Response<Floor> response) {
+                              callback.success(response.body());
+                          }
 
-                    @Override
-                    public void onFailure(Call<Floor> call, Throwable t) {
-                        Log.e(TAG, "unable to get floor");
-                        callback.failure(t);
-                    }
-                });
+                          @Override
+                          public void onFailure(Call<Floor> call, Throwable t) {
+                              Log.e(TAG, "unable to get floor");
+                              callback.failure(t);
+                          }
+                      });
     }
 
     public void updateFloor(Floor floor, final HackathonCallback<Floor> callback) {
@@ -522,19 +526,33 @@ public class NetworkManager {
 
     public void getScanEvents(final HackathonCallback<List<ScanEvent>> callback) {
         networkService.getScanEvents(mToken)
-                .enqueue(new Callback<ModelList<ScanEvent>>() {
-                    @Override
-                    public void onResponse(Call<ModelList<ScanEvent>> call,
-                                           Response<ModelList<ScanEvent>> response) {
-                        callback.success(response.body().getResults());
-                    }
+                      .enqueue(new Callback<ModelList<ScanEvent>>() {
+                          @Override
+                          public void onResponse(Call<ModelList<ScanEvent>> call,
+                                                 Response<ModelList<ScanEvent>> response) {
+                              List<ScanEvent> temp = response.body().getResults();
+                              ArrayList<ScanEvent> filtered = new ArrayList<>();
 
-                    @Override
-                    public void onFailure(Call<ModelList<ScanEvent>> call, Throwable t) {
-                        Log.e(TAG, "unable to get scan events");
-                        callback.failure(t);
-                    }
-                });
+                              Date current = new Date();
+                              for (ScanEvent scanEvent : temp) {
+                                  if (scanEvent.getExpiryDate() == 0) filtered.add(scanEvent);
+                                  else {
+                                      Date scanEventExpiry = new Date(scanEvent.getExpiryDate() * 1000);
+
+                                      if (current.before(scanEventExpiry)) filtered.add(scanEvent);
+                                  }
+                              }
+
+                              callback.success(filtered);
+                          }
+
+                          @Override
+                          public void onFailure(Call<ModelList<ScanEvent>> call, Throwable t) {
+                              Log.e(TAG, call.request().toString());
+                              Log.e(TAG, "unable to get scan events");
+                              callback.failure(t);
+                          }
+                      });
     }
 
     public void createScanEvent(ScanEvent scanEvent, final HackathonCallback<ScanEvent> callback) {
@@ -607,34 +625,34 @@ public class NetworkManager {
 
     public void performScan(String email, String scanId, final HackathonCallback<Scan> callback) {
         networkService.performScan(mToken, email, scanId)
-                .enqueue(new Callback<Scan>() {
-                    @Override
-                    public void onResponse(Call<Scan> call, Response<Scan> response) {
-                        callback.success(response.body());
-                    }
+                      .enqueue(new Callback<Scan>() {
+                          @Override
+                          public void onResponse(Call<Scan> call, Response<Scan> response) {
+                              callback.success(response.body());
+                          }
 
-                    @Override
-                    public void onFailure(Call<Scan> call, Throwable t) {
-                        Log.e(TAG, "unable to perform the scan", t);
-                        callback.failure(t);
-                    }
-                });
+                          @Override
+                          public void onFailure(Call<Scan> call, Throwable t) {
+                              Log.e(TAG, "unable to perform the scan", t);
+                              callback.failure(t);
+                          }
+                      });
     }
 
     public void confirmScan(String email, String scanId, final HackathonCallback<Scan> callback) {
         networkService.confirmScan(mToken, email, scanId)
-                .enqueue(new Callback<Scan>() {
-                    @Override
-                    public void onResponse(Call<Scan> call, Response<Scan> response) {
-                        callback.success(response.body());
-                    }
+                      .enqueue(new Callback<Scan>() {
+                          @Override
+                          public void onResponse(Call<Scan> call, Response<Scan> response) {
+                              callback.success(response.body());
+                          }
 
-                    @Override
-                    public void onFailure(Call<Scan> call, Throwable t) {
-                        Log.e(TAG, "unable to confirm the scan", t);
-                        callback.failure(t);
-                    }
-                });
+                          @Override
+                          public void onFailure(Call<Scan> call, Throwable t) {
+                              Log.e(TAG, "unable to confirm the scan", t);
+                              callback.failure(t);
+                          }
+                      });
     }
 
     /**

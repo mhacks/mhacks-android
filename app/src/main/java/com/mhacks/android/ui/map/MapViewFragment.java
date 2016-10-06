@@ -1,216 +1,48 @@
 package com.mhacks.android.ui.map;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.GroundOverlayOptions;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.mhacks.android.data.model.Location;
 
 import org.mhacks.android.R;
 
-import java.util.ArrayList;
-import java.util.concurrent.locks.ReentrantLock;
-
 /**
- * Created by Omkar Moghe on 12/31/2014.
+ * Created by anksh on 12/31/2014.
+ * Updated by omkarmoghe on 10/6/16
  *
- * Displays mMaps of the MHacks V venues.
+ * Displays maps of the MHacks 8 venues.
  */
-public class MapViewFragment extends Fragment implements
-        AdapterView.OnItemSelectedListener, OnMapReadyCallback, OnTaskCompleted{
+public class MapViewFragment extends Fragment {
 
     public static final String TAG = "MapViewFragment";
-    public static final String MAP_PIN = "mapPin";
-    private ArrayList<Marker> mMarkers = new ArrayList<>();
 
     //Views
     private View mMapFragView;
-    private boolean created = false;
-    private ReentrantLock mapLock = new ReentrantLock();
-    private boolean mapReady = false;
-    @Nullable
-    private GoogleMap gMap = null;
-    @Nullable
-    private GroundOverlayOptions option = null;
-
-    private static final LatLng NORTHEAST = new LatLng(42.29353, -83.713641);
-    private static final LatLng SOUTHWEST = new LatLng(42.29182, -83.716611);
-    private static final LatLngBounds CORNERS = new LatLngBounds(SOUTHWEST, NORTHEAST);
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-//        Log.e(TAG, "onCreateView");
-        if(mMapFragView == null) {
-//            Log.e(TAG, "In if statement in onCreateView");
-            mMapFragView = inflater.inflate(R.layout.fragment_map, container, false);
-        }
+        View mMapFragView = inflater.inflate(R.layout.fragment_map, container, false);
         return mMapFragView;
     }
 
     @Override
     public void onDestroyView() {
-        for(Marker _marker: mMarkers){
-            _marker.remove();
-        }
-        mMarkers.clear();
         super.onDestroyView();
     }
 
     @Override
-    public void onMapReady(GoogleMap map){
-        Log.d(TAG, "Map Ready");
-        if(map == null){
-            Log.e(TAG, "Map is null!");
-            return;
-        }
-        gMap = map;
-        //TODO: Make initial position modular
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(42.2919466, -83.7153427), 16));
-
-        mapLock.lock();
-        Log.d(TAG, "Lock acquired by mapready");
-        mapReady = true;
-        if(option != null){
-            gMap.addGroundOverlay(option);
-        }
-        mapLock.unlock();
-
-        updateCameraWithLocations();
-
-        gMap.getUiSettings().setMyLocationButtonEnabled(true);
-        //TODO: stop it from complaining about disabled permissions
-        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
-            gMap.setMyLocationEnabled(true);
-        }
-    }
-
-    @Override
-    public void onTaskCompleted(GroundOverlayOptions options, MapFragment mapFragment){
-        mapLock.lock();
-        Log.d(TAG, "Lock acquired by task completed");
-        option = options;
-        if(mapReady){
-            if(gMap == null){
-                Log.e(TAG, "Map is null!");
-            }
-            gMap.addGroundOverlay(option);
-        }
-        mapLock.unlock();
-        updateMapFragment(mapFragment);
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) { }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) { }
-
-    @Override
     public void onDestroy() {
-        created = false;
         super.onDestroy();
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(created) {
-            updateCameraWithLocations();
-            return;
-        }
-
-        try {
-            // for BitmapFactory
-            MapsInitializer.initialize(getActivity().getApplicationContext());
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-            MapFragment mapFragment = MapFragment.newInstance();
-                mapFragment.getMapAsync(MapViewFragment.this);
-                if(option == null){
-                    GroundOverlayLoader loader =
-                            new GroundOverlayLoader(
-                                    MapViewFragment.this,
-                                    MapViewFragment.this.getActivity(),
-                                    CORNERS,
-                                    mapFragment);
-                    loader.execute();
-                }
-                else {
-                    updateMapFragment(mapFragment);
-                }
-
-            }
-        }, 1000);
-        created = true;
-    }
-
-    private void updateCameraWithLocations(){
-        if(gMap == null){
-            Log.e(TAG, "Map was null!");
-            return;
-        }
-        ArrayList<Location> _locations = LocationsQueue.locations;
-        float zoom = (float) 16.0;
-        if(!_locations.isEmpty()){
-            double swLat = 42.287503;
-            double swLong = -83.718795;
-            for (int i = 0; i < _locations.size(); i++){
-//                Location currentLocation = _locations.get(i);
-//                if(currentLocation.getLatitude() < swLat
-//                        || currentLocation.getLongitude() < swLong){
-//                    zoom = (float) 13.25;
-//                }
-//                Marker _marker = gMap.addMarker(
-//                        new MarkerOptions()
-//                                .position(
-//                                        new LatLng(
-//                                                currentLocation.getLatitude(),
-//                                                currentLocation.getLongitude()))
-//                                .title(currentLocation.getName()));
-//                mMarkers.add(_marker);
-            }
-
-            _locations.clear();
-        }
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                new LatLng(42.2919466, -83.7153427),
-                zoom));
-    }
-
-    private void updateMapFragment(MapFragment mapFragment){
-        try{
-            FragmentManager fm = getChildFragmentManager();
-            fm.beginTransaction().replace(R.id.map_view_container, mapFragment).commit();
-        } catch (IllegalStateException e){
-            Log.e(TAG, "Activity was destroyed");
-            created = false;
-        }
     }
 }

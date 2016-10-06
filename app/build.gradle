@@ -44,11 +44,12 @@ android {
         resValue "string", "gcm_server_id", gcm_server_id
         resValue "string", "google_maps_api_key", google_maps_api_key
         resValue "string", "bugsnag_key", bugsnag_key
+        multiDexEnabled true
     }
     buildTypes {
         release {
             debuggable false
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", "gcm_server_id", gcm_server_id
             resValue "string", "google_maps_api_key", google_maps_api_key
@@ -75,20 +76,13 @@ dependencies {
     compile 'com.google.guava:guava:19.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile "com.google.android.gms:play-services-gcm:9.6.1"
-    compile 'com.google.android.gms:play-services-maps:9.6.1'
-    compile 'com.google.maps.android:android-maps-utils:0.4+'
     compile 'com.github.alamkanak:android-week-view:1.2.6'
-    compile 'com.tonicartos:stickygridheaders:1.0.1'
-
-    compile project(':libs')
-    compile('com.viewpagerindicator:library:2.4.1@aar') {
-        exclude group: 'com.google.android', module: 'support-v4'
-    }
 
     compile 'joda-time:joda-time:2.6'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile('com.mikepenz:materialdrawer:5.6.0@aar') {
         transitive = true
     }

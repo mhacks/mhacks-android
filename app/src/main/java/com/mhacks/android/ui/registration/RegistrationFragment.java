@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.SearchManager;
-import android.app.SearchableInfo;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,34 +11,48 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
-
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.SearchViewCompat;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.SearchView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v7.widget.SearchView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.mhacks.android.data.model.ScanEvent;
+import com.mhacks.android.data.network.HackathonCallback;
+import com.mhacks.android.data.network.NetworkManager;
 
 import org.mhacks.android.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Riyu on 7/7/16.
+ * Updated by omkarmoghe on 10/6/16
  */
 public class RegistrationFragment extends Fragment{
+    public static final String TAG = "RegistrationFragment";
+
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
 
-    FloatingActionsMenu Menu_button;
-    FloatingActionButton Register_button;
-    FloatingActionButton Food_button;
-    FloatingActionButton Tech_button;
-    TextView text_content;
-    TextView text_format;
+    private FloatingActionButton registerButton;
+    private TextView             textContent;
+    private EditText             textFormat;
+    private LinearLayout         scanActions;
+    private Spinner              scanType;
+
+    private ArrayList<ScanEvent> scanEventList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,27 +64,48 @@ public class RegistrationFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_registration , container, false);
-        Menu_button =  (FloatingActionsMenu)  view.findViewById(R.id.qr_button);
-        Register_button =  (FloatingActionButton)  view.findViewById(R.id.reg_button);
-        Food_button =  (FloatingActionButton)  view.findViewById(R.id.food_button);
-        Tech_button =  (FloatingActionButton)  view.findViewById(R.id.tech_button);
-        Register_button.setOnClickListener(new View.OnClickListener() {
+
+        final NetworkManager networkManager = NetworkManager.getInstance();
+        networkManager.getScanEvents(new HackathonCallback<List<ScanEvent>>() {
+            @Override
+            public void success(List<ScanEvent> response) {
+                Log.d(TAG, "it worked?");
+                scanEventList = new ArrayList<>(response);
+                buildScanTypes();
+            }
+
+            @Override
+            public void failure(Throwable error) {
+                Log.e(TAG, "shit", error);
+            }
+        });
+
+        scanType = (Spinner) view.findViewById(R.id.scan_type);
+        scanActions = (LinearLayout) view.findViewById(R.id.scan_actions);
+        registerButton =  (FloatingActionButton)  view.findViewById(R.id.scan);
+        registerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 scanQR(v, "REG");
             }
         });
-        Food_button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                scanQR(v, "FOOD");
+        textContent = (EditText) view.findViewById(R.id.scan_info_content);
+        textContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                scanActions.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
-        Tech_button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                scanQR(v, "TECH");
-            }
-        });
-        text_format = (TextView) view.findViewById(R.id.scan_info_format);
-        text_content = (TextView) view.findViewById(R.id.scan_info_content);
+
         return view;
     }
 
@@ -85,6 +119,23 @@ public class RegistrationFragment extends Fragment{
         catch (ActivityNotFoundException anfe){
             showDialog(RegistrationFragment.this.getActivity(), "No Scanner Found", "Download Scanner?", "yes", "no").show();
         }
+    }
+
+    public void peformScan(String scanId) {
+
+    }
+
+    public void buildScanTypes() {
+        ArrayAdapter<String> spinnerAdapter =
+                new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        for (final ScanEvent scanEvent : scanEventList) {
+            spinnerAdapter.add(scanEvent.getName());
+        }
+
+        scanType.setAdapter(spinnerAdapter);
+        spinnerAdapter.notifyDataSetChanged();
     }
 
     private static AlertDialog showDialog(final Activity act, CharSequence title, CharSequence message, CharSequence button_yes, CharSequence button_no) {
@@ -113,10 +164,8 @@ public class RegistrationFragment extends Fragment{
         if (requestCode == 0){
             if (resultCode == Activity.RESULT_OK){
                 String contents = intent.getStringExtra("SCAN_RESULT");
-                String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
-                String qr_type = intent.getStringExtra("QR_Type");
-                text_format.setText(format);
-                text_content.setText(contents);
+
+                textContent.setText(contents);
             }
         }
     }

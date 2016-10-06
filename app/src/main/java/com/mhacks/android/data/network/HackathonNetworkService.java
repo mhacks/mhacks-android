@@ -142,7 +142,7 @@ public interface HackathonNetworkService {
                             @Body Floor floor);
 
     // SCAN EVENTS
-    @GET("scan_event")
+    @GET("scan_events")
     Call<ModelList<ScanEvent>> getScanEvents(@Header("Authorization") String authToken);
 
     @POST("scan_event")
