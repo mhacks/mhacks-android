@@ -182,19 +182,19 @@ public class MapViewFragment extends Fragment implements
             double swLat = 42.287503;
             double swLong = -83.718795;
             for (int i = 0; i < _locations.size(); i++){
-                Location currentLocation = _locations.get(i);
-                if(currentLocation.getLatitude() < swLat
-                        || currentLocation.getLongitude() < swLong){
-                    zoom = (float) 13.25;
-                }
-                Marker _marker = gMap.addMarker(
-                        new MarkerOptions()
-                                .position(
-                                        new LatLng(
-                                                currentLocation.getLatitude(),
-                                                currentLocation.getLongitude()))
-                                .title(currentLocation.getName()));
-                mMarkers.add(_marker);
+//                Location currentLocation = _locations.get(i);
+//                if(currentLocation.getLatitude() < swLat
+//                        || currentLocation.getLongitude() < swLong){
+//                    zoom = (float) 13.25;
+//                }
+//                Marker _marker = gMap.addMarker(
+//                        new MarkerOptions()
+//                                .position(
+//                                        new LatLng(
+//                                                currentLocation.getLatitude(),
+//                                                currentLocation.getLongitude()))
+//                                .title(currentLocation.getName()));
+//                mMarkers.add(_marker);
             }
 
             _locations.clear();

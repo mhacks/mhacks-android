@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -182,17 +183,17 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
     public int getEventColor(int eventType) {
         switch (eventType) {
             case 0: // Logistics - GO BLUE
-                return getResources().getColor(R.color.event_blue);
+                return ContextCompat.getColor(getActivity(), R.color.event_blue);
             case 1: // Social - Red
-                return getResources().getColor(R.color.event_red);
+                return ContextCompat.getColor(getActivity(), R.color.event_red);
             case 2: // Food - MAIZE
-                return getResources().getColor(R.color.event_yellow);
+                return ContextCompat.getColor(getActivity(), R.color.event_yellow);
             case 3: // Tech Talk - Purple
-                return getResources().getColor(R.color.event_purple);
+                return ContextCompat.getColor(getActivity(), R.color.event_purple);
             case 4: // Other - Green
-                return getResources().getColor(R.color.event_green);
+                return ContextCompat.getColor(getActivity(), R.color.event_green);
             default:
-                return getResources().getColor(R.color.event_blue);
+                return ContextCompat.getColor(getActivity(), R.color.event_blue);
         }
     }
 

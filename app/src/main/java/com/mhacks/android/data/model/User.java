@@ -3,7 +3,7 @@ package com.mhacks.android.data.model;
 /**
  * Created by omkarmoghe on 10/2/16.
  */
-public class User {
+public class User extends ModelObject {
     public String name;
     public String school;
     public String email;

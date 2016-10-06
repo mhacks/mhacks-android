@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_parent_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
     tools:context="com.mhacks.android.ui.MainActivity">
 
     <include layout="@layout/toolbar_main"/>
 
     <!--this is the layout that the fragment manager replaces-->
-    <android.support.v4.widget.DrawerLayout
+    <FrameLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="fill_parent">
@@ -40,6 +40,6 @@
                 android:gravity="center" />
         </RelativeLayout>
 
-    </android.support.v4.widget.DrawerLayout>
+    </FrameLayout>
 
 </LinearLayout>

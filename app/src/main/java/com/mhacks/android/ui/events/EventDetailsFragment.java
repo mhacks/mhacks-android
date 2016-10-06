@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,6 @@ public class EventDetailsFragment extends Fragment {
     private TextView eventNameTV, eventTimeTV, eventLocationNameTV, eventInfoTV;
     private View colorBlock; //Header color. Matches color of event in calendar.
     private FrameLayout eventInfoFrame, eventLocationNameFrame;
-    private Button showOnMapButton;
 
     // Date arrays
     private final String[] dayOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
@@ -56,7 +56,7 @@ public class EventDetailsFragment extends Fragment {
 
     // Event Details
     private String eventName, eventInfo, eventLocationName;
-    private String[] eventLocationIds;
+    private CharSequence[] eventLocationIds;
     private Date eventStartTime, eventEndTime;
     private int eventColor;
     private ArrayList<Location> locations = new ArrayList<>();
@@ -93,7 +93,7 @@ public class EventDetailsFragment extends Fragment {
         if (args.containsKey("title")) {
             eventName = args.getString("title");
             eventInfo = args.getString("info");
-            eventLocationIds = args.getStringArray("locationIds");
+            eventLocationIds = args.getCharSequenceArray("locationIds");
             eventStartTime = new Date(args.getLong("startTime"));
             eventEndTime = new Date(args.getLong("startTime") + (args.getLong("duration") * 1000));
             eventColor = args.getInt("color");
@@ -122,19 +122,25 @@ public class EventDetailsFragment extends Fragment {
         eventInfoFrame = (FrameLayout) mEventDetailsFragView.findViewById(R.id.info_frame);
         eventLocationNameFrame = (FrameLayout) mEventDetailsFragView.findViewById(R.id.location_name_frame);
 
-        showOnMapButton = (Button) mEventDetailsFragView.findViewById(R.id.show_on_map);
-        showOnMapButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LocationsQueue.locations.addAll(locations);
-                parent.closeEventDetails();
-                Toast.makeText(getActivity(), "Switch to the Map to see your marker!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         //Instantiate color header block
         colorBlock = mEventDetailsFragView.findViewById(R.id.header_color_block);
         colorBlock.setBackgroundColor(eventColor);
+
+        NetworkManager networkManager = NetworkManager.getInstance();
+        for (CharSequence eventLocationId : eventLocationIds) {
+            String id = String.valueOf(eventLocationId);
+            networkManager.getLocation(id, new HackathonCallback<Location>() {
+                @Override
+                public void success(Location response) {
+                    locations.add(response);
+                }
+
+                @Override
+                public void failure(Throwable error) {
+                    Log.e(TAG, "couldnt get location", error);
+                }
+            });
+        }
 
         //Add correct details to the details view.
         setEventDetails();
@@ -142,32 +148,6 @@ public class EventDetailsFragment extends Fragment {
         //Hide toolbar
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 
-        NetworkManager networkManager = NetworkManager.getInstance();
-        networkManager.getLocations(new HackathonCallback<List<Location>>() {
-            @Override
-            public void success(List<Location> response) {
-                ArrayList<Location> temp = new ArrayList<Location>(response);
-                for (Location l : temp) {
-                    for (int i = 0; i < eventLocationIds.length; ++i) {
-                        if (String.valueOf(l.getId()).equals(eventLocationIds[i])) {
-                            locations.add(l);
-                        }
-                    }
-                }
-
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showOnMapButton.setVisibility(View.VISIBLE);
-                    }
-                });
-            }
-
-            @Override
-            public void failure(Throwable error) {
-
-            }
-        });
 
         return mEventDetailsFragView;
     }
@@ -176,8 +156,6 @@ public class EventDetailsFragment extends Fragment {
      * Method to use the Event object to populate the view using the appropriate info.
      */
     public void setEventDetails() {
-        showOnMapButton.setBackgroundColor(eventColor);
-
         // These better exist...
         eventNameTV.setText(eventName);
         eventTimeTV.setText(formatDate(eventStartTime, eventEndTime));
@@ -186,7 +164,13 @@ public class EventDetailsFragment extends Fragment {
         if (eventInfo.length() != 0) eventInfoTV.setText(eventInfo);
         else eventInfoFrame.setVisibility(View.GONE);
 
-        if (eventLocationName.length() != 0) eventLocationNameTV.setText(eventLocationName);
+        if (!locations.isEmpty()) {
+            String locationName = "";
+            for (Location l : locations) {
+                locationName += l.getName() + " | ";
+            }
+            eventLocationNameTV.setText(locations.get(0).getName());
+        }
         else eventLocationNameFrame.setVisibility(View.GONE);
     }
 

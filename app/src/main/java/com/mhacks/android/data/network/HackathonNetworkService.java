@@ -5,23 +5,31 @@ import com.mhacks.android.data.model.Countdown;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.Floor;
 import com.mhacks.android.data.model.Location;
+import com.mhacks.android.data.model.Login;
 import com.mhacks.android.data.model.Map;
 import com.mhacks.android.data.model.ModelList;
 import com.mhacks.android.data.model.ModelObject;
+import com.mhacks.android.data.model.Scan;
 import com.mhacks.android.data.model.ScanEvent;
 import com.mhacks.android.data.model.Token;
 import com.mhacks.android.data.model.User;
 
 import java.util.Date;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by boztalay on 6/3/15 for the OneHack backend.
@@ -33,8 +41,10 @@ import retrofit2.http.Path;
 public interface HackathonNetworkService {
 
     // USERS
-    @POST("login")
-    Call<User> login(@Body LoginParams loginParams);
+    @FormUrlEncoded
+    @POST("login/")
+    Call<Login> login(@Field("username") String username,
+                      @Field("password") String password);
 
     @GET("profile")
     Call<User> profile(@Header("Authorization") String authToken);
@@ -59,8 +69,8 @@ public interface HackathonNetworkService {
 
     @DELETE("announcements/{id}")
     Call<Announcement> deleteAnnouncement(@Path("id") String id,
-                                             @Header("Authorization") String authToken,
-                                             @Body Announcement announcement);
+                                          @Header("Authorization") String authToken,
+                                          @Body Announcement announcement);
 
     // LOCATIONS
     @GET("locations")
@@ -90,7 +100,7 @@ public interface HackathonNetworkService {
 
     @POST("events")
     Call<Event> createEvent(@Header("Authorization") String authToken,
-                                       @Body Event event);
+                            @Body Event event);
 
     @GET("events/{id}")
     Call<Event> getEvent(@Path("id") String id,
@@ -107,6 +117,9 @@ public interface HackathonNetworkService {
                             @Body Event event);
 
     // FLOORS
+    @GET("map")
+    Call<Map> getMap();
+
     @GET("floors")
     Call<ModelList<Floor>> getFloors(@Header("Authorization") String authToken);
 
@@ -116,7 +129,7 @@ public interface HackathonNetworkService {
 
     @GET("floors/{id}")
     Call<Floor> getFloor(@Path("id") String id,
-                          @Header("Authorization") String authToken);
+                         @Header("Authorization") String authToken);
 
     @PUT("floors/{id}")
     Call<Floor> updateFloor(@Path("id") String id,
@@ -150,18 +163,25 @@ public interface HackathonNetworkService {
                                     @Header("Authorization") String authToken,
                                     @Body ScanEvent scanEvent);
 
+    @GET("perform_scan")
+    Call<Scan> performScan(@Header("Authorization") String authToken,
+                           @Query("user_id") String email,
+                           @Query("scan_id") String scanId);
+
+    @FormUrlEncoded
     @POST("perform_scan")
-    Call<ModelObject> performScan(@Header("Authorization") String authToken);
+    Call<Scan> confirmScan(@Header("Authorization") String authToken,
+                           @Field("user_id") String email,
+                           @Field("scan_id") String scanId);
 
     @GET("countdown")
     Call<Countdown> getCountdown();
 
-    // TODO: MAPS
-    @GET("map")
-    Call<Map> getMap();
-
     // PUSH NOTIFICATIONS
+    @FormUrlEncoded
     @POST("push_notifications/gcm")
     Call<Token> sendGcmToken(@Header("Authorization") String authToken,
-                          @Body Token token);
+                             @Field("name") String channelPrefs,
+                             @Field("registration_id") String regId,
+                             @Field("active") Boolean active);
 }

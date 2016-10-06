@@ -59,13 +59,11 @@ public class MainActivity extends AppCompatActivity {
     // Toolbar
     private Toolbar mToolbar;
 
-    // CurrentUser
-    private User mUser;
-
     private boolean val;
 
     // Navigation Drawer
-    private Drawer                mDrawer;
+    private Drawer mDrawer;
+    private ProfileDrawerItem userProfile;
 
     private boolean mShouldSync = true;
 
@@ -105,27 +103,48 @@ public class MainActivity extends AppCompatActivity {
         settingsFragment = new SettingsFragment();
         mapViewFragment = new MapViewFragment();
 
+        buildNavigationDrawer();
         updateFragment(countdownFragment, false);
+        login();
+        updateGcm();
 
-        if (notif != null){
+        if (notif != null) {
             // Opens Announcements
             if (notif.equals("Announcements")){
                 updateFragment(announcementsFragment, true);
             }
         }
-
-        if (checkPlayServices()){
-            // Grabs the Google Cloud Messager REG ID and sends it to the backend
-            getRegId();
-        }
-        else {
-            Log.e(TAG, "No valid Google Play Services APK found.");
-        }
-
-
     }
 
-    public void getRegId(){
+    public void login() {
+        // Log in if possible.
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        final String username = sharedPref.getString(SettingsFragment.USERNAME_KEY, "theomkarmoghe@gmail.com");
+        String password = sharedPref.getString(SettingsFragment.PASSWORD_KEY, "kanye2020");
+
+        final NetworkManager networkManager = NetworkManager.getInstance();
+        if (username.length() != 0 && password.length() != 0) {
+            networkManager.login(username, password, new HackathonCallback<User>() {
+                @Override
+                public void success(User response) {
+                    userProfile.withName(response.getName());
+                    mDrawer.updateItem(userProfile);
+                }
+
+                @Override
+                public void failure(Throwable error) {
+                }
+            });
+        }
+    }
+
+    public void updateGcm(){
+        if (!checkPlayServices()) {
+            Log.e(TAG, "No valid Google Play Services APK found.");
+            return;
+        }
+        // Grabs the Google Cloud Messaging REG ID and sends it to the backend
+
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
@@ -157,32 +176,29 @@ public class MainActivity extends AppCompatActivity {
                     } else pref = 63;
 
                     final Token token = new Token(regid);
-                    Log.d(TAG, gcmPush);
-                    Log.d(TAG, "" + pref);
-                    if (!gcmPush.equals(regid)) {
-                        NetworkManager networkManager = NetworkManager.getInstance();
-                        networkManager.sendToken(token, new HackathonCallback<Token>() {
-                            @Override
-                            public void success(Token response) {
-                                Log.d(TAG, "gcm sent successfully");
-                                sharedPref.edit().putString("gcm", regid).apply();
-                            }
+                    token.setName(String.valueOf(pref));
+                    // active=true by default
 
-                            @Override
-                            public void failure(Throwable error) {
-                                Log.e(TAG, "gcm didnt work", error);
-                            }
-                        });
-                    } else {
-                        // TODO: update user prefs
-                    }
+                    final NetworkManager networkManager = NetworkManager.getInstance();
+                    networkManager.sendToken(token, new HackathonCallback<Token>() {
+                        @Override
+                        public void success(Token response) {
+                            Log.d(TAG, "gcm sent successfully: " + token.getRegistrationId());
+                            sharedPref.edit().putString("gcm", regid).apply();
+                        }
+
+                        @Override
+                        public void failure(Throwable error) {
+                            Log.e(TAG, "gcm didnt work", error);
+                        }
+                    });
 
                     msg = "Device registered, reg id =" + regid;
                     Log.i("GCM",  msg);
 
                 } catch (IOException ex) {
                     msg = "Error :" + ex.getMessage();
-                    Log.i("GCMError",  msg);
+                    Log.e(TAG, "IOException when registering the device", ex);
 
                 }
                 return msg;
@@ -193,26 +209,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }.execute(null, null, null);
-
-        // Log in if possible.
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        String username = sharedPref.getString(SettingsFragment.USERNAME_KEY,  "");
-        String password = sharedPref.getString(SettingsFragment.PASSWORD_KEY, "");
-        final NetworkManager networkManager = NetworkManager.getInstance();
-        if (username.length() != 0 && password.length() != 0) {
-            networkManager.login(username, password, "", new HackathonCallback<User>() {
-                @Override
-                public void success(User response) {
-                    mUser = response;
-                    buildNavigationDrawer();
-                }
-
-                @Override
-                public void failure(Throwable error) {
-                    buildNavigationDrawer();
-                }
-            });
-        } else buildNavigationDrawer();
     }
 
     /**
@@ -238,24 +234,19 @@ public class MainActivity extends AppCompatActivity {
                                                                 .withSelectedTextColorRes(R.color.primary);
 
         // User profile
+        User mUser = NetworkManager.getInstance().getCurrentUser();
         String userName = (mUser != null) ? mUser.getName() : "MHacks 8";
-        ProfileDrawerItem userProfile = new ProfileDrawerItem().withName(userName)
-                                                               .withTextColorRes(R.color.black)
-                                                               .withSelectedColorRes(R.color.primary)
-                                                               .withIcon(ContextCompat.getDrawable(this, R.mipmap.launcher_icon));
+        userProfile = new ProfileDrawerItem().withName(userName)
+                                             .withTextColorRes(R.color.black)
+                                             .withSelectedColorRes(R.color.primary)
+                                             .withSelectedTextColorRes(R.color.accent)
+                                             .withIcon(ContextCompat.getDrawable(this, R.mipmap.launcher_icon));
 
         // Account Header
         AccountHeader accountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
+                .withHeaderBackground(R.drawable.poly6)
                 .addProfiles(userProfile)
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                    @Override
-                    public boolean onProfileChanged(View view,
-                                                    IProfile profile,
-                                                    boolean currentProfile) {
-                        return true;
-                    }
-                })
                 .withTextColorRes(R.color.black)
                 .build();
 

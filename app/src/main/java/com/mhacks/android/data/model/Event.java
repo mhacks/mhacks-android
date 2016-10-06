@@ -1,6 +1,5 @@
 package com.mhacks.android.data.model;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,7 +44,7 @@ public class Event extends ModelObject {
     }
 
     public long getStart() {
-        return start;
+        return start * 1000;
     }
 
     public void setStart(long start) {

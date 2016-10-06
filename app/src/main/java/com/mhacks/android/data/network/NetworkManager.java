@@ -1,5 +1,6 @@
 package com.mhacks.android.data.network;
 
+import android.app.DownloadManager;
 import android.util.Log;
 
 import com.google.gson.FieldNamingPolicy;
@@ -10,17 +11,25 @@ import com.mhacks.android.data.model.Countdown;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.Floor;
 import com.mhacks.android.data.model.Location;
+import com.mhacks.android.data.model.Login;
 import com.mhacks.android.data.model.Map;
 import com.mhacks.android.data.model.ModelList;
 import com.mhacks.android.data.model.ModelObject;
+import com.mhacks.android.data.model.Scan;
 import com.mhacks.android.data.model.ScanEvent;
+import com.mhacks.android.data.model.Token;
 import com.mhacks.android.data.model.User;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -64,35 +73,26 @@ public class NetworkManager {
         this.networkService = retrofit.create(HackathonNetworkService.class);
     }
 
-    public void login(String email, String password, String gcmToken, final HackathonCallback<User> callback) {
-        networkService.login(new LoginParams(email, password, gcmToken))
-                      .enqueue(new Callback<User>() {
+    public void login(String email, String password, final HackathonCallback<User> callback) {
+        networkService.login(email, password)
+                      .enqueue(new Callback<Login>() {
                           @Override
-                          public void onResponse(Call<User> call, Response<User> response) {
-                              // Get api token from response
-                              mToken = response.headers().get("Authorization");
+                          public void onResponse(Call<Login> call, Response<Login> response) {
+                              Login login = response.body();
+                              mToken = "Token " + login.getToken();
+                              currentUser = login.getUser();
 
-                              networkService.profile(mToken)
-                                            .enqueue(new Callback<User>() {
-                                                @Override
-                                                public void onResponse(Call<User> call,
-                                                                       Response<User> response) {
-                                                    currentUser = response.body();
-                                                    callback.success(currentUser);
-                                                }
+                              Log.d(TAG, call.request().toString());
+                              Log.d(TAG, currentUser.getName());
 
-                                                @Override
-                                                public void onFailure(Call<User> call, Throwable t) {
-                                                    Log.e(TAG, "Unable to get profile");
-                                                    callback.failure(t);
-                                                }
-                                            });
-
+                              callback.success(currentUser);
                           }
 
                           @Override
-                          public void onFailure(Call<User> call, Throwable t) {
-                              Log.e(TAG, "Couldn't create the session when logging in", t);
+                          public void onFailure(Call<Login> call, Throwable t) {
+                              currentUser = null;
+
+                              Log.e(TAG, "Couldn't create the session when logging in");
                               callback.failure(t);
                           }
                       });
@@ -114,8 +114,16 @@ public class NetworkManager {
                                   }
                               });
 
-                              // TODO: filter out deleted and non approved announcements
-                              callback.success(announcements);
+                              // filter out deleted and non approved announcements
+                              ArrayList<Announcement> filtered = new ArrayList<Announcement>();
+                              for (Announcement a : announcements) {
+                                  if (!a.isDeleted() && a.isApproved()) {
+                                      a.setBroadcastAt(a.getBroadcastAt() * 1000);
+                                      filtered.add(a);
+                                  }
+                              }
+
+                              callback.success(filtered);
                           }
 
                           @Override
@@ -330,17 +338,19 @@ public class NetworkManager {
                       });
     }
 
-    public void getLocation(final String locationId, final HackathonCallback<Location> callback) {
+    public void getLocation(String locationId, final HackathonCallback<Location> callback) {
         networkService.getLocation(locationId, mToken)
                 .enqueue(new Callback<Location>() {
                     @Override
                     public void onResponse(Call<Location> call, Response<Location> response) {
+                        Location l = response.body();
+                        if (l == null) Log.d(TAG, "fuck, the location is null");
                         callback.success(response.body());
                     }
 
                     @Override
                     public void onFailure(Call<Location> call, Throwable t) {
-                        Log.e(TAG, "unable to get location, id: " + locationId);
+                        Log.e(TAG, "unable to get location");
                         callback.failure(t);
                     }
                 });
@@ -395,21 +405,20 @@ public class NetworkManager {
                       });
     }
 
-    public void sendToken(com.mhacks.android.data.model.Token token, final HackathonCallback<com.mhacks.android.data.model.Token> callback) {
-        networkService.sendGcmToken(mToken, token)
-                      .enqueue(new Callback<com.mhacks.android.data.model.Token>() {
-                          @Override
-                          public void onResponse(Call<com.mhacks.android.data.model.Token> call,
-                                                 Response<com.mhacks.android.data.model.Token> response) {
-                              callback.success(response.body());
-                          }
+    public void sendToken(Token token, final HackathonCallback<Token> callback) {
+        networkService.sendGcmToken(mToken, token.getName(), token.getRegistrationId(), token.isActive())
+                .enqueue(new Callback<Token>() {
+                    @Override
+                    public void onResponse(Call<Token> call, Response<Token> response) {
+                        callback.success(response.body());
+                    }
 
-                          @Override
-                          public void onFailure(Call<com.mhacks.android.data.model.Token> call,
-                                                Throwable t) {
-                              callback.failure(t);
-                          }
-                      });
+                    @Override
+                    public void onFailure(Call<Token> call, Throwable t) {
+                        Log.e(TAG, "unable to send GCM token", t);
+                        callback.failure(t);
+                    }
+                });
     }
 
     public void getFloors(final HackathonCallback<List<Floor>> callback) {
@@ -596,16 +605,33 @@ public class NetworkManager {
                       });
     }
 
-    public void performScan(final HackathonCallback<ModelObject> callback) {
-        networkService.performScan(mToken)
-                .enqueue(new Callback<ModelObject>() {
+    public void performScan(String email, String scanId, final HackathonCallback<Scan> callback) {
+        networkService.performScan(mToken, email, scanId)
+                .enqueue(new Callback<Scan>() {
                     @Override
-                    public void onResponse(Call<ModelObject> call, Response<ModelObject> response) {
+                    public void onResponse(Call<Scan> call, Response<Scan> response) {
                         callback.success(response.body());
                     }
 
                     @Override
-                    public void onFailure(Call<ModelObject> call, Throwable t) {
+                    public void onFailure(Call<Scan> call, Throwable t) {
+                        Log.e(TAG, "unable to perform the scan", t);
+                        callback.failure(t);
+                    }
+                });
+    }
+
+    public void confirmScan(String email, String scanId, final HackathonCallback<Scan> callback) {
+        networkService.confirmScan(mToken, email, scanId)
+                .enqueue(new Callback<Scan>() {
+                    @Override
+                    public void onResponse(Call<Scan> call, Response<Scan> response) {
+                        callback.success(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<Scan> call, Throwable t) {
+                        Log.e(TAG, "unable to confirm the scan", t);
                         callback.failure(t);
                     }
                 });
