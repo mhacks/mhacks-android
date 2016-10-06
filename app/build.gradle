@@ -79,6 +79,12 @@ dependencies {
     compile 'com.google.maps.android:android-maps-utils:0.4+'
     compile 'com.github.alamkanak:android-week-view:1.2.6'
     compile 'com.tonicartos:stickygridheaders:1.0.1'
+
+    compile project(':libs')
+    compile('com.viewpagerindicator:library:2.4.1@aar') {
+        exclude group: 'com.google.android', module: 'support-v4'
+    }
+
     compile 'joda-time:joda-time:2.6'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'

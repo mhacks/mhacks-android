@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/qr_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        fab:fab_addButtonColorNormal="@color/white"
+        fab:fab_addButtonColorPressed="@color/gray"
+        fab:fab_addButtonIcon="@drawable/ic_gradient_black"
+        fab:fab_addButtonPlusIconColor="@color/dev_light_blue"
+        fab:fab_addButtonSize="normal"
+        fab:fab_labelsPosition="left" >
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/food_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/blue"
+            fab:fab_icon="@drawable/ic_local_dining"
+            android:text="Food"
+            fab:fab_size="mini"
+            fab:fab_title="Food"
+            fab:fab_colorPressed="@color/light_blue"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/tech_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tech Talk"
+            fab:fab_icon="@drawable/ic_question_answer"
+            fab:fab_colorNormal="@color/blue"
+            fab:fab_size="mini"
+            fab:fab_title="Tech Talk"
+            fab:fab_colorPressed="@color/light_blue"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/reg_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_icon="@drawable/ic_account_balance"
+            fab:fab_colorNormal="@color/blue"
+            android:text="Register"
+            fab:fab_title="Register"
+            fab:fab_colorPressed="@color/light_blue"/>
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    <TextView
+        android:id="@+id/scan_info_format"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textIsSelectable="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/qr_button" />
+    <TextView
+        android:id="@+id/scan_info_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/scan_info_format"/>
+
+</RelativeLayout>

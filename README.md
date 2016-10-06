@@ -28,6 +28,7 @@ We would like to thank the maintainers of the following for past and present ver
 - [Square Picasso](http://square.github.io/picasso/ "Square Picasso")
 - [Google Guava](https://code.google.com/p/guava-libraries/ "Google Guava Libraries")
 - [Firebase Android](https://www.firebase.com/docs/android/quickstart.html "Firebase Android Quick Start")
+- [Floating Action Menu](https://github.com/futuresimple/android-floating-action-button "Future Simples' Android Floating Action Button Extention Library")
 
 
 # License
