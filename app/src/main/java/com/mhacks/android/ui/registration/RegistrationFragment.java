@@ -12,9 +12,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.SearchView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,9 +25,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.mhacks.android.data.model.Scan;
+import com.mhacks.android.data.model.ScanData;
 import com.mhacks.android.data.model.ScanEvent;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
@@ -35,6 +39,7 @@ import com.mhacks.android.data.network.NetworkManager;
 import org.mhacks.android.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -46,13 +51,18 @@ public class RegistrationFragment extends Fragment{
 
     static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
 
+    private View mView;
     private FloatingActionButton registerButton;
     private TextView             textContent;
-    private EditText             textFormat;
-    private LinearLayout         scanActions;
+    private LinearLayout         scanDetails;
     private Spinner              scanType;
+    private ProgressBar          loadingData;
 
     private ArrayList<ScanEvent> scanEventList;
+    private HashMap<String, ScanEvent> scanEvents;
+
+    public RegistrationFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,14 +73,16 @@ public class RegistrationFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_registration , container, false);
+        mView = inflater.inflate(R.layout.fragment_registration , container, false);
 
         final NetworkManager networkManager = NetworkManager.getInstance();
         networkManager.getScanEvents(new HackathonCallback<List<ScanEvent>>() {
             @Override
             public void success(List<ScanEvent> response) {
-                Log.d(TAG, "it worked?");
-                scanEventList = new ArrayList<>(response);
+                scanEvents = new HashMap<>();
+                for (ScanEvent scanEvent : response) {
+                    scanEvents.put(scanEvent.getName(), scanEvent);
+                }
                 buildScanTypes();
             }
 
@@ -80,36 +92,23 @@ public class RegistrationFragment extends Fragment{
             }
         });
 
-        scanType = (Spinner) view.findViewById(R.id.scan_type);
-        scanActions = (LinearLayout) view.findViewById(R.id.scan_actions);
-        registerButton =  (FloatingActionButton)  view.findViewById(R.id.scan);
+        scanType = (Spinner) mView.findViewById(R.id.scan_type);
+        scanDetails = (LinearLayout) mView.findViewById(R.id.scan_details);
+        registerButton =  (FloatingActionButton)  mView.findViewById(R.id.scan);
         registerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 scanQR(v, "REG");
             }
         });
-        textContent = (EditText) view.findViewById(R.id.scan_info_content);
-        textContent.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        textContent = (EditText) mView.findViewById(R.id.scan_info_content);
+        loadingData = (ProgressBar) mView.findViewById(R.id.loading_data);
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                scanActions.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        return view;
+        return mView;
     }
 
     public void scanQR(View v, String qr_type){
+        scanDetails.removeViews(1, scanDetails.getChildCount() - 1);
+
         try {
             Intent intent = new Intent(ACTION_SCAN);
             intent.putExtra("QR_Type", qr_type);
@@ -121,8 +120,74 @@ public class RegistrationFragment extends Fragment{
         }
     }
 
-    public void peformScan(String scanId) {
+    public void performScan() {
+        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                                                         ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.topMargin = 10;
 
+        String userId = textContent.getText().toString();
+        loadingData.setVisibility(View.VISIBLE);
+
+        String scanName = scanType.getSelectedItem().toString();
+        String scanId = scanEvents.get(scanName).getId();
+
+        final NetworkManager networkManager = NetworkManager.getInstance();
+        networkManager.performScan(userId, scanId, new HackathonCallback<Scan>() {
+            @Override
+            public void success(Scan response) {
+                loadingData.setVisibility(View.GONE);
+
+                for (ScanData data : response.getData()) {
+                    TextView textView = new TextView(getActivity());
+                    textView.setText(data.getLabel() + ": " + data.getValue());
+                    textView.setTextColor(data.getColorHex());
+                    textView.setTextSize(14);
+                    scanDetails.addView(textView, params);
+                }
+
+                if (response.isScanned()) {
+                    Button button = new Button(getActivity());
+                    button.setText("Confirm Scan");
+                    button.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.bright_green));
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            confirmScan();
+                        }
+                    });
+
+                    scanDetails.addView(button, params);
+                }
+            }
+
+            @Override
+            public void failure(Throwable error) {
+                Snackbar.make(mView, "Unable to perform scan", Snackbar.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void confirmScan() {
+        String userId = textContent.getText().toString();
+        loadingData.setVisibility(View.VISIBLE);
+
+        String scanName = scanType.getSelectedItem().toString();
+        String scanId = scanEvents.get(scanName).getId();
+
+        final NetworkManager networkManager = NetworkManager.getInstance();
+        networkManager.confirmScan(userId, scanId, new HackathonCallback<Scan>() {
+            @Override
+            public void success(Scan response) {
+                Snackbar.make(mView, "Scan confirmed!", Snackbar.LENGTH_SHORT).show();
+                loadingData.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void failure(Throwable error) {
+                Snackbar.make(mView, "Unable to confirm scan", Snackbar.LENGTH_SHORT).show();
+                loadingData.setVisibility(View.GONE);
+            }
+        });
     }
 
     public void buildScanTypes() {
@@ -130,8 +195,8 @@ public class RegistrationFragment extends Fragment{
                 new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        for (final ScanEvent scanEvent : scanEventList) {
-            spinnerAdapter.add(scanEvent.getName());
+        for (String scanEventName : scanEvents.keySet()) {
+            spinnerAdapter.add(scanEventName);
         }
 
         scanType.setAdapter(spinnerAdapter);
@@ -166,6 +231,8 @@ public class RegistrationFragment extends Fragment{
                 String contents = intent.getStringExtra("SCAN_RESULT");
 
                 textContent.setText(contents);
+
+                performScan();
             }
         }
     }

@@ -58,4 +58,8 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="linearlayout_spacing">
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
 </resources>

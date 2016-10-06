@@ -35,6 +35,7 @@
     <color name="blue">#0000FF</color>
     <color name="yellow">#FFFF00</color>
     <color name="orange">#FFA500</color>
+    <color name="bright_green">#00ff77</color>
 
     <!-- Special colors -->
     <color name="transparent">#00000000</color>

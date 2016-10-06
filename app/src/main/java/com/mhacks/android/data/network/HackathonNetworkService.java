@@ -166,13 +166,13 @@ public interface HackathonNetworkService {
     @GET("perform_scan")
     Call<Scan> performScan(@Header("Authorization") String authToken,
                            @Query("user_id") String email,
-                           @Query("scan_id") String scanId);
+                           @Query("scan_event") String scanId);
 
     @FormUrlEncoded
-    @POST("perform_scan")
+    @POST("perform_scan/")
     Call<Scan> confirmScan(@Header("Authorization") String authToken,
                            @Field("user_id") String email,
-                           @Field("scan_id") String scanId);
+                           @Field("scan_event") String scanId);
 
     @GET("countdown")
     Call<Countdown> getCountdown();

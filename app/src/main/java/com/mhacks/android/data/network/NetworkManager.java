@@ -71,7 +71,7 @@ public class NetworkManager {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-//                .client(httpClient.build()) // only for logging/debugging
+                .client(httpClient.build()) // only for logging/debugging
                 .build();
 
         this.networkService = retrofit.create(HackathonNetworkService.class);
@@ -530,6 +530,11 @@ public class NetworkManager {
                           @Override
                           public void onResponse(Call<ModelList<ScanEvent>> call,
                                                  Response<ModelList<ScanEvent>> response) {
+                              if (response.code() >= 400) {
+                                  callback.failure(new Exception("response code: " + response.code()));
+                                  return;
+                              }
+
                               List<ScanEvent> temp = response.body().getResults();
                               ArrayList<ScanEvent> filtered = new ArrayList<>();
 
@@ -628,6 +633,11 @@ public class NetworkManager {
                       .enqueue(new Callback<Scan>() {
                           @Override
                           public void onResponse(Call<Scan> call, Response<Scan> response) {
+                              if (response.code() >= 400) {
+                                  callback.failure(new Exception("response code: " + response.code()));
+                                  return;
+                              }
+
                               callback.success(response.body());
                           }
 
@@ -644,6 +654,11 @@ public class NetworkManager {
                       .enqueue(new Callback<Scan>() {
                           @Override
                           public void onResponse(Call<Scan> call, Response<Scan> response) {
+                              if (response.code() >= 400) {
+                                  callback.failure(new Exception("response code: " + response.code()));
+                                  return;
+                              }
+
                               callback.success(response.body());
                           }
 
