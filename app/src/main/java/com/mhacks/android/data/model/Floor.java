@@ -8,8 +8,9 @@ import java.net.URL;
 
 public class Floor extends ModelObject {
     public String name;
-    public URL image;
+    public String image;
     public int index;
+    public String description;
 
     public Floor() {
     }
@@ -22,11 +23,11 @@ public class Floor extends ModelObject {
         this.name = name;
     }
 
-    public URL getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(URL image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -36,5 +37,13 @@ public class Floor extends ModelObject {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

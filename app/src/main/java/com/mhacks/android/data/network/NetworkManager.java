@@ -1,5 +1,7 @@
 package com.mhacks.android.data.network;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.google.gson.FieldNamingPolicy;
@@ -18,6 +20,7 @@ import com.mhacks.android.data.model.ScanEvent;
 import com.mhacks.android.data.model.Token;
 import com.mhacks.android.data.model.User;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -25,6 +28,7 @@ import java.util.Date;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,7 +44,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NetworkManager {
 
     private static final String TAG      = "NetworkManager";
-    private static final String BASE_URL = "https://staging.mhacks.org/v1/";
+    private static final String BASE_URL = "https://mhacks.org/v1/";
 
     private HackathonNetworkService networkService;
     private String                  mToken;
@@ -668,6 +672,29 @@ public class NetworkManager {
                               callback.failure(t);
                           }
                       });
+    }
+
+    public void getImage(String url, final HackathonCallback<Bitmap> callback) {
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(okhttp3.Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(okhttp3.Call call, okhttp3.Response response)
+                    throws IOException {
+                Bitmap image = BitmapFactory.decodeStream(response.body().byteStream());
+
+                callback.success(image);
+            }
+        });
     }
 
     /**

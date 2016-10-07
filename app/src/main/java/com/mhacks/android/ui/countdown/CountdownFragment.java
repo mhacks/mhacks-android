@@ -75,7 +75,7 @@ public class CountdownFragment extends Fragment  {
             public void success(Countdown response) {
                 startDate = new Date(response.getStartTime() * 1000);
                 duration = response.getCountdownDuration();
-                initCountdownIfNecessary(startDate, duration);
+                initCountdownIfNecessary(startDate, duration * 1000);
             }
 
             @Override

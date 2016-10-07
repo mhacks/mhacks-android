@@ -1,8 +1,11 @@
 package com.mhacks.android.ui;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,7 +22,6 @@ import android.view.animation.Animation;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.mhacks.android.data.model.Registration;
 import com.mhacks.android.data.model.Token;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.network.HackathonCallback;
@@ -30,6 +32,7 @@ import com.mhacks.android.ui.events.ScheduleFragment;
 import com.mhacks.android.ui.map.MapViewFragment;
 import com.mhacks.android.ui.registration.RegistrationFragment;
 import com.mhacks.android.ui.settings.SettingsFragment;
+import com.mhacks.android.ui.ticket.TicketFragment;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -39,7 +42,6 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import org.mhacks.android.R;
 
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     private SettingsFragment settingsFragment;
     private MapViewFragment mapViewFragment;
     private RegistrationFragment registrationFragment;
+    private TicketFragment ticketFragment;
 
     //GCM
     private GoogleCloudMessaging gcm;
@@ -88,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        View mainView = findViewById(R.id.main_container);
 
         // Add the toolbar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -106,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         settingsFragment = new SettingsFragment();
         mapViewFragment = new MapViewFragment();
         registrationFragment = new RegistrationFragment();
+        ticketFragment = new TicketFragment();
 
         buildNavigationDrawer();
         updateFragment(countdownFragment, false);
@@ -123,8 +129,8 @@ public class MainActivity extends AppCompatActivity {
     public void login() {
         // Log in if possible.
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        final String username = sharedPref.getString(SettingsFragment.USERNAME_KEY, "theomkarmoghe@gmail.com");
-        String password = sharedPref.getString(SettingsFragment.PASSWORD_KEY, "kanye2020");
+        final String username = sharedPref.getString(SettingsFragment.USERNAME_KEY, "");
+        String password = sharedPref.getString(SettingsFragment.PASSWORD_KEY, "");
 
         final NetworkManager networkManager = NetworkManager.getInstance();
         if (username.length() != 0 && password.length() != 0) {
@@ -231,14 +237,17 @@ public class MainActivity extends AppCompatActivity {
                                                           .withIcon(R.drawable.ic_event)
                                                           .withSelectedTextColorRes(R.color.primary);
         PrimaryDrawerItem map = new PrimaryDrawerItem().withName("Map")
-                                                       .withIcon(R.drawable.ic_location)
+                                                       .withIcon(R.drawable.ic_map)
                                                        .withSelectedTextColorRes(R.color.primary);
         PrimaryDrawerItem register = new PrimaryDrawerItem().withName("Scan")
                                                             .withIcon(R.drawable.ic_linked_camera)
                                                             .withSelectedTextColorRes(R.color.primary);
-        SecondaryDrawerItem settings = new SecondaryDrawerItem().withName("Settings")
-                                                                .withIcon(R.drawable.ic_settings)
-                                                                .withSelectedTextColorRes(R.color.primary);
+        PrimaryDrawerItem ticket = new PrimaryDrawerItem().withName("Ticket")
+                                                          .withIcon(R.drawable.ic_action_ticket)
+                                                          .withSelectedTextColorRes(R.color.primary);
+        final SecondaryDrawerItem settings = new SecondaryDrawerItem().withName("Settings")
+                                                                      .withIcon(R.drawable.ic_settings)
+                                                                      .withSelectedTextColorRes(R.color.primary);
 
         // User profile
         User mUser = NetworkManager.getInstance().getCurrentUser();
@@ -246,8 +255,7 @@ public class MainActivity extends AppCompatActivity {
         userProfile = new ProfileDrawerItem().withName(userName)
                                              .withTextColorRes(R.color.black)
                                              .withSelectedColorRes(R.color.primary)
-                                             .withSelectedTextColorRes(R.color.accent)
-                                             .withIcon(ContextCompat.getDrawable(this, R.mipmap.launcher_icon));
+                                             .withSelectedTextColorRes(R.color.accent);
 
         // Account Header
         AccountHeader accountHeader = new AccountHeaderBuilder()
@@ -262,16 +270,20 @@ public class MainActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withToolbar(mToolbar)
                 .withAccountHeader(accountHeader)
-                .addDrawerItems(countdown, announcements, events, map, register,
+                .addDrawerItems(countdown, announcements, events, map, register, ticket,
                                 new DividerDrawerItem(),
                                 settings)
                 .build();
 
         // Configure item selection listener
+        final Context context = this;
         mDrawer.setOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
             @Override
             public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                 Log.d(TAG, "nav position: " + position);
+
+                NetworkManager manager = NetworkManager.getInstance();
+                User user =  manager.getCurrentUser();
 
                 // switch 'i' aka position of item
                 // indexing starts at 1 for some reason... probably because of the account header
@@ -289,9 +301,14 @@ public class MainActivity extends AppCompatActivity {
                         updateFragment(mapViewFragment, true);
                         break;
                     case 5:
-                        updateFragment(registrationFragment, true);
+                        if (user != null) updateFragment(registrationFragment, true);
+                        else requestLogin();
                         break;
-                    case 7:
+                    case 6:
+                        if (user != null) updateFragment(ticketFragment, true);
+                        else requestLogin();
+                        break;
+                    case 8:
                         updateFragment(settingsFragment, true);
                     default:
                         return false;
@@ -302,6 +319,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void requestLogin() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Login Required")
+                        .setMessage("Would you like to login?")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                updateFragment(settingsFragment, true);
+                            }
+                        })
+                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setIcon(R.drawable.ic_dialog_alert)
+                        .show();
+
+            }
+        });
     }
 
     // Checks if the user can obtain the correct Google Play Services number
@@ -383,63 +423,4 @@ public class MainActivity extends AppCompatActivity {
         if (v.getId() == R.id.event_close_button) scheduleFragment.scheduleFragmentClick(v);
     }
 
-    /**
-     * These are for when the remote data can't be fetched
-     * and there's nothing in the local cache
-     */
-
-    public void showNoInternetOverlay() {
-        final View noInternetOverlay = findViewById(R.id.no_internet_overlay);
-        if (noInternetOverlay.getVisibility() == View.VISIBLE) {
-            return;
-        }
-
-        noInternetOverlay.setAlpha(1.0f);
-        noInternetOverlay.setVisibility(View.VISIBLE);
-        noInternetOverlay.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
-
-        Animation fadeIn = new AlphaAnimation(0.0f, 1.0f);
-        fadeIn.setDuration(OVERLAY_FADE_DURATION);
-        noInternetOverlay.startAnimation(fadeIn);
-    }
-
-    public void hideNoInternetOverlay() {
-        final View noInternetOverlay = findViewById(R.id.no_internet_overlay);
-        if (noInternetOverlay.getVisibility() == View.GONE) {
-            return;
-        }
-
-        noInternetOverlay.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
-        });
-
-        Animation fadeOut = new AlphaAnimation(1.0f, 0.0f);
-        fadeOut.setDuration(OVERLAY_FADE_DURATION);
-        fadeOut.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                noInternetOverlay.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        noInternetOverlay.startAnimation(fadeOut);
-    }
 }
