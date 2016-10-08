@@ -26,6 +26,7 @@ import com.mhacks.android.data.model.Token;
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
+import com.mhacks.android.ui.account.AccountFragment;
 import com.mhacks.android.ui.announcements.AnnouncementsFragment;
 import com.mhacks.android.ui.countdown.CountdownFragment;
 import com.mhacks.android.ui.events.ScheduleFragment;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
     private MapViewFragment mapViewFragment;
     private RegistrationFragment registrationFragment;
     private TicketFragment ticketFragment;
+    private AccountFragment accountFragment;
 
     //GCM
     private GoogleCloudMessaging gcm;
@@ -112,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         mapViewFragment = new MapViewFragment();
         registrationFragment = new RegistrationFragment();
         ticketFragment = new TicketFragment();
+        accountFragment = new AccountFragment();
 
         buildNavigationDrawer();
         updateFragment(countdownFragment, false);
@@ -245,9 +248,12 @@ public class MainActivity extends AppCompatActivity {
         PrimaryDrawerItem ticket = new PrimaryDrawerItem().withName("Ticket")
                                                           .withIcon(R.drawable.ic_action_ticket)
                                                           .withSelectedTextColorRes(R.color.primary);
-        final SecondaryDrawerItem settings = new SecondaryDrawerItem().withName("Settings")
-                                                                      .withIcon(R.drawable.ic_settings)
-                                                                      .withSelectedTextColorRes(R.color.primary);
+        SecondaryDrawerItem settings = new SecondaryDrawerItem().withName("Settings")
+                                                                .withIcon(R.drawable.ic_settings)
+                                                                .withSelectedTextColorRes(R.color.primary);
+        SecondaryDrawerItem account = new SecondaryDrawerItem().withName("Account")
+                                                               .withIcon(R.drawable.ic_account)
+                                                               .withSelectedTextColorRes(R.color.primary);
 
         // User profile
         User mUser = NetworkManager.getInstance().getCurrentUser();
@@ -272,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
                 .withAccountHeader(accountHeader)
                 .addDrawerItems(countdown, announcements, events, map, register, ticket,
                                 new DividerDrawerItem(),
-                                settings)
+                                account, settings)
                 .build();
 
         // Configure item selection listener
@@ -309,7 +315,11 @@ public class MainActivity extends AppCompatActivity {
                         else requestLogin();
                         break;
                     case 8:
+                        updateFragment(accountFragment, true);
+                        break;
+                    case 9:
                         updateFragment(settingsFragment, true);
+                        break;
                     default:
                         return false;
                 }
@@ -330,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
                         .setMessage("Would you like to login?")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                updateFragment(settingsFragment, true);
+                                updateFragment(accountFragment, true);
                             }
                         })
                         .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {

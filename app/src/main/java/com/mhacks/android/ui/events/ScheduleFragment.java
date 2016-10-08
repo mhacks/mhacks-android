@@ -19,6 +19,7 @@ import com.alamkanak.weekview.WeekViewEvent;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
+import com.mhacks.android.ui.map.LocationManager;
 
 import org.mhacks.android.R;
 
@@ -73,6 +74,8 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
         mScheduleContainer = (LinearLayout) view.findViewById(R.id.schedule_container);
         mWeekView = (WeekView) view.findViewById(R.id.week_view);
         setUpWeekView();
+
+        LocationManager manager = LocationManager.getInstance();
 
         return view;
     }

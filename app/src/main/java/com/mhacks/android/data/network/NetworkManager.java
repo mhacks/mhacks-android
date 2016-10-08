@@ -87,6 +87,9 @@ public class NetworkManager {
                           @Override
                           public void onResponse(Call<Login> call, Response<Login> response) {
                               Login login = response.body();
+
+                              if (response.code() >= 400 || login == null) callback.failure(new Exception("Unable to log in"));
+
                               mToken = "Token " + login.getToken();
                               currentUser = login.getUser();
 
@@ -418,6 +421,8 @@ public class NetworkManager {
                       .enqueue(new Callback<Token>() {
                           @Override
                           public void onResponse(Call<Token> call, Response<Token> response) {
+                              if (response.code() >= 400) callback.failure(new Exception("response code: " + response.code()));
+
                               callback.success(response.body());
                           }
 
@@ -435,7 +440,15 @@ public class NetworkManager {
                           @Override
                           public void onResponse(Call<ModelList<Floor>> call,
                                                  Response<ModelList<Floor>> response) {
-                              callback.success(response.body().getResults());
+                              List<Floor> floors = response.body().getResults();
+                              Collections.sort(floors, new Comparator<Floor>() {
+                                  @Override
+                                  public int compare(Floor floor, Floor t1) {
+                                      return floor.getIndex() - t1.getIndex();
+                                  }
+                              });
+
+                              callback.success(floors);
                           }
 
                           @Override
@@ -695,6 +708,11 @@ public class NetworkManager {
                 callback.success(image);
             }
         });
+    }
+
+    public void logout() {
+        currentUser = null;
+        mToken = null;
     }
 
     /**

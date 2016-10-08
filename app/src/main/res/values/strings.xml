@@ -128,5 +128,9 @@
     <string name="no_internet_check_again_button">Like, check again Scoob.</string>
     <string name="no_internet_cancel_button">Never mind.</string>
     <string name="map_view_description">Image of the seleced map.</string>
+    <string name="logout">Logout</string>
+    <string name="login">Login</string>
+    <string name="logged_in">You are currently logged in.</string>
+    <string name="logged_out">You are not logged in.</string>
 
 </resources>

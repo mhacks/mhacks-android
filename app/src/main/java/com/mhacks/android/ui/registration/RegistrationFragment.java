@@ -15,6 +15,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.SearchView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -58,16 +60,11 @@ public class RegistrationFragment extends Fragment{
     private Spinner              scanType;
     private ProgressBar          loadingData;
 
-    private ArrayList<ScanEvent> scanEventList;
     private HashMap<String, ScanEvent> scanEvents;
-
-    public RegistrationFragment() {
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -101,6 +98,25 @@ public class RegistrationFragment extends Fragment{
             }
         });
         textContent = (EditText) mView.findViewById(R.id.scan_info_content);
+        textContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().length() == 0) {
+                    loadingData.setVisibility(View.GONE);
+                    scanDetails.removeViews(1, scanDetails.getChildCount() - 1);
+                } else performScan();
+            }
+        });
         loadingData = (ProgressBar) mView.findViewById(R.id.loading_data);
 
         return mView;
@@ -136,6 +152,7 @@ public class RegistrationFragment extends Fragment{
             @Override
             public void success(Scan response) {
                 loadingData.setVisibility(View.GONE);
+                scanDetails.removeViews(1, scanDetails.getChildCount() - 1);
 
                 for (ScanData data : response.getData()) {
                     TextView textView = new TextView(getActivity());
@@ -163,6 +180,7 @@ public class RegistrationFragment extends Fragment{
             @Override
             public void failure(Throwable error) {
                 Snackbar.make(mView, "Unable to perform scan", Snackbar.LENGTH_SHORT).show();
+                loadingData.setVisibility(View.GONE);
             }
         });
     }
@@ -235,17 +253,5 @@ public class RegistrationFragment extends Fragment{
                 performScan();
             }
         }
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        SearchManager searchManager =
-                (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getActivity().getComponentName()));
     }
 }

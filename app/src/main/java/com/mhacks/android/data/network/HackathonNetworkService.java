@@ -179,7 +179,7 @@ public interface HackathonNetworkService {
 
     // PUSH NOTIFICATIONS
     @FormUrlEncoded
-    @POST("push_notifications/gcm")
+    @POST("push_notifications/gcm/")
     Call<Token> sendGcmToken(@Header("Authorization") String authToken,
                              @Field("name") String channelPrefs,
                              @Field("registration_id") String regId,

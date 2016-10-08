@@ -17,10 +17,12 @@ import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.Location;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
+import com.mhacks.android.ui.map.LocationManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -47,11 +49,11 @@ public class EventDetailsFragment extends Fragment {
                                           "December"};
 
     // Event Details
-    private String eventName, eventInfo, eventLocationName;
+    private String eventName;
+    private String eventInfo;
     private CharSequence[] eventLocationIds;
     private Date eventStartTime, eventEndTime;
     private int eventColor;
-    private ArrayList<Location> locations = new ArrayList<>();
 
     private ScheduleFragment parent;
 
@@ -118,28 +120,10 @@ public class EventDetailsFragment extends Fragment {
         colorBlock = mEventDetailsFragView.findViewById(R.id.header_color_block);
         colorBlock.setBackgroundColor(eventColor);
 
-        NetworkManager networkManager = NetworkManager.getInstance();
-        for (CharSequence eventLocationId : eventLocationIds) {
-            String id = String.valueOf(eventLocationId);
-            networkManager.getLocation(id, new HackathonCallback<Location>() {
-                @Override
-                public void success(Location response) {
-                    locations.add(response);
-                }
-
-                @Override
-                public void failure(Throwable error) {
-                    Log.e(TAG, "couldnt get location", error);
-                }
-            });
-        }
-
-        //Add correct details to the details view.
-        setEventDetails();
-
         //Hide toolbar
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 
+        setEventDetails();
 
         return mEventDetailsFragView;
     }
@@ -156,13 +140,13 @@ public class EventDetailsFragment extends Fragment {
         if (eventInfo.length() != 0) eventInfoTV.setText(eventInfo);
         else eventInfoFrame.setVisibility(View.GONE);
 
-        if (!locations.isEmpty()) {
-            String locationName = "";
-            for (Location l : locations) {
-                locationName += l.getName() + " | ";
-            }
-            eventLocationNameTV.setText(locations.get(0).getName());
+        String locationName = "";
+        for (CharSequence id : eventLocationIds) {
+            Location l = LocationManager.getLocation(String.valueOf(id));
+            if (l != null) locationName += l.getName() + "\n";
         }
+
+        if (!locationName.isEmpty()) eventLocationNameTV.setText(locationName);
         else eventLocationNameFrame.setVisibility(View.GONE);
     }
 

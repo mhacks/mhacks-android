@@ -12,9 +12,10 @@
         android:textSize="20sp"
         android:textStyle="bold"/>
 
-    <ImageView android:layout_width="fill_parent" android:layout_height="match_parent"
+    <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
         android:id="@+id/ticket_image" android:contentDescription="my ticket" />
 
 </LinearLayout>

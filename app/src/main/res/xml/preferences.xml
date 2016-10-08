@@ -2,25 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="Login"
-        android:key="pref_key_login_settings">
-
-        <EditTextPreference
-            android:key="pref_key_username"
-            android:title="Username"
-            android:textColor="@color/black"
-            android:summary="Username or email used to sign up for your account."/>
-
-        <EditTextPreference
-            android:key="pref_key_password"
-            android:title="Password"
-            android:summary="Your password."
-            android:textColor="@color/black"
-            android:inputType="textPassword"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:title="Push Notifications"
         android:key="pref_key_push_notifications">
 
