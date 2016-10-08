@@ -88,7 +88,10 @@ public class NetworkManager {
                           public void onResponse(Call<Login> call, Response<Login> response) {
                               Login login = response.body();
 
-                              if (response.code() >= 400 || login == null) callback.failure(new Exception("Unable to log in"));
+                              if (response.code() >= 400 || login == null) {
+                                  callback.failure(new Exception("Unable to log in"));
+                                  return;
+                              }
 
                               mToken = "Token " + login.getToken();
                               currentUser = login.getUser();

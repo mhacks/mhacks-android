@@ -137,6 +137,11 @@ public class RegistrationFragment extends Fragment{
     }
 
     public void performScan() {
+        if (!NetworkManager.getInstance().getCurrentUser().isCanPerformScan()) {
+            Snackbar.make(mView, "You do not have permissions to scan :(", Snackbar.LENGTH_SHORT).show();
+            return;
+        }
+
         final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                                                                          ViewGroup.LayoutParams.WRAP_CONTENT);
         params.topMargin = 10;
@@ -186,6 +191,11 @@ public class RegistrationFragment extends Fragment{
     }
 
     public void confirmScan() {
+        if (!NetworkManager.getInstance().getCurrentUser().isCanPerformScan()) {
+            Snackbar.make(mView, "You do not have permissions to scan :(", Snackbar.LENGTH_SHORT).show();
+            return;
+        }
+
         String userId = textContent.getText().toString();
         loadingData.setVisibility(View.VISIBLE);
 
