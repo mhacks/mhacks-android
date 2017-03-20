@@ -13,7 +13,6 @@ import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.Floor;
 import com.mhacks.android.data.model.Location;
 import com.mhacks.android.data.model.Login;
-import com.mhacks.android.data.model.Map;
 import com.mhacks.android.data.model.ModelList;
 import com.mhacks.android.data.model.Scan;
 import com.mhacks.android.data.model.ScanEvent;
@@ -397,23 +396,6 @@ public class NetworkManager {
                           @Override
                           public void onFailure(Call<Location> call, Throwable t) {
                               Log.e(TAG, "unable to get location, id: " + location.getId());
-                              callback.failure(t);
-                          }
-                      });
-    }
-
-    public void getMap(final HackathonCallback<Map> callback) {
-        networkService.getMap()
-                      .enqueue(new Callback<Map>() {
-                          @Override
-                          public void onResponse(Call<Map> call, Response<Map> response) {
-                              callback.success(response.body());
-
-                          }
-
-                          @Override
-                          public void onFailure(Call<Map> call, Throwable t) {
-                              Log.e(TAG, "Couldn't get the map", t);
                               callback.failure(t);
                           }
                       });

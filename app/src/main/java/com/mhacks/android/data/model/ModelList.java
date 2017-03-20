@@ -1,6 +1,5 @@
 package com.mhacks.android.data.model;
 
-import java.util.Date;
 import java.util.List;
 
 /**

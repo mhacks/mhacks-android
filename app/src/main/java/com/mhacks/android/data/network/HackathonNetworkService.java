@@ -6,26 +6,19 @@ import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.Floor;
 import com.mhacks.android.data.model.Location;
 import com.mhacks.android.data.model.Login;
-import com.mhacks.android.data.model.Map;
 import com.mhacks.android.data.model.ModelList;
-import com.mhacks.android.data.model.ModelObject;
 import com.mhacks.android.data.model.Scan;
 import com.mhacks.android.data.model.ScanEvent;
 import com.mhacks.android.data.model.Token;
 import com.mhacks.android.data.model.User;
 
-import java.util.Date;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -117,9 +110,6 @@ public interface HackathonNetworkService {
                             @Body Event event);
 
     // FLOORS
-    @GET("map")
-    Call<Map> getMap();
-
     @GET("floors")
     Call<ModelList<Floor>> getFloors(@Header("Authorization") String authToken);
 
