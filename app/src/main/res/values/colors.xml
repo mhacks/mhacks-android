@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Material Design Base Colors -->
-    <color name="colorPrimary">@color/mh9_orange</color>
-    <color name="colorPrimaryDark">@color/mh9_redorange</color>
-    <color name="colorAccent">@color/mh9_red</color>
+    <color name="colorPrimary">@color/mh9_red</color>
+    <color name="colorPrimaryDark">@color/mh9_red</color>
+    <color name="colorAccent">@color/mh9_white</color>
     <color name="ow_drawer_background">#FAFAFA</color>
 
     <!-- MHacks 9 Colors -->
     <color name="mh9_orange">#e6b72a</color>
     <color name="mh9_redorange">#ef7b55</color>
     <color name="mh9_red">#f16859</color>
+    <color name="mh9_white">#ffffff</color>
 
     <!-- MHacks 8 Colors -->
     <!--color name="mh8_blue">#00BCD4</color>
@@ -137,10 +138,11 @@
     <color name="nav_item_shadow_step_2">#32191919</color>
     <color name="nav_item_shadow_step_3">#44191919</color>
     <color name="nav_item_shadow_step_4">@color/darker_charcoal_semitransparent</color>
-    <color name="primary_material_light">#e6b72a</color>
-    <color name="primary_dark_material_light">#ef7b55</color>
-    <color name="accent_material_light">#f16859</color>
+    <color name="primary_material_light">#f16859</color>
+    <color name="primary_dark_material_light">#f16859</color>
+    <color name="accent_material_light">#ffffff</color>
     <color name="background_material_light">#fafafa</color>
+
 
     <!--color name="primary_material_light">#00bcd4</color>
     <color name="primary_dark_material_light">#0097a7</color>
