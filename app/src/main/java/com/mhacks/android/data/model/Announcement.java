@@ -17,7 +17,7 @@ public class Announcement extends ModelObject {
     8 - Swag (green)
     16 - Sponsor (purple)
     32 - Other (brown)
-     */
+    */
     public int     category;
     public boolean approved;
     public boolean deleted;

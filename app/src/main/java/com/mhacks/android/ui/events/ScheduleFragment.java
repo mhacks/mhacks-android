@@ -132,7 +132,7 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
     }
 
     public ArrayList<WeekViewEvent> createWeekViewEvents(ArrayList<Event> events, int month) {
-        weekViewEvents = new ArrayList<WeekViewEvent>();
+        weekViewEvents = new ArrayList<>();
 
         long id = 0;
 
@@ -273,7 +273,7 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
         if (mEvents == null || mEvents.size() == 0) {
             getEvents();
-            return new ArrayList<WeekViewEvent>();
+            return new ArrayList<>();
         } else {
             // NOTE: WeekView indexes at 1, Calendar indexes at 0.
             return createWeekViewEvents(mEvents, newMonth - 1);

@@ -59,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String SHOULD_SYNC = "sync";
     public static final String TIME_SAVED  = "time_saved";
 
-    private static final int OVERLAY_FADE_DURATION = 400;
-
     // Toolbar
     private Toolbar mToolbar;
 
@@ -257,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
 
         // User profile
         User mUser = NetworkManager.getInstance().getCurrentUser();
-        String userName = (mUser != null) ? mUser.getName() : "MHacks 8";
+        String userName = (mUser != null) ? mUser.getName() : getResources().getString(R.string.app_name);
         userProfile = new ProfileDrawerItem().withName(userName)
                                              .withTextColorRes(R.color.black)
                                              .withSelectedColorRes(R.color.primary)
