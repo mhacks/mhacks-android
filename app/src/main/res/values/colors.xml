@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Material Design Base Colors -->
-    <color name="colorPrimary">@color/mh9_red</color>
+    <color name="colorPrimary">@color/mh9_redorange</color>
     <color name="colorPrimaryDark">@color/mh9_red</color>
-    <color name="colorAccent">@color/mh9_white</color>
+    <color name="colorAccent">@color/orange</color>
     <color name="ow_drawer_background">#FAFAFA</color>
 
     <!-- MHacks 9 Colors -->

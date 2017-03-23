@@ -257,14 +257,14 @@ public class MainActivity extends AppCompatActivity {
         User mUser = NetworkManager.getInstance().getCurrentUser();
         String userName = (mUser != null) ? mUser.getName() : getResources().getString(R.string.app_name);
         userProfile = new ProfileDrawerItem().withName(userName)
+                                             .withIcon(R.mipmap.launcher_icon)
                                              .withTextColorRes(R.color.black)
-                                             .withSelectedColorRes(R.color.primary)
-                                             .withSelectedTextColorRes(R.color.accent);
+                                             .withSelectedColorRes(R.color.gray)
+                                             .withSelectedTextColorRes(R.color.white);
 
         // Account Header
         AccountHeader accountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.drawable.poly6)
                 .addProfiles(userProfile)
                 .withTextColorRes(R.color.black)
                 .build();
@@ -335,17 +335,15 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 new AlertDialog.Builder(MainActivity.this)
                         .setTitle("Login Required")
-                        .setMessage("Would you like to login?")
+                        .setMessage("Go to the Account page to login with your MHacks account.")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                updateFragment(accountFragment, true);
                             }
                         })
                         .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                             }
                         })
-                        .setIcon(R.drawable.ic_dialog_alert)
                         .show();
 
             }
