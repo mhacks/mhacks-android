@@ -12,23 +12,8 @@
         android:id="@+id/name">
     </Spinner>
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:id="@+id/image"
-        android:contentDescription="floor map" />
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:layout_margin="10dp"
-        android:background="#c0c0c0"/>
-
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:id="@+id/description"
-        android:textSize="20sp"
-        android:layout_margin="10dp" />
+    <FrameLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/map"/>
 
 </LinearLayout>

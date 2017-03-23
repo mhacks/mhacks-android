@@ -2,7 +2,6 @@ package com.mhacks.android.ui.map;
 
 import android.app.Fragment;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -11,19 +10,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.GroundOverlayOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.mhacks.android.data.model.Floor;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
 
 import org.mhacks.android.R;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,15 +36,17 @@ import java.util.List;
  *
  * Displays maps of the MHacks 8 venues.
  */
-public class MapViewFragment extends Fragment {
+public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
     public static final String TAG = "MapViewFragment";
 
     // Views
     private    View      mMapFragView;
     public     Spinner  nameView;
-    public TextView  descriptionView;
-    public ImageView imageView;
+
+    // Map
+    private MapFragment mMapFragment;
+    private GoogleMap   mGoogleMap;
 
     // Data
     ArrayList<Floor> floors;
@@ -51,11 +56,11 @@ public class MapViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        mMapFragView = inflater.inflate(R.layout.fragment_map, container, false);
+        if (mMapFragView == null) mMapFragView = inflater.inflate(R.layout.fragment_map, container, false);
 
         nameView = (Spinner) mMapFragView.findViewById(R.id.name);
-        descriptionView =(TextView) mMapFragView.findViewById(R.id.description);
-        imageView = (ImageView) mMapFragView.findViewById(R.id.image);
+
+        setUpMapIfNeeded();
 
         final NetworkManager networkManager = NetworkManager.getInstance();
         networkManager.getFloors(new HackathonCallback<List<Floor>>() {
@@ -75,33 +80,14 @@ public class MapViewFragment extends Fragment {
                     }
                     nameView.setAdapter(spinnerAdapter);
                     spinnerAdapter.notifyDataSetChanged();
+
                     nameView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView,
                                                    View view,
                                                    int i,
                                                    long l) {
-                            Floor f = floors.get(i);
-
-                            descriptionView.setText(f.getDescription());
-
-                            networkManager.getImage(f.getImage(), new HackathonCallback<Bitmap>() {
-                                @Override
-                                public void success(Bitmap response) {
-                                    final Bitmap image = response;
-                                    getActivity().runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            imageView.setImageBitmap(image);
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void failure(Throwable error) {
-
-                                }
-                            });
+                            addOverlay(floors.get(i));
                         }
 
                         @Override
@@ -109,19 +95,12 @@ public class MapViewFragment extends Fragment {
 
                         }
                     });
-
-//                    Floor f = floors.get(0);
-//
-//                    descriptionView.setText(f.getDescription());
-//
-//                    Log.d(TAG, f.getImage());
-
                 }
             }
 
             @Override
             public void failure(Throwable error) {
-
+                Log.e(TAG, "unable to get floors", error);
             }
         });
 
@@ -129,18 +108,65 @@ public class MapViewFragment extends Fragment {
         return mMapFragView;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    private void setUpMapIfNeeded() {
+        if (mMapFragment == null) {
+            mMapFragment = MapFragment.newInstance();
+            getFragmentManager().beginTransaction().replace(R.id.map, mMapFragment).commit();
+        }
+
+        if (mGoogleMap == null) mMapFragment.getMapAsync(this);
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onMapReady(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+
+        UiSettings settings = mGoogleMap.getUiSettings();
+        settings.setCompassEnabled(true);
+        settings.setTiltGesturesEnabled(true);
+        settings.setMyLocationButtonEnabled(true);
+
+        // TODO: 3/23/2017 center map to north campus
+    }
+
+    private void addOverlay(final Floor floor) {
+        setUpMapIfNeeded();
+
+        // Grab bitmap image
+        NetworkManager networkManager = NetworkManager.getInstance();
+        networkManager.getImage(floor.getImage(), new HackathonCallback<Bitmap>() {
+            @Override
+            public void success(Bitmap response) {
+                final Bitmap image = response;
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // TODO: 3/23/2017 add bitmap as ground overlay
+                        LatLngBounds northCampusBounds = new LatLngBounds(
+                                // I'm a dumbass so we gotta flip the latitudes
+                                new LatLng(floor.getSeLatitude(), floor.getNwLongitude()), // South west corner
+                                new LatLng(floor.getNwLatitude(), floor.getSeLongitude())  // North east corner
+                        );
+
+                        GroundOverlayOptions northCampusMap = new GroundOverlayOptions()
+                                .image(BitmapDescriptorFactory.fromBitmap(image))
+                                .positionFromBounds(northCampusBounds);
+
+                        mGoogleMap.addGroundOverlay(northCampusMap);
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Throwable error) {
+
+            }
+        });
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onResume() {
+        super.onResume();
+        setUpMapIfNeeded();
     }
 }

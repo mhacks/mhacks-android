@@ -280,11 +280,11 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         // Configure item selection listener
-        final Context context = this;
         mDrawer.setOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
             @Override
             public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                 Log.d(TAG, "nav position: " + position);
+                mDrawer.closeDrawer();
 
                 NetworkManager manager = NetworkManager.getInstance();
                 User user =  manager.getCurrentUser();
@@ -322,7 +322,6 @@ public class MainActivity extends AppCompatActivity {
                         return false;
                 }
 
-                mDrawer.closeDrawer();
                 return true;
             }
         });
