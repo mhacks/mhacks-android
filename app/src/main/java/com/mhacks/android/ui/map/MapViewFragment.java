@@ -1,9 +1,17 @@
 package com.mhacks.android.ui.map;
 
+import android.Manifest;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Criteria;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +19,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -24,6 +33,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.mhacks.android.data.model.Floor;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
+import com.mhacks.android.ui.MainActivity;
 
 import org.mhacks.android.R;
 
@@ -120,13 +130,23 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
+        googleMap.setBuildingsEnabled(true);
 
         UiSettings settings = mGoogleMap.getUiSettings();
         settings.setCompassEnabled(true);
         settings.setTiltGesturesEnabled(true);
-        settings.setMyLocationButtonEnabled(true);
 
-        // TODO: 3/23/2017 center map to north campus
+        CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(42.292650, -83.714359));
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(17);
+
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            || ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mGoogleMap.setMyLocationEnabled(true);
+            mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        }
+
+        mGoogleMap.moveCamera(center);
+        mGoogleMap.animateCamera(zoom);
     }
 
     private void addOverlay(final Floor floor) {
@@ -141,7 +161,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        // TODO: 3/23/2017 add bitmap as ground overlay
                         LatLngBounds northCampusBounds = new LatLngBounds(
                                 // I'm a dumbass so we gotta flip the latitudes
                                 new LatLng(floor.getSeLatitude(), floor.getNwLongitude()), // South west corner
@@ -168,5 +187,10 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     public void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 }

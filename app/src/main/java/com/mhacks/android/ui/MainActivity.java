@@ -1,5 +1,6 @@
 package com.mhacks.android.ui;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -7,9 +8,12 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -53,9 +57,13 @@ import java.util.Set;
 /**
  * Created by Omkar Moghe on 10/22/2014.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     public static final String TAG = "MainActivity";
 
+    // Permissions
+    public static final int LOCATION_REQUEST_CODE = 7;
+
+    // Stuff Boz made lol
     public static final String SHOULD_SYNC = "sync";
     public static final String TIME_SAVED  = "time_saved";
 
@@ -302,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
                         updateFragment(scheduleFragment, true);
                         break;
                     case 4:
-                        updateFragment(mapViewFragment, true);
+                        requestAndEnableLocation();
                         break;
                     case 5:
                         if (user != null) updateFragment(registrationFragment, true);
@@ -395,6 +403,32 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    private void requestAndEnableLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+            PackageManager.PERMISSION_GRANTED) {
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Location Permission")
+                    .setMessage("The MHacks app uses your location to show you where you are on the map and help you find rooms. Would you like to enable location services?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Request permission
+                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                                                                                          Manifest.permission.ACCESS_COARSE_LOCATION},
+                                                              LOCATION_REQUEST_CODE);
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            updateFragment(mapViewFragment, true);
+                        }
+                    })
+                    .show();
+        } else {
+            updateFragment(mapViewFragment, true);
+        }
+    }
+
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -428,4 +462,18 @@ public class MainActivity extends AppCompatActivity {
         if (v.getId() == R.id.event_close_button) scheduleFragment.scheduleFragmentClick(v);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        Log.d(TAG, "ayy");
+        switch (requestCode) {
+            case LOCATION_REQUEST_CODE:
+                if (permissions.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED || grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+                    Log.d(TAG, "Location permissions granted");
+                }
+                updateFragment(mapViewFragment, true);
+                break;
+        }
+    }
 }
