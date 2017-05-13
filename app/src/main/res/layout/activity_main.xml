@@ -3,10 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+
+    android:theme="@style/containerTheme"
     tools:context="android.mhacks.org.mhacks_android.MainActivity">
 
     <FrameLayout
@@ -14,7 +16,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-    </FrameLayout>
+
+        <!--<android.mhacks.org.mhacks_android.views.StyledTextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height=""-->
+                <!--android:theme="@style/textViewTheme"-->
+                <!--android:text="@string/app_name" />-->
+        </FrameLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -22,6 +30,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
-        app:menu="@menu/navigation"/>
+        app:menu="@menu/navigation"
+        app:itemIconTint="@drawable/selector"
+        app:itemTextColor="@drawable/selector"
+        />
 
 </LinearLayout>

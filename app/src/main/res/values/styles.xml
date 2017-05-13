@@ -1,8 +1,21 @@
 <resources>
 
+    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="softBlue">@color/softBlue</item>
-        <item name="darkPink">@color/darkPink</item>
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="colorPrimaryDark">@color/darkBlue</item>
+        <item name="colorAccent">@color/darkBlue</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
     </style>
 
+    <style name="textViewTheme" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/softBlue</item>
+        <item name="android:textSize">30pt</item>
+    </style>
+    <style name="containerTheme">
+        <item name="android:textColor">@color/softBlue</item>
+        <item name="android:background">#000000</item>
+    </style>
 </resources>
