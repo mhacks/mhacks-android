@@ -4,7 +4,7 @@
 
     <item android:drawable="@drawable/adapter_card_header_shadow"/>
 
-    <item android:id="@+id/adapter_card_header_shape">
+    <item>
         <shape
             android:dither="true"
             android:shape="rectangle">
