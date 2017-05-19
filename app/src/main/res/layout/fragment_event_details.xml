@@ -37,7 +37,6 @@
         android:scrollbars="vertical">
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:id="@+id/event_details_listview"
             android:orientation="vertical">
 
             <FrameLayout android:layout_width="match_parent"

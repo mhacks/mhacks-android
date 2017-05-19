@@ -1,47 +1,22 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- Margins -->
-    <dimen name="margin_general">16dp</dimen>
-    <dimen name="margin_divider_topnbottom">10dp</dimen>
-    <dimen name="margin_divider_sides">5dp</dimen>
-    <dimen name="margin_nav_mainitem_icon_sides">16dp</dimen>
     <dimen name="margin_countdown_text_groupoffset">50dp</dimen>
 
     <!-- Text Sizes -->
-    <dimen name="text_nav_main">20sp</dimen>
-    <dimen name="text_nav_subitems">14sp</dimen>
-    <dimen name="text_announcement_name">20sp</dimen>
-    <dimen name="text_announcement_date">14sp</dimen>
-    <dimen name="text_announcement_description">16sp</dimen>
     <dimen name="text_countdown_normaltitles">18sp</dimen>
     <dimen name="text_countdown_timertext">50sp</dimen>
 
     <!-- Parameters -->
     <dimen name="countdown_progressbar_thickness">10dp</dimen>
-    <dimen name="nav_icon_height">48dp</dimen>
 
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
          https://developer.android.com/design/patterns/navigation-drawer.html -->
-    <dimen name="navigation_drawer_width">240dp</dimen>
-    <dimen name="nav_item_height">72dp</dimen>
-    <dimen name="announcement_height">96dp</dimen>
-    <dimen name="list_item_padding">8dp</dimen>
-    <dimen name="intra_list_item_padding">4dp</dimen>
-    <dimen name="nav_item_icon_size">52dp</dimen>
     <dimen name="adapter_header_padding_horizontal">16dp</dimen>
     <dimen name="adapter_header_padding_vertical">12dp</dimen>
     <dimen name="adapter_card_radius">1dp</dimen>
     <dimen name="adapter_card_padding">8dp</dimen>
-    <dimen name="adapter_card_divider_height">8dp</dimen>
-    <dimen name="adapter_card_shadow_bottom">4dp</dimen>
     <dimen name="pin_icon_size">24dp</dimen>
-    <dimen name="chat_message_image_size">42dp</dimen>
-    <dimen name="adapter_card_shadow_top">6dp</dimen>
     <dimen name="adapter_card_shadow_width">1dp</dimen>
-    <dimen name="chat_handle_size">38dp</dimen>
-    <dimen name="dave_size">48dp</dimen>
-    <dimen name="map_polygon_stroke_width">2dp</dimen>
 </resources>
