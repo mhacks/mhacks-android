@@ -15,5 +15,4 @@ public class MHacks extends Application {
         super.onCreate();
 //        Bugsnag.init(this, getString(R.string.bugsnag_key));
     }
-
 }

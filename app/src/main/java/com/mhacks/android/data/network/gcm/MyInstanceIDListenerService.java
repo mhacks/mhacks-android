@@ -24,15 +24,6 @@ public class MyInstanceIDListenerService extends InstanceIDListenerService {
         super.onDestroy();
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return super.onBind(intent);
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        return super.onStartCommand(intent, flags, startId);
-    }
 
     /*@Override
     public void zzah(boolean b) {
