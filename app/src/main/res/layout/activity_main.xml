@@ -23,22 +23,7 @@
             android:layout_height="fill_parent"
             android:background="@color/ow_drawer_background" />
 
-        <!-- The no-internet overlay -->
-        <RelativeLayout
-            android:id="@+id/no_internet_overlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#dd000000"
-            android:visibility="gone">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/no_internet"
-                android:textSize="40sp"
-                android:gravity="center" />
-        </RelativeLayout>
 
     </FrameLayout>
 

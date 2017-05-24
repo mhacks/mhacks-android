@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:animateLayoutChanges="true"
     android:background="@color/ow_drawer_background"
+    android:orientation="vertical"
     >
 
     <!-- ViewGroup for top titles -->
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/margin_countdown_text_groupoffset"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/countdown_toptitle_intro"
@@ -37,13 +37,13 @@
 
     <!-- ViewGroup for top titles -->
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/margin_countdown_text_groupoffset"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/countdown_bottomtitle_intro"
@@ -65,15 +65,16 @@
 
     <ProgressBar
         android:id="@+id/progressbar_counter"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_centerInParent="true"
-        android:indeterminate="false"
-        android:progressDrawable="@drawable/progressbar_circular_progressdraw"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:background="@drawable/progressbar_circular_background"
-        style="?android:attr/progressBarStyleHorizontal"
+        android:indeterminate="false"
         android:max="100"
-        android:progress="0" />
+        android:progress="0"
+        android:progressDrawable="@drawable/progressbar_circular_progressdraw" />
 
     <TextView
         android:id="@+id/timer_text"
