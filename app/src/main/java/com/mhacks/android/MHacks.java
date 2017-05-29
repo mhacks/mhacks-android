@@ -6,7 +6,7 @@ import android.app.Application;
 //import org.mhacks.android.R;
 
 /**
- * Created by Omkar Moghe on 11/15/2014.
+ *
  */
 public class MHacks extends Application {
 

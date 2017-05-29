@@ -10,7 +10,7 @@
                 android:left="@dimen/adapter_card_shadow_width"
                 android:right="@dimen/adapter_card_shadow_width"
                 android:top="0dp"/>
-            <solid android:color="@color/adapter_card_shadow_step_0"/>
+            <solid android:color="@android:color/black" />
         </shape>
     </item>
     <item>
@@ -20,7 +20,7 @@
                 android:left="@dimen/adapter_card_shadow_width"
                 android:right="@dimen/adapter_card_shadow_width"
                 android:top="0dp"/>
-            <solid android:color="@color/adapter_card_shadow_step_1"/>
+            <solid android:color="@android:color/black" />
         </shape>
     </item>
     <item>
@@ -30,7 +30,7 @@
                 android:left="@dimen/adapter_card_shadow_width"
                 android:right="@dimen/adapter_card_shadow_width"
                 android:top="0dp"/>
-            <solid android:color="@color/adapter_card_shadow_step_2"/>
+            <solid android:color="@android:color/black" />
         </shape>
     </item>
     <item>
@@ -40,7 +40,7 @@
                 android:left="@dimen/adapter_card_shadow_width"
                 android:right="@dimen/adapter_card_shadow_width"
                 android:top="0dp"/>
-            <solid android:color="@color/adapter_card_shadow_step_3"/>
+            <solid android:color="@android:color/black" />
         </shape>
     </item>
     <item>
@@ -50,7 +50,7 @@
                 android:left="@dimen/adapter_card_shadow_width"
                 android:right="@dimen/adapter_card_shadow_width"
                 android:top="0dp"/>
-            <solid android:color="@color/adapter_card_shadow_step_4"/>
+            <solid android:color="@android:color/black" />
         </shape>
     </item>
 

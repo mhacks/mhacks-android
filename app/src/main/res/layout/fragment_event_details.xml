@@ -1,43 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <FrameLayout  android:layout_width="match_parent"
         android:layout_height="130dp"
         android:animateLayoutChanges="true">
 
-        <View android:layout_width="match_parent" android:layout_height="match_parent"
-            android:background="@drawable/event_header"
-            android:id="@+id/header_color_block"/>
+        <View
+            android:id="@+id/header_color_block"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/event_header" />
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge" android:text="Event Title"
-            android:id="@+id/event_title" android:layout_marginLeft="80dp"
-            android:textColor="@color/white"
+        <TextView
+            android:id="@+id/event_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="30dp"
+            android:layout_marginLeft="80dp"
             android:layout_marginRight="30dp"
             android:layout_marginStart="80dp"
-            android:layout_marginTop="60dp"/>
+            android:layout_marginTop="60dp"
+            android:text="Event Title"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/white" />
 
-        <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_close_white"
+        <ImageButton
             android:id="@+id/event_close_button"
-            android:background="@color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Closes the event view and returns to the calendar."
             android:onClick="scheduleFragmentClick"
-            android:contentDescription="Closes the event view and returns to the calendar."/>
+            android:src="@drawable/ic_action_close_white" />
     </FrameLayout>
 
     <ScrollView android:layout_width="match_parent" android:layout_height="wrap_content"
         android:scrollbars="vertical">
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:id="@+id/event_details_listview"
             android:orientation="vertical">
 
             <FrameLayout android:layout_width="match_parent"
@@ -45,49 +52,59 @@
                 android:layout_marginTop="30dp">
 
                 <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:src="@drawable/icon_time_grey"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginStart="30dp"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/icon_time_grey" />
+
+                <TextView
                     android:id="@+id/details_time"
-                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="80dp"
                     android:layout_marginStart="80dp"
                     android:text="Event time"/>
             </FrameLayout>
 
-            <FrameLayout android:layout_width="match_parent"
+            <FrameLayout
+                android:id="@+id/location_name_frame"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp" android:id="@+id/location_name_frame">
+                android:layout_marginTop="30dp">
                 <!--TODO have an onClick for the location-->
 
                 <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:src="@drawable/icon_location_grey"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginStart="30dp"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/icon_location_grey" />
+
+                <TextView
                     android:id="@+id/details_location"
-                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="80dp"
                     android:layout_marginStart="80dp"
                     android:text="Event location"/>
             </FrameLayout>
 
-            <FrameLayout android:layout_width="match_parent"
+            <FrameLayout
+                android:id="@+id/info_frame"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp" android:id="@+id/info_frame">
+                android:layout_marginTop="30dp">
 
                 <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:src="@drawable/icon_subject_grey"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginStart="30dp"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/icon_subject_grey" />
+
+                <TextView
                     android:id="@+id/details_description"
-                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="80dp"
                     android:layout_marginStart="80dp"
-                    android:paddingRight="30dp"
                     android:paddingEnd="30dp"
+                    android:paddingRight="30dp"
                     android:text="Event description"/>
             </FrameLayout>
 

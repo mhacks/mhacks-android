@@ -2,21 +2,7 @@
 <resources>
 
     <string name="app_name">MHacks</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
-    <string name="log_in">Log In</string>
-    <string name="next">Next</string>
-    <string name="logging_in">Logging in…</string>
-    <string name="error_logging_in">Login failed. Please check that you have accepted the necessary
-        permissions.
-    </string>
     <string name="icon">Icon</string>
-    <string name="divider_pipe">|</string>
-    <string name="no_internet">No Internet Connection</string>
 
     <!-- SettingsFragment Preferences -->
     <string-array name="notif_channels">
@@ -38,99 +24,29 @@
     <!-- /SettingsFragment Preferences -->
 
     <!-- Test Strings -->
-    <string name="garbage_fill_short">Lorem ipsum dolor sit amet</string>
-    <string name="garbage_fill_medium">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
-    <string name="garbage_fill_long"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur id consequat nibh. Curabitur dictum consectetur aliquet. Aliquam sit amet libero vitae neque malesuada malesuada. Etiam nisi neque, cursus porttitor blandit eu, rhoncus eget ex. Phasellus dignissim ipsum vitae tincidunt vehicula. Nulla molestie finibus arcu, non ullamcorper sapien sollicitudin quis. Ut eu elit sed ante pretium cursus mattis non mi. Sed blandit rutrum sapien id tincidunt. Nunc ex sapien, rutrum quis diam quis, malesuada finibus dui.\n\nNam ultricies quis lacus sed volutpat. Nulla sed quam in mi condimentum posuere. Donec sed tincidunt ligula. Aenean euismod eleifend dictum. Vivamus dolor elit, gravida at volutpat sit amet, tincidunt ac arcu. Sed placerat enim nec justo suscipit, a condimentum nibh sollicitudin. Mauris rhoncus vel sapien dignissim pharetra. Nunc vestibulum, erat at scelerisque scelerisque, diam eros aliquet tellus, quis hendrerit nisi lectus sit amet libero. Proin et nisi ac augue vestibulum rutrum vel eget est. Vivamus elementum urna sit amet ex porta molestie. Nullam congue euismod est, nec bibendum urna porta vel. Cras convallis a massa id placerat. Morbi a fermentum nisi. Duis mattis et dui at sodales.\n\nNullam quis libero et tortor finibus euismod non non nisi. Ut cursus et turpis vel efficitur. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec quis leo erat. Phasellus nec euismod neque. Donec condimentum magna quis bibendum pharetra. Morbi fringilla tincidunt erat fringilla vehicula. Phasellus orci tellus, imperdiet sed ultrices vitae, tristique et libero. Proin condimentum tincidunt lobortis. Nunc ligula lectus, ultricies ac rhoncus nec, fermentum eu est. Aliquam et tellus metus. Etiam egestas quam in leo venenatis tempor.\n\nVivamus pretium a risus ut volutpat. Nulla at ornare velit. Curabitur dolor massa, dictum a orci nec, consectetur molestie elit. Donec convallis mi sed neque interdum, ac euismod urna pharetra. Duis lobortis commodo quam, et suscipit nibh luctus ut. Donec iaculis facilisis consectetur. Ut maximus est risus, nec tincidunt sapien ornare in. Ut elit felis, bibendum convallis tincidunt at, pellentesque vitae nulla. Nam molestie ante luctus mi finibus, non posuere lacus consectetur. Curabitur mattis nulla vel massa viverra egestas. Nam a nisi id lorem cursus imperdiet. Nulla nisl ipsum, condimentum ut quam id, hendrerit aliquet ante. </string>
 
     <!-- The nav items -->
-    <string-array name="nav_items">
-        <item name="countdown">Countdown</item>
-        <item name="announcements">Announcements</item>
-        <item name="schedule">Schedule</item>
-        <item name="sponsors">Sponsors</item>
-        <!--<item name="awards">Awards</item>-->
-        <item name="map">Map</item>
-    </string-array>
 
     <!-- MapViewFragment Spinner Items (Maps) (may not need this anymore)-->
-    <string-array name="map_array">
-        <item name="all">ALL</item>
-        <item name="bbb">BBB</item>
-        <item name="eecs">EECS</item>
-        <item name="gg_brown">GG Brown</item>
-    </string-array>
 
     <!--    TITLES OF FEATURES (in nav drawer and action bar)   -->
-    <string name="announcements">Announcements</string>
-    <string name="schedule">Schedule</string>
-    <string name="sponsors">Sponsors</string>
-    <string name="awards">Awards</string>
-    <string name="map">Map</string>
-    <string name="chat">Lounge</string>
-    <string name="messages">Messages</string>
 
     <!-- Strings for the countdown page -->
     <string name="countdown_timer_default">36:00:00</string>
-    <string name="countdown_toptitle_beforestart">Hacking starts</string>
-    <string name="countdown_toptitle_normal">Hacking started</string>
-    <string name="countdown_toptitle_timedefault">Friday, January 16. 2015 at 9:00 PM</string>
-    <string name="countdown_bottomtitle_normal">Hacks must be submitted by</string>
-    <string name="countdown_bottomtitle_done">Hacks were submitted</string>
-    <string name="countdown_bottomtitle_timedefault">Sunday, January 18, 2015 at 9:00 AM</string>
 
-    <string name="lorem_award_prize">Over 9000 Pairs of Google Glass</string>
-    <string name="announcements_new">New Announcement</string>
-    <string name="awards_new">New Award</string>
-    <string name="events_new">New Event</string>
-    <string name="event_title">Event Title</string>
-    <string name="event_title_hint">MHacks Begins</string>
-    <string name="event_details">Event Details</string>
-    <string name="event_details_hint">Come join us for some awesome stuff!</string>
-    <string name="host">Host</string>
-    <string name="ordering">Ordering</string>
-    <string name="location">Location</string>
-    <string name="time">Time</string>
-    <string name="announcement_title">Announcement Title</string>
-    <string name="announcement_title_hint">Come get your food!</string>
-    <string name="announcement_details">Announcement Details</string>
-    <string name="announcement_details_hint">Zingerman\'s for everybody!</string>
-    <string name="poster">Poster</string>
-    <string name="announcement_pinned">Pinned</string>
-    <string name="announcement_push_now">Push (Now)</string>
-    <string name="confirm_delete">Confirm Delete</string>
-    <string name="confirm_delete_message">Are you sure you want to delete this?</string>
-    <string name="login_background_description">Login Background</string>
-    <string name="mhacks_logo">MHacks Logo</string>
-    <string name="log_in_facebook">Log in with Facebook</string>
-    <string name="search_hint">Search</string>
-    <string name="search">Search</string>
-    <string name="not_implemented_yet">Not implemented yet.</string>
-    <string name="user_name">Name</string>
-    <string name="position">Position</string>
-    <string name="user_new">New User</string>
-    <string name="delete">Delete</string>
-    <string name="hackers">Hackers</string>
-    <string name="school_unknown">Unknown</string>
-    <string name="log_in_twitter">Log in with Twitter</string>
-    <string name="close_thread">Close Thread</string>
-    <string name="no_threads">You have no open conversations. Visit the concierge to message
-        someone!
-    </string>
-    <string name="mhacks_concierge">MHacks Concierge</string>
-    <string name="concierge_tweet">Hey @%1$s,</string>
-    <string name="concierge_email">Hey %1$s,</string>
-    <string name="tweet_url">https://twitter.com/intent/tweet?text=%1$s</string>
-    <string name="log_out">Log Out</string>
-    <string name="refresh">Refresh</string>
-    <string name="countdown">Countdown Timer</string>
-
-    <string name="no_internet_message">Ruh Roh! There\'s no internet.</string>
-    <string name="no_internet_check_again_button">Like, check again Scoob.</string>
-    <string name="no_internet_cancel_button">Never mind.</string>
-    <string name="map_view_description">Image of the seleced map.</string>
     <string name="logout">Logout</string>
-    <string name="login">Login</string>
+    <string name="login">LOGIN</string>
     <string name="logged_in">You are currently logged in.</string>
     <string name="logged_out">You are not logged in.</string>
+    <string name="title_home">Home</string>
+    <string name="title_announcements">Announcements</string>
+    <string name="title_events">Events</string>
+    <string name="title_map">Map</string>
+    <string name="title_info">Info</string>
+    <string name="welcome">Welcome</string>
+    <string name="login_background">Login background</string>
+    <string name="sign_in">Sign in</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
 
 </resources>

@@ -1,19 +1,25 @@
 package com.mhacks.android.ui;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.annotation.TargetApi;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -21,16 +27,17 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.mhacks.android.data.model.Token;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
-import com.mhacks.android.ui.account.AccountFragment;
-import com.mhacks.android.ui.announcements.AnnouncementsFragment;
-import com.mhacks.android.ui.countdown.CountdownFragment;
+import com.mhacks.android.ui.announcements.AnnouncementFragment;
+import com.mhacks.android.ui.common.BaseFragment;
+import com.mhacks.android.ui.common.NavigationColor;
+import com.mhacks.android.ui.countdown.WelcomeFragment;
 import com.mhacks.android.ui.events.ScheduleFragment;
+import com.mhacks.android.ui.info.InfoFragment;
 import com.mhacks.android.ui.map.MapViewFragment;
-import com.mhacks.android.ui.registration.RegistrationFragment;
 import com.mhacks.android.ui.settings.SettingsFragment;
-import com.mhacks.android.ui.ticket.TicketFragment;
 
 import org.mhacks.android.R;
+import org.mhacks.mhacks.login.LoginActivity;
 
 import java.io.IOException;
 import java.util.Set;
@@ -39,9 +46,12 @@ import java.util.Set;
  Activity defines primarily the initial network calls to GCM as well as handle Fragment transactions.
  **/
 
-public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
-    public static final String TAG = "MainActivity";
+public class MainActivity extends AppCompatActivity implements
+        BottomNavigationView.OnNavigationItemSelectedListener,
+        ActivityCompat.OnRequestPermissionsResultCallback,
+        BaseFragment.OnNavigationChangeListener {
 
+    public static final String TAG = "org.MHacks/MainActivity";
     // Permissions
     public static final int LOCATION_REQUEST_CODE = 7;
     String regid;
@@ -50,17 +60,56 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     // Toolbar
     private Toolbar mToolbar;
     private boolean val;
-    //Fragments
-    private CountdownFragment countdownFragment;
-    private AnnouncementsFragment announcementsFragment;
-    private ScheduleFragment scheduleFragment;
-    private SettingsFragment settingsFragment;
-    private MapViewFragment mapViewFragment;
-    private RegistrationFragment registrationFragment;
-    private TicketFragment ticketFragment;
-    private AccountFragment accountFragment;
+    private BottomNavigationView mNavigation;
+    private MenuItem mMenuItem;
     //GCM
     private GoogleCloudMessaging gcm;
+
+    @TargetApi(21)
+    @Override
+    public void setStatusBarColor(int color) {
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, color));
+    }
+
+    @Override
+    public void setLayoutFullScreen() {
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
+
+    @Override
+    public void setTransparentStatusBar() {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+    }
+
+    @TargetApi(21)
+    @Override
+    public void clearTransparentStatusBar() {
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+    }
+
+    @Override
+    public void setActionBarColor(int drawable) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setBackgroundDrawable(ContextCompat.getDrawable(this, drawable));
+        }
+    }
+
+    @Override
+    public void setFragmentTitle(int title) {
+        setTitle(title);
+
+    }
+
+    @Override
+    public void setBottomNavigationColor(NavigationColor color) {
+        ColorStateList colorStateList = NavigationColor.Companion.getColorStateList(
+                ContextCompat.getColor(this, color.getPrimaryColor()),
+                ContextCompat.getColor(this, color.getSecondaryColor())
+        );
+
+        mNavigation.setItemIconTintList(colorStateList);
+        mNavigation.setItemTextColor(colorStateList);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,15 +119,19 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         // Add the toolbar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mNavigation = (BottomNavigationView) findViewById(R.id.navigation);
+        mMenuItem = mNavigation.getMenu().getItem(0);
+        mMenuItem.setTitle(R.string.title_home);
         setSupportActionBar(mToolbar);
+        updateFragment(WelcomeFragment.Companion.getInstance());
 
         // If Activity opened from push notification, value will reflect fragment that will initially open
         notif = getIntent().getStringExtra("notif_link");
         PROJECT_NUMBER = getString(R.string.gcm_server_id);
 
         //Instantiate fragments
-        countdownFragment = new CountdownFragment();
-//        announcementsFragment = new AnnouncementsFragment();
+//        countdownFragment = new WelcomeFragment();
+//        announcementsFragment = new AnnouncementFragment();
 //        scheduleFragment = new ScheduleFragment();
 //        settingsFragment = new SettingsFragment();
 //        mapViewFragment = new MapViewFragment();
@@ -88,11 +141,17 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 //
 //        updateFragment(countdownFragment);
         updateGcm();
+        if (true) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        mNavigation.setOnNavigationItemSelectedListener(this);
 
         if (notif != null) {
             // Opens Announcements
             if (notif.equals("Announcements")){
-                updateFragment(announcementsFragment);
+                // updateFragment(announcementsFragment);
             }
         }
     }
@@ -193,56 +252,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
 
-//        // Configure item selection listener
-//        mDrawer.setOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-//            @Override
-//            public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-//                Log.d(TAG, "nav position: " + position);
-//                mDrawer.closeDrawer();
-//
-//                NetworkManager manager = NetworkManager.getInstance();
-//                User user =  manager.getCurrentUser();
-//
-//                // switch 'i' aka position of item
-//                // indexing starts at 1 for some reason... probably because of the account header
-//                switch (position) {
-//                    case 1:
-//                        updateFragment(countdownFragment, true);
-//                        break;
-//                    case 2:
-//                        updateFragment(announcementsFragment, true);
-//                        break;
-//                    case 3:
-//                        updateFragment(scheduleFragment, true);
-//                        break;
-//                    case 4:
-//                        requestAndEnableLocation();
-//                        break;
-//                    case 5:
-//                        if (user != null) updateFragment(registrationFragment, true);
-//                        else requestLogin();
-//                        break;
-//                    case 6:
-//                        if (user != null) updateFragment(ticketFragment, true);
-//                        else requestLogin();
-//                        break;
-//                    case 8:
-//                        updateFragment(accountFragment, true);
-//                        break;
-//                    case 9:
-//                        updateFragment(settingsFragment, true);
-//                        break;
-//                    default:
-//                        return false;
-//                }
-//
-//                return true;
-//            }
-//        });
-//
-//    }
-//
-
 
     // Checks if the user can obtain the correct Google Play Services number
     private boolean checkPlayServices() {
@@ -282,11 +291,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private void updateFragment(Fragment fragment) {
         if (fragment == null) return; // only used for pre-release while fragments are not finalized
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        fragmentTransaction.replace(R.id.main_container, fragment);
-        fragmentTransaction.commit();
+        getSupportFragmentManager().
+                beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.main_container, fragment)
+                .commit();
     }
 
 //    private void requestAndEnableLocation() {
@@ -321,20 +330,55 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
      * @param v clicked View
      */
     public void scheduleFragmentClick(View v) {
-        if (v.getId() == R.id.event_close_button) scheduleFragment.scheduleFragmentClick(v);
+//        if (v.getId() == R.id.event_close_button) scheduleFragment.scheduleFragmentClick(v);
     }
+
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        /*
+            Necessary to set the global variable to the current MenuItem. There is a layout
+           issue where the menu images are clipped if the title is set to another item.
+        */
+
+        mMenuItem.setTitle("");
+        switch (item.getItemId()) {
+            case R.id.navigation_home:
+                item.setTitle(R.string.title_home);
+                updateFragment(WelcomeFragment.Companion.getInstance());
+                break;
+            case R.id.navigation_announcements:
+                item.setTitle(R.string.title_announcements);
+                updateFragment(AnnouncementFragment.getInstance());
+
+                break;
+            case R.id.navigation_events:
+                item.setTitle(R.string.title_events);
+                updateFragment(ScheduleFragment.getInstance());
+                break;
+            case R.id.navigation_map:
+                item.setTitle(R.string.title_map);
+                updateFragment(MapViewFragment.getInstance());
+                break;
+            case R.id.navigation_info:
+                item.setTitle(R.string.title_info);
+                updateFragment(InfoFragment.Companion.getInstance());
+                break;
+        }
+        mMenuItem = item;
+        return true;
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        Log.d(TAG, "ayy");
         switch (requestCode) {
             case LOCATION_REQUEST_CODE:
                 if (permissions.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED || grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
                     Log.d(TAG, "Location permissions granted");
                 }
-                updateFragment(mapViewFragment);
+                // updateFragment(mapViewFragment);
                 break;
         }
     }

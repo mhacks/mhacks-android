@@ -1,12 +1,10 @@
 package com.mhacks.android.ui.events;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +58,10 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
     // Declares the EventDetailsFragment
     private EventDetailsFragment eventDetailsFragment;
 
+    public static ScheduleFragment getInstance() {
+        return new ScheduleFragment();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,15 +98,15 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
         mWeekView.setTextSize(22);
         mWeekView.setHourHeight(120);
         mWeekView.setHeaderColumnPadding(8);
-        mWeekView.setHeaderColumnTextColor(getResources().getColor(R.color.header_column_text_color));
+//        mWeekView.setHeaderColumnTextColor(getResources().getColor(R.color.header_column_text_color));
         mWeekView.setHeaderRowPadding(16);
         mWeekView.setColumnGap(8);
         mWeekView.setHourSeparatorColor(Color.WHITE);
         mWeekView.setHourSeparatorHeight(4);
         mWeekView.setHeaderColumnBackgroundColor(Color.WHITE);
-        mWeekView.setHeaderRowBackgroundColor(getResources().getColor(R.color.header_row_bg_color));
-        mWeekView.setDayBackgroundColor(getResources().getColor(R.color.day_bg_color));
-        mWeekView.setTodayBackgroundColor(getResources().getColor(R.color.today_bg_color));
+//        mWeekView.setHeaderRowBackgroundColor(getResources().getColor(R.color.header_row_bg_color));
+//        mWeekView.setDayBackgroundColor(getResources().getColor(R.color.day_bg_color));
+//        mWeekView.setTodayBackgroundColor(getResources().getColor(R.color.today_bg_color));
         mWeekView.setHeaderColumnBackgroundColor(Color.BLACK);
         mWeekView.setOverlappingEventGap(2);
     }
@@ -182,17 +184,18 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
     public int getEventColor(int eventType) {
         switch (eventType) {
             case 0: // Logistics - GO BLUE
-                return ContextCompat.getColor(getActivity(), R.color.event_blue);
+//                return ContextCompat.getColor(getActivity(), R.color.event_blue);
             case 1: // Social - Red
-                return ContextCompat.getColor(getActivity(), R.color.event_red);
+//                return ContextCompat.getColor(getActivity(), R.color.event_red);
             case 2: // Food - MAIZE
-                return ContextCompat.getColor(getActivity(), R.color.event_yellow);
+//                return ContextCompat.getColor(getActivity(), R.color.event_yellow);
             case 3: // Tech Talk - Purple
-                return ContextCompat.getColor(getActivity(), R.color.event_purple);
+//                return ContextCompat.getColor(getActivity(), R.color.event_purple);
             case 4: // Other - Green
-                return ContextCompat.getColor(getActivity(), R.color.event_green);
+//                return ContextCompat.getColor(getActivity(), R.color.event_green);
             default:
-                return ContextCompat.getColor(getActivity(), R.color.event_blue);
+                return ContextCompat.getColor(getActivity(), R.color.md_cyan_50);
+//                return ContextCompat.getColor(getActivity(), R.color.event_blue);
         }
     }
 
@@ -241,32 +244,28 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
      * has not yet been declared or instantiated).
      */
     public void closeEventDetails () {
-        //Close the EventDetailsFragment
-        getActivity().getFragmentManager().beginTransaction()
-                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                     .remove(getFragmentManager().findFragmentById(R.id.drawer_layout)).commit();
-        setEventDetailsOpened(false);
+//R
 
 
     }
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-        if (!eventDetailsOpen) {
-            eventDetailsFragment =
-                    EventDetailsFragment.newInstance(mEvents.get((int) event.getId()), event.getColor());
-            eventDetailsFragment.setParent(this);
-            getActivity().getFragmentManager()
-                         .beginTransaction()
-                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                         .addToBackStack(null) //IMPORTANT. Allows the EventDetailsFragment to be closed.
-                         .add(R.id.drawer_layout, eventDetailsFragment)
-                         .commit();
-            //Hide the toolbar so the event details are full screen.
-            ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-            //Prevents other events from being clicked while one event's details are being shown.
-            setEventDetailsOpened(true);
-        }
+//        if (!eventDetailsOpen) {
+//            eventDetailsFragment =
+//                    EventDetailsFragment.newInstance(mEvents.get((int) event.getId()), event.getColor());
+//            eventDetailsFragment.setParent(this);
+//            getActivity().getFragmentManager()
+//                         .beginTransaction()R
+//                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+//                         .addToBackStack(null) //IMPORTANT. Allows the EventDetailsFragment to be closed.
+//                         .add(R.id.drawer_layout, eventDetailsFragment)
+//                         .commit();
+//            //Hide the toolbar so the event details are full screen.
+//            ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+//            //Prevents other events from being clicked while one event's details are being shown.
+//            setEventDetailsOpened(true);
+//        }
     }
 
     @Override

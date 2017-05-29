@@ -3,9 +3,7 @@ package com.mhacks.android.ui.registration;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.SearchManager;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,13 +12,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -30,7 +25,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mhacks.android.data.model.Scan;
 import com.mhacks.android.data.model.ScanData;
@@ -40,7 +34,6 @@ import com.mhacks.android.data.network.NetworkManager;
 
 import org.mhacks.android.R;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -61,6 +54,28 @@ public class RegistrationFragment extends Fragment{
     private ProgressBar          loadingData;
 
     private HashMap<String, ScanEvent> scanEvents;
+
+    private static AlertDialog showDialog(final Activity act, CharSequence title, CharSequence message, CharSequence button_yes, CharSequence button_no) {
+        AlertDialog.Builder downloadDialog = new AlertDialog.Builder(act);
+        downloadDialog.setTitle(title);
+        downloadDialog.setMessage(message);
+        downloadDialog.setPositiveButton(button_yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                try {
+                    act.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + "com.google.zxing.client.android")));
+                } catch (ActivityNotFoundException anfe) {
+
+                }
+            }
+        });
+        downloadDialog.setNegativeButton(button_no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        return downloadDialog.show();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -170,7 +185,7 @@ public class RegistrationFragment extends Fragment{
                 if (response.isScanned()) {
                     Button button = new Button(getActivity());
                     button.setText("Confirm Scan");
-                    button.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.bright_green));
+                    button.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.md_cyan_50));
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -229,28 +244,6 @@ public class RegistrationFragment extends Fragment{
 
         scanType.setAdapter(spinnerAdapter);
         spinnerAdapter.notifyDataSetChanged();
-    }
-
-    private static AlertDialog showDialog(final Activity act, CharSequence title, CharSequence message, CharSequence button_yes, CharSequence button_no) {
-        AlertDialog.Builder downloadDialog = new AlertDialog.Builder(act);
-        downloadDialog.setTitle(title);
-        downloadDialog.setMessage(message);
-        downloadDialog.setPositiveButton(button_yes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                try {
-                    act.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + "com.google.zxing.client.android")));
-                } catch (ActivityNotFoundException anfe){
-
-                }
-            }
-        });
-        downloadDialog.setNegativeButton(button_no, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
-        });
-        return downloadDialog.show();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent){

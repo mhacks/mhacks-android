@@ -1,16 +1,11 @@
 package com.mhacks.android.ui.map;
 
 import android.Manifest;
-import android.app.Fragment;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.location.Criteria;
-import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,8 +18,8 @@ import android.widget.Spinner;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
@@ -33,7 +28,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.mhacks.android.data.model.Floor;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
-import com.mhacks.android.ui.MainActivity;
 
 import org.mhacks.android.R;
 
@@ -49,17 +43,18 @@ import java.util.List;
 public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
     public static final String TAG = "MapViewFragment";
-
-    // Views
-    private    View      mMapFragView;
-    public     Spinner  nameView;
-
-    // Map
-    private MapFragment mMapFragment;
-    private GoogleMap   mGoogleMap;
-
+    public Spinner nameView;
     // Data
     ArrayList<Floor> floors;
+    // Views
+    private    View      mMapFragView;
+    // Map
+    private SupportMapFragment mMapFragment;
+    private GoogleMap   mGoogleMap;
+
+    public static MapViewFragment getInstance() {
+        return new MapViewFragment();
+    }
 
     @Nullable
     @Override
@@ -120,7 +115,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
     private void setUpMapIfNeeded() {
         if (mMapFragment == null) {
-            mMapFragment = MapFragment.newInstance();
+            mMapFragment = SupportMapFragment.newInstance();
             getFragmentManager().beginTransaction().replace(R.id.map, mMapFragment).commit();
         }
 
@@ -193,4 +188,5 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     public void onDestroyView() {
         super.onDestroyView();
     }
+
 }

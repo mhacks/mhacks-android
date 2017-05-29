@@ -4,8 +4,6 @@
 
     <item android:drawable="@drawable/adapter_card_body_shadow"/>
 
-    <item
-        android:drawable="@drawable/adapter_card_content"
-        android:id="@+id/adapter_card_body_shape"/>
+    <item android:drawable="@drawable/adapter_card_content" />
 
 </layer-list>

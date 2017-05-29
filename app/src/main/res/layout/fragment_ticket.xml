@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
-    android:background="@color/ow_drawer_background"
-    android:layout_height="fill_parent">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
 
     <TextView
-        android:layout_gravity="center_horizontal"
         android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"/>
 
-    <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/ticket_image"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:scaleType="fitCenter"
         android:adjustViewBounds="true"
-        android:id="@+id/ticket_image" android:contentDescription="my ticket" />
+        android:contentDescription="my ticket"
+        android:scaleType="fitCenter" />
 
 </LinearLayout>

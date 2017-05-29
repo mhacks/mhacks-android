@@ -7,7 +7,6 @@ package com.mhacks.android.data.network.gcm;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,18 +15,15 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.mhacks.android.ui.MainActivity;
-import com.mhacks.android.data.network.gcm.GcmBroadcastReceiver;
-import com.mhacks.android.ui.announcements.AnnouncementsFragment;
 
 import org.mhacks.android.R;
 
 
 public class GcmIntentService extends IntentService {
     public static final int NOTIFICATION_ID = 1;
-    private NotificationManager mNotificationManager;
-
-    private Handler handler;
     String mes;
+    private NotificationManager mNotificationManager;
+    private Handler handler;
     public GcmIntentService() {
         super("GcmMessageHandler");
     }

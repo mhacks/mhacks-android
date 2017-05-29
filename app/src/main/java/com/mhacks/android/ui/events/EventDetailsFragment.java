@@ -4,50 +4,43 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import org.mhacks.android.R;
-
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.Location;
-import com.mhacks.android.data.network.HackathonCallback;
-import com.mhacks.android.data.network.NetworkManager;
 import com.mhacks.android.ui.map.LocationManager;
+
+import org.mhacks.android.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 /**
  * Created by Omkar Moghe on 12/25/2014.
  *
- * Uses and Event object to create a detailed view with all the info about the event.
+ * Uses and Event object to create a detailed view with all the fragment_info about the event.
  * Called from the WeekView's onEventClicked listener.
  */
 public class EventDetailsFragment extends Fragment {
 
     private static final String TAG = "EventDetailsFragment";
-
-    // Decalre Views.
-    private View     mEventDetailsFragView;
-    private TextView eventNameTV, eventTimeTV, eventLocationNameTV, eventInfoTV;
-    private View colorBlock; //Header color. Matches color of event in calendar.
-    private FrameLayout eventInfoFrame, eventLocationNameFrame;
-
     // Date arrays
     private final String[] dayOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
                                         "Friday", "Saturday"};
     private final String[] monthOfYear = {"January", "February", "March", "April", "May", "June",
                                           "July", "August", "September", "October", "November",
                                           "December"};
-
+    // Decalre Views.
+    private View mEventDetailsFragView;
+    private TextView eventNameTV, eventTimeTV, eventLocationNameTV, eventInfoTV;
+    private View colorBlock; //Header color. Matches color of event in calendar.
+    private FrameLayout eventInfoFrame, eventLocationNameFrame;
     // Event Details
     private String eventName;
     private String eventInfo;
@@ -68,7 +61,7 @@ public class EventDetailsFragment extends Fragment {
 
         Bundle args = new Bundle();
         args.putString("title", event.getName());
-        args.putString("info", event.getInfo());
+        args.putString("fragment_info", event.getInfo());
         args.putCharSequenceArray("locationIds", event.getLocations()
                                                       .toArray(new CharSequence[event.getLocations().size()]));
         args.putLong("startTime", event.getStart());
@@ -86,7 +79,7 @@ public class EventDetailsFragment extends Fragment {
         // Either has all of the keys or none, so only checking for the title.
         if (args.containsKey("title")) {
             eventName = args.getString("title");
-            eventInfo = args.getString("info");
+            eventInfo = args.getString("fragment_info");
             eventLocationIds = args.getCharSequenceArray("locationIds");
             eventStartTime = new Date(args.getLong("startTime"));
             eventEndTime = new Date(args.getLong("startTime") + (args.getLong("duration") * 1000));
@@ -129,7 +122,7 @@ public class EventDetailsFragment extends Fragment {
     }
 
     /**
-     * Method to use the Event object to populate the view using the appropriate info.
+     * Method to use the Event object to populate the view using the appropriate fragment_info.
      */
     public void setEventDetails() {
         // These better exist...

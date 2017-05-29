@@ -18,9 +18,10 @@ abstract class BaseFragment : Fragment() {
 
     abstract var FragmentColor: Int set
     abstract var AppBarTitle: Int set
-    abstract var NavigationStateList: Int set
+    abstract var NavigationColor: NavigationColor set
     abstract var LayoutResourceID: Int set
-    abstract var configureView: (view: View) -> View? set
+    abstract var configureView: (view: View) -> Unit? set
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,17 +38,16 @@ abstract class BaseFragment : Fragment() {
     private fun changeColors() {
         mCallback!!.setFragmentTitle(AppBarTitle)
         mCallback!!.setActionBarColor(FragmentColor)
-//        if (colorResource == android.R.color.transparent) {
-//            mCallback.setBottomNavigationColor(setNavigationStateList())
-//        }
+        mCallback!!.setBottomNavigationColor(NavigationColor)
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            mCallback.setBottomNavigationColor(setNavigationStateList())
+            mCallback!!.setStatusBarColor(android.R.color.transparent)
+            mCallback!!.setTransparentStatusBar()
             if (FragmentColor == android.R.color.transparent) {
                 mCallback!!.setTransparentStatusBar()
             } else {
-                mCallback!!.clearTransparentStatusBar()
-                mCallback!!.setStatusBarColor(FragmentColor)
+//                mCallback!!.clearTransparentStatusBar()
+//                mCallback!!.setStatusBarColor(FragmentColor)
                 mCallback!!.setLayoutFullScreen()
 
 
@@ -70,5 +70,7 @@ abstract class BaseFragment : Fragment() {
         fun setLayoutFullScreen()
 
         fun setStatusBarColor(color: Int)
+
+        fun setBottomNavigationColor(color: NavigationColor)
     }
 }

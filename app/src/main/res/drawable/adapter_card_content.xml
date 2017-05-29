@@ -7,7 +7,7 @@
     <corners
         android:bottomLeftRadius="@dimen/adapter_card_radius"
         android:bottomRightRadius="@dimen/adapter_card_radius"/>
-    <solid android:color="@color/adapter_card_color"/>
+    <solid android:color="@android:color/black" />
     <padding
         android:bottom="@dimen/adapter_card_padding"
         android:left="@dimen/adapter_card_padding"

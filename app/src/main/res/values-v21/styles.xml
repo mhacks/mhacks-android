@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="MHacks" parent="android:Theme.Material.Light.NoActionBar" >
-        <item name="android:colorPrimary">@color/primary_material_light</item>
-        <item name="android:colorPrimaryDark">@color/primary_dark_material_light</item>
-        <item name="android:colorAccent">@color/accent_material_light</item>
-        <item name="android:colorBackground">@color/background_material_light</item>
+        <item name="colorPrimary">@android:color/holo_red_light</item>
+        <item name="colorPrimaryDark">@android:color/holo_red_light</item>
+        <item name="colorAccent">@android:color/holo_red_light</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
     </style>
 </resources>
