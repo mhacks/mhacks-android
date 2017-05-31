@@ -43,8 +43,7 @@
                         android:layout_height="25dp"
                         android:layout_gravity="end|right"
                         android:layout_margin="5dp"
-                        android:text="3/2/1996"
-                        android:textColor="@color/md_grey_600"/>
+                        android:text="3/2/1996" />
 
                 </FrameLayout>
 
@@ -53,8 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="Event info goes here..."
-                    android:textColor="@color/md_grey_600" />
+                    android:text="Event info goes here..." />
 
             </LinearLayout>
 
