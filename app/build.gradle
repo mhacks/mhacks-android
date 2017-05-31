@@ -71,6 +71,9 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.pacioianu.david:ink-page-indicator:1.2.0'
+    compile('com.mikepenz:materialdrawer:5.6.0@aar') {
+        transitive = true
+    }
     compile "org.jetbrains.anko:anko:$anko_version"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile 'com.android.support:appcompat-v7:25.3.1'
