@@ -25,7 +25,7 @@ class LoginViewPagerFragment: Fragment(){
             super.onCreate(savedInstanceState)
             login_viewpager.setAdapter(LoginViewPagerAdapter(context))
         }
-        companion object {
+    companion object {
         val instance
             get() = LoginViewPagerFragment()
     }

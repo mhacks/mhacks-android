@@ -31,13 +31,18 @@ import java.util.List;
 public class AnnouncementFragment extends Fragment {
     //Local datastore pin title.
     public static final String ANNOUNCEMENT_PIN = "announcementPin";
+
     private static final String TAG = "MD/Announcements";
+
     //Current query
     private final NetworkManager networkManager = NetworkManager.getInstance();
+
     // Caches all the Announcements found
     ArrayList<Announcement> mAnnouncementsList;
+
     // Caches the listView layout
     RecyclerView mRecyclerView;
+
     // Adapter for the listView
     MainNavAdapter mListAdapter;
 

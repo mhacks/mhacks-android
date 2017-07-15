@@ -27,7 +27,6 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.mhacks.android.data.model.Token;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
-import com.mhacks.android.ui.announcements.AnnouncementFragment;
 import com.mhacks.android.ui.common.BaseFragment;
 import com.mhacks.android.ui.common.NavigationColor;
 import com.mhacks.android.ui.countdown.WelcomeFragment;
@@ -35,7 +34,7 @@ import com.mhacks.android.ui.events.ScheduleFragment;
 import com.mhacks.android.ui.info.InfoFragment;
 import com.mhacks.android.ui.map.MapViewFragment;
 import com.mhacks.android.ui.settings.SettingsFragment;
-
+import com.mhacks.android.ui.kotlin.announcements.AnnouncementFragment;
 import org.mhacks.android.R;
 import org.mhacks.mhacks.login.LoginActivity;
 
@@ -131,18 +130,6 @@ public class MainActivity extends AppCompatActivity implements
         // If Activity opened from push notification, value will reflect fragment that will initially open
         notif = getIntent().getStringExtra("notif_link");
         PROJECT_NUMBER = getString(R.string.gcm_server_id);
-
-        //Instantiate fragments
-//        countdownFragment = new WelcomeFragment();
-//        announcementsFragment = new AnnouncementFragment();
-//        scheduleFragment = new ScheduleFragment();
-//        settingsFragment = new SettingsFragment();
-//        mapViewFragment = new MapViewFragment();
-//        registrationFragment = new RegistrationFragment();
-//        ticketFragment = new TicketFragment();
-//        accountFragment = new AccountFragment();
-//
-//        updateFragment(countdownFragment);
 
         updateGcm();
         /*if (true) {
@@ -352,7 +339,7 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             case R.id.navigation_announcements:
                 item.setTitle(R.string.title_announcements);
-                updateFragment(AnnouncementFragment.getInstance());
+                updateFragment(AnnouncementFragment.Companion.getInstance());
 
                 break;
             case R.id.navigation_events:
