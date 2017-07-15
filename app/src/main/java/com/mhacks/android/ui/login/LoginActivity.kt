@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
-import org.jetbrains.anko.toast
+import com.mhacks.android.ui.login.components.LoginFragment
 import org.mhacks.android.R
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 
@@ -14,9 +14,17 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.MHacksTheme)
         setStatusBarTransparent()
         setContentView(R.layout.activity_login)
-        toast("asdf")
+        switchFragment(LoginFragment.instance)
+    }
+
+    fun switchFragment(fragment: android.support.v4.app.Fragment) {
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.login_container, fragment)
+                .commit()
     }
 
     fun setStatusBarTransparent() {

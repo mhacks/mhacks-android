@@ -47,6 +47,7 @@ android {
         versionName "9.0.0"
         resValue "string", "gcm_server_id", gcm_server_id
         resValue "string", "google_maps_api_key", google_maps_api_key
+        vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
     buildTypes {

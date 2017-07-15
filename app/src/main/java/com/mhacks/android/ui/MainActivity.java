@@ -52,16 +52,19 @@ public class MainActivity extends AppCompatActivity implements
         BaseFragment.OnNavigationChangeListener {
 
     public static final String TAG = "org.MHacks/MainActivity";
+
     // Permissions
     public static final int LOCATION_REQUEST_CODE = 7;
     String regid;
     String PROJECT_NUMBER;
     String notif;
+
     // Toolbar
     private Toolbar mToolbar;
     private boolean val;
     private BottomNavigationView mNavigation;
     private MenuItem mMenuItem;
+
     //GCM
     private GoogleCloudMessaging gcm;
 
@@ -97,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void setFragmentTitle(int title) {
         setTitle(title);
-
     }
 
     @Override
@@ -114,9 +116,8 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setTheme(R.style.MHacksTheme);
         setContentView(R.layout.activity_main);
-
         // Add the toolbar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mNavigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -124,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements
         mMenuItem.setTitle(R.string.title_home);
         setSupportActionBar(mToolbar);
         updateFragment(WelcomeFragment.Companion.getInstance());
+
 
         // If Activity opened from push notification, value will reflect fragment that will initially open
         notif = getIntent().getStringExtra("notif_link");
@@ -140,12 +142,14 @@ public class MainActivity extends AppCompatActivity implements
 //        accountFragment = new AccountFragment();
 //
 //        updateFragment(countdownFragment);
-        updateGcm();
-        if (true) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        }
+//        updateGcm();
+
+
+//        if (true) {
+//            Intent intent = new Intent(this, LoginActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
         mNavigation.setOnNavigationItemSelectedListener(this);
 
         if (notif != null) {
@@ -337,7 +341,7 @@ public class MainActivity extends AppCompatActivity implements
 
         /*
             Necessary to set the global variable to the current MenuItem. There is a layout
-           issue where the menu images are clipped if the title is set to another item.
+            issue where the menu images are clipped if the title is set to another item.
         */
 
         mMenuItem.setTitle("");
