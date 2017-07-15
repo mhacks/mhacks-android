@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void setLayoutFullScreen() {
+
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 
@@ -141,11 +142,11 @@ public class MainActivity extends AppCompatActivity implements
 //
 //        updateFragment(countdownFragment);
         updateGcm();
-        if (true) {
+        /*if (true) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
-        }
+        }*/
         mNavigation.setOnNavigationItemSelectedListener(this);
 
         if (notif != null) {
