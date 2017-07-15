@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--There's a nullpointer exception caused when rendering this -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/schedule_container"
     android:orientation="vertical"
     android:layout_width="fill_parent" android:layout_height="fill_parent"
