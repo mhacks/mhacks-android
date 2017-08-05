@@ -1,6 +1,13 @@
 package com.mhacks.android.ui.info
 
+import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import org.mhacks.android.R
+import kotlinx.android.synthetic.*
+
 
 /**
  * Created by jeffreychang on 5/26/17.
@@ -16,8 +23,24 @@ class InfoFragment : Fragment() {
 //
 //    }
 
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater!!.inflate(R.layout.fragment_info, container, false)
+
+        return view
+    }
+
+    /*override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        email_sign_in_button.setOnClickListener(this);
+    }
+    override fun onClick(v: View?) {
+        (activity as LoginActivity)
+                .switchFragment(LoginViewPagerFragment.instance)
+    }*/
+
+
     companion object {
         val instance
             get() = InfoFragment()
     }
 }
+
