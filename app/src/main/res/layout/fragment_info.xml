@@ -4,4 +4,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ExpandableListView
+        android:layout_width="match_parent"
+        android:layout_height="72dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:paddingRight="10dip"
+        android:text="@string/wifi_name"
+        android:textSize="24sp"
+
+        />
+
 </LinearLayout>
