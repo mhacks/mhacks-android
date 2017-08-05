@@ -1,80 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ef"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:animateLayoutChanges="true"
-    android:orientation="vertical"
-    >
-
-    <!-- ViewGroup for top titles -->
-    <LinearLayout
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/margin_countdown_text_groupoffset"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_countdown_normaltitles"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_countdown_normaltitles"
-            />
-
-    </LinearLayout>
-
-    <!-- ViewGroup for top titles -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/margin_countdown_text_groupoffset"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_countdown_normaltitles"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_countdown_normaltitles"
-            />
-
-    </LinearLayout>
-
-    <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/progressbar_circular_background"
-        android:indeterminate="false"
-        android:max="100"
-        android:progress="0"
-        android:progressDrawable="@drawable/progressbar_circular_progressdraw" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:paddingRight="10dip"
-        android:text="@string/countdown_timer_default"
-        android:textSize="@dimen/text_countdown_timertext"
-        />
-
-</RelativeLayout>
+        android:layout_height="wrap_content">
+        <FrameLayout
+            android:layout_width="300dp"
+            android:layout_height="300dp" />
+    </RelativeLayout>
+</ScrollView>

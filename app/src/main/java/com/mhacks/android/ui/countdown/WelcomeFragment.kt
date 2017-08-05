@@ -12,7 +12,7 @@ import org.mhacks.android.R
 
 class WelcomeFragment : BaseFragment() {
 
-    override var FragmentColor: Int = R.drawable.gradient_welcome
+    override var FragmentColor: Int = R.color.colorPrimary
     override var AppBarTitle: Int = R.string.welcome
     override var LayoutResourceID: Int = R.layout.fragment_welcome
     override var configureView: (view: View) -> Unit? = fun(view: View) {
@@ -20,7 +20,7 @@ class WelcomeFragment : BaseFragment() {
 //                f.setBackgroundColor(R.color.md_indigo_800)
 
     }
-    override var NavigationColor: NavigationColor = NavigationColor(R.color.welcomePrimary, R.color.welcomeSecondary)
+    override var NavigationColor: NavigationColor = NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark)
 
     companion object {
         val instance get() = WelcomeFragment()
