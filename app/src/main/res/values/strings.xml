@@ -49,4 +49,11 @@
     <string name="password">Password</string>
     <string name="username">Username</string>
 
+
+    <!-- Strings for the Info Page -->
+    <string name="wifi_name">InsertNameofWiFiNetwork</string>
+    <string name="wifi_username">InsertUsername</string>
+    <string name="wifi_password">InsertPassword</string>
+
+
 </resources>

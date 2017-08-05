@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -133,30 +134,24 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         settings.setCompassEnabled(true);
         settings.setTiltGesturesEnabled(true);
 
-        CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(42.292650, -83.714359));
-        CameraUpdate zoom = CameraUpdateFactory.zoomTo(17);
-        LatLngBounds uMichigan = new LatLngBounds(
+        //CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(42.292650, -83.714359));
+        //CameraUpdate zoom = CameraUpdateFactory.zoomTo(13);
+        /*LatLngBounds uMichigan = new LatLngBounds(
                 new LatLng(42.264257, -83.755700), new LatLng(42.301539, -83.703797));
-        //mGoogleMap.setLatLngBoundsForCameraTarget(uMichigan);
+        mGoogleMap.setLatLngBoundsForCameraTarget(uMichigan);*/
+
+        CameraUpdate center = CameraUpdateFactory.newCameraPosition(
+                new CameraPosition.Builder()
+                        .target(new LatLng(42.292650, -83.714359))
+                        .zoom(15)
+                        .bearing(0)
+                        .tilt(0)
+                        .build()
+        );
 
         if (ContextCompat.checkSelfPermission(this.getActivity().getApplicationContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            // Should we show an explanation?
-            /*if (ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-            } else {
-                // No explanation needed, we can request the permission.
-                //ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }*/
             requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
 
@@ -168,8 +163,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
             //Permission was denied.
         }
 
-        mGoogleMap.moveCamera(center);
-        mGoogleMap.animateCamera(zoom);
+        googleMap.animateCamera(center);
     }
 
 
