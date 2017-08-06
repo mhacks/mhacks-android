@@ -1,22 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
 
-    <ExpandableListView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="72dp" />
+        android:layout_height="62dp"
+        android:orientation="horizontal"
+        android:layout_weight="0.20">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:paddingRight="10dip"
-        android:text="@string/wifi_name"
-        android:textSize="24sp"
+        <ImageView
+            android:id="@+id/wifi_icon"
+            android:layout_width="124dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_wifi_black_24dp" />
 
-        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/wifi_domain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+
+                android:paddingRight="10dip"
+                android:text="@string/wifi_name"
+                android:textSize="24sp"
+                android:layout_weight="0.10" />
+
+            <TextView
+                android:id="@+id/wifi_username_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.10"
+                android:text="@string/wifi_username_title" />
+
+            <TextView
+                android:id="@+id/wifi_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.10"
+                android:text="@string/wifi_username_value" />
+
+            <TextView
+                android:id="@+id/wifi_password_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.10"
+                android:text="@string/wifi_password_title" />
+
+            <TextView
+                android:id="@+id/wifi_password_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.10"
+                android:text="@string/wifi_password_value" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
