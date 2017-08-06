@@ -1,9 +1,10 @@
-package com.mhacks.android.ui.kotlin.map
+package com.mhacks.android.ui.map
 
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.util.Log
@@ -13,43 +14,46 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+
+import com.google.android.gms.maps.CameraUpdate
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.UiSettings
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.GroundOverlayOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MarkerOptions
 import com.mhacks.android.data.model.Floor
 import com.mhacks.android.data.network.HackathonCallback
 import com.mhacks.android.data.network.NetworkManager
+import com.mhacks.android.ui.common.BaseFragment
+import com.mhacks.android.ui.common.NavigationColor
+import kotlinx.android.synthetic.main.fragment_map.*
+import kotlinx.android.synthetic.main.fragment_ticket.*
+
 import org.mhacks.android.R
+
 import java.util.ArrayList
 
 /**
- * Created by Shashank on 7/15/2017.
-    Displays Maps of the MHacks 10 Venues
+ * Created by anksh on 12/31/2014.
+ * Updated by omkarmoghe on 10/6/16
+
+ * Displays maps of the MHacks 8 venues.
  */
+class MapViewFragment : BaseFragment(), OnMapReadyCallback {
 
+    override var FragmentColor: Int = R.color.semitransparent_theme_primary
+    override var AppBarTitle: Int = R.string.title_map
+    override var NavigationColor: NavigationColor = NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark)
+    override var LayoutResourceID: Int = R.layout.fragment_map
+    override var configureView: (view: View) -> Unit? = fun(view: View) {
 
-class MapViewFragment : Fragment(), OnMapReadyCallback {
-    lateinit var nameView: Spinner
-    // Data
-    lateinit internal var floors: ArrayList<Floor>
-    // Views
-    private var mMapFragView: View? = null
-    // Map
-    private var mMapFragment: SupportMapFragment? = null
-    private var mGoogleMap: GoogleMap? = null
-
-    override fun onCreateView(inflater: LayoutInflater?,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        if (mMapFragView == null) mMapFragView = inflater!!.inflate(R.layout.fragment_map, container, false)
-
-        nameView = mMapFragView!!.findViewById<Spinner>(R.id.name)
-
+        nameView = map_view_name
         setUpMapIfNeeded()
 
         val networkManager = NetworkManager.getInstance()
@@ -88,10 +92,16 @@ class MapViewFragment : Fragment(), OnMapReadyCallback {
                 Log.e(TAG, "unable to get floors", error)
             }
         })
-
-
-        return mMapFragView
     }
+    lateinit var nameView: Spinner
+    // Data
+    lateinit var floors: ArrayList<Floor>
+    // Views
+    private var mMapFragView: View? = null
+    // Map
+    private var mMapFragment: SupportMapFragment? = null
+    private var mGoogleMap: GoogleMap? = null
+
 
     private fun setUpMapIfNeeded() {
         if (mMapFragment == null) {
@@ -105,34 +115,28 @@ class MapViewFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mGoogleMap = googleMap
         googleMap.isBuildingsEnabled = true
-
+        googleMap.setPadding(0, 200, 0, 0)
         val settings = mGoogleMap!!.uiSettings
         settings.isCompassEnabled = true
         settings.isTiltGesturesEnabled = true
 
-        val center = CameraUpdateFactory.newLatLng(LatLng(42.292650, -83.714359))
-        val zoom = CameraUpdateFactory.zoomTo(17f)
-        val uMichigan = LatLngBounds(
-                LatLng(42.264257, -83.755700), LatLng(42.301539, -83.703797))
-        //mGoogleMap.setLatLngBoundsForCameraTarget(uMichigan);
+        //CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(42.292650, -83.714359));
+        //CameraUpdate zoom = CameraUpdateFactory.zoomTo(13);
+        /*LatLngBounds uMichigan = new LatLngBounds(
+                new LatLng(42.264257, -83.755700), new LatLng(42.301539, -83.703797));
+        mGoogleMap.setLatLngBoundsForCameraTarget(uMichigan);*/
+
+        val center = CameraUpdateFactory.newCameraPosition(
+                CameraPosition.Builder()
+                        .target(LatLng(42.292650, -83.714359))
+                        .zoom(15f)
+                        .bearing(0f)
+                        .tilt(0f)
+                        .build()
+        )
 
         if (ContextCompat.checkSelfPermission(this.activity.applicationContext,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // Should we show an explanation?
-            /*if (ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-            } else {
-                // No explanation needed, we can request the permission.
-                //ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }*/
             requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
         }
 
@@ -143,8 +147,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback {
             //Permission was denied.
         }
 
-        mGoogleMap!!.moveCamera(center)
-        mGoogleMap!!.animateCamera(zoom)
+        googleMap.animateCamera(center)
     }
 
 

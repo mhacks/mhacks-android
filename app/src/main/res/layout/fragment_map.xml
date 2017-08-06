@@ -5,17 +5,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <FrameLayout
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="visible"/>
     <Spinner android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_gravity="start|top"
         android:textSize="24sp"
-        android:id="@+id/name">
+        android:id="@+id/map_view_name">
     </Spinner>
-
-    <FrameLayout
-        android:id="@+id/map"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible"/>
 
 </LinearLayout>

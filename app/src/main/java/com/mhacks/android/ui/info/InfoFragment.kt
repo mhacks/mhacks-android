@@ -1,31 +1,21 @@
 package com.mhacks.android.ui.info
 
-import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import com.mhacks.android.ui.common.BaseFragment
+import com.mhacks.android.ui.common.NavigationColor
 import org.mhacks.android.R
-import kotlinx.android.synthetic.*
 
 /**
  * Created by jeffreychang on 5/26/17.
  */
-class InfoFragment : Fragment() {
-//
-//    override var FragmentColor: Int = android.R.color.holo_green_light
-//    override var AppBarTitle: Int = R.string.welcome
-//    override var NavigationStateList: Int = R.color.darkBlue
-//    override var LayoutResourceID: Int = R.layout.fragment_info
-//    override var configureView: (view: View) -> Unit? = fun(view: View) {
-//
-//
-//    }
+class InfoFragment : BaseFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater!!.inflate(R.layout.fragment_info, container, false)
+    override var FragmentColor: Int = android.R.color.transparent
+    override var AppBarTitle: Int = R.string.title_info
+    override var NavigationColor: NavigationColor = NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark)
+    override var LayoutResourceID: Int = R.layout.fragment_info
+    override var configureView: (view: View) -> Unit? = fun(view: View) {
 
-        return view
     }
 
     /*override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {

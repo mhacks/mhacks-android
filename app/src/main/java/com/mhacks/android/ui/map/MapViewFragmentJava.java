@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -27,7 +26,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.mhacks.android.data.model.Floor;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
@@ -43,9 +41,9 @@ import java.util.List;
  *
  * Displays maps of the MHacks 8 venues.
  */
-public class MapViewFragment extends Fragment implements OnMapReadyCallback {
+public class MapViewFragmentJava extends Fragment implements OnMapReadyCallback {
 
-    public static final String TAG = "MapViewFragment";
+    public static final String TAG = "MapViewFragmentJava";
     public Spinner nameView;
     // Data
     ArrayList<Floor> floors;
@@ -55,8 +53,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     private SupportMapFragment mMapFragment;
     private GoogleMap   mGoogleMap;
 
-    public static MapViewFragment getInstance() {
-        return new MapViewFragment();
+    public static MapViewFragmentJava getInstance() {
+        return new MapViewFragmentJava();
     }
 
     @Nullable

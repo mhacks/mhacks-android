@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-  compileSdkVersion 22
+  compileSdkVersion 26
   buildToolsVersion "22.0.1"
 
   defaultConfig {
     minSdkVersion 17
-    targetSdkVersion 23
+    targetSdkVersion 26
     versionName "7.0.2"
     versionCode((int) (System.currentTimeMillis() / 1000))
     consumerProguardFiles 'consumer-proguard-rules.pro'
@@ -20,6 +20,6 @@ android {
 }
 
 dependencies {
-  compile 'com.android.support:support-annotations:22.2.0'
+  compile 'com.android.support:support-annotations:26.0.0'
 }
 

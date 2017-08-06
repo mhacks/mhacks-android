@@ -99,7 +99,7 @@ MERGED from com.android.support:support-v4:21.0.3:16:5
 		ADDED from AndroidManifest.xml:34:9
 	android:title
 		ADDED from AndroidManifest.xml:31:9
-activity#com.mhacks.android.ui.MainActivity
+activity#com.mhacks.android.ui.SecondaryActivity
 ADDED from AndroidManifest.xml:38:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:42:13

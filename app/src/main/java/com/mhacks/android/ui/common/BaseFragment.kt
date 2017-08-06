@@ -28,13 +28,16 @@ abstract class BaseFragment : Fragment() {
         mCallback = activity as OnNavigationChangeListener
     }
 
-    override final fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override final   fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         changeColors()
         val view = inflater!!.inflate(LayoutResourceID, container, false)
-        configureView(view)
         return view
     }
 
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        configureView(view!!)
+    }
     private fun changeColors() {
         mCallback!!.setFragmentTitle(AppBarTitle)
         mCallback!!.setActionBarColor(FragmentColor)
@@ -53,8 +56,6 @@ abstract class BaseFragment : Fragment() {
 
             }
         }
-
-
     }
 
     interface OnNavigationChangeListener {
@@ -72,5 +73,6 @@ abstract class BaseFragment : Fragment() {
         fun setStatusBarColor(color: Int)
 
         fun setBottomNavigationColor(color: NavigationColor)
+
     }
 }

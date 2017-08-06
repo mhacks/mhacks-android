@@ -85,7 +85,6 @@
             android:name="android.app.default_searchable"
             android:value=".SearchResultsActivity" />
 
-        <activity android:name="com.mhacks.android.ui.login.LoginActivity"></activity>
     </application>
 
 </manifest>

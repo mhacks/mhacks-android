@@ -239,7 +239,7 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
 
     /**
      * Finds the instance of the EventDetails fragment that is in the R.id.drawer_layout and closes
-     * it. Uses findFragmentById because the MainActivity can create an EventDetailsFragment from
+     * it. Uses findFragmentById because the SecondaryActivity can create an EventDetailsFragment from
      * a push notification when the ScheduleFragment itself is not open, (ie eventDetailsFragment
      * has not yet been declared or instantiated).
      */
