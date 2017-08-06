@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/gradiant_background"
     android:orientation="vertical"
     tools:context="com.mhacks.android.ui.MainActivity">
 
-    <include layout="@layout/toolbar_main"/>
+    <include layout="@layout/toolbar_main" />
 
     <!--this is the layout that the fragment manager replaces-->
 
