@@ -8,6 +8,7 @@
     <color name="mintGreen">#66BB6A</color>
     <color name="blueGrey">#37474F</color>
     <color name="brown">#A1887F</color>
+    <color name="pinkText">#F4A3A7</color>
 
     <!--Global color themes-->
     <color name="colorPrimary">#5D3E6E</color>

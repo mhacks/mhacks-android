@@ -12,12 +12,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
-    <!-- Push notification stuff -->
-    <permission
-        android:name="com.mhacks.android.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-
     <uses-permission android:name="com.mhacks.android.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -38,7 +32,7 @@
         <activity
             android:name="com.mhacks.android.ui.MainActivity"
             android:configChanges="orientation"
-        android:label="@string/app_name"
+            android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,8 +44,8 @@
         <activity
             android:name="org.mhacks.mhacks.login.LoginActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
+
         <receiver
             android:name="com.mhacks.android.data.network.gcm.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
@@ -84,8 +78,6 @@
         <meta-data
             android:name="android.app.default_searchable"
             android:value=".SearchResultsActivity" />
-
-        <activity android:name="com.mhacks.android.ui.login.LoginActivity"></activity>
     </application>
 
 </manifest>
