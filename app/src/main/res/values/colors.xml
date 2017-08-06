@@ -10,11 +10,12 @@
     <color name="brown">#A1887F</color>
 
     <!--Global color themes-->
-    <color name="colorPrimary">#F4A4A8</color>
+    <color name="colorPrimary">#5D3E6E</color>
     <color name="colorPrimaryDark">#43374E</color>
-    <color name="colorSecondary">#A07075</color>
+    <color name="colorAccent">#F4A4A8</color>
+
 
     <!--First pane-->
-    <color name="welcomePrimary">#FFB198</color>
-    <color name="welcomeSecondary">#CC66FF</color>
+    <color name="welcomePrimary">#43384D</color>
+    <color name="welcomeAccent">#FFB198</color>
 </resources>

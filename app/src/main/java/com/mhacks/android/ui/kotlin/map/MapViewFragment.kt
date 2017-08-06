@@ -48,7 +48,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback {
                               savedInstanceState: Bundle?): View? {
         if (mMapFragView == null) mMapFragView = inflater!!.inflate(R.layout.fragment_map, container, false)
 
-        nameView = mMapFragView!!.findViewById(R.id.name) as Spinner
+        nameView = mMapFragView!!.findViewById<Spinner>(R.id.name)
 
         setUpMapIfNeeded()
 

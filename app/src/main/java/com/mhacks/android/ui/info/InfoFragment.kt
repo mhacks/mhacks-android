@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import org.mhacks.android.R
 import kotlinx.android.synthetic.*
 
-
 /**
  * Created by jeffreychang on 5/26/17.
  */

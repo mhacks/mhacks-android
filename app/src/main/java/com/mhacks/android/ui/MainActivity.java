@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements
         ActivityCompat.OnRequestPermissionsResultCallback,
         BaseFragment.OnNavigationChangeListener {
 
-    public static final String TAG = "org.MHacks/MainActivity";
+    public static final String TAG = "org.mhacks/MainActivity";
 
     // Permissions
     public static final int LOCATION_REQUEST_CODE = 7;
