@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.util.Log
@@ -48,7 +49,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback {
                               savedInstanceState: Bundle?): View? {
         if (mMapFragView == null) mMapFragView = inflater!!.inflate(R.layout.fragment_map, container, false)
 
-        nameView = mMapFragView!!.findViewById(R.id.name) as Spinner
+        nameView = mMapFragView!!.findViewById<Spinner>(R.id.name)
 
         setUpMapIfNeeded()
 
