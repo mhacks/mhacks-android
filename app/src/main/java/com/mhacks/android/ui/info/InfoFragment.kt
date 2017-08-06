@@ -6,6 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import org.mhacks.android.R
+<<<<<<< HEAD
+=======
+import kotlinx.android.synthetic.*
+
+>>>>>>> 25d20084221796ac0f9aab2625b86871f6730f93
 
 /**
  * Created by jeffreychang on 5/26/17.
