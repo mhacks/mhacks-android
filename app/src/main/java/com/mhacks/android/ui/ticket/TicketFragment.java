@@ -35,7 +35,7 @@ public class TicketFragment extends Fragment {
 
         mTicketFragView = inflater.inflate(R.layout.fragment_ticket, container, false);
 
-        ImageView qrCode = (ImageView) mTicketFragView.findViewById(R.id.ticket_image);
+        ImageView qrCode = (ImageView) mTicketFragView.findViewById(R.id.qr_code);
         TextView nameView = (TextView) mTicketFragView.findViewById(R.id.name);
 
 

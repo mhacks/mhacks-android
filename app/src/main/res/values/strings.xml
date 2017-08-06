@@ -51,9 +51,15 @@
 
 
     <!-- Strings for the Info Page -->
-    <string name="wifi_name">InsertNameofWiFiNetwork</string>
-    <string name="wifi_username">InsertUsername</string>
-    <string name="wifi_password">InsertPassword</string>
+    <string name="wifi_name">NameofWiFiNetwork</string>
+    <string name="wifi_username_title">Username</string>
+    <string name="wifi_username_value">InsertUsername</string>
+    <string name="wifi_password_title">Password</string>
+    <string name="wifi_password_value">InsertPassword</string>
 
+
+    <!-- Strings for the Ticket Page -->
+    <string name="name">Name</string>
+    <string name="School">School</string>
 
 </resources>

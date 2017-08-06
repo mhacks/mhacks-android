@@ -21,54 +21,82 @@
         android:layout_height="445dp"
         android:layout_gravity="center"
         android:layout_weight="0.31"
-        android:padding="@dimen/adapter_card_padding">
+        android:padding="@dimen/adapter_card_padding"
+        tools:background="@color/white">
 
         <ImageView
-            android:id="@+id/ticket_image"
+            android:id="@+id/qr_code"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="36dp"
             android:adjustViewBounds="true"
             android:contentDescription="my ticket"
             android:scaleType="fitCenter"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="18dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginLeft="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/name_identifier"
             app:layout_constraintLeft_toLeftOf="parent"
-            tools:src="@drawable/logo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintVertical_bias="0.171" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_event_black_24dp" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/name_identifier"
             android:layout_width="109dp"
             android:layout_height="wrap_content"
-            android:text="Name"
-            tools:layout_editor_absoluteX="16dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="8dp"
+
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/ticket_image"
+            android:text="@string/name"
+            app:layout_constraintBottom_toTopOf="@+id/name_value"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/qr_code"
+            tools:textColor="@color/md_black_1000" />
+
+        <TextView
+            android:id="@+id/name_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView5"
-            app:layout_constraintVertical_bias="0.975" />
+            android:layout_marginLeft="8dp"
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="FirstName LastName"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="360dp" />
+            app:layout_constraintBottom_toTopOf="@+id/school_identifier"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_identifier"
+            tools:textColor="@color/primary" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/school_identifier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="School"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="413dp" />
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="8dp"
+
+            android:layout_marginTop="8dp"
+            android:text="@string/School"
+            app:layout_constraintBottom_toTopOf="@+id/school_value"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_value"
+            tools:textColor="@color/md_black_1000" />
+
+        <TextView
+            android:id="@+id/school_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:text="SchoolName"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/school_identifier"
+            tools:textColor="@color/primary" />
 
     </android.support.constraint.ConstraintLayout>
 
