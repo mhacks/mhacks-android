@@ -45,13 +45,14 @@ abstract class BaseFragment : Fragment() {
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mCallback!!.setStatusBarColor(android.R.color.transparent)
-            mCallback!!.setTransparentStatusBar()
             if (FragmentColor == android.R.color.transparent) {
                 mCallback!!.setTransparentStatusBar()
             } else {
 //                mCallback!!.clearTransparentStatusBar()
 //                mCallback!!.setStatusBarColor(FragmentColor)
+                mCallback!!.addPadding()
                 mCallback!!.setLayoutFullScreen()
+
 
 
             }
@@ -73,6 +74,8 @@ abstract class BaseFragment : Fragment() {
         fun setStatusBarColor(color: Int)
 
         fun setBottomNavigationColor(color: NavigationColor)
+
+        fun addPadding()
 
     }
 }

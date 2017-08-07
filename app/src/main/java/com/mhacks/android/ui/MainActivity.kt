@@ -39,6 +39,8 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 import org.mhacks.android.R
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import com.mhacks.android.util.ResourceUtil
+import kotlinx.android.synthetic.main.activity_main.*
 
 import java.io.IOException
 
@@ -336,6 +338,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return true
     }
 
+    override fun addPadding() {
+        val height: Int = ResourceUtil.convertDpToPixel(context = this,
+                res = R.dimen.toolbar_height)
+        Log.d(TAG, height.toString())
+        main_container.setPadding(0, height, 0, 0)
+    }
 
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>,
@@ -349,7 +357,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     companion object {
 
-        val TAG = "org.mhacks/SecondActivity"
+        val TAG = "org.mhacks/MainActivity"
 
         // Permissions
         val LOCATION_REQUEST_CODE = 7

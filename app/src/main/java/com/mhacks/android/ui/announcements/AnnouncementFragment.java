@@ -213,7 +213,6 @@ public class AnnouncementFragment extends Fragment {
                 this.titleView = (TextView) itemView.findViewById(R.id.info_title);
                 this.dateView = (TextView) itemView.findViewById(R.id.info_date);
                 this.descriptionView = (TextView) itemView.findViewById(R.id.info_description);
-                this.colorView = (FrameLayout) itemView.findViewById(R.id.announcement_color);
             }
         }
     }
