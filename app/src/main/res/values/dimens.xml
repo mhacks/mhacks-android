@@ -21,6 +21,6 @@
     <dimen name="adapter_card_shadow_width">1dp</dimen>
 
     <!--Offsets -->
-    <dimen name="toolbar_height">90dp</dimen>
+    <dimen name="toolbar_height">70dp</dimen>
     fragmentVisible
 </resources>

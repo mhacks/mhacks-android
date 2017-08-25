@@ -12,7 +12,7 @@ import org.mhacks.android.R
 
 class WelcomeFragment : BaseFragment() {
 
-    override var FragmentColor: Int = R.color.colorPrimary
+    override var setTransparent: Boolean = false
     override var AppBarTitle: Int = R.string.welcome
     override var LayoutResourceID: Int = R.layout.fragment_welcome
     override var configureView: (view: View) -> Unit? = fun(view: View) {

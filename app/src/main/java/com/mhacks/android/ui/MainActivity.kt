@@ -2,10 +2,7 @@ package com.mhacks.android.ui
 
 import android.annotation .TargetApi
 import android.app.FragmentTransaction
-import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.content.res.ColorStateList
 import android.os.AsyncTask
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -18,7 +15,7 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup.LayoutParams
+import android.view.ViewGroup
 import android.view.WindowManager
 
 import com.google.android.gms.common.ConnectionResult
@@ -30,15 +27,11 @@ import com.mhacks.android.data .network.NetworkManager
 import com.mhacks.android.ui.common.BaseFragment
 import com.mhacks.android.ui.common.NavigationColor
 import com.mhacks.android.ui.countdown.WelcomeFragment
-import com.mhacks.android.ui.events.ScheduleFragment
 import com.mhacks.android.ui.info.InfoFragment
 import com.mhacks.android.ui.map.MapViewFragment
 import com.mhacks.android.ui.settings.SettingsFragment
 import com.mhacks.android.ui.kotlin.announcements.AnnouncementFragment
-import kotlinx.android.synthetic.main.toolbar_main.*
 import org.mhacks.android.R
-import android.view.ViewGroup
-import android.widget.RelativeLayout
 import com.mhacks.android.util.ResourceUtil
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -48,17 +41,18 @@ import java.io.IOException
  * Activity defines primarily the initial network calls to GCM as well as handle Fragment transactions.
  */
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, ActivityCompat.OnRequestPermissionsResultCallback, BaseFragment.OnNavigationChangeListener {
+class MainActivity : AppCompatActivity(),
+        BottomNavigationView.OnNavigationItemSelectedListener,
+        ActivityCompat.OnRequestPermissionsResultCallback,
+        BaseFragment.OnNavigationChangeListener {
 
     lateinit var regid: String
     lateinit var PROJECT_NUMBER: String
     var notif: String? = null
 
     // Toolbar
-    private var mToolbar: Toolbar? = null
     private var `val`: Boolean = false
-    private var mNavigation: BottomNavigationView? = null
-    private var mMenuItem: MenuItem? = null
+    private var menuItem: MenuItem? = null
 
     //GCM
     private var gcm: GoogleCloudMessaging? = null
@@ -68,13 +62,17 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         window.statusBarColor = ContextCompat.getColor(this, color)
     }
 
-    override fun setLayoutFullScreen() {
-
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-    }
 
     override fun setTransparentStatusBar() {
         window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+    }
+
+    override fun setLayoutFullScreen() {
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+    }
+
+    override fun removeLayoutFullScreen() {
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
     }
 
     @TargetApi(21)
@@ -98,20 +96,35 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 ContextCompat.getColor(this, color.secondaryColor)
         )
 
-        mNavigation!!.itemIconTintList = colorStateList
-        mNavigation!!.itemTextColor = colorStateList
+        navigation!!.itemIconTintList = colorStateList
+        navigation!!.itemTextColor = colorStateList
+    }
+
+    override fun addToolbarPadding() {
+        toolbar.setPadding(0,
+                getStatusBarHeight(),
+                0,
+                0
+        )
+    }
+
+    override fun removeToolbarPadding() {
+        toolbar.setPadding(0,
+                0,
+                0,
+                0
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.MHacksTheme)
         setContentView(R.layout.activity_main)
+
         // Add the toolbar
-        mToolbar = findViewById<View>(R.id.toolbar) as Toolbar
-        mNavigation = findViewById<View>(R.id.navigation) as BottomNavigationView
-        mMenuItem = mNavigation!!.menu.getItem(0)
-        mMenuItem!!.setTitle(R.string.title_home)
-        setSupportActionBar(mToolbar)
+        menuItem = navigation!!.menu.getItem(0)
+        menuItem!!.setTitle(R.string.title_home)
+        setSupportActionBar(toolbar)
         updateFragment(WelcomeFragment.instance)
 
 
@@ -125,7 +138,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             startActivity(intent);
             finish();
         }*/
-        mNavigation!!.setOnNavigationItemSelectedListener(this)
+        navigation!!.setOnNavigationItemSelectedListener(this)
 
         if (notif != null) {
             // Opens Announcements
@@ -156,6 +169,14 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     //        }
     //    }
 
+    fun getStatusBarHeight(): Int {
+        var result = 0
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resourceId > 0) {
+            result = resources.getDimensionPixelSize(resourceId)
+        }
+        return result
+    }
     fun updateGcm() {
         if (!checkPlayServices()) {
             Log.e(TAG, "No valid Google Play Services APK found.")
@@ -297,7 +318,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
 
     /**
-     * Handles all the clicks for the ScheduleFragment and it's fragments.
+     * Handles all the clicks for the EventFragment and it's fragments.
      * @param v clicked View
      */
     fun scheduleFragmentClick(v: View) {
@@ -311,7 +332,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             issue where the menu images are clipped if the title is set to another item.
         */
 
-        mMenuItem!!.title = ""
+        menuItem!!.title = ""
         when (item.itemId) {
             R.id.navigation_home -> {
                 item.setTitle(R.string.title_home)
@@ -323,7 +344,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             R.id.navigation_events -> {
                 item.setTitle(R.string.title_events)
-                updateFragment(ScheduleFragment.getInstance())
+                updateFragment(com.mhacks.android.ui.kotlin.schedule.EventFragment.instance)
             }
             R.id.navigation_map -> {
                 item.setTitle(R.string.title_map)
@@ -334,15 +355,18 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 updateFragment(InfoFragment.instance)
             }
         }
-        mMenuItem = item
+        menuItem = item
         return true
     }
 
     override fun addPadding() {
-        val height: Int = ResourceUtil.convertDpToPixel(context = this,
+        val height: Int = ResourceUtil.convertDpResToPixel(context = this,
                 res = R.dimen.toolbar_height)
-        Log.d(TAG, height.toString())
         main_container.setPadding(0, height, 0, 0)
+    }
+
+    override fun removePadding() {
+        main_container.setPadding(0, 0, 0, 0)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,

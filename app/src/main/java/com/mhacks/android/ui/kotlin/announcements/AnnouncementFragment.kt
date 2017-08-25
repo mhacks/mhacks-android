@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.mhacks.android.data.model.Announcement
 import com.mhacks.android.data.network.NetworkManager
+import com.mhacks.android.ui.common.BaseFragment
+import com.mhacks.android.ui.common.NavigationColor
 import org.mhacks.android.R
 import java.util.*
 
@@ -20,7 +22,16 @@ import java.util.*
  * Made Kotlin by Tristan on 10/6/2017
  */
 
-class AnnouncementFragment : Fragment() {
+class AnnouncementFragment : BaseFragment() {
+
+    override var setTransparent: Boolean = false
+    override var AppBarTitle: Int = R.string.title_announcements
+    override var LayoutResourceID: Int = R.layout.fragment_announcements
+    override var configureView: (view: View) -> Unit? = fun(view: View) {
+        mRecyclerView = view.findViewById<View>(R.id.list_cards) as RecyclerView
+
+    }
+    override var NavigationColor: NavigationColor = NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark)
 
     //Current query
     private val networkManager = NetworkManager.getInstance()
@@ -33,13 +44,6 @@ class AnnouncementFragment : Fragment() {
 
     // Adapter for the listView
     internal lateinit var mListAdapter: MainNavAdapter
-
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater!!.inflate(R.layout.fragment_announcements, container, false)
-        mRecyclerView = view.findViewById<View>(R.id.list_cards) as RecyclerView
-
-        return view
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
