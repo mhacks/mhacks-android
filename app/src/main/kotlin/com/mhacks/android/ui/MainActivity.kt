@@ -2,6 +2,8 @@ package com.mhacks.android.ui
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
+import android.app.AlertDialog
+import android.app.Dialog
 import android.app.FragmentTransaction
 import android.content.pm.PackageManager
 import android.os.AsyncTask
@@ -163,7 +165,9 @@ class MainActivity : AppCompatActivity(),
 
 
     override fun onClick(view: View?) {
-        
+
+        AlertDialog.Bu builder = AlertBuilder()
+
     }
 
     fun updateGcm() {
