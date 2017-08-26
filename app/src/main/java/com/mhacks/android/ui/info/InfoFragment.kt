@@ -12,7 +12,7 @@ class InfoFragment : BaseFragment() {
 
     override var setTransparent: Boolean = true
     override var AppBarTitle: Int = R.string.title_info
-    override var NavigationColor: NavigationColor = NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark)
+
     override var LayoutResourceID: Int = R.layout.fragment_info
     override var configureView: (view: View) -> Unit? = fun(view: View) {
 

@@ -20,7 +20,6 @@ class WelcomeFragment : BaseFragment() {
 //                f.setBackgroundColor(R.color.md_indigo_800)
 
     }
-    override var NavigationColor: NavigationColor = NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark)
 
     companion object {
         val instance get() = WelcomeFragment()

@@ -40,7 +40,6 @@ class EventFragment : BaseFragment(), WeekView.EventClickListener, MonthLoader.M
 
     override var setTransparent: Boolean = false
     override var AppBarTitle: Int = R.string.title_events
-    override var NavigationColor: NavigationColor = NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark)
     override var LayoutResourceID: Int = R.layout.fragment_schedule
     override var configureView: (view: View) -> Unit? = fun(view: View) {
 

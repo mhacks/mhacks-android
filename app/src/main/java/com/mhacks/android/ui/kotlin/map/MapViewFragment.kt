@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_map.*
 import org.mhacks.android.R
 import java.util.*
 
-/**
+/**j6yyg
  * Created by anksh on 12/31/2014.
  * Updated by omkarmoghe on 10/6/16
 
@@ -34,11 +34,10 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
 
     override var setTransparent: Boolean = true
     override var AppBarTitle: Int = R.string.title_map
-    override var NavigationColor: NavigationColor = NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark)
     override var LayoutResourceID: Int = R.layout.fragment_map
     override var configureView: (view: View) -> Unit? = fun(view: View) {
 
-        nameView = map_view_name
+//        nameView = map_view_name
         setUpMapIfNeeded()
 
         val networkManager = NetworkManager.getInstance()
@@ -76,6 +75,7 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
             }
         })
     }
+
     lateinit var nameView: Spinner
     // Data
     lateinit var floors: ArrayList<Floor>
@@ -98,7 +98,7 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mGoogleMap = googleMap
         googleMap.isBuildingsEnabled = true
-        googleMap.setPadding(0, ResourceUtil.convertDpToPixel(context, R.dimen.toolbar_height), 0, 0)
+        googleMap.setPadding(0, ResourceUtil.convertDpToPixel(context, 60), 0, 0)
         val settings = mGoogleMap!!.uiSettings
         settings.isCompassEnabled = true
         settings.isTiltGesturesEnabled = true

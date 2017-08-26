@@ -1,6 +1,6 @@
 package com.mhacks.android.ui
 
-import android.annotation .TargetApi
+import android.annotation.TargetApi
 import android.app.FragmentTransaction
 import android.content.pm.PackageManager
 import android.os.AsyncTask
@@ -11,30 +11,27 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
-
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GooglePlayServicesUtil
 import com.google.android.gms.gcm.GoogleCloudMessaging
-import com.mhacks.android.data .model.Token
-import com.mhacks.android.data .network.HackathonCallback
-import com.mhacks.android.data .network.NetworkManager
+import com.mhacks.android.data.model.Token
+import com.mhacks.android.data.network.HackathonCallback
+import com.mhacks.android.data.network.NetworkManager
 import com.mhacks.android.ui.common.BaseFragment
 import com.mhacks.android.ui.common.NavigationColor
 import com.mhacks.android.ui.countdown.WelcomeFragment
 import com.mhacks.android.ui.info.InfoFragment
+import com.mhacks.android.ui.kotlin.announcements.AnnouncementFragment
+import com.mhacks.android.ui.kotlin.schedule.EventFragment
 import com.mhacks.android.ui.map.MapViewFragment
 import com.mhacks.android.ui.settings.SettingsFragment
-import com.mhacks.android.ui.kotlin.announcements.AnnouncementFragment
-import org.mhacks.android.R
 import com.mhacks.android.util.ResourceUtil
 import kotlinx.android.synthetic.main.activity_main.*
-
+import org.mhacks.android.R
 import java.io.IOException
 
 /**
@@ -62,17 +59,14 @@ class MainActivity : AppCompatActivity(),
         window.statusBarColor = ContextCompat.getColor(this, color)
     }
 
+    fun setSystemFullScreenUI() {
+        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+    }
 
     override fun setTransparentStatusBar() {
-        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-    }
-
-    override fun setLayoutFullScreen() {
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-    }
-
-    override fun removeLayoutFullScreen() {
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 
     @TargetApi(21)
@@ -90,7 +84,7 @@ class MainActivity : AppCompatActivity(),
         setTitle(title)
     }
 
-    override fun setBottomNavigationColor(color: NavigationColor) {
+    fun setBottomNavigationColor(color: NavigationColor) {
         val colorStateList = NavigationColor.getColorStateList(
                 ContextCompat.getColor(this, color.primaryColor),
                 ContextCompat.getColor(this, color.secondaryColor)
@@ -100,26 +94,20 @@ class MainActivity : AppCompatActivity(),
         navigation!!.itemTextColor = colorStateList
     }
 
-    override fun addToolbarPadding() {
-        toolbar.setPadding(0,
-                getStatusBarHeight(),
-                0,
-                0
-        )
-    }
-
-    override fun removeToolbarPadding() {
-        toolbar.setPadding(0,
-                0,
-                0,
-                0
-        )
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setTheme(R.style.MHacksTheme)
+        setSystemFullScreenUI()
+
         setContentView(R.layout.activity_main)
+
+        setBottomNavigationColor(
+                NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
+
+
+
 
         // Add the toolbar
         menuItem = navigation!!.menu.getItem(0)
@@ -169,14 +157,6 @@ class MainActivity : AppCompatActivity(),
     //        }
     //    }
 
-    fun getStatusBarHeight(): Int {
-        var result = 0
-        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) {
-            result = resources.getDimensionPixelSize(resourceId)
-        }
-        return result
-    }
     fun updateGcm() {
         if (!checkPlayServices()) {
             Log.e(TAG, "No valid Google Play Services APK found.")
@@ -332,41 +312,25 @@ class MainActivity : AppCompatActivity(),
             issue where the menu images are clipped if the title is set to another item.
         */
 
-        menuItem!!.title = ""
         when (item.itemId) {
             R.id.navigation_home -> {
-                item.setTitle(R.string.title_home)
                 updateFragment(WelcomeFragment.instance)
             }
             R.id.navigation_announcements -> {
-                item.setTitle(R.string.title_announcements)
                 updateFragment(AnnouncementFragment.instance)
             }
             R.id.navigation_events -> {
-                item.setTitle(R.string.title_events)
-                updateFragment(com.mhacks.android.ui.kotlin.schedule.EventFragment.instance)
+                updateFragment(EventFragment.instance)
             }
             R.id.navigation_map -> {
-                item.setTitle(R.string.title_map)
-                updateFragment(MapViewFragment.Companion.instance)
+                updateFragment(MapViewFragment.instance)
             }
             R.id.navigation_info -> {
-                item.setTitle(R.string.title_info)
                 updateFragment(InfoFragment.instance)
             }
         }
         menuItem = item
         return true
-    }
-
-    override fun addPadding() {
-        val height: Int = ResourceUtil.convertDpResToPixel(context = this,
-                res = R.dimen.toolbar_height)
-        main_container.setPadding(0, height, 0, 0)
-    }
-
-    override fun removePadding() {
-        main_container.setPadding(0, 0, 0, 0)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,

@@ -19,7 +19,6 @@ abstract class BaseFragment : Fragment() {
 
     abstract var setTransparent: Boolean set
     abstract var AppBarTitle: Int set
-    abstract var NavigationColor: NavigationColor set
     abstract var LayoutResourceID: Int set
     abstract var configureView: (view: View) -> Unit? set
 
@@ -56,22 +55,18 @@ abstract class BaseFragment : Fragment() {
     private fun changeColors() {
         mCallback!!.setFragmentTitle(AppBarTitle)
         mCallback!!.setActionBarColor(android.R.color.transparent)
-        mCallback!!.setBottomNavigationColor(NavigationColor)
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (setTransparent) {
-                mCallback!!.removePadding()
                 mCallback!!.setActionBarColor(android.R.color.transparent)
                 mCallback!!.setStatusBarColor(android.R.color.transparent)
-                mCallback!!.addToolbarPadding()
-                mCallback!!.setLayoutFullScreen()
+
 
             } else {
-                mCallback!!.addPadding()
                 mCallback!!.setActionBarColor(R.color.primary)
                 mCallback!!.setStatusBarColor(R.color.primary_dark)
 //                mCallback!!.removeToolbarPadding()
-                mCallback!!.removeLayoutFullScreen()
+//                mCallback!!.removeLayoutFullScreen()
             }
 
         } else {
@@ -98,24 +93,10 @@ abstract class BaseFragment : Fragment() {
 
         fun setActionBarColor(color: Int)
 
+        fun setStatusBarColor(color: Int)
+
         fun setTransparentStatusBar()
 
         fun clearTransparentStatusBar()
-
-        fun setLayoutFullScreen()
-
-        fun removeLayoutFullScreen()
-
-        fun setStatusBarColor(color: Int)
-
-        fun setBottomNavigationColor(color: NavigationColor)
-
-        fun addPadding()
-
-        fun removePadding()
-
-        fun addToolbarPadding()
-
-        fun removeToolbarPadding()
     }
 }

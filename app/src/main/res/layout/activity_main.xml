@@ -1,33 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context="com.mhacks.android.ui.MainActivity">
 
-
-    <!--this is the layout that the fragment manager replaces-->
-
-    <FrameLayout
-        android:id="@+id/main_container"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/material_drawer_item_primary_icon"
-        android:layout_alignParentTop="true"
-        android:color="#FFF" />
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/navigation">
 
-    <android.support.v7.widget.Toolbar
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="?attr/colorPrimary"
-        app:titleTextAppearance="@style/Toolbar.TitleText" />
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <!--this is the layout that the fragment manager replaces-->
+            <FrameLayout
+                android:id="@+id/main_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:color="#FFF"  />
 
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                app:srcCompat="@drawable/ic_ticket"
+                app:fabSize="normal"
+                app:layout_anchor="@+id/main_container"
+                app:layout_anchorGravity="right|bottom"
+                app:useCompatPadding="true" />
+
+        </android.support.design.widget.CoordinatorLayout>
+
+        <android.support.v7.widget.Toolbar
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:paddingTop="24dp"
+            android:paddingBottom="8dp"
+            app:titleTextAppearance="@style/Toolbar.TitleText" />
+
+
+
+
+    </RelativeLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -35,7 +57,7 @@
         android:layout_height="@dimen/material_drawer_item_primary_icon"
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
-        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/navigation" />
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

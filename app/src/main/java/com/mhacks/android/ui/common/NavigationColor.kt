@@ -11,6 +11,4 @@ data class NavigationColor(val primaryColor: Int, val secondaryColor: Int) {
             return ColorStateList(states, colors)
         }
     }
-
-
 }

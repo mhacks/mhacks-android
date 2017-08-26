@@ -31,7 +31,6 @@ class AnnouncementFragment : BaseFragment() {
         mRecyclerView = view.findViewById<View>(R.id.list_cards) as RecyclerView
 
     }
-    override var NavigationColor: NavigationColor = NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark)
 
     //Current query
     private val networkManager = NetworkManager.getInstance()

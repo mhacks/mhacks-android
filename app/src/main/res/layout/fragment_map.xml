@@ -1,24 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/map"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <FrameLayout
-        android:id="@+id/map"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/blueGrey"
-        android:layout_weight="1"
-        android:visibility="visible"/>
-
-    <Spinner android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_gravity="start|top"
-        android:textSize="24sp"
-        android:id="@+id/map_view_name">
-    </Spinner>
-
-</LinearLayout>
+    android:background="@color/blueGrey"
+    android:layout_weight="1"
+    android:visibility="visible"/>
