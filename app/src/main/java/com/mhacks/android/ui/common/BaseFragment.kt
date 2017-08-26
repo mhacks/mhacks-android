@@ -20,8 +20,6 @@ abstract class BaseFragment : Fragment() {
     abstract var setTransparent: Boolean set
     abstract var AppBarTitle: Int set
     abstract var LayoutResourceID: Int set
-    abstract var configureView: (view: View) -> Unit? set
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +34,6 @@ abstract class BaseFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        configureView(view!!)
     }
 
     /* http://mrtn.me/blog/2012/03/17/get-the-height-of-the-status-bar-in-android/
@@ -60,31 +57,17 @@ abstract class BaseFragment : Fragment() {
             if (setTransparent) {
                 mCallback!!.setActionBarColor(android.R.color.transparent)
                 mCallback!!.setStatusBarColor(android.R.color.transparent)
-
+                mCallback!!.removePadding()
 
             } else {
                 mCallback!!.setActionBarColor(R.color.primary)
                 mCallback!!.setStatusBarColor(R.color.primary_dark)
-//                mCallback!!.removeToolbarPadding()
-//                mCallback!!.removeLayoutFullScreen()
+                mCallback!!.addPadding()
             }
 
         } else {
 
         }
-//            mCallback!!.setStatusBarColor(android.R.color.transparent)
-//
-//
-//            } else {
-////                mCallback!!.clearTransparentStatusBar()
-////                mCallback!!.setStatusBarColor(setTransparent)
-//
-//            }
-//        } else {
-//            mCallback!!.setTransparentStatusBar()
-//            mCallback!!.addPadding()
-
-//        }
     }
 
     interface OnNavigationChangeListener {
@@ -98,5 +81,9 @@ abstract class BaseFragment : Fragment() {
         fun setTransparentStatusBar()
 
         fun clearTransparentStatusBar()
+
+        fun addPadding()
+
+        fun removePadding()
     }
 }

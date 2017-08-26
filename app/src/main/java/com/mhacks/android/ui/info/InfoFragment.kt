@@ -14,9 +14,7 @@ class InfoFragment : BaseFragment() {
     override var AppBarTitle: Int = R.string.title_info
 
     override var LayoutResourceID: Int = R.layout.fragment_info
-    override var configureView: (view: View) -> Unit? = fun(view: View) {
 
-    }
 
     /*override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         email_sign_in_button.setOnClickListener(this);

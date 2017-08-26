@@ -18,20 +18,22 @@
             android:layout_height="match_parent">
 
             <FrameLayout
-                android:id="@+id/main_container"
+                android:id="@+id/fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:color="#FFF"  />
 
             <android.support.design.widget.FloatingActionButton
+                android:id="@+id/qr_ticket_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
                 app:srcCompat="@drawable/ic_ticket"
                 app:fabSize="normal"
-                app:layout_anchor="@+id/main_container"
+                app:layout_anchor="@+id/fragment_container"
                 app:layout_anchorGravity="right|bottom"
+                app:rippleColor="@color/colorAccent"
                 app:useCompatPadding="true" />
 
         </android.support.design.widget.CoordinatorLayout>
@@ -40,7 +42,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/toolbar_height"
             android:layout_alignParentTop="true"
             android:paddingTop="24dp"
             android:paddingBottom="8dp"

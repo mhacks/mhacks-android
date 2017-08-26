@@ -1,6 +1,7 @@
 package com.mhacks.android.ui.countdown
 
 
+import android.os.Bundle
 import android.view.View
 import com.mhacks.android.ui.common.BaseFragment
 import com.mhacks.android.ui.common.NavigationColor
@@ -15,12 +16,10 @@ class WelcomeFragment : BaseFragment() {
     override var setTransparent: Boolean = false
     override var AppBarTitle: Int = R.string.welcome
     override var LayoutResourceID: Int = R.layout.fragment_welcome
-    override var configureView: (view: View) -> Unit? = fun(view: View) {
-//                val f = view.findViewById(R.id.ef) as RelativeLayout
-//                f.setBackgroundColor(R.color.md_indigo_800)
 
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
-
     companion object {
         val instance get() = WelcomeFragment()
     }

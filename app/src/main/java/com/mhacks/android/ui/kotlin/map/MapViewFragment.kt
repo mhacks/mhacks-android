@@ -3,6 +3,7 @@ package com.mhacks.android.ui.map
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.View
@@ -35,8 +36,8 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
     override var setTransparent: Boolean = true
     override var AppBarTitle: Int = R.string.title_map
     override var LayoutResourceID: Int = R.layout.fragment_map
-    override var configureView: (view: View) -> Unit? = fun(view: View) {
 
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
 //        nameView = map_view_name
         setUpMapIfNeeded()
 

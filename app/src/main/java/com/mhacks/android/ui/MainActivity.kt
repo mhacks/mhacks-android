@@ -1,11 +1,14 @@
 package com.mhacks.android.ui
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.FragmentTransaction
 import android.content.pm.PackageManager
 import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.support.annotation.RequiresApi
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
@@ -41,7 +44,7 @@ import java.io.IOException
 class MainActivity : AppCompatActivity(),
         BottomNavigationView.OnNavigationItemSelectedListener,
         ActivityCompat.OnRequestPermissionsResultCallback,
-        BaseFragment.OnNavigationChangeListener {
+        BaseFragment.OnNavigationChangeListener, View.OnClickListener {
 
     lateinit var regid: String
     lateinit var PROJECT_NUMBER: String
@@ -54,16 +57,58 @@ class MainActivity : AppCompatActivity(),
     //GCM
     private var gcm: GoogleCloudMessaging? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setTheme(R.style.MHacksTheme)
+        setSystemFullScreenUI()
+
+        setContentView(R.layout.activity_main)
+        setBottomNavigationColor(
+                NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
+
+
+        // Add the toolbar
+        qr_ticket_fab.setOnClickListener(this)
+        menuItem = navigation!!.menu.getItem(0)
+        menuItem!!.setTitle(R.string.title_home)
+        setSupportActionBar(toolbar)
+        updateFragment(WelcomeFragment.instance)
+
+
+        // If Activity opened from push notification, value will reflect fragment that will initially open
+        notif = intent.getStringExtra("notif_link")
+        PROJECT_NUMBER = getString(R.string.gcm_server_id)
+
+        updateGcm()
+        /*if (true) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }*/
+        navigation!!.setOnNavigationItemSelectedListener(this)
+
+        if (notif != null) {
+            // Opens Announcements
+            if (notif == "Announcements") {
+                // updateFragment(announcementsFragment);
+            }
+        }
+    }
+
     @TargetApi(21)
     override fun setStatusBarColor(color: Int) {
         window.statusBarColor = ContextCompat.getColor(this, color)
     }
 
+
+    @SuppressLint("InlinedApi")
     fun setSystemFullScreenUI() {
         window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                 WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 
+    @SuppressLint("InlinedApi")
     override fun setTransparentStatusBar() {
         window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                 WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -94,47 +139,6 @@ class MainActivity : AppCompatActivity(),
         navigation!!.itemTextColor = colorStateList
     }
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setTheme(R.style.MHacksTheme)
-        setSystemFullScreenUI()
-
-        setContentView(R.layout.activity_main)
-
-        setBottomNavigationColor(
-                NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
-
-
-
-
-        // Add the toolbar
-        menuItem = navigation!!.menu.getItem(0)
-        menuItem!!.setTitle(R.string.title_home)
-        setSupportActionBar(toolbar)
-        updateFragment(WelcomeFragment.instance)
-
-
-        // If Activity opened from push notification, value will reflect fragment that will initially open
-        notif = intent.getStringExtra("notif_link")
-        PROJECT_NUMBER = getString(R.string.gcm_server_id)
-
-        updateGcm()
-        /*if (true) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        }*/
-        navigation!!.setOnNavigationItemSelectedListener(this)
-
-        if (notif != null) {
-            // Opens Announcements
-            if (notif == "Announcements") {
-                // updateFragment(announcementsFragment);
-            }
-        }
-    }
     //    public void login() {
     //        // Log in if possible.
     //        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -156,6 +160,11 @@ class MainActivity : AppCompatActivity(),
     //            });
     //        }
     //    }
+
+
+    override fun onClick(view: View?) {
+        
+    }
 
     fun updateGcm() {
         if (!checkPlayServices()) {
@@ -266,7 +275,7 @@ class MainActivity : AppCompatActivity(),
 
         supportFragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .replace(R.id.main_container, fragment)
+                .replace(R.id.fragment_container, fragment)
                 .commit()
     }
 
@@ -331,6 +340,16 @@ class MainActivity : AppCompatActivity(),
         }
         menuItem = item
         return true
+    }
+
+    override fun addPadding() {
+        val height: Int = ResourceUtil.convertDpResToPixel(context = this,
+                res = R.dimen.toolbar_height)
+        fragment_container.setPadding(0, height, 0, 0)
+    }
+
+    override fun removePadding() {
+        fragment_container.setPadding(0, 0, 0, 0)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,

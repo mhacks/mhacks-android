@@ -16,9 +16,9 @@ import com.mhacks.android.data .model.Event
 import com.mhacks.android.data .network.HackathonCallback
 import com.mhacks.android.data .network.NetworkManager
 import com.mhacks.android.ui.common.BaseFragment
-import com.mhacks.android.ui.common.NavigationColor
 import com.mhacks.android.ui.events.EventDetailsFragment
 import com.mhacks.android.ui.map.LocationManager
+import kotlinx.android.synthetic.main.fragment_schedule.*
 
 import org.mhacks.android.R
 
@@ -41,20 +41,12 @@ class EventFragment : BaseFragment(), WeekView.EventClickListener, MonthLoader.M
     override var setTransparent: Boolean = false
     override var AppBarTitle: Int = R.string.title_events
     override var LayoutResourceID: Int = R.layout.fragment_schedule
-    override var configureView: (view: View) -> Unit? = fun(view: View) {
 
-        mScheduleContainer = view.findViewById<LinearLayout>(R.id.schedule_container)
-        mWeekView = view.findViewById<WeekView>(R.id.week_view)
-        setUpWeekView()
-        val manager = LocationManager.getInstance()
-
-    }
     // network manager
     private val networkManager = NetworkManager.getInstance()
 
     // Declaring Views
     private var mScheduleContainer: LinearLayout? = null
-    private var mWeekView: WeekView? = null
 
     // Event data structures
     private var mEvents: ArrayList<Event>? = null
@@ -70,33 +62,40 @@ class EventFragment : BaseFragment(), WeekView.EventClickListener, MonthLoader.M
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+
+        setUpWeekView()
+        val manager = LocationManager.getInstance()
+
+    }
     /**
      * Builds the calendar using the WeekView class.
      * Done programmatically because the XML wouldn't auto-complete at the time. - Omkar
      */
     private fun setUpWeekView() {
         //Set listeners
-        mWeekView!!.setOnEventClickListener(this)
-        mWeekView!!.monthChangeListener = this
-        mWeekView!!.eventLongPressListener = this
+        week_view!!.setOnEventClickListener(this)
+        week_view!!.monthChangeListener = this
+        week_view!!.eventLongPressListener = this
         //Set up visuals of the calendar
-        mWeekView!!.setBackgroundColor(Color.WHITE)
-        mWeekView!!.eventTextColor = Color.WHITE
-        mWeekView!!.numberOfVisibleDays = 1
-        mWeekView!!.textSize = 22
-        mWeekView!!.hourHeight = 120
-        mWeekView!!.headerColumnPadding = 8
-        //        mWeekView.setHeaderColumnTextColor(getResources().getColor(R.color.header_column_text_color));
-        mWeekView!!.headerRowPadding = 16
-        mWeekView!!.columnGap = 8
-        mWeekView!!.hourSeparatorColor = Color.WHITE
-        mWeekView!!.hourSeparatorHeight = 4
-        mWeekView!!.headerColumnBackgroundColor = Color.WHITE
-        //        mWeekView.setHeaderRowBackgroundColor(getResources().getColor(R.color.header_row_bg_color));
-        //        mWeekView.setDayBackgroundColor(getResources().getColor(R.color.day_bg_color));
-        //        mWeekView.setTodayBackgroundColor(getResources().getColor(R.color.today_bg_color));
-        mWeekView!!.headerColumnBackgroundColor = Color.BLACK
-        mWeekView!!.overlappingEventGap = 2
+        week_view!!.setBackgroundColor(Color.WHITE)
+        week_view!!.eventTextColor = Color.WHITE
+        week_view!!.numberOfVisibleDays = 1
+        week_view!!.textSize = 22
+        week_view!!.hourHeight = 120
+        week_view!!.headerColumnPadding = 8
+        //        week_view.setHeaderColumnTextColor(getResources().getColor(R.color.header_column_text_color));
+        week_view!!.headerRowPadding = 16
+        week_view!!.columnGap = 8
+        week_view!!.hourSeparatorColor = Color.WHITE
+        week_view!!.hourSeparatorHeight = 4
+        week_view!!.headerColumnBackgroundColor = Color.WHITE
+        //        week_view.setHeaderRowBackgroundColor(getResources().getColor(R.color.header_row_bg_color));
+        //        week_view.setDayBackgroundColor(getResources().getColor(R.color.day_bg_color));
+        //        week_view.setTodayBackgroundColor(getResources().getColor(R.color.today_bg_color));
+        week_view!!.headerColumnBackgroundColor = Color.BLACK
+        week_view!!.overlappingEventGap = 2
     }
 
     fun getEvents() {
@@ -105,7 +104,7 @@ class EventFragment : BaseFragment(), WeekView.EventClickListener, MonthLoader.M
                 mEvents = ArrayList(response)
                 Log.d(TAG, "got " + mEvents!!.size + " events")
 
-                activity.runOnUiThread { mWeekView!!.notifyDatasetChanged() }
+                activity.runOnUiThread { week_view!!.notifyDatasetChanged() }
             }
 
             override fun failure(error: Throwable) {
