@@ -166,7 +166,7 @@ class EventFragment : BaseFragment(), WeekView.EventClickListener, MonthLoader.M
             1 -> return 1
             3 -> return 3
             4 -> return 4
-            else -> return ContextCompat.getColor(activity, R.color.md_cyan_50)
+            else -> return ContextCompat.getColor(activity, R.color.material_deep_teal_200)
         }
     }
 

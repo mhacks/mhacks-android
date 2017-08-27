@@ -60,8 +60,8 @@ abstract class BaseFragment : Fragment() {
                 mCallback!!.removePadding()
 
             } else {
-                mCallback!!.setActionBarColor(R.color.primary)
-                mCallback!!.setStatusBarColor(R.color.primary_dark)
+                mCallback!!.setActionBarColor(R.color.colorPrimary)
+                mCallback!!.setStatusBarColor(R.color.colorPrimaryDark)
                 mCallback!!.addPadding()
             }
 

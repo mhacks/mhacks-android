@@ -5,6 +5,7 @@ import android.annotation.TargetApi
 import android.app.AlertDialog
 import android.app.Dialog
 import android.app.FragmentTransaction
+import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.AsyncTask
 import android.os.Build
@@ -34,6 +35,7 @@ import com.mhacks.android.ui.kotlin.announcements.AnnouncementFragment
 import com.mhacks.android.ui.kotlin.schedule.EventFragment
 import com.mhacks.android.ui.map.MapViewFragment
 import com.mhacks.android.ui.settings.SettingsFragment
+import com.mhacks.android.ui.ticket.TicketDialogFragment
 import com.mhacks.android.util.ResourceUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import org.mhacks.android.R
@@ -166,8 +168,15 @@ class MainActivity : AppCompatActivity(),
 
     override fun onClick(view: View?) {
 
-        AlertDialog.Bu builder = AlertBuilder()
+        val ft = supportFragmentManager.beginTransaction()
+        val prev = supportFragmentManager.findFragmentByTag("dialog")
+        if (prev != null) {
+            ft.remove(prev)
+        }
+        ft.addToBackStack(null)
 
+        val ticket: TicketDialogFragment= TicketDialogFragment.instance
+        ticket.show(ft, "dialog")
     }
 
     fun updateGcm() {

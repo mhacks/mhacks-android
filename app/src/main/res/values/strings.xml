@@ -59,6 +59,10 @@
 
     <!-- Strings for the Ticket Page -->
     <string name="name">Name</string>
-    <string name="School">School</string>
+    <string name="school">School</string>
+
+
+    <string name="done_positive" />
+    <string name="ticket">Ticket</string>
 
 </resources>
