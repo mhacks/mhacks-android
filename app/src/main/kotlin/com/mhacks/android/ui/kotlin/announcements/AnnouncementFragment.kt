@@ -12,6 +12,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.mhacks.android.data.model.Announcement
 import com.mhacks.android.data.network.NetworkManager
+import com.mhacks.android.ui.common.BaseFragment
+import com.mhacks.android.ui.common.NavigationColor
+import kotlinx.android.synthetic.main.fragment_announcements.*
 import org.mhacks.android.R
 import java.util.*
 
@@ -20,7 +23,11 @@ import java.util.*
  * Made Kotlin by Tristan on 10/6/2017
  */
 
-class AnnouncementFragment : Fragment() {
+class AnnouncementFragment : BaseFragment() {
+
+    override var setTransparent: Boolean = false
+    override var AppBarTitle: Int = R.string.title_announcements
+    override var LayoutResourceID: Int = R.layout.fragment_announcements
 
     //Current query
     private val networkManager = NetworkManager.getInstance()
@@ -28,17 +35,9 @@ class AnnouncementFragment : Fragment() {
     // Caches all the Announcements found
     internal lateinit var mAnnouncementsList: ArrayList<Announcement>
 
-    // Caches the listView layout
-    internal lateinit var mRecyclerView: RecyclerView
-
-    // Adapter for the listView
     internal lateinit var mListAdapter: MainNavAdapter
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater!!.inflate(R.layout.fragment_announcements, container, false)
-        mRecyclerView = view.findViewById<View>(R.id.list_cards) as RecyclerView
-
-        return view
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
     }
 
     override fun onDestroyView() {
@@ -64,15 +63,15 @@ class AnnouncementFragment : Fragment() {
     private fun initList() {
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true)
+        announcements_recycler_view.setHasFixedSize(true)
 
         // use a linear layout manager
         val layoutManager = LinearLayoutManager(activity)
-        mRecyclerView.layoutManager = layoutManager
+        announcements_recycler_view.layoutManager = layoutManager
 
         // Create and set the adapter for this recyclerView
         mListAdapter = MainNavAdapter(activity)
-        mRecyclerView.adapter = mListAdapter
+        announcements_recycler_view.adapter = mListAdapter
     }
 
     private fun getAnnouncements() {

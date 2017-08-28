@@ -4,42 +4,28 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-
-import com.google.android.gms.maps.CameraUpdate
-import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.UiSettings
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.GroundOverlayOptions
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.mhacks.android.data.model.Floor
 import com.mhacks.android.data.network.HackathonCallback
 import com.mhacks.android.data.network.NetworkManager
 import com.mhacks.android.ui.common.BaseFragment
 import com.mhacks.android.ui.common.NavigationColor
+import com.mhacks.android.util.ResourceUtil
 import kotlinx.android.synthetic.main.fragment_map.*
-import kotlinx.android.synthetic.main.fragment_ticket.*
-
 import org.mhacks.android.R
+import java.util.*
 
-import java.util.ArrayList
-
-/**
+/**j6yyg
  * Created by anksh on 12/31/2014.
  * Updated by omkarmoghe on 10/6/16
 
@@ -47,13 +33,12 @@ import java.util.ArrayList
  */
 class MapViewFragment : BaseFragment(), OnMapReadyCallback {
 
-    override var FragmentColor: Int = R.color.semitransparent_theme_primary
+    override var setTransparent: Boolean = true
     override var AppBarTitle: Int = R.string.title_map
-    override var NavigationColor: NavigationColor = NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark)
     override var LayoutResourceID: Int = R.layout.fragment_map
-    override var configureView: (view: View) -> Unit? = fun(view: View) {
 
-        nameView = map_view_name
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+//        nameView = map_view_name
         setUpMapIfNeeded()
 
         val networkManager = NetworkManager.getInstance()
@@ -66,9 +51,7 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
 
                 if (!floors.isEmpty()) {
                     for (floor in floors) {
-
                         spinnerAdapter.add(floor.getName())
-
                     }
                     nameView.adapter = spinnerAdapter
                     spinnerAdapter.notifyDataSetChanged()
@@ -93,6 +76,7 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
             }
         })
     }
+
     lateinit var nameView: Spinner
     // Data
     lateinit var floors: ArrayList<Floor>
@@ -115,7 +99,7 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mGoogleMap = googleMap
         googleMap.isBuildingsEnabled = true
-        googleMap.setPadding(0, 200, 0, 0)
+        googleMap.setPadding(0, ResourceUtil.convertDpToPixel(context, 60), 0, 0)
         val settings = mGoogleMap!!.uiSettings
         settings.isCompassEnabled = true
         settings.isTiltGesturesEnabled = true

@@ -29,7 +29,7 @@
 //import com.mhacks.android.ui.common.BaseFragment;
 //import com.mhacks.android.ui.common.NavigationColor;
 //import com.mhacks.android.ui.countdown.WelcomeFragment;
-//import com.mhacks.android.ui.events.ScheduleFragment;
+//import com.mhacks.android.ui.events.EventFragment;
 //import com.mhacks.android.ui.info.InfoFragment;
 //import com.mhacks.android.ui.map.MapViewFragmentJava;
 //import com.mhacks.android.ui.settings.SettingsFragment;
@@ -315,7 +315,7 @@
 //
 //
 //    /**
-//     * Handles all the clicks for the ScheduleFragment and it's fragments.
+//     * Handles all the clicks for the EventFragment and it's fragments.
 //     * @param v clicked View
 //     */
 //    public void scheduleFragmentClick(View v) {
@@ -342,7 +342,7 @@
 //                break;
 //            case R.id.navigation_events:
 //                item.setTitle(R.string.title_events);
-//                updateFragment(ScheduleFragment.getInstance());
+//                updateFragment(EventFragment.getInstance());
 //                break;
 //            case R.id.navigation_map:
 //                item.setTitle(R.string.title_map);

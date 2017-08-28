@@ -10,13 +10,11 @@ import org.mhacks.android.R
  */
 class InfoFragment : BaseFragment() {
 
-    override var FragmentColor: Int = android.R.color.transparent
+    override var setTransparent: Boolean = true
     override var AppBarTitle: Int = R.string.title_info
-    override var NavigationColor: NavigationColor = NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark)
-    override var LayoutResourceID: Int = R.layout.fragment_info
-    override var configureView: (view: View) -> Unit? = fun(view: View) {
 
-    }
+    override var LayoutResourceID: Int = R.layout.fragment_info
+
 
     /*override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         email_sign_in_button.setOnClickListener(this);

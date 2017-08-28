@@ -17,6 +17,7 @@ import com.alamkanak.weekview.WeekViewEvent;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.data.network.NetworkManager;
+import com.mhacks.android.ui.common.BaseFragment;
 import com.mhacks.android.ui.map.LocationManager;
 
 import org.mhacks.android.R;
@@ -39,7 +40,7 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
                                                           MonthLoader.MonthChangeListener,
                                                           WeekView.EventLongPressListener {
 
-    public static final String TAG = "ScheduleFragment";
+    public static final String TAG = "EventFragment";
 
     // network manager
     private final NetworkManager networkManager = NetworkManager.getInstance();
@@ -209,11 +210,11 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    //  HANDLES BUTTON CICKS FOR ScheduleFragment AND EventDetailsFragment
+    //  HANDLES BUTTON CICKS FOR EventFragment AND EventDetailsFragment
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Gets clicked view in the ScheduleFragment and the EventDetailsFragment and handles them
+     * Gets clicked view in the EventFragment and the EventDetailsFragment and handles them
      * appropriately.
      *
      * @param v View that was clicked
@@ -240,7 +241,7 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
     /**
      * Finds the instance of the EventDetails fragment that is in the R.id.drawer_layout and closes
      * it. Uses findFragmentById because the SecondaryActivity can create an EventDetailsFragment from
-     * a push notification when the ScheduleFragment itself is not open, (ie eventDetailsFragment
+     * a push notification when the EventFragment itself is not open, (ie eventDetailsFragment
      * has not yet been declared or instantiated).
      */
     public void closeEventDetails () {

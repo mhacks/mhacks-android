@@ -19,8 +19,6 @@
     <dimen name="adapter_card_padding">8dp</dimen>
     <dimen name="pin_icon_size">24dp</dimen>
     <dimen name="adapter_card_shadow_width">1dp</dimen>
+    <dimen name ="toolbar_height">80dp</dimen>
 
-    <!--Offsets -->
-    <dimen name="toolbar_height">90dp</dimen>
-    fragmentVisible
 </resources>
