@@ -175,7 +175,8 @@ class MainActivity : AppCompatActivity(),
         }
         ft.addToBackStack(null)
 
-        val ticket: TicketDialogFragment= TicketDialogFragment.instance
+        val ticket: TicketDialogFragment = TicketDialogFragment
+                .newInstance("Jeffrey Chang")
         ticket.show(ft, "dialog")
     }
 

@@ -1,25 +1,37 @@
 package com.mhacks.android.ui.ticket
 
-import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import com.mhacks.android.ui.kotlin.schedule.EventFragment
+import kotlinx.android.synthetic.main.fragment_ticket_dialog.*
+import net.glxn.qrgen.android.QRCode
 import org.mhacks.android.R
 
 /**
  * Created by jeffreychang on 8/26/17.
  */
-class TicketDialogFragment(): DialogFragment() {
-//
+class TicketDialogFragment : DialogFragment() {
+
+    lateinit var key: String
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        if (arguments != null) {
+            key = arguments.getString(ARG_EXTRA_QR_ID)
+
+        } else {
+            Log.e(TAG, "The Ticket Dialog Fragment needs the ticket id to work!")
+            dismiss()
+        }
+        super.onCreate(savedInstanceState)
+    }
+
+
 //    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 //        return AlertDialog.Builder(activity)
 //            .setMessage(R.string.ticket)
@@ -33,8 +45,9 @@ class TicketDialogFragment(): DialogFragment() {
 
 
     override fun onResume() {
-        val width = resources.displayMetrics.widthPixels
-        val height = resources.displayMetrics.heightPixels
+
+        val width = (resources.displayMetrics.widthPixels * .85).toInt()
+        val height = (resources.displayMetrics.heightPixels* .7).toInt()
 
         dialog.getWindow().setLayout(width, height)
 
@@ -42,24 +55,42 @@ class TicketDialogFragment(): DialogFragment() {
         super.onResume()
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog: Dialog = super.onCreateDialog(savedInstanceState)
-        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        return dialog
-
-    }
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        if (getDialog() != null) {
-            getDialog().setCanceledOnTouchOutside(true);
+
+        if (dialog != null) {
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
         return inflater!!.inflate(R.layout.fragment_ticket_dialog, container)
     }
 
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        val qr = QRCode.from(key)
+                .withSize(500, 500)
+                .withColor(0xFF43384D.toInt(), 0x00FFFFFF)
+                .bitmap()
+        ticket_qr_code_image_view.setImageBitmap(qr)
+        ticket_bottom_bar_done_button.setOnClickListener(object: View.OnClickListener {
+            override fun onClick(p0: View?) {
+                dismiss()
+            }
+
+        })
+
+    }
 
     companion object {
-        val TAG = "TicketDialogFragment"
 
-        val instance: TicketDialogFragment
-            get() = TicketDialogFragment()
+        private val TAG = "TicketDialogFragment"
+
+        private val ARG_EXTRA_QR_ID: String? = "EXTRA_QR_ID"
+
+        fun newInstance(id: String): TicketDialogFragment {
+            val fragment = TicketDialogFragment()
+            val args = Bundle()
+            args.putString(ARG_EXTRA_QR_ID, id)
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

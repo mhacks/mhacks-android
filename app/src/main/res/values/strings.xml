@@ -62,7 +62,9 @@
     <string name="school">School</string>
 
 
-    <string name="done_positive" />
+    <string name="done">Done</string>
     <string name="ticket">Ticket</string>
+    <string name="qr_code">QR Code</string>
+
 
 </resources>

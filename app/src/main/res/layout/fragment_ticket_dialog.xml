@@ -1,11 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_ticket">
 
+    <ImageView
+        android:id="@+id/ticket_qr_code_image_view"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:contentDescription="@string/qr_code"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@color/blueGrey"/>
 
+    <TextView
+        android:id="@+id/ticket_full_name_descriptor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:text="@string/name"
+        app:layout_constraintBottom_toTopOf="@id/ticket_full_name_text_view"
+        app:layout_constraintLeft_toLeftOf="@id/ticket_qr_code_image_view"
+        app:layout_constraintTop_toBottomOf="@+id/ticket_qr_code_image_view"
+        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintVertical_chainStyle="packed" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/ticket_full_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        app:layout_constraintLeft_toLeftOf="@id/ticket_qr_code_image_view"
+        app:layout_constraintTop_toBottomOf="@id/ticket_full_name_descriptor"
+        app:layout_constraintBottom_toTopOf="@id/ticket_school_descriptor"
+
+        android:textStyle="bold"
+        android:text="Firstname Lastname"
+        android:textColor="@color/colorAccent"
+        tools:text="Firstname Lastname"/>
+
+    <TextView
+        android:id="@+id/ticket_school_descriptor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="35dp"
+        android:contentDescription="@string/qr_code"
+        android:text="@string/school"
+        app:layout_constraintLeft_toLeftOf="@id/ticket_qr_code_image_view"
+        app:layout_constraintTop_toBottomOf="@id/ticket_full_name_text_view"
+        app:layout_constraintBottom_toTopOf="@id/ticket_school_text_view"/>
+
+    <TextView
+        android:id="@+id/ticket_school_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="@id/ticket_qr_code_image_view"
+        app:layout_constraintTop_toBottomOf="@id/ticket_school_descriptor"
+        app:layout_constraintBottom_toTopOf="@id/ticket_bottom_bar"
+
+        android:text="University of Michigan"
+        tools:text="University of Michigan"/>
+
+    <FrameLayout
+        android:id="@+id/ticket_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/ticket_bottom_bar_done_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@android:color/transparent"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/done"
+            android:textColor="@color/colorAccent" />
+    </FrameLayout>
+
+</android.support.constraint.ConstraintLayout>
