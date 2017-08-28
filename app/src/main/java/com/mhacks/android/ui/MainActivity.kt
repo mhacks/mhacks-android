@@ -2,16 +2,11 @@ package com.mhacks.android.ui
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
-import android.app.AlertDialog
-import android.app.Dialog
 import android.app.FragmentTransaction
-import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.AsyncTask
-import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.annotation.RequiresApi
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
@@ -44,22 +39,26 @@ import java.io.IOException
 /**
  * Activity defines primarily the initial network calls to GCM as well as handle Fragment transactions.
  */
-
 class MainActivity : AppCompatActivity(),
         BottomNavigationView.OnNavigationItemSelectedListener,
         ActivityCompat.OnRequestPermissionsResultCallback,
         BaseFragment.OnNavigationChangeListener, View.OnClickListener {
 
     lateinit var regid: String
-    lateinit var PROJECT_NUMBER: String
     var notif: String? = null
 
+    //TODO: Adam Lazy delegate property assigns value the first time it's needed, and reuses it later.
+    //TODO: Adam This is helpful in activities where you need to wait until it's initialized to call resources.
+    //TODO: Adam This is also beneficial because now you've made the field immutable.
+    val PROJECT_NUMBER: String by lazy { getString(R.string.gcm_server_id) }
+
     // Toolbar
-    private var `val`: Boolean = false
+    //TODO: Try not to use keywords as variable names. General bad practice.
+    private var canUsePlayServices: Boolean = false
     private var menuItem: MenuItem? = null
 
     //GCM
-    private var gcm: GoogleCloudMessaging? = null
+    private val gcm: GoogleCloudMessaging by lazy { GoogleCloudMessaging.getInstance(applicationContext) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,15 +73,14 @@ class MainActivity : AppCompatActivity(),
 
         // Add the toolbar
         qr_ticket_fab.setOnClickListener(this)
-        menuItem = navigation!!.menu.getItem(0)
-        menuItem!!.setTitle(R.string.title_home)
+        menuItem = navigation?.menu?.getItem(0)
+        menuItem?.setTitle(R.string.title_home)
         setSupportActionBar(toolbar)
         updateFragment(WelcomeFragment.instance)
 
 
         // If Activity opened from push notification, value will reflect fragment that will initially open
         notif = intent.getStringExtra("notif_link")
-        PROJECT_NUMBER = getString(R.string.gcm_server_id)
 
         updateGcm()
         /*if (true) {
@@ -90,14 +88,16 @@ class MainActivity : AppCompatActivity(),
             startActivity(intent);
             finish();
         }*/
-        navigation!!.setOnNavigationItemSelectedListener(this)
+        navigation?.setOnNavigationItemSelectedListener(this)
 
-        if (notif != null) {
-            // Opens Announcements
-            if (notif == "Announcements") {
-                // updateFragment(announcementsFragment);
-            }
-        }
+        //TODO: Adam Commenting this out because it's not even used anyways, but you don't need
+        //TODO: Adam explicit null checks when you can use the safe operator.
+//        if (notif != null) {
+//            // Opens Announcements
+//            if (notif == "Announcements") {
+//                // updateFragment(announcementsFragment);
+//            }
+//        }
     }
 
     @TargetApi(21)
@@ -124,9 +124,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun setActionBarColor(drawable: Int) {
-        if (supportActionBar != null) {
-            supportActionBar!!.setBackgroundDrawable(ContextCompat.getDrawable(this, drawable))
-        }
+        supportActionBar?.setBackgroundDrawable(ContextCompat.getDrawable(this, drawable))
     }
 
     override fun setFragmentTitle(title: Int) {
@@ -139,8 +137,8 @@ class MainActivity : AppCompatActivity(),
                 ContextCompat.getColor(this, color.secondaryColor)
         )
 
-        navigation!!.itemIconTintList = colorStateList
-        navigation!!.itemTextColor = colorStateList
+        navigation?.itemIconTintList = colorStateList
+        navigation?.itemTextColor = colorStateList
     }
 
     //    public void login() {
@@ -191,13 +189,10 @@ class MainActivity : AppCompatActivity(),
             override fun doInBackground(vararg params: Void): String {
                 var msg = ""
                 try {
-                    if (gcm == null) {
-                        gcm = GoogleCloudMessaging.getInstance(applicationContext)
-                    }
                     // reg_id
                     val data = Bundle()
 
-                    regid = gcm!!.register(PROJECT_NUMBER)
+                    regid = gcm.register(PROJECT_NUMBER)
 
                     data.putString("regid", regid)
                     /*InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
@@ -254,7 +249,7 @@ class MainActivity : AppCompatActivity(),
 
     // Checks if the user can obtain the correct Google Play Services number
     private fun checkPlayServices(): Boolean {
-        `val` = true
+        canUsePlayServices = true
         object : AsyncTask<Void, Void, String>() {
             override fun doInBackground(vararg params: Void): String {
                 val msg = ""
@@ -274,10 +269,10 @@ class MainActivity : AppCompatActivity(),
             }
 
             override fun onPostExecute(msg: String) {
-                `val` = msg === "true"
+                canUsePlayServices = (msg == "true")
             }
         }.execute(null, null, null)
-        return `val`
+        return canUsePlayServices
     }
 
     /**
@@ -370,7 +365,7 @@ class MainActivity : AppCompatActivity(),
                                             permissions: Array<String>,
                                             grantResults: IntArray) {
         when (requestCode) {
-            LOCATION_REQUEST_CODE -> if (permissions.size > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED || grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+            LOCATION_REQUEST_CODE -> if (permissions.isNotEmpty() && (grantResults[0] == PackageManager.PERMISSION_GRANTED || grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
                 Log.d(TAG, "Location permissions granted")
             }
         }// updateFragment(mapViewFragment);
