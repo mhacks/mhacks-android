@@ -48,15 +48,12 @@
             android:paddingBottom="8dp"
             app:titleTextAppearance="@style/Toolbar.TitleText" />
 
-
-
-
     </RelativeLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/material_drawer_item_primary_icon"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
         app:layout_constraintBottom_toBottomOf="parent"

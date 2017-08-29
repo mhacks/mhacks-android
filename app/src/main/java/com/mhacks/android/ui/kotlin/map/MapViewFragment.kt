@@ -24,6 +24,11 @@ import com.mhacks.android.util.ResourceUtil
 import kotlinx.android.synthetic.main.fragment_map.*
 import org.mhacks.android.R
 import java.util.*
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import android.app.Activity
+
+
 
 /**j6yyg
  * Created by anksh on 12/31/2014.
@@ -38,43 +43,47 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
     override var LayoutResourceID: Int = R.layout.fragment_map
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-//        nameView = map_view_name
-        setUpMapIfNeeded()
 
-        val networkManager = NetworkManager.getInstance()
-        networkManager.getFloors(object : HackathonCallback<List<Floor>> {
-            override fun success(response: List<Floor>) {
-                floors = ArrayList(response)
+        if (checkGooglePlayServices(activity)) {
+            //        nameView = map_view_name
+            setUpMapIfNeeded()
 
-                val spinnerAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item)
-                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            val networkManager = NetworkManager.getInstance()
+            networkManager.getFloors(object : HackathonCallback<List<Floor>> {
+                override fun success(response: List<Floor>) {
+                    floors = ArrayList(response)
 
-                if (!floors.isEmpty()) {
-                    for (floor in floors) {
-                        spinnerAdapter.add(floor.getName())
-                    }
-                    nameView.adapter = spinnerAdapter
-                    spinnerAdapter.notifyDataSetChanged()
+                    val spinnerAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item)
+                    spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-                    nameView.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                        override fun onItemSelected(adapterView: AdapterView<*>,
-                                                    view: View,
-                                                    i: Int,
-                                                    l: Long) {
-                            addOverlay(floors[i])
+                    if (!floors.isEmpty()) {
+                        for (floor in floors) {
+                            spinnerAdapter.add(floor.getName())
                         }
+                        nameView.adapter = spinnerAdapter
+                        spinnerAdapter.notifyDataSetChanged()
 
-                        override fun onNothingSelected(adapterView: AdapterView<*>) {
+                        nameView.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(adapterView: AdapterView<*>,
+                                                        view: View,
+                                                        i: Int,
+                                                        l: Long) {
+                                addOverlay(floors[i])
+                            }
 
+                            override fun onNothingSelected(adapterView: AdapterView<*>) {
+
+                            }
                         }
                     }
                 }
-            }
 
-            override fun failure(error: Throwable) {
-                Log.e(TAG, "unable to get floors", error)
-            }
-        })
+                override fun failure(error: Throwable) {
+                    Log.e(TAG, "unable to get floors", error)
+                }
+            })
+        }
+
     }
 
     lateinit var nameView: Spinner
@@ -176,6 +185,20 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
 
             }
         })
+    }
+
+    fun checkGooglePlayServices(activity: Activity): Boolean {
+        val googleApiAvailability = GoogleApiAvailability.getInstance()
+        val status = googleApiAvailability.isGooglePlayServicesAvailable(activity)
+        if (status != ConnectionResult.SUCCESS) {
+            if (googleApiAvailability.isUserResolvableError(status)) {
+                val dialog = googleApiAvailability.getErrorDialog(activity, status, 1)
+                dialog.setTitle("Update Google Play Services")
+                dialog.show()
+            }
+            return false
+        }
+        return true
     }
 
     override fun onResume() {

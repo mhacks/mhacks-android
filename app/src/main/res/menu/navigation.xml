@@ -10,13 +10,13 @@
 
     <item
         android:id="@+id/navigation_announcements"
-        android:icon="@drawable/ic_message_black_24dp"
+        android:icon="@drawable/ic_rss_feed_black_24dp"
         android:title="@string/title_announcements"
-        android:visible="false" />m
+        android:visible="false" />
 
     <item
         android:id="@+id/navigation_events"
-        android:icon="@drawable/ic_event_black_24dp"
+        android:icon="@drawable/ic_calendar_black_24dp"
         android:title="@string/title_events"
         android:visible="false" />
 

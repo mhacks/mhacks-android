@@ -195,7 +195,7 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
             case 4: // Other - Green
 //                return ContextCompat.getColor(getActivity(), R.color.event_green);
             default:
-                return ContextCompat.getColor(getActivity(), R.color.md_cyan_50);
+                return ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark);
 //                return ContextCompat.getColor(getActivity(), R.color.event_blue);
         }
     }

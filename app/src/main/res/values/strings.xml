@@ -59,6 +59,12 @@
 
     <!-- Strings for the Ticket Page -->
     <string name="name">Name</string>
-    <string name="School">School</string>
+    <string name="school">School</string>
+
+
+    <string name="done">Done</string>
+    <string name="ticket">Ticket</string>
+    <string name="qr_code">QR Code</string>
+
 
 </resources>

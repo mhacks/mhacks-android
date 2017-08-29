@@ -185,7 +185,7 @@ public class RegistrationFragment extends Fragment{
                 if (response.isScanned()) {
                     Button button = new Button(getActivity());
                     button.setText("Confirm Scan");
-                    button.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.md_cyan_50));
+                    button.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
