@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.github.vipulasri.timelineview.TimelineView
 import com.mhacks.android.data.model.Announcement
 import com.mhacks.android.data.network.NetworkManager
 import com.mhacks.android.ui.common.BaseFragment
@@ -109,14 +110,18 @@ class AnnouncementFragment : BaseFragment() {
     internal inner class MainNavAdapter// Default constructor
     (var mContext: Context) : RecyclerView.Adapter<MainNavAdapter.ViewHolder>() {
 
+        override fun getItemViewType(position: Int): Int {
+            return TimelineView.getTimeLineViewType(position, itemCount)
+        }
+
         // Create new views (invoked by the layout manager)
-        override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
+        override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
             // Create the view for this row
             val row = LayoutInflater.from(mContext)
                     .inflate(R.layout.announcement_list_item, viewGroup, false)
 
             // Create a new viewHolder which caches all the views that needs to be saved
-            val viewHolder = ViewHolder(row)
+            val viewHolder = ViewHolder(row, viewType)
 
             return viewHolder
         }
@@ -172,11 +177,17 @@ class AnnouncementFragment : BaseFragment() {
         }
 
         // Simple class that holds all the views that need to be reused
-        internal inner class ViewHolder// Default constructor, itemView holds all the views that need to be saved
-        (itemView: View) : RecyclerView.ViewHolder(itemView) {
-            var titleView: TextView = itemView.findViewById<View>(R.id.info_title) as TextView
-            var dateView: TextView = itemView.findViewById<View>(R.id.info_date) as TextView
-            var descriptionView: TextView = itemView.findViewById<View>(R.id.info_description) as TextView
+        // Default constructor, itemView holds all the views that need to be saved
+        internal inner class ViewHolder(itemView: View, viewType: Int) : RecyclerView.ViewHolder(itemView) {
+            val titleView = itemView.findViewById<View>(R.id.info_title) as TextView
+            val dateView = itemView.findViewById<View>(R.id.info_date) as TextView
+            val descriptionView = itemView.findViewById<View>(R.id.info_description) as TextView
+            val timelineView = itemView.findViewById<View>(R.id.info_time_marker) as TimelineView
+            init {
+                timelineView.initLine(viewType)
+            }
+
+
         }
     }
 

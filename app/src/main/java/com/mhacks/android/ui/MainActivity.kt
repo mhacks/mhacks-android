@@ -21,6 +21,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import android.widget.TextView
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GooglePlayServicesUtil
 import com.google.android.gms.gcm.GoogleCloudMessaging
@@ -40,6 +41,7 @@ import com.mhacks.android.util.ResourceUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import org.mhacks.android.R
 import java.io.IOException
+import java.lang.reflect.Field
 
 /**
  * Activity defines primarily the initial network calls to GCM as well as handle Fragment transactions.
@@ -51,6 +53,7 @@ class MainActivity : AppCompatActivity(),
         BaseFragment.OnNavigationChangeListener, View.OnClickListener {
 
     lateinit var regid: String
+    lateinit var tv: TextView
     lateinit var PROJECT_NUMBER: String
     var notif: String? = null
 
@@ -66,7 +69,6 @@ class MainActivity : AppCompatActivity(),
 
         setTheme(R.style.MHacksTheme)
         setSystemFullScreenUI()
-
         setContentView(R.layout.activity_main)
         setBottomNavigationColor(
                 NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
@@ -76,6 +78,7 @@ class MainActivity : AppCompatActivity(),
         qr_ticket_fab.setOnClickListener(this)
         menuItem = navigation!!.menu.getItem(0)
         menuItem!!.setTitle(R.string.title_home)
+
         setSupportActionBar(toolbar)
         updateFragment(WelcomeFragment.instance)
 
@@ -99,6 +102,7 @@ class MainActivity : AppCompatActivity(),
             }
         }
     }
+
 
     @TargetApi(21)
     override fun setStatusBarColor(color: Int) {

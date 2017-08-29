@@ -48,9 +48,6 @@
             android:paddingBottom="8dp"
             app:titleTextAppearance="@style/Toolbar.TitleText" />
 
-
-
-
     </RelativeLayout>
 
     <android.support.design.widget.BottomNavigationView
