@@ -2,6 +2,9 @@ package com.mhacks.android.ui.common
 
 import android.os.Build
 import android.os.Bundle
+import android.support.annotation.ColorRes
+import android.support.annotation.DrawableRes
+import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +29,7 @@ abstract class BaseFragment : Fragment() {
         mCallback = activity as OnNavigationChangeListener
     }
 
-    override final   fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         changeColors()
         val view = inflater!!.inflate(LayoutResourceID, container, false)
         return view
@@ -70,11 +73,16 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
+    public fun setCustomActionBarColor(@ColorRes res: Int) {
+        mCallback!!.setActionBarColor(res)
+    }
+
     interface OnNavigationChangeListener {
 
-        fun setFragmentTitle(title: Int)
+        fun setFragmentTitle(@StringRes title: Int)
 
-        fun setActionBarColor(color: Int)
+        fun setActionBarColor(@ColorRes color: Int)
+
 
         fun setStatusBarColor(color: Int)
 

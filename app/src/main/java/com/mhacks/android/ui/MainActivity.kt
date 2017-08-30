@@ -7,6 +7,8 @@ import android.content.pm.PackageManager
 import android.os.AsyncTask
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.support.annotation.ColorRes
+import android.support.annotation.DrawableRes
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
@@ -16,19 +18,18 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
-import android.widget.TextView
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GooglePlayServicesUtil
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.mhacks.android.data.model.Token
 import com.mhacks.android.data.network.HackathonCallback
 import com.mhacks.android.data.network.NetworkManager
+import com.mhacks.android.ui.announcements.AnnouncementFragment
 import com.mhacks.android.ui.common.BaseFragment
 import com.mhacks.android.ui.common.NavigationColor
 import com.mhacks.android.ui.countdown.WelcomeFragment
 import com.mhacks.android.ui.info.InfoFragment
-import com.mhacks.android.ui.kotlin.announcements.AnnouncementFragment
-import com.mhacks.android.ui.kotlin.schedule.EventFragment
+import com.mhacks.android.ui.schedule.EventFragment
 import com.mhacks.android.ui.map.MapViewFragment
 import com.mhacks.android.ui.settings.SettingsFragment
 import com.mhacks.android.ui.ticket.TicketDialogFragment
@@ -36,7 +37,6 @@ import com.mhacks.android.util.ResourceUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import org.mhacks.android.R
 import java.io.IOException
-import java.lang.reflect.Field
 
 /**
  * Activity defines primarily the initial network calls to GCM as well as handle Fragment transactions.
@@ -129,8 +129,8 @@ class MainActivity : AppCompatActivity(),
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 
-    override fun setActionBarColor(drawable: Int) {
-        supportActionBar?.setBackgroundDrawable(ContextCompat.getDrawable(this, drawable))
+    override fun setActionBarColor(@ColorRes color: Int) {
+        supportActionBar?.setBackgroundDrawable(ContextCompat.getDrawable(this, color))
     }
 
     override fun setFragmentTitle(title: Int) {

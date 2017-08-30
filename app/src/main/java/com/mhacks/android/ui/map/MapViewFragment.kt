@@ -27,7 +27,8 @@ import java.util.*
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import android.app.Activity
-
+import android.view.LayoutInflater
+import android.view.ViewGroup
 
 
 /**j6yyg
@@ -41,6 +42,12 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
     override var setTransparent: Boolean = true
     override var AppBarTitle: Int = R.string.title_map
     override var LayoutResourceID: Int = R.layout.fragment_map
+
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setCustomActionBarColor(R.color.semitransparent_theme_primary)
+        return super.onCreateView(inflater, container, savedInstanceState)
+
+    }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
 

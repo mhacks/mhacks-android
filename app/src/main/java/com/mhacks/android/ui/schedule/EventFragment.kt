@@ -1,4 +1,4 @@
-package com.mhacks.android.ui.kotlin.schedule
+package com.mhacks.android.ui.schedule
 
 
 import android.graphics.Color
@@ -36,7 +36,10 @@ import java.util.TimeZone
  * Builds schedule with events pulled from the Parse database. Uses the EventDetailsFragment to
  * create event details.
  */
-class EventFragment : BaseFragment(), WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener {
+class EventFragment : BaseFragment(),
+        WeekView.EventClickListener,
+        MonthLoader.MonthChangeListener,
+        WeekView.EventLongPressListener {
 
     override var setTransparent: Boolean = false
     override var AppBarTitle: Int = R.string.title_events
