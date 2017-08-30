@@ -1,73 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="125dp"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
+        android:id="@+id/announcements_time_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="8:00"
-        app:layout_constraintRight_toLeftOf="@id/info_time_marker"/>
+        android:textSize="16sp"
+        app:layout_constraintRight_toLeftOf="@id/announcements_info_time_marker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/announcements_horizontal_divider"
+        tools:text="8:00" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/vertical_divider"
+        android:id="@+id/announcements_vertical_divider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.20"/>
+        app:layout_constraintGuide_percent="0.35"/>
+    <android.support.constraint.Guideline
+        android:id="@+id/announcements_horizontal_divider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.50"/>
 
     <com.github.vipulasri.timelineview.TimelineView
-        android:id="@+id/info_time_marker"
+        android:id="@+id/announcements_info_time_marker"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
 
         android:layout_marginEnd="8dp"
 
         android:paddingTop="16dp"
         android:layout_weight="1"
-        app:layout_constraintEnd_toStartOf="@+id/cardView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/announcements_cardView"
+
         app:line="@color/brown"
         app:linePadding="16dp"
         app:lineSize="2dp"
-        app:markerInCenter="false"
+        app:markerInCenter="true"
         app:marker="@drawable/timeline_purple_marker"
         app:markerSize="25dp" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
 
-        app:cardBackgroundColor="#00ffffff"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp"
-        app:layout_constraintLeft_toLeftOf="@id/vertical_divider"
-        app:layout_constraintRight_toRightOf="parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/announcements_cardView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:background="@color/mintGreen"
+
+            app:layout_constraintTop_toBottomOf="@id/announcements_horizontal_divider"
+            app:layout_constraintLeft_toLeftOf="@id/announcements_vertical_divider"
+            app:layout_constraintRight_toRightOf="parent">
 
             <TextView
-                android:id="@+id/info_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="3/2/1996"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/info_title"
+                android:id="@+id/announcements_info_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
@@ -77,12 +70,11 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/info_description"
+                android:id="@+id/announcements_info_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Event info goes here..."
-                android:textColor="@color/white" />
+                android:textColor="@color/colorPrimary" />
 
         </LinearLayout>
-    </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>

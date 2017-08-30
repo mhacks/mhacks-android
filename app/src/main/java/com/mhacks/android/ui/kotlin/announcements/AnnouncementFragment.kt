@@ -76,10 +76,10 @@ class AnnouncementFragment : BaseFragment() {
     }
 
     private fun getAnnouncements() {
-        mAnnouncementsList.add(Announcement("Test Announcement", "I LOVE MHACKS", 1501997324, 1, true, false))
-        mAnnouncementsList.add(Announcement("Test Announcement", "I LOVE MHACKS", 1501997324, 1, true, false))
-        mAnnouncementsList.add(Announcement("Test Announcement", "I LOVE MHACKS", 1501997324, 1, true, false))
-        mAnnouncementsList.add(Announcement("Test Announcement", "I LOVE MHACKS", 1501997324, 1, true, false))
+        mAnnouncementsList.add(Announcement("Test Announcement", "1", 1501997324, 1, true, false))
+        mAnnouncementsList.add(Announcement("Test Announcement", "2", 1501997324, 1, true, false))
+        mAnnouncementsList.add(Announcement("Test Announcement", "3", 1501997324, 1, true, false))
+        mAnnouncementsList.add(Announcement("", "", 1501997324, 1, true, false))
         updateAnnouncements()
 //        networkManager.getAnnouncements(object : HackathonCallback<List<Announcement>> {
 //            override fun success(response: List<Announcement>) {
@@ -137,6 +137,9 @@ class AnnouncementFragment : BaseFragment() {
             // Set this item's views based off of the announcement data
             viewHolder.titleView.text = announcement.title
             viewHolder.descriptionView.text = announcement.info
+            if (!announcement.title.equals("")) {
+                viewHolder.timeView.setText("8:00")
+            }
 
             val category = announcement.category
             var current = 1
@@ -167,8 +170,8 @@ class AnnouncementFragment : BaseFragment() {
 
             // Get the date from this announcement and set it as a relative date
             val date = Date(announcement.broadcastAt)
-            val relativeDate = DateUtils.getRelativeTimeSpanString(date.time)
-            viewHolder.dateView.text = relativeDate
+//            val relativeDate = DateUtils.getRelativeTimeSpanString(date.time)
+//            viewHolder.dateView.text = relativeDate
         }
 
         // Return the size of your dataset (invoked by the layout manager)
@@ -179,10 +182,11 @@ class AnnouncementFragment : BaseFragment() {
         // Simple class that holds all the views that need to be reused
         // Default constructor, itemView holds all the views that need to be saved
         internal inner class ViewHolder(itemView: View, viewType: Int) : RecyclerView.ViewHolder(itemView) {
-            val titleView = itemView.findViewById<View>(R.id.info_title) as TextView
-            val dateView = itemView.findViewById<View>(R.id.info_date) as TextView
-            val descriptionView = itemView.findViewById<View>(R.id.info_description) as TextView
-            val timelineView = itemView.findViewById<View>(R.id.info_time_marker) as TimelineView
+            val titleView = itemView.findViewById<View>(R.id.announcements_info_title) as TextView
+            val timeView = itemView.findViewById<View>(R.id.announcements_time_text) as TextView
+            val descriptionView = itemView.findViewById<View>(R.id.announcements_info_description) as TextView
+            val timelineView = itemView.findViewById<View>(R.id.announcements_info_time_marker) as TimelineView
+//            val timelineView = itemView.findViewById<View>(R.id.info_time_marker) as TimelineView
             init {
                 timelineView.initLine(viewType)
             }

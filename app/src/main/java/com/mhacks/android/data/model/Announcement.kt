@@ -14,4 +14,10 @@ package com.mhacks.android.data.model
  * 32 - Other (brown)
  */
 
-data class Announcement(var title: String, var info: String, var broadcastAt: Long, var category: Int, var isApproved: Boolean, var isDeleted: Boolean) : ModelObject()
+data class Announcement(
+        var title: String,
+        var info: String,
+        var broadcastAt: Long,
+        var category: Int,
+        var isApproved: Boolean,
+        var isDeleted: Boolean) : ModelObject()

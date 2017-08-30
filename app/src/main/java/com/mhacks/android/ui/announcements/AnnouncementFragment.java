@@ -210,9 +210,8 @@ public class AnnouncementFragment extends Fragment {
                 super(itemView);
 
                 // Save the TextViews
-                this.titleView = (TextView) itemView.findViewById(R.id.info_title);
-                this.dateView = (TextView) itemView.findViewById(R.id.info_date);
-                this.descriptionView = (TextView) itemView.findViewById(R.id.info_description);
+                this.titleView = (TextView) itemView.findViewById(R.id.announcements_info_title);
+                this.descriptionView = (TextView) itemView.findViewById(R.id.announcements_info_description);
             }
         }
     }
