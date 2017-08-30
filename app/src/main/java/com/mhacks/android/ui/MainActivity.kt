@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity(),
 
     // Toolbar
     //TODO: Try not to use keywords as variable names. General bad practice.
-    
+
     private var canUsePlayServices: Boolean = false
     private var menuItem: MenuItem? = null
 
@@ -330,12 +330,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-
-        /*
-            Necessary to set the global variable to the current MenuItem. There is a layout
-            issue where the menu images are clipped if the title is set to another item.
-        */
-
         when (item.itemId) {
             R.id.navigation_home -> {
                 updateFragment(WelcomeFragment.instance)
@@ -353,7 +347,7 @@ class MainActivity : AppCompatActivity(),
                 updateFragment(InfoFragment.instance)
             }
         }
-        menuItem = item
+
         return true
     }
 
