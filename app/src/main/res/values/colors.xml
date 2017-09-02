@@ -17,8 +17,6 @@
     <color name="colorAccent">#F4A4A8</color>
 
 
-    <!--First pane-->
-    <color name="welcomePrimary">#43384D</color>
-    <color name="welcomeAccent">#FFB198</color>
-    <color name="semitransparent_theme_primary">#6643384D</color>
+    <!--Map Fragment-->
+    <color name="semiColorPrimary">#6643384D</color>
 </resources>

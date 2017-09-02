@@ -1,6 +1,7 @@
 package com.mhacks.android.ui.map
 
 import android.Manifest
+import android.app.Activity
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -10,6 +11,8 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -19,16 +22,9 @@ import com.mhacks.android.data.model.Floor
 import com.mhacks.android.data.network.HackathonCallback
 import com.mhacks.android.data.network.NetworkManager
 import com.mhacks.android.ui.common.BaseFragment
-import com.mhacks.android.ui.common.NavigationColor
 import com.mhacks.android.util.ResourceUtil
-import kotlinx.android.synthetic.main.fragment_map.*
 import org.mhacks.android.R
 import java.util.*
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
-import android.app.Activity
-import android.view.LayoutInflater
-import android.view.ViewGroup
 
 
 /**j6yyg
@@ -43,14 +39,8 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
     override var AppBarTitle: Int = R.string.title_map
     override var LayoutResourceID: Int = R.layout.fragment_map
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        setCustomActionBarColor(R.color.semitransparent_theme_primary)
-        return super.onCreateView(inflater, container, savedInstanceState)
-
-    }
-
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-
+        setCustomActionBarColor(R.color.semiColorPrimary)
         if (checkGooglePlayServices(activity)) {
             //        nameView = map_view_name
             setUpMapIfNeeded()

@@ -1,23 +1,16 @@
 package com.mhacks.android.ui.announcements
 
-import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.text.format.DateUtils
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import com.github.vipulasri.timelineview.TimelineView
 import com.mhacks.android.data.model.Announcement
 import com.mhacks.android.data.network.NetworkManager
 import com.mhacks.android.ui.common.BaseFragment
-import com.mhacks.android.ui.common.NavigationColor
+import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_announcements.*
 import org.mhacks.android.R
-import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Created by Omkar Moghe on 10/25/2014.
@@ -34,9 +27,8 @@ class AnnouncementFragment : BaseFragment() {
     private val networkManager = NetworkManager.getInstance()
 
     // Caches all the Announcements found
-    internal lateinit var mAnnouncementsList: ArrayList<Announcement>
 
-    internal lateinit var mListAdapter: MainNavAdapter
+    internal lateinit var listAdapter: SectionedRecyclerViewAdapter
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
     }
@@ -48,9 +40,6 @@ class AnnouncementFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        // Only reset this if we need to
-        mAnnouncementsList = ArrayList<Announcement>()
 
 
         // Initialize the test ListView
@@ -66,29 +55,45 @@ class AnnouncementFragment : BaseFragment() {
         // in content do not change the layout size of the RecyclerView
         announcements_recycler_view.setHasFixedSize(true)
 
-        // use a linear layout manager
-        val layoutManager = LinearLayoutManager(activity)
-        announcements_recycler_view.layoutManager = layoutManager
+        announcements_recycler_view.layoutManager = LinearLayoutManager(activity)
 
         // Create and set the adapter for this recyclerView
-        mListAdapter = MainNavAdapter(activity)
-        announcements_recycler_view.adapter = mListAdapter
+        val list = getAnnouncementSectionModelList()
+        listAdapter = SectionedAnnouncementAdapter(list)
+
+        announcements_recycler_view.adapter = listAdapter
     }
 
-    private fun getAnnouncements() {
-        mAnnouncementsList.add(Announcement("Test Announcement", "1", 1501997324, 1, true, false))
-        mAnnouncementsList.add(Announcement("Test Announcement", "2", 1501997324, 1, true, false))
-        mAnnouncementsList.add(Announcement("Test Announcement", "3", 1501997324, 1, true, false))
-        mAnnouncementsList.add(Announcement("", "", 1501997324, 1, true, false))
-        updateAnnouncements()
+    private fun getAnnouncementSectionModelList(): ArrayList<AnnouncementSection.AnnouncementSectionModel> {
+
+        val sectionList = ArrayList<AnnouncementSection.AnnouncementSectionModel>();
+
+        sectionList.add(AnnouncementSection.AnnouncementSectionModel("8:00", getAnnouncements()))
+        sectionList.add(AnnouncementSection.AnnouncementSectionModel("8:00", getAnnouncements()))
+        sectionList.add(AnnouncementSection.AnnouncementSectionModel("8:00", getAnnouncements()))
+        sectionList.add(AnnouncementSection.AnnouncementSectionModel("8:00", getAnnouncements()))
+        sectionList.add(AnnouncementSection.AnnouncementSectionModel("", getEmptyAnnouncements()))
+
+        return sectionList
+
+    }
+
+    private fun getAnnouncements(): ArrayList<Announcement> {
+        val announcementsList = ArrayList<Announcement>()
+        announcementsList.add(Announcement("Test Announcement", "This is description 1.", 1501997324, 1, true, false))
+        announcementsList.add(Announcement("New Announcement", "This is description 2.", 1501997324, 1, true, false))
+        announcementsList.add(Announcement("New Announcement", "This is description 3.", 1501997324, 1, true, false))
+        announcementsList.add(Announcement("New Announcement", "This is description 4.", 1501997324, 1, true, false))
+
+        return announcementsList
 //        networkManager.getAnnouncements(object : HackathonCallback<List<Announcement>> {
 //            override fun success(response: List<Announcement>) {
-//                mAnnouncementsList = ArrayList<Announcement>()
+//                announcementsList = ArrayList<Announcement>()
 //                for (announcement in response) {
 //                    val currentTime = Calendar.getInstance()
 //                    val announcementTime = Calendar.getInstance()
 //                    announcementTime.time = Date(announcement.broadcastAt)
-//                    if (currentTime.compareTo(announcementTime) != -1) mAnnouncementsList.add(announcement)
+//                    if (currentTime.compareTo(announcementTime) != -1) announcementsList.add(announcement)
 //
 //                    updateAnnouncements()
 //                }
@@ -100,101 +105,34 @@ class AnnouncementFragment : BaseFragment() {
 //        })
     }
 
+
+    private fun getEmptyAnnouncements(): ArrayList<Announcement> {
+        val announcementsList = ArrayList<Announcement>()
+        announcementsList.add(Announcement("", "", 1501997324, 1, true, false))
+        return announcementsList
+//        networkManager.getAnnouncements(object : HackathonCallback<List<Announcement>> {
+//            override fun success(response: List<Announcement>) {
+//                announcementsList = ArrayList<Announcement>()
+//                for (announcement in response) {
+//                    val currentTime = Calendar.getInstance()
+//                    val announcementTime = Calendar.getInstance()
+//                    announcementTime.time = Date(announcement.broadcastAt)
+//                    if (currentTime.compareTo(announcementTime) != -1) announcementsList.add(announcement)
+//
+//                    updateAnnouncements()
+//                }
+//            }
+//
+//            override fun failure(error: Throwable) {
+//                Log.e(TAG, "Couldn't get announcements", error)
+//            }
+//        })
+    }
     // Update the announcements shown
     private fun updateAnnouncements() {
         // Notify the adapter that the data changed
-        mListAdapter.notifyDataSetChanged()
+        listAdapter.notifyDataSetChanged()
     }
-
-
-    internal inner class MainNavAdapter// Default constructor
-    (var mContext: Context) : RecyclerView.Adapter<MainNavAdapter.ViewHolder>() {
-
-        override fun getItemViewType(position: Int): Int {
-            return TimelineView.getTimeLineViewType(position, itemCount)
-        }
-
-        // Create new views (invoked by the layout manager)
-        override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-            // Create the view for this row
-            val row = LayoutInflater.from(mContext)
-                    .inflate(R.layout.announcement_list_item, viewGroup, false)
-
-            // Create a new viewHolder which caches all the views that needs to be saved
-            val viewHolder = ViewHolder(row, viewType)
-
-            return viewHolder
-        }
-
-        // Replace the contents of a view (invoked by the layout manager)
-        override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
-            // - get element from your dataset at this position
-            // - replace the contents of the view with that element
-
-            // Get the current announcement item
-            val announcement = mAnnouncementsList[i]
-
-            // Set this item's views based off of the announcement data
-            viewHolder.titleView.text = announcement.title
-            viewHolder.descriptionView.text = announcement.info
-            if (!announcement.title.equals("")) {
-                viewHolder.timeView.setText("8:00")
-            }
-
-            val category = announcement.category
-            var current = 1
-            for (a in 0..4) {
-                current = 1 shl a
-                if (category and current != 0) break
-            }
-            when (current) {
-                1 -> {
-                }
-                2 -> {
-                }
-                4 -> {
-                }
-                8 -> {
-                }
-                16 -> {
-                }
-                32 -> {
-                }
-            }
-            //                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_red));
-            //                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_blue));
-            //                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_yellow));
-            //                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_green));
-            //                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_purple));
-            //                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.md_brown_500));
-
-            // Get the date from this announcement and set it as a relative date
-            val date = Date(announcement.broadcastAt)
-//            val relativeDate = DateUtils.getRelativeTimeSpanString(date.time)
-//            viewHolder.dateView.text = relativeDate
-        }
-
-        // Return the size of your dataset (invoked by the layout manager)
-        override fun getItemCount(): Int {
-            return mAnnouncementsList.size
-        }
-
-        // Simple class that holds all the views that need to be reused
-        // Default constructor, itemView holds all the views that need to be saved
-        internal inner class ViewHolder(itemView: View, viewType: Int) : RecyclerView.ViewHolder(itemView) {
-            val titleView = itemView.findViewById<View>(R.id.announcements_info_title) as TextView
-            val timeView = itemView.findViewById<View>(R.id.announcements_time_text) as TextView
-            val descriptionView = itemView.findViewById<View>(R.id.announcements_info_description) as TextView
-            val timelineView = itemView.findViewById<View>(R.id.announcements_info_time_marker) as TimelineView
-//            val timelineView = itemView.findViewById<View>(R.id.info_time_marker) as TimelineView
-            init {
-                timelineView.initLine(viewType)
-            }
-
-
-        }
-    }
-
     companion object {
         //Local datastore pin title.
         val ANNOUNCEMENT_PIN = "announcementPin"
@@ -205,3 +143,5 @@ class AnnouncementFragment : BaseFragment() {
             get() = AnnouncementFragment()
     }
 }
+
+

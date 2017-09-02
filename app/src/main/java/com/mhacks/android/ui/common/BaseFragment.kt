@@ -39,19 +39,6 @@ abstract class BaseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    /* http://mrtn.me/blog/2012/03/17/get-the-height-of-the-status-bar-in-android/
-        Copied code to get the length of the status bar.
-     */
-
-    fun getStatusBarHeight(): Int {
-        var result = 0
-        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) {
-            result = resources.getDimensionPixelSize(resourceId)
-        }
-        return result
-    }
-
     private fun changeColors() {
         mCallback!!.setFragmentTitle(AppBarTitle)
         mCallback!!.setActionBarColor(android.R.color.transparent)
@@ -73,7 +60,7 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
-    public fun setCustomActionBarColor(@ColorRes res: Int) {
+    fun setCustomActionBarColor(@ColorRes res: Int) {
         mCallback!!.setActionBarColor(res)
     }
 
@@ -82,7 +69,6 @@ abstract class BaseFragment : Fragment() {
         fun setFragmentTitle(@StringRes title: Int)
 
         fun setActionBarColor(@ColorRes color: Int)
-
 
         fun setStatusBarColor(color: Int)
 

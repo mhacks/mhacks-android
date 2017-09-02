@@ -2,78 +2,67 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="125dp"
+    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools">
-
-    <TextView
-        android:id="@+id/announcements_time_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        app:layout_constraintRight_toLeftOf="@id/announcements_info_time_marker"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/announcements_horizontal_divider"
-        tools:text="8:00" />
 
     <android.support.constraint.Guideline
         android:id="@+id/announcements_vertical_divider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.35"/>
-    <android.support.constraint.Guideline
-        android:id="@+id/announcements_horizontal_divider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.70"/>
+        app:layout_constraintGuide_percent="0.30"/>
 
-    <com.github.vipulasri.timelineview.TimelineView
-        android:id="@+id/announcements_info_time_marker"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="48dp"
         android:layout_height="match_parent"
-
         android:layout_marginEnd="8dp"
-
-        android:paddingTop="16dp"
         android:layout_weight="1"
-        app:layout_constraintEnd_toStartOf="@+id/announcements_cardView"
+        app:layout_constraintEnd_toStartOf="@+id/announcements_cardView">
+        <View
+            android:id="@+id/announcements_info_line"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/brown" />
+    </FrameLayout>
 
-        app:line="@color/brown"
-        app:linePadding="16dp"
-        app:lineSize="2dp"
-        app:markerInCenter="true"
-        app:marker="@drawable/timeline_purple_marker"
-        app:markerSize="25dp" />
 
 
 
-        <LinearLayout
-            android:id="@+id/announcements_cardView"
-            android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/announcements_cardView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical"
+
+
+        android:paddingStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintLeft_toLeftOf="@id/announcements_vertical_divider"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/announcements_item_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_marginBottom="4dp"
+            android:textColor="@color/colorPrimary"
 
-            app:layout_constraintTop_toBottomOf="@id/announcements_horizontal_divider"
-            app:layout_constraintLeft_toLeftOf="@id/announcements_vertical_divider"
-            app:layout_constraintRight_toRightOf="parent">
+            android:textSize="16sp"
+            android:textStyle="italic"
+            tools:text="Event Title" />
 
-            <TextView
-                android:id="@+id/announcements_info_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:text="Event Title"
-                android:textColor="@color/pinkText"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+        <TextView
+            android:id="@+id/announcements_item_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            tools:text="Event info goes here..." />
 
-            <TextView
-                android:id="@+id/announcements_info_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Event info goes here..."
-                android:textColor="@color/colorPrimary" />
-
-        </LinearLayout>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
