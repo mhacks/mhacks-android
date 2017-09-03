@@ -37,7 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by boztalay on 6/4/15.
- * Updated by omkarmoghe on 12/25/15 for the MHacks modular backend & Retrofit 2.0.0-beta2.
+ * Updated by omkarmoghe on 12/25/15 for the MHacksApplication modular backend & Retrofit 2.0.0-beta2.
  *
  */
 public class NetworkManager {

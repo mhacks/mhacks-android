@@ -24,6 +24,7 @@
 
     <application
         android:allowBackup="true"
+        android:name="com.mhacks.android.MHacksApplication"
         android:icon="@mipmap/launcher_icon"
         android:label="@string/app_name"
         android:logo="@mipmap/launcher_icon"

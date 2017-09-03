@@ -54,8 +54,8 @@ import org.mhacks.android.R
     }
 
     override fun onBindHeaderViewHolder(holder: RecyclerView.ViewHolder?) {
-        val holder = holder as AnnouncementSectionHeaderViewHolder
-        holder.announcementsTimeTextView.text = time
+        val vh = holder as AnnouncementSectionHeaderViewHolder
+        vh.announcementsTimeTextView.text = time
     }
 
      override fun getItemViewHolder(view: View): RecyclerView.ViewHolder {
@@ -65,9 +65,9 @@ import org.mhacks.android.R
      }
 
     override fun onBindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val view = holder as AnnouncementSectionItemViewHolder
-        view.announcementItemTitle.text = announcements[position].title
-        view.descriptionItemTitle.text = announcements[position].info
+        val viewHolder = holder as AnnouncementSectionItemViewHolder
+        viewHolder.announcementItemTitle.text = announcements[position].title
+        viewHolder.descriptionItemTitle.text = announcements[position].info
      }
 
     class AnnouncementSectionHeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {

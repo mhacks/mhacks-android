@@ -26,7 +26,7 @@ class AnnouncementAdapter(var mContext: Context, var announcementList: ArrayList
                 .inflate(R.layout.announcement_list_item, viewGroup, false)
 
         // Create a new viewHolder which caches all the views that needs to be saved
-        val viewHolder = AnnouncementViewHolder(row, viewType)
+        val viewHolder = AnnouncementViewHolder(row)
 
         return viewHolder
     }
@@ -75,7 +75,7 @@ class AnnouncementAdapter(var mContext: Context, var announcementList: ArrayList
         //                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.md_brown_500));
 
         // Get the date from this announcement and set it as a relative date
-        val date = Date(announcement.broadcastAt)
+//        val date = Date(announcement.broadcastAt)
 //            val relativeDate = DateUtils.getRelativeTimeSpanString(date.time)
 //            viewHolder.dateView.text = relativeDate
     }
@@ -87,7 +87,7 @@ class AnnouncementAdapter(var mContext: Context, var announcementList: ArrayList
 
     // Simple class that holds all the views that need to be reused
     // Default constructor, itemView holds all the views that need to be saved
-    inner class AnnouncementViewHolder(itemView: View, viewType: Int) : RecyclerView.ViewHolder(itemView) {
+    inner class AnnouncementViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleView = itemView.findViewById<View>(R.id.announcements_item_title) as TextView
         val timeView = itemView.findViewById<View>(R.id.announcements_time_text) as TextView
         val descriptionView = itemView.findViewById<View>(R.id.announcements_item_description) as TextView

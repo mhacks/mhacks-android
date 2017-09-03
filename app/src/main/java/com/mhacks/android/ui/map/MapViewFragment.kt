@@ -31,7 +31,7 @@ import java.util.*
  * Created by anksh on 12/31/2014.
  * Updated by omkarmoghe on 10/6/16
 
- * Displays maps of the MHacks 8 venues.
+ * Displays maps of the MHacksApplication 8 venues.
  */
 class MapViewFragment : BaseFragment(), OnMapReadyCallback {
 

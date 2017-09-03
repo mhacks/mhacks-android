@@ -3,6 +3,7 @@ package com.mhacks.android.ui
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.FragmentTransaction
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.AsyncTask
 import android.os.Bundle
@@ -21,6 +22,7 @@ import android.view.WindowManager
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GooglePlayServicesUtil
 import com.google.android.gms.gcm.GoogleCloudMessaging
+import com.mhacks.android.MHacksApplication
 import com.mhacks.android.data.model.Token
 import com.mhacks.android.data.network.HackathonCallback
 import com.mhacks.android.data.network.NetworkManager
@@ -35,8 +37,11 @@ import com.mhacks.android.ui.settings.SettingsFragment
 import com.mhacks.android.ui.ticket.TicketDialogFragment
 import com.mhacks.android.util.ResourceUtil
 import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.OkHttpClient
 import org.mhacks.android.R
+import retrofit2.Retrofit
 import java.io.IOException
+import javax.inject.Inject
 
 /**
  * Activity defines primarily the initial network calls to GCM as well as handle Fragment transactions.
@@ -62,12 +67,19 @@ class MainActivity : AppCompatActivity(),
     private var canUsePlayServices: Boolean = false
     private var menuItem: MenuItem? = null
 
+
+    @Inject lateinit var okHTTPClient: OkHttpClient
+    @Inject lateinit var sharedPreferences: SharedPreferences
+    @Inject lateinit var retrofit: Retrofit
+
+
     //GCM
     private val gcm: GoogleCloudMessaging by lazy { GoogleCloudMessaging.getInstance(applicationContext) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+//        (application as MHacksApplication)..inject(this)
         setTheme(R.style.MHacksTheme)
         setSystemFullScreenUI()
         setContentView(R.layout.activity_main)
@@ -76,7 +88,18 @@ class MainActivity : AppCompatActivity(),
 
 
         // Add the toolbar
-        qr_ticket_fab.setOnClickListener(this)
+        qr_ticket_fab.setOnClickListener({
+            val ft = supportFragmentManager.beginTransaction()
+            val prev = supportFragmentManager.findFragmentByTag("dialog")
+            if (prev != null) {
+                ft.remove(prev)
+            }
+            ft.addToBackStack(null)
+
+            val ticket: TicketDialogFragment = TicketDialogFragment
+                    .newInstance("Jeffrey Chang")
+            ticket.show(ft, "dialog")
+        })
 
         menuItem = navigation?.menu?.getItem(0)
         menuItem?.setTitle(R.string.title_home)
@@ -300,7 +323,7 @@ class MainActivity : AppCompatActivity(),
     //
     //            new AlertDialog.Builder(this)
     //                    .setTitle("Location Permission")
-    //                    .setMessage("The MHacks app uses your location to show you where you are on the map and help you find rooms. Would you like to enable location services?")
+    //                    .setMessage("The MHacksApplication app uses your location to show you where you are on the map and help you find rooms. Would you like to enable location services?")
     //                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
     //                        public void onClick(DialogInterface dialog, int which) {
     //                            // Request permission
@@ -321,13 +344,13 @@ class MainActivity : AppCompatActivity(),
     //    }
 
 
-    /**
-     * Handles all the clicks for the EventFragment and it's fragments.
-     * @param v clicked View
-     */
-    fun scheduleFragmentClick(v: View) {
-        //        if (v.getId() == R.id.event_close_button) scheduleFragment.scheduleFragmentClick(v);
-    }
+//    /**
+//     * Handles all the clicks for the EventFragment and it's fragments.
+//     * @param v clicked View
+//     */
+//    fun scheduleFragmentClick(v: View) {
+//        //        if (v.getId() == R.id.event_close_button) scheduleFragment.scheduleFragmentClick(v);
+//    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

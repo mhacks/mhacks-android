@@ -1,7 +1,5 @@
 package com.mhacks.android.ui.announcements
 
-import android.util.Log
-import com.mhacks.android.data.model.Announcement
 import com.mhacks.android.ui.announcements.AnnouncementSection.TimeLineType
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
 

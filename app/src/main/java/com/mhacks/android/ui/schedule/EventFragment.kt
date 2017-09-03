@@ -69,7 +69,7 @@ class EventFragment : BaseFragment(),
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
 
         setUpWeekView()
-        val manager = LocationManager.getInstance()
+//        val manager = LocationManager.getInstance()
 
     }
     /**
@@ -138,13 +138,13 @@ class EventFragment : BaseFragment(),
             weekViewEvent.color = color
 
             // Add the WeekViewEvent to the list.
-            if (startTime.get(Calendar.MONTH) == month) weekViewEvents!!.add(weekViewEvent)
+            if (startTime.get(Calendar.MONTH) == month) weekViewEvents.add(weekViewEvent)
 
             // Increment the id
             id++
         }
 
-        Log.d(TAG, "created " + weekViewEvents!!.size + " events")
+        Log.d(TAG, "created " + weekViewEvents.size + " events")
         return weekViewEvents
     }
 
