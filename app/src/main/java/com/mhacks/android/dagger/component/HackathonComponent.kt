@@ -3,7 +3,6 @@ package com.mhacks.android.dagger.component
 import com.mhacks.android.dagger.module.HackathonModule
 import com.mhacks.android.dagger.scope.UserScope
 import com.mhacks.android.data.network.NetworkSingleton
-import com.mhacks.android.ui.MainActivity
 import dagger.Component
 
 /**

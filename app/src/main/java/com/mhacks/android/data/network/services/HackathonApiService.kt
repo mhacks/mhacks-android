@@ -11,4 +11,7 @@ interface HackathonApiService {
 
     @GET("configuration/")
     fun getConfiguration(): Observable<Config>
+
+//    @
+//    fun getLogin(): Observable<Login>
 }

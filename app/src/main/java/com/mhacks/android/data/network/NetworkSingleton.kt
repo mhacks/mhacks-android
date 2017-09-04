@@ -2,6 +2,7 @@ package com.mhacks.android.data.network
 
 import com.mhacks.android.MHacksApplication
 import com.mhacks.android.data.kotlin.Config
+import com.mhacks.android.data.model.Login
 import com.mhacks.android.data.network.services.HackathonApiService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -32,6 +33,22 @@ class NetworkSingleton private constructor(application: MHacksApplication) {
                     }
                 )
     }
+//
+//    fun getLoginVerification(callback: Callback<Login>) {
+//        hackathonAPIService.getLogin()
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe (
+//                        { response ->
+//                            callback.success(response)
+//                        },
+//                        { error ->
+//                            callback.failure(error)
+//
+//                        }
+//                )
+//
+//    }
 
     companion object {
         fun newInstance(application: MHacksApplication): NetworkSingleton {

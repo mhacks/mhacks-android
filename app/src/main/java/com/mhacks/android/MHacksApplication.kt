@@ -8,6 +8,7 @@ import android.app.Application
 import com.mhacks.android.dagger.component.DaggerHackathonComponent
 import com.mhacks.android.dagger.component.DaggerNetComponent
 import com.mhacks.android.dagger.component.HackathonComponent
+import com.mhacks.android.dagger.component.NetComponent
 import com.mhacks.android.dagger.module.NetModule
 import com.mhacks.android.dagger.module.AppModule
 
@@ -16,11 +17,12 @@ import com.mhacks.android.dagger.module.AppModule
 class MHacksApplication : Application() {
 
     lateinit var hackathonComponent: HackathonComponent
+    lateinit var netComponent: NetComponent
 
     override fun onCreate() {
         super.onCreate()
 
-        val netComponent = DaggerNetComponent.builder()
+        netComponent = DaggerNetComponent.builder()
                 .appModule(AppModule(this))
                 .netModule(NetModule("https://staging.mhacks.org/v1/"))
                 .build()

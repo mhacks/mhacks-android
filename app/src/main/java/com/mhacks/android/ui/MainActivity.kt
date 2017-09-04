@@ -74,7 +74,6 @@ class MainActivity : AppCompatActivity(),
         setBottomNavigationColor(
                 NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
 
-
         // Add the toolbar
         qr_ticket_fab.setOnClickListener({
             val ft = supportFragmentManager.beginTransaction()
@@ -99,10 +98,11 @@ class MainActivity : AppCompatActivity(),
         notif = intent.getStringExtra("notif_link")
 
 //        updateGcm()
-        if (true) {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-        }
+//        if (true) {
+//            startActivity(Intent(this, LoginActivity::class.java))
+//            finish()
+//        }
+
         navigation?.setOnNavigationItemSelectedListener({ item ->
             when (item.itemId) {
                 R.id.navigation_home -> {

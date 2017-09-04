@@ -1,17 +1,23 @@
 package org.mhacks.mhacks.login
 
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
+import com.mhacks.android.MHacksApplication
 import com.mhacks.android.ui.login.components.LoginFragment
 import org.mhacks.android.R
+import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
 
+    @Inject lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (application as MHacksApplication).netComponent.inject(this)
         setTheme(R.style.MHacksTheme)
         setStatusBarTransparent()
         setContentView(R.layout.activity_login)

@@ -19,7 +19,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/login"
         android:textColor="@color/colorAccent"
@@ -44,7 +45,7 @@
 
         android:padding="12dp"
         android:text="@string/sign_in"
-        android:textColor="@color/colorAccent"
+        android:textColor="@drawable/sign_in_button"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
