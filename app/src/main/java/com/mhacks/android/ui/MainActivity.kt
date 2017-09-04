@@ -3,6 +3,7 @@ package com.mhacks.android.ui
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.FragmentTransaction
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -31,6 +32,7 @@ import com.mhacks.android.ui.ticket.TicketDialogFragment
 import com.mhacks.android.util.ResourceUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import org.mhacks.android.R
+import org.mhacks.mhacks.login.LoginActivity
 import javax.inject.Inject
 
 /**
@@ -97,11 +99,10 @@ class MainActivity : AppCompatActivity(),
         notif = intent.getStringExtra("notif_link")
 
 //        updateGcm()
-        /*if (true) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        }*/
+        if (true) {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
         navigation?.setOnNavigationItemSelectedListener({ item ->
             when (item.itemId) {
                 R.id.navigation_home -> {

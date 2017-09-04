@@ -15,7 +15,6 @@ import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.mhacks.android.data.model.Event;
-import com.mhacks.android.data.network.HackathonCallback;
 import com.mhacks.android.ui.map.LocationManager;
 
 import org.mhacks.android.R;
