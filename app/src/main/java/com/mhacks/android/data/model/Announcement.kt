@@ -1,6 +1,12 @@
 package com.mhacks.android.data.model
 
 /**
+ * Created by jeffreychang on 9/4/17.
+ */
+
+
+
+/**
  * Created by boztalay on 6/3/15.
  * Modified by omkarmoghe on 10/3/16
  *

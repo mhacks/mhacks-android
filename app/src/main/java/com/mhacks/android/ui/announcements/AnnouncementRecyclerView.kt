@@ -9,7 +9,6 @@ import android.widget.TextView
 import com.github.vipulasri.timelineview.TimelineView
 import com.mhacks.android.data.model.Announcement
 import org.mhacks.android.R
-import java.util.*
 import kotlin.collections.ArrayList
 
 class AnnouncementAdapter(var mContext: Context, var announcementList: ArrayList<Announcement>):

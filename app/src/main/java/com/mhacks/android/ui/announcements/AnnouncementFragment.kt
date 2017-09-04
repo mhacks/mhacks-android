@@ -2,10 +2,8 @@ package com.mhacks.android.ui.announcements
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.View
 import com.mhacks.android.data.model.Announcement
-import com.mhacks.android.data.network.NetworkManager
 import com.mhacks.android.ui.common.BaseFragment
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_announcements.*
@@ -24,7 +22,7 @@ class AnnouncementFragment : BaseFragment() {
     override var LayoutResourceID: Int = R.layout.fragment_announcements
 
     //Current query
-    private val networkManager = NetworkManager.getInstance()
+//    private val networkManager = NetworkManager.getInstance()
 
     // Caches all the Announcements found
 

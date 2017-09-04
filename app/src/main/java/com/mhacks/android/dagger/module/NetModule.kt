@@ -13,8 +13,8 @@ import dagger.Module
 import okhttp3.Cache
 import android.preference.PreferenceManager
 import android.content.SharedPreferences
-
-
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 
 
 /**
@@ -25,7 +25,7 @@ import android.content.SharedPreferences
     @Singleton
     internal fun provideHttpCache(application: Application): Cache {
         val cacheSize = 10 * 1024 * 1024
-        return Cache(application.getCacheDir(), cacheSize.toLong())
+        return Cache(application.cacheDir, cacheSize.toLong())
     }
 
 
@@ -47,9 +47,17 @@ import android.content.SharedPreferences
 
     @Provides
     @Singleton
-    internal fun provideOkhttpClient(cache: Cache): OkHttpClient {
+    internal fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
+        val logger = HttpLoggingInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        return logger
+    }
+    @Provides
+    @Singleton
+    internal fun provideOkhttpClient(cache: Cache, httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         val client = OkHttpClient.Builder()
         client.cache(cache)
+        client.addInterceptor(httpLoggingInterceptor)
         return client.build()
     }
 
@@ -58,6 +66,7 @@ import android.content.SharedPreferences
     internal fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(baseUrl)
                 .client(okHttpClient)
                 .build()

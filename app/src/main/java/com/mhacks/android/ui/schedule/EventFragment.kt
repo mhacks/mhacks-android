@@ -14,10 +14,8 @@ import com.alamkanak.weekview.WeekView
 import com.alamkanak.weekview.WeekViewEvent
 import com.mhacks.android.data .model.Event
 import com.mhacks.android.data .network.HackathonCallback
-import com.mhacks.android.data .network.NetworkManager
 import com.mhacks.android.ui.common.BaseFragment
 import com.mhacks.android.ui.events.EventDetailsFragment
-import com.mhacks.android.ui.map.LocationManager
 import kotlinx.android.synthetic.main.fragment_schedule.*
 
 import org.mhacks.android.R
@@ -44,9 +42,6 @@ class EventFragment : BaseFragment(),
     override var setTransparent: Boolean = false
     override var AppBarTitle: Int = R.string.title_events
     override var LayoutResourceID: Int = R.layout.fragment_schedule
-
-    // network manager
-    private val networkManager = NetworkManager.getInstance()
 
     // Declaring Views
     private var mScheduleContainer: LinearLayout? = null
@@ -102,18 +97,18 @@ class EventFragment : BaseFragment(),
     }
 
     fun getEvents() {
-        networkManager.getEvents(object : HackathonCallback<List<Event>> {
-            override fun success(response: List<Event>) {
-                mEvents = ArrayList(response)
-                Log.d(TAG, "got " + mEvents!!.size + " events")
-
-                activity.runOnUiThread { week_view!!.notifyDatasetChanged() }
-            }
-
-            override fun failure(error: Throwable) {
-
-            }
-        })
+//        networkManager.getEvents(object : HackathonCallback<List<Event>> {
+//            override fun success(response: List<Event>) {
+//                mEvents = ArrayList(response)
+//                Log.d(TAG, "got " + mEvents!!.size + " events")
+//
+//                activity.runOnUiThread { week_view!!.notifyDatasetChanged() }
+//            }
+//
+//            override fun failure(error: Throwable) {
+//
+//            }
+//        })
     }
 
     fun createWeekViewEvents(events: ArrayList<Event>, month: Int): ArrayList<WeekViewEvent> {

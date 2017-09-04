@@ -2,7 +2,6 @@ package com.mhacks.android.ui.map;
 
 import com.mhacks.android.data.model.Location;
 import com.mhacks.android.data.network.HackathonCallback;
-import com.mhacks.android.data.network.NetworkManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,18 +23,18 @@ public class LocationManager {
     }
 
     private LocationManager () {
-        NetworkManager networkManager = NetworkManager.getInstance();
-        networkManager.getLocations(new HackathonCallback<List<Location>>() {
-            @Override
-            public void success(List<Location> response) {
-                locations = new ArrayList<Location>(response);
-            }
-
-            @Override
-            public void failure(Throwable error) {
-                locations = new ArrayList<Location>();
-            }
-        });
+//        NetworkManager networkManager = NetworkManager.getInstance();
+//        networkManager.getLocations(new HackathonCallback<List<Location>>() {
+//            @Override
+//            public void success(List<Location> response) {
+//                locations = new ArrayList<Location>(response);
+//            }
+//
+//            @Override
+//            public void failure(Throwable error) {
+//                locations = new ArrayList<Location>();
+//            }
+//        });
     }
 
     public static Location getLocation(String id) {

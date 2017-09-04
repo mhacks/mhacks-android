@@ -5,12 +5,8 @@ import android.annotation.TargetApi
 import android.app.FragmentTransaction
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.os.AsyncTask
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.annotation.ColorRes
-import android.support.annotation.DrawableRes
-import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -19,67 +15,57 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GooglePlayServicesUtil
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.mhacks.android.MHacksApplication
-import com.mhacks.android.data.model.Token
-import com.mhacks.android.data.network.HackathonCallback
-import com.mhacks.android.data.network.NetworkManager
+import com.mhacks.android.data.kotlin.Config
+import com.mhacks.android.data.network.NetworkSingleton
+import com.mhacks.android.data.network.services.HackathonApiService
 import com.mhacks.android.ui.announcements.AnnouncementFragment
 import com.mhacks.android.ui.common.BaseFragment
 import com.mhacks.android.ui.common.NavigationColor
 import com.mhacks.android.ui.countdown.WelcomeFragment
 import com.mhacks.android.ui.info.InfoFragment
-import com.mhacks.android.ui.schedule.EventFragment
 import com.mhacks.android.ui.map.MapViewFragment
-import com.mhacks.android.ui.settings.SettingsFragment
+import com.mhacks.android.ui.schedule.EventFragment
 import com.mhacks.android.ui.ticket.TicketDialogFragment
 import com.mhacks.android.util.ResourceUtil
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.OkHttpClient
 import org.mhacks.android.R
-import retrofit2.Retrofit
-import java.io.IOException
 import javax.inject.Inject
 
 /**
  * Activity defines primarily the initial network calls to GCM as well as handle Fragment transactions.
  */
 class MainActivity : AppCompatActivity(),
-        BottomNavigationView.OnNavigationItemSelectedListener,
         ActivityCompat.OnRequestPermissionsResultCallback,
-        BaseFragment.OnNavigationChangeListener, View.OnClickListener {
+        BaseFragment.OnNavigationChangeListener,
+        NetworkSingleton.Callback<Config>,
+        View.OnClickListener {
 
     lateinit var regid: String
 
     var notif: String? = null
 
-    //TODO: Adam Lazy delegate property assigns value the first time it's needed, and reuses it later.
-    //TODO: Adam This is helpful in activities where you need to wait until it's initialized to call resources.
-    //TODO: Adam This is also beneficial because now you've made the field immutable.
-
     val PROJECT_NUMBER: String by lazy { getString(R.string.gcm_server_id) }
-
-    // Toolbar
-    //TODO: Try not to use keywords as variable names. General bad practice.
 
     private var canUsePlayServices: Boolean = false
     private var menuItem: MenuItem? = null
 
+    val networkSingleton by lazy {
+        NetworkSingleton.newInstance(application = application as MHacksApplication)
+    }
 
-    @Inject lateinit var okHTTPClient: OkHttpClient
     @Inject lateinit var sharedPreferences: SharedPreferences
-    @Inject lateinit var retrofit: Retrofit
 
 
-    //GCM
     private val gcm: GoogleCloudMessaging by lazy { GoogleCloudMessaging.getInstance(applicationContext) }
+    @Inject lateinit var hackathonAPIService: HackathonApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        (application as MHacksApplication)..inject(this)
+        networkSingleton.getConfiguration(this)
+
         setTheme(R.style.MHacksTheme)
         setSystemFullScreenUI()
         setContentView(R.layout.activity_main)
@@ -110,13 +96,33 @@ class MainActivity : AppCompatActivity(),
         // If Activity opened from push notification, value will reflect fragment that will initially open
         notif = intent.getStringExtra("notif_link")
 
-        updateGcm()
+//        updateGcm()
         /*if (true) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
         }*/
-        navigation?.setOnNavigationItemSelectedListener(this)
+        navigation?.setOnNavigationItemSelectedListener({ item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    updateFragment(WelcomeFragment.instance)
+                }
+                R.id.navigation_announcements -> {
+                    updateFragment(AnnouncementFragment.instance)
+                }
+                R.id.navigation_events -> {
+                    updateFragment(EventFragment.instance)
+                }
+                R.id.navigation_map -> {
+                    updateFragment(MapViewFragment.instance)
+                }
+                R.id.navigation_info -> {
+                    updateFragment(InfoFragment.instance)
+                }
+            }
+            menuItem = item
+            true
+        })
 
         //TODO: Adam Commenting this out because it's not even used anyways, but you don't need
         //TODO: Adam explicit null checks when you can use the safe operator.
@@ -160,7 +166,7 @@ class MainActivity : AppCompatActivity(),
         setTitle(title)
     }
 
-    fun setBottomNavigationColor(color: NavigationColor) {
+    private fun setBottomNavigationColor(color: NavigationColor) {
         val colorStateList = NavigationColor.getColorStateList(
                 ContextCompat.getColor(this, color.primaryColor),
                 ContextCompat.getColor(this, color.secondaryColor)
@@ -207,102 +213,102 @@ class MainActivity : AppCompatActivity(),
         ticket.show(ft, "dialog")
     }
 
-    fun updateGcm() {
-        if (!checkPlayServices()) {
-            Log.e(TAG, "No valid Google Play Services APK found.")
-            return
-        }
-        // Grabs the Google Cloud Messaging REG ID and sends it to the backend
+//    fun updateGcm() {
+//        if (!checkPlayServices()) {
+//            Log.e(TAG, "No valid Google Play Services APK found.")
+//            return
+//        }
+//        // Grabs the Google Cloud Messaging REG ID and sends it to the backend
+//
+//        object : AsyncTask<Void, Void, String>() {
+//            override fun doInBackground(vararg params: Void): String {
+//                var msg = ""
+//                try {
+//                    // reg_id
+//                    val data = Bundle()
+//
+//                    regid = gcm.register(PROJECT_NUMBER)
+//
+//                    data.putString("regid", regid)
+//                    /*InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
+//                    String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
+//                            GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);*/
+//
+//                    val sharedPref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+//                    val gcmPush = sharedPref.getString("gcm", "")
+//                    val channels = sharedPref.getStringSet(SettingsFragment.PUSH_NOTIFICATION_CHANNELS, null)
+//
+//                    var pref = 1
+//                    if (channels != null) {
+//                        val channelPrefs = channels.toTypedArray()
+//                        for (i in channelPrefs.indices) {
+//                            pref += Integer.parseInt(channelPrefs[i])
+//                        }
+//                    } else
+//                        pref = 63
+//
+//                    val token = Token(regid)
+//                    token.setName(pref.toString())
+//                    // active=true by default
+//
+//                    val networkManager = NetworkManager.getInstance()
+//                    networkManager.sendToken(token, object : HackathonCallback<Token> {
+//                        override fun success(response: Token) {
+//                            Log.d(TAG, "gcm sent successfully: " + token.getRegistrationId())
+//                            sharedPref.edit().putString("gcm", regid).apply()
+//                        }
+//
+//                        override fun failure(error: Throwable) {
+//                            Log.e(TAG, "gcm didnt work", error)
+//                        }
+//                    })
+//
+//                    msg = "Device registered, reg id =" + regid
+//                    Log.i("GCM", msg)
+//
+//                } catch (ex: IOException) {
+//                    msg = "Error :" + ex.message
+//                    Log.e(TAG, "IOException when registering the device", ex)
+//
+//                }
+//
+//                return msg
+//            }
+//
+//            override fun onPostExecute(msg: String) {
+//
+//            }
+//        }.execute(null, null, null)
+//    }
 
-        object : AsyncTask<Void, Void, String>() {
-            override fun doInBackground(vararg params: Void): String {
-                var msg = ""
-                try {
-                    // reg_id
-                    val data = Bundle()
 
-                    regid = gcm.register(PROJECT_NUMBER)
-
-                    data.putString("regid", regid)
-                    /*InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
-                    String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
-                            GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);*/
-
-                    val sharedPref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-                    val gcmPush = sharedPref.getString("gcm", "")
-                    val channels = sharedPref.getStringSet(SettingsFragment.PUSH_NOTIFICATION_CHANNELS, null)
-
-                    var pref = 1
-                    if (channels != null) {
-                        val channelPrefs = channels.toTypedArray()
-                        for (i in channelPrefs.indices) {
-                            pref += Integer.parseInt(channelPrefs[i])
-                        }
-                    } else
-                        pref = 63
-
-                    val token = Token(regid)
-                    token.setName(pref.toString())
-                    // active=true by default
-
-                    val networkManager = NetworkManager.getInstance()
-                    networkManager.sendToken(token, object : HackathonCallback<Token> {
-                        override fun success(response: Token) {
-                            Log.d(TAG, "gcm sent successfully: " + token.getRegistrationId())
-                            sharedPref.edit().putString("gcm", regid).apply()
-                        }
-
-                        override fun failure(error: Throwable) {
-                            Log.e(TAG, "gcm didnt work", error)
-                        }
-                    })
-
-                    msg = "Device registered, reg id =" + regid
-                    Log.i("GCM", msg)
-
-                } catch (ex: IOException) {
-                    msg = "Error :" + ex.message
-                    Log.e(TAG, "IOException when registering the device", ex)
-
-                }
-
-                return msg
-            }
-
-            override fun onPostExecute(msg: String) {
-
-            }
-        }.execute(null, null, null)
-    }
-
-
-    // Checks if the user can obtain the correct Google Play Services number
-    private fun checkPlayServices(): Boolean {
-        canUsePlayServices = true
-        object : AsyncTask<Void, Void, String>() {
-            override fun doInBackground(vararg params: Void): String {
-                val msg = ""
-                val resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(applicationContext)
-                if (resultCode != ConnectionResult.SUCCESS) {
-                    if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                        //GooglePlayServicesUtil.getErrorDialog(resultCode, this ,GooglePlayServicesUtil.GOOGLE_PLAY_SERVICES_VERSION_CODE).show();
-                    } else {
-                        Log.e(TAG, "This device is not supported.")
-                        finish()
-                    }
-
-                    return "false"
-                }
-
-                return "true"
-            }
-
-            override fun onPostExecute(msg: String) {
-                canUsePlayServices = (msg == "true")
-            }
-        }.execute(null, null, null)
-        return canUsePlayServices
-    }
+//    // Checks if the user can obtain the correct Google Play Services number
+//    private fun checkPlayServices(): Boolean {
+//        canUsePlayServices = true
+//        object : AsyncTask<Void, Void, String>() {
+//            override fun doInBackground(vararg params: Void): String {
+//                val msg = ""
+//                val resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(applicationContext)
+//                if (resultCode != ConnectionResult.SUCCESS) {
+//                    if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+//                        //GooglePlayServicesUtil.getErrorDialog(resultCode, this ,GooglePlayServicesUtil.GOOGLE_PLAY_SERVICES_VERSION_CODE).show();
+//                    } else {
+//                        Log.e(TAG, "This device is not supported.")
+//                        finish()
+//                    }
+//
+//                    return "false"
+//                }
+//
+//                return "true"
+//            }
+//
+//            override fun onPostExecute(msg: String) {
+//                canUsePlayServices = (msg == "true")
+//            }
+//        }.execute(null, null, null)
+//        return canUsePlayServices
+//    }
 
     /**
      * Updates the main_fragment_container with the given fragment.
@@ -352,27 +358,6 @@ class MainActivity : AppCompatActivity(),
 //        //        if (v.getId() == R.id.event_close_button) scheduleFragment.scheduleFragmentClick(v);
 //    }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.navigation_home -> {
-                updateFragment(WelcomeFragment.instance)
-            }
-            R.id.navigation_announcements -> {
-                updateFragment(AnnouncementFragment.instance)
-            }
-            R.id.navigation_events -> {
-                updateFragment(EventFragment.instance)
-            }
-            R.id.navigation_map -> {
-                updateFragment(MapViewFragment.instance)
-            }
-            R.id.navigation_info -> {
-                updateFragment(InfoFragment.instance)
-            }
-        }
-
-        return true
-    }
 
     override fun addPadding() {
         val height: Int = ResourceUtil.convertDpResToPixel(context = this,
@@ -393,6 +378,15 @@ class MainActivity : AppCompatActivity(),
             }
         }// updateFragment(mapViewFragment);
     }
+
+    override fun success(response: Config) {
+        Log.d(TAG, response.configuration.appName)
+    }
+
+    override fun failure(error: Throwable) {
+
+    }
+
 
     companion object {
 

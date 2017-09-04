@@ -1,14 +1,12 @@
 package com.mhacks.android.ui.announcements
 
-import android.graphics.Color
-import android.support.v4.content.ContextCompat
-import com.mhacks.android.data.model.Announcement
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.github.vipulasri.timelineview.LineType
 import com.github.vipulasri.timelineview.TimelineView
+import com.mhacks.android.data.model.Announcement
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection
 import org.mhacks.android.R

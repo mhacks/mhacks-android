@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.mhacks.android.data.model.User;
 import com.mhacks.android.data.network.HackathonCallback;
-import com.mhacks.android.data.network.NetworkManager;
 import com.mhacks.android.ui.settings.SettingsFragment;
 
 import org.mhacks.android.R;
@@ -50,7 +49,7 @@ public class AccountFragment extends Fragment {
         if (!username.isEmpty()) usernameView.setText(username);
         if (!password.isEmpty()) passwordView.setText(password);
 
-        if (NetworkManager.getInstance().getCurrentUser() == null) loginStatusView.setText(R.string.logged_out);
+//        if (NetworkManager.getInstance().getCurrentUser() == null) loginStatusView.setText(R.string.logged_out);
         else loginStatusView.setText(R.string.logged_in);
 
         Button login = (Button) mView.findViewById(R.id.login);
@@ -74,7 +73,7 @@ public class AccountFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NetworkManager.getInstance().logout();
+//                NetworkManager.getInstance().logout();
                 usernameView.setText("");
                 passwordView.setText("");
 
@@ -94,22 +93,22 @@ public class AccountFragment extends Fragment {
     }
 
     public void login(final String username, final String password) {
-        final NetworkManager networkManager = NetworkManager.getInstance();
-        networkManager.login(username, password, new HackathonCallback<User>() {
-            @Override
-            public void success(User response) {
-                Snackbar.make(mView, "Login successful!", Snackbar.LENGTH_SHORT).show();
-                loginStatusView.setText(R.string.logged_in);
-
-                // save in preferences
-                updatePrefs();
-            }
-
-            @Override
-            public void failure(Throwable error) {
-                usernameView.setError("Incorrect username or password");
-                passwordView.setError("Incorrect username or password");
-            }
-        });
+//        final NetworkManager networkManager = NetworkManager.getInstance();
+//        networkManager.login(username, password, new HackathonCallback<User>() {
+//            @Override
+//            public void success(User response) {
+//                Snackbar.make(mView, "Login successful!", Snackbar.LENGTH_SHORT).show();
+//                loginStatusView.setText(R.string.logged_in);
+//
+//                // save in preferences
+//                updatePrefs();
+//            }
+//
+//            @Override
+//            public void failure(Throwable error) {
+//                usernameView.setError("Incorrect username or password");
+//                passwordView.setError("Incorrect username or password");
+//            }
+//        });
     }
 }
