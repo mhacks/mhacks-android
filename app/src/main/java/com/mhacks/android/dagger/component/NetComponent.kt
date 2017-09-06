@@ -15,7 +15,7 @@ import javax.inject.Singleton
  */
 
 @Singleton
-@Component(modules = arrayOf(AppModule::class, RetrofitModule::class, RoomModule::class))
+@Component(modules = arrayOf(AppModule::class, RetrofitModule::class))
 interface NetComponent {
 
     val retrofit: Retrofit

@@ -1,56 +1,36 @@
-package org.mhacks.mhacks.login
+package com.mhacks.android.ui.login
 
-import android.content.SharedPreferences
-import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
 import com.mhacks.android.MHacksApplication
-import com.mhacks.android.data.kotlin.NetworkCallback
-import com.mhacks.android.data.model.Login
 import com.mhacks.android.data.network.NetworkSingleton
+import com.mhacks.android.data.room.RoomSingleton
 import com.mhacks.android.ui.login.components.LoginFragment
 import org.mhacks.android.R
-import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
 
-    private val networkSingleton by lazy {
+    val networkSingleton by lazy {
         NetworkSingleton.newInstance(application = application as MHacksApplication)
     }
 
-    @Inject lateinit var sharedPreferences: SharedPreferences
+    val roomSingleton by lazy {
+        RoomSingleton.newInstance(application = application as MHacksApplication)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.MHacksTheme)
         setStatusBarTransparent()
         setContentView(R.layout.activity_login)
-        switchFragment(LoginFragment.instance)
+        goToFragment(LoginFragment.instance)
     }
 
-    fun attemptLogin(email: String,
-                     password: String,
-                     callback: NetworkCallback<Login>) {
-
-        networkSingleton.getLoginVerification(
-                email,
-                password,
-                object: NetworkCallback<Login> {
-                    override fun onResponseSuccess(response: Login) {
-                        callback.onResponseSuccess(response)
-                    }
-
-                    override fun onResponseFailure(error: Throwable) {
-                        callback.onResponseFailure(error)
-                    }
-                }
-        )
-    }
-
-    fun switchFragment(fragment: android.support.v4.app.Fragment) {
+    fun goToFragment(fragment: android.support.v4.app.Fragment) {
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.login_container, fragment)
@@ -63,7 +43,6 @@ class LoginActivity : AppCompatActivity() {
             window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         }
     }
-
 
     companion object {
         val TAG = "LoginActivity"

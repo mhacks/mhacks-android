@@ -2,7 +2,6 @@ package com.mhacks.android.data.network
 
 import com.mhacks.android.MHacksApplication
 import com.mhacks.android.data.kotlin.Config
-import com.mhacks.android.data.kotlin.NetworkCallback
 import com.mhacks.android.data.model.Login
 import com.mhacks.android.data.network.services.HackathonApiService
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -20,23 +19,27 @@ class NetworkSingleton (application: MHacksApplication) {
         application.hackathonComponent.inject(this)
     }
 
-    fun getConfiguration(callback: NetworkCallback<Config>) {
+    fun getConfiguration(
+            success: (response: Config) -> Unit,
+            failure: (failure: Throwable) -> Unit) {
         hackathonAPIService.getConfiguration()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe (
-                    { response -> callback.onResponseSuccess(response) },
-                    { error    -> callback.onResponseFailure(error) }
+                    { response -> success(response) },
+                    { error    -> failure(error) }
                 )
     }
 
-    fun getLoginVerification(email: String, password: String, callback: NetworkCallback<Login>) {
+    fun getLoginVerification(email: String, password: String,
+                             success: (response: Login) -> Unit,
+                             failure: (failure: Throwable) -> Unit) {
         hackathonAPIService.getLogin(email, password)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe (
-                    { response -> callback.onResponseSuccess(response) },
-                    { error    -> callback.onResponseFailure(error) }
+                    { response -> success(response) },
+                    { error    -> failure(error) }
                 )
     }
 

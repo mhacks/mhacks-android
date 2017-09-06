@@ -18,7 +18,6 @@ import android.view.WindowManager
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.mhacks.android.MHacksApplication
 import com.mhacks.android.data.kotlin.Config
-import com.mhacks.android.data.kotlin.NetworkCallback
 import com.mhacks.android.data.network.NetworkSingleton
 import com.mhacks.android.data.room.RoomSingleton
 import com.mhacks.android.ui.announcements.AnnouncementFragment
@@ -26,13 +25,13 @@ import com.mhacks.android.ui.common.BaseFragment
 import com.mhacks.android.ui.common.NavigationColor
 import com.mhacks.android.ui.countdown.WelcomeFragment
 import com.mhacks.android.ui.info.InfoFragment
+import com.mhacks.android.ui.login.LoginActivity
 import com.mhacks.android.ui.map.MapViewFragment
 import com.mhacks.android.ui.schedule.EventFragment
 import com.mhacks.android.ui.ticket.TicketDialogFragment
 import com.mhacks.android.util.ResourceUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import org.mhacks.android.R
-import org.mhacks.mhacks.login.LoginActivity
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -68,15 +67,11 @@ class MainActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        networkSingleton.getConfiguration(object: NetworkCallback<Config> {
-            override fun onResponseSuccess(response: Config) {
-                Timber.d(response.configuration.toString())
-            }
+        networkSingleton.getConfiguration(
+                this::onConfigurationSuccess,
+                this::onConfigurationFailure
+        )
 
-            override fun onResponseFailure(error: Throwable) {
-                Timber.e(error)
-            }
-        })
 
         setTheme(R.style.MHacksTheme)
         setSystemFullScreenUI()
@@ -144,6 +139,13 @@ class MainActivity : AppCompatActivity(),
 //        }
     }
 
+    private fun onConfigurationSuccess(config: Config) {
+        Timber.d(config.status.toString())
+    }
+
+    private fun onConfigurationFailure(error: Throwable) {
+        Timber.d(error.message)
+    }
 
     @TargetApi(21)
     override fun setStatusBarColor(color: Int) {

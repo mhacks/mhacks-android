@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_viewpager_login.*
 import org.mhacks.android.R
 
-
-
 /**
  * Fragment for the main login component.
  * This manages the Views managed by the ViewPager.
@@ -18,15 +16,16 @@ import org.mhacks.android.R
 class LoginViewPagerFragment: Fragment(){
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater!!.inflate(R.layout.fragment_viewpager_login, container, false)
+        return inflater?.inflate(R.layout.fragment_viewpager_login, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-            login_viewpager.setAdapter(LoginViewPagerAdapter(context))
-        }
+        login_viewpager.adapter = LoginViewPagerAdapter(context)
+
+        pageIndicatorView.setViewPager(login_viewpager)
+    }
     companion object {
-        val instance
-            get() = LoginViewPagerFragment()
+        val instance get() = LoginViewPagerFragment()
     }
 }

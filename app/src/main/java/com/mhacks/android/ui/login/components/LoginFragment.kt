@@ -1,21 +1,26 @@
 package com.mhacks.android.ui.login.components
 
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.mhacks.android.data.kotlin.NetworkCallback
 import com.mhacks.android.data.model.Login
+import com.mhacks.android.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.mhacks.android.R
-import org.mhacks.mhacks.login.LoginActivity
-import timber.log.Timber
+import java.lang.Exception
 
 /**
- * Fragment for the main attemptLogin component.
+ * Fragment for the main Login component.
  */
+
 class LoginFragment: Fragment() {
+
+    private val parentActivity: LoginActivity by lazy {
+        this.activity as LoginActivity
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_login, container, false)
@@ -23,24 +28,30 @@ class LoginFragment: Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         email_sign_in_button.setOnClickListener({
-            val activity = (activity as LoginActivity)
-            activity.attemptLogin(
-                    "changjef@umich.edu",
-                    "JeffJellyfish1",
-                    object: NetworkCallback<Login> {
-                override fun onResponseSuccess(response: Login) {
-                    Timber.d(response.message)
-                }
-
-                override fun onResponseFailure(error: Throwable) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-
-
-            })
+            parentActivity.networkSingleton.getLoginVerification(
+                    email = login_email.text.toString(),
+                    password = login_password.text.toString(),
+                    success = this::onLoginNetworkSuccess,
+                    failure = this::onLoginNetworkFailure
+            )
         })
     }
 
+
+    private fun onLoginNetworkSuccess(login: Login) {
+        if (login.status) {
+            parentActivity.roomSingleton.insertLogin(login)
+            parentActivity.goToFragment(LoginViewPagerFragment.instance)
+        }
+    }
+    private fun onLoginNetworkFailure(error: Throwable) {
+        when (error) {
+            is retrofit2.HttpException ->
+                Snackbar.make(view!!, "Username or password is invalid", Snackbar.LENGTH_SHORT).show()
+            else ->
+                Snackbar.make(view!!, "Unknown error.", Snackbar.LENGTH_SHORT).show()
+        }
+    }
 
     companion object {
         val instance get() = LoginFragment()

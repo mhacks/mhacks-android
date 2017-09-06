@@ -24,14 +24,17 @@ class MHacksApplication : Application() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
 
+        val appModule = AppModule(this)
         netComponent = DaggerNetComponent.builder()
-                .appModule(AppModule(this))
+                .appModule(appModule)
                 .retrofitModule(RetrofitModule("https://staging.mhacks.org/v1/"))
                 .build()
         hackathonComponent = DaggerHackathonComponent
                 .builder()
                 .netComponent(netComponent)
                 .build()
-        roomComponent = DaggerRoomComponent.create()
+        roomComponent = DaggerRoomComponent.builder()
+                .appModule(appModule)
+                .build()
     }
 }
