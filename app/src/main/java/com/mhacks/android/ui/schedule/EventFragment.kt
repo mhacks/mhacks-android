@@ -1,4 +1,4 @@
-package com.mhacks.android.ui.kotlin.schedule
+package com.mhacks.android.ui.schedule
 
 
 import android.graphics.Color
@@ -13,11 +13,8 @@ import com.alamkanak.weekview.MonthLoader
 import com.alamkanak.weekview.WeekView
 import com.alamkanak.weekview.WeekViewEvent
 import com.mhacks.android.data .model.Event
-import com.mhacks.android.data .network.HackathonCallback
-import com.mhacks.android.data .network.NetworkManager
 import com.mhacks.android.ui.common.BaseFragment
 import com.mhacks.android.ui.events.EventDetailsFragment
-import com.mhacks.android.ui.map.LocationManager
 import kotlinx.android.synthetic.main.fragment_schedule.*
 
 import org.mhacks.android.R
@@ -36,14 +33,14 @@ import java.util.TimeZone
  * Builds schedule with events pulled from the Parse database. Uses the EventDetailsFragment to
  * create event details.
  */
-class EventFragment : BaseFragment(), WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener {
+class EventFragment : BaseFragment(),
+        WeekView.EventClickListener,
+        MonthLoader.MonthChangeListener,
+        WeekView.EventLongPressListener {
 
     override var setTransparent: Boolean = false
     override var AppBarTitle: Int = R.string.title_events
     override var LayoutResourceID: Int = R.layout.fragment_schedule
-
-    // network manager
-    private val networkManager = NetworkManager.getInstance()
 
     // Declaring Views
     private var mScheduleContainer: LinearLayout? = null
@@ -66,7 +63,7 @@ class EventFragment : BaseFragment(), WeekView.EventClickListener, MonthLoader.M
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
 
         setUpWeekView()
-        val manager = LocationManager.getInstance()
+//        val manager = LocationManager.getInstance()
 
     }
     /**
@@ -99,18 +96,18 @@ class EventFragment : BaseFragment(), WeekView.EventClickListener, MonthLoader.M
     }
 
     fun getEvents() {
-        networkManager.getEvents(object : HackathonCallback<List<Event>> {
-            override fun success(response: List<Event>) {
-                mEvents = ArrayList(response)
-                Log.d(TAG, "got " + mEvents!!.size + " events")
-
-                activity.runOnUiThread { week_view!!.notifyDatasetChanged() }
-            }
-
-            override fun failure(error: Throwable) {
-
-            }
-        })
+//        networkManager.getEvents(object : HackathonCallback<List<Event>> {
+//            override fun success(response: List<Event>) {
+//                mEvents = ArrayList(response)
+//                Log.d(TAG, "got " + mEvents!!.size + " events")
+//
+//                activity.runOnUiThread { week_view!!.notifyDatasetChanged() }
+//            }
+//
+//            override fun failure(error: Throwable) {
+//
+//            }
+//        })
     }
 
     fun createWeekViewEvents(events: ArrayList<Event>, month: Int): ArrayList<WeekViewEvent> {
@@ -135,13 +132,13 @@ class EventFragment : BaseFragment(), WeekView.EventClickListener, MonthLoader.M
             weekViewEvent.color = color
 
             // Add the WeekViewEvent to the list.
-            if (startTime.get(Calendar.MONTH) == month) weekViewEvents!!.add(weekViewEvent)
+            if (startTime.get(Calendar.MONTH) == month) weekViewEvents.add(weekViewEvent)
 
             // Increment the id
             id++
         }
 
-        Log.d(TAG, "created " + weekViewEvents!!.size + " events")
+        Log.d(TAG, "created " + weekViewEvents.size + " events")
         return weekViewEvents
     }
 

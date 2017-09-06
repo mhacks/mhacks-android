@@ -1,62 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <com.github.vipulasri.timelineview.TimelineView
-        android:id="@+id/info_time_marker"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
-        app:markerSize="25dp"
-
-        app:lineSize="2dp"
-        app:marker="@drawable/timeline_purple_marker"
-        app:line="@color/brown"
-        app:linePadding="16dp"/>
-    <android.support.v7.widget.CardView
-    android:layout_width="300dp"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="12dp"
-    android:layout_marginRight="12dp"
-    android:layout_marginTop="14dp"
-    app:cardBackgroundColor="#00ffffff"
-    app:cardCornerRadius="0dp"
-    app:cardElevation="0dp">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/announcements_vertical_divider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.30"/>
+
+    <FrameLayout
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="1"
+        app:layout_constraintEnd_toStartOf="@+id/announcements_cardView">
+        <View
+            android:id="@+id/announcements_info_line"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/brown" />
+    </FrameLayout>
+
+
+
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/announcements_cardView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+
         android:orientation="vertical"
-        android:padding="8dp">
+
+
+        android:paddingStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintLeft_toLeftOf="@id/announcements_vertical_divider"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
-            android:id="@+id/info_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3/2/1996"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/info_title"
+            android:id="@+id/announcements_item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:text="Event Title"
-            android:textColor="@color/pinkText"
+            android:textColor="@color/colorPrimary"
+
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="italic"
+            tools:text="Event Title" />
 
         <TextView
-            android:id="@+id/info_description"
-            android:layout_width="match_parent"
+            android:id="@+id/announcements_item_description"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Event info goes here..."
-            android:textColor="@color/white" />
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            tools:text="Event info goes here..." />
 
     </LinearLayout>
-</android.support.v7.widget.CardView>
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

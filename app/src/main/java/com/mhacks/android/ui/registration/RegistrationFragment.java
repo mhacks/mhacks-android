@@ -30,7 +30,6 @@ import com.mhacks.android.data.model.Scan;
 import com.mhacks.android.data.model.ScanData;
 import com.mhacks.android.data.model.ScanEvent;
 import com.mhacks.android.data.network.HackathonCallback;
-import com.mhacks.android.data.network.NetworkManager;
 
 import org.mhacks.android.R;
 
@@ -86,23 +85,23 @@ public class RegistrationFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_registration , container, false);
-
-        final NetworkManager networkManager = NetworkManager.getInstance();
-        networkManager.getScanEvents(new HackathonCallback<List<ScanEvent>>() {
-            @Override
-            public void success(List<ScanEvent> response) {
-                scanEvents = new HashMap<>();
-                for (ScanEvent scanEvent : response) {
-                    scanEvents.put(scanEvent.getName(), scanEvent);
-                }
-                buildScanTypes();
-            }
-
-            @Override
-            public void failure(Throwable error) {
-                Log.e(TAG, "shit", error);
-            }
-        });
+//
+//        final NetworkManager networkManager = NetworkManager.getInstance();
+//        networkManager.getScanEvents(new HackathonCallback<List<ScanEvent>>() {
+//            @Override
+//            public void success(List<ScanEvent> response) {
+//                scanEvents = new HashMap<>();
+//                for (ScanEvent scanEvent : response) {
+//                    scanEvents.put(scanEvent.getName(), scanEvent);
+//                }
+//                buildScanTypes();
+//            }
+//
+//            @Override
+//            public void failure(Throwable error) {
+//                Log.e(TAG, "shit", error);
+//            }
+//        });
 
         scanType = (Spinner) mView.findViewById(R.id.scan_type);
         scanDetails = (LinearLayout) mView.findViewById(R.id.scan_details);
@@ -152,10 +151,10 @@ public class RegistrationFragment extends Fragment{
     }
 
     public void performScan() {
-        if (!NetworkManager.getInstance().getCurrentUser().isCanPerformScan()) {
-            Snackbar.make(mView, "You do not have permissions to scan :(", Snackbar.LENGTH_SHORT).show();
-            return;
-        }
+//        if (!NetworkManager.getInstance().getCurrentUser().isCanPerformScan()) {
+//            Snackbar.make(mView, "You do not have permissions to scan :(", Snackbar.LENGTH_SHORT).show();
+//            return;
+//        }
 
         final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                                                                          ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -167,49 +166,49 @@ public class RegistrationFragment extends Fragment{
         String scanName = scanType.getSelectedItem().toString();
         String scanId = scanEvents.get(scanName).getId();
 
-        final NetworkManager networkManager = NetworkManager.getInstance();
-        networkManager.performScan(userId, scanId, new HackathonCallback<Scan>() {
-            @Override
-            public void success(Scan response) {
-                loadingData.setVisibility(View.GONE);
-                scanDetails.removeViews(1, scanDetails.getChildCount() - 1);
-
-                for (ScanData data : response.getData()) {
-                    TextView textView = new TextView(getActivity());
-                    textView.setText(data.getLabel() + ": " + data.getValue());
-                    textView.setTextColor(data.getColorHex());
-                    textView.setTextSize(14);
-                    scanDetails.addView(textView, params);
-                }
-
-                if (response.isScanned()) {
-                    Button button = new Button(getActivity());
-                    button.setText("Confirm Scan");
-                    button.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
-                    button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            confirmScan();
-                        }
-                    });
-
-                    scanDetails.addView(button, params);
-                }
-            }
-
-            @Override
-            public void failure(Throwable error) {
-                Snackbar.make(mView, "Unable to perform scan", Snackbar.LENGTH_SHORT).show();
-                loadingData.setVisibility(View.GONE);
-            }
-        });
+//        final NetworkManager networkManager = NetworkManager.getInstance();
+//        networkManager.performScan(userId, scanId, new HackathonCallback<Scan>() {
+//            @Override
+//            public void success(Scan response) {
+//                loadingData.setVisibility(View.GONE);
+//                scanDetails.removeViews(1, scanDetails.getChildCount() - 1);
+//
+//                for (ScanData data : response.getData()) {
+//                    TextView textView = new TextView(getActivity());
+//                    textView.setText(data.getLabel() + ": " + data.getValue());
+//                    textView.setTextColor(data.getColorHex());
+//                    textView.setTextSize(14);
+//                    scanDetails.addView(textView, params);
+//                }
+//
+//                if (response.isScanned()) {
+//                    Button button = new Button(getActivity());
+//                    button.setText("Confirm Scan");
+//                    button.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
+//                    button.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            confirmScan();
+//                        }
+//                    });
+//
+//                    scanDetails.addView(button, params);
+//                }
+//            }
+//
+//            @Override
+//            public void failure(Throwable error) {
+//                Snackbar.make(mView, "Unable to perform scan", Snackbar.LENGTH_SHORT).show();
+//                loadingData.setVisibility(View.GONE);
+//            }
+//        });
     }
 
     public void confirmScan() {
-        if (!NetworkManager.getInstance().getCurrentUser().isCanPerformScan()) {
-            Snackbar.make(mView, "You do not have permissions to scan :(", Snackbar.LENGTH_SHORT).show();
-            return;
-        }
+//        if (!NetworkManager.getInstance().getCurrentUser().isCanPerformScan()) {
+//            Snackbar.make(mView, "You do not have permissions to scan :(", Snackbar.LENGTH_SHORT).show();
+//            return;
+//        }
 
         String userId = textContent.getText().toString();
         loadingData.setVisibility(View.VISIBLE);
@@ -217,20 +216,20 @@ public class RegistrationFragment extends Fragment{
         String scanName = scanType.getSelectedItem().toString();
         String scanId = scanEvents.get(scanName).getId();
 
-        final NetworkManager networkManager = NetworkManager.getInstance();
-        networkManager.confirmScan(userId, scanId, new HackathonCallback<Scan>() {
-            @Override
-            public void success(Scan response) {
-                Snackbar.make(mView, "Scan confirmed!", Snackbar.LENGTH_SHORT).show();
-                loadingData.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void failure(Throwable error) {
-                Snackbar.make(mView, "Unable to confirm scan", Snackbar.LENGTH_SHORT).show();
-                loadingData.setVisibility(View.GONE);
-            }
-        });
+//        final NetworkManager networkManager = NetworkManager.getInstance();
+//        networkManager.confirmScan(userId, scanId, new HackathonCallback<Scan>() {
+//            @Override
+//            public void success(Scan response) {
+//                Snackbar.make(mView, "Scan confirmed!", Snackbar.LENGTH_SHORT).show();
+//                loadingData.setVisibility(View.GONE);
+//            }
+//
+//            @Override
+//            public void failure(Throwable error) {
+//                Snackbar.make(mView, "Unable to confirm scan", Snackbar.LENGTH_SHORT).show();
+//                loadingData.setVisibility(View.GONE);
+//            }
+//        });
     }
 
     public void buildScanTypes() {

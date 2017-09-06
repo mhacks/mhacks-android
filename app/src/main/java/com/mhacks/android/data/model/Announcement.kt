@@ -1,6 +1,12 @@
 package com.mhacks.android.data.model
 
 /**
+ * Created by jeffreychang on 9/4/17.
+ */
+
+
+
+/**
  * Created by boztalay on 6/3/15.
  * Modified by omkarmoghe on 10/3/16
  *
@@ -14,4 +20,10 @@ package com.mhacks.android.data.model
  * 32 - Other (brown)
  */
 
-data class Announcement(var title: String, var info: String, var broadcastAt: Long, var category: Int, var isApproved: Boolean, var isDeleted: Boolean) : ModelObject()
+data class Announcement(
+        var title: String,
+        var info: String,
+        var broadcastAt: Long,
+        var category: Int,
+        var isApproved: Boolean,
+        var isDeleted: Boolean) : ModelObject()
