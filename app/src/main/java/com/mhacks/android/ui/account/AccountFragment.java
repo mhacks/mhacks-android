@@ -94,7 +94,7 @@ public class AccountFragment extends Fragment {
 
     public void login(final String username, final String password) {
 //        final NetworkManager networkManager = NetworkManager.getInstance();
-//        networkManager.login(username, password, new HackathonCallback<User>() {
+//        networkManager.attemptLogin(username, password, new HackathonCallback<User>() {
 //            @Override
 //            public void success(User response) {
 //                Snackbar.make(mView, "Login successful!", Snackbar.LENGTH_SHORT).show();

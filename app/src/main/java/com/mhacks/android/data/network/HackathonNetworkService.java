@@ -35,7 +35,7 @@ public interface HackathonNetworkService {
 
     // USERS
     @FormUrlEncoded
-    @POST("login/")
+    @POST("attemptLogin/")
     Call<Login> login(@Field("username") String username,
                       @Field("password") String password);
 

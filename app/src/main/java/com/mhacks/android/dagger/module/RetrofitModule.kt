@@ -20,7 +20,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 /**
  * Created by jeffreychang on 9/2/17.
  */
-@Module class NetModule(private var baseUrl: String) {
+@Module class RetrofitModule(private var baseUrl: String) {
     @Provides
     @Singleton
     internal fun provideHttpCache(application: Application): Cache {
@@ -28,14 +28,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
         return Cache(application.cacheDir, cacheSize.toLong())
     }
 
-
-    @Provides
-    @Singleton
-    fun providesSharedPreferences(application: Application):
-            // Application reference must come from AppModule.class
-            SharedPreferences {
-        return PreferenceManager.getDefaultSharedPreferences(application)
-    }
 
     @Provides
     @Singleton

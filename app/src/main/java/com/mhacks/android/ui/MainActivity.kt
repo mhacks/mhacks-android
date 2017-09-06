@@ -18,9 +18,9 @@ import android.view.WindowManager
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.mhacks.android.MHacksApplication
 import com.mhacks.android.data.kotlin.Config
+import com.mhacks.android.data.kotlin.NetworkCallback
 import com.mhacks.android.data.network.NetworkSingleton
-import com.mhacks.android.data.network.NetworkSingleton.Callback
-import com.mhacks.android.data.network.services.HackathonApiService
+import com.mhacks.android.data.room.RoomSingleton
 import com.mhacks.android.ui.announcements.AnnouncementFragment
 import com.mhacks.android.ui.common.BaseFragment
 import com.mhacks.android.ui.common.NavigationColor
@@ -33,6 +33,7 @@ import com.mhacks.android.util.ResourceUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import org.mhacks.android.R
 import org.mhacks.mhacks.login.LoginActivity
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -55,6 +56,10 @@ class MainActivity : AppCompatActivity(),
         NetworkSingleton.newInstance(application = application as MHacksApplication)
     }
 
+    val roomSingleton by lazy {
+        RoomSingleton.newInstance(application = application as MHacksApplication)
+    }
+
     private val gcm: GoogleCloudMessaging by lazy { GoogleCloudMessaging.getInstance(applicationContext) }
 
     @Inject lateinit var sharedPreferences: SharedPreferences
@@ -63,15 +68,14 @@ class MainActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        networkSingleton.getConfiguration(object: Callback<Config> {
-            override fun success(response: Config) {
-                Log.d(TAG, response.status.toString())
+        networkSingleton.getConfiguration(object: NetworkCallback<Config> {
+            override fun onResponseSuccess(response: Config) {
+                Timber.d(response.configuration.toString())
             }
 
-            override fun failure(error: Throwable) {
-                Log.d(TAG, error.message)
+            override fun onResponseFailure(error: Throwable) {
+                Timber.e(error)
             }
-
         })
 
         setTheme(R.style.MHacksTheme)
@@ -181,7 +185,7 @@ class MainActivity : AppCompatActivity(),
         navigation?.itemTextColor = colorStateList
     }
 
-    //    public void login() {
+    //    public void attemptLogin() {
     //        // Log in if possible.
     //        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
     //        final String username = sharedPref.getString(SettingsFragment.USERNAME_KEY, "");
@@ -189,7 +193,7 @@ class MainActivity : AppCompatActivity(),
     //
     //        final NetworkManager networkManager = NetworkManager.getInstance();
     //        if (username.length() != 0 && password.length() != 0) {
-    //            networkManager.login(username, password, new HackathonCallback<User>() {
+    //            networkManager.attemptLogin(username, password, new HackathonCallback<User>() {
     //                @Override
     //                public void success(User response) {
     //                    userProfile.withName(response.getName());

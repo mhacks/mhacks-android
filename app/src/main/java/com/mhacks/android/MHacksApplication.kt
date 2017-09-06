@@ -5,12 +5,9 @@
 package com.mhacks.android
 
 import android.app.Application
-import com.mhacks.android.dagger.component.DaggerHackathonComponent
-import com.mhacks.android.dagger.component.DaggerNetComponent
-import com.mhacks.android.dagger.component.HackathonComponent
-import com.mhacks.android.dagger.component.NetComponent
-import com.mhacks.android.dagger.module.NetModule
+import com.mhacks.android.dagger.component.*
 import com.mhacks.android.dagger.module.AppModule
+import com.mhacks.android.dagger.module.RetrofitModule
 import timber.log.Timber
 
 
@@ -19,8 +16,9 @@ import timber.log.Timber
 
 class MHacksApplication : Application() {
 
+    private lateinit var netComponent: NetComponent
     lateinit var hackathonComponent: HackathonComponent
-    lateinit var netComponent: NetComponent
+    lateinit var roomComponent: RoomComponent
 
     override fun onCreate() {
         super.onCreate()
@@ -28,11 +26,12 @@ class MHacksApplication : Application() {
 
         netComponent = DaggerNetComponent.builder()
                 .appModule(AppModule(this))
-                .netModule(NetModule("https://staging.mhacks.org/v1/"))
+                .retrofitModule(RetrofitModule("https://staging.mhacks.org/v1/"))
                 .build()
         hackathonComponent = DaggerHackathonComponent
                 .builder()
                 .netComponent(netComponent)
                 .build()
+        roomComponent = DaggerRoomComponent.create()
     }
 }

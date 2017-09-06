@@ -1,12 +1,14 @@
 package org.mhacks.mhacks.login
 
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
 import com.mhacks.android.MHacksApplication
+import com.mhacks.android.data.kotlin.NetworkCallback
 import com.mhacks.android.data.model.Login
 import com.mhacks.android.data.network.NetworkSingleton
 import com.mhacks.android.ui.login.components.LoginFragment
@@ -15,7 +17,7 @@ import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
 
-    val networkSingleton by lazy {
+    private val networkSingleton by lazy {
         NetworkSingleton.newInstance(application = application as MHacksApplication)
     }
 
@@ -29,17 +31,20 @@ class LoginActivity : AppCompatActivity() {
         switchFragment(LoginFragment.instance)
     }
 
-    fun login(callback: OnLoginRequestCallback) {
+    fun attemptLogin(email: String,
+                     password: String,
+                     callback: NetworkCallback<Login>) {
+
         networkSingleton.getLoginVerification(
-                "changjef@umich.edu",
-                "JeffJellyfish1",
-                object: NetworkSingleton.Callback<Login> {
-                    override fun success(response: Login) {
-                        callback.onLoginSuccess(response)
+                email,
+                password,
+                object: NetworkCallback<Login> {
+                    override fun onResponseSuccess(response: Login) {
+                        callback.onResponseSuccess(response)
                     }
 
-                    override fun failure(error: Throwable) {
-                        callback.onLoginFailure(error)
+                    override fun onResponseFailure(error: Throwable) {
+                        callback.onResponseFailure(error)
                     }
                 }
         )
@@ -52,18 +57,13 @@ class LoginActivity : AppCompatActivity() {
                 .commit()
     }
 
-    fun setStatusBarTransparent() {
+    private fun setStatusBarTransparent() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         }
     }
 
-    interface OnLoginRequestCallback {
-        fun onLoginSuccess(login: Login)
-
-        fun onLoginFailure(error: Throwable)
-    }
 
     companion object {
         val TAG = "LoginActivity"

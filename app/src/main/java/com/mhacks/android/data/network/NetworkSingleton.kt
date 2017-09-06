@@ -2,6 +2,7 @@ package com.mhacks.android.data.network
 
 import com.mhacks.android.MHacksApplication
 import com.mhacks.android.data.kotlin.Config
+import com.mhacks.android.data.kotlin.NetworkCallback
 import com.mhacks.android.data.model.Login
 import com.mhacks.android.data.network.services.HackathonApiService
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -11,7 +12,7 @@ import javax.inject.Inject
 /**
  * Created by jeffreychang on 9/3/17.
  */
-class NetworkSingleton private constructor(application: MHacksApplication) {
+class NetworkSingleton (application: MHacksApplication) {
 
     @Inject lateinit var hackathonAPIService: HackathonApiService
 
@@ -19,23 +20,23 @@ class NetworkSingleton private constructor(application: MHacksApplication) {
         application.hackathonComponent.inject(this)
     }
 
-    fun getConfiguration(callback: Callback<Config>) {
+    fun getConfiguration(callback: NetworkCallback<Config>) {
         hackathonAPIService.getConfiguration()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe (
-                    { response -> callback.success(response) },
-                    { error    -> callback.failure(error) }
+                    { response -> callback.onResponseSuccess(response) },
+                    { error    -> callback.onResponseFailure(error) }
                 )
     }
 
-    fun getLoginVerification(email: String, password: String, callback: Callback<Login>) {
+    fun getLoginVerification(email: String, password: String, callback: NetworkCallback<Login>) {
         hackathonAPIService.getLogin(email, password)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe (
-                    { response -> callback.success(response) },
-                    { error    -> callback.failure(error) }
+                    { response -> callback.onResponseSuccess(response) },
+                    { error    -> callback.onResponseFailure(error) }
                 )
     }
 
@@ -45,8 +46,5 @@ class NetworkSingleton private constructor(application: MHacksApplication) {
         }
     }
 
-    interface Callback<in T> {
-        fun success(response: T)
-        fun failure(error: Throwable)
-    }
+
 }
