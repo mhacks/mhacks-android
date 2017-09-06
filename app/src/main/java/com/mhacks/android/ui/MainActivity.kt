@@ -3,6 +3,7 @@ package com.mhacks.android.ui
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.FragmentTransaction
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.AsyncTask
 import android.os.Bundle
@@ -35,6 +36,7 @@ import com.mhacks.android.ui.ticket.TicketDialogFragment
 import com.mhacks.android.util.ResourceUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import org.mhacks.android.R
+import org.mhacks.mhacks.login.LoginActivity
 import java.io.IOException
 import java.lang.reflect.Field
 
@@ -88,11 +90,10 @@ class MainActivity : AppCompatActivity(),
         notif = intent.getStringExtra("notif_link")
 
         updateGcm()
-        /*if (true) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        }*/
+        // if (true) {
+        //    startActivity(Intent(this, LoginActivity::class.java))
+        //    finish()
+        // }
         navigation?.setOnNavigationItemSelectedListener(this)
 
         //TODO: Adam Commenting this out because it's not even used anyways, but you don't need

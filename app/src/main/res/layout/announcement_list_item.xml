@@ -29,7 +29,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+
         android:orientation="vertical"
         android:padding="8dp">
 
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3/2/1996"
-            android:textColor="@color/white" />
+            android:textColor="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/info_title"
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:text="Event Title"
-            android:textColor="@color/pinkText"
+            android:textColor="@color/colorPrimary"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Event info goes here..."
-            android:textColor="@color/white" />
+            android:textColor="@color/black" />
 
     </LinearLayout>
 </android.support.v7.widget.CardView>
