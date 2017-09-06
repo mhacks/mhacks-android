@@ -24,31 +24,20 @@ class NetworkSingleton private constructor(application: MHacksApplication) {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe (
-                    { response ->
-                        callback.success(response)
-                    },
-                    { error ->
-                        callback.failure(error)
-
-                    }
+                    { response -> callback.success(response) },
+                    { error    -> callback.failure(error) }
                 )
     }
-//
-//    fun getLoginVerification(callback: Callback<Login>) {
-//        hackathonAPIService.getLogin()
-//                .subscribeOn(Schedulers.newThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe (
-//                        { response ->
-//                            callback.success(response)
-//                        },
-//                        { error ->
-//                            callback.failure(error)
-//
-//                        }
-//                )
-//
-//    }
+
+    fun getLoginVerification(email: String, password: String, callback: Callback<Login>) {
+        hackathonAPIService.getLogin(email, password)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe (
+                    { response -> callback.success(response) },
+                    { error    -> callback.failure(error) }
+                )
+    }
 
     companion object {
         fun newInstance(application: MHacksApplication): NetworkSingleton {
@@ -56,7 +45,7 @@ class NetworkSingleton private constructor(application: MHacksApplication) {
         }
     }
 
-    interface Callback<T> {
+    interface Callback<in T> {
         fun success(response: T)
         fun failure(error: Throwable)
     }

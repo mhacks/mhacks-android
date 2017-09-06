@@ -14,12 +14,12 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.MenuItem
-import android.view.View
 import android.view.WindowManager
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.mhacks.android.MHacksApplication
 import com.mhacks.android.data.kotlin.Config
 import com.mhacks.android.data.network.NetworkSingleton
+import com.mhacks.android.data.network.NetworkSingleton.Callback
 import com.mhacks.android.data.network.services.HackathonApiService
 import com.mhacks.android.ui.announcements.AnnouncementFragment
 import com.mhacks.android.ui.common.BaseFragment
@@ -40,9 +40,7 @@ import javax.inject.Inject
  */
 class MainActivity : AppCompatActivity(),
         ActivityCompat.OnRequestPermissionsResultCallback,
-        BaseFragment.OnNavigationChangeListener,
-        NetworkSingleton.Callback<Config>,
-        View.OnClickListener {
+        BaseFragment.OnNavigationChangeListener {
 
     lateinit var regid: String
 
@@ -57,16 +55,24 @@ class MainActivity : AppCompatActivity(),
         NetworkSingleton.newInstance(application = application as MHacksApplication)
     }
 
+    private val gcm: GoogleCloudMessaging by lazy { GoogleCloudMessaging.getInstance(applicationContext) }
+
     @Inject lateinit var sharedPreferences: SharedPreferences
 
-
-    private val gcm: GoogleCloudMessaging by lazy { GoogleCloudMessaging.getInstance(applicationContext) }
-    @Inject lateinit var hackathonAPIService: HackathonApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        networkSingleton.getConfiguration(this)
+        networkSingleton.getConfiguration(object: Callback<Config> {
+            override fun success(response: Config) {
+                Log.d(TAG, response.status.toString())
+            }
+
+            override fun failure(error: Throwable) {
+                Log.d(TAG, error.message)
+            }
+
+        })
 
         setTheme(R.style.MHacksTheme)
         setSystemFullScreenUI()
@@ -97,11 +103,10 @@ class MainActivity : AppCompatActivity(),
         // If Activity opened from push notification, value will reflect fragment that will initially open
         notif = intent.getStringExtra("notif_link")
 
-//        updateGcm()
-//        if (true) {
-//            startActivity(Intent(this, LoginActivity::class.java))
-//            finish()
-//        }
+        if (true) {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
 
         navigation?.setOnNavigationItemSelectedListener({ item ->
             when (item.itemId) {
@@ -140,7 +145,6 @@ class MainActivity : AppCompatActivity(),
     override fun setStatusBarColor(color: Int) {
         window.statusBarColor = ContextCompat.getColor(this, color)
     }
-
 
     @SuppressLint("InlinedApi")
     fun setSystemFullScreenUI() {
@@ -199,20 +203,6 @@ class MainActivity : AppCompatActivity(),
     //        }
     //    }
 
-
-    override fun onClick(view: View?) {
-
-        val ft = supportFragmentManager.beginTransaction()
-        val prev = supportFragmentManager.findFragmentByTag("dialog")
-        if (prev != null) {
-            ft.remove(prev)
-        }
-        ft.addToBackStack(null)
-
-        val ticket: TicketDialogFragment = TicketDialogFragment
-                .newInstance("Jeffrey Chang")
-        ticket.show(ft, "dialog")
-    }
 
 //    fun updateGcm() {
 //        if (!checkPlayServices()) {
@@ -378,14 +368,6 @@ class MainActivity : AppCompatActivity(),
                 Log.d(TAG, "Location permissions granted")
             }
         }// updateFragment(mapViewFragment);
-    }
-
-    override fun success(response: Config) {
-        Log.d(TAG, response.configuration.appName)
-    }
-
-    override fun failure(error: Throwable) {
-
     }
 
 

@@ -4,26 +4,25 @@ package com.mhacks.android.data.model;
  * Created by Omkar Moghe on 10/4/2016.
  */
 
-public class Login {
-    public String token;
-    public User user;
 
-    public Login() {
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-}
+//import android.arch.persistence.room.Entity;
+//import android.arch.persistence.room.PrimaryKey;
+//
+//import com.google.gson.annotations.Expose;
+//import com.google.gson.annotations.SerializedName;
+//
+//public class Login {
+//
+//    @PrimaryKey(autoGenerate = true)
+//    public int id;
+//    @SerializedName("status")
+//    @Expose
+//    public Boolean status;
+//    @SerializedName("message")
+//    @Expose
+//    public String message;
+//    @SerializedName("token")
+//    @Expose
+//    public String token;
+//
+//}

@@ -11,6 +11,9 @@ import com.mhacks.android.dagger.component.HackathonComponent
 import com.mhacks.android.dagger.component.NetComponent
 import com.mhacks.android.dagger.module.NetModule
 import com.mhacks.android.dagger.module.AppModule
+import timber.log.Timber
+
+
 
 
 
@@ -21,6 +24,7 @@ class MHacksApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Timber.plant(Timber.DebugTree())
 
         netComponent = DaggerNetComponent.builder()
                 .appModule(AppModule(this))

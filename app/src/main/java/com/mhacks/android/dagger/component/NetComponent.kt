@@ -12,13 +12,10 @@ import retrofit2.Retrofit
 import javax.inject.Singleton
 import okhttp3.OkHttpClient
 
-
-
-
-
 /**
  * Created by jeffreychang on 9/2/17.
  */
+
 @Singleton
 @Component(modules = arrayOf(AppModule::class, NetModule::class))
 interface NetComponent {
