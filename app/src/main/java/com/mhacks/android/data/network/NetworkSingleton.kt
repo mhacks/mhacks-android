@@ -1,0 +1,50 @@
+package com.mhacks.android.data.network
+
+import com.mhacks.android.MHacksApplication
+import com.mhacks.android.data.kotlin.Config
+import com.mhacks.android.data.kotlin.NetworkCallback
+import com.mhacks.android.data.model.Login
+import com.mhacks.android.data.network.services.HackathonApiService
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
+
+/**
+ * Created by jeffreychang on 9/3/17.
+ */
+class NetworkSingleton (application: MHacksApplication) {
+
+    @Inject lateinit var hackathonAPIService: HackathonApiService
+
+    init {
+        application.hackathonComponent.inject(this)
+    }
+
+    fun getConfiguration(callback: NetworkCallback<Config>) {
+        hackathonAPIService.getConfiguration()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe (
+                    { response -> callback.onResponseSuccess(response) },
+                    { error    -> callback.onResponseFailure(error) }
+                )
+    }
+
+    fun getLoginVerification(email: String, password: String, callback: NetworkCallback<Login>) {
+        hackathonAPIService.getLogin(email, password)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe (
+                    { response -> callback.onResponseSuccess(response) },
+                    { error    -> callback.onResponseFailure(error) }
+                )
+    }
+
+    companion object {
+        fun newInstance(application: MHacksApplication): NetworkSingleton {
+            return NetworkSingleton(application)
+        }
+    }
+
+
+}

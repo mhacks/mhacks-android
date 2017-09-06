@@ -2,6 +2,9 @@ package com.mhacks.android.ui.common
 
 import android.os.Build
 import android.os.Bundle
+import android.support.annotation.ColorRes
+import android.support.annotation.DrawableRes
+import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +29,7 @@ abstract class BaseFragment : Fragment() {
         mCallback = activity as OnNavigationChangeListener
     }
 
-    override final   fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         changeColors()
         val view = inflater!!.inflate(LayoutResourceID, container, false)
         return view
@@ -34,19 +37,6 @@ abstract class BaseFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    /* http://mrtn.me/blog/2012/03/17/get-the-height-of-the-status-bar-in-android/
-        Copied code to get the length of the status bar.
-     */
-
-    fun getStatusBarHeight(): Int {
-        var result = 0
-        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) {
-            result = resources.getDimensionPixelSize(resourceId)
-        }
-        return result
     }
 
     private fun changeColors() {
@@ -70,11 +60,15 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
+    fun setCustomActionBarColor(@ColorRes res: Int) {
+        mCallback!!.setActionBarColor(res)
+    }
+
     interface OnNavigationChangeListener {
 
-        fun setFragmentTitle(title: Int)
+        fun setFragmentTitle(@StringRes title: Int)
 
-        fun setActionBarColor(color: Int)
+        fun setActionBarColor(@ColorRes color: Int)
 
         fun setStatusBarColor(color: Int)
 

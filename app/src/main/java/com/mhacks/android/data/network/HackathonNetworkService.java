@@ -26,7 +26,7 @@ import retrofit2.http.Query;
 
 /**
  * Created by boztalay on 6/3/15 for the OneHack backend.
- * Updated by omkarmoghe on 12/25/15 for the MHacks modular backend.
+ * Updated by omkarmoghe on 12/25/15 for the MHacksApplication modular backend.
  *
  * NOTE: DO NOT begin endpoints with a '/'.
  *       See com.mhacks.android.data.network.NetworkManager.BASE_URL for path.
@@ -35,7 +35,7 @@ public interface HackathonNetworkService {
 
     // USERS
     @FormUrlEncoded
-    @POST("login/")
+    @POST("attemptLogin/")
     Call<Login> login(@Field("username") String username,
                       @Field("password") String password);
 

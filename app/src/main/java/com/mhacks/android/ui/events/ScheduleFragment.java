@@ -15,9 +15,6 @@ import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.mhacks.android.data.model.Event;
-import com.mhacks.android.data.network.HackathonCallback;
-import com.mhacks.android.data.network.NetworkManager;
-import com.mhacks.android.ui.common.BaseFragment;
 import com.mhacks.android.ui.map.LocationManager;
 
 import org.mhacks.android.R;
@@ -43,7 +40,7 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
     public static final String TAG = "EventFragment";
 
     // network manager
-    private final NetworkManager networkManager = NetworkManager.getInstance();
+//    private final NetworkManager networkManager = NetworkManager.getInstance();
 
     // Declaring Views
     private LinearLayout mScheduleContainer;
@@ -113,25 +110,25 @@ public class ScheduleFragment extends Fragment implements WeekView.EventClickLis
     }
 
     public void getEvents() {
-        networkManager.getEvents(new HackathonCallback<List<Event>>() {
-            @Override
-            public void success(List<Event> response) {
-                mEvents = new ArrayList<Event>(response);
-                Log.d(TAG, "got " + mEvents.size() + " events");
-
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mWeekView.notifyDatasetChanged();
-                    }
-                });
-            }
-
-            @Override
-            public void failure(Throwable error) {
-
-            }
-        });
+//        networkManager.getEvents(new HackathonCallback<List<Event>>() {
+//            @Override
+//            public void success(List<Event> response) {
+//                mEvents = new ArrayList<Event>(response);
+//                Log.d(TAG, "got " + mEvents.size() + " events");
+//
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mWeekView.notifyDatasetChanged();
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void failure(Throwable error) {
+//
+//            }
+//        });
     }
 
     public ArrayList<WeekViewEvent> createWeekViewEvents(ArrayList<Event> events, int month) {

@@ -1,40 +1,32 @@
 package com.mhacks.android.ui.map
 
 import android.Manifest
+import android.app.Activity
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Spinner
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
 import com.mhacks.android.data.model.Floor
-import com.mhacks.android.data.network.HackathonCallback
-import com.mhacks.android.data.network.NetworkManager
 import com.mhacks.android.ui.common.BaseFragment
-import com.mhacks.android.ui.common.NavigationColor
 import com.mhacks.android.util.ResourceUtil
-import kotlinx.android.synthetic.main.fragment_map.*
 import org.mhacks.android.R
 import java.util.*
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
-import android.app.Activity
-
 
 
 /**j6yyg
  * Created by anksh on 12/31/2014.
  * Updated by omkarmoghe on 10/6/16
 
- * Displays maps of the MHacks 8 venues.
+ * Displays maps of the MHacksApplication 8 venues.
  */
 class MapViewFragment : BaseFragment(), OnMapReadyCallback {
 
@@ -43,45 +35,45 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
     override var LayoutResourceID: Int = R.layout.fragment_map
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-
+        setCustomActionBarColor(R.color.semiColorPrimary)
         if (checkGooglePlayServices(activity)) {
             //        nameView = map_view_name
             setUpMapIfNeeded()
 
-            val networkManager = NetworkManager.getInstance()
-            networkManager.getFloors(object : HackathonCallback<List<Floor>> {
-                override fun success(response: List<Floor>) {
-                    floors = ArrayList(response)
-
-                    val spinnerAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item)
-                    spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-                    if (!floors.isEmpty()) {
-                        for (floor in floors) {
-                            spinnerAdapter.add(floor.getName())
-                        }
-                        nameView.adapter = spinnerAdapter
-                        spinnerAdapter.notifyDataSetChanged()
-
-                        nameView.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                            override fun onItemSelected(adapterView: AdapterView<*>,
-                                                        view: View,
-                                                        i: Int,
-                                                        l: Long) {
-                                addOverlay(floors[i])
-                            }
-
-                            override fun onNothingSelected(adapterView: AdapterView<*>) {
-
-                            }
-                        }
-                    }
-                }
-
-                override fun failure(error: Throwable) {
-                    Log.e(TAG, "unable to get floors", error)
-                }
-            })
+//            val networkManager = NetworkManager.getInstance()
+//            networkManager.getFloors(object : HackathonCallback<List<Floor>> {
+//                override fun success(response: List<Floor>) {
+//                    floors = ArrayList(response)
+//
+//                    val spinnerAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item)
+//                    spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//
+//                    if (!floors.isEmpty()) {
+//                        for (floor in floors) {
+//                            spinnerAdapter.add(floor.getName())
+//                        }
+//                        nameView.adapter = spinnerAdapter
+//                        spinnerAdapter.notifyDataSetChanged()
+//
+//                        nameView.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//                            override fun onItemSelected(adapterView: AdapterView<*>,
+//                                                        view: View,
+//                                                        i: Int,
+//                                                        l: Long) {
+//                                addOverlay(floors[i])
+//                            }
+//
+//                            override fun onNothingSelected(adapterView: AdapterView<*>) {
+//
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                override fun failure(error: Throwable) {
+//                    Log.e(TAG, "unable to get floors", error)
+//                }
+//            })
         }
 
     }
@@ -162,29 +154,29 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
         setUpMapIfNeeded()
 
         // Grab bitmap image
-        val networkManager = NetworkManager.getInstance()
-        networkManager.getImage(floor.getImage(), object : HackathonCallback<Bitmap> {
-            override fun success(response: Bitmap) {
-                val image = response
-                activity.runOnUiThread {
-                    val northCampusBounds = LatLngBounds(
-                            // I'm a dumbass so we gotta flip the latitudes
-                            LatLng(floor.getSeLatitude(), floor.getNwLongitude()), // South west corner
-                            LatLng(floor.getNwLatitude(), floor.getSeLongitude())  // North east corner
-                    )
-
-                    val northCampusMap = GroundOverlayOptions()
-                            .image(BitmapDescriptorFactory.fromBitmap(image))
-                            .positionFromBounds(northCampusBounds)
-
-                    mGoogleMap!!.addGroundOverlay(northCampusMap)
-                }
-            }
-
-            override fun failure(error: Throwable) {
-
-            }
-        })
+//        val networkManager = NetworkManager.getInstance()
+//        networkManager.getImage(floor.getImage(), object : HackathonCallback<Bitmap> {
+//            override fun success(response: Bitmap) {
+//                val image = response
+//                activity.runOnUiThread {
+//                    val northCampusBounds = LatLngBounds(
+//                            // I'm a dumbass so we gotta flip the latitudes
+//                            LatLng(floor.getSeLatitude(), floor.getNwLongitude()), // South west corner
+//                            LatLng(floor.getNwLatitude(), floor.getSeLongitude())  // North east corner
+//                    )
+//
+//                    val northCampusMap = GroundOverlayOptions()
+//                            .image(BitmapDescriptorFactory.fromBitmap(image))
+//                            .positionFromBounds(northCampusBounds)
+//
+//                    mGoogleMap!!.addGroundOverlay(northCampusMap)
+//                }
+//            }
+//
+//            override fun failure(error: Throwable) {
+//
+//            }
+//        })
     }
 
     fun checkGooglePlayServices(activity: Activity): Boolean {
