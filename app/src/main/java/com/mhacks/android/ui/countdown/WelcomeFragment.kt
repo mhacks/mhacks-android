@@ -10,7 +10,7 @@ import android.widget.TextView
 
 import com.mhacks.android.data.model.Countdown
 import com.mhacks.android.data.network.HackathonCallback
-import com.mhacks.android.data.network.NetworkManager
+// import com.mhacks.android.data.network.NetworkManager
 import com.mhacks.android.ui.common.BaseFragment
 
 import org.joda.time.DateTime
@@ -62,23 +62,23 @@ class WelcomeFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val networkManager = NetworkManager.getInstance()
-        networkManager.getCountdown(object : HackathonCallback<Countdown> {
-            override fun success(response: Countdown) {
-                startDate = Date(response.getStartTime() * 1000)
-                duration = response.getCountdownDuration()
-                initCountdownIfNecessary(startDate, duration * 1000)
-            }
-
-            override fun failure(error: Throwable) {
-
-            }
-        })
+//        val networkManager = NetworkManager.getInstance()
+//        networkManager.getCountdown(object : HackathonCallback<Countdown> {
+//            override fun success(response: Countdown) {
+//                startDate = Date(response.getStartTime() * 1000)
+//                duration = response.getCountdownDuration()
+//                initCountdownIfNecessary(startDate, duration * 1000)
+//            }
+//
+//            override fun failure(error: Throwable) {
+//
+//            }
+//        })
 
         duration = 129600000
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         simpleDateFormat.timeZone = TimeZone.getTimeZone("UTC")
-        startDate = simpleDateFormat.parse("2017-09-22T00:00:00.000Z")
+        startDate = simpleDateFormat.parse("2017-09-06T00:00:00.000Z")
         initCountdownIfNecessary(startDate, duration)
         // Start everything off by getting the parse data
         //getLatestParseData();

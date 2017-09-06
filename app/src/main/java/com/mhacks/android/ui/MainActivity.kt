@@ -107,10 +107,10 @@ class MainActivity : AppCompatActivity(),
         // If Activity opened from push notification, value will reflect fragment that will initially open
         notif = intent.getStringExtra("notif_link")
 
-        if (true) {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-        }
+//        if (true) {
+//            startActivity(Intent(this, LoginActivity::class.java))
+//            finish()
+//        }
 
         navigation?.setOnNavigationItemSelectedListener({ item ->
             when (item.itemId) {
