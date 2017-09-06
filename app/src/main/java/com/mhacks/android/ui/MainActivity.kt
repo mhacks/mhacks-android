@@ -18,6 +18,7 @@ import android.view.WindowManager
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.mhacks.android.MHacksApplication
 import com.mhacks.android.data.kotlin.Config
+import com.mhacks.android.data.model.Login
 import com.mhacks.android.data.network.NetworkSingleton
 import com.mhacks.android.data.room.RoomSingleton
 import com.mhacks.android.ui.announcements.AnnouncementFragment
@@ -64,6 +65,10 @@ class MainActivity : AppCompatActivity(),
     @Inject lateinit var sharedPreferences: SharedPreferences
 
 
+    override fun onResume() {
+        super.onResume()
+        roomSingleton.isLoggedIn(callback = this::onCheckIsLoggedIn)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -102,10 +107,6 @@ class MainActivity : AppCompatActivity(),
         // If Activity opened from push notification, value will reflect fragment that will initially open
         notif = intent.getStringExtra("notif_link")
 
-        if (true) {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-        }
 
         navigation?.setOnNavigationItemSelectedListener({ item ->
             when (item.itemId) {
@@ -376,9 +377,16 @@ class MainActivity : AppCompatActivity(),
         }// updateFragment(mapViewFragment);
     }
 
+    private fun onCheckIsLoggedIn(isLoggedIn: Boolean) {
+        if (isLoggedIn) {
+
+        } else {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
+    }
 
     companion object {
-
         val TAG = "org.mhacks/MainActivity"
 
         // Permissions

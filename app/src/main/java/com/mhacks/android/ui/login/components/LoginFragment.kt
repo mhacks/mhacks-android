@@ -1,5 +1,6 @@
 package com.mhacks.android.ui.login.components
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mhacks.android.data.model.Login
+import com.mhacks.android.ui.MainActivity
 import com.mhacks.android.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.mhacks.android.R
@@ -34,6 +36,9 @@ class LoginFragment: Fragment() {
                     success = this::onLoginNetworkSuccess,
                     failure = this::onLoginNetworkFailure
             )
+        })
+        no_thanks_button.setOnClickListener({
+            parentActivity.startActivity(Intent(context, MainActivity::class.java))
         })
     }
 

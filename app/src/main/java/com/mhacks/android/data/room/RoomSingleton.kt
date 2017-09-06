@@ -19,17 +19,29 @@ class RoomSingleton private constructor(application: MHacksApplication) {
         application.roomComponent.inject(this)
     }
 
-//    fun getLogin(success: (List<Login>) -> Unit,
-//                    failure: (Throwable) -> Unit) {
-//        roomDatabase.loginDao()
-//                .getLogin()
-//                .subscribeOn(Schedulers.newThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe (
-//                        { response -> success(response) },
-//                        { error    -> failure(error) }
-//                )
-//    }
+    fun isLoggedIn(
+            callback: (isLoggedIn: Boolean) -> Unit) {
+        roomDatabase.loginDao()
+                .getLogin()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe (
+                        { callback(true) },
+                        { callback(false) })
+    }
+
+    fun getLogin(
+            success: (Login) -> Unit,
+            failure: (Throwable) -> Unit) {
+        roomDatabase.loginDao()
+                .getLogin()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe (
+                        { login -> success(login) },
+                        { error -> failure(error) })
+    }
+
 
     fun insertLogin(login: Login) {
         Observable.fromCallable({
