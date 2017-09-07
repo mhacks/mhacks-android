@@ -21,7 +21,7 @@ import java.lang.Exception
 class LoginFragment: Fragment() {
 
     private val parentActivity: LoginActivity by lazy {
-        this.activity as LoginActivity
+        activity as LoginActivity
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
