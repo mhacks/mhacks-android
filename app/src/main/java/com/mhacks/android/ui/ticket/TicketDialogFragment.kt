@@ -31,25 +31,12 @@ class TicketDialogFragment : DialogFragment() {
         super.onCreate(savedInstanceState)
     }
 
-
-//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        return AlertDialog.Builder(activity)
-//            .setMessage(R.string.ticket)
-//            .setNegativeButton(R.string.done_positive,
-//                object: DialogInterface.OnClickListener {
-//                    override fun onClick(view: DialogInterface?, id: Int) {
-//                    }
-//            })
-//            .create()
-//    }
-
-
     override fun onResume() {
 
         val width = (resources.displayMetrics.widthPixels * .85).toInt()
         val height = (resources.displayMetrics.heightPixels* .7).toInt()
 
-        dialog.getWindow().setLayout(width, height)
+        dialog.window.setLayout(width, height)
 
 
         super.onResume()
