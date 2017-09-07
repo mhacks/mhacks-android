@@ -15,7 +15,8 @@ import com.google.gson.annotations.SerializedName
 data class Login(
 
     @PrimaryKey(autoGenerate = true)
-    var id: Int,
+        var id: Int,
+    var userSkipped: Boolean,
     @SerializedName("status")
     @Expose
     var status: Boolean,

@@ -67,77 +67,18 @@ class MainActivity : AppCompatActivity(),
 
     override fun onResume() {
         super.onResume()
-        roomSingleton.isLoggedIn(callback = this::onCheckIsLoggedIn)
+        roomSingleton.getLogin(
+                this::onLoginDBSuccess,
+                this::onLoginDBFailure)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.MHacksTheme)
 
         networkSingleton.getConfiguration(
                 this::onConfigurationSuccess,
                 this::onConfigurationFailure
         )
-
-
-        setTheme(R.style.MHacksTheme)
-        setSystemFullScreenUI()
-        setContentView(R.layout.activity_main)
-        setBottomNavigationColor(
-                NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
-
-        // Add the toolbar
-        qr_ticket_fab.setOnClickListener({
-            val ft = supportFragmentManager.beginTransaction()
-            val prev = supportFragmentManager.findFragmentByTag("dialog")
-            if (prev != null) {
-                ft.remove(prev)
-            }
-            ft.addToBackStack(null)
-
-            val ticket: TicketDialogFragment = TicketDialogFragment
-                    .newInstance("Jeffrey Chang")
-            ticket.show(ft, "dialog")
-        })
-
-        menuItem = navigation?.menu?.getItem(0)
-        menuItem?.setTitle(R.string.title_home)
-        setSupportActionBar(toolbar)
-        updateFragment(WelcomeFragment.instance)
-
-
-        // If Activity opened from push notification, value will reflect fragment that will initially open
-        notif = intent.getStringExtra("notif_link")
-
-
-        navigation?.setOnNavigationItemSelectedListener({ item ->
-            when (item.itemId) {
-                R.id.navigation_home -> {
-                    updateFragment(WelcomeFragment.instance)
-                }
-                R.id.navigation_announcements -> {
-                    updateFragment(AnnouncementFragment.instance)
-                }
-                R.id.navigation_events -> {
-                    updateFragment(EventFragment.instance)
-                }
-                R.id.navigation_map -> {
-                    updateFragment(MapViewFragment.instance)
-                }
-                R.id.navigation_info -> {
-                    updateFragment(InfoFragment.instance)
-                }
-            }
-            menuItem = item
-            true
-        })
-
-        //TODO: Adam Commenting this out because it's not even used anyways, but you don't need
-        //TODO: Adam explicit null checks when you can use the safe operator.
-//        if (notif != null) {
-//            // Opens Announcements
-//            if (notif == "Announcements") {
-//                // updateFragment(announcementsFragment);
-//            }
-//        }
     }
 
     private fun onConfigurationSuccess(config: Config) {
@@ -374,7 +315,8 @@ class MainActivity : AppCompatActivity(),
             LOCATION_REQUEST_CODE -> if (permissions.isNotEmpty() && (grantResults[0] == PackageManager.PERMISSION_GRANTED || grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
                 Log.d(TAG, "Location permissions granted")
             }
-        }// updateFragment(mapViewFragment);
+        }
+        // updateFragment(mapViewFragment);
     }
 
     private fun onCheckIsLoggedIn(isLoggedIn: Boolean) {
@@ -384,6 +326,78 @@ class MainActivity : AppCompatActivity(),
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
+    }
+
+    private fun onLoginDBSuccess(login: Login) {
+
+
+
+        setSystemFullScreenUI()
+        setContentView(R.layout.activity_main)
+        setBottomNavigationColor(
+                NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
+
+        // Add the toolbar
+        qr_ticket_fab.setOnClickListener({
+            val ft = supportFragmentManager.beginTransaction()
+            val prev = supportFragmentManager.findFragmentByTag("dialog")
+            if (prev != null) {
+                ft.remove(prev)
+            }
+            ft.addToBackStack(null)
+
+            val ticket: TicketDialogFragment = TicketDialogFragment
+                    .newInstance("Jeffrey Chang")
+            ticket.show(ft, "dialog")
+        })
+
+        menuItem = navigation?.menu?.getItem(0)
+        menuItem?.setTitle(R.string.title_home)
+        setSupportActionBar(toolbar)
+        updateFragment(WelcomeFragment.instance)
+
+
+        // If Activity opened from push notification, value will reflect fragment that will initially open
+        notif = intent.getStringExtra("notif_link")
+
+
+        navigation?.setOnNavigationItemSelectedListener({ item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    updateFragment(WelcomeFragment.instance)
+                }
+                R.id.navigation_announcements -> {
+                    updateFragment(AnnouncementFragment.instance)
+                }
+                R.id.navigation_events -> {
+                    updateFragment(EventFragment.instance)
+                }
+                R.id.navigation_map -> {
+                    updateFragment(MapViewFragment.instance)
+                }
+                R.id.navigation_info -> {
+                    updateFragment(InfoFragment.instance)
+                }
+            }
+            menuItem = item
+            true
+        })
+
+        //TODO: Adam Commenting this out because it's not even used anyways, but you don't need
+        //TODO: Adam explicit null checks when you can use the safe operator.
+//        if (notif != null) {
+//            // Opens Announcements
+//            if (notif == "Announcements") {
+//                // updateFragment(announcementsFragment);
+//            }
+//        }
+
+    }
+
+    private fun onLoginDBFailure(error: Throwable) {
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
+
     }
 
     companion object {

@@ -19,16 +19,16 @@ class RoomSingleton private constructor(application: MHacksApplication) {
         application.roomComponent.inject(this)
     }
 
-    fun isLoggedIn(
-            callback: (isLoggedIn: Boolean) -> Unit) {
-        roomDatabase.loginDao()
-                .getLogin()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe (
-                        { callback(true) },
-                        { callback(false) })
-    }
+//    fun isLoggedIn(
+//            callback: (isLoggedIn: Boolean) -> Unit) {
+//        roomDatabase.loginDao()
+//                .getLogin()
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe (
+//                        { callback(true) },
+//                        { callback(false) })
+//    }
 
     fun getLogin(
             success: (Login) -> Unit,

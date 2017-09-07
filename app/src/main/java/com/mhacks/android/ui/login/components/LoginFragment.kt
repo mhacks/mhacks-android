@@ -38,6 +38,8 @@ class LoginFragment: Fragment() {
             )
         })
         no_thanks_button.setOnClickListener({
+            parentActivity.roomSingleton.insertLogin(
+                    Login(1, true, false, "", ""))
             parentActivity.startActivity(Intent(context, MainActivity::class.java))
         })
     }
