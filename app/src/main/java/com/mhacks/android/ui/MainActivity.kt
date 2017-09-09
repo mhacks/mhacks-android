@@ -68,25 +68,27 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        roomSingleton.getLogin(
-                this::onLoginDBSuccess,
-                this::onLoginDBFailure)
-
-        networkSingleton.getConfiguration(
-                this::onConfigurationNetSuccess,
-                this::onConfigurationNetFailure)
-        setTheme(R.style.MHacksTheme)
+//        roomSingleton.getLogin(
+//                this::onLoginDBSuccess,
+//                this::onLoginDBFailure)
+//
+//        networkSingleton.getConfiguration(
+//                this::onConfigurationNetSuccess,
+//                this::onConfigurationNetFailure)
+//        setTheme(R.style.MHacksTheme)
 
     }
 
-    private fun loadLoginFromCacheOrNetwork() {
-        (roomSingleton.getLoginFlowable()
-                .flatMap ({ _  ->
-                    networkSingleton.getConfiguration().toFlowable(BackpressureStrategy.BUFFER)
+    private fun tryUserFromCacheThenNetwork() {
+        roomSingleton.getUserFlowable()
+                .onErrorResumeNext( { error: Throwable ->
+                    networkSingleton.getUserObservable().toFlowable(BackpressureStrategy.BUFFER)
                 })
                 .observeOn(Schedulers.newThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(
+                .subscribe({
+                    response -> response.email
+                })
     }
 
     private fun onConfigurationNetSuccess(config: Config) {

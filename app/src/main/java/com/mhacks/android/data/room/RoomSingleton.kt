@@ -38,6 +38,9 @@ class RoomSingleton private constructor(val application: MHacksApplication) {
         return roomDatabase.loginDao().getLogin()
     }
 
+    fun getUserFlowable(): Flowable<User> {
+        return roomDatabase.userDao().getUser()
+    }
 
 
     fun insertLogin(login: Login) { Observable.fromCallable({

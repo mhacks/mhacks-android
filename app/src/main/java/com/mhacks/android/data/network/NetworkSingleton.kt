@@ -28,20 +28,32 @@ class NetworkSingleton (val application: MHacksApplication) {
 
     }
 
+//    fun getLoginObservable(email: String, password: String,
+//                             success: (response: Login) -> Unit,
+//                             failure: (failure: Throwable) -> Unit) {
+//        hackathonAPIService.getLogin(email, password)
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe (
+//                    { response -> success(response) },
+//                    { error    -> failure(error) }
+//                )
+//    }
+
     fun getLoginObservable(email: String, password: String,
-                             success: (response: Login) -> Unit,
-                             failure: (failure: Throwable) -> Unit) {
+                           success: (response: Login) -> Unit,
+                           failure: (failure: Throwable) -> Unit) {
         hackathonAPIService.getLogin(email, password)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe (
-                    { response -> success(response) },
-                    { error    -> failure(error) }
+                        { response -> success(response) },
+                        { error    -> failure(error) }
                 )
     }
 
-    fun getUserObservable(login: Login): Observable<User> {
-        return hackathonAPIService.getUser("Bearer " + login.token)
+    fun getUserObservable(): Observable<User> {
+        return hackathonAPIService.getUser("Bearer " + "sdfasdf")
 
     }
 

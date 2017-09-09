@@ -3,12 +3,13 @@ package com.mhacks.android.data.kotlin
 import android.arch.persistence.room.*
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.lang.reflect.Constructor
 
 /**
  * Created by jeffreychang on 9/6/17.
  */
 
-@Entity
+
 data class UserResponse (
     @SerializedName("status")
     @Expose
@@ -18,15 +19,18 @@ data class UserResponse (
     var user: User
 )
 
-@Entity(tableName = "user")
+//@Entity(tableName = "user")
 data class RoomUser(
-    @PrimaryKey(autoGenerate = true)
+//    @PrimaryKey(autoGenerate = true)
     var id: Int,
     var fullName: String,
     var university: String
 )
 
+@Entity(tableName = "user")
 data class User (
+    @PrimaryKey(autoGenerate = true)
+    var id: Int,
 
     @SerializedName("email")
     @Expose
@@ -47,7 +51,7 @@ data class User (
     @SerializedName("groups")
     @Expose
     @Ignore
-    var groups: List<String>,
+    var groups: List<String>?,
 
     @SerializedName("major")
     @Expose
@@ -64,7 +68,7 @@ data class User (
     @SerializedName("avatar")
     @Expose
     @Ignore
-    var avatar: List<String>,
+    var avatar: List<String>?,
 
     @SerializedName("github")
     @Expose
@@ -93,4 +97,24 @@ data class User (
     @SerializedName("sex")
     @Expose
     var sex: String
-)
+) {
+    constructor(
+                id: Int,
+                email: String,
+                emailVerified: Boolean,
+                applicationSubmitted: Boolean,
+                fullName: String,
+                major: String,
+                university: String,
+                resumeUploaded: Boolean,
+                github: String,
+                linkedin: String,
+                devpost: String,
+                portfolio: String,
+                tshirt: String,
+                race: String,
+                sex: String
+                )
+            :this(id, email, emailVerified, applicationSubmitted, fullName, null, major, university,
+            resumeUploaded, null, github, linkedin, devpost, portfolio, tshirt, race, sex)
+}

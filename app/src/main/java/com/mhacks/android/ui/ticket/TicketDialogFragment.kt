@@ -31,18 +31,18 @@ class TicketDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        parentActivity.roomSingleton.getLoginO()
-                .flatMap { login ->
-                         parentActivity.networkSingleton
-                                 .getUserObservable(login)
-                                 .toFlowable(BackpressureStrategy.BUFFER)
-                }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe (
-                        { response -> Timber.d(response.email) },
-                        { error    -> Timber.d(error.toString())  }
-                )
+//        parentActivity.roomSingleton.getLoginO()
+//                .flatMap { login ->
+//                         parentActivity.networkSingleton
+//                                 .getUserObservable(login)
+//                                 .toFlowable(BackpressureStrategy.BUFFER)
+//                }
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe (
+//                        { response -> Timber.d(response.email) },
+//                        { error    -> Timber.d(error.toString())  }
+//                )
 
 
 

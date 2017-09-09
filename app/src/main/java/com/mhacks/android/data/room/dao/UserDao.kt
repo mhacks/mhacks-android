@@ -4,6 +4,9 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
 import com.mhacks.android.data.kotlin.RoomUser
+import com.mhacks.android.data.kotlin.User
+import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
 
 /**
@@ -13,8 +16,8 @@ import io.reactivex.Single
 @Dao
 interface UserDao {
     @Query("SELECT * FROM user")
-    fun getUser(): Single<RoomUser>
+    fun getUser(): Flowable<User>
 
     @Insert
-    fun insertUser(user: RoomUser)
+    fun insertUser(user: User)
 }
