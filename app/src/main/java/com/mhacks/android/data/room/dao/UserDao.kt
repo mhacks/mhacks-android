@@ -3,19 +3,18 @@ package com.mhacks.android.data.room.dao
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
-import com.mhacks.android.data.model.Login
-import io.reactivex.Flowable
-import io.reactivex.Observable
+import com.mhacks.android.data.kotlin.RoomUser
 import io.reactivex.Single
 
 /**
  * Created by jeffreychang on 9/6/17.
  */
+
 @Dao
-interface LoginDao {
-    @Query("SELECT * FROM login")
-    fun getLogin(): Flowable<Login>
+interface UserDao {
+    @Query("SELECT * FROM user")
+    fun getUser(): Single<RoomUser>
 
     @Insert
-    fun insertLogin(login: Login)
+    fun insertUser(user: RoomUser)
 }

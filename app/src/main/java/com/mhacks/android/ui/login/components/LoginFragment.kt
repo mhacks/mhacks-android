@@ -30,12 +30,14 @@ class LoginFragment: Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         email_sign_in_button.setOnClickListener({
-            parentActivity.networkSingleton.getLoginVerification(
-                    email = login_email.text.toString(),
-                    password = login_password.text.toString(),
-                    success = this::onLoginNetworkSuccess,
-                    failure = this::onLoginNetworkFailure
-            )
+
+
+//            parentActivity.networkSingleton.getLoginVerification(
+//                    email = login_email.text.toString(),
+//                    password = login_password.text.toString(),
+//                    success = this::onLoginNetworkSuccess,
+//                    failure = this::onLoginNetworkFailure
+//            )
         })
         no_thanks_button.setOnClickListener({
             parentActivity.roomSingleton.insertLogin(

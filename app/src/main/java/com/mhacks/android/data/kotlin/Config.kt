@@ -1,9 +1,10 @@
 package com.mhacks.android.data.kotlin
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 data class Config(
-
     @SerializedName("status")
     @Expose
     var status: Boolean,
@@ -12,8 +13,10 @@ data class Config(
     var configuration: Configuration
 )
 
+@Entity(tableName = "config")
 data class Configuration(
-
+    @PrimaryKey(autoGenerate = true)
+    var id: Int,
     @SerializedName("app_name")
     @Expose
     var appName: String,

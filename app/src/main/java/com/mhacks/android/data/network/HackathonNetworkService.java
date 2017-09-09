@@ -10,7 +10,6 @@ import com.mhacks.android.data.model.ModelList;
 import com.mhacks.android.data.model.Scan;
 import com.mhacks.android.data.model.ScanEvent;
 import com.mhacks.android.data.model.Token;
-import com.mhacks.android.data.model.User;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -38,9 +37,9 @@ public interface HackathonNetworkService {
     @POST("attemptLogin/")
     Call<Login> login(@Field("username") String username,
                       @Field("password") String password);
-
-    @GET("profile")
-    Call<User> profile(@Header("Authorization") String authToken);
+//
+//    @GET("profile")
+//    Call<User> profile(@Header("Authorization") String authToken);
 
     // ANNOUNCEMENTS
     @GET("announcements")
