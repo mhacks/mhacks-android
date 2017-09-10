@@ -16,7 +16,7 @@ import io.reactivex.Single
 @Dao
 interface UserDao {
     @Query("SELECT * FROM user")
-    fun getUser(): Flowable<User>
+    fun getUser(): Single<User>
 
     @Insert
     fun insertUser(user: User)

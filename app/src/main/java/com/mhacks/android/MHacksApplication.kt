@@ -32,8 +32,5 @@ class MHacksApplication : Application() {
                 .builder()
                 .netComponent(netComponent)
                 .build()
-//        roomComponent = DaggerRoomComponent.builder()
-//                .appModule(appModule)
-//                .build()
     }
 }

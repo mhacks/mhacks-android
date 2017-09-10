@@ -5,7 +5,7 @@
 //import com.mhacks.android.data.kotlin.RoomUser
 //import com.mhacks.android.data.kotlin.User
 //import com.mhacks.android.data.model.Login
-//import com.mhacks.android.data.network.services.HackathonApiService
+//import com.mhacks.android.data.hackathonService.services.HackathonApiService
 //import com.mhacks.android.data.room.RoomSingleton
 //import io.reactivex.Observable
 //import io.reactivex.android.schedulers.AndroidSchedulers

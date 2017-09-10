@@ -61,6 +61,10 @@ class LoginFragment: Fragment() {
                 Snackbar.make(view!!, "Unknown error.", Snackbar.LENGTH_SHORT).show()
         }
     }
+    interface OnFromLoginFragmentCallback {
+        fun attemptLogin(email: String, password: String)
+        fun goToViewPagerFragment(fragment: Fragment)
+    }
 
     companion object {
         val instance get() = LoginFragment()

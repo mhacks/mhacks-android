@@ -17,7 +17,7 @@ interface HackathonApiService {
 
     @POST("auth/login/")
     @FormUrlEncoded
-    fun getLogin(@Field("email") email: String,
+    fun postLogin(@Field("email") email: String,
                  @Field("password") password: String): Observable<Login>
 
     @POST("user/profile/")

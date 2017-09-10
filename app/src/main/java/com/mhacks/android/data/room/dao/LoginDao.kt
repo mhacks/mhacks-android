@@ -14,7 +14,7 @@ import io.reactivex.Single
 @Dao
 interface LoginDao {
     @Query("SELECT * FROM login")
-    fun getLogin(): Flowable<Login>
+    fun getLogin(): Single<Login>
 
     @Insert
     fun insertLogin(login: Login)

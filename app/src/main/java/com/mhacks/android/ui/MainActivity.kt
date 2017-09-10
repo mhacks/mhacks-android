@@ -7,19 +7,18 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.annotation.ColorRes
-import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import android.view.View
 import android.view.WindowManager
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.mhacks.android.MHacksApplication
-import com.mhacks.android.data.kotlin.Configuration
+import com.mhacks.android.data.kotlin.User
 import com.mhacks.android.data.model.Login
 import com.mhacks.android.data.network.services.HackathonApiService
+import com.mhacks.android.data.room.MHacksDatabase
 import com.mhacks.android.ui.announcements.AnnouncementFragment
 import com.mhacks.android.ui.common.BaseFragment
 import com.mhacks.android.ui.common.NavigationColor
@@ -30,15 +29,19 @@ import com.mhacks.android.ui.map.MapViewFragment
 import com.mhacks.android.ui.schedule.EventFragment
 import com.mhacks.android.ui.ticket.TicketDialogFragment
 import com.mhacks.android.util.ResourceUtil
+import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.toSingle
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import org.mhacks.android.R
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 /**
- * Activity defines primarily the initial network calls to GCM as well as handle Fragment transactions.
+ * Activity defines primarily the initial hackathonService calls to GCM as well as handle Fragment transactions.
  */
 class MainActivity : AppCompatActivity(),
         ActivityCompat.OnRequestPermissionsResultCallback,
@@ -54,78 +57,66 @@ class MainActivity : AppCompatActivity(),
     val PROJECT_NUMBER: String by lazy { getString(R.string.gcm_server_id) }
     private var canUsePlayServices: Boolean = false
 
-    @Inject lateinit var network: HackathonApiService
+    @Inject lateinit var hackathonService: HackathonApiService
+    @Inject lateinit var database: MHacksDatabase
     private lateinit var menuItem: MenuItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (application as MHacksApplication).hackathonComponent.inject(this)
-        network.getConfiguration()
+        checkLogin()
+
+    }
+
+    fun checkOrFetchConfig() {
+        hackathonService.getConfiguration()
+                .doOnNext { config -> database.configDao().insertConfig(config.configuration) }
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { response ->  Timber.d(response.configuration.startDate) },
-                        { error -> Timber.d(error.message)
+                        { response -> Timber.d(response.configuration.startDate) },
+                        { error -> Timber.d(error.message) })
+    }
+
+
+    fun checkLoginObservable(): Single<Login> {
+        return database.loginDao().getLogin()
+    }
+
+    fun checkLogin() {
+        database.loginDao().getLogin()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { response -> Timber.d("sadfs") },
+                        { _ ->
+                            startActivity(Intent(this, LoginActivity::class.java))
+                            finish()
+                        }
+                )
+    }
+    fun FetchUser(token: String): Observable<User>  {
+            return hackathonService.getUser(token)
+        }
+
+    fun checkOrFetchUser() {
+        database.userDao()
+                .getUser()
+                .onErrorResumeNext ({
+                    checkLoginObservable().flatMap({ login ->
+                        FetchUser(login.token).singleOrError()
+                    })
                 })
-
-
-
-//        roomSingleton.getLogin(
-//                this::onLoginDBSuccess,
-//                this::onLoginDBFailure)
-//
-//        networkSingleton.getConfiguration(
-//                this::onConfigurationNetSuccess,
-//                this::onConfigurationNetFailure)
-//        setTheme(R.style.MHacksTheme)
-
-    }
-
-    private fun tryUserFromCacheThenNetwork() {
-//        roomSingleton.getUserFlowable()
-//                .onErrorResumeNext( { error: Throwable ->
-//                    networkSingleton.getUserObservable().toFlowable(BackpressureStrategy.BUFFER)
-//                })
-//                .observeOn(Schedulers.newThread())
-//                .subscribeOn(AndroidSchedulers.mainThread())
-//                .subscribe({
-//                    response -> response.email
-//                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { response -> Timber.d(response.email) },
+                        { error -> Timber.d(error.message) })
     }
 
 
 
-    private fun onConfigurationNetFailure(error: Throwable) {
-        Snackbar.make(root_container as View, error.message!!, Snackbar.LENGTH_SHORT).show()
-//        roomSingleton.getConfiguration(
-//                this::onConfigurationDBSuccess,
-//                this::onConfigurationDBFailure)
-    }
 
-    private fun onConfigurationDBSuccess(config: Configuration) {
-        onConfigurationSuccess(config)
-    }
-
-    private fun onConfigurationDBFailure(error: Throwable) {
-        onConfigurationFailure(error)
-    }
-
-    private fun onConfigurationSuccess(config: Configuration) {
-        Snackbar.make(root_container as View, config.appName, Snackbar.LENGTH_SHORT).show()
-    }
-    private fun onConfigurationFailure(error: Throwable) {
-        Snackbar.make(root_container as View, "Can't connect to the Internet", Snackbar.LENGTH_SHORT).show()
-    }
-
-
-    private fun onLoginDBSuccess(login: Login) {
-        initActivity()
-    }
-
-    private fun onLoginDBFailure(error: Throwable) {
-        startActivity(Intent(this, LoginActivity::class.java))
-        finish()
-    }
 
     @TargetApi(21)
     override fun setStatusBarColor(color: Int) {
