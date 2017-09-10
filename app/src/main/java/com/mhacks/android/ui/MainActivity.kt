@@ -17,11 +17,9 @@ import android.view.View
 import android.view.WindowManager
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.mhacks.android.MHacksApplication
-import com.mhacks.android.data.kotlin.Config
 import com.mhacks.android.data.kotlin.Configuration
 import com.mhacks.android.data.model.Login
-import com.mhacks.android.data.network.NetworkSingleton
-import com.mhacks.android.data.room.RoomSingleton
+import com.mhacks.android.data.network.services.HackathonApiService
 import com.mhacks.android.ui.announcements.AnnouncementFragment
 import com.mhacks.android.ui.common.BaseFragment
 import com.mhacks.android.ui.common.NavigationColor
@@ -32,12 +30,12 @@ import com.mhacks.android.ui.map.MapViewFragment
 import com.mhacks.android.ui.schedule.EventFragment
 import com.mhacks.android.ui.ticket.TicketDialogFragment
 import com.mhacks.android.util.ResourceUtil
-import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import org.mhacks.android.R
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Activity defines primarily the initial network calls to GCM as well as handle Fragment transactions.
@@ -45,14 +43,6 @@ import timber.log.Timber
 class MainActivity : AppCompatActivity(),
         ActivityCompat.OnRequestPermissionsResultCallback,
         BaseFragment.OnNavigationChangeListener {
-
-    val networkSingleton by lazy {
-        NetworkSingleton.newInstance(application = application as MHacksApplication)
-    }
-
-    val roomSingleton by lazy {
-        RoomSingleton.newInstance(application = application as MHacksApplication)
-    }
 
     private val gcm: GoogleCloudMessaging by lazy {
         GoogleCloudMessaging.getInstance(applicationContext)
@@ -64,10 +54,22 @@ class MainActivity : AppCompatActivity(),
     val PROJECT_NUMBER: String by lazy { getString(R.string.gcm_server_id) }
     private var canUsePlayServices: Boolean = false
 
+    @Inject lateinit var network: HackathonApiService
     private lateinit var menuItem: MenuItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (application as MHacksApplication).hackathonComponent.inject(this)
+        network.getConfiguration()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { response ->  Timber.d(response.configuration.startDate) },
+                        { error -> Timber.d(error.message)
+                })
+
+
+
 //        roomSingleton.getLogin(
 //                this::onLoginDBSuccess,
 //                this::onLoginDBFailure)
@@ -80,26 +82,24 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun tryUserFromCacheThenNetwork() {
-        roomSingleton.getUserFlowable()
-                .onErrorResumeNext( { error: Throwable ->
-                    networkSingleton.getUserObservable().toFlowable(BackpressureStrategy.BUFFER)
-                })
-                .observeOn(Schedulers.newThread())
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    response -> response.email
-                })
+//        roomSingleton.getUserFlowable()
+//                .onErrorResumeNext( { error: Throwable ->
+//                    networkSingleton.getUserObservable().toFlowable(BackpressureStrategy.BUFFER)
+//                })
+//                .observeOn(Schedulers.newThread())
+//                .subscribeOn(AndroidSchedulers.mainThread())
+//                .subscribe({
+//                    response -> response.email
+//                })
     }
 
-    private fun onConfigurationNetSuccess(config: Config) {
-        onConfigurationSuccess(config.configuration)
-    }
+
 
     private fun onConfigurationNetFailure(error: Throwable) {
         Snackbar.make(root_container as View, error.message!!, Snackbar.LENGTH_SHORT).show()
-        roomSingleton.getConfiguration(
-                this::onConfigurationDBSuccess,
-                this::onConfigurationDBFailure)
+//        roomSingleton.getConfiguration(
+//                this::onConfigurationDBSuccess,
+//                this::onConfigurationDBFailure)
     }
 
     private fun onConfigurationDBSuccess(config: Configuration) {

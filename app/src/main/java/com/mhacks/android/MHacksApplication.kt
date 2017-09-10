@@ -18,7 +18,6 @@ class MHacksApplication : Application() {
 
     private lateinit var netComponent: NetComponent
     lateinit var hackathonComponent: HackathonComponent
-    lateinit var roomComponent: RoomComponent
 
     override fun onCreate() {
         super.onCreate()
@@ -33,8 +32,8 @@ class MHacksApplication : Application() {
                 .builder()
                 .netComponent(netComponent)
                 .build()
-        roomComponent = DaggerRoomComponent.builder()
-                .appModule(appModule)
-                .build()
+//        roomComponent = DaggerRoomComponent.builder()
+//                .appModule(appModule)
+//                .build()
     }
 }

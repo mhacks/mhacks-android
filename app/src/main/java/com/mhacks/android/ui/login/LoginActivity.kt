@@ -6,20 +6,18 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
 import com.mhacks.android.MHacksApplication
-import com.mhacks.android.data.network.NetworkSingleton
-import com.mhacks.android.data.room.RoomSingleton
 import com.mhacks.android.ui.login.components.LoginFragment
 import org.mhacks.android.R
 
 class LoginActivity : AppCompatActivity() {
-
-    val networkSingleton by lazy {
-        NetworkSingleton.newInstance(application = application as MHacksApplication)
-    }
-
-    val roomSingleton by lazy {
-        RoomSingleton.newInstance(application = application as MHacksApplication)
-    }
+//
+//    val networkSingleton by lazy {
+//        NetworkSingleton.newInstance(application = application as MHacksApplication)
+//    }
+//
+//    val roomSingleton by lazy {
+//        RoomSingleton.newInstance(application = application as MHacksApplication)
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

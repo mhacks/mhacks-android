@@ -40,17 +40,17 @@ class LoginFragment: Fragment() {
 //            )
         })
         no_thanks_button.setOnClickListener({
-            parentActivity.roomSingleton.insertLogin(
-                    Login(1, true, false, "", ""))
-            parentActivity.startActivity(Intent(context, MainActivity::class.java))
+//            parentActivity.roomSingleton.insertLogin(
+//                    Login(1, true, false, "", ""))
+//            parentActivity.startActivity(Intent(context, MainActivity::class.java))
         })
     }
 
 
     private fun onLoginNetworkSuccess(login: Login) {
         if (login.status) {
-            parentActivity.roomSingleton.insertLogin(login)
-            parentActivity.goToFragment(LoginViewPagerFragment.instance)
+//            parentActivity.roomSingleton.insertLogin(login)
+//            parentActivity.goToFragment(LoginViewPagerFragment.instance)
         }
     }
     private fun onLoginNetworkFailure(error: Throwable) {
