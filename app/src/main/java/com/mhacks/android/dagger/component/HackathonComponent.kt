@@ -1,5 +1,6 @@
 package com.mhacks.android.dagger.component
 
+import com.mhacks.android.dagger.module.AuthModule
 import com.mhacks.android.dagger.module.HackathonModule
 import com.mhacks.android.dagger.module.RoomModule
 import com.mhacks.android.dagger.scope.UserScope
@@ -14,8 +15,10 @@ import dagger.Component
 @Component(
         dependencies = arrayOf(NetComponent::class),
         modules = arrayOf(RoomModule::class,
+                AuthModule::class,
                 HackathonModule::class))
 interface HackathonComponent {
     fun inject(activity: MainActivity)
     fun inject(activity: LoginActivity)
 }
+

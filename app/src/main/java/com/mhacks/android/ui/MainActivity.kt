@@ -16,7 +16,6 @@ import android.view.WindowManager
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.mhacks.android.MHacksApplication
 import com.mhacks.android.data.kotlin.User
-import com.mhacks.android.data.model.Login
 import com.mhacks.android.data.network.services.HackathonApiService
 import com.mhacks.android.data.room.MHacksDatabase
 import com.mhacks.android.ui.announcements.AnnouncementFragment
@@ -30,14 +29,11 @@ import com.mhacks.android.ui.schedule.EventFragment
 import com.mhacks.android.ui.ticket.TicketDialogFragment
 import com.mhacks.android.util.ResourceUtil
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.toSingle
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import org.mhacks.android.R
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -64,13 +60,14 @@ class MainActivity : AppCompatActivity(),
 
     override fun onResume() {
         super.onResume()
-        checkLogin()
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (application as MHacksApplication).hackathonComponent.inject(this)
         setTheme(R.style.MHacksTheme)
+        checkLogin()
 
 
     }
@@ -85,22 +82,24 @@ class MainActivity : AppCompatActivity(),
                         { error -> Timber.d(error.message) })
     }
 
-
     private fun checkLogin() {
         database.loginDao().getLogin()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { initActivity() },
-                        {
-                            startActivity(Intent(this, LoginActivity::class.java))
-                            finish()
-                        }
+                        { startLoginActivity() }
                 )
     }
-    fun FetchUser(token: String): Observable<User>  {
-            return hackathonService.getUser(token)
-        }
+
+    override fun startLoginActivity() {
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
+    }
+
+    private fun getUserObservable(token: String): Observable<User>  {
+        return hackathonService.getUser(token)
+    }
 
     override fun checkOrFetchUser(success: (user: User) -> Unit,
                                   failure: (error: Throwable) -> Unit) {
@@ -109,7 +108,7 @@ class MainActivity : AppCompatActivity(),
                 .onErrorResumeNext ({
                     database.loginDao().getLogin()
                             .flatMap({ login ->
-                                FetchUser(login.token).singleOrError()
+                                getUserObservable(login.token).singleOrError()
                     })
                 })
                 .subscribeOn(Schedulers.newThread())

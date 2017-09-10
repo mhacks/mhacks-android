@@ -60,17 +60,17 @@ class TicketDialogFragment : DialogFragment() {
                             .bitmap()
                     ticket_qr_code_image_view.setImageBitmap(qr)
                     ticket_bottom_bar_done_button.setOnClickListener { dismiss() } },
-                { error ->
-                    Timber.d(error)
-                })
-
+                { callback.startLoginActivity() }
+        )
+        ticket_bottom_bar_done_button.setOnClickListener({ dismiss() })
     }
 
     interface OnFromTicketDialogFragmentCallback {
         fun checkOrFetchUser(
                 success: (user: User) -> Unit,
-                failure: (error: Throwable) -> Unit
-        )
+                failure: (error: Throwable) -> Unit)
+
+        fun startLoginActivity()
     }
 
     companion object {
