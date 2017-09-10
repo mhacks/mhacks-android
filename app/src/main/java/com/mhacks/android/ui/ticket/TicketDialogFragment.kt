@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mhacks.android.data.kotlin.RoomUser
+import com.mhacks.android.data.kotlin.User
 import com.mhacks.android.data.model.Login
 import com.mhacks.android.ui.MainActivity
 import com.mhacks.android.ui.login.LoginActivity
@@ -27,30 +28,8 @@ import timber.log.Timber
 class TicketDialogFragment : DialogFragment() {
 
     private lateinit var key: String
-    private val parentActivity by lazy { activity as MainActivity }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        parentActivity.roomSingleton.getLoginO()
-//                .flatMap { login ->
-//                         parentActivity.networkSingleton
-//                                 .getUserObservable(login)
-//                                 .toFlowable(BackpressureStrategy.BUFFER)
-//                }
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe (
-//                        { response -> Timber.d(response.email) },
-//                        { error    -> Timber.d(error.toString())  }
-//                )
-
-
-
-
-//        parentActivity.roomSingleton.getLogin(
-//                this::onLoginDBSuccess,
-//                this::onLoginDBFailure)
-    }
+    private val callback
+            by lazy { activity as OnFromTicketDialogFragmentCallback }
 
     override fun onResume() {
 
@@ -73,49 +52,27 @@ class TicketDialogFragment : DialogFragment() {
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        key = "JJ"
-        val qr = QRCode.from(key)
-                .withSize(500, 500)
-                .withColor(0xFF43384D.toInt(), 0x00FFFFFF)
-                .bitmap()
-        ticket_qr_code_image_view.setImageBitmap(qr)
-        ticket_bottom_bar_done_button.setOnClickListener { dismiss() }
+        callback.checkOrFetchUser(
+                { user ->
+                    val qr = QRCode.from(user.email)
+                            .withSize(500, 500)
+                            .withColor(0xFF43384D.toInt(), 0x00FFFFFF)
+                            .bitmap()
+                    ticket_qr_code_image_view.setImageBitmap(qr)
+                    ticket_bottom_bar_done_button.setOnClickListener { dismiss() } },
+                { error ->
+                    Timber.d(error)
+                })
+
     }
 
-    private fun onLoginDBSuccess(login: Login) {
-        if (login.userSkipped) {
-            parentActivity.startActivity(Intent(parentActivity, LoginActivity::class.java))
-            parentActivity.finish()
-        } else {
-//            parentActivity.roomSingleton.getUser(
-//                    this::onUserDBSuccess,
-//                    this::onUserDBFailure
-//            )
-        }
+    interface OnFromTicketDialogFragmentCallback {
+        fun checkOrFetchUser(
+                success: (user: User) -> Unit,
+                failure: (error: Throwable) -> Unit
+        )
     }
 
-    private fun onUserNetworkSuccess(room: RoomUser) {
-        Timber.d(room.fullName)
-    }
-
-    private fun onUserNetworkFailure(error: Throwable) {
-        Timber.e(error)
-    }
-
-    private fun onUserDBSuccess(room: RoomUser) {
-        Timber.d(room.fullName)
-    }
-
-    private fun onUserDBFailure(error: Throwable) {
-//        parentActivity.networkSingleton.getUser(
-//
-//        )
-    }
-
-    private fun onLoginDBFailure(error: Throwable) {
-        parentActivity.startActivity(Intent(parentActivity, LoginActivity::class.java))
-        parentActivity.finish()
-    }
     companion object {
         private val ARG_EXTRA_QR_ID: String? = "EXTRA_QR_ID"
 

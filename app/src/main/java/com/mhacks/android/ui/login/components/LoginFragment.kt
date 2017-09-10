@@ -20,8 +20,8 @@ import java.lang.Exception
 
 class LoginFragment: Fragment() {
 
-    private val parentActivity: LoginActivity by lazy {
-        activity as LoginActivity
+    private val callback: OnFromLoginFragmentCallback by lazy {
+        activity as OnFromLoginFragmentCallback
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -31,18 +31,11 @@ class LoginFragment: Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         email_sign_in_button.setOnClickListener({
 
+            callback.attemptLogin("changjef@umich.edu", "JeffJellyfish1")
 
-//            parentActivity.networkSingleton.getLoginVerification(
-//                    email = login_email.text.toString(),
-//                    password = login_password.text.toString(),
-//                    success = this::onLoginNetworkSuccess,
-//                    failure = this::onLoginNetworkFailure
-//            )
         })
         no_thanks_button.setOnClickListener({
-//            parentActivity.roomSingleton.insertLogin(
-//                    Login(1, true, false, "", ""))
-//            parentActivity.startActivity(Intent(context, MainActivity::class.java))
+            callback.goToMainActivity()
         })
     }
 
@@ -62,8 +55,12 @@ class LoginFragment: Fragment() {
         }
     }
     interface OnFromLoginFragmentCallback {
+
         fun attemptLogin(email: String, password: String)
+
         fun goToViewPagerFragment(fragment: Fragment)
+
+        fun goToMainActivity()
     }
 
     companion object {

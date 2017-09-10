@@ -45,7 +45,8 @@ import javax.inject.Inject
  */
 class MainActivity : AppCompatActivity(),
         ActivityCompat.OnRequestPermissionsResultCallback,
-        BaseFragment.OnNavigationChangeListener {
+        BaseFragment.OnNavigationChangeListener,
+        TicketDialogFragment.OnFromTicketDialogFragmentCallback{
 
     private val gcm: GoogleCloudMessaging by lazy {
         GoogleCloudMessaging.getInstance(applicationContext)
@@ -61,14 +62,20 @@ class MainActivity : AppCompatActivity(),
     @Inject lateinit var database: MHacksDatabase
     private lateinit var menuItem: MenuItem
 
+    override fun onResume() {
+        super.onResume()
+        checkLogin()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (application as MHacksApplication).hackathonComponent.inject(this)
-        checkLogin()
+        setTheme(R.style.MHacksTheme)
+
 
     }
 
-    fun checkOrFetchConfig() {
+    private fun checkOrFetchConfig() {
         hackathonService.getConfiguration()
                 .doOnNext { config -> database.configDao().insertConfig(config.configuration) }
                 .subscribeOn(Schedulers.newThread())
@@ -79,17 +86,13 @@ class MainActivity : AppCompatActivity(),
     }
 
 
-    fun checkLoginObservable(): Single<Login> {
-        return database.loginDao().getLogin()
-    }
-
-    fun checkLogin() {
+    private fun checkLogin() {
         database.loginDao().getLogin()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { response -> Timber.d("sadfs") },
-                        { _ ->
+                        { initActivity() },
+                        {
                             startActivity(Intent(this, LoginActivity::class.java))
                             finish()
                         }
@@ -99,12 +102,14 @@ class MainActivity : AppCompatActivity(),
             return hackathonService.getUser(token)
         }
 
-    fun checkOrFetchUser() {
+    override fun checkOrFetchUser(success: (user: User) -> Unit,
+                                  failure: (error: Throwable) -> Unit) {
         database.userDao()
                 .getUser()
                 .onErrorResumeNext ({
-                    checkLoginObservable().flatMap({ login ->
-                        FetchUser(login.token).singleOrError()
+                    database.loginDao().getLogin()
+                            .flatMap({ login ->
+                                FetchUser(login.token).singleOrError()
                     })
                 })
                 .subscribeOn(Schedulers.newThread())
@@ -193,9 +198,11 @@ class MainActivity : AppCompatActivity(),
     }
 
 
-    fun initActivity() {
+    private fun initActivity() {
+
         setSystemFullScreenUI()
         setContentView(R.layout.activity_main)
+        checkOrFetchConfig()
         setBottomNavigationColor(
                 NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
 

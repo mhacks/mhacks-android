@@ -1,18 +1,23 @@
 package com.mhacks.android.ui.login
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
 import com.mhacks.android.MHacksApplication
+import com.mhacks.android.data.model.Login
 import com.mhacks.android.data.network.services.HackathonApiService
 import com.mhacks.android.data.room.MHacksDatabase
+import com.mhacks.android.ui.MainActivity
 import com.mhacks.android.ui.login.components.LoginFragment
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.mhacks.android.R
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity(), LoginFragment.OnFromLoginFragmentCallback{
@@ -27,6 +32,22 @@ class LoginActivity : AppCompatActivity(), LoginFragment.OnFromLoginFragmentCall
         setStatusBarTransparent()
         setContentView(R.layout.activity_login)
         goToViewPagerFragment(LoginFragment.instance)
+    }
+
+
+    override fun goToMainActivity() {
+        Observable.fromCallable({
+                mhacksDatabase
+                        .loginDao()
+                        .insertLogin(
+                                Login(1, true, false, "", "")
+                        )})
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+
+
+        startActivity(Intent(this, MainActivity::class.java))
     }
 
     override fun attemptLogin(email: String, password: String) {

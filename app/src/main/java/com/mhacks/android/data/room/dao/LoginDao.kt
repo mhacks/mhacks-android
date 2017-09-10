@@ -2,6 +2,7 @@ package com.mhacks.android.data.room.dao
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
+import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import com.mhacks.android.data.model.Login
 import io.reactivex.Flowable
@@ -16,6 +17,6 @@ interface LoginDao {
     @Query("SELECT * FROM login")
     fun getLogin(): Single<Login>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLogin(login: Login)
 }
