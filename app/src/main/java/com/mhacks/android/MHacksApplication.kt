@@ -9,26 +9,26 @@ import com.mhacks.android.dagger.component.*
 import com.mhacks.android.dagger.module.AppModule
 import com.mhacks.android.dagger.module.AuthModule
 import com.mhacks.android.dagger.module.RetrofitModule
+import com.mhacks.android.ui.MainActivity
 import timber.log.Timber
 
 
 
 
 
-class MHacksApplication : Application() {
+class MHacksApplication : Application(), MainActivity.OnFromMainActivityCallback {
 
     private lateinit var netComponent: NetComponent
-    lateinit var hackathonComponent: HackathonComponent
+    lateinit override var hackathonComponent: HackathonComponent
 
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
 
         val appModule = AppModule(this)
+
         netComponent = DaggerNetComponent.builder()
                 .appModule(appModule)
-
-                // We can manually add a token for testing.
                 .authModule(AuthModule(null))
                 .retrofitModule(RetrofitModule("https://staging.mhacks.org/v1/"))
                 .build()
@@ -39,7 +39,7 @@ class MHacksApplication : Application() {
 
     }
 
-    fun setAuthInterceptor() {
-        netComponent.authInterceptor.token =
+    override fun setAuthInterceptorToken(token: String) {
+        netComponent.authInterceptor.token = token
     }
 }

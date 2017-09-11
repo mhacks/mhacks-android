@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.annotation.ColorRes
+import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -15,6 +16,7 @@ import android.view.MenuItem
 import android.view.WindowManager
 import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.mhacks.android.MHacksApplication
+import com.mhacks.android.dagger.component.HackathonComponent
 import com.mhacks.android.data.kotlin.User
 import com.mhacks.android.data.network.services.HackathonApiService
 import com.mhacks.android.data.room.MHacksDatabase
@@ -34,6 +36,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import org.mhacks.android.R
 import timber.log.Timber
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 /**
@@ -46,6 +49,11 @@ class MainActivity : AppCompatActivity(),
 
     private val gcm: GoogleCloudMessaging by lazy {
         GoogleCloudMessaging.getInstance(applicationContext)
+    }
+
+    // Callbacks to properties and methods on the application class.
+    private val appCallback by lazy {
+        application as MHacksApplication
     }
 
     var notif: String? = null
@@ -65,7 +73,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (application as MHacksApplication).hackathonComponent.inject(this)
+        appCallback.hackathonComponent.inject(this)
         setTheme(R.style.MHacksTheme)
         checkLogin()
 
@@ -78,7 +86,7 @@ class MainActivity : AppCompatActivity(),
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { response -> Timber.d(response.configuration.startDate) },
+                        { response -> Timber.d("Configuration loaded!" ) },
                         { error -> Timber.d(error.message) })
     }
 
@@ -87,7 +95,9 @@ class MainActivity : AppCompatActivity(),
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { initActivity() },
+                        { login ->
+                            appCallback.setAuthInterceptorToken(login.token)
+                            initActivity() },
                         { startLoginActivity() }
                 )
     }
@@ -97,10 +107,6 @@ class MainActivity : AppCompatActivity(),
         finish()
     }
 
-    private fun getUserObservable(token: String): Observable<User>  {
-        return hackathonService.getUser(token)
-    }
-
     override fun checkOrFetchUser(success: (user: User) -> Unit,
                                   failure: (error: Throwable) -> Unit) {
         database.userDao()
@@ -108,14 +114,24 @@ class MainActivity : AppCompatActivity(),
                 .onErrorResumeNext ({
                     database.loginDao().getLogin()
                             .flatMap({ login ->
-                                getUserObservable(login.token).singleOrError()
+                                appCallback.setAuthInterceptorToken(login.token)
+                                hackathonService.getUser()
+                                         .singleOrError()
+                                        .doOnError { t ->
+                                            if (t is UnknownHostException)
+                                               Timber.d("Couldn't connect to the Internet!")
+                                        }
                     })
                 })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { response -> Timber.d(response.email) },
-                        { error -> Timber.d(error.message) })
+                        { response ->
+                            Timber.d("Got something from user database! ")
+                             },
+                        { error ->
+                            Timber.d("Got nothing from user database ")
+                             })
     }
 
 
@@ -201,6 +217,9 @@ class MainActivity : AppCompatActivity(),
 
         setSystemFullScreenUI()
         setContentView(R.layout.activity_main)
+        appCallback.setAuthInterceptorToken(
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNoYW5namVmQHVtaWNoLmVkdSIsImlhdCI6MTUwNDkyMzYxMywiZXhwIjoxNTA3MzQyODEzfQ.NUu8V9rDui0VPf0Tu2G9_ey2ejreydY5MvMNZiAkTVE"
+        )
         checkOrFetchConfig()
         setBottomNavigationColor(
                 NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
@@ -250,6 +269,13 @@ class MainActivity : AppCompatActivity(),
             menuItem = item
             true
         })
+    }
+
+    interface OnFromMainActivityCallback {
+
+        fun setAuthInterceptorToken(token: String)
+
+        val hackathonComponent: HackathonComponent
     }
 
     companion object {

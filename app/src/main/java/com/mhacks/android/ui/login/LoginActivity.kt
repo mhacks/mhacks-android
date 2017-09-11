@@ -35,13 +35,27 @@ class LoginActivity : AppCompatActivity(), LoginFragment.OnFromLoginFragmentCall
     }
 
 
-    override fun goToMainActivity() {
+    override fun skipAndGoToMainActivity() {
         Observable.fromCallable({
-                mhacksDatabase
-                        .loginDao()
-                        .insertLogin(
-                                Login(1, true, false, "", "")
-                        )})
+            mhacksDatabase
+                    .loginDao()
+                    .insertLogin(
+                            Login(0, true, false, "", "")
+                    )})
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+
+
+        startActivity(Intent(this, MainActivity::class.java))
+    }
+
+    private fun loggedInAndGoToMainActivity(login: Login) {
+        login.id = 0
+        Observable.fromCallable({
+            mhacksDatabase
+                    .loginDao()
+                    .insertLogin(login)})
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()
@@ -55,7 +69,7 @@ class LoginActivity : AppCompatActivity(), LoginFragment.OnFromLoginFragmentCall
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { response -> Timber.d(response.token)},
+                        { response -> loggedInAndGoToMainActivity(response)},
                         { error -> Timber.d(error) }
                 )
     }

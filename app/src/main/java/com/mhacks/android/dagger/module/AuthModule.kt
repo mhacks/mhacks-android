@@ -4,6 +4,7 @@ import android.app.Application
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
+import okhttp3.Request
 import okhttp3.Response
 import javax.inject.Singleton
 
@@ -15,18 +16,22 @@ import javax.inject.Singleton
 class AuthModule(internal var token: String?) {
 
     @Provides
-    @Singleton internal fun provideAuthInterceptor(): AuthInterceptor? {
+    @Singleton internal fun provideAuthInterceptor(): AuthInterceptor {
         if (token != null) return AuthInterceptor(token!!)
-        return null
+        else return AuthInterceptor(null)
     }
 }
 
-class AuthInterceptor(var token: String): Interceptor{
+class AuthInterceptor(var token: String?): Interceptor{
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val newRequest = chain.request().newBuilder()
-                .addHeader("Authorization", "Bearer " + token)
-                .build()
+        val newRequest: Request = if (token != null) {
+            chain.request().newBuilder()
+                    .addHeader("Authorization", "Bearer " + token)
+                    .build()
+        } else {
+            chain.request()
+        }
         return chain.proceed(newRequest)
     }
 

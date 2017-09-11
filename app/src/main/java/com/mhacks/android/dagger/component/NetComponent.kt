@@ -21,7 +21,7 @@ interface NetComponent {
 
     val app: Application
     val retrofit: Retrofit
-    val authInterceptor: AuthInterceptor?
+    val authInterceptor: AuthInterceptor
 
     fun okHttpClient(): OkHttpClient
 

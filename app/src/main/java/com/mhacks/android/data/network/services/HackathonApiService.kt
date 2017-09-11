@@ -20,6 +20,6 @@ interface HackathonApiService {
     fun postLogin(@Field("email") email: String,
                  @Field("password") password: String): Observable<Login>
 
-    @POST("user/profile/")
-    fun getUser(@Header("Authorization") token: String): Observable<User>
+    @GET("user/profile/")
+    fun getUser(): Observable<User>
 }
