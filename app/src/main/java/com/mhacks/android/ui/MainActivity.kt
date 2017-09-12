@@ -30,7 +30,6 @@ import com.mhacks.android.ui.map.MapViewFragment
 import com.mhacks.android.ui.schedule.EventFragment
 import com.mhacks.android.ui.ticket.TicketDialogFragment
 import com.mhacks.android.util.ResourceUtil
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
@@ -130,8 +129,11 @@ class MainActivity : AppCompatActivity(),
                             Timber.d("Got something from user database! ")
                              },
                         { error ->
-                            Timber.d("Got nothing from user database ")
-                             })
+                            error.printStackTrace()
+                            Snackbar.make(findViewById(android.R.id.content),
+                                    "Couldn't connect to the Internet",
+                                    Snackbar.LENGTH_SHORT).show()
+                         })
     }
 
 

@@ -120,6 +120,8 @@ dependencies {
     implementation 'com.github.kenglxn.QRGen:android:2.2.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 }
+
+
 // Sets the Kotlin compiler to create JDK 8 bytecode
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
     kotlinOptions {
