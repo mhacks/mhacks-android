@@ -46,10 +46,11 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
     }
     @Provides
     @Singleton
-    internal fun provideOkhttpClient(cache: Cache, httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    internal fun provideOkhttpClient(cache: Cache, interceptor: AuthInterceptor?, httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         val client = OkHttpClient.Builder()
         client.cache(cache)
         client.addInterceptor(httpLoggingInterceptor)
+        if (interceptor != null) client.addInterceptor(interceptor)
         return client.build()
     }
 

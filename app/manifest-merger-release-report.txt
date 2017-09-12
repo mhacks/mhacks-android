@@ -157,7 +157,7 @@ category#org.mhacks.android
 ADDED from AndroidManifest.xml:67:17
 	android:title
 		ADDED from AndroidManifest.xml:67:27
-receiver#com.mhacks.android.data.network.PushHandler
+receiver#com.mhacks.android.data.hackathonService.PushHandler
 ADDED from AndroidManifest.xml:70:9
 	android:exported
 		ADDED from AndroidManifest.xml:70:68

@@ -29,21 +29,17 @@ import org.mhacks.android.R
          return announcements.size
      }
 
-
     override fun getHeaderViewHolder(view: View): RecyclerView.ViewHolder {
         val holder = AnnouncementSectionHeaderViewHolder(view)
 
         when (type) {
             TimeLineType.START -> {
-                Log.d("JEFFREY", "BEGIN")
                 holder.timelineView.initLine(LineType.BEGIN)
             }
             TimeLineType.NORMAL -> {
-                Log.d("JEFFREY", "NORMAL")
                 holder.timelineView.initLine(LineType.ONLYONE)
             }
             TimeLineType.END -> {
-                Log.d("JEFFREY", "END")
                 holder.timelineView.initLine(LineType.END)
             }
         }

@@ -1,56 +1,80 @@
-package org.mhacks.mhacks.login
+package com.mhacks.android.ui.login
 
-import android.content.SharedPreferences
-import android.net.ConnectivityManager
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
 import com.mhacks.android.MHacksApplication
-import com.mhacks.android.data.kotlin.NetworkCallback
 import com.mhacks.android.data.model.Login
-import com.mhacks.android.data.network.NetworkSingleton
+import com.mhacks.android.data.network.services.HackathonApiService
+import com.mhacks.android.data.room.MHacksDatabase
+import com.mhacks.android.ui.MainActivity
 import com.mhacks.android.ui.login.components.LoginFragment
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import org.mhacks.android.R
+import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), LoginFragment.OnFromLoginFragmentCallback{
 
-    private val networkSingleton by lazy {
-        NetworkSingleton.newInstance(application = application as MHacksApplication)
-    }
-
-    @Inject lateinit var sharedPreferences: SharedPreferences
+    @Inject lateinit var mhacksDatabase: MHacksDatabase
+    @Inject lateinit var hackathonService: HackathonApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (application as MHacksApplication).hackathonComponent.inject(this)
         setTheme(R.style.MHacksTheme)
         setStatusBarTransparent()
         setContentView(R.layout.activity_login)
-        switchFragment(LoginFragment.instance)
+        goToViewPagerFragment(LoginFragment.instance)
     }
 
-    fun attemptLogin(email: String,
-                     password: String,
-                     callback: NetworkCallback<Login>) {
 
-        networkSingleton.getLoginVerification(
-                email,
-                password,
-                object: NetworkCallback<Login> {
-                    override fun onResponseSuccess(response: Login) {
-                        callback.onResponseSuccess(response)
-                    }
+    override fun skipAndGoToMainActivity() {
+        Observable.fromCallable({
+            mhacksDatabase
+                    .loginDao()
+                    .insertLogin(
+                            Login(0, true, false, "", "")
+                    )})
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
 
-                    override fun onResponseFailure(error: Throwable) {
-                        callback.onResponseFailure(error)
-                    }
-                }
-        )
+
+        startActivity(Intent(this, MainActivity::class.java))
     }
 
-    fun switchFragment(fragment: android.support.v4.app.Fragment) {
+    private fun loggedInAndGoToMainActivity(login: Login) {
+        login.id = 0
+        Observable.fromCallable({
+            mhacksDatabase
+                    .loginDao()
+                    .insertLogin(login)})
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+
+
+        startActivity(Intent(this, MainActivity::class.java))
+    }
+
+    override fun attemptLogin(email: String, password: String) {
+        hackathonService.postLogin(email, password)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { response -> loggedInAndGoToMainActivity(response)},
+                        { error -> Timber.d(error) }
+                )
+    }
+
+    override fun goToViewPagerFragment(fragment: android.support.v4.app.Fragment) {
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.login_container, fragment)
@@ -63,6 +87,7 @@ class LoginActivity : AppCompatActivity() {
             window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         }
     }
+
 
 
     companion object {

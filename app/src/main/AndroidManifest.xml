@@ -42,7 +42,7 @@
         </activity>
 
         <activity
-            android:name="org.mhacks.mhacks.login.LoginActivity"
+            android:name="com.mhacks.android.ui.login.LoginActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
 
