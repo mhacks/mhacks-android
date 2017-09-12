@@ -78,9 +78,9 @@ class AnnouncementFragment : BaseFragment() {
 
     private fun getAnnouncements(): ArrayList<Announcement> {
         val announcementsList = ArrayList<Announcement>()
-        announcementsList.add(Announcement("Test Announcement", "This is description 1.", 1501997324, 1, true, false))
-        announcementsList.add(Announcement("New Announcement", "This is description 2.", 1501997324, 1, true, false))
-        announcementsList.add(Announcement("New Announcement", "This is description 3.", 1501997324, 1, true, false))
+        announcementsList.add(Announcement("Test Announcement Something Cool is Happening over Here", "This is description 1. There's stuff in this building. Check it out fam", 1501997324, 1, true, false))
+        announcementsList.add(Announcement("WOW cool neato wow that's so cool wait what how", "This is description 2. So many memes, so many dreams. Dank memes, dank dreams. Alliteration", 1501997324, 1, true, false))
+        announcementsList.add(Announcement("There are lots of people here in the place with all the people in the place where there are so many people in the place containing many people", "This is description 3.", 1501997324, 1, true, false))
         announcementsList.add(Announcement("New Announcement", "This is description 4.", 1501997324, 1, true, false))
 
         return announcementsList

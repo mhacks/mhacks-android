@@ -137,9 +137,6 @@ class MainActivity : AppCompatActivity(),
     }
 
 
-
-
-
     @TargetApi(21)
     override fun setStatusBarColor(color: Int) {
         window.statusBarColor = ContextCompat.getColor(this, color)
