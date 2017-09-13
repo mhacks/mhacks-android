@@ -96,6 +96,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.5.1'
 
 
+
     implementation 'com.romandanylyk:pageindicatorview:0.2.0'
     implementation 'com.github.vipulasri:timelineview:1.0.5'
     implementation 'com.gelitenight.waveview:waveview:1.0.0'
@@ -108,8 +109,11 @@ dependencies {
 
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+
     implementation 'com.google.android.gms:play-services-gcm:11.2.2'
     implementation 'com.google.android.gms:play-services-maps:11.2.2'
+    implementation 'com.google.android.gms:play-services-vision:11.2.2'
+
     implementation 'com.github.alamkanak:android-week-view:1.2.6'
     implementation 'joda-time:joda-time:2.9.9'
 

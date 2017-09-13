@@ -30,7 +30,7 @@ import java.util.TimeZone
  * Created by Omkar Moghe on 10/25/2014.
  *
  *
- * Builds schedule with events pulled from the Parse database. Uses the EventDetailsFragment to
+ * Builds schedule with events pulled from the Parse mhacksDatabase. Uses the EventDetailsFragment to
  * create event details.
  */
 class EventFragment : BaseFragment(),
@@ -192,7 +192,7 @@ class EventFragment : BaseFragment(),
     }
 
     /**
-     * Refresh all the events from the Parse database and call the onMonthChange listener to
+     * Refresh all the events from the Parse mhacksDatabase and call the onMonthChange listener to
      * re-draw the new events on the calendar.
      */
     fun refreshEvents() {

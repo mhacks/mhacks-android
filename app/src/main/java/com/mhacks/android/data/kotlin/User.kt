@@ -10,7 +10,7 @@ import java.lang.reflect.Constructor
  */
 
 
-data class UserResponse (
+data class RetrofitUser (
     @SerializedName("status")
     @Expose
     var status: Boolean,
@@ -19,13 +19,6 @@ data class UserResponse (
     var user: User
 )
 
-//@Entity(tableName = "user")
-data class RoomUser(
-//    @PrimaryKey(autoGenerate = true)
-    var id: Int,
-    var fullName: String,
-    var university: String
-)
 
 @Entity(tableName = "user")
 data class User (

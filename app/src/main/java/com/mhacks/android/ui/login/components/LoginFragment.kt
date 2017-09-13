@@ -1,6 +1,7 @@
 package com.mhacks.android.ui.login.components
 
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -24,9 +25,11 @@ class LoginFragment: Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         email_sign_in_button.setOnClickListener({
-            callback.attemptLogin("changjef@umich.edu", "JeffJellyfish1")
-
+            callback.attemptLogin(
+                    login_email.text.toString(),
+                    login_password.text.toString())
         })
+
         no_thanks_button.setOnClickListener({
             callback.skipAndGoToMainActivity()
         })
@@ -40,6 +43,9 @@ class LoginFragment: Fragment() {
         fun goToViewPagerFragment(fragment: Fragment)
 
         fun skipAndGoToMainActivity()
+
+        fun showSnackBar(text: String)
+
     }
 
     companion object {

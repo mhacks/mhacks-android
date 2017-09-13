@@ -69,5 +69,8 @@
     <string name="qr_code">QR Code</string>
     <string name="no_thanks">NO THANKS</string>
 
+    <!--Messages if there was no information stored-->
+    <string name="no_school">No school was selected!</string>
+
 
 </resources>
