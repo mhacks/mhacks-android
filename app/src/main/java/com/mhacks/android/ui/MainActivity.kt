@@ -14,15 +14,14 @@ import com.mhacks.android.data.kotlin.Config
 import com.mhacks.android.data.kotlin.User
 import com.mhacks.android.data.network.services.HackathonApiService
 import com.mhacks.android.data.room.MHacksDatabase
-import com.mhacks.android.ui.announcements.AnnouncementFragment
+import com.mhacks.android.ui.events.EventsFragment
 import com.mhacks.android.ui.common.BaseActivity
 import com.mhacks.android.ui.common.BaseFragment
 import com.mhacks.android.ui.common.NavigationColor
 import com.mhacks.android.ui.countdown.WelcomeFragment
-import com.mhacks.android.ui.info.InfoFragment
+import com.mhacks.android.ui.announcement.AnnouncementFragment
 import com.mhacks.android.ui.login.LoginActivity
 import com.mhacks.android.ui.map.MapViewFragment
-import com.mhacks.android.ui.schedule.EventFragment
 import com.mhacks.android.ui.qrscan.QRScanActivity
 import com.mhacks.android.ui.ticket.TicketDialogFragment
 import io.reactivex.Single
@@ -198,13 +197,13 @@ class MainActivity : BaseActivity(),
                     updateFragment(AnnouncementFragment.instance)
                 }
                 R.id.navigation_events -> {
-                    updateFragment(EventFragment.instance)
+                    updateFragment(EventsFragment.instance)
                 }
                 R.id.navigation_map -> {
                     updateFragment(MapViewFragment.instance)
                 }
                 R.id.navigation_info -> {
-                    updateFragment(InfoFragment.instance)
+                    updateFragment(AnnouncementFragment.instance)
                 }
             }
             menuItem = item

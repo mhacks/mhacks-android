@@ -14,7 +14,7 @@ import com.alamkanak.weekview.WeekView
 import com.alamkanak.weekview.WeekViewEvent
 import com.mhacks.android.data .model.Event
 import com.mhacks.android.ui.common.BaseFragment
-import com.mhacks.android.ui.events.EventDetailsFragment
+import com.mhacks.android.ui.legacyevents.EventDetailsFragment
 import kotlinx.android.synthetic.main.fragment_schedule.*
 
 import org.mhacks.android.R

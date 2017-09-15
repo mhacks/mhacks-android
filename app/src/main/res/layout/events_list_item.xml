@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.constraint.Guideline
-        android:id="@+id/announcements_vertical_divider"
+        android:id="@+id/events_vertical_divider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -17,9 +17,9 @@
         android:layout_height="match_parent"
         android:layout_marginEnd="8dp"
         android:layout_weight="1"
-        app:layout_constraintEnd_toStartOf="@+id/announcements_cardView">
+        app:layout_constraintEnd_toStartOf="@+id/events_cardView">
         <View
-            android:id="@+id/announcements_info_line"
+            android:id="@+id/events_info_line"
             android:layout_width="2dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
@@ -30,7 +30,7 @@
 
 
     <LinearLayout
-        android:id="@+id/announcements_cardView"
+        android:id="@+id/events_cardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
@@ -41,13 +41,13 @@
         android:paddingEnd="10dp"
         android:layout_marginTop="9dp"
         android:layout_marginBottom="9dp"
-        app:layout_constraintLeft_toLeftOf="@id/announcements_vertical_divider"
+        app:layout_constraintLeft_toLeftOf="@id/events_vertical_divider"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
-            android:id="@+id/announcements_item_title"
+            android:id="@+id/events_item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
@@ -60,7 +60,7 @@
             tools:text="Event Title" />
 
         <TextView
-            android:id="@+id/announcements_item_description"
+            android:id="@+id/events_item_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"

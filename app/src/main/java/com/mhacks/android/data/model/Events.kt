@@ -20,7 +20,7 @@ package com.mhacks.android.data.model
  * 32 - Other (brown)
  */
 
-data class Announcement(
+data class Events(
         var title: String,
         var info: String,
         var broadcastAt: Long,
