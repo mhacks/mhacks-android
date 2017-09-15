@@ -1,9 +1,10 @@
 package com.mhacks.android.data.network.services
 
 import com.mhacks.android.data.kotlin.Config
-import com.mhacks.android.data.kotlin.User
+import com.mhacks.android.data.kotlin.RetrofitUser
 import com.mhacks.android.data.model.Login
 import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.http.*
 
 /**
@@ -21,5 +22,5 @@ interface HackathonApiService {
                  @Field("password") password: String): Observable<Login>
 
     @GET("user/profile/")
-    fun getUser(): Observable<User>
+    fun getUser(): Single<RetrofitUser>
 }

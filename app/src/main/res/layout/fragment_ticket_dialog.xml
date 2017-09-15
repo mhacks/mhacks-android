@@ -37,13 +37,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
         app:layout_constraintLeft_toLeftOf="@id/ticket_qr_code_image_view"
         app:layout_constraintTop_toBottomOf="@id/ticket_full_name_descriptor"
         app:layout_constraintBottom_toTopOf="@id/ticket_school_descriptor"
-
-        android:textStyle="bold"
-        android:text="Firstname Lastname"
-        android:textColor="@color/colorAccent"
         tools:text="Firstname Lastname"/>
 
     <TextView
@@ -68,8 +66,6 @@
         app:layout_constraintLeft_toLeftOf="@id/ticket_qr_code_image_view"
         app:layout_constraintTop_toBottomOf="@id/ticket_school_descriptor"
         app:layout_constraintBottom_toTopOf="@id/ticket_bottom_bar"
-
-        android:text="University of Michigan"
         tools:text="University of Michigan"/>
 
     <FrameLayout

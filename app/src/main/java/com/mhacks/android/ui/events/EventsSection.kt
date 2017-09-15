@@ -1,12 +1,11 @@
-package com.mhacks.android.ui.announcements
+package com.mhacks.android.ui.events
 
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.github.vipulasri.timelineview.LineType
 import com.github.vipulasri.timelineview.TimelineView
-import com.mhacks.android.data.model.Announcement
+import com.mhacks.android.data.model.Events
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection
 import org.mhacks.android.R
@@ -18,15 +17,15 @@ import org.mhacks.android.R
 
 
 
- class AnnouncementSection(val time: String,
-                           val type: TimeLineType,
-                           val announcements: ArrayList<Announcement>): StatelessSection(
-        SectionParameters.Builder(R.layout.announcement_list_item)
-        .headerResourceId(R.layout.announcement_header_item)
+ class EventsSection(val time: String,
+                     val type: TimeLineType,
+                     val events: ArrayList<Events>): StatelessSection(
+        SectionParameters.Builder(R.layout.events_list_item)
+        .headerResourceId(R.layout.events_header_item)
         .build()) {
 
      override fun getContentItemsTotal(): Int {
-         return announcements.size
+         return events.size
      }
 
     override fun getHeaderViewHolder(view: View): RecyclerView.ViewHolder {
@@ -60,8 +59,8 @@ import org.mhacks.android.R
 
     override fun onBindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewHolder = holder as AnnouncementSectionItemViewHolder
-        viewHolder.announcementItemTitle.text = announcements[position].title
-        viewHolder.descriptionItemTitle.text = announcements[position].info
+        viewHolder.announcementItemTitle.text = events[position].title
+        viewHolder.descriptionItemTitle.text = events[position].info
      }
 
     class AnnouncementSectionHeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -79,7 +78,7 @@ import org.mhacks.android.R
         }
     }
 
-    data class AnnouncementSectionModel(val time: String, val announcements: ArrayList<Announcement>)
+    data class AnnouncementSectionModel(val time: String, val events: ArrayList<Events>)
 
     enum class TimeLineType {
         START, NORMAL, END

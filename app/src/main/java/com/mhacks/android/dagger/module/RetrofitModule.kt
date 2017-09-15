@@ -13,6 +13,7 @@ import dagger.Module
 import okhttp3.Cache
 import android.preference.PreferenceManager
 import android.content.SharedPreferences
+import com.mhacks.android.data.network.ConnectivityInterceptor
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 

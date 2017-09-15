@@ -1,26 +1,23 @@
 package com.mhacks.android.ui.login
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.view.View
-import android.view.WindowManager
+import android.support.design.widget.Snackbar
 import com.mhacks.android.MHacksApplication
 import com.mhacks.android.data.model.Login
 import com.mhacks.android.data.network.services.HackathonApiService
 import com.mhacks.android.data.room.MHacksDatabase
 import com.mhacks.android.ui.MainActivity
+import com.mhacks.android.ui.common.BaseActivity
 import com.mhacks.android.ui.login.components.LoginFragment
+import com.mhacks.android.util.NetworkUtil
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.mhacks.android.R
-import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 
-class LoginActivity : AppCompatActivity(), LoginFragment.OnFromLoginFragmentCallback{
+class LoginActivity : BaseActivity(), LoginFragment.OnFromLoginFragmentCallback{
 
     @Inject lateinit var mhacksDatabase: MHacksDatabase
     @Inject lateinit var hackathonService: HackathonApiService
@@ -35,7 +32,17 @@ class LoginActivity : AppCompatActivity(), LoginFragment.OnFromLoginFragmentCall
     }
 
 
+    override fun showSnackBar(text: String) {
+        Snackbar.make(findViewById(android.R.id.content),
+                text,
+                Snackbar.LENGTH_SHORT).show()
+    }
+
+
     override fun skipAndGoToMainActivity() {
+
+        // Stores an empty Login so we know that the user skipped the login.
+
         Observable.fromCallable({
             mhacksDatabase
                     .loginDao()
@@ -51,27 +58,34 @@ class LoginActivity : AppCompatActivity(), LoginFragment.OnFromLoginFragmentCall
     }
 
     private fun loggedInAndGoToMainActivity(login: Login) {
+
         login.id = 0
         Observable.fromCallable({
             mhacksDatabase
                     .loginDao()
                     .insertLogin(login)})
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
-
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe()
 
         startActivity(Intent(this, MainActivity::class.java))
     }
 
     override fun attemptLogin(email: String, password: String) {
-        hackathonService.postLogin(email, password)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { response -> loggedInAndGoToMainActivity(response)},
-                        { error -> Timber.d(error) }
-                )
+        if (NetworkUtil.checkIfNetworkSucceeds(context = this)) {
+            hackathonService.postLogin(email, password)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            { response -> loggedInAndGoToMainActivity(response)},
+                            { error ->
+                                when (error.message) {
+                                // The space is nescessary.
+                                    "HTTP 401 " ->
+                                        showSnackBar("The username and password is incorrect.")
+                                }
+                            }
+                    ) } else showSnackBar("Couldn't connect to the internet.")
     }
 
     override fun goToViewPagerFragment(fragment: android.support.v4.app.Fragment) {
@@ -79,18 +93,5 @@ class LoginActivity : AppCompatActivity(), LoginFragment.OnFromLoginFragmentCall
                 .beginTransaction()
                 .replace(R.id.login_container, fragment)
                 .commit()
-    }
-
-    private fun setStatusBarTransparent() {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        }
-    }
-
-
-
-    companion object {
-        val TAG = "LoginActivity"
     }
 }

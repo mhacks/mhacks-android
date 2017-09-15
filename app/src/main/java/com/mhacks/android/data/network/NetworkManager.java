@@ -7,7 +7,7 @@
 //import com.google.gson.FieldNamingPolicy;
 //import com.google.gson.Gson;
 //import com.google.gson.GsonBuilder;
-//import com.mhacks.android.data.model.Announcement;
+//import com.mhacks.android.data.model.Events;
 //import com.mhacks.android.data.model.Countdown;
 //import com.mhacks.android.data.model.Event;
 //import com.mhacks.android.data.model.Floor;
@@ -111,26 +111,26 @@
 //                      });
 //    }
 //
-//    public void getAnnouncements(final HackathonCallback<List<Announcement>> callback) {
-//        networkService.getAnnouncements(mToken)
-//                      .enqueue(new Callback<ModelList<Announcement>>() {
+//    public void getEvents(final HackathonCallback<List<Events>> callback) {
+//        networkService.getEvents(mToken)
+//                      .enqueue(new Callback<ModelList<Events>>() {
 //                          @Override
-//                          public void onResponse(Call<ModelList<Announcement>> call, Response<ModelList<Announcement>> response) {
-//                              List<Announcement> announcements = response.body().getResults();
+//                          public void onResponse(Call<ModelList<Events>> call, Response<ModelList<Events>> response) {
+//                              List<Events> events = response.body().getResults();
 //
 //
 //                              // Sorts reverse chronologically
-//                              Collections.sort(announcements, new Comparator<Announcement>() {
+//                              Collections.sort(events, new Comparator<Events>() {
 //                                  @Override
-//                                  public int compare(Announcement lhs,
-//                                                     Announcement rhs) {
+//                                  public int compare(Events lhs,
+//                                                     Events rhs) {
 //                                      return (int) (rhs.getBroadcastAt() - lhs.getBroadcastAt());
 //                                  }
 //                              });
 //
-//                              // filter out deleted and non approved announcements
-//                              ArrayList<Announcement> filtered = new ArrayList<Announcement>();
-//                              for (Announcement a : announcements) {
+//                              // filter out deleted and non approved events
+//                              ArrayList<Events> filtered = new ArrayList<Events>();
+//                              for (Events a : events) {
 //                                  if (!a.isDeleted() && a.isApproved()) {
 //                                      a.setBroadcastAt(a.getBroadcastAt() * 1000);
 //                                      filtered.add(a);
@@ -141,80 +141,80 @@
 //                          }
 //
 //                          @Override
-//                          public void onFailure(Call<ModelList<Announcement>> call, Throwable t) {
-//                              Log.e(TAG, "Couldn't get announcements", t);
+//                          public void onFailure(Call<ModelList<Events>> call, Throwable t) {
+//                              Log.e(TAG, "Couldn't get events", t);
 //                              callback.failure(t);
 //                          }
 //                      });
 //    }
 //
-//    public void getAnnouncement(String announcementId, final HackathonCallback<Announcement> callback) {
+//    public void getAnnouncement(String announcementId, final HackathonCallback<Events> callback) {
 //        networkService.getAnnouncement(mToken, announcementId)
-//                      .enqueue(new Callback<Announcement>() {
+//                      .enqueue(new Callback<Events>() {
 //                          @Override
-//                          public void onResponse(Call<Announcement> call,
-//                                                 Response<Announcement> response) {
+//                          public void onResponse(Call<Events> call,
+//                                                 Response<Events> response) {
 //                              Log.d(TAG, "Successfully got the announcement");
 //                              callback.success(response.body());
 //                          }
 //
 //                          @Override
-//                          public void onFailure(Call<Announcement> call, Throwable t) {
+//                          public void onFailure(Call<Events> call, Throwable t) {
 //                              Log.d(TAG, "Couldn't get the announcement");
 //                              callback.failure(t);
 //                          }
 //                      });
 //    }
 //
-//    public void createAnnouncement(Announcement announcement, final HackathonCallback<Announcement> callback) {
+//    public void createAnnouncement(Events announcement, final HackathonCallback<Events> callback) {
 //        networkService.createAnnouncement(mToken, announcement)
-//                      .enqueue(new Callback<Announcement>() {
+//                      .enqueue(new Callback<Events>() {
 //                          @Override
-//                          public void onResponse(Call<Announcement> call,
-//                                                 Response<Announcement> response) {
+//                          public void onResponse(Call<Events> call,
+//                                                 Response<Events> response) {
 //                              Log.d(TAG, "Successfully created the announcement");
 //                              callback.success(response.body());
 //                          }
 //
 //                          @Override
-//                          public void onFailure(Call<Announcement> call, Throwable t) {
+//                          public void onFailure(Call<Events> call, Throwable t) {
 //                              Log.d(TAG, "Couldn't create the announcement");
 //                              callback.failure(t);
 //                          }
 //                      });
 //    }
 //
-//    public void updateAnnouncement(Announcement announcement, final HackathonCallback<Announcement> callback) {
+//    public void updateAnnouncement(Events announcement, final HackathonCallback<Events> callback) {
 //        networkService.updateAnnouncement(announcement.getId(), mToken, announcement)
-//                      .enqueue(new Callback<Announcement>() {
+//                      .enqueue(new Callback<Events>() {
 //                          @Override
-//                          public void onResponse(Call<Announcement> call,
-//                                                 Response<Announcement> response) {
+//                          public void onResponse(Call<Events> call,
+//                                                 Response<Events> response) {
 //                              Log.d(TAG, "Successfully updated the announcement");
 //                              callback.success(response.body());
 //                          }
 //
 //                          @Override
-//                          public void onFailure(Call<Announcement> call, Throwable t) {
+//                          public void onFailure(Call<Events> call, Throwable t) {
 //                              Log.d(TAG, "Couldn't create the announcement");
 //                              callback.failure(t);
 //                          }
 //                      });
 //    }
 //
-//    public void deleteAnnouncement(Announcement announcement, final HackathonCallback<Announcement> callback) {
+//    public void deleteAnnouncement(Events announcement, final HackathonCallback<Events> callback) {
 //        networkService.deleteAnnouncement(announcement.getId(), mToken, announcement)
-//                      .enqueue(new Callback<Announcement>() {
+//                      .enqueue(new Callback<Events>() {
 //                          @Override
-//                          public void onResponse(Call<Announcement> call,
-//                                                 Response<Announcement> response) {
+//                          public void onResponse(Call<Events> call,
+//                                                 Response<Events> response) {
 //
 //                              Log.d(TAG, "Successfully deleted the announcement");
 //                              callback.success(response.body());
 //                          }
 //
 //                          @Override
-//                          public void onFailure(Call<Announcement> call, Throwable t) {
+//                          public void onFailure(Call<Events> call, Throwable t) {
 //                              Log.d(TAG, "Couldn't delete the announcement");
 //                              callback.failure(t);
 //                          }

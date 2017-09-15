@@ -3,7 +3,6 @@ package com.mhacks.android.data.room
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
 import com.mhacks.android.data.kotlin.Configuration
-import com.mhacks.android.data.kotlin.RoomUser
 import com.mhacks.android.data.kotlin.User
 import com.mhacks.android.data.model.Login
 import com.mhacks.android.data.room.dao.ConfigurationDao
