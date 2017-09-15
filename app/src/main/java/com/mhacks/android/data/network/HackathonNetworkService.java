@@ -1,6 +1,6 @@
 package com.mhacks.android.data.network;
 
-import com.mhacks.android.data.model.Announcement;
+import com.mhacks.android.data.model.Events;
 import com.mhacks.android.data.model.Countdown;
 import com.mhacks.android.data.model.Event;
 import com.mhacks.android.data.model.Floor;
@@ -42,27 +42,27 @@ public interface HackathonNetworkService {
 //    Call<User> profile(@Header("Authorization") String authToken);
 
     // ANNOUNCEMENTS
-    @GET("announcements")
-    Call<ModelList<Announcement>> getAnnouncements(@Header("Authorization") String authToken);
+    @GET("events")
+    Call<ModelList<Events>> getAnnouncements(@Header("Authorization") String authToken);
 
-    @POST("announcements")
-    Call<Announcement> createAnnouncement(@Header("Authorization") String authToken,
-                                          @Body Announcement announcement);
+    @POST("events")
+    Call<Events> createAnnouncement(@Header("Authorization") String authToken,
+                                    @Body Events events);
 
-    @GET("announcements/{id}")
-    Call<Announcement> getAnnouncement(@Path("id") String id,
-                                       @Header("Authorization") String authToken);
+    @GET("events/{id}")
+    Call<Events> getAnnouncement(@Path("id") String id,
+                                 @Header("Authorization") String authToken);
 
 
-    @PUT("announcements/{id}")
-    Call<Announcement> updateAnnouncement(@Path("id") String id,
-                                          @Header("Authorization") String authToken,
-                                          @Body Announcement announcement);
+    @PUT("events/{id}")
+    Call<Events> updateAnnouncement(@Path("id") String id,
+                                    @Header("Authorization") String authToken,
+                                    @Body Events events);
 
-    @DELETE("announcements/{id}")
-    Call<Announcement> deleteAnnouncement(@Path("id") String id,
-                                          @Header("Authorization") String authToken,
-                                          @Body Announcement announcement);
+    @DELETE("events/{id}")
+    Call<Events> deleteAnnouncement(@Path("id") String id,
+                                    @Header("Authorization") String authToken,
+                                    @Body Events events);
 
     // LOCATIONS
     @GET("locations")

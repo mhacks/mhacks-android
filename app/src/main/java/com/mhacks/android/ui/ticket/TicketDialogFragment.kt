@@ -1,6 +1,5 @@
 package com.mhacks.android.ui.ticket
 
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -8,19 +7,10 @@ import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.mhacks.android.data.kotlin.RoomUser
 import com.mhacks.android.data.kotlin.User
-import com.mhacks.android.data.model.Login
-import com.mhacks.android.ui.MainActivity
-import com.mhacks.android.ui.login.LoginActivity
-import io.reactivex.BackpressureStrategy
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.toSingle
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_ticket_dialog.*
 import net.glxn.qrgen.android.QRCode
 import org.mhacks.android.R
-import timber.log.Timber
 
 /**
  * Created by jeffreychang on 8/26/17.
@@ -28,8 +18,8 @@ import timber.log.Timber
 class TicketDialogFragment : DialogFragment() {
 
     private lateinit var key: String
-    private val callback
-            by lazy { activity as OnFromTicketDialogFragmentCallback }
+
+    private val callback by lazy { activity as OnFromTicketDialogFragmentCallback }
 
     override fun onResume() {
 
@@ -37,10 +27,9 @@ class TicketDialogFragment : DialogFragment() {
         val height = (resources.displayMetrics.heightPixels* .7).toInt()
 
         dialog.window.setLayout(width, height)
-
         super.onResume()
-    }
 
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -52,6 +41,8 @@ class TicketDialogFragment : DialogFragment() {
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+
+        ticket_bottom_bar_done_button.setOnClickListener { dismiss() }
         callback.checkOrFetchUser(
                 { user ->
                     val qr = QRCode.from(user.email)
@@ -59,30 +50,39 @@ class TicketDialogFragment : DialogFragment() {
                             .withColor(0xFF43384D.toInt(), 0x00FFFFFF)
                             .bitmap()
                     ticket_qr_code_image_view.setImageBitmap(qr)
-                    ticket_bottom_bar_done_button.setOnClickListener { dismiss() } },
-                { callback.startLoginActivity() }
-        )
+                    ticket_full_name_text_view.text = user.fullName
+                    if (user.university.isEmpty()) {
+                        ticket_school_text_view.text = getString(R.string.no_school)
+                    }
+                },
+
+                { callback.showSnackBar("Couldn't connect to the Internet!")} )
+
         ticket_bottom_bar_done_button.setOnClickListener({ dismiss() })
+
     }
 
     interface OnFromTicketDialogFragmentCallback {
+
         fun checkOrFetchUser(
                 success: (user: User) -> Unit,
                 failure: (error: Throwable) -> Unit)
 
         fun startLoginActivity()
+
+        fun showSnackBar(text: String)
+
     }
 
     companion object {
-        private val ARG_EXTRA_QR_ID: String? = "EXTRA_QR_ID"
 
-        fun newInstance(id: String): TicketDialogFragment {
+        fun newInstance(): TicketDialogFragment {
             val fragment = TicketDialogFragment()
             val args = Bundle()
-            args.putString(ARG_EXTRA_QR_ID, id)
             fragment.arguments = args
             return fragment
         }
+
     }
 }
 

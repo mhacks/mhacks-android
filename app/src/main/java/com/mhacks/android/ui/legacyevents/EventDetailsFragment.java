@@ -1,4 +1,4 @@
-package com.mhacks.android.ui.events;
+package com.mhacks.android.ui.legacyevents;
 
 import android.app.Fragment;
 import android.os.Bundle;

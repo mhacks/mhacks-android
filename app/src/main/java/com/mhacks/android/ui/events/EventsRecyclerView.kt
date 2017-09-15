@@ -1,4 +1,4 @@
-package com.mhacks.android.ui.announcements
+package com.mhacks.android.ui.events
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.github.vipulasri.timelineview.TimelineView
-import com.mhacks.android.data.model.Announcement
+import com.mhacks.android.data.model.Events
 import org.mhacks.android.R
 import kotlin.collections.ArrayList
 
-class AnnouncementAdapter(var mContext: Context, var announcementList: ArrayList<Announcement>):
+class AnnouncementAdapter(var mContext: Context, var eventsList: ArrayList<Events>):
         RecyclerView.Adapter<AnnouncementAdapter.AnnouncementViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
@@ -22,7 +22,7 @@ class AnnouncementAdapter(var mContext: Context, var announcementList: ArrayList
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): AnnouncementViewHolder {
         // Create the view for this row
         val row = LayoutInflater.from(mContext)
-                .inflate(R.layout.announcement_list_item, viewGroup, false)
+                .inflate(R.layout.events_list_item, viewGroup, false)
 
         // Create a new viewHolder which caches all the views that needs to be saved
         val viewHolder = AnnouncementViewHolder(row)
@@ -36,7 +36,7 @@ class AnnouncementAdapter(var mContext: Context, var announcementList: ArrayList
         // - replace the contents of the view with that element
 
         // Get the current announcement item
-        val announcement = announcementList[i]
+        val announcement = eventsList[i]
 
         // Set this item's views based off of the announcement data
         viewHolder.titleView.text = announcement.title
@@ -81,7 +81,7 @@ class AnnouncementAdapter(var mContext: Context, var announcementList: ArrayList
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount(): Int {
-        return announcementList.size
+        return eventsList.size
     }
 
     // Simple class that holds all the views that need to be reused

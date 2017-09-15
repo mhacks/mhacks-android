@@ -1,4 +1,4 @@
-package com.mhacks.android.ui.events;
+package com.mhacks.android.ui.legacyevents;
 
 import android.graphics.Color;
 import android.graphics.RectF;
