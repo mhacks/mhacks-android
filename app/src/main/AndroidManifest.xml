@@ -47,11 +47,6 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.mhacks.android.ui.qrscan.QRScanActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait" />
-
         <receiver
             android:name="com.mhacks.android.data.network.gcm.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">

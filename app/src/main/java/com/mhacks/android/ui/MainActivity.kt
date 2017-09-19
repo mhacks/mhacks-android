@@ -22,7 +22,7 @@ import com.mhacks.android.ui.countdown.WelcomeFragment
 import com.mhacks.android.ui.announcement.AnnouncementFragment
 import com.mhacks.android.ui.login.LoginActivity
 import com.mhacks.android.ui.map.MapViewFragment
-import com.mhacks.android.ui.qrscan.QRScanActivity
+//import com.mhacks.android.ui.qrscan.QRScanActivity
 import com.mhacks.android.ui.ticket.TicketDialogFragment
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -115,10 +115,10 @@ class MainActivity : BaseActivity(),
         finish()
     }
 
-    private fun startQRScanActivity() {
-        startActivity(Intent(this, QRScanActivity::class.java))
-        finish()
-    }
+//    private fun startQRScanActivity() {
+//        startActivity(Intent(this, QRScanActivity::class.java))
+//        finish()
+//    }
 
     override fun checkOrFetchUser(success: (user: User) -> Unit,
                                   failure: (error: Throwable) -> Unit) {
@@ -162,20 +162,20 @@ class MainActivity : BaseActivity(),
 
         // Add the toolbar
         qr_ticket_fab.setOnClickListener({
-            startQRScanActivity()
-//            if (true) {
-//                val ft = supportFragmentManager.beginTransaction()
-//                val prev = supportFragmentManager.findFragmentByTag("dialog")
-//                if (prev != null) {
-//                    ft.remove(prev)
-//                }
-//                ft.addToBackStack(null)
-//
-//                val ticket: TicketDialogFragment = TicketDialogFragment
-//                        .newInstance()
-//                ticket.show(ft, "dialog")
-//
-//            } else startQRScanActivity()
+            //startQRScanActivity()
+            if (true) {
+                val ft = supportFragmentManager.beginTransaction()
+                val prev = supportFragmentManager.findFragmentByTag("dialog")
+                if (prev != null) {
+                    ft.remove(prev)
+                }
+                ft.addToBackStack(null)
+
+                val ticket: TicketDialogFragment = TicketDialogFragment
+                        .newInstance()
+                ticket.show(ft, "dialog")
+
+            } //else startQRScanActivity()
         })
 
         menuItem = navigation.menu.getItem(0)
