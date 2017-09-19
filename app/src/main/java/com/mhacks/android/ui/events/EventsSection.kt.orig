@@ -31,24 +31,29 @@ import org.mhacks.android.R
     override fun getHeaderViewHolder(view: View): RecyclerView.ViewHolder {
         val holder = eventsectionHeaderViewHolder(view)
 
-        when (type) {
-            TimeLineType.START -> {
-                holder.timelineView.initLine(LineType.BEGIN)
-            }
-            TimeLineType.NORMAL -> {
-                holder.timelineView.initLine(LineType.ONLYONE)
-            }
-            TimeLineType.END -> {
-                holder.timelineView.initLine(LineType.END)
-            }
-        }
+//        when (type) {
+//            TimeLineType.START -> {
+//                holder.timelineView.initLine(LineType.BEGIN)
+//            }
+//            TimeLineType.NORMAL -> {
+//                holder.timelineView.initLine(LineType.ONLYONE)
+//            }
+//            TimeLineType.END -> {
+//                holder.timelineView.initLine(LineType.END)
+//            }
+//        }
         return holder
 
     }
 
     override fun onBindHeaderViewHolder(holder: RecyclerView.ViewHolder?) {
+<<<<<<< HEAD
+        val vh = holder as AnnouncementSectionHeaderViewHolder
+       // vh.announcementsTimeTextView.text = time
+=======
         val vh = holder as eventsectionHeaderViewHolder
         vh.eventsTimeTextView.text = time
+>>>>>>> origin/pushannouncements
     }
 
      override fun getItemViewHolder(view: View): RecyclerView.ViewHolder {
@@ -58,6 +63,22 @@ import org.mhacks.android.R
      }
 
     override fun onBindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+<<<<<<< HEAD
+        val viewHolder = holder as AnnouncementSectionItemViewHolder
+       // viewHolder.announcementItemTitle.text = events[position].title
+       // viewHolder.descriptionItemTitle.text = events[position].info
+     }
+
+    class AnnouncementSectionHeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+       // val timelineView = view.findViewById<View>(R.id.announcements_info_time_marker) as TimelineView
+       // val announcementsTimeTextView = view.findViewById<View>(R.id.announcements_time_text) as TextView
+
+    }
+
+    class AnnouncementSectionItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+      //  val announcementItemTitle = view.findViewById<View>(R.id.announcements_item_title) as TextView
+      //  val descriptionItemTitle = view.findViewById<View>(R.id.announcements_item_description) as TextView
+=======
         val viewHolder = holder as eventsectionItemViewHolder
         viewHolder.announcementItemTitle.text = events[position].title
         viewHolder.descriptionItemTitle.text = events[position].info
@@ -72,6 +93,7 @@ import org.mhacks.android.R
     class eventsectionItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val announcementItemTitle = view.findViewById<View>(R.id.events_item_title) as TextView
         val descriptionItemTitle = view.findViewById<View>(R.id.events_item_description) as TextView
+>>>>>>> origin/pushannouncements
 
         fun hide() {
             view.visibility = View.GONE

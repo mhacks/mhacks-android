@@ -6,7 +6,7 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapt
 /**
  * Created by jeffreychang on 9/1/17.
  */
-class sectionedEventsAdapter(eventsSectionList: ArrayList<EventsSection.AnnouncementSectionModel>)
+class sectionedEventsAdapter(eventsSectionList: ArrayList<EventsSection.EventSectionModel>)
     : SectionedRecyclerViewAdapter() {
     init {
         for (it in 0 until eventsSectionList.size) {
