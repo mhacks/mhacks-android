@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:paddingTop="32dp"
+    android:paddingBottom="32dp"
+    android:clipToPadding="false"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/announcements_viewholder_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginStart="64dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:text="Announcement ViewHolder"/>
+    
+    <TextView
+        android:id="@+id/announcements_viewholder_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="@id/announcements_viewholder_header"
+        app:layout_constraintTop_toBottomOf="@id/announcements_viewholder_header"
+        tools:text="10:00PM"/>
+
+    <TextView
+        android:id="@+id/announcements_viewholder_event_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        app:layout_constraintLeft_toLeftOf="@id/announcements_viewholder_date"
+        app:layout_constraintTop_toBottomOf="@+id/announcements_viewholder_date"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="This is text with a description of where we should definitely put some
+        text haha"/>
+
+</android.support.constraint.ConstraintLayout>

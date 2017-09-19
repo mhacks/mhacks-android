@@ -87,10 +87,10 @@ class AnnouncementAdapter(var mContext: Context, var eventsList: ArrayList<Event
     // Simple class that holds all the views that need to be reused
     // Default constructor, itemView holds all the views that need to be saved
     inner class AnnouncementViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titleView = itemView.findViewById<View>(R.id.announcements_item_title) as TextView
-        val timeView = itemView.findViewById<View>(R.id.announcements_time_text) as TextView
-        val descriptionView = itemView.findViewById<View>(R.id.announcements_item_description) as TextView
-        val timelineView = itemView.findViewById<View>(R.id.announcements_info_time_marker) as TimelineView
+        val titleView = itemView.findViewById<View>(R.id.events_item_title) as TextView
+        val timeView = itemView.findViewById<View>(R.id.events_time_text) as TextView
+        val descriptionView = itemView.findViewById<View>(R.id.events_item_description) as TextView
+        val timelineView = itemView.findViewById<View>(R.id.events_info_time_marker) as TimelineView
         //            val timelineView = itemView.findViewById<View>(R.id.info_time_marker) as TimelineView
 //        init {
 //            timelineView.initLine(viewType)

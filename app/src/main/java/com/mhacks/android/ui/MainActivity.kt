@@ -162,20 +162,18 @@ class MainActivity : BaseActivity(),
 
         // Add the toolbar
         qr_ticket_fab.setOnClickListener({
-            startQRScanActivity()
-//            if (true) {
-//                val ft = supportFragmentManager.beginTransaction()
-//                val prev = supportFragmentManager.findFragmentByTag("dialog")
-//                if (prev != null) {
-//                    ft.remove(prev)
-//                }
-//                ft.addToBackStack(null)
-//
-//                val ticket: TicketDialogFragment = TicketDialogFragment
-//                        .newInstance()
-//                ticket.show(ft, "dialog")
-//
-//            } else startQRScanActivity()
+            if (true) {
+                val ft = supportFragmentManager.beginTransaction()
+                val prev = supportFragmentManager.findFragmentByTag("dialog")
+                if (prev != null) {
+                    ft.remove(prev)
+                }
+                ft.addToBackStack(null)
+
+                val ticket: TicketDialogFragment = TicketDialogFragment
+                        .newInstance()
+                ticket.show(ft, "dialog")
+            }
         })
 
         menuItem = navigation.menu.getItem(0)
@@ -202,9 +200,9 @@ class MainActivity : BaseActivity(),
                 R.id.navigation_map -> {
                     updateFragment(MapViewFragment.instance)
                 }
-                R.id.navigation_info -> {
-                    updateFragment(AnnouncementFragment.instance)
-                }
+//                R.id.navigation_info -> {
+//                    updateFragment(AnnouncementFragment.instance)
+//                }
             }
             menuItem = item
             true
