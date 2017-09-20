@@ -22,7 +22,7 @@ import com.mhacks.android.ui.countdown.WelcomeFragment
 import com.mhacks.android.ui.announcement.AnnouncementFragment
 import com.mhacks.android.ui.login.LoginActivity
 import com.mhacks.android.ui.map.MapViewFragment
-//import com.mhacks.android.ui.qrscan.QRScanActivity
+import com.mhacks.android.ui.qrscan.QRScanActivity
 import com.mhacks.android.ui.ticket.TicketDialogFragment
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -37,7 +37,8 @@ import javax.inject.Inject
 class MainActivity : BaseActivity(),
         ActivityCompat.OnRequestPermissionsResultCallback,
         BaseFragment.OnNavigationChangeListener,
-        TicketDialogFragment.OnFromTicketDialogFragmentCallback{
+        TicketDialogFragment.OnFromTicketDialogFragmentCallback,
+        WelcomeFragment.OnFromWelcomeFragmentCallback {
 
     private val gcm: GoogleCloudMessaging by lazy {
         GoogleCloudMessaging.getInstance(applicationContext)
@@ -65,7 +66,7 @@ class MainActivity : BaseActivity(),
         checkIfLogin()
     }
 
-    private fun checkOrFetchConfig(success: (config: Config) -> Unit,
+    override fun checkOrFetchConfig(success: (config: Config) -> Unit,
                                    failure: (error: Throwable) -> Unit) {
         hackathonService.getConfiguration()
                 .subscribeOn(Schedulers.newThread())
@@ -115,10 +116,10 @@ class MainActivity : BaseActivity(),
         finish()
     }
 
-//    private fun startQRScanActivity() {
-//        startActivity(Intent(this, QRScanActivity::class.java))
-//        finish()
-//    }
+    private fun startQRScanActivity() {
+        startActivity(Intent(this, QRScanActivity::class.java))
+        finish()
+    }
 
     override fun checkOrFetchUser(success: (user: User) -> Unit,
                                   failure: (error: Throwable) -> Unit) {
@@ -133,7 +134,7 @@ class MainActivity : BaseActivity(),
                                 appCallback.setAuthInterceptorToken(login.token)
                                 hackathonService.getUser()
                                         .flatMap { user -> Single.just(user.user) }
-                    })
+                            })
                 })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -162,10 +163,6 @@ class MainActivity : BaseActivity(),
 
         // Add the toolbar
         qr_ticket_fab.setOnClickListener({
-<<<<<<< HEAD
-            //startQRScanActivity()
-=======
->>>>>>> origin/pushannouncements
             if (true) {
                 val ft = supportFragmentManager.beginTransaction()
                 val prev = supportFragmentManager.findFragmentByTag("dialog")
@@ -177,12 +174,7 @@ class MainActivity : BaseActivity(),
                 val ticket: TicketDialogFragment = TicketDialogFragment
                         .newInstance()
                 ticket.show(ft, "dialog")
-<<<<<<< HEAD
-
-            } //else startQRScanActivity()
-=======
             }
->>>>>>> origin/pushannouncements
         })
 
         menuItem = navigation.menu.getItem(0)

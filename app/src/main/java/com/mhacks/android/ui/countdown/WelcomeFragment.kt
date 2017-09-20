@@ -7,8 +7,12 @@ import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.mhacks.android.data.kotlin.Config
+import com.mhacks.android.data.kotlin.User
+
 
 import com.mhacks.android.data.model.Countdown
+import com.mhacks.android.data.model.Login
 import com.mhacks.android.data.network.HackathonCallback
 // import com.mhacks.android.data.network.NetworkManager
 import com.mhacks.android.ui.common.BaseFragment
@@ -17,6 +21,7 @@ import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
 import org.mhacks.android.R
+import timber.log.Timber
 
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -45,7 +50,12 @@ class WelcomeFragment : BaseFragment() {
     private val countdownUpdateIntervals = (1 * 750).toLong()
 
     private var startDate: Date? = null
+    private var endDate: Date? = null
     private var duration: Long = 0
+
+    val callback by lazy {
+        activity as OnFromWelcomeFragmentCallback
+    }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,27 +71,39 @@ class WelcomeFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        callback.checkOrFetchConfig({
+            config -> onConfigCallbackSuccess(config)
+        }, {
+            error -> onConfigCallbackFailure(error)
+        })
 
-//        val networkManager = NetworkManager.getInstance()
-//        networkManager.getCountdown(object : HackathonCallback<Countdown> {
-//            override fun success(response: Countdown) {
-//                startDate = Date(response.getStartTime() * 1000)
-//                duration = response.getCountdownDuration()
-//                initCountdownIfNecessary(startDate, duration * 1000)
-//            }
-//
-//            override fun failure(error: Throwable) {
-//
-//            }
-//        })
+
 
         duration = 129600000
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-        simpleDateFormat.timeZone = TimeZone.getTimeZone("UTC")
-        startDate = simpleDateFormat.parse("2017-09-06T00:00:00.000Z")
-        initCountdownIfNecessary(startDate, duration)
+        simpleDateFormat.timeZone = TimeZone.getTimeZone("America/Detroit")
+        startDate = simpleDateFormat.parse("2017-09-23T00:00:00.000Z")
+//      startDate = Date(config.configuration.startDate)
+//      duration = config.configuration.endDate - config.configuration.startDate
+        initCountdownIfNecessary(startDate, duration)//
         // Start everything off by getting the parse data
-        //getLatestParseData();
+//      getLatestParseData();
+    }
+
+    private fun onConfigCallbackSuccess(config: Config) {
+        //TODO: CHANGE TO LONG VERSION
+//        duration = 129600000
+//        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+//        simpleDateFormat.timeZone = TimeZone.getTimeZone("America/Detroit")
+//        startDate = simpleDateFormat.parse(config.configuration.startDate)
+////      startDate = Date(config.configuration.startDate)
+////      duration = config.configuration.endDate - config.configuration.startDate
+//          initCountdownIfNecessary(startDate, duration)
+
+    }
+
+    private fun onConfigCallbackFailure(error: Throwable) {
+        Timber.e(error.message)
     }
 
     /**
@@ -192,6 +214,13 @@ class WelcomeFragment : BaseFragment() {
             mCircularProgress!!.progress = 100
             mCountdownTextView!!.text = "Done!"
         }
+    }
+
+    interface OnFromWelcomeFragmentCallback {
+        fun checkOrFetchConfig(
+                success: (config: Config) -> Unit,
+                failure: (error: Throwable) -> Unit
+        )
     }
 }
 
