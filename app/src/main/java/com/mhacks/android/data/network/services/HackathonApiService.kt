@@ -3,8 +3,10 @@ package com.mhacks.android.data.network.services
 import com.mhacks.android.data.kotlin.Config
 import com.mhacks.android.data.kotlin.RetrofitUser
 import com.mhacks.android.data.model.Login
+import com.mhacks.android.data.model.Token
 import io.reactivex.Observable
 import io.reactivex.Single
+import retrofit2.Call
 import retrofit2.http.*
 
 /**
@@ -23,4 +25,11 @@ interface HackathonApiService {
 
     @GET("user/profile/")
     fun getUser(): Single<RetrofitUser>
+
+    @FormUrlEncoded
+    @POST("push_notifications/gcm/")
+    fun getGcmToken(@Header("Authorization") authToken: String,
+                     @Field("name") channelPrefs: String,
+                     @Field("registration_id") regId: String,
+                     @Field("active") active: Boolean?): Observable<Token>
 }

@@ -12,7 +12,6 @@ import org.mhacks.android.R
  * Created by jeffreychang on 5/26/17.
  */
 class AnnouncementFragment : BaseFragment() {
-
     override var setTransparent = false
     override var AppBarTitle = R.string.title_announcements
     override var LayoutResourceID = R.layout.fragment_announcements
@@ -28,7 +27,7 @@ class AnnouncementFragment : BaseFragment() {
     }
 
 
-    fun getMockData(): ArrayList<Announcement> {
+    private fun getMockData(): ArrayList<Announcement> {
         val mock = ArrayList<Announcement>()
         mock.add(Announcement("Hello World", "11/13/2011", "This is " +
                 "hello world. And some sample text."))
