@@ -11,13 +11,12 @@ import com.mhacks.android.data.kotlin.User
 import kotlinx.android.synthetic.main.fragment_ticket_dialog.*
 import net.glxn.qrgen.android.QRCode
 import org.mhacks.android.R
+import timber.log.Timber
 
 /**
  * Created by jeffreychang on 8/26/17.
  */
 class TicketDialogFragment : DialogFragment() {
-
-    private lateinit var key: String
 
     private val callback by lazy { activity as Callback }
 
@@ -37,7 +36,7 @@ class TicketDialogFragment : DialogFragment() {
             dialog.setCanceledOnTouchOutside(true);
             dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
-        return inflater!!.inflate(R.layout.fragment_ticket_dialog, container)
+        return inflater?.inflate(R.layout.fragment_ticket_dialog, container)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
@@ -51,12 +50,12 @@ class TicketDialogFragment : DialogFragment() {
                             .bitmap()
                     ticket_qr_code_image_view.setImageBitmap(qr)
                     ticket_full_name_text_view.text = user.fullName
-                    if (user.university.isEmpty()) {
+                    if (user.university.isEmpty())
                         ticket_school_text_view.text = getString(R.string.no_school)
-                    }
-                },
 
-                { callback.showSnackBar("Couldn't connect to the Internet!")} )
+                },
+                { Timber.d("About to go to Login")
+            callback.startLoginActivity() } )
 
         ticket_bottom_bar_done_button.setOnClickListener({ dismiss() })
 

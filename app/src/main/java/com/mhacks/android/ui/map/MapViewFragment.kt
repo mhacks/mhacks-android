@@ -102,7 +102,8 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mGoogleMap = googleMap
         googleMap.isBuildingsEnabled = true
-        googleMap.setPadding(0, ResourceUtil.convertDpToPixel(context, 60), 0, 0)
+        googleMap.setPadding(0, ResourceUtil.convertDpToPixel(context,
+                100), 0, 0)
         val settings = mGoogleMap!!.uiSettings
         settings.isCompassEnabled = true
         settings.isTiltGesturesEnabled = true

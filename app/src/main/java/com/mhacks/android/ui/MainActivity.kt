@@ -11,6 +11,7 @@ import com.mhacks.android.MHacksApplication
 import com.mhacks.android.dagger.component.HackathonComponent
 import com.mhacks.android.data.kotlin.MetaConfiguration
 import com.mhacks.android.data.kotlin.User
+import com.mhacks.android.data.model.Login
 import com.mhacks.android.data.network.fcm.RegistrationIntentService
 import com.mhacks.android.data.network.services.HackathonApiService
 import com.mhacks.android.data.room.MHacksDatabase
@@ -32,6 +33,8 @@ import org.mhacks.android.R
 import javax.inject.Inject
 
 import com.mhacks.android.util.GooglePlayUtil
+import io.reactivex.Observable
+import timber.log.Timber
 
 
 /**
@@ -64,6 +67,7 @@ class MainActivity : BaseActivity(),
             val intent = Intent(this, RegistrationIntentService::class.java)
             startService(intent)
         }
+
         appCallback.hackathonComponent.inject(this)
         setTheme(R.style.MHacksTheme)
         checkIfLogin()
@@ -132,10 +136,6 @@ class MainActivity : BaseActivity(),
                 .onErrorResumeNext ({
                     mhacksDatabase.loginDao().getLogin()
                             .flatMap({ login ->
-                                if (login.userSkipped) {
-                                    startLoginActivity()
-                                    finish()
-                                }
                                 appCallback.setAuthInterceptorToken(login.token)
                                 hackathonService.getUser()
                                         .flatMap { user -> Single.just(user.user) }

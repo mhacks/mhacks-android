@@ -58,5 +58,4 @@ data class Configuration(
     var id: String,
     @SerializedName("should_logout")
     @Expose
-    var shouldLogout: Boolean
-)
+    var shouldLogout: Boolean)

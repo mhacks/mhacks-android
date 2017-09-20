@@ -22,7 +22,6 @@ class FCMMessageHandler : FirebaseMessagingService() {
         createNotification(notification);
     }
 
-
     private fun createNotification(notification: RemoteMessage.Notification) {
         val builder = NotificationCompat.Builder(baseContext, mhacksGroup)
                 .setSmallIcon(R.mipmap.launcher_icon)
@@ -31,5 +30,4 @@ class FCMMessageHandler : FirebaseMessagingService() {
         val notificationManager = NotificationManagerCompat.from(baseContext)
         notificationManager.notify(MESSAGE_NOTIFICATION_ID, builder.build())
     }
-
 }

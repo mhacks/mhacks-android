@@ -59,5 +59,4 @@ data class Floor (
         var updatedAtTs: Int,
         @SerializedName("id")
         @Expose
-        var id: String
-)
+        var id: String)
