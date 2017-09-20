@@ -5,7 +5,6 @@ import android.os.CountDownTimer
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
-import com.mhacks.android.data.kotlin.Config
 
 import com.mhacks.android.data.kotlin.MetaConfiguration
 import com.mhacks.android.ui.common.BaseFragment
@@ -82,7 +81,7 @@ class WelcomeFragment : BaseFragment() {
 //      getLatestParseData();
     }
 
-    private fun onConfigCallbackSuccess(config: Config) {
+    private fun onConfigCallbackSuccess(config: MetaConfiguration) {
         //TODO: CHANGE TO LONG VERSION
 //        duration = 129600000
 //        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
