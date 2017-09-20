@@ -11,7 +11,6 @@ class MyFirebaseInstanceIDService: FirebaseInstanceIdService() {
 
     override fun onTokenRefresh() {
         // Fetch updated Instance ID token and notify of changes
-
         val intent = Intent(this, RegistrationIntentService::class.java)
         startService(intent)
     }

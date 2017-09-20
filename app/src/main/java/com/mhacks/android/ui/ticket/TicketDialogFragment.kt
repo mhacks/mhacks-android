@@ -19,7 +19,7 @@ class TicketDialogFragment : DialogFragment() {
 
     private lateinit var key: String
 
-    private val callback by lazy { activity as OnFromTicketDialogFragmentCallback }
+    private val callback by lazy { activity as Callback }
 
     override fun onResume() {
 
@@ -62,7 +62,7 @@ class TicketDialogFragment : DialogFragment() {
 
     }
 
-    interface OnFromTicketDialogFragmentCallback {
+    interface Callback {
 
         fun checkOrFetchUser(
                 success: (user: User) -> Unit,

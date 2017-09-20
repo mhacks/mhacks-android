@@ -7,10 +7,9 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.view.MenuItem
-import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.mhacks.android.MHacksApplication
 import com.mhacks.android.dagger.component.HackathonComponent
-import com.mhacks.android.data.kotlin.Config
+import com.mhacks.android.data.kotlin.MetaConfiguration
 import com.mhacks.android.data.kotlin.User
 import com.mhacks.android.data.network.fcm.RegistrationIntentService
 import com.mhacks.android.data.network.services.HackathonApiService
@@ -33,7 +32,6 @@ import org.mhacks.android.R
 import javax.inject.Inject
 
 import com.mhacks.android.util.GooglePlayUtil
-import timber.log.Timber
 
 
 /**
@@ -42,11 +40,8 @@ import timber.log.Timber
 class MainActivity : BaseActivity(),
         ActivityCompat.OnRequestPermissionsResultCallback,
         BaseFragment.OnNavigationChangeListener,
-        TicketDialogFragment.OnFromTicketDialogFragmentCallback{
-
-    private val gcm: GoogleCloudMessaging by lazy {
-        GoogleCloudMessaging.getInstance(applicationContext)
-    }
+        WelcomeFragment.Callback,
+        TicketDialogFragment.Callback {
 
     // Callbacks to properties and methods on the application class.
     private val appCallback by lazy {
@@ -55,8 +50,8 @@ class MainActivity : BaseActivity(),
 
     var notif: String? = null
 
-    lateinit var regid: String
-    val PROJECT_NUMBER: String by lazy { getString(R.string.gcm_server_id) }
+//    lateinit var regid: String
+//    val PROJECT_NUMBER: String by lazy { getString(R.string.gcm_server_id) }
 
     @Inject lateinit var hackathonService: HackathonApiService
     @Inject lateinit var mhacksDatabase: MHacksDatabase
@@ -64,8 +59,8 @@ class MainActivity : BaseActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         if (GooglePlayUtil.checkPlayServices(this)) {
-            Timber.d("Hello world")
             val intent = Intent(this, RegistrationIntentService::class.java)
             startService(intent)
         }
@@ -74,14 +69,16 @@ class MainActivity : BaseActivity(),
         checkIfLogin()
     }
 
-    private fun checkOrFetchConfig(success: (config: Config) -> Unit,
+    override fun checkOrFetchConfig(success: (config: MetaConfiguration) -> Unit,
                                    failure: (error: Throwable) -> Unit) {
-        hackathonService.getConfiguration()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { response -> success(response) },
-                        { error -> failure(error) })
+        checkIfNetworkIsPresent(this,
+                { hackathonService.getConfiguration()
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            { response -> success(response) },
+                            { error -> failure(error) })
+                })
     }
 
 

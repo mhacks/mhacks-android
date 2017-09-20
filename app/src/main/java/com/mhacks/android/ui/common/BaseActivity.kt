@@ -2,6 +2,7 @@ package com.mhacks.android.ui.common
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
+import android.content.Context
 import android.os.Build
 import android.support.annotation.ColorRes
 import android.support.design.widget.Snackbar
@@ -9,6 +10,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
+import com.mhacks.android.util.NetworkUtil
 import com.mhacks.android.util.ResourceUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import org.mhacks.android.R
@@ -30,7 +32,14 @@ abstract class BaseActivity: AppCompatActivity() {
                 Snackbar.LENGTH_SHORT).show()
     }
 
-
+    open fun checkIfNetworkIsPresent(context: Context, callback: () -> Any) {
+        if (!NetworkUtil.checkIfNetworkSucceeds(context)) {
+            val snackbar = Snackbar.make(findViewById(android.R.id.content),
+                    "No network connection.", Snackbar.LENGTH_INDEFINITE)
+            snackbar.setAction("Try again", { checkIfNetworkIsPresent(context, callback) })
+            snackbar.show()
+        } else callback()
+    }
     @TargetApi(21)
      fun setStatusBarColor(color: Int) {
         window.statusBarColor = ContextCompat.getColor(this, color)

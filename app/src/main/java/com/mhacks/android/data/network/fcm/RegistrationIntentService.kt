@@ -14,15 +14,6 @@ import timber.log.Timber
 import java.io.IOException
 import android.preference.PreferenceManager
 import android.content.SharedPreferences
-import com.mhacks.android.data.network.gcm.RegistrationConstants.SENT_TOKEN_TO_SERVER
-import android.R.id.edit
-import com.mhacks.android.data.network.gcm.RegistrationConstants.SENT_TOKEN_TO_SERVER
-import android.R.id.edit
-
-
-
-
-
 
 
 /**
@@ -50,17 +41,17 @@ class RegistrationIntentService : IntentService(TAG) {
     override fun onHandleIntent(intent: Intent?) {
         val instanceID = FirebaseInstanceId.getInstance()
         val senderId = resources.getString(R.string.gcm_defaultSenderId)
-        try {
-            val token = instanceID.token!!
-            sendRegistrationToServer(token)
-        } catch (e: IOException) {
-            sharedPreferences.edit().putBoolean(SENT_TOKEN_TO_SERVER, false).apply();
-        }
+//        try {
+//            val token = instanceID.token!!
+//            sendRegistrationToServer(token)
+//        } catch (e: IOException) {
+//            sharedPreferences.edit().putBoolean(SENT_TOKEN_TO_SERVER, false).apply();
+//        }
 
     }
 
     private fun sendRegistrationToServer(token: String) {
-        hackathonService.sendFirebaseToken(token)
+        hackathonService.postFirebaseToken(token)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
