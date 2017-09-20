@@ -5,7 +5,6 @@ import android.os.CountDownTimer
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
-
 import com.mhacks.android.data.kotlin.MetaConfiguration
 import com.mhacks.android.ui.common.BaseFragment
 import org.joda.time.DateTime
@@ -13,7 +12,6 @@ import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
 import org.mhacks.android.R
 import timber.log.Timber
-
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -38,7 +36,6 @@ class WelcomeFragment : BaseFragment() {
     private val countdownUpdateIntervals = (1 * 750).toLong()
 
     private var startDate: Date? = null
-    private var endDate: Date? = null
     private var duration: Long = 0
 
     private val callback by lazy {
@@ -59,43 +56,41 @@ class WelcomeFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        callback.checkOrFetchConfig({
-            config -> onConfigCallbackSuccess(config)
-        }, {
-            error -> onConfigCallbackFailure(error)
-        })
-
 
         callback.checkOrFetchConfig(
-                { config -> Timber.d("Hello") },
-                { error -> Timber.e(error) })
+                { config -> onConfigCallbackSuccess(config) },
+                { error -> onConfigCallbackFailure(error) })
+
 
         duration = 129600000
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         simpleDateFormat.timeZone = TimeZone.getTimeZone("America/Detroit")
         startDate = simpleDateFormat.parse("2017-09-23T00:00:00.000Z")
-//      startDate = Date(config.configuration.startDate)
-//      duration = config.configuration.endDate - config.configuration.startDate
-        initCountdownIfNecessary(startDate, duration)//
-        // Start everything off by getting the parse data
-//      getLatestParseData();
+        initCountdownIfNecessary(startDate, duration)
+
+            // Start everything off by getting the parse data
+    //      getLatestParseData();
     }
 
     private fun onConfigCallbackSuccess(config: MetaConfiguration) {
         //TODO: CHANGE TO LONG VERSION
-//        duration = 129600000
-//        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-//        simpleDateFormat.timeZone = TimeZone.getTimeZone("America/Detroit")
-//        startDate = simpleDateFormat.parse(config.configuration.startDate)
-////      startDate = Date(config.configuration.startDate)
-////      duration = config.configuration.endDate - config.configuration.startDate
-//          initCountdownIfNecessary(startDate, duration)
+//            duration = 129600000
+//            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+//            simpleDateFormat.timeZone = TimeZone.getTimeZone("America/Detroit")
+//            startDate = simpleDateFormat.parse(config.configuration.startDate)
+//    //      startDate = Date(config.configuration.startDate)
+//    //      duration = config.configuration.endDate - config.configuration.startDate
+//              initCountdownIfNecessary(startDate, duration)
 
     }
 
     private fun onConfigCallbackFailure(error: Throwable) {
         Timber.e(error.message)
     }
+
+
+
+
 
     /**
      * Initializes the countdown based off of the start date and duration if necessary
@@ -208,12 +203,4 @@ class WelcomeFragment : BaseFragment() {
             mCountdownTextView!!.text = "Done!"
         }
     }
-
-    interface OnFromWelcomeFragmentCallback {
-        fun checkOrFetchConfig(
-                success: (config: Config) -> Unit,
-                failure: (error: Throwable) -> Unit
-        )
-    }
 }
-
