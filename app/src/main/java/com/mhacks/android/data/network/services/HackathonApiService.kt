@@ -1,6 +1,7 @@
 package com.mhacks.android.data.network.services
 
 import com.mhacks.android.data.kotlin.MetaConfiguration
+import com.mhacks.android.data.kotlin.MetaFloor
 import com.mhacks.android.data.kotlin.MetaUser
 import com.mhacks.android.data.model.FcmDevice
 import com.mhacks.android.data.model.Login
@@ -24,9 +25,9 @@ interface HackathonApiService {
 
     @GET("user/profile/")
     fun getUser(): Single<MetaUser>
-//
-//    @GET("floor")
-//    fun getFloors(@Field("push_id") pushId: String): Observable<MetaFloor>
+
+    @GET("floor")
+    fun getFloors(@Field("push_id") pushId: String): Observable<MetaFloor>
 //
 //    @GET("announcement")
 //    fun getFloors(@Field("push_id") pushId: String): Observable<MetaFloor>

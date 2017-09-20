@@ -99,6 +99,10 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
         if (mGoogleMap == null) mMapFragment!!.getMapAsync(this)
     }
 
+    private fun fetchFloors() {
+
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         mGoogleMap = googleMap
         googleMap.isBuildingsEnabled = true

@@ -43,6 +43,7 @@ class RegistrationIntentService : IntentService(TAG) {
         val senderId = resources.getString(R.string.gcm_defaultSenderId)
         try {
             val token = instanceID.token!!
+            Timber.d(token)
             sendRegistrationToServer(token)
         } catch (e: IOException) {
             sharedPreferences.edit().putBoolean(SENT_TOKEN_TO_SERVER, false).apply();
