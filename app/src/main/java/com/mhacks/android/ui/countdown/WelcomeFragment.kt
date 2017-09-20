@@ -1,27 +1,20 @@
 package com.mhacks.android.ui.countdown
 
-
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
-
-import com.mhacks.android.data.model.Countdown
-import com.mhacks.android.data.network.HackathonCallback
-// import com.mhacks.android.data.network.NetworkManager
+import com.mhacks.android.data.kotlin.MetaConfiguration
 import com.mhacks.android.ui.common.BaseFragment
-
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
 import org.mhacks.android.R
-
+import timber.log.Timber
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.TimeZone
+import java.util.*
 
 /**
  * Created by jawad on 04/11/14.
@@ -34,8 +27,6 @@ class WelcomeFragment : BaseFragment() {
     override var AppBarTitle: Int = R.string.welcome
     override var LayoutResourceID: Int = R.layout.fragment_welcome
 
-    private val TAG = "MD/WelcomeFrag"
-
     // Countdown views
     private var mCircularProgress: ProgressBar? = null
     private var mCountdownTextView: TextView? = null
@@ -46,6 +37,10 @@ class WelcomeFragment : BaseFragment() {
 
     private var startDate: Date? = null
     private var duration: Long = 0
+
+    private val callback by lazy {
+        activity as Callback
+    }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -62,18 +57,9 @@ class WelcomeFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-//        val networkManager = NetworkManager.getInstance()
-//        networkManager.getCountdown(object : HackathonCallback<Countdown> {
-//            override fun success(response: Countdown) {
-//                startDate = Date(response.getStartTime() * 1000)
-//                duration = response.getCountdownDuration()
-//                initCountdownIfNecessary(startDate, duration * 1000)
-//            }
-//
-//            override fun failure(error: Throwable) {
-//
-//            }
-//        })
+        callback.checkOrFetchConfig(
+                { config -> Timber.d("Hello") },
+                { error -> Timber.e(error) })
 
         duration = 129600000
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
@@ -110,10 +96,6 @@ class WelcomeFragment : BaseFragment() {
         val startTime = startDate!!.time
         val endTime = startTime + duration
 
-        Log.d(TAG, "Start Date Orig: " + startDate.toString() + " | " + startDate.time + " | Duration: " + duration)
-        Log.d(TAG, "Joda Start Date: " + localStartDT.toString() + " | " + localStartDT.millis)
-        Log.d(TAG, "Joda End Date: " + localEndDT.toString() + " | " + localEndDT.millis + " | Supposed: " + endTime)
-
         // Get a resources reference, to get the necessary display strings
         val res = activity.resources
         // Holds the strings to display
@@ -141,6 +123,12 @@ class WelcomeFragment : BaseFragment() {
             mCircularProgress!!.progress = 100
             mCountdownTextView!!.text = "Done!"
         }
+    }
+
+
+    interface Callback {
+        fun checkOrFetchConfig(success: (config: MetaConfiguration) -> Unit,
+                               failure: (error: Throwable) -> Unit)
     }
 
     private inner class HackingCountdownTimer

@@ -43,26 +43,26 @@ class EventsFragment : BaseFragment() {
     private fun initList() {
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        announcements_recycler_view.setHasFixedSize(true)
+        events_recycler_view.setHasFixedSize(true)
 
-        announcements_recycler_view.layoutManager = LinearLayoutManager(activity)
+        events_recycler_view.layoutManager = LinearLayoutManager(activity)
 
         // Create and set the adapter for this recyclerView
-        val list = getAnnouncementSectionModelList()
+        val list = getEventSectionModelList()
         listAdapter = sectionedEventsAdapter(list)
 
-        announcements_recycler_view.adapter = listAdapter
+        events_recycler_view.adapter = listAdapter
     }
 
-    private fun getAnnouncementSectionModelList(): ArrayList<EventsSection.AnnouncementSectionModel> {
+    private fun getEventSectionModelList(): ArrayList<EventsSection.EventSectionModel> {
 
-        val sectionList = ArrayList<EventsSection.AnnouncementSectionModel>();
+        val sectionList = ArrayList<EventsSection.EventSectionModel>();
 
-        sectionList.add(EventsSection.AnnouncementSectionModel("8:00", getEvents()))
-        sectionList.add(EventsSection.AnnouncementSectionModel("8:00", getEvents()))
-        sectionList.add(EventsSection.AnnouncementSectionModel("8:00", getEvents()))
-        sectionList.add(EventsSection.AnnouncementSectionModel("8:00", getEvents()))
-        sectionList.add(EventsSection.AnnouncementSectionModel("", getEventsList()))
+        sectionList.add(EventsSection.EventSectionModel("8:00", getEvents()))
+        sectionList.add(EventsSection.EventSectionModel("8:00", getEvents()))
+        sectionList.add(EventsSection.EventSectionModel("8:00", getEvents()))
+        sectionList.add(EventsSection.EventSectionModel("8:00", getEvents()))
+        sectionList.add(EventsSection.EventSectionModel("", getEventsList()))
 
         return sectionList
 
@@ -78,14 +78,14 @@ class EventsFragment : BaseFragment() {
         return eventsList
 //        networkManager.getEvents(object : HackathonCallback<List<Events>> {
 //            override fun success(response: List<Events>) {
-//                announcementsList = ArrayList<Events>()
+//                eventsList = ArrayList<Events>()
 //                for (announcement in response) {
 //                    val currentTime = Calendar.getInstance()
 //                    val announcementTime = Calendar.getInstance()
 //                    announcementTime.time = Date(announcement.broadcastAt)
-//                    if (currentTime.compareTo(announcementTime) != -1) announcementsList.add(announcement)
+//                    if (currentTime.compareTo(announcementTime) != -1) eventsList.add(announcement)
 //
-//                    updateAnnouncements()
+//                    updateevents()
 //                }
 //            }
 //
@@ -102,7 +102,7 @@ class EventsFragment : BaseFragment() {
         return eventsList
     }
 
-    private fun updateAnnouncements() {
+    private fun updateevents() {
         // Notify the adapter that the data changed
         listAdapter.notifyDataSetChanged()
     }

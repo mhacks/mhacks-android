@@ -10,7 +10,7 @@ import java.lang.reflect.Constructor
  */
 
 
-data class RetrofitUser (
+data class MetaUser(
     @SerializedName("status")
     @Expose
     var status: Boolean,

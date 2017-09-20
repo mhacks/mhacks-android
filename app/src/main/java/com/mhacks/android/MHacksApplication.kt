@@ -36,7 +36,6 @@ class MHacksApplication : Application(), MainActivity.OnFromMainActivityCallback
                 .builder()
                 .netComponent(netComponent)
                 .build()
-
     }
 
     override fun setAuthInterceptorToken(token: String) {

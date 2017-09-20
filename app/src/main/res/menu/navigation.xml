@@ -25,11 +25,5 @@
         android:icon="@drawable/ic_map_black_24dp"
         android:title="@string/title_map"
         android:visible="false" />
-    <item
-        android:id="@+id/navigation_info"
-        android:icon="@drawable/ic_info_outline_black_24dp"
-        android:title="@string/title_info"
-        android:visible="false" />
-
 
 </menu>
