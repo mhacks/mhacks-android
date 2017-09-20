@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE" />
@@ -13,7 +12,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="com.mhacks.android.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -47,31 +45,51 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
 
-        <receiver
-            android:name="com.mhacks.android.data.network.gcm.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+        <activity
+            android:name="com.mhacks.android.ui.qrscan.QRScanActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
 
-                <category android:name="com.hmkcode.android.gcm" />
-            </intent-filter>
-        </receiver>
+        <service android:name="com.mhacks.android.data.network.fcm.RegistrationIntentService" android:exported="false"/>
+
+
+        <!--This is required if you want to do any message handling beyond receiving
+        notifications on apps in the background.-->
 
         <service
-            android:name="com.mhacks.android.data.network.gcm.MyGcmListenerService"
-            android:exported="false">
+            android:name="com.mhacks.android.data.network.fcm.FCMMessageHandler">
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-        <service android:name="com.mhacks.android.data.network.gcm.GcmIntentService" />
+
+
+        <!--A service that extends FirebaseInstanceIdService to handle the creation, rotation,
+         and updating of registration tokens.-->
+
         <service
-            android:name="com.mhacks.android.data.network.gcm.MyInstanceIDListenerService"
-            android:exported="false">
+            android:name="com.mhacks.android.data.network.fcm.MyFirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
+
+
+        <!--<service-->
+            <!--android:name="com.mhacks.android.data.network.gcm.MyGcmListenerService"-->
+            <!--android:exported="false">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+            <!--</intent-filter>-->
+        <!--</service>-->
+        <!--<service android:name="com.mhacks.android.data.network.gcm.GcmIntentService" />-->
+        <!--<service-->
+            <!--android:name="com.mhacks.android.data.network.gcm.MyInstanceIDListenerService"-->
+            <!--android:exported="falsjkkjkjk;luyfdtrerytuiyou;';'k;lk''ke">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.firebase.INSTANCE_ID_EVENT" />-->
+            <!--</intent-filter>-->
+        <!--</service>-->
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

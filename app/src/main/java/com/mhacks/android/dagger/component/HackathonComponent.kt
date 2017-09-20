@@ -18,7 +18,10 @@ import dagger.Component
                 AuthModule::class,
                 HackathonModule::class))
 interface HackathonComponent {
+
     fun inject(activity: MainActivity)
+
     fun inject(activity: LoginActivity)
+
 }
 

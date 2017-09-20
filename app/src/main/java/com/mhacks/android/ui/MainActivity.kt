@@ -7,11 +7,11 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.view.MenuItem
-import com.google.android.gms.gcm.GoogleCloudMessaging
 import com.mhacks.android.MHacksApplication
 import com.mhacks.android.dagger.component.HackathonComponent
-import com.mhacks.android.data.kotlin.Config
+import com.mhacks.android.data.kotlin.MetaConfiguration
 import com.mhacks.android.data.kotlin.User
+import com.mhacks.android.data.network.fcm.RegistrationIntentService
 import com.mhacks.android.data.network.services.HackathonApiService
 import com.mhacks.android.data.room.MHacksDatabase
 import com.mhacks.android.ui.events.EventsFragment
@@ -31,18 +31,17 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.mhacks.android.R
 import javax.inject.Inject
 
+import com.mhacks.android.util.GooglePlayUtil
+
+
 /**
  * Activity defines primarily the initial hackathonService calls to GCM as well as handle Fragment transactions.
  */
 class MainActivity : BaseActivity(),
         ActivityCompat.OnRequestPermissionsResultCallback,
         BaseFragment.OnNavigationChangeListener,
-        TicketDialogFragment.OnFromTicketDialogFragmentCallback,
-        WelcomeFragment.OnFromWelcomeFragmentCallback {
-
-    private val gcm: GoogleCloudMessaging by lazy {
-        GoogleCloudMessaging.getInstance(applicationContext)
-    }
+        WelcomeFragment.Callback,
+        TicketDialogFragment.Callback {
 
     // Callbacks to properties and methods on the application class.
     private val appCallback by lazy {
@@ -51,9 +50,8 @@ class MainActivity : BaseActivity(),
 
     var notif: String? = null
 
-    lateinit var regid: String
-    val PROJECT_NUMBER: String by lazy { getString(R.string.gcm_server_id) }
-    private var canUsePlayServices: Boolean = false
+//    lateinit var regid: String
+//    val PROJECT_NUMBER: String by lazy { getString(R.string.gcm_server_id) }
 
     @Inject lateinit var hackathonService: HackathonApiService
     @Inject lateinit var mhacksDatabase: MHacksDatabase
@@ -61,19 +59,26 @@ class MainActivity : BaseActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (GooglePlayUtil.checkPlayServices(this)) {
+            val intent = Intent(this, RegistrationIntentService::class.java)
+            startService(intent)
+        }
         appCallback.hackathonComponent.inject(this)
         setTheme(R.style.MHacksTheme)
         checkIfLogin()
     }
 
-    override fun checkOrFetchConfig(success: (config: Config) -> Unit,
+    override fun checkOrFetchConfig(success: (config: MetaConfiguration) -> Unit,
                                    failure: (error: Throwable) -> Unit) {
-        hackathonService.getConfiguration()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { response -> success(response) },
-                        { error -> failure(error) })
+        checkIfNetworkIsPresent(this,
+                { hackathonService.getConfiguration()
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            { response -> success(response) },
+                            { error -> failure(error) })
+                })
     }
 
 
@@ -147,10 +152,12 @@ class MainActivity : BaseActivity(),
                                             permissions: Array<String>,
                                             grantResults: IntArray) {
         when (requestCode) {
-            LOCATION_REQUEST_CODE -> if (permissions.isNotEmpty() && (grantResults[0] == PackageManager.PERMISSION_GRANTED || grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+            LOCATION_REQUEST_CODE ->
+                if (permissions.isNotEmpty() &&
+                        (grantResults[0] == PackageManager.PERMISSION_GRANTED ||
+                         grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
             }
         }
-        // updateFragment(mapViewFragment);
     }
 
 
@@ -161,20 +168,17 @@ class MainActivity : BaseActivity(),
         setBottomNavigationColor(
                 NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
 
-        // Add the toolbar
         qr_ticket_fab.setOnClickListener({
-            if (true) {
-                val ft = supportFragmentManager.beginTransaction()
-                val prev = supportFragmentManager.findFragmentByTag("dialog")
-                if (prev != null) {
-                    ft.remove(prev)
-                }
-                ft.addToBackStack(null)
-
-                val ticket: TicketDialogFragment = TicketDialogFragment
-                        .newInstance()
-                ticket.show(ft, "dialog")
+            val ft = supportFragmentManager.beginTransaction()
+            val prev = supportFragmentManager.findFragmentByTag("dialog")
+            if (prev != null) {
+                ft.remove(prev)
             }
+            ft.addToBackStack(null)
+
+            val ticket: TicketDialogFragment = TicketDialogFragment
+                    .newInstance()
+            ticket.show(ft, "dialog")
         })
 
         menuItem = navigation.menu.getItem(0)
@@ -189,26 +193,19 @@ class MainActivity : BaseActivity(),
 
         navigation?.setOnNavigationItemSelectedListener({ item ->
             when (item.itemId) {
-                R.id.navigation_home -> {
-                    updateFragment(WelcomeFragment.instance)
-                }
-                R.id.navigation_announcements -> {
-                    updateFragment(AnnouncementFragment.instance)
-                }
-                R.id.navigation_events -> {
-                    updateFragment(EventsFragment.instance)
-                }
-                R.id.navigation_map -> {
-                    updateFragment(MapViewFragment.instance)
-                }
-//                R.id.navigation_info -> {
-//                    updateFragment(AnnouncementFragment.instance)
-//                }
+                R.id.navigation_home -> updateFragment(WelcomeFragment.instance)
+                R.id.navigation_announcements -> updateFragment(AnnouncementFragment.instance)
+                R.id.navigation_events -> updateFragment(EventsFragment.instance)
+                R.id.navigation_map -> updateFragment(MapViewFragment.instance)
             }
             menuItem = item
             true
         })
     }
+
+
+
+
 
     interface OnFromMainActivityCallback {
 

@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Spinner
 import com.google.android.gms.common.ConnectionResult
@@ -17,6 +18,7 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.mhacks.android.data.model.Floor
 import com.mhacks.android.ui.common.BaseFragment
+import com.mhacks.android.util.GooglePlayUtil
 import com.mhacks.android.util.ResourceUtil
 import org.mhacks.android.R
 import java.util.*
@@ -36,7 +38,7 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         setCustomActionBarColor(R.color.semiColorPrimary)
-        if (checkGooglePlayServices(activity)) {
+        if (GooglePlayUtil.checkPlayServices(activity)) {
             //        nameView = map_view_name
             setUpMapIfNeeded()
 
@@ -179,19 +181,6 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
 //        })
     }
 
-    fun checkGooglePlayServices(activity: Activity): Boolean {
-        val googleApiAvailability = GoogleApiAvailability.getInstance()
-        val status = googleApiAvailability.isGooglePlayServicesAvailable(activity)
-        if (status != ConnectionResult.SUCCESS) {
-            if (googleApiAvailability.isUserResolvableError(status)) {
-                val dialog = googleApiAvailability.getErrorDialog(activity, status, 1)
-                dialog.setTitle("Update Google Play Services")
-                dialog.show()
-            }
-            return false
-        }
-        return true
-    }
 
     override fun onResume() {
         super.onResume()

@@ -2,13 +2,18 @@ package com.mhacks.android.data.network.gcm;
 
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.google.android.gms.iid.InstanceIDListenerService;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdService;
+
+import timber.log.Timber;
 
 /**
  * Created by Omkar Moghe on 2/10/2016.
  */
-public class MyInstanceIDListenerService extends InstanceIDListenerService {
+public class MyInstanceIDListenerService extends FirebaseInstanceIdService {
 
     public MyInstanceIDListenerService() {
         super();
@@ -26,9 +31,15 @@ public class MyInstanceIDListenerService extends InstanceIDListenerService {
 
     @Override
     public void onTokenRefresh() {
-        Intent intent = new Intent(this, RegistrationIntentService.class);
-        startService(intent);
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Timber.d("Refreshed token: " + refreshedToken);
+        sendRegistrationToServer(refreshedToken);
+//        Intent intent = new Intent(this, RegistrationIntentService.class);
+//        startService(intent);
 //        super.onTokenRefresh();
+    }
+
+    private void sendRegistrationToServer(String refreshedToken) {
     }
 
 
