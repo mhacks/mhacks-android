@@ -113,6 +113,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-gcm:11.4.0'
     implementation 'com.google.android.gms:play-services-maps:11.4.0'
     implementation 'com.google.android.gms:play-services-vision:11.4.0'
+
     implementation 'com.google.firebase:firebase-messaging:11.4.0'
 
     implementation 'com.github.alamkanak:android-week-view:1.2.6'

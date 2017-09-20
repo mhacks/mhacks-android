@@ -12,6 +12,7 @@ import com.mhacks.android.MHacksApplication
 import com.mhacks.android.dagger.component.HackathonComponent
 import com.mhacks.android.data.kotlin.Config
 import com.mhacks.android.data.kotlin.User
+import com.mhacks.android.data.network.fcm.RegistrationIntentService
 import com.mhacks.android.data.network.services.HackathonApiService
 import com.mhacks.android.data.room.MHacksDatabase
 import com.mhacks.android.ui.events.EventsFragment
@@ -30,15 +31,9 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import org.mhacks.android.R
 import javax.inject.Inject
-import android.R.id.edit
-import com.mhacks.android.data.network.HackathonCallback
-import com.mhacks.android.ui.settings.SettingsFragment
-import android.preference.PreferenceManager
-import android.content.SharedPreferences
-import android.os.AsyncTask
-import com.mhacks.android.data.kotlin.Token
+
+import com.mhacks.android.util.GooglePlayUtil
 import timber.log.Timber
-import java.io.IOException
 
 
 /**
@@ -49,7 +44,9 @@ class MainActivity : BaseActivity(),
         BaseFragment.OnNavigationChangeListener,
         TicketDialogFragment.OnFromTicketDialogFragmentCallback{
 
-    private lateinit var gcm: GoogleCloudMessaging
+    private val gcm: GoogleCloudMessaging by lazy {
+        GoogleCloudMessaging.getInstance(applicationContext)
+    }
 
     // Callbacks to properties and methods on the application class.
     private val appCallback by lazy {
@@ -67,21 +64,15 @@ class MainActivity : BaseActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        if (GooglePlayUtil.checkPlayServices(this)) {
-//            val intent = Intent(this, RegistrationIntentService::class.java)
-//            startService(intent)
-//        }
+        if (GooglePlayUtil.checkPlayServices(this)) {
+            Timber.d("Hello world")
+            val intent = Intent(this, RegistrationIntentService::class.java)
+            startService(intent)
+        }
         appCallback.hackathonComponent.inject(this)
         setTheme(R.style.MHacksTheme)
         checkIfLogin()
     }
-
-    fun updateGcm() {
-        // Grabs the Google Cloud Messaging REG ID and sends it to the backend
-
-        gcmAsyncTask().execute(null, null, null)
-    }
-
 
     private fun checkOrFetchConfig(success: (config: Config) -> Unit,
                                    failure: (error: Throwable) -> Unit) {
@@ -160,15 +151,6 @@ class MainActivity : BaseActivity(),
                         { error -> failure(error) })
     }
 
-    fun fetchGcmToken() {
-//        hackathonService.getGcmToken()
-//        .subscribeOn(Schedulers.newThread())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(
-//                    { response ->  },
-//                    { error ->  })
-    }
-
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>,
                                             grantResults: IntArray) {
@@ -227,65 +209,6 @@ class MainActivity : BaseActivity(),
 
 
 
-    inner class gcmAsyncTask: AsyncTask<Void, Void, String>() {
-        override fun doInBackground(vararg params: Void): String {
-            var msg = ""
-            try {
-                val data = Bundle()
-
-                regid = gcm.register(PROJECT_NUMBER)
-
-                data.putString("regid", regid)
-                /*InstanceID instanceID = InstanceID.getInstance(getApplicationContext());
-                String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
-                        GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);*/
-
-                val sharedPref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-                val gcmPush = sharedPref.getString("gcm", "")
-                val channels = sharedPref.getStringSet(SettingsFragment.PUSH_NOTIFICATION_CHANNELS, null)
-
-                var pref = 1
-                if (channels != null) {
-                    val channelPrefs = channels.toTypedArray()
-                    for (i in channelPrefs.indices) {
-                        pref += Integer.parseInt(channelPrefs[i])
-                    }
-                } else
-                    pref = 63
-
-                val token = Token(regid)
-                token.name = pref.toString()
-                // active=true by default
-
-//                val networkManager = NetworkManager.getInstance()
-//                networkManager.sendToken(token, object : HackathonCallback<Token> {
-//                    override fun success(response: Token) {
-//                        Log.d(FragmentActivity.TAG, "gcm sent successfully: " + token.getRegistrationId())
-//                        sharedPref.edit().putString("gcm", regid).apply()
-//                    }
-//
-//                    override fun failure(error: Throwable) {
-//                        Log.e(FragmentActivity.TAG, "gcm didnt work", error)
-//                    }
-//                })
-//
-//                msg = "Device registered, reg id =" + regid
-//                Log.i("GCM", msg)
-//
-            } catch (e: IOException) {
-                msg = "Error :" + e.message
-                Timber.e("IOException when registering the device")
-
-            }
-
-            return msg
-        }
-
-        override fun onPostExecute(msg: String) {
-
-        }
-
-    }
 
     interface OnFromMainActivityCallback {
 
@@ -299,4 +222,3 @@ class MainActivity : BaseActivity(),
         val LOCATION_REQUEST_CODE = 7
     }
 }
-
