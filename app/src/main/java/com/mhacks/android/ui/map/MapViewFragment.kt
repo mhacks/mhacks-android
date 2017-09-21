@@ -69,7 +69,7 @@ class MapViewFragment :
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
-
+        Timber.d("No floor was selected.")
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, root: View?, position: Int, id: Long) {
