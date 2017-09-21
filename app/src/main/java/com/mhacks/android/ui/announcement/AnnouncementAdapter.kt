@@ -2,16 +2,18 @@ package com.mhacks.android.ui.announcement
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView.Adapter
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.mhacks.android.data.model.Announcement
+import com.mhacks.android.data.kotlin.Announcements
 import org.mhacks.android.R
+import java.util.*
 
 /**
  * Created by jeffreychang on 9/15/17.
  */
-class AnnouncementAdapter(val context: Context,
-                          private val announcementList: ArrayList<Announcement>):
+class AnnouncementsAdapter(val context: Context,
+                          private val announcementList: ArrayList<Announcements>):
         Adapter<AnnouncementViewHolder>() {
 
     override fun getItemCount(): Int {
@@ -28,11 +30,18 @@ class AnnouncementAdapter(val context: Context,
         bindItems(holder, announcementList[position])
 
     }
-    fun bindItems(holder: AnnouncementViewHolder, announcement: Announcement) {
+    private fun bindItems(holder: AnnouncementViewHolder, announcement: Announcements) {
 
         holder.announcementsHeader.text = announcement.title
-        holder.announcementDate.text = announcement.date
-        holder.announcementEventDetail.text = announcement.description
+
+        val relativeTime = DateUtils.getRelativeTimeSpanString(
+                announcement.createdAtTs,
+                Date().time, DateUtils.MINUTE_IN_MILLIS,
+                DateUtils.FORMAT_NO_NOON)
+
+
+        holder.announcementDate.text = relativeTime
+        holder.announcementEventDetail.text = announcement.body
 
     }
 
