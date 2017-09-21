@@ -2,6 +2,7 @@ package com.mhacks.android.ui.countdown
 
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -57,9 +58,9 @@ class WelcomeFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        callback.checkOrFetchConfig(
-                { config -> onConfigCallbackSuccess(config) },
-                { error -> onConfigCallbackFailure(error) })
+//        callback.checkOrFetchConfig(
+//                { config -> onConfigCallbackSuccess(config) },
+//                { error -> onConfigCallbackFailure(error) })
 
 
         duration = 129600000
@@ -68,19 +69,15 @@ class WelcomeFragment : BaseFragment() {
         startDate = simpleDateFormat.parse("2017-09-23T00:00:00.000Z")
         initCountdownIfNecessary(startDate, duration)
 
-            // Start everything off by getting the parse data
-    //      getLatestParseData();
     }
 
+    //TODO: CHANGE TO LONG VERSION and figure out why there's only a 2 hr offset if it's called from this method
     private fun onConfigCallbackSuccess(config: MetaConfiguration) {
-        //TODO: CHANGE TO LONG VERSION
-//            duration = 129600000
-//            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-//            simpleDateFormat.timeZone = TimeZone.getTimeZone("America/Detroit")
-//            startDate = simpleDateFormat.parse(config.configuration.startDate)
-//    //      startDate = Date(config.configuration.startDate)
-//    //      duration = config.configuration.endDate - config.configuration.startDate
-//              initCountdownIfNecessary(startDate, duration)
+
+        startDate = Date(config.configuration.startDateTs)
+        Timber.d(config.configuration.startDate)
+        duration = config.configuration.endDateTs - config.configuration.startDateTs
+        initCountdownIfNecessary(startDate, duration)
 
     }
 
