@@ -1,6 +1,7 @@
 package com.mhacks.android.data.network.services
 
 import com.mhacks.android.data.kotlin.MetaConfiguration
+import com.mhacks.android.data.kotlin.MetaEvents
 import com.mhacks.android.data.kotlin.MetaFloor
 import com.mhacks.android.data.kotlin.MetaUser
 import com.mhacks.android.data.model.FcmDevice
@@ -28,9 +29,9 @@ interface HackathonApiService {
 
     @GET("floor")
     fun getMetaFloors(): Observable<MetaFloor>
-//
-//    @GET("announcement")
-//    fun getFloors(@Field("push_id") pushId: String): Observable<MetaFloor>
+
+    @GET("event")
+    fun getMetaEvent(): Observable<MetaEvents>
 
     @FormUrlEncoded
     @POST("device")

@@ -1,6 +1,5 @@
 package com.mhacks.android.ui
 
-import android.app.ActionBar
 import android.app.FragmentTransaction
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,42 +8,39 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.support.v4.content.res.ResourcesCompat
+import android.support.v7.widget.Toolbar
+import android.view.Gravity
+import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import com.mhacks.android.MHacksApplication
 import com.mhacks.android.dagger.component.HackathonComponent
+import com.mhacks.android.data.kotlin.Events
 import com.mhacks.android.data.kotlin.Floor
 import com.mhacks.android.data.kotlin.MetaConfiguration
 import com.mhacks.android.data.kotlin.User
 import com.mhacks.android.data.network.fcm.RegistrationIntentService
 import com.mhacks.android.data.network.services.HackathonApiService
 import com.mhacks.android.data.room.MHacksDatabase
-import com.mhacks.android.ui.events.EventsFragment
+import com.mhacks.android.ui.announcement.AnnouncementFragment
 import com.mhacks.android.ui.common.BaseActivity
 import com.mhacks.android.ui.common.BaseFragment
 import com.mhacks.android.ui.common.NavigationColor
 import com.mhacks.android.ui.countdown.WelcomeFragment
-import com.mhacks.android.ui.announcement.AnnouncementFragment
+import com.mhacks.android.ui.events.EventsFragment
 import com.mhacks.android.ui.login.LoginActivity
 import com.mhacks.android.ui.map.MapViewFragment
 import com.mhacks.android.ui.qrscan.QRScanActivity
 import com.mhacks.android.ui.ticket.TicketDialogFragment
+import com.mhacks.android.util.GooglePlayUtil
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import org.mhacks.android.R
 import javax.inject.Inject
-
-import com.mhacks.android.util.GooglePlayUtil
-import android.widget.ArrayAdapter
-import android.support.v4.view.MenuItemCompat
-import android.support.v7.widget.Toolbar
-import android.view.*
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.LinearLayout
-import android.widget.Spinner
-import timber.log.Timber
 
 
 /**
@@ -55,7 +51,9 @@ class MainActivity : BaseActivity(),
         BaseFragment.OnNavigationChangeListener,
         WelcomeFragment.Callback,
         TicketDialogFragment.Callback,
-        MapViewFragment.Callback {
+        MapViewFragment.Callback,
+        EventsFragment.Callback {
+
 
     // Callbacks to properties and methods on the application class.
     private val appCallback by lazy {
@@ -70,6 +68,8 @@ class MainActivity : BaseActivity(),
     @Inject lateinit var hackathonService: HackathonApiService
     @Inject lateinit var mhacksDatabase: MHacksDatabase
     private lateinit var menuItem: MenuItem
+
+    private lateinit var navigationSpinner: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -175,6 +175,18 @@ class MainActivity : BaseActivity(),
                         { error -> failure(error) })
     }
 
+    override fun fetchEvents(success: (events: List<Events>) -> Unit,
+                             failure: (error: Throwable) -> Unit) {
+        checkIfNetworkIsPresent(this, {
+            hackathonService.getMetaEvent()
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            { (events) -> success(events) },
+                            { error -> failure(error) })
+        })
+    }
+
     override fun updateFloors(floors: List<Floor>, listener: OnItemSelectedListener) {
 
         val adapter = ArrayAdapter<Floor>(this, R.layout.floors_spinner_item, floors)
@@ -193,6 +205,7 @@ class MainActivity : BaseActivity(),
         navigationSpinner.visibility = View.GONE
     }
 
+
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>,
                                             grantResults: IntArray) {
@@ -204,9 +217,6 @@ class MainActivity : BaseActivity(),
             }
         }
     }
-
-
-    private lateinit var navigationSpinner: Spinner
 
     private fun initActivity() {
 
