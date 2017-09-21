@@ -47,7 +47,10 @@
             android:layout_alignParentTop="true"
             android:paddingTop="24dp"
             android:paddingBottom="8dp"
-            app:titleTextAppearance="@style/Toolbar.TitleText" />
+            app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:titleTextAppearance="@style/Toolbar.TitleText">
+
+        </android.support.v7.widget.Toolbar>
 
     </RelativeLayout>
 

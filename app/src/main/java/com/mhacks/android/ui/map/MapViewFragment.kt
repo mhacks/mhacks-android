@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.View
+import android.widget.AdapterView
 import android.widget.Spinner
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -13,11 +14,14 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.mhacks.android.data.kotlin.Floor
+import com.mhacks.android.ui.MainActivity
 import com.mhacks.android.ui.common.BaseFragment
 import com.mhacks.android.util.GooglePlayUtil
 import com.mhacks.android.util.ResourceUtil
 import org.mhacks.android.R
+import timber.log.Timber
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**j6yyg
@@ -26,7 +30,9 @@ import java.util.*
 
  * Displays maps of the MHacksApplication 8 venues.
  */
-class MapViewFragment : BaseFragment(), OnMapReadyCallback {
+class MapViewFragment :
+        BaseFragment(),
+        OnMapReadyCallback, AdapterView.OnItemSelectedListener {
 
     override var setTransparent: Boolean = true
     override var AppBarTitle: Int = R.string.title_map
@@ -34,14 +40,43 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
 
     private val callback by lazy { activity as Callback }
 
+    lateinit var nameView: Spinner
+    // Data
+    lateinit var floors: ArrayList<Floor>
+    // Views
+    private var mMapFragView: View? = null
+    // Map
+    private var mMapFragment: SupportMapFragment? = null
+    private var mGoogleMap: GoogleMap? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        callback.fetchFloors(
+                { floors ->
+                    this.floors = ArrayList(floors)
+                    callback.updateFloors(floors, this) },
+                { error -> Timber.e(error) }
+        )
+    }
+
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         setCustomActionBarColor(R.color.semiColorPrimary)
+
         if (GooglePlayUtil.checkPlayServices(activity)) {
             setUpMapIfNeeded()
+        }
 
+    }
 
+    override fun onNothingSelected(parent: AdapterView<*>?) {
 
-//            val networkManager = NetworkManager.getInstance()
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, root: View?, position: Int, id: Long) {
+        val floor: Floor = floors[position]
+        Timber.d(floor.name)
+
+        //            val networkManager = NetworkManager.getInstance()
 //            networkManager.getFloors(object : HackathonCallback<List<Floor>> {
 //                override fun success(response: List<Floor>) {
 //                    floors = ArrayList(response)
@@ -75,19 +110,7 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
 //                    Log.e(TAG, "unable to get floors", error)
 //                }
 //            })
-        }
-
     }
-
-    lateinit var nameView: Spinner
-    // Data
-    lateinit var floors: ArrayList<Floor>
-    // Views
-    private var mMapFragView: View? = null
-    // Map
-    private var mMapFragment: SupportMapFragment? = null
-    private var mGoogleMap: GoogleMap? = null
-
 
     private fun setUpMapIfNeeded() {
         if (mMapFragment == null) {
@@ -185,17 +208,25 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
 
     override fun onResume() {
         super.onResume()
+        callback.showFloorOptions()
         setUpMapIfNeeded()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onPause() {
+        super.onPause()
+        callback.hideFloorOptions()
     }
 
     interface Callback {
 
         fun fetchFloors(success: (floor: List<Floor>) -> Unit,
                         failure: (error: Throwable) -> Unit)
+
+        fun updateFloors(floors: List<Floor>, listener: AdapterView.OnItemSelectedListener)
+
+        fun showFloorOptions()
+
+        fun hideFloorOptions()
     }
 
     companion object {

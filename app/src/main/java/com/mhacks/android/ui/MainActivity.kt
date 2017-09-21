@@ -1,12 +1,15 @@
 package com.mhacks.android.ui
 
+import android.app.ActionBar
 import android.app.FragmentTransaction
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
-import android.view.MenuItem
+import android.support.v4.content.ContextCompat
+import android.support.v4.content.res.ResourcesCompat
 import com.mhacks.android.MHacksApplication
 import com.mhacks.android.dagger.component.HackathonComponent
 import com.mhacks.android.data.kotlin.Floor
@@ -33,6 +36,15 @@ import org.mhacks.android.R
 import javax.inject.Inject
 
 import com.mhacks.android.util.GooglePlayUtil
+import android.widget.ArrayAdapter
+import android.support.v4.view.MenuItemCompat
+import android.support.v7.widget.Toolbar
+import android.view.*
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.LinearLayout
+import android.widget.Spinner
+import timber.log.Timber
 
 
 /**
@@ -85,6 +97,8 @@ class MainActivity : BaseActivity(),
         })
 
     }
+
+
 
     override fun checkOrFetchConfig(success: (config: MetaConfiguration) -> Unit,
                                    failure: (error: Throwable) -> Unit) {
@@ -161,6 +175,24 @@ class MainActivity : BaseActivity(),
                         { error -> failure(error) })
     }
 
+    override fun updateFloors(floors: List<Floor>, listener: OnItemSelectedListener) {
+
+        val adapter = ArrayAdapter<Floor>(this, R.layout.floors_spinner_item, floors)
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
+        navigationSpinner.adapter = adapter
+
+        navigationSpinner.onItemSelectedListener = listener
+    }
+
+
+    override fun showFloorOptions() {
+        navigationSpinner.visibility = View.VISIBLE
+    }
+
+    override fun hideFloorOptions() {
+        navigationSpinner.visibility = View.GONE
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>,
                                             grantResults: IntArray) {
@@ -173,6 +205,8 @@ class MainActivity : BaseActivity(),
         }
     }
 
+
+    private lateinit var navigationSpinner: Spinner
 
     private fun initActivity() {
 
@@ -196,12 +230,20 @@ class MainActivity : BaseActivity(),
 
         menuItem = navigation.menu.getItem(0)
         menuItem.setTitle(R.string.title_home)
+
         setSupportActionBar(toolbar)
+
+        addMapFloorSpinner()
+
+        toolbar.addView(navigationSpinner, Toolbar.LayoutParams(Gravity.END))
+
         updateFragment(WelcomeFragment.instance)
+
 
 
         // If Activity opened from push notification, value will reflect fragment that will initially open
         notif = intent.getStringExtra("notif_link")
+
 
 
         navigation?.setOnNavigationItemSelectedListener({ item ->
@@ -216,9 +258,17 @@ class MainActivity : BaseActivity(),
         })
     }
 
+    private fun addMapFloorSpinner() {
 
+        navigationSpinner = Spinner(supportActionBar?.themedContext)
 
+        navigationSpinner.visibility = View.GONE
 
+        navigationSpinner.background.setColorFilter(
+                ContextCompat.getColor(this, R.color.white),
+                PorterDuff.Mode.SRC_ATOP)
+
+    }
 
     interface OnFromMainActivityCallback {
 

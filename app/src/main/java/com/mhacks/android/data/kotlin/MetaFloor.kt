@@ -8,7 +8,6 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 data class MetaFloor (
-
         @SerializedName("status")
         @Expose
         var status: Boolean,
@@ -17,7 +16,6 @@ data class MetaFloor (
         var floors: List<Floor>)
 
 data class Floor (
-
         @SerializedName("updatedAt")
         @Expose
         var updatedAt: String,
@@ -53,10 +51,15 @@ data class Floor (
         var deleted: Boolean,
         @SerializedName("createdAt_ts")
         @Expose
-        var createdAtTs: Int,
+        var createdAtTs: Long,
         @SerializedName("updatedAt_ts")
         @Expose
-        var updatedAtTs: Int,
+        var updatedAtTs: Long,
         @SerializedName("id")
         @Expose
-        var id: String)
+        var id: String) {
+
+    override fun toString(): String {
+        return this.name
+    }
+}
