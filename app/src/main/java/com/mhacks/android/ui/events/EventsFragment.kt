@@ -5,7 +5,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.mhacks.android.data.kotlin.Events
 import com.mhacks.android.ui.common.BaseFragment
-import com.mhacks.android.ui.map.MapViewFragment
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_events.*
 import org.mhacks.android.R

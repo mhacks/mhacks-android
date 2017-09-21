@@ -17,10 +17,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import com.mhacks.android.MHacksApplication
 import com.mhacks.android.dagger.component.HackathonComponent
-import com.mhacks.android.data.kotlin.Events
-import com.mhacks.android.data.kotlin.Floor
-import com.mhacks.android.data.kotlin.MetaConfiguration
-import com.mhacks.android.data.kotlin.User
+import com.mhacks.android.data.kotlin.*
 import com.mhacks.android.data.network.fcm.RegistrationIntentService
 import com.mhacks.android.data.network.services.HackathonApiService
 import com.mhacks.android.data.room.MHacksDatabase
@@ -35,11 +32,13 @@ import com.mhacks.android.ui.map.MapViewFragment
 import com.mhacks.android.ui.qrscan.QRScanActivity
 import com.mhacks.android.ui.ticket.TicketDialogFragment
 import com.mhacks.android.util.GooglePlayUtil
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import org.mhacks.android.R
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -52,15 +51,15 @@ class MainActivity : BaseActivity(),
         WelcomeFragment.Callback,
         TicketDialogFragment.Callback,
         MapViewFragment.Callback,
+        AnnouncementFragment.Callback,
         EventsFragment.Callback {
-
 
     // Callbacks to properties and methods on the application class.
     private val appCallback by lazy {
         application as MHacksApplication
     }
 
-    var notif: String? = null
+    private var notif: String? = null
 
 //    lateinit var regid: String
 //    val PROJECT_NUMBER: String by lazy { getString(R.string.gcm_server_id) }
@@ -125,6 +124,22 @@ class MainActivity : BaseActivity(),
                 )
     }
 
+    override fun fetchAnnouncements(success: (announcements: List<Announcements>) -> Unit,
+                                    failure: (error: Throwable) -> Unit) {
+        checkIfNetworkIsPresent(this, {
+            Observable.timer(3000, TimeUnit.MILLISECONDS)
+                    .startWith(0)
+                    .flatMap {
+                        hackathonService.getMetaAnnouncements()
+                    }
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            { (announcements) -> success(announcements) },
+                            { error -> failure(error) })
+        })
+    }
+
     private fun showTicketDialogFragment() {
         val ft = supportFragmentManager.beginTransaction()
         val prev = supportFragmentManager.findFragmentByTag("dialog")
@@ -152,10 +167,10 @@ class MainActivity : BaseActivity(),
         finish()
     }
 
-    private fun startQRScanActivity() {
-        startActivity(Intent(this, QRScanActivity::class.java))
-        finish()
-    }
+//    private fun startQRScanActivity() {
+//        startActivity(Intent(this, QRScanActivity::class.java))
+//        finish()
+//    }
 
     override fun checkOrFetchUser(success: (user: User) -> Unit,
                                   failure: (error: Throwable) -> Unit) {
@@ -226,16 +241,7 @@ class MainActivity : BaseActivity(),
                 NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
 
         qr_ticket_fab.setOnClickListener({
-            val ft = supportFragmentManager.beginTransaction()
-            val prev = supportFragmentManager.findFragmentByTag("dialog")
-            if (prev != null) {
-                ft.remove(prev)
-            }
-            ft.addToBackStack(null)
-
-            val ticket: TicketDialogFragment = TicketDialogFragment
-                    .newInstance()
-            ticket.show(ft, "dialog")
+            showTicketDialogFragment()
         })
 
         menuItem = navigation.menu.getItem(0)

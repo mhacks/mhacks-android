@@ -1,9 +1,6 @@
 package com.mhacks.android.data.network.services
 
-import com.mhacks.android.data.kotlin.MetaConfiguration
-import com.mhacks.android.data.kotlin.MetaEvents
-import com.mhacks.android.data.kotlin.MetaFloor
-import com.mhacks.android.data.kotlin.MetaUser
+import com.mhacks.android.data.kotlin.*
 import com.mhacks.android.data.model.FcmDevice
 import com.mhacks.android.data.model.Login
 import io.reactivex.Observable
@@ -29,6 +26,9 @@ interface HackathonApiService {
 
     @GET("floor")
     fun getMetaFloors(): Observable<MetaFloor>
+
+    @GET("announcements")
+    fun getMetaAnnouncements(): Observable<MetaAnnouncements>
 
     @GET("event")
     fun getMetaEvent(): Observable<MetaEvents>
