@@ -139,7 +139,7 @@ class MainActivity : BaseActivity(),
                                 appCallback.setAuthInterceptorToken(login.token)
                                 hackathonService.getUser()
                                         .flatMap { user -> Single.just(user.user) }
-                    })
+                            })
                 })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

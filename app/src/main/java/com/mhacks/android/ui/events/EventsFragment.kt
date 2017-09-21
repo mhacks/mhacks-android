@@ -6,6 +6,7 @@ import android.view.View
 import com.mhacks.android.data.model.Events
 import com.mhacks.android.ui.common.BaseFragment
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
+import kotlinx.android.synthetic.main.fragment_announcements.*
 import kotlinx.android.synthetic.main.fragment_events.*
 import org.mhacks.android.R
 import kotlin.collections.ArrayList
