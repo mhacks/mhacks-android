@@ -1,7 +1,7 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
+apply plugin: "kotlin-kapt"
 
 ext {
     bugsnag_key = ext.MHACKS_BUGSNAG_KEY
@@ -11,13 +11,13 @@ ext {
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '25.0.3'
+    buildToolsVersion "25.0.3"
     dexOptions {
         javaMaxHeapSize "4g"
     }
     packagingOptions {
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/NOTICE'
+        exclude "META-INF/LICENSE"
+        exclude "META-INF/NOTICE"
     }
 
     compileOptions {
@@ -46,7 +46,6 @@ android {
         targetSdkVersion 26
         versionCode((int) (System.currentTimeMillis() / 1000))
         versionName "9.0.0"
-        resValue "string", "gcm_server_id", gcm_server_id
         resValue "string", "google_maps_api_key", google_maps_api_key
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -55,25 +54,23 @@ android {
         release {
             debuggable false
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
             multiDexEnabled true
-            resValue "string", "gcm_server_id", gcm_server_id
             resValue "string", "google_maps_api_key", google_maps_api_key
             signingConfig signingConfigs.release
         }
         debug {
             debuggable true
             minifyEnabled false
-            resValue "string", "gcm_server_id", gcm_server_id
             resValue "string", "google_maps_api_key", google_maps_api_key
         }
     }
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ["*.jar"], dir: "libs")
 
-    implementation 'com.pacioianu.david:ink-page-indicator:1.2.0'
+    implementation "com.pacioianu.david:ink-page-indicator:1.2.0"
 
     implementation "android.arch.persistence.room:runtime:$room_version"
     implementation "android.arch.persistence.room:rxjava2:$room_version"
@@ -85,47 +82,37 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
     implementation "io.reactivex.rxjava2:rxjava:2.1.3"
-    implementation'io.reactivex.rxjava2:rxkotlin:2.1.0'
+    implementation"io.reactivex.rxjava2:rxkotlin:2.1.0"
 
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation "com.squareup.retrofit2:retrofit:2.3.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.3.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
 
-    implementation 'com.jakewharton.timber:timber:4.5.1'
+    implementation "com.jakewharton.timber:timber:4.5.1"
 
 
 
-    implementation 'com.romandanylyk:pageindicatorview:0.2.0'
-    implementation 'com.github.vipulasri:timelineview:1.0.5'
-    implementation 'com.gelitenight.waveview:waveview:1.0.0'
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support:support-v4:26.1.0'
-    implementation 'com.android.support:cardview-v7:26.1.0'
-    implementation 'com.android.support:recyclerview-v7:26.1.0'
-    implementation 'com.android.support:design:26.1.0'
+    implementation "com.github.vipulasri:timelineview:1.0.5"
+    implementation "com.android.support:appcompat-v7:$google_play_version"
+    implementation "com.android.support:support-v4:$google_play_version"
+    implementation "com.android.support:cardview-v7:$google_play_version"
+    implementation "com.android.support:recyclerview-v7:$google_play_version"
+    implementation "com.android.support:design:$google_play_version"
 
-    debugImplementation 'com.amitshekhar.android:debug-db:1.0.1'
+    implementation "com.google.android.gms:play-services-gcm:11.4.0"
+    implementation "com.google.android.gms:play-services-maps:11.4.0"
+    implementation "com.google.android.gms:play-services-vision:11.4.0"
 
-    implementation 'com.squareup.picasso:picasso:2.5.2'
-    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    implementation "com.google.firebase:firebase-messaging:11.4.0"
 
-    implementation 'com.google.android.gms:play-services-gcm:11.4.0'
-    implementation 'com.google.android.gms:play-services-maps:11.4.0'
-    implementation 'com.google.android.gms:play-services-vision:11.4.0'
+    implementation "joda-time:joda-time:2.9.9"
 
-    implementation 'com.google.firebase:firebase-messaging:11.4.0'
-
-    implementation 'com.github.alamkanak:android-week-view:1.2.6'
-    implementation 'joda-time:joda-time:2.9.9'
-
-    implementation 'com.squareup.okhttp3:okhttp:3.8.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
-    implementation 'com.bugsnag:bugsnag-android:3.9.0'
-    implementation 'io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:1.1.3'
-    implementation 'com.github.kenglxn.QRGen:android:2.2.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation "com.squareup.okhttp3:okhttp:3.8.1"
+    implementation "io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:1.1.3"
+    implementation "com.github.kenglxn.QRGen:android:2.2.0"
+    implementation "com.android.support.constraint:constraint-layout:1.0.2"
 }
 
 
@@ -136,7 +123,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
     }
 }
 
-apply plugin: 'com.google.gms.google-services'
+apply plugin: "com.google.gms.google-services"
 
 repositories {
     mavenCentral()

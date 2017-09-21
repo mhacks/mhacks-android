@@ -42,8 +42,10 @@ class RegistrationIntentService : IntentService(TAG) {
         val instanceID = FirebaseInstanceId.getInstance()
         val senderId = resources.getString(R.string.gcm_defaultSenderId)
         try {
-            val token = instanceID.token!!
-            sendRegistrationToServer(token)
+            val token = instanceID.token
+            if (token != null) {
+                sendRegistrationToServer(token)
+            }
         } catch (e: IOException) {
             sharedPreferences.edit().putBoolean(SENT_TOKEN_TO_SERVER, false).apply();
         }

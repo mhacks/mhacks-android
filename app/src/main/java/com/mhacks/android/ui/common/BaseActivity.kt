@@ -3,6 +3,7 @@ package com.mhacks.android.ui.common
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.support.annotation.ColorRes
 import android.support.design.widget.Snackbar
@@ -35,8 +36,9 @@ abstract class BaseActivity: AppCompatActivity() {
     open fun checkIfNetworkIsPresent(context: Context, callback: () -> Any) {
         if (!NetworkUtil.checkIfNetworkSucceeds(context)) {
             val snackbar = Snackbar.make(findViewById(android.R.id.content),
-                    "No network connection.", Snackbar.LENGTH_INDEFINITE)
+                    "No network connection.", Snackbar.LENGTH_LONG)
             snackbar.setAction("Try again", { checkIfNetworkIsPresent(context, callback) })
+            snackbar.setActionTextColor(Color.WHITE)
             snackbar.show()
         } else callback()
     }

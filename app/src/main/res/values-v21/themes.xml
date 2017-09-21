@@ -1,14 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style title="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item title="android:windowContentTransitions">true</item>
-        <item title="android:windowAllowEnterTransitionOverlap">true</item>
-        <item title="android:windowAllowReturnTransitionOverlap">true</item>
-        <item title="android:windowSharedElementEnterTransition">@android:transition/move</item>
-        <item title="android:windowSharedElementExitTransition">@android:transition/move</item>
-        <item title="colorPrimary">@color/primary</item>
-        <item title="colorPrimaryDark">@color/primary_dark</item>
-        <item title="colorAccent">@color/mhr_charcaol</item>
-        <item title="android:navigationBarColor">@color/black</item>
-    </style>
-</resources>
+<resources></resources>

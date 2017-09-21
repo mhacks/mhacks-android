@@ -29,7 +29,6 @@ import com.mhacks.android.ui.countdown.WelcomeFragment
 import com.mhacks.android.ui.events.EventsFragment
 import com.mhacks.android.ui.login.LoginActivity
 import com.mhacks.android.ui.map.MapViewFragment
-import com.mhacks.android.ui.qrscan.QRScanActivity
 import com.mhacks.android.ui.ticket.TicketDialogFragment
 import com.mhacks.android.util.GooglePlayUtil
 import io.reactivex.Observable
@@ -205,7 +204,7 @@ class MainActivity : BaseActivity(),
     override fun updateFloors(floors: List<Floor>, listener: OnItemSelectedListener) {
 
         val adapter = ArrayAdapter<Floor>(this, R.layout.floors_spinner_item, floors)
-        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
+        adapter.setDropDownViewResource(R.layout.map_view_dropdown_item_1line)
         navigationSpinner.adapter = adapter
 
         navigationSpinner.onItemSelectedListener = listener
