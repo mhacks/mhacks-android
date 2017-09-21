@@ -41,12 +41,12 @@ class RegistrationIntentService : IntentService(TAG) {
     override fun onHandleIntent(intent: Intent?) {
         val instanceID = FirebaseInstanceId.getInstance()
         val senderId = resources.getString(R.string.gcm_defaultSenderId)
-//        try {
-//            val token = instanceID.token!!
-//            sendRegistrationToServer(token)
-//        } catch (e: IOException) {
-//            sharedPreferences.edit().putBoolean(SENT_TOKEN_TO_SERVER, false).apply();
-//        }
+        try {
+            val token = instanceID.token!!
+            sendRegistrationToServer(token)
+        } catch (e: IOException) {
+            sharedPreferences.edit().putBoolean(SENT_TOKEN_TO_SERVER, false).apply();
+        }
 
     }
 

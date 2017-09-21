@@ -3,7 +3,6 @@ package com.mhacks.android.data.network;
 import com.mhacks.android.data.model.Events;
 import com.mhacks.android.data.model.Countdown;
 import com.mhacks.android.data.model.Event;
-import com.mhacks.android.data.model.Floor;
 import com.mhacks.android.data.model.Location;
 import com.mhacks.android.data.model.Login;
 import com.mhacks.android.data.model.ModelList;
@@ -108,27 +107,27 @@ public interface HackathonNetworkService {
                             @Header("Authorization") String authToken,
                             @Body Event event);
 
-    // FLOORS
-    @GET("floors")
-    Call<ModelList<Floor>> getFloors(@Header("Authorization") String authToken);
-
-    @POST("floors")
-    Call<ModelList<Floor>> createFloor(@Header("Authorization") String authToken,
-                                       @Body Floor floor);
-
-    @GET("floors/{id}")
-    Call<Floor> getFloor(@Path("id") String id,
-                         @Header("Authorization") String authToken);
-
-    @PUT("floors/{id}")
-    Call<Floor> updateFloor(@Path("id") String id,
-                            @Header("Authorization") String authToken,
-                            @Body Floor floor);
-
-    @DELETE("floors/{id}")
-    Call<Floor> deleteFloor(@Path("id") String id,
-                            @Header("Authorization") String authToken,
-                            @Body Floor floor);
+//    // FLOORS
+//    @GET("floors")
+//    Call<ModelList<Floor>> getFloors(@Header("Authorization") String authToken);
+//
+//    @POST("floors")
+//    Call<ModelList<Floor>> createFloor(@Header("Authorization") String authToken,
+//                                       @Body Floor floor);
+//
+//    @GET("floors/{id}")
+//    Call<Floor> getFloor(@Path("id") String id,
+//                         @Header("Authorization") String authToken);
+//
+//    @PUT("floors/{id}")
+//    Call<Floor> updateFloor(@Path("id") String id,
+//                            @Header("Authorization") String authToken,
+//                            @Body Floor floor);
+//
+//    @DELETE("floors/{id}")
+//    Call<Floor> deleteFloor(@Path("id") String id,
+//                            @Header("Authorization") String authToken,
+//                            @Body Floor floor);
 
     // SCAN EVENTS
     @GET("scan_events")

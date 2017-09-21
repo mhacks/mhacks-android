@@ -34,8 +34,7 @@ class LoginActivity : BaseActivity(), LoginFragment.OnFromLoginFragmentCallback{
 
     override fun showSnackBar(text: String) {
         Snackbar.make(findViewById(android.R.id.content),
-                text,
-                Snackbar.LENGTH_SHORT).show()
+                text, Snackbar.LENGTH_SHORT).show()
     }
 
 
@@ -85,7 +84,7 @@ class LoginActivity : BaseActivity(), LoginFragment.OnFromLoginFragmentCallback{
                                         showSnackBar("The username and password is incorrect.")
                                 }
                             }
-                    ) } else showSnackBar("Couldn't connect to the internet.")
+                    ) }
     }
 
     override fun goToViewPagerFragment(fragment: android.support.v4.app.Fragment) {

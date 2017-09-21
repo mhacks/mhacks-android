@@ -71,6 +71,7 @@
 
     <!--Messages if there was no information stored-->
     <string name="no_school">No school was selected!</string>
+    <string name="map_spinner">map_spinner</string>
 
 
 </resources>
