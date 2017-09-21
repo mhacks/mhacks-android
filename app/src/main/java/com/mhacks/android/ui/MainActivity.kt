@@ -9,9 +9,9 @@ import android.support.v4.app.Fragment
 import android.view.MenuItem
 import com.mhacks.android.MHacksApplication
 import com.mhacks.android.dagger.component.HackathonComponent
+import com.mhacks.android.data.kotlin.Floor
 import com.mhacks.android.data.kotlin.MetaConfiguration
 import com.mhacks.android.data.kotlin.User
-import com.mhacks.android.data.model.Login
 import com.mhacks.android.data.network.fcm.RegistrationIntentService
 import com.mhacks.android.data.network.services.HackathonApiService
 import com.mhacks.android.data.room.MHacksDatabase
@@ -33,8 +33,6 @@ import org.mhacks.android.R
 import javax.inject.Inject
 
 import com.mhacks.android.util.GooglePlayUtil
-import io.reactivex.Observable
-import timber.log.Timber
 
 
 /**
@@ -44,7 +42,8 @@ class MainActivity : BaseActivity(),
         ActivityCompat.OnRequestPermissionsResultCallback,
         BaseFragment.OnNavigationChangeListener,
         WelcomeFragment.Callback,
-        TicketDialogFragment.Callback {
+        TicketDialogFragment.Callback,
+        MapViewFragment.Callback {
 
     // Callbacks to properties and methods on the application class.
     private val appCallback by lazy {
@@ -73,16 +72,30 @@ class MainActivity : BaseActivity(),
         checkIfLogin()
     }
 
-    override fun checkOrFetchConfig(success: (config: MetaConfiguration) -> Unit,
-                                   failure: (error: Throwable) -> Unit) {
-        checkIfNetworkIsPresent(this,
-                { hackathonService.getConfiguration()
+
+    override fun fetchFloors(success: (floor: List<Floor>) -> Unit,
+                             failure: (error: Throwable) -> Unit) {
+        checkIfNetworkIsPresent(this, {
+            hackathonService.getMetaFloors()
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
-                            { response -> success(response) },
+                            { response -> success(response.floors) },
                             { error -> failure(error) })
-                })
+        })
+
+    }
+
+    override fun checkOrFetchConfig(success: (config: MetaConfiguration) -> Unit,
+                                   failure: (error: Throwable) -> Unit) {
+        checkIfNetworkIsPresent(this,
+            { hackathonService.getMetaConfiguration()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { response -> success(response) },
+                        { error -> failure(error) })
+            })
     }
 
 
@@ -137,7 +150,7 @@ class MainActivity : BaseActivity(),
                     mhacksDatabase.loginDao().getLogin()
                             .flatMap({ login ->
                                 appCallback.setAuthInterceptorToken(login.token)
-                                hackathonService.getUser()
+                                hackathonService.getMetaUser()
                                         .flatMap { user -> Single.just(user.user) }
                     })
                 })

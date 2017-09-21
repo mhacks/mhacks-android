@@ -23,7 +23,7 @@ class TicketDialogFragment : DialogFragment() {
     override fun onResume() {
 
         val width = (resources.displayMetrics.widthPixels * .85).toInt()
-        val height = (resources.displayMetrics.heightPixels* .7).toInt()
+        val height = (resources.displayMetrics.heightPixels * .7).toInt()
 
         dialog.window.setLayout(width, height)
         super.onResume()

@@ -16,7 +16,7 @@ import retrofit2.http.*
 interface HackathonApiService {
 
     @GET("configuration")
-    fun getConfiguration(): Observable<MetaConfiguration>
+    fun getMetaConfiguration(): Observable<MetaConfiguration>
 
     @POST("auth/login/")
     @FormUrlEncoded
@@ -24,10 +24,10 @@ interface HackathonApiService {
                   @Field("password") password: String): Observable<Login>
 
     @GET("user/profile/")
-    fun getUser(): Single<MetaUser>
+    fun getMetaUser(): Single<MetaUser>
 
     @GET("floor")
-    fun getFloors(@Field("push_id") pushId: String): Observable<MetaFloor>
+    fun getMetaFloors(): Observable<MetaFloor>
 //
 //    @GET("announcement")
 //    fun getFloors(@Field("push_id") pushId: String): Observable<MetaFloor>

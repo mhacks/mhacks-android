@@ -1,22 +1,18 @@
 package com.mhacks.android.ui.map
 
 import android.Manifest
-import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Spinner
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.mhacks.android.data.model.Floor
+import com.mhacks.android.data.kotlin.Floor
 import com.mhacks.android.ui.common.BaseFragment
 import com.mhacks.android.util.GooglePlayUtil
 import com.mhacks.android.util.ResourceUtil
@@ -36,11 +32,14 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
     override var AppBarTitle: Int = R.string.title_map
     override var LayoutResourceID: Int = R.layout.fragment_map
 
+    private val callback by lazy { activity as Callback }
+
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         setCustomActionBarColor(R.color.semiColorPrimary)
         if (GooglePlayUtil.checkPlayServices(activity)) {
-            //        nameView = map_view_name
             setUpMapIfNeeded()
+
+
 
 //            val networkManager = NetworkManager.getInstance()
 //            networkManager.getFloors(object : HackathonCallback<List<Floor>> {
@@ -99,9 +98,6 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
         if (mGoogleMap == null) mMapFragment!!.getMapAsync(this)
     }
 
-    private fun fetchFloors() {
-
-    }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mGoogleMap = googleMap
@@ -194,6 +190,12 @@ class MapViewFragment : BaseFragment(), OnMapReadyCallback {
 
     override fun onDestroyView() {
         super.onDestroyView()
+    }
+
+    interface Callback {
+
+        fun fetchFloors(success: (floor: List<Floor>) -> Unit,
+                        failure: (error: Throwable) -> Unit)
     }
 
     companion object {
