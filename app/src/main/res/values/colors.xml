@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="softBlue">#33B5B1</color>
-    <color name="darkBlue">#2D8E8B</color>
-    <color name="darkPink">#CA2171</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="yellow">#FBC02D</color>
-    <color name="mintGreen">#66BB6A</color>
     <color name="blueGrey">#37474F</color>
     <color name="brown">#A1887F</color>
-    <color name="pinkText">#F4A3A7</color>
 
     <!--Global color themes-->
     <color name="colorPrimary">#5D3E6E</color>

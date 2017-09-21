@@ -3,8 +3,6 @@
 
     <string name="app_name">MHacks</string>
 
-    <string name="icon">Icon</string>
-
     <!-- SettingsFragment Preferences -->
     <string-array name="notif_channels">
         <item>Logistics</item>
@@ -38,25 +36,17 @@
     <string name="logout">Logout</string>
     <string name="login">LOGIN</string>
     <string name="logged_in">You are currently logged in.</string>
-    <string name="logged_out">You are not logged in.</string>
     <string name="title_home">Home</string>
     <string name="title_announcements">Announcements</string>
     <string name="title_events">Events</string>
     <string name="title_map">Map</string>
-    <string name="title_info">Info</string>
     <string name="welcome">Welcome</string>
-    <string name="login_background">Login background</string>
     <string name="sign_in">Sign in</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
 
 
     <!-- Strings for the Info Page -->
-    <string name="wifi_name">NameofWiFiNetwork</string>
-    <string name="wifi_username_title">Username</string>
-    <string name="wifi_username_value">InsertUsername</string>
-    <string name="wifi_password_title">Password</string>
-    <string name="wifi_password_value">InsertPassword</string>
 
 
     <!-- Strings for the Ticket Page -->
@@ -65,13 +55,11 @@
 
 
     <string name="done">Done</string>
-    <string name="ticket">Ticket</string>
     <string name="qr_code">QR Code</string>
     <string name="no_thanks">NO THANKS</string>
 
     <!--Messages if there was no information stored-->
     <string name="no_school">No school was selected!</string>
-    <string name="map_spinner">map_spinner</string>
 
 
 </resources>

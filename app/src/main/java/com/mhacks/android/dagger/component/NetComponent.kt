@@ -23,8 +23,6 @@ interface NetComponent {
     val retrofit: Retrofit
     val authInterceptor: AuthInterceptor
 
-    fun okHttpClient(): OkHttpClient
-
     fun inject(activity: Activity)
 
 }

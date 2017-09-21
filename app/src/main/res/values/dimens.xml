@@ -2,7 +2,6 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
 
     <!-- Margins -->
-    <dimen name="margin_countdown_text_groupoffset">50dp</dimen>
 
     <!-- Text Sizes -->
     <dimen name="text_countdown_normaltitles">18sp</dimen>
@@ -13,12 +12,7 @@
 
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
          https://developer.android.com/design/patterns/navigation-drawer.html -->
-    <dimen name="adapter_header_padding_horizontal">16dp</dimen>
-    <dimen name="adapter_header_padding_vertical">12dp</dimen>
-    <dimen name="adapter_card_radius">1dp</dimen>
     <dimen name="adapter_card_padding">8dp</dimen>
-    <dimen name="pin_icon_size">24dp</dimen>
-    <dimen name="adapter_card_shadow_width">1dp</dimen>
     <dimen name ="toolbar_height">100dp</dimen>
 
 </resources>

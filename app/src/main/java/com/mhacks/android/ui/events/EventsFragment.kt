@@ -34,20 +34,15 @@ class EventsFragment : BaseFragment() {
                 { events -> Timber.d(events[0].category) },
                 { error -> Timber.e(error) })
 
-//        val list = getEventSectionModelList()
-//        listAdapter = sectionedEventsAdapter(list)
-//        events_recycler_view.adapter = listAdapter
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        // TODO cancel active requests
+        val list = getEventSectionModelList()
+        listAdapter = sectionedEventsAdapter(list)
+        events_recycler_view.adapter = listAdapter
     }
 
     private fun getEventSectionModelList(): ArrayList<EventsSection.EventSectionModel> {
 
         val sectionList = ArrayList<EventsSection.EventSectionModel>();
-
+//
 //        sectionList.add(EventsSection.EventSectionModel("8:00", getEvents()))
 //        sectionList.add(EventsSection.EventSectionModel("8:00", getEvents()))
 //        sectionList.add(EventsSection.EventSectionModel("8:00", getEvents()))
