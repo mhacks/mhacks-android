@@ -15,7 +15,6 @@ import java.io.IOException
 import android.preference.PreferenceManager
 import android.content.SharedPreferences
 
-
 /**
  * Created by jeffreychang on 9/19/17.
  */
@@ -24,6 +23,7 @@ class RegistrationIntentService : IntentService(TAG) {
 
     private val SENT_TOKEN_TO_SERVER = "sentTokenToServer"
     private val FCM_TOKEN = "FCMToken"
+    private val mhacksGroup = "MHacks Group"
 
 
     private val retrofit: Retrofit = Retrofit.Builder()
@@ -42,8 +42,8 @@ class RegistrationIntentService : IntentService(TAG) {
         val instanceID = FirebaseInstanceId.getInstance()
         val senderId = resources.getString(R.string.gcm_defaultSenderId)
         try {
-            val token = instanceID.token
-            if (token != null) {
+            val token = instanceID.token;
+            if (token !== null) {
                 sendRegistrationToServer(token)
             }
         } catch (e: IOException) {
