@@ -10,7 +10,7 @@ import com.mhacks.android.data.room.MHacksDatabase
 import com.mhacks.android.ui.MainActivity
 import com.mhacks.android.ui.common.BaseActivity
 import com.mhacks.android.ui.login.components.LoginFragment
-import com.mhacks.android.util.NetworkUtil
+import com.mhacks.android.ui.common.util.NetworkUtil
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
