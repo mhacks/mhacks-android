@@ -10,6 +10,8 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapt
 import kotlinx.android.synthetic.main.fragment_events.*
 import org.mhacks.android.R
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.collections.ArrayList
 
 /**
@@ -26,39 +28,59 @@ class EventsFragment : BaseFragment() {
     override var LayoutResourceID: Int = R.layout.fragment_events
 
     val adapter = SectionedRecyclerViewAdapter()
+    var weekDateFormat = SimpleDateFormat("EEEE", Locale.US)
 
     private val callback by lazy { activity as Callback }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        events_recycler_view.setHasFixedSize(true)
-        events_recycler_view.layoutManager = LinearLayoutManager(activity)
+
+
+//        events_recycler_view.setHasFixedSize(true)
+//        events_recycler_view.layoutManager = LinearLayoutManager(activity)
         callback.fetchEvents(
                 { events -> bindEvents(events) },
                 { error -> Timber.e(error) })
-        listAdapter = SectionedEventsAdapter()
-
-        events_recycler_view.adapter = listAdapter
+//        listAdapter = SectionedEventsAdapter()
+//
+//        events_recycler_view.adapter = listAdapter
     }
 
-    private fun bindEvents(events: List<Events>) {
-        val groupByDateEvents = events.groupBy { it.startDateTs }
-        val eventSections = ArrayList<EventSectionModel>()
-        for ((key, value) in groupByDateEvents)
-            eventSections.add(EventSectionModel(key, ArrayList(value)))
-        listAdapter.addAllEventsSections(eventSections)
+    private fun bindEvents(eventList: List<Events>) {
+        val list = eventList.map { events ->
+            EventWithDay(weekDateFormat.format(Date(events.startDateTs)),
+                    events)  }
+                .groupBy { it.day }
+        val adapter = EventsPagerAdapter(childFragmentManager, list)
+        events_pager.adapter = adapter
+
+
+
+
+//        val groupByDateEvents = events.groupBy { it.startDateTs }
+//        val eventSections = ArrayList<EventSectionModel>()
+//        for ((key, value) in groupByDateEvents)
+//            eventSections.add(EventSectionModel(key, ArrayList(value)))
+//        listAdapter.addAllEventsSections(eventSections)
     }
 
+
+    data class EventWithDay (
+            val day: String,
+            val event: Events
+    )
 
     interface Callback {
         fun fetchEvents(success: (events: List<Events>) -> Unit,
                         failure: (error: Throwable) -> Unit)
     }
 
-
     companion object {
         val instance: EventsFragment
             get() = EventsFragment()
     }
 }
+
+
+
 
 
