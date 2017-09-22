@@ -25,6 +25,9 @@ class EventPageFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (arguments != null) {
             val eventList = arguments.getParcelableArrayList<Event>(EXTRA_EVENT_LIST)
+            for (event in eventList) {
+
+            }
         }
 
     }

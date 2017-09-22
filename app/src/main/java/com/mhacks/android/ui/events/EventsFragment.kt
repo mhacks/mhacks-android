@@ -1,5 +1,6 @@
 package com.mhacks.android.ui.events
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -20,28 +21,19 @@ import kotlin.collections.ArrayList
 
 class EventsFragment : BaseFragment() {
 
-    private lateinit var listAdapter: SectionedEventsAdapter
-
     override var setTransparent: Boolean = false
     override var AppBarTitle: Int = R.string.title_events
     override var LayoutResourceID: Int = R.layout.fragment_events
 
-    val adapter = SectionedRecyclerViewAdapter()
-    var weekDateFormat = SimpleDateFormat("EEEE", Locale.US)
+    private var weekDateFormat = SimpleDateFormat("EEEE", Locale.US)
 
     private val callback by lazy { activity as Callback }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-
-
-//        events_recycler_view.setHasFixedSize(true)
-//        events_recycler_view.layoutManager = LinearLayoutManager(activity)
+        event_pager_tab_strip.tabIndicatorColor = Color.parseColor("#5D3E6E")
         callback.fetchEvents(
                 { events -> bindEvents(events) },
                 { error -> Timber.e(error) })
-//        listAdapter = SectionedEventsAdapter()
-//
-//        events_recycler_view.adapter = listAdapter
     }
 
     private fun bindEvents(eventList: List<Event>) {
@@ -51,15 +43,6 @@ class EventsFragment : BaseFragment() {
                 .groupBy { it.day }
         val adapter = EventsPagerAdapter(childFragmentManager, list)
         events_pager.adapter = adapter
-
-
-
-
-//        val groupByDateEvents = events.groupBy { it.startDateTs }
-//        val eventSections = ArrayList<EventSectionModel>()
-//        for ((key, value) in groupByDateEvents)
-//            eventSections.add(EventSectionModel(key, ArrayList(value)))
-//        listAdapter.addAllEventsSections(eventSections)
     }
 
 

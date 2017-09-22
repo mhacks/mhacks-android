@@ -1,34 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<LinearLayout-->
-    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="vertical">-->
-    <!--<FrameLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="80dp"-->
-        <!--android:background="@color/colorPrimary"/>-->
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/events_recycler_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="1"-->
-        <!--android:padding="20dp"-->
-        <!--android:clipToPadding="false"-->
-        <!--android:scrollbars="vertical"-->
-        <!--android:scrollbarThumbVertical="@android:color/darker_gray"-->
-        <!--android:scrollbarSize="5dp" />-->
-<!--</LinearLayout>-->
-
 <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/events_pager"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <android.support.v4.view.PagerTabStrip
+        android:id="@+id/event_pager_tab_strip"
+        style="@style/PagerTitleStrip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        
-        android:layout_gravity="top"/>
+        android:paddingBottom="20dp"
+        android:background="@color/colorPrimary"
+        android:layout_gravity="top" />
 
 </android.support.v4.view.ViewPager>
