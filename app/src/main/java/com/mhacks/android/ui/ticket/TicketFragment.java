@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.mhacks.android.R;
+import org.mhacks.x.R;
 
 /**
  * Created by Omkar Moghe on 10/6/2016.

@@ -7,7 +7,7 @@ import com.mhacks.android.data.kotlin.Announcements
 import com.mhacks.android.ui.common.BaseFragment
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_announcements.*
-import org.mhacks.android.R
+import org.mhacks.x.R
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 

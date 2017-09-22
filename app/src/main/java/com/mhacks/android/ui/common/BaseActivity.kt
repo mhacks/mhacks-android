@@ -14,7 +14,7 @@ import android.view.WindowManager
 import com.mhacks.android.ui.common.util.NetworkUtil
 import com.mhacks.android.ui.common.util.ResourceUtil
 import kotlinx.android.synthetic.main.activity_main.*
-import org.mhacks.android.R
+import org.mhacks.x.R
 
 /**
  * Created by jeffreychang on 9/13/17.

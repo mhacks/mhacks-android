@@ -6,7 +6,7 @@ import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.mhacks.android.data.kotlin.Announcements
-import org.mhacks.android.R
+import org.mhacks.x.R
 import java.util.*
 
 /**

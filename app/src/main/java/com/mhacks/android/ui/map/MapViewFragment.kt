@@ -18,7 +18,7 @@ import com.mhacks.android.ui.common.BaseFragment
 import com.mhacks.android.ui.common.util.GooglePlayUtil
 import com.mhacks.android.ui.common.util.NetworkUtil
 import com.mhacks.android.ui.common.util.ResourceUtil
-import org.mhacks.android.R
+import org.mhacks.x.R
 import timber.log.Timber
 import kotlin.collections.ArrayList
 

@@ -3,7 +3,7 @@ package com.mhacks.android.ui.announcement
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
-import org.mhacks.android.R
+import org.mhacks.x.R
 
 /**
  * Created by jeffreychang on 9/15/17.

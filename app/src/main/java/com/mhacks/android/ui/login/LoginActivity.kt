@@ -14,7 +14,7 @@ import com.mhacks.android.ui.common.util.NetworkUtil
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.mhacks.android.R
+import org.mhacks.x.R
 import javax.inject.Inject
 
 class LoginActivity : BaseActivity(), LoginFragment.OnFromLoginFragmentCallback{

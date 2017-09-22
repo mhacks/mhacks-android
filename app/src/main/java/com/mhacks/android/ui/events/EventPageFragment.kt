@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.mhacks.android.data.kotlin.Event
 import kotlinx.android.synthetic.main.events_pager_view.*
-import org.mhacks.android.R
+import org.mhacks.x.R
 
 /**
  * Created by jeffreychang on 9/22/17.

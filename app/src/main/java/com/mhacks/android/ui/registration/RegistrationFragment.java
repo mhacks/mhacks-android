@@ -10,31 +10,23 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.mhacks.android.data.model.Scan;
-import com.mhacks.android.data.model.ScanData;
 import com.mhacks.android.data.model.ScanEvent;
-import com.mhacks.android.data.network.HackathonCallback;
 
-import org.mhacks.android.R;
+import org.mhacks.x.R;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Riyu on 7/7/16.

@@ -3,7 +3,7 @@ package com.mhacks.android.ui.qrscan
 import android.os.Bundle
 import com.mhacks.android.ui.common.BaseActivity
 import kotlinx.android.synthetic.main.activity_qr_scan.*
-import org.mhacks.android.R
+import org.mhacks.x.R
 
 class QRScanActivity : BaseActivity() {
 

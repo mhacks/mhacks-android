@@ -1,12 +1,5 @@
 package com.mhacks.android.ui.login.components
 
-import android.content.Context
-import android.support.v4.view.PagerAdapter
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import org.mhacks.android.R
-
 /**
  * Created by jeffreychang on 5/31/17.
  */

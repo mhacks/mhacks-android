@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.mhacks.android.ui.settings.SettingsFragment;
 
-import org.mhacks.android.R;
+import org.mhacks.x.R;
 
 /**
  * Created by Omkar Moghe on 10/7/2016.

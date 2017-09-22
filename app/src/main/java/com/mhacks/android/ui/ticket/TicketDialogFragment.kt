@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import com.mhacks.android.data.kotlin.User
 import kotlinx.android.synthetic.main.fragment_ticket_dialog.*
 import net.glxn.qrgen.android.QRCode
-import org.mhacks.android.R
+import org.mhacks.x.R
 import timber.log.Timber
 
 /**

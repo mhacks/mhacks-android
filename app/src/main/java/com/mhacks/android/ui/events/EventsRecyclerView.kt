@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.github.vipulasri.timelineview.TimelineView
 import com.mhacks.android.data.model.Events
-import org.mhacks.android.R
+import org.mhacks.x.R
 import kotlin.collections.ArrayList
 
 class AnnouncementAdapter(var mContext: Context, var eventsList: ArrayList<Events>):

@@ -2,17 +2,14 @@ package com.mhacks.android.ui.events
 
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.mhacks.android.data.kotlin.Event
 import com.mhacks.android.ui.common.BaseFragment
-import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_events.*
-import org.mhacks.android.R
+import org.mhacks.x.R
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Created by Omkar Moghe on 10/25/2014.

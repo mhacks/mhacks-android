@@ -8,7 +8,7 @@ import com.github.vipulasri.timelineview.TimelineView
 import com.mhacks.android.data.kotlin.Event
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection
-import org.mhacks.android.R
+import org.mhacks.x.R
 
 /**
  * Created by jeffreychang on 8/31/17.

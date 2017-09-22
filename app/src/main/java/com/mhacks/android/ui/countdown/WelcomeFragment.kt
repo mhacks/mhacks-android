@@ -2,7 +2,6 @@ package com.mhacks.android.ui.countdown
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -11,7 +10,7 @@ import com.mhacks.android.ui.common.BaseFragment
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
-import org.mhacks.android.R
+import org.mhacks.x.R
 import timber.log.Timber
 import java.text.DateFormat
 import java.text.SimpleDateFormat

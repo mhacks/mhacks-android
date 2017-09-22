@@ -16,7 +16,7 @@ import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.mhacks.android.ui.MainActivity;
 
-import org.mhacks.android.R;
+import org.mhacks.x.R;
 
 
 public class GcmIntentService extends IntentService {
