@@ -5,10 +5,10 @@ import android.view.View
 import android.widget.TextView
 import com.github.vipulasri.timelineview.LineType
 import com.github.vipulasri.timelineview.TimelineView
+import com.mhacks.android.data.kotlin.Event
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection
 import org.mhacks.android.R
-import com.mhacks.android.data.kotlin.Events
 
 /**
  * Created by jeffreychang on 8/31/17.
@@ -16,7 +16,7 @@ import com.mhacks.android.data.kotlin.Events
 
 class EventsSection(val time: String,
                      val type: TimeLineType,
-                     val events: ArrayList<Events>): StatelessSection(
+                     val events: ArrayList<Event>): StatelessSection(
         SectionParameters.Builder(R.layout.events_list_item)
         .headerResourceId(R.layout.events_header_item)
         .build()) {
@@ -71,7 +71,7 @@ class EventsSection(val time: String,
         }
     }
 
-    data class EventSectionModel(val time: Long, val events: ArrayList<Events>)
+    data class EventSectionModel(val time: Long, val events: ArrayList<Event>)
 
     enum class TimeLineType {
         START, NORMAL, END

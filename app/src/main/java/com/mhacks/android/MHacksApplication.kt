@@ -33,7 +33,7 @@ class MHacksApplication : Application(), MainActivity.OnFromMainActivityCallback
         netComponent = DaggerNetComponent.builder()
                 .appModule(appModule)
                 .authModule(AuthModule(null))
-                .retrofitModule(RetrofitModule("https://mhacks.org/v1/"))
+                .retrofitModule(RetrofitModule("https://staging.mhacks.org/v1/"))
                 .build()
         hackathonComponent = DaggerHackathonComponent
                 .builder()

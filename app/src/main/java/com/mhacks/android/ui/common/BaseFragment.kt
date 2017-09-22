@@ -3,7 +3,6 @@ package com.mhacks.android.ui.common
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.ColorRes
-import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -31,8 +30,7 @@ abstract class BaseFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         changeColors()
-        val view = inflater!!.inflate(LayoutResourceID, container, false)
-        return view
+        return inflater?.inflate(LayoutResourceID, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
@@ -40,19 +38,19 @@ abstract class BaseFragment : Fragment() {
     }
 
     private fun changeColors() {
-        mCallback!!.setFragmentTitle(AppBarTitle)
-        mCallback!!.setActionBarColor(android.R.color.transparent)
+        mCallback?.setFragmentTitle(AppBarTitle)
+        mCallback?.setActionBarColor(android.R.color.transparent)
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (setTransparent) {
-                mCallback!!.setActionBarColor(android.R.color.transparent)
-                mCallback!!.setStatusBarColor(android.R.color.transparent)
-                mCallback!!.removePadding()
+                mCallback?.setActionBarColor(android.R.color.transparent)
+                mCallback?.setStatusBarColor(android.R.color.transparent)
+                mCallback?.removePadding()
 
             } else {
-                mCallback!!.setActionBarColor(R.color.colorPrimary)
-                mCallback!!.setStatusBarColor(R.color.colorPrimaryDark)
-                mCallback!!.addPadding()
+                mCallback?.setActionBarColor(R.color.colorPrimary)
+                mCallback?.setStatusBarColor(R.color.colorPrimaryDark)
+                mCallback?.addPadding()
             }
 
         } else {
@@ -61,7 +59,7 @@ abstract class BaseFragment : Fragment() {
     }
 
     fun setCustomActionBarColor(@ColorRes res: Int) {
-        mCallback!!.setActionBarColor(res)
+        mCallback?.setActionBarColor(res)
     }
 
     interface OnNavigationChangeListener {

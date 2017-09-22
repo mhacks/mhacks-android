@@ -3,9 +3,8 @@ package com.mhacks.android.ui.events
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import com.mhacks.android.data.kotlin.Events
+import com.mhacks.android.data.kotlin.Event
 import com.mhacks.android.ui.common.BaseFragment
-import com.mhacks.android.ui.events.EventsSection.EventSectionModel
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_events.*
 import org.mhacks.android.R
@@ -45,9 +44,9 @@ class EventsFragment : BaseFragment() {
 //        events_recycler_view.adapter = listAdapter
     }
 
-    private fun bindEvents(eventList: List<Events>) {
+    private fun bindEvents(eventList: List<Event>) {
         val list = eventList.map { events ->
-            EventWithDay(weekDateFormat.format(Date(events.startDateTs)),
+            EventWithDay(weekDateFormat.format(Date(events.startDateTs!!)),
                     events)  }
                 .groupBy { it.day }
         val adapter = EventsPagerAdapter(childFragmentManager, list)
@@ -66,11 +65,10 @@ class EventsFragment : BaseFragment() {
 
     data class EventWithDay (
             val day: String,
-            val event: Events
-    )
+            val event: Event)
 
     interface Callback {
-        fun fetchEvents(success: (events: List<Events>) -> Unit,
+        fun fetchEvents(success: (events: List<Event>) -> Unit,
                         failure: (error: Throwable) -> Unit)
     }
 
