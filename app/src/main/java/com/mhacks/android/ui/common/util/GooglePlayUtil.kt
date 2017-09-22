@@ -1,7 +1,6 @@
-package com.mhacks.android.util
+package com.mhacks.android.ui.common.util
 
 import android.app.Activity
-import android.support.v7.app.AppCompatActivity
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import timber.log.Timber
@@ -19,7 +18,7 @@ import timber.log.Timber
 
 private val PLAY_SERVICES_RESOLUTION_REQUEST = 1337
 
-public class GooglePlayUtil {
+class GooglePlayUtil {
      companion object {
          fun checkPlayServices(activity: Activity): Boolean {
              val apiAvailability = GoogleApiAvailability.getInstance()

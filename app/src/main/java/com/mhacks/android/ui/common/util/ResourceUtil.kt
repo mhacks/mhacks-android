@@ -1,4 +1,4 @@
-package com.mhacks.android.util
+package com.mhacks.android.ui.common.util
 
 import android.content.Context
 import android.support.annotation.DimenRes
