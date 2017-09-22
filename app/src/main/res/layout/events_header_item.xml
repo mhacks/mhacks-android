@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.30" />
+        app:layout_constraintGuide_percent="0.35" />
 
     <android.support.constraint.Guideline
         android:id="@+id/events_horizontal_divider"
@@ -29,7 +29,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="75dp" />
-
 
     <com.github.vipulasri.timelineview.TimelineView
         android:id="@+id/events_info_time_marker"
@@ -45,4 +44,5 @@
         app:markerInCenter="true"
         app:markerSize="36dp"
         app:layout_constraintRight_toLeftOf="@id/events_vertical_divider"/>
+
 </android.support.constraint.ConstraintLayout>

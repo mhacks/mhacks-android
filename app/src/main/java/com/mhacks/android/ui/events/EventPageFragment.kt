@@ -2,10 +2,12 @@ package com.mhacks.android.ui.events
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mhacks.android.data.kotlin.Event
+import kotlinx.android.synthetic.main.events_pager_view.*
 import org.mhacks.android.R
 
 /**
@@ -13,9 +15,9 @@ import org.mhacks.android.R
  */
 class EventPageFragment: Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+
+    private val listAdapter = SectionedEventsAdapter()
+    private lateinit var newList: ArrayList<EventsSection.EventSectionModel>
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.events_pager_view, container, false)
@@ -25,9 +27,16 @@ class EventPageFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (arguments != null) {
             val eventList = arguments.getParcelableArrayList<Event>(EXTRA_EVENT_LIST)
-            for (event in eventList) {
+            events_recycler_view.layoutManager = LinearLayoutManager(context)
+            events_recycler_view.adapter = listAdapter
+            val groupedList = eventList.groupBy { it.startDateTs }
 
+            newList = ArrayList()
+            for ((key, value) in groupedList) {
+                newList.add(EventsSection.EventSectionModel(key!!, ArrayList(value)))
             }
+            listAdapter.removeAllSections()
+            listAdapter.addAllEventsSections(newList)
         }
 
     }

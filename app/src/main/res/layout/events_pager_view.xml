@@ -4,5 +4,6 @@
     android:id="@+id/events_recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="32dp"
+    android:paddingTop="32dp"
+    android:paddingBottom="32dp"
     android:clipToPadding="false" />
