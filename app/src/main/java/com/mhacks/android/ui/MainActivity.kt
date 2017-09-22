@@ -189,14 +189,14 @@ class MainActivity : BaseActivity(),
                         { error -> failure(error) })
     }
 
-    override fun fetchEvents(success: (events: List<Events>) -> Unit,
+    override fun fetchEvents(success: (events: List<Event>) -> Unit,
                              failure: (error: Throwable) -> Unit) {
         checkIfNetworkIsPresent(this, {
             hackathonService.getMetaEvent()
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
-                            { (events) -> success(events) },
+                            { response -> success(response.events!!) },
                             { error -> failure(error) })
         })
     }

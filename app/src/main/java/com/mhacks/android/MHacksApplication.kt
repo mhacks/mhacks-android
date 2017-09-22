@@ -17,13 +17,6 @@ import com.mhacks.android.dagger.module.AuthModule
 import com.mhacks.android.dagger.module.RetrofitModule
 import com.mhacks.android.ui.MainActivity
 import timber.log.Timber
-import android.content.Context.NOTIFICATION_SERVICE
-
-
-
-
-
-
 
 class MHacksApplication : Application(), MainActivity.OnFromMainActivityCallback {
 

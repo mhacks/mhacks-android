@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.30"/>
+        app:layout_constraintGuide_percent="0.35"/>
 
     <FrameLayout
         android:layout_width="48dp"
@@ -33,10 +33,7 @@
         android:id="@+id/events_cardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
         android:orientation="vertical"
-
-
         android:paddingStart="16dp"
         android:paddingEnd="10dp"
         android:layout_marginTop="9dp"

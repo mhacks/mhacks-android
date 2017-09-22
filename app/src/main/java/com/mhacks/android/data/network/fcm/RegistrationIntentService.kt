@@ -27,7 +27,7 @@ class RegistrationIntentService : IntentService(TAG) {
 
 
     private val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("https://staging.mhacks.org/v1/")
+            .baseUrl("https://mhacks.org/v1/")
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()

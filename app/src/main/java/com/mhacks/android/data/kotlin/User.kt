@@ -23,7 +23,7 @@ data class MetaUser(
 @Entity(tableName = "user")
 data class User (
     @PrimaryKey(autoGenerate = true)
-    var id: Int,
+    var primaryKey: Int,
 
     @SerializedName("email")
     @Expose
@@ -89,10 +89,17 @@ data class User (
 
     @SerializedName("sex")
     @Expose
-    var sex: String
+    var sex: String,
+    @SerializedName("id")
+    @Expose
+    var id: String,
+    @SerializedName("user")
+    @Expose
+    var user: Boolean
+
 ) {
     constructor(
-                id: Int,
+                primaryKey: Int,
                 email: String,
                 emailVerified: Boolean,
                 applicationSubmitted: Boolean,
@@ -106,8 +113,9 @@ data class User (
                 portfolio: String,
                 tshirt: String,
                 race: String,
-                sex: String
-                )
-            :this(id, email, emailVerified, applicationSubmitted, fullName, null, major, university,
-            resumeUploaded, null, github, linkedin, devpost, portfolio, tshirt, race, sex)
+                sex: String,
+                id: String,
+                user: Boolean)
+            :this(primaryKey, email, emailVerified, applicationSubmitted, fullName, null, major, university,
+            resumeUploaded, null, github, linkedin, devpost, portfolio, tshirt, race, sex, id, user)
 }
