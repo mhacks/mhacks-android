@@ -5,8 +5,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.mhacks.android.data.kotlin.Events
 import com.mhacks.android.ui.common.BaseFragment
+import com.mhacks.android.ui.events.EventsSection.EventSectionModel
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
-import kotlinx.android.synthetic.main.fragment_announcements.*
 import kotlinx.android.synthetic.main.fragment_events.*
 import org.mhacks.android.R
 import timber.log.Timber
@@ -19,11 +19,13 @@ import kotlin.collections.ArrayList
 
 class EventsFragment : BaseFragment() {
 
-    private lateinit var listAdapter: SectionedRecyclerViewAdapter
+    private lateinit var listAdapter: SectionedEventsAdapter
 
     override var setTransparent: Boolean = false
     override var AppBarTitle: Int = R.string.title_events
     override var LayoutResourceID: Int = R.layout.fragment_events
+
+    val adapter = SectionedRecyclerViewAdapter()
 
     private val callback by lazy { activity as Callback }
 
@@ -32,44 +34,35 @@ class EventsFragment : BaseFragment() {
         events_recycler_view.layoutManager = LinearLayoutManager(activity)
 
         callback.fetchEvents(
-                { events -> Timber.d(events[0].category) },
+                { events -> bindEvents(events)
+
+                },
                 { error -> Timber.e(error) })
 
-        val list = getEventSectionModelList()
-        listAdapter = sectionedEventsAdapter(list)
+        listAdapter = SectionedEventsAdapter()
+
         events_recycler_view.adapter = listAdapter
     }
 
-    private fun getEventSectionModelList(): ArrayList<EventsSection.EventSectionModel> {
+    private fun bindEvents(events: List<Events>) {
+        val groupByDateEvents = events.groupBy { it.startDateTs }
+        val eventSections = ArrayList<EventSectionModel>()
+        for ((key, value) in groupByDateEvents) {
+            eventSections.add(EventSectionModel(key, ArrayList(value)))
+        }
+        listAdapter.addAllEventsSections(eventSections)
 
-        val sectionList = ArrayList<EventsSection.EventSectionModel>();
+//        for (event in groupByDateEvents) {
 //
-//        sectionList.add(EventsSection.EventSectionModel("8:00", getEvents()))
-//        sectionList.add(EventsSection.EventSectionModel("8:00", getEvents()))
-//        sectionList.add(EventsSection.EventSectionModel("8:00", getEvents()))
-//        sectionList.add(EventsSection.EventSectionModel("8:00", getEvents()))
-//        sectionList.add(EventsSection.EventSectionModel("", getEventsList()))
+//
+//            listAdapter.addSection(EventsSection(EventSectionModel(event.key, ArrayList(event.value))))
+//        }
 
-        return sectionList
+
+
 
     }
 
-    private fun getEvents(): ArrayList<Events> {
-        val eventsList = ArrayList<Events>()
-//        eventsList.add(Events("Test Events Something Cool is Happening over Here", "This is description 1. There's stuff in this building. Check it out fam", 1501997324, 1, true, false))
-//        eventsList.add(Events("WOW cool neato wow that's so cool wait what how", "This is description 2. So many memes, so many dreams. Dank memes, dank dreams. Alliteration", 1501997324, 1, true, false))
-//        eventsList.add(Events("There are lots of people here in the place with all the people in the place where there are so many people in the place containing many people", "This is description 3.", 1501997324, 1, true, false))
-//        eventsList.add(Events("New Events", "This is description 4.", 1501997324, 1, true, false))
-
-        return eventsList
-    }
-
-
-    private fun getEventsList(): ArrayList<Events> {
-        val eventsList = ArrayList<Events>()
-//        eventsList.add(Events("", "", 1501997324, 1, true, false))
-        return eventsList
-    }
 
     interface Callback {
         fun fetchEvents(success: (events: List<Events>) -> Unit,
