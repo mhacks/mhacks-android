@@ -2,6 +2,7 @@ package com.mhacks.android.ui.map
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.View
@@ -11,16 +12,14 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.*
 import com.mhacks.android.data.kotlin.Floor
-import com.mhacks.android.ui.MainActivity
 import com.mhacks.android.ui.common.BaseFragment
-import com.mhacks.android.util.GooglePlayUtil
-import com.mhacks.android.util.ResourceUtil
+import com.mhacks.android.ui.common.util.GooglePlayUtil
+import com.mhacks.android.ui.common.util.NetworkUtil
+import com.mhacks.android.ui.common.util.ResourceUtil
 import org.mhacks.android.R
 import timber.log.Timber
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -54,7 +53,9 @@ class MapViewFragment :
         callback.fetchFloors(
                 { floors ->
                     this.floors = ArrayList(floors)
-                    callback.updateFloors(floors, this) },
+                    callback.updateFloors(floors, this)
+                    showDefaultLayoutView()
+                },
                 { error -> Timber.e(error) }
         )
     }
@@ -62,10 +63,19 @@ class MapViewFragment :
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         setCustomActionBarColor(R.color.semiColorPrimary)
 
-        if (GooglePlayUtil.checkPlayServices(activity)) {
-            setUpMapIfNeeded()
-        }
 
+        if (GooglePlayUtil.checkPlayServices(activity)) setUpMapIfNeeded()
+    }
+
+    fun showDefaultLayoutView() {
+        if (this.floors.size != 0) {
+            val floor: Floor = floors[0]
+            setUpMapIfNeeded()
+
+            NetworkUtil.getImage(floor.floorImage,
+                    {success -> onBitmapResponseSuccess(success, floor)},
+                    {failure -> onBitmapResponseFailure(failure)})
+        }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -74,23 +84,25 @@ class MapViewFragment :
 
     override fun onItemSelected(parent: AdapterView<*>?, root: View?, position: Int, id: Long) {
         val floor: Floor = floors[position]
-        Timber.d(floor.name)
+        setUpMapIfNeeded()
+
+        NetworkUtil.getImage(floor.floorImage,
+                {success -> onBitmapResponseSuccess(success, floor)},
+                {failure -> onBitmapResponseFailure(failure)})
+
 
         //            val networkManager = NetworkManager.getInstance()
 //            networkManager.getFloors(object : HackathonCallback<List<Floor>> {
 //                override fun success(response: List<Floor>) {
 //                    floors = ArrayList(response)
-//
 //                    val spinnerAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item)
 //                    spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//
 //                    if (!floors.isEmpty()) {
 //                        for (floor in floors) {
 //                            spinnerAdapter.add(floor.getName())
 //                        }
 //                        nameView.adapter = spinnerAdapter
 //                        spinnerAdapter.notifyDataSetChanged()
-//
 //                        nameView.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 //                            override fun onItemSelected(adapterView: AdapterView<*>,
 //                                                        view: View,
@@ -98,7 +110,6 @@ class MapViewFragment :
 //                                                        l: Long) {
 //                                addOverlay(floors[i])
 //                            }
-//
 //                            override fun onNothingSelected(adapterView: AdapterView<*>) {
 //
 //                            }
@@ -130,6 +141,8 @@ class MapViewFragment :
         val settings = mGoogleMap!!.uiSettings
         settings.isCompassEnabled = true
         settings.isTiltGesturesEnabled = true
+        mGoogleMap?.mapType = GoogleMap.MAP_TYPE_HYBRID
+
 
         //CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(42.292650, -83.714359));
         //CameraUpdate zoom = CameraUpdateFactory.zoomTo(13);
@@ -139,8 +152,8 @@ class MapViewFragment :
 
         val center = CameraUpdateFactory.newCameraPosition(
                 CameraPosition.Builder()
-                        .target(LatLng(42.292650, -83.714359))
-                        .zoom(15f)
+                        .target(LatLng(42.292150, -83.715836))
+                        .zoom(16.5f)
                         .bearing(0f)
                         .tilt(0f)
                         .build()
@@ -176,34 +189,26 @@ class MapViewFragment :
         }
     }
 
-    private fun addOverlay(floor: Floor) {
-        setUpMapIfNeeded()
+    private fun onBitmapResponseSuccess(image: Bitmap, floor: Floor) {
+        activity.runOnUiThread{
 
-        // Grab bitmap image
-//        val networkManager = NetworkManager.getInstance()
-//        networkManager.getImage(floor.getImage(), object : HackathonCallback<Bitmap> {
-//            override fun success(response: Bitmap) {
-//                val image = response
-//                activity.runOnUiThread {
-//                    val northCampusBounds = LatLngBounds(
-//                            // I'm a dumbass so we gotta flip the latitudes
-//                            LatLng(floor.getSeLatitude(), floor.getNwLongitude()), // South west corner
-//                            LatLng(floor.getNwLatitude(), floor.getSeLongitude())  // North east corner
-//                    )
-//
-//                    val northCampusMap = GroundOverlayOptions()
-//                            .image(BitmapDescriptorFactory.fromBitmap(image))
-//                            .positionFromBounds(northCampusBounds)
-//
-//                    mGoogleMap!!.addGroundOverlay(northCampusMap)
-//                }
-//            }
-//
-//            override fun failure(error: Throwable) {
-//
-//            }
-//        })
+            val northCampusBounds = LatLngBounds (
+                LatLng(floor.seLatitude.toDouble(), floor.nwLongitude.toDouble()), //South West corner
+                LatLng(floor.nwLatitude.toDouble(), floor.seLongitude.toDouble()) //North East Corner
+            )
+
+            val northCampusMap = GroundOverlayOptions()
+                    .image(BitmapDescriptorFactory.fromBitmap(image))
+                    .positionFromBounds(northCampusBounds)
+
+            mGoogleMap!!.addGroundOverlay(northCampusMap)
+
+        }
+
     }
+
+    private fun onBitmapResponseFailure(error: Throwable) {}
+
 
 
     override fun onResume() {

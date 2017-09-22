@@ -30,7 +30,7 @@ import com.mhacks.android.ui.events.EventsFragment
 import com.mhacks.android.ui.login.LoginActivity
 import com.mhacks.android.ui.map.MapViewFragment
 import com.mhacks.android.ui.ticket.TicketDialogFragment
-import com.mhacks.android.util.GooglePlayUtil
+import com.mhacks.android.ui.common.util.GooglePlayUtil
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -212,7 +212,7 @@ class MainActivity : BaseActivity(),
 
 
     override fun showFloorOptions() {
-        navigationSpinner.visibility = View.VISIBLE
+       // navigationSpinner.visibility = View.VISIBLE
     }
 
     override fun hideFloorOptions() {
