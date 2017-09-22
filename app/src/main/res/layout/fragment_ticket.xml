@@ -54,7 +54,7 @@
             app:layout_constraintBottom_toTopOf="@+id/name_value"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/qr_code"
-            tools:textColor="@color/md_black_1000" />
+            tools:textColor="@color/black" />
 
         <TextView
             android:id="@+id/name_value"
@@ -96,7 +96,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/school_identifier"
-            tools:textColor="@color/primary" />
+            tools:textColor="@color/colorPrimary" />
 
     </android.support.constraint.ConstraintLayout>
 
