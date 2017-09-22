@@ -32,13 +32,9 @@ class EventsFragment : BaseFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         events_recycler_view.setHasFixedSize(true)
         events_recycler_view.layoutManager = LinearLayoutManager(activity)
-
         callback.fetchEvents(
-                { events -> bindEvents(events)
-
-                },
+                { events -> bindEvents(events) },
                 { error -> Timber.e(error) })
-
         listAdapter = SectionedEventsAdapter()
 
         events_recycler_view.adapter = listAdapter
@@ -47,20 +43,9 @@ class EventsFragment : BaseFragment() {
     private fun bindEvents(events: List<Events>) {
         val groupByDateEvents = events.groupBy { it.startDateTs }
         val eventSections = ArrayList<EventSectionModel>()
-        for ((key, value) in groupByDateEvents) {
+        for ((key, value) in groupByDateEvents)
             eventSections.add(EventSectionModel(key, ArrayList(value)))
-        }
         listAdapter.addAllEventsSections(eventSections)
-
-//        for (event in groupByDateEvents) {
-//
-//
-//            listAdapter.addSection(EventsSection(EventSectionModel(event.key, ArrayList(event.value))))
-//        }
-
-
-
-
     }
 
 
