@@ -51,27 +51,3 @@ class NetworkUtil {
         }
     }
 }
-
-
-//    public void getImage(String url, final HackathonCallback<Bitmap> callback) {
-//        OkHttpClient client = new OkHttpClient();
-//
-//        Request request = new Request.Builder()
-//                .url(url)
-//                .build();
-//
-//        client.newCall(request).enqueue(new okhttp3.Callback() {
-//            @Override
-//            public void onFailure(okhttp3.Call call, IOException e) {
-//
-//            }
-//
-//            @Override
-//            public void onResponse(okhttp3.Call call, okhttp3.Response response)
-//                    throws IOException {
-//                Bitmap image = BitmapFactory.decodeStream(response.body().byteStream());
-//
-//                callback.success(image);
-//            }
-//        });
-//    }

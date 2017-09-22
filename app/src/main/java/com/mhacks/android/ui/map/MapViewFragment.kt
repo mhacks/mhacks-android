@@ -89,38 +89,6 @@ class MapViewFragment :
         NetworkUtil.getImage(floor.floorImage,
                 {success -> onBitmapResponseSuccess(success, floor)},
                 {failure -> onBitmapResponseFailure(failure)})
-
-
-        //            val networkManager = NetworkManager.getInstance()
-//            networkManager.getFloors(object : HackathonCallback<List<Floor>> {
-//                override fun success(response: List<Floor>) {
-//                    floors = ArrayList(response)
-//                    val spinnerAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item)
-//                    spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//                    if (!floors.isEmpty()) {
-//                        for (floor in floors) {
-//                            spinnerAdapter.add(floor.getName())
-//                        }
-//                        nameView.adapter = spinnerAdapter
-//                        spinnerAdapter.notifyDataSetChanged()
-//                        nameView.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//                            override fun onItemSelected(adapterView: AdapterView<*>,
-//                                                        view: View,
-//                                                        i: Int,
-//                                                        l: Long) {
-//                                addOverlay(floors[i])
-//                            }
-//                            override fun onNothingSelected(adapterView: AdapterView<*>) {
-//
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                override fun failure(error: Throwable) {
-//                    Log.e(TAG, "unable to get floors", error)
-//                }
-//            })
     }
 
     private fun setUpMapIfNeeded() {
