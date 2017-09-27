@@ -100,6 +100,12 @@ dependencies {
     implementation 'com.flaviofaria:kenburnsview:1.0.7'
     implementation 'com.jpardogo.materialtabstrip:library:1.1.0'
     implementation 'com.github.bumptech.glide:glide:4.0.0'
+    implementation 'me.dm7.barcodescanner:zxing:1.9.8'
+    implementation("com.github.hotchemi:permissionsdispatcher:3.0.1") {
+        // if you don't use android.app.Fragment you can exclude support for them
+        exclude module: "support-v13"
+    }
+    kapt "com.github.hotchemi:permissionsdispatcher-processor:3.0.1"
 }
 
 

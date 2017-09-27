@@ -21,7 +21,7 @@ class FCMMessageHandler : FirebaseMessagingService() {
         val from = remoteMessage.from
 
         val notification = remoteMessage.notification
-        createNotification(notification);
+        createNotification(notification)
     }
 
     private fun createNotification(notification: RemoteMessage.Notification) {
@@ -30,7 +30,7 @@ class FCMMessageHandler : FirebaseMessagingService() {
                 .setSmallIcon(R.mipmap.launcher_icon)
                 .setContentTitle(notification.title)
                 .setContentText(notification.body)
-                .setPriority(Notification.PRIORITY_HIGH)
+//                .setPriority(Notification.PRIORITY_HIGH)
                 .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
 

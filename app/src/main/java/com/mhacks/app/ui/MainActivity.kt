@@ -31,6 +31,7 @@ import com.mhacks.app.ui.login.LoginActivity
 import com.mhacks.app.ui.map.MapViewFragment
 import com.mhacks.app.ui.ticket.TicketDialogFragment
 import com.mhacks.app.ui.common.util.GooglePlayUtil
+import com.mhacks.app.ui.qrscan.QRScanActivity
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -77,6 +78,7 @@ class MainActivity : BaseActivity(),
             startService(intent)
         }
 
+        startActivity(Intent(this, QRScanActivity::class.java))
         appCallback.hackathonComponent.inject(this)
         setTheme(R.style.MHacksTheme)
         checkIfLogin()
