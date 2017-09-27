@@ -1,4 +1,4 @@
-package com.mhacks.android;
+package com.mhacks.app;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
