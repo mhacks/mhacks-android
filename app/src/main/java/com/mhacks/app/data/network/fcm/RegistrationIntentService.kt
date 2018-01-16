@@ -20,11 +20,7 @@ import android.content.SharedPreferences
  */
 
 class RegistrationIntentService : IntentService(TAG) {
-
     private val SENT_TOKEN_TO_SERVER = "sentTokenToServer"
-    private val FCM_TOKEN = "FCMToken"
-    private val mhacksGroup = "MHacks Group"
-
 
     private val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl("https://mhacks.org/v1/")
@@ -40,7 +36,6 @@ class RegistrationIntentService : IntentService(TAG) {
 
     override fun onHandleIntent(intent: Intent?) {
         val instanceID = FirebaseInstanceId.getInstance()
-        val senderId = resources.getString(R.string.gcm_defaultSenderId)
         try {
             val token = instanceID.token;
             if (token !== null) {
@@ -49,7 +44,6 @@ class RegistrationIntentService : IntentService(TAG) {
         } catch (e: IOException) {
             sharedPreferences.edit().putBoolean(SENT_TOKEN_TO_SERVER, false).apply();
         }
-
     }
 
     private fun sendRegistrationToServer(token: String) {
@@ -63,7 +57,6 @@ class RegistrationIntentService : IntentService(TAG) {
     }
 
     companion object {
-
         private val TAG = "RegIntentService"
     }
 }

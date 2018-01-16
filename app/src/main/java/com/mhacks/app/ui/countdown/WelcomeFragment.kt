@@ -9,7 +9,6 @@ import com.mhacks.app.data.kotlin.MetaConfiguration
 import com.mhacks.app.ui.common.BaseFragment
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import org.joda.time.format.DateTimeFormat
 import org.mhacks.x.R
 import timber.log.Timber
 import java.text.DateFormat
@@ -27,24 +26,17 @@ class WelcomeFragment : BaseFragment() {
     override var AppBarTitle: Int = R.string.welcome
     override var LayoutResourceID: Int = R.layout.fragment_welcome
 
-    // Countdown views
     private var circularProgress: ProgressBar? = null
     private var countdownTextView: TextView? = null
 
-    // For testing the countdown timer
     private val countdownLength = (10 * 1000).toLong()
     private val countdownUpdateIntervals = (1 * 750).toLong()
 
     private var startDate: Date? = null
     private var duration: Long = 0
 
-    private val callback by lazy {
-        activity as Callback
-    }
-
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Cache the views that need to be edited later on
         circularProgress = view?.findViewById(R.id.progressbar_counter)
         countdownTextView = view?.findViewById(R.id.timer_text)
     }
@@ -59,8 +51,6 @@ class WelcomeFragment : BaseFragment() {
 //        callback.checkOrFetchConfig(
 //                { config -> onConfigCallbackSuccess(config) },
 //                { error -> onConfigCallbackFailure(error) })
-
-
         duration = 129600000
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         simpleDateFormat.timeZone = TimeZone.getTimeZone("America/Detroit")
@@ -83,10 +73,6 @@ class WelcomeFragment : BaseFragment() {
         Timber.e(error.message)
     }
 
-
-
-
-
     /**
      * Initializes the countdown based off of the start date and duration if necessary
      * @param startDate - Date(+time) this countdown is supposed to start
@@ -104,21 +90,12 @@ class WelcomeFragment : BaseFragment() {
         val localStartDT = DateTime(startDate) // Get the startDate in joda time library in EST tz
         localStartDT.toDateTime(localDTZ)
 
-        // Get the endDT in local time
-        var localEndDT = DateTime(localStartDT)
-        localEndDT = localEndDT.plus(duration - 10800000)
-
         // Get the current, start, and end times in millis
         val curTime = localDateTime.millis
         val startTime = startDate!!.time
         val endTime = startTime + duration
 
-        // Get a resources reference, to get the necessary display strings
-        val res = activity.resources
         // Holds the strings to display
-
-        // Returns date times in the format similar to "DayName, MonthName DD, YYYY at HH:MM AM/PM."
-        val dateTimeFormatter = DateTimeFormat.forPattern("EEEE, MMMM d, yyyy 'at' hh:mm a.")
 
         if (curTime < startTime) {
             // If so, it's not hack time just yet

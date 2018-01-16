@@ -32,19 +32,11 @@ import kotlin.collections.ArrayList
 class MapViewFragment :
         BaseFragment(),
         OnMapReadyCallback, AdapterView.OnItemSelectedListener {
-
     override var setTransparent: Boolean = true
     override var AppBarTitle: Int = R.string.title_map
     override var LayoutResourceID: Int = R.layout.fragment_map
-
     private val callback by lazy { activity as Callback }
-
-    lateinit var nameView: Spinner
-    // Data
     lateinit var floors: ArrayList<Floor>
-    // Views
-    private var mMapFragView: View? = null
-    // Map
     private var mMapFragment: SupportMapFragment? = null
     private var mGoogleMap: GoogleMap? = null
 
@@ -62,12 +54,10 @@ class MapViewFragment :
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         setCustomActionBarColor(R.color.semiColorPrimary)
-
-
         if (GooglePlayUtil.checkPlayServices(activity)) setUpMapIfNeeded()
     }
 
-    fun showDefaultLayoutView() {
+    private fun showDefaultLayoutView() {
         if (this.floors.size != 0) {
             val floor: Floor = floors[0]
             setUpMapIfNeeded()
@@ -96,10 +86,8 @@ class MapViewFragment :
             mMapFragment = SupportMapFragment.newInstance()
             fragmentManager.beginTransaction().replace(R.id.map, mMapFragment).commit()
         }
-
         if (mGoogleMap == null) mMapFragment!!.getMapAsync(this)
     }
-
 
     override fun onMapReady(googleMap: GoogleMap) {
         mGoogleMap = googleMap
@@ -110,13 +98,6 @@ class MapViewFragment :
         settings.isCompassEnabled = true
         settings.isTiltGesturesEnabled = true
         mGoogleMap?.mapType = GoogleMap.MAP_TYPE_HYBRID
-
-
-        //CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(42.292650, -83.714359));
-        //CameraUpdate zoom = CameraUpdateFactory.zoomTo(13);
-        /*LatLngBounds uMichigan = new LatLngBounds(
-                new LatLng(42.264257, -83.755700), new LatLng(42.301539, -83.703797));
-        mGoogleMap.setLatLngBoundsForCameraTarget(uMichigan);*/
 
         val center = CameraUpdateFactory.newCameraPosition(
                 CameraPosition.Builder()
@@ -131,17 +112,13 @@ class MapViewFragment :
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
         }
-
         if (ContextCompat.checkSelfPermission(this.activity.applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mGoogleMap!!.isMyLocationEnabled = true
             mGoogleMap!!.uiSettings.isMyLocationButtonEnabled = true
-        } else {
-            //Permission was denied.
-        }
+        } else { }
 
         googleMap.animateCamera(center)
     }
-
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (requestCode == 1) {
@@ -158,26 +135,22 @@ class MapViewFragment :
     }
 
     private fun onBitmapResponseSuccess(image: Bitmap, floor: Floor) {
-        activity.runOnUiThread{
-
+        activity.runOnUiThread {
             val northCampusBounds = LatLngBounds (
                 LatLng(floor.seLatitude.toDouble(), floor.nwLongitude.toDouble()), //South West corner
                 LatLng(floor.nwLatitude.toDouble(), floor.seLongitude.toDouble()) //North East Corner
             )
-
             val northCampusMap = GroundOverlayOptions()
                     .image(BitmapDescriptorFactory.fromBitmap(image))
                     .positionFromBounds(northCampusBounds)
-
             mGoogleMap!!.addGroundOverlay(northCampusMap)
 
         }
 
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun onBitmapResponseFailure(error: Throwable) {}
-
-
 
     override fun onResume() {
         super.onResume()
@@ -191,7 +164,6 @@ class MapViewFragment :
     }
 
     interface Callback {
-
         fun fetchFloors(success: (floor: List<Floor>) -> Unit,
                         failure: (error: Throwable) -> Unit)
 
@@ -203,11 +175,7 @@ class MapViewFragment :
     }
 
     companion object {
-
-        val TAG = "MapViewFragment"
-
         val instance: MapViewFragment
             get() = MapViewFragment()
     }
-
 }

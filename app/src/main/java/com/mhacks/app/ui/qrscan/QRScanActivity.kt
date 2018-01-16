@@ -4,14 +4,10 @@ import android.app.Activity
 import android.os.Bundle
 import com.google.zxing.Result
 import me.dm7.barcodescanner.zxing.ZXingScannerView
-import org.mhacks.x.Manifest
 import org.mhacks.x.R
-import permissions.dispatcher.NeedsPermission
-import permissions.dispatcher.RuntimePermissions
 
 
-
-@RuntimePermissions
+//@RuntimePermissions
 class QRScanActivity : Activity(), ZXingScannerView.ResultHandler {
     private var mScannerView: ZXingScannerView? = null
 

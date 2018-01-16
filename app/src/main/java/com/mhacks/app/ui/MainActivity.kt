@@ -53,17 +53,11 @@ class MainActivity : BaseActivity(),
         MapViewFragment.Callback,
         AnnouncementFragment.Callback,
         EventsFragment.Callback {
-
-    // Callbacks to properties and methods on the application class.
     private val appCallback by lazy {
         application as MHacksApplication
     }
 
     private var notif: String? = null
-
-//    lateinit var regid: String
-//    val PROJECT_NUMBER: String by lazy { getString(R.string.gcm_server_id) }
-
     @Inject lateinit var hackathonService: HackathonApiService
     @Inject lateinit var mhacksDatabase: MHacksDatabase
     private lateinit var menuItem: MenuItem
@@ -95,8 +89,6 @@ class MainActivity : BaseActivity(),
         })
 
     }
-
-
 
     override fun checkOrFetchConfig(success: (config: MetaConfiguration) -> Unit,
                                    failure: (error: Throwable) -> Unit) {
@@ -206,19 +198,16 @@ class MainActivity : BaseActivity(),
         val adapter = ArrayAdapter<Floor>(this, R.layout.floors_spinner_item, floors)
         adapter.setDropDownViewResource(R.layout.map_view_dropdown_item_1line)
         navigationSpinner.adapter = adapter
-
         navigationSpinner.onItemSelectedListener = listener
     }
 
-
     override fun showFloorOptions() {
-       // navigationSpinner.visibility = View.VISIBLE
+
     }
 
     override fun hideFloorOptions() {
         navigationSpinner.visibility = View.GONE
     }
-
 
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>,
@@ -242,25 +231,13 @@ class MainActivity : BaseActivity(),
         qr_ticket_fab.setOnClickListener({
             showTicketDialogFragment()
         })
-
         menuItem = navigation.menu.getItem(0)
         menuItem.setTitle(R.string.title_home)
-
         setSupportActionBar(toolbar)
-
         addMapFloorSpinner()
-
         toolbar.addView(navigationSpinner, Toolbar.LayoutParams(Gravity.END))
-
         updateFragment(WelcomeFragment.instance)
-
-
-
-        // If Activity opened from push notification, value will reflect fragment that will initially open
         notif = intent.getStringExtra("notif_link")
-
-
-
         navigation?.setOnNavigationItemSelectedListener({ item ->
             when (item.itemId) {
                 R.id.navigation_home -> updateFragment(WelcomeFragment.instance)
@@ -274,26 +251,19 @@ class MainActivity : BaseActivity(),
     }
 
     private fun addMapFloorSpinner() {
-
         navigationSpinner = Spinner(supportActionBar?.themedContext)
-
         navigationSpinner.visibility = View.GONE
-
         navigationSpinner.background.setColorFilter(
                 ContextCompat.getColor(this, R.color.white),
                 PorterDuff.Mode.SRC_ATOP)
-
     }
 
     interface OnFromMainActivityCallback {
-
         fun setAuthInterceptorToken(token: String)
-
         val hackathonComponent: HackathonComponent
     }
 
     companion object {
-
         val LOCATION_REQUEST_CODE = 7
     }
 }
