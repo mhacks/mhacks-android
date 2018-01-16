@@ -11,7 +11,7 @@ ext {
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "25.0.3"
+    buildToolsVersion '26.0.2'
     dexOptions {
         javaMaxHeapSize "4g"
     }
@@ -19,10 +19,7 @@ android {
         exclude "META-INF/LICENSE"
         exclude "META-INF/NOTICE"
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+
     signingConfigs {
         release {
             storeFile file("mhacks-release-key.keystore")
@@ -105,15 +102,7 @@ dependencies {
         // if you don't use android.app.Fragment you can exclude support for them
         exclude module: "support-v13"
     }
-    kapt "com.github.hotchemi:permissionsdispatcher-processor:3.0.1"
-}
-
-
-// Sets the Kotlin compiler to create JDK 8 bytecode
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+//    kapt "com.github.hotchemi:permissionsdispatcher-processor:3.0.1"
 }
 
 apply plugin: "com.google.gms.google-services"

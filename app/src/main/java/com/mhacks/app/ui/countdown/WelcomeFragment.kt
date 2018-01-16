@@ -28,8 +28,8 @@ class WelcomeFragment : BaseFragment() {
     override var LayoutResourceID: Int = R.layout.fragment_welcome
 
     // Countdown views
-    private var mCircularProgress: ProgressBar? = null
-    private var mCountdownTextView: TextView? = null
+    private var circularProgress: ProgressBar? = null
+    private var countdownTextView: TextView? = null
 
     // For testing the countdown timer
     private val countdownLength = (10 * 1000).toLong()
@@ -44,10 +44,9 @@ class WelcomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         // Cache the views that need to be edited later on
-        mCircularProgress = view?.findViewById(R.id.progressbar_counter)
-        mCountdownTextView = view?.findViewById(R.id.timer_text)
+        circularProgress = view?.findViewById(R.id.progressbar_counter)
+        countdownTextView = view?.findViewById(R.id.timer_text)
     }
 
     companion object {
@@ -138,8 +137,8 @@ class WelcomeFragment : BaseFragment() {
             // Otherwise, hacking already ended =<
 
             // Set the counter to its "finished" state
-            mCircularProgress!!.progress = 100
-            mCountdownTextView!!.text = "Done!"
+            circularProgress!!.progress = 100
+            countdownTextView!!.text = "Done!"
         }
     }
 
@@ -187,16 +186,16 @@ class WelcomeFragment : BaseFragment() {
             sec = if (seconds < 10) "0" + seconds.toString() else seconds.toString()
 
             // Update the countdown timer textView
-            mCountdownTextView!!.text = hrs + ":" + min + (":" + sec).substring(0, 3)
+            countdownTextView!!.text = hrs + ":" + min + (":" + sec).substring(0, 3)
 
             // Update the progress [maxProgressInt - maxProgressInt*timeRemaining/total time]
             val progress = (100 - 100 * millisUntilFinished / totalHackingTimeInMillis).toInt()
-            mCircularProgress!!.progress = progress
+            circularProgress!!.progress = progress
         }
 
         override fun onFinish() {
-            mCircularProgress!!.progress = 100
-            mCountdownTextView!!.text = "Done!"
+            circularProgress!!.progress = 100
+            countdownTextView!!.text = "Done!"
         }
     }
 }

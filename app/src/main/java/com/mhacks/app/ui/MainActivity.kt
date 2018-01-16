@@ -77,8 +77,6 @@ class MainActivity : BaseActivity(),
             val intent = Intent(this, RegistrationIntentService::class.java)
             startService(intent)
         }
-
-        startActivity(Intent(this, QRScanActivity::class.java))
         appCallback.hackathonComponent.inject(this)
         setTheme(R.style.MHacksTheme)
         checkIfLogin()

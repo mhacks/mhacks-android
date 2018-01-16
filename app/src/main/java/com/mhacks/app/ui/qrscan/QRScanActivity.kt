@@ -6,6 +6,7 @@ import com.google.zxing.Result
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 import org.mhacks.x.Manifest
 import org.mhacks.x.R
+import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
 
 
@@ -14,7 +15,7 @@ import permissions.dispatcher.RuntimePermissions
 class QRScanActivity : Activity(), ZXingScannerView.ResultHandler {
     private var mScannerView: ZXingScannerView? = null
 
-    @NeedsPermission(Manifest.permission.CAMERA)
+//    @NeedsPermission(Manifest.permission.CAMERA)
     public override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         setTheme(R.style.MHacksTheme)
