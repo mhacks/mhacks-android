@@ -7,23 +7,22 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.AdapterView
-import android.widget.Spinner
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.mhacks.app.R
 import com.mhacks.app.data.kotlin.Floor
 import com.mhacks.app.ui.common.BaseFragment
 import com.mhacks.app.ui.common.util.GooglePlayUtil
 import com.mhacks.app.ui.common.util.NetworkUtil
 import com.mhacks.app.ui.common.util.ResourceUtil
-import org.mhacks.x.R
 import timber.log.Timber
 import kotlin.collections.ArrayList
 
 
-/**j6yyg
+/**
  * Created by anksh on 12/31/2014.
  * Updated by omkarmoghe on 10/6/16
 
@@ -33,8 +32,8 @@ class MapViewFragment :
         BaseFragment(),
         OnMapReadyCallback, AdapterView.OnItemSelectedListener {
     override var setTransparent: Boolean = true
-    override var AppBarTitle: Int = R.string.title_map
-    override var LayoutResourceID: Int = R.layout.fragment_map
+    override var appBarTitle: Int = R.string.title_map
+    override var layoutResourceID: Int = R.layout.fragment_map
     private val callback by lazy { activity as Callback }
     lateinit var floors: ArrayList<Floor>
     private var mMapFragment: SupportMapFragment? = null

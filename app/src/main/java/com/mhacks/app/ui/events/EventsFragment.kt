@@ -3,10 +3,10 @@ package com.mhacks.app.ui.events
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import com.mhacks.app.R
 import com.mhacks.app.data.kotlin.Event
 import com.mhacks.app.ui.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_events.*
-import org.mhacks.x.R
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -19,8 +19,8 @@ import java.util.*
 class EventsFragment : BaseFragment() {
 
     override var setTransparent: Boolean = false
-    override var AppBarTitle: Int = R.string.title_events
-    override var LayoutResourceID: Int = R.layout.fragment_events
+    override var appBarTitle: Int = R.string.title_events
+    override var layoutResourceID: Int = R.layout.fragment_events
 
     private var weekDateFormat = SimpleDateFormat("EEEE", Locale.US)
 

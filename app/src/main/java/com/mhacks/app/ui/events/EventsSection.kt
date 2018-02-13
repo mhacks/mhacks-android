@@ -5,10 +5,10 @@ import android.view.View
 import android.widget.TextView
 import com.github.vipulasri.timelineview.LineType
 import com.github.vipulasri.timelineview.TimelineView
+import com.mhacks.app.R
 import com.mhacks.app.data.kotlin.Event
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection
-import org.mhacks.x.R
 
 /**
  * Created by jeffreychang on 8/31/17.

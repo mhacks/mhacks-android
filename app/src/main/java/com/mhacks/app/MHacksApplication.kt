@@ -17,7 +17,6 @@ import com.mhacks.app.dagger.module.RetrofitModule
 import com.mhacks.app.dagger.module.RoomModule
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
-import org.mhacks.x.BuildConfig
 import timber.log.Timber
 
 class MHacksApplication : DaggerApplication() {

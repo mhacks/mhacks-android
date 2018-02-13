@@ -8,14 +8,13 @@ import android.os.Build
 import android.support.annotation.ColorRes
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
+import com.mhacks.app.R
 import com.mhacks.app.ui.common.util.NetworkUtil
 import com.mhacks.app.ui.common.util.ResourceUtil
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import org.mhacks.x.R
 
 /**
  * Created by jeffreychang on 9/13/17.

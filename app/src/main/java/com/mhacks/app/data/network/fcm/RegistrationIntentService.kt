@@ -6,7 +6,6 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.mhacks.app.data.network.services.HackathonApiService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.mhacks.x.R
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -20,7 +19,6 @@ import android.content.SharedPreferences
  */
 
 class RegistrationIntentService : IntentService(TAG) {
-    private val SENT_TOKEN_TO_SERVER = "sentTokenToServer"
 
     private val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl("https://mhacks.org/v1/")
@@ -57,6 +55,7 @@ class RegistrationIntentService : IntentService(TAG) {
     }
 
     companion object {
-        private val TAG = "RegIntentService"
+        private const val TAG = "RegIntentService"
+        private const val SENT_TOKEN_TO_SERVER = "sentTokenToServer"
     }
 }

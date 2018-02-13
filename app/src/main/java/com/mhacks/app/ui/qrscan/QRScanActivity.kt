@@ -3,8 +3,8 @@ package com.mhacks.app.ui.qrscan
 import android.app.Activity
 import android.os.Bundle
 import com.google.zxing.Result
+import com.mhacks.app.R
 import me.dm7.barcodescanner.zxing.ZXingScannerView
-import org.mhacks.x.R
 
 class QRScanActivity : Activity(), ZXingScannerView.ResultHandler {
     private var mScannerView: ZXingScannerView? = null

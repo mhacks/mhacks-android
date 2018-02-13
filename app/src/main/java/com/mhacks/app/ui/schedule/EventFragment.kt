@@ -38,8 +38,8 @@
 //        WeekView.EventLongPressListener {
 //
 //    override var setTransparent: Boolean = false
-//    override var AppBarTitle: Int = R.string.title_events
-//    override var LayoutResourceID: Int = R.layout.fragment_schedule
+//    override var appBarTitle: Int = R.string.title_events
+//    override var layoutResourceID: Int = R.layout.fragment_schedule
 //
 //    // Declaring Views
 //    private var mScheduleContainer: LinearLayout? = null

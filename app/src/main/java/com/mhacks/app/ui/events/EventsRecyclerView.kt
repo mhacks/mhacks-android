@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.github.vipulasri.timelineview.TimelineView
+import com.mhacks.app.R
 import com.mhacks.app.data.model.Events
-import org.mhacks.x.R
 import kotlin.collections.ArrayList
 
-class AnnouncementAdapter(var mContext: Context, var eventsList: ArrayList<Events>):
+class AnnouncementAdapter(var context: Context, private var eventList: ArrayList<Events>):
         RecyclerView.Adapter<AnnouncementAdapter.AnnouncementViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
@@ -21,13 +21,12 @@ class AnnouncementAdapter(var mContext: Context, var eventsList: ArrayList<Event
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): AnnouncementViewHolder {
         // Create the view for this row
-        val row = LayoutInflater.from(mContext)
+        val row = LayoutInflater.from(context)
                 .inflate(R.layout.events_list_item, viewGroup, false)
 
         // Create a new viewHolder which caches all the views that needs to be saved
-        val viewHolder = AnnouncementViewHolder(row)
 
-        return viewHolder
+        return AnnouncementViewHolder(row)
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -36,7 +35,7 @@ class AnnouncementAdapter(var mContext: Context, var eventsList: ArrayList<Event
         // - replace the contents of the view with that element
 
         // Get the current announcement item
-        val announcement = eventsList[i]
+        val announcement = eventList[i]
 
         // Set this item's views based off of the announcement data
         viewHolder.titleView.text = announcement.title
@@ -81,7 +80,7 @@ class AnnouncementAdapter(var mContext: Context, var eventsList: ArrayList<Event
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount(): Int {
-        return eventsList.size
+        return eventList.size
     }
 
     // Simple class that holds all the views that need to be reused

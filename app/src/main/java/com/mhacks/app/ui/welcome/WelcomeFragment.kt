@@ -1,15 +1,15 @@
-package com.mhacks.app.ui.countdown
+package com.mhacks.app.ui.welcome
 
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.mhacks.app.R
 import com.mhacks.app.data.kotlin.MetaConfiguration
 import com.mhacks.app.ui.common.BaseFragment
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import org.mhacks.x.R
 import timber.log.Timber
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -23,8 +23,8 @@ import java.util.*
 class WelcomeFragment : BaseFragment() {
 
     override var setTransparent: Boolean = false
-    override var AppBarTitle: Int = R.string.welcome
-    override var LayoutResourceID: Int = R.layout.fragment_welcome
+    override var appBarTitle: Int = R.string.welcome
+    override var layoutResourceID: Int = R.layout.fragment_welcome
 
     private var circularProgress: ProgressBar? = null
     private var countdownTextView: TextView? = null
@@ -47,10 +47,6 @@ class WelcomeFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-//        callback.checkOrFetchConfig(
-//                { config -> onConfigCallbackSuccess(config) },
-//                { error -> onConfigCallbackFailure(error) })
         duration = 129600000
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         simpleDateFormat.timeZone = TimeZone.getTimeZone("America/Detroit")

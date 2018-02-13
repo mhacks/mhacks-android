@@ -1,21 +1,11 @@
 package com.mhacks.app.ui.login
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import com.mhacks.app.MHacksApplication
+import com.mhacks.app.R
 import com.mhacks.app.data.model.Login
-import com.mhacks.app.data.network.services.HackathonApiService
-import com.mhacks.app.data.room.MHacksDatabase
-import com.mhacks.app.ui.MainActivity
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.login.components.LoginFragment
-import com.mhacks.app.ui.common.util.NetworkUtil
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import org.mhacks.x.R
-import javax.inject.Inject
 
 class LoginActivity : BaseActivity(), LoginFragment.OnFromLoginFragmentCallback{
 

@@ -1,66 +1,58 @@
 package com.mhacks.app.ui.common
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.ColorRes
 import android.support.annotation.StringRes
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.mhacks.app.R
 import dagger.android.support.DaggerFragment
-import org.mhacks.x.R
-
 
 /**
  * The base which Fragments in this project will extend.
  */
-
 abstract class BaseFragment : DaggerFragment() {
 
-    private var mCallback: OnNavigationChangeListener? = null
+    private var callback: OnNavigationChangeListener? = null
 
-    abstract var setTransparent: Boolean set
-    abstract var AppBarTitle: Int set
-    abstract var LayoutResourceID: Int set
+    abstract var setTransparent: Boolean
+    abstract var appBarTitle: Int
+    abstract var layoutResourceID: Int
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mCallback = activity as OnNavigationChangeListener
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        callback = activity as? OnNavigationChangeListener
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         changeColors()
-        return inflater?.inflate(LayoutResourceID, container, false)
-    }
-
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        return inflater?.inflate(layoutResourceID, container, false)
     }
 
     private fun changeColors() {
-        mCallback?.setFragmentTitle(AppBarTitle)
-        mCallback?.setActionBarColor(android.R.color.transparent)
+        callback?.setFragmentTitle(appBarTitle)
+        callback?.setActionBarColor(android.R.color.transparent)
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (setTransparent) {
-                mCallback?.setActionBarColor(android.R.color.transparent)
-                mCallback?.setStatusBarColor(android.R.color.transparent)
-                mCallback?.removePadding()
+                callback?.setActionBarColor(android.R.color.transparent)
+                callback?.setStatusBarColor(android.R.color.transparent)
+                callback?.removePadding()
 
             } else {
-                mCallback?.setActionBarColor(R.color.colorPrimary)
-                mCallback?.setStatusBarColor(R.color.colorPrimaryDark)
-                mCallback?.addPadding()
+                callback?.setActionBarColor(R.color.colorPrimary)
+                callback?.setStatusBarColor(R.color.colorPrimaryDark)
+                callback?.addPadding()
             }
-
-        } else {
-
         }
     }
 
     fun setCustomActionBarColor(@ColorRes res: Int) {
-        mCallback?.setActionBarColor(res)
+        callback?.setActionBarColor(res)
     }
 
     interface OnNavigationChangeListener {
@@ -70,10 +62,6 @@ abstract class BaseFragment : DaggerFragment() {
         fun setActionBarColor(@ColorRes color: Int)
 
         fun setStatusBarColor(color: Int)
-
-        fun setTransparentStatusBar()
-
-        fun clearTransparentStatusBar()
 
         fun addPadding()
 

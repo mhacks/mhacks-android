@@ -6,9 +6,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.mhacks.app.R
 import com.mhacks.app.data.kotlin.Event
 import kotlinx.android.synthetic.main.events_pager_view.*
-import org.mhacks.x.R
 
 /**
  * Created by jeffreychang on 9/22/17.

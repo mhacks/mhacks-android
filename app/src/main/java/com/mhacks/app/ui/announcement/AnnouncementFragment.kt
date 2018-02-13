@@ -3,11 +3,11 @@ package com.mhacks.app.ui.announcement
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import com.mhacks.app.R
 import com.mhacks.app.data.kotlin.Announcements
 import com.mhacks.app.ui.common.BaseFragment
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_announcements.*
-import org.mhacks.x.R
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -20,9 +20,9 @@ class AnnouncementFragment : BaseFragment() {
 
     override var setTransparent = false
 
-    override var AppBarTitle = R.string.title_announcements
+    override var appBarTitle = R.string.title_announcements
 
-    override var LayoutResourceID = R.layout.fragment_announcements
+    override var layoutResourceID = R.layout.fragment_announcements
 
     private val callback by lazy { activity as Callback }
 

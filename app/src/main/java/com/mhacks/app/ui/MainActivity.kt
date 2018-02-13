@@ -1,8 +1,14 @@
 package com.mhacks.app.ui
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
+import android.view.MenuItem
+import com.mhacks.app.R
 import com.mhacks.app.ui.common.BaseActivity
-import org.mhacks.x.R
+import com.mhacks.app.ui.common.NavigationColor
+import com.mhacks.app.ui.welcome.WelcomeFragment
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 /**
@@ -25,7 +31,7 @@ class MainActivity : BaseActivity()
 //    private var notif: String? = null
 //    @Inject lateinit var hackathonService: HackathonApiService
 //    @Inject lateinit var mhacksDatabase: MHacksDatabase
-//    private lateinit var menuItem: MenuItem
+    private lateinit var menuItem: MenuItem
 //
 //    private lateinit var navigationSpinner: Spinner
 //
@@ -38,6 +44,7 @@ class MainActivity : BaseActivity()
 //        }
 //        appCallback.hackathonComponent.inject(this)
         setTheme(R.style.MHacksTheme)
+    initActivity()
 //        checkIfLogin()
     }
 //
@@ -109,14 +116,14 @@ class MainActivity : BaseActivity()
 //        ticket.show(ft, "dialog")
 //    }
 //
-//    private fun updateFragment(fragment: Fragment?) {
-//        if (fragment == null) return  // only used for pre-release while fragments are not finalized
-//
-//        supportFragmentManager.beginTransaction()
-//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-//                .replace(R.id.fragment_container, fragment)
-//                .commit()
-//    }
+    private fun updateFragment(fragment: Fragment?) {
+        if (fragment == null) return  // only used for pre-release while fragments are not finalized
+
+        supportFragmentManager.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.fragment_container, fragment)
+                .commit()
+    }
 //
 //    override fun startLoginActivity() {
 //        startActivity(Intent(this, LoginActivity::class.java))
@@ -186,34 +193,34 @@ class MainActivity : BaseActivity()
 //        }
 //    }
 //
-//    private fun initActivity() {
-//
-//        setSystemFullScreenUI()
-//        setContentView(R.layout.activity_main)
-//        setBottomNavigationColor(
-//                NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
-//
+    private fun initActivity() {
+
+        setSystemFullScreenUI()
+        setContentView(R.layout.activity_main)
+        setBottomNavigationColor(
+                NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
+
 //        qr_ticket_fab.setOnClickListener({
 //            showTicketDialogFragment()
 //        })
-//        menuItem = navigation.menu.getItem(0)
-//        menuItem.setTitle(R.string.title_home)
-//        setSupportActionBar(toolbar)
+        menuItem = navigation.menu.getItem(0)
+        menuItem.setTitle(R.string.title_home)
+        setSupportActionBar(toolbar)
 //        addMapFloorSpinner()
 //        toolbar.addView(navigationSpinner, Toolbar.LayoutParams(Gravity.END))
-//        updateFragment(WelcomeFragment.instance)
+        updateFragment(WelcomeFragment.instance)
 //        notif = intent.getStringExtra("notif_link")
-//        navigation?.setOnNavigationItemSelectedListener({ item ->
-//            when (item.itemId) {
+        navigation?.setOnNavigationItemSelectedListener({ item ->
+            when (item.itemId) {
 //                R.id.navigation_home -> updateFragment(WelcomeFragment.instance)
 //                R.id.navigation_announcements -> updateFragment(AnnouncementFragment.instance)
 //                R.id.navigation_events -> updateFragment(EventsFragment.instance)
 //                R.id.navigation_map -> updateFragment(MapViewFragment.instance)
-//            }
-//            menuItem = item
-//            true
-//        })
-//    }
+            }
+            menuItem = item
+            true
+        })
+    }
 //
 //    private fun addMapFloorSpinner() {
 //        navigationSpinner = Spinner(supportActionBar?.themedContext)

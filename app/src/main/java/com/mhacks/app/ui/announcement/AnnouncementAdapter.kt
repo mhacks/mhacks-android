@@ -5,8 +5,8 @@ import android.support.v7.widget.RecyclerView.Adapter
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.mhacks.app.R
 import com.mhacks.app.data.kotlin.Announcements
-import org.mhacks.x.R
 import java.util.*
 
 /**
@@ -44,5 +44,4 @@ class AnnouncementsAdapter(val context: Context,
         holder.announcementEventDetail.text = announcement.body
 
     }
-
 }
