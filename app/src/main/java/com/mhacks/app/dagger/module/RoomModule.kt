@@ -19,5 +19,4 @@ class RoomModule {
     fun provideMHacksDatabase(application: Application): MHacksDatabase {
         return Room.databaseBuilder(application, MHacksDatabase::class.java, "mhacks-db").build()
     }
-
 }

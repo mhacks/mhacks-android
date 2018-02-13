@@ -4,45 +4,46 @@
 
 package com.mhacks.app
 
-import android.app.Application
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.graphics.Color
 import android.os.Build
+import android.support.annotation.RequiresApi
 import com.mhacks.app.dagger.component.*
-import com.mhacks.app.dagger.module.AppModule
 import com.mhacks.app.dagger.module.AuthModule
 import com.mhacks.app.dagger.module.RetrofitModule
-import com.mhacks.app.ui.MainActivity
+import com.mhacks.app.dagger.module.RoomModule
+import dagger.android.AndroidInjector
+import dagger.android.support.DaggerApplication
+import org.mhacks.x.BuildConfig
 import timber.log.Timber
 
-class MHacksApplication : Application(), MainActivity.OnFromMainActivityCallback {
+class MHacksApplication : DaggerApplication() {
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+    val netComponent = DaggerNetComponent.builder()
+            .authModule(AuthModule(null))
+            .retrofitModule(RetrofitModule("http://mhacks.org/"))
+            .build()
 
-    private lateinit var netComponent: NetComponent
-    lateinit override var hackathonComponent: HackathonComponent
-    private val mhacksGroup = "MHacks Group"
+        val appComponent = DaggerAppComponent.builder()
+                .application(this)
+                .netComponent(netComponent)
+                .roomModule(RoomModule())
+                .build()
+        appComponent.inject(this)
+        return appComponent
+    }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
         super.onCreate()
-        Timber.plant(Timber.DebugTree())
-
-        val appModule = AppModule(this)
-
-        netComponent = DaggerNetComponent.builder()
-                .appModule(appModule)
-                .authModule(AuthModule(null))
-                .retrofitModule(RetrofitModule("https://mhacks.org/v1/"))
-                .build()
-        hackathonComponent = DaggerHackathonComponent
-                .builder()
-                .netComponent(netComponent)
-                .build()
+        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
 
         if (Build.VERSION.SDK_INT >= 26) {
-            val notificationChannel = NotificationChannel(mhacksGroup,
-                    mhacksGroup, NotificationManager.IMPORTANCE_HIGH)
+            val notificationChannel = NotificationChannel(MHACKS_GROUP,
+                    MHACKS_GROUP, NotificationManager.IMPORTANCE_HIGH)
 
             notificationChannel.enableLights(true)
             notificationChannel.lightColor = Color.MAGENTA
@@ -53,9 +54,14 @@ class MHacksApplication : Application(), MainActivity.OnFromMainActivityCallback
 
             notificationManager.createNotificationChannel(notificationChannel);
         }
+//    }
+//
+//    override fun setAuthInterceptorToken(token: String) {
+//        netComponent.authInterceptor.token = token
+//    }
     }
 
-    override fun setAuthInterceptorToken(token: String) {
-        netComponent.authInterceptor.token = token
+    companion object {
+        private const val MHACKS_GROUP = "MHacks Group"
     }
 }

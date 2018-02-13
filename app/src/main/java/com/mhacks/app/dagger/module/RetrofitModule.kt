@@ -36,7 +36,7 @@ import javax.inject.Singleton
 
     @Provides
     @Singleton
-    internal fun provideOkhttpClient(cache: Cache, interceptor: AuthInterceptor?): OkHttpClient {
+    internal fun provideOkhttpClient(cache: Cache, interceptor: AuthModule.AuthInterceptor?): OkHttpClient {
         val client = OkHttpClient.Builder()
         client.cache(cache)
         if (interceptor != null) client.addInterceptor(interceptor)

@@ -1,19 +1,18 @@
 package com.mhacks.app.dagger.module
 
 import android.app.Application
+import android.content.Context
+import com.mhacks.app.dagger.component.MainActivityComponent
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 /**
- * Created by jeffreychang on 9/2/17.
+ * Module that exposes the application context.
  */
-
-
-@Module class AppModule(internal var application: Application) {
-
+@Module(subcomponents = [MainActivityComponent::class])
+class AppModule {
     @Provides
-    @Singleton internal fun provideApplication(): Application {
-        return application
-    }
+    @Singleton
+    fun provideContext(application: Application): Context = application
 }

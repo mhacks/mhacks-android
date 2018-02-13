@@ -13,13 +13,14 @@ import android.view.View
 import android.view.WindowManager
 import com.mhacks.app.ui.common.util.NetworkUtil
 import com.mhacks.app.ui.common.util.ResourceUtil
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.mhacks.x.R
 
 /**
  * Created by jeffreychang on 9/13/17.
  */
-abstract class BaseActivity: AppCompatActivity() {
+abstract class BaseActivity: DaggerAppCompatActivity() {
     fun setStatusBarTransparent() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN

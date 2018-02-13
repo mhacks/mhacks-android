@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import dagger.android.support.DaggerFragment
 import org.mhacks.x.R
 
 
@@ -15,7 +16,7 @@ import org.mhacks.x.R
  * The base which Fragments in this project will extend.
  */
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment : DaggerFragment() {
 
     private var mCallback: OnNavigationChangeListener? = null
 

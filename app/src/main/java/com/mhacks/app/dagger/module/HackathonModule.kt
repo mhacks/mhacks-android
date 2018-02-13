@@ -17,6 +17,4 @@ import retrofit2.Retrofit
     internal fun provideHackathonApiInterface(retrofit: Retrofit): HackathonApiService {
         return retrofit.create(HackathonApiService::class.java)
     }
-
-
 }
