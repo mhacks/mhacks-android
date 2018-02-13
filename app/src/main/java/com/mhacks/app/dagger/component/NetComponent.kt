@@ -20,5 +20,4 @@ interface NetComponent {
 
         fun build(): NetComponent
     }
-
 }

@@ -5,10 +5,16 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.view.MenuItem
 import com.mhacks.app.R
+import com.mhacks.app.data.network.services.HackathonApiService
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
 import com.mhacks.app.ui.welcome.WelcomeFragment
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import retrofit2.Retrofit
+import timber.log.Timber
+import javax.inject.Inject
 
 
 /**
@@ -29,7 +35,8 @@ class MainActivity : BaseActivity()
 //    }
 //
 //    private var notif: String? = null
-//    @Inject lateinit var hackathonService: HackathonApiService
+    @Inject
+    lateinit var retrofit: Retrofit
 //    @Inject lateinit var mhacksDatabase: MHacksDatabase
     private lateinit var menuItem: MenuItem
 //
@@ -44,7 +51,11 @@ class MainActivity : BaseActivity()
 //        }
 //        appCallback.hackathonComponent.inject(this)
         setTheme(R.style.MHacksTheme)
-    initActivity()
+    val hackathonApiService = retrofit.create(HackathonApiService::class.java)
+    hackathonApiService.getMetaAnnouncements().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe {
+        Timber.e(it.toString())
+    }
+        initActivity()
 //        checkIfLogin()
     }
 //

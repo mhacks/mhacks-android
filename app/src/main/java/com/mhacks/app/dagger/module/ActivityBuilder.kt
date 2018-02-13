@@ -10,8 +10,6 @@ abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = [
         WelcomeFragmentProvider::class
-//        SpecialBlendFragmentProvider::class,
-//        MatchFragmentProvider::class
     ])
     abstract fun bindMainActivity(): MainActivity
 }
