@@ -1,5 +1,6 @@
 package com.mhacks.app.ui.welcome
 
+import com.mhacks.app.ui.welcome.view.WelcomeFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

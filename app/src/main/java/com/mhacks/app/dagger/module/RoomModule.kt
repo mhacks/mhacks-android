@@ -2,7 +2,7 @@ package com.mhacks.app.dagger.module
 
 import android.app.Application
 import android.arch.persistence.room.Room
-import com.mhacks.app.dagger.scope.UserScope
+import com.mhacks.app.dagger.scope.NetScope
 import com.mhacks.app.data.room.MHacksDatabase
 import dagger.Module
 import dagger.Provides
@@ -14,7 +14,7 @@ import dagger.Provides
 @Module
 class RoomModule {
 
-    @UserScope
+    @NetScope
     @Provides
     fun provideMHacksDatabase(application: Application): MHacksDatabase {
         return Room.databaseBuilder(application, MHacksDatabase::class.java, "mhacks-db").build()

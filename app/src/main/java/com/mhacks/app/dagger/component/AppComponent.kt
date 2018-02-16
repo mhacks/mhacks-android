@@ -16,12 +16,12 @@ import javax.inject.Singleton
  */
 @Singleton
 @Component(
-        dependencies = [NetComponent::class],
         modules = [
             AndroidSupportInjectionModule::class,
             AppModule::class,
             ActivityBuilder::class,
-            RoomModule::class
+            RoomModule::class,
+            NetModule::class
         ])
 interface AppComponent : AndroidInjector<DaggerApplication> {
 
@@ -29,13 +29,15 @@ interface AppComponent : AndroidInjector<DaggerApplication> {
 
     fun inject(application: MHacksApplication)
 
+    fun netComponentBuilder(): NetComponent.Builder
+
     @Component.Builder
     interface Builder {
 
         @BindsInstance
         fun application(application: Application): Builder
 
-        fun netComponent(netComponent: NetComponent): Builder
+        fun netModule(netModule: NetModule): Builder
 
         fun roomModule(roomModule: RoomModule): Builder
 

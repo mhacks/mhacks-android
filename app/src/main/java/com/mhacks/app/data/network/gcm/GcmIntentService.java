@@ -14,7 +14,7 @@
 //import android.util.Log;
 //
 //import com.google.android.gms.gcm.GoogleCloudMessaging;
-//import com.mhacks.app.ui.MainActivity;
+//import com.mhacks.app.ui.main.MainActivity;
 //
 //import org.mhacks.x.R;
 //

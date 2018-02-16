@@ -1,6 +1,6 @@
 package com.mhacks.app.dagger.module
 
-import com.mhacks.app.dagger.scope.UserScope
+import com.mhacks.app.dagger.scope.NetScope
 import com.mhacks.app.data.network.services.HackathonApiService
 import dagger.Module
 import dagger.Provides
@@ -13,7 +13,7 @@ import retrofit2.Retrofit
 @Module class HackathonModule {
 
     @Provides
-    @UserScope
+    @NetScope
     internal fun provideHackathonApiInterface(retrofit: Retrofit): HackathonApiService {
         return retrofit.create(HackathonApiService::class.java)
     }

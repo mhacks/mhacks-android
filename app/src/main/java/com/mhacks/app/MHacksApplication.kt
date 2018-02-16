@@ -13,6 +13,7 @@ import android.os.Build
 import android.support.annotation.RequiresApi
 import com.mhacks.app.dagger.component.*
 import com.mhacks.app.dagger.module.AuthModule
+import com.mhacks.app.dagger.module.NetModule
 import com.mhacks.app.dagger.module.RetrofitModule
 import com.mhacks.app.dagger.module.RoomModule
 import dagger.android.AndroidInjector
@@ -21,14 +22,16 @@ import timber.log.Timber
 
 class MHacksApplication : DaggerApplication() {
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-    val netComponent = DaggerNetComponent.builder()
-            .authModule(AuthModule(null))
-            .retrofitModule(RetrofitModule("http://mhacks.org/"))
-            .build()
+//    val netComponent = .builder()
+//            .authModule(AuthModule(null))
+//            .retrofitModule(RetrofitModule("http://mhacks.org/"))
+//            .build()
+
+        val netModule = NetModule()
 
         val appComponent = DaggerAppComponent.builder()
                 .application(this)
-                .netComponent(netComponent)
+                .netModule(netModule)
                 .roomModule(RoomModule())
                 .build()
         appComponent.inject(this)

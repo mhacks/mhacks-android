@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.welcome
+package com.mhacks.app.ui.welcome.view
 
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -8,19 +8,21 @@ import android.widget.TextView
 import com.mhacks.app.R
 import com.mhacks.app.data.kotlin.MetaConfiguration
 import com.mhacks.app.ui.common.BaseFragment
+import com.mhacks.app.ui.welcome.presenter.WelcomeFragmentPresenter
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import timber.log.Timber
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Created by jawad on 04/11/14.
  * Updated by Shashank on 08/30/17
  */
 
-class WelcomeFragment : BaseFragment() {
+class WelcomeFragment : BaseFragment(), WelcomeView {
 
     override var setTransparent: Boolean = false
     override var appBarTitle: Int = R.string.welcome
@@ -35,14 +37,16 @@ class WelcomeFragment : BaseFragment() {
     private var startDate: Date? = null
     private var duration: Long = 0
 
+    @Inject lateinit var welcomePresenter: WelcomeFragmentPresenter
+
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        circularProgress = view?.findViewById(R.id.progressbar_counter)
-        countdownTextView = view?.findViewById(R.id.timer_text)
+        welcomePresenter.onViewLoad()
     }
 
-    companion object {
-        val instance get() = WelcomeFragment()
+    override fun onViewLoaded() {
+        circularProgress = view?.findViewById(R.id.progressbar_counter)
+        countdownTextView = view?.findViewById(R.id.timer_text)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -55,7 +59,6 @@ class WelcomeFragment : BaseFragment() {
 
     }
 
-    //TODO: CHANGE TO LONG VERSION and figure out why there's only a 2 hr offset if it's called from this method
     private fun onConfigCallbackSuccess(config: MetaConfiguration) {
 
         startDate = Date(config.configuration.startDateTs)
@@ -115,12 +118,6 @@ class WelcomeFragment : BaseFragment() {
         }
     }
 
-
-    interface Callback {
-        fun checkOrFetchConfig(success: (config: MetaConfiguration) -> Unit,
-                               failure: (error: Throwable) -> Unit)
-    }
-
     private inner class HackingCountdownTimer
     /** DEPRECATED but here for reference
      * @param millisInFuture    The number of millis in the future from the call
@@ -136,12 +133,11 @@ class WelcomeFragment : BaseFragment() {
     (millisInFuture: Long, // Cached total amount of hacking time in milliseconds, to update the progress circle
      internal var totalHackingTimeInMillis: Long) : CountDownTimer(millisInFuture, countdownUpdateIntervals) {
         // Used to display the time remaining prettily
-        internal var outFormat: DateFormat
+        internal var outFormat: DateFormat = SimpleDateFormat("HH:mm:ss")
 
         init {
 
             // Set up the formatter, to display the time remaining prettily later
-            outFormat = SimpleDateFormat("HH:mm:ss")
             outFormat.timeZone = TimeZone.getTimeZone("UTC")
         }// Cache the total hacking time to determine progress later
 
@@ -163,12 +159,21 @@ class WelcomeFragment : BaseFragment() {
 
             // Update the progress [maxProgressInt - maxProgressInt*timeRemaining/total time]
             val progress = (100 - 100 * millisUntilFinished / totalHackingTimeInMillis).toInt()
-            circularProgress!!.progress = progress
+            circularProgress?.progress = progress
         }
 
         override fun onFinish() {
-            circularProgress!!.progress = 100
-            countdownTextView!!.text = "Done!"
+            circularProgress?.progress = 100
+            countdownTextView?.text = "Done!"
         }
+    }
+
+    interface Callback {
+        fun checkOrFetchConfig(success: (config: MetaConfiguration) -> Unit,
+                               failure: (error: Throwable) -> Unit)
+    }
+
+    companion object {
+        val instance get() = WelcomeFragment()
     }
 }

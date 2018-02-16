@@ -1,5 +1,6 @@
 package com.mhacks.app.dagger.module
 
+import com.mhacks.app.dagger.scope.NetScope
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
@@ -16,10 +17,10 @@ import javax.inject.Singleton
 class AuthModule(internal var token: String?) {
 
     @Provides
-    @Singleton
+    @NetScope
     internal fun provideAuthInterceptor(): AuthInterceptor {
-        if (token != null) return AuthInterceptor(token!!)
-        else return AuthInterceptor(null)
+        return if (token != null) AuthInterceptor(token!!)
+        else AuthInterceptor(null)
     }
 
     class AuthInterceptor(var token: String?): Interceptor{

@@ -4,6 +4,7 @@ import android.app.Application
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.mhacks.app.dagger.scope.NetScope
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -18,16 +19,16 @@ import javax.inject.Singleton
  * Created by jeffreychang on 9/2/17.
  */
 @Module class RetrofitModule(private var baseUrl: String) {
+
     @Provides
-    @Singleton
+    @NetScope
     internal fun provideHttpCache(application: Application): Cache {
         val cacheSize = 10 * 1024 * 1024
         return Cache(application.cacheDir, cacheSize.toLong())
     }
 
-
     @Provides
-    @Singleton
+    @NetScope
     internal fun provideGson(): Gson {
         val gsonBuilder = GsonBuilder()
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -35,7 +36,7 @@ import javax.inject.Singleton
     }
 
     @Provides
-    @Singleton
+    @NetScope
     internal fun provideOkhttpClient(cache: Cache, interceptor: AuthModule.AuthInterceptor?): OkHttpClient {
         val client = OkHttpClient.Builder()
         client.cache(cache)
@@ -44,7 +45,7 @@ import javax.inject.Singleton
     }
 
     @Provides
-    @Singleton
+    @NetScope
     internal fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
