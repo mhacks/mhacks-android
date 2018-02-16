@@ -11,6 +11,7 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.support.annotation.RequiresApi
+import com.facebook.stetho.Stetho
 import com.mhacks.app.dagger.component.*
 import com.mhacks.app.dagger.module.AuthModule
 import com.mhacks.app.dagger.module.RetrofitModule
@@ -24,7 +25,10 @@ class MHacksApplication : DaggerApplication() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
         super.onCreate()
-        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+            Stetho.initializeWithDefaults(this);
+        }
 
         if (Build.VERSION.SDK_INT >= 26) {
             val notificationChannel = NotificationChannel(MHACKS_GROUP,
@@ -39,11 +43,10 @@ class MHacksApplication : DaggerApplication() {
 
             notificationManager.createNotificationChannel(notificationChannel);
         }
-//    }
-//
+    }
+
     fun setAuthInterceptorToken(token: String) {
         appComponent.authInterceptor.token = token
-    }
     }
 
     private lateinit var appComponent: AppComponent

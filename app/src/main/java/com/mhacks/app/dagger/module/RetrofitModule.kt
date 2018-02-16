@@ -1,14 +1,17 @@
 package com.mhacks.app.dagger.module
 
 import android.app.Application
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.mhacks.app.BuildConfig
 import com.mhacks.app.data.network.services.MHacksService
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -40,7 +43,14 @@ import javax.inject.Singleton
     internal fun provideOkhttpClient(cache: Cache, interceptor: AuthModule.AuthInterceptor?): OkHttpClient {
         val client = OkHttpClient.Builder()
         client.cache(cache)
-        if (interceptor != null) client.addInterceptor(interceptor)
+
+        if (BuildConfig.DEBUG)
+                client.addInterceptor(HttpLoggingInterceptor()
+                        .setLevel(HttpLoggingInterceptor.Level.BASIC))
+                        .addInterceptor(StethoInterceptor())
+        if (interceptor != null)
+            client.addInterceptor(interceptor)
+
         return client.build()
     }
 

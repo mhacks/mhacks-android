@@ -2,10 +2,10 @@ package com.mhacks.app.dagger.module
 
 import android.app.Application
 import android.arch.persistence.room.Room
-import com.mhacks.app.dagger.scope.NetScope
 import com.mhacks.app.data.room.MHacksDatabase
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 /**
  * Created by jeffreychang on 9/6/17.
@@ -13,10 +13,8 @@ import dagger.Provides
 
 @Module
 class RoomModule {
-
-    @NetScope
+    @Singleton
     @Provides
-    fun provideMHacksDatabase(application: Application): MHacksDatabase {
-        return Room.databaseBuilder(application, MHacksDatabase::class.java, "mhacks-db").build()
-    }
+    fun provideMHacksDatabase(application: Application): MHacksDatabase =
+        Room.databaseBuilder(application, MHacksDatabase::class.java, "mhacks-db").build()
 }

@@ -8,8 +8,10 @@ import com.mhacks.app.R
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
 import com.mhacks.app.ui.main.presenter.MainPresenter
+import com.mhacks.app.ui.ticket.view.TicketDialogFragment
 import com.mhacks.app.ui.welcome.view.WelcomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.annotation.CheckForNull
 import javax.inject.Inject
 
 
@@ -115,19 +117,19 @@ class MainActivity : BaseActivity(), MainView
 //        })
 //    }
 //
-//    private fun showTicketDialogFragment() {
-//        val ft = supportFragmentManager.beginTransaction()
-//        val prev = supportFragmentManager.findFragmentByTag("dialog")
-//        if (prev != null) {
-//            ft.remove(prev)
-//        }
-//        ft.addToBackStack(null)
-//
-//        val ticket: TicketDialogFragment = TicketDialogFragment
-//                .newInstance()
-//        ticket.show(ft, "dialog")
-//    }
-//
+
+    private fun showTicketDialogFragment() {
+        val ft = supportFragmentManager.beginTransaction()
+        val prev = supportFragmentManager.findFragmentByTag("dialog")
+        if (prev != null) {
+            ft.remove(prev)
+        }
+        ft.addToBackStack(null)
+        val ticket: TicketDialogFragment = TicketDialogFragment.newInstance()
+
+        ticket.show(ft, "dialog")
+    }
+
     private fun updateFragment(fragment: Fragment?) {
         if (fragment == null) return  // only used for pre-release while fragments are not finalized
 
@@ -211,10 +213,9 @@ class MainActivity : BaseActivity(), MainView
         setContentView(R.layout.activity_main)
         setBottomNavigationColor(
                 NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
-
-//        qr_ticket_fab.setOnClickListener({
-//            showTicketDialogFragment()
-//        })
+        qr_ticket_fab.setOnClickListener({
+            showTicketDialogFragment()
+        })
         menuItem = navigation.menu.getItem(0)
         menuItem.setTitle(R.string.title_home)
         setSupportActionBar(toolbar)
@@ -224,7 +225,7 @@ class MainActivity : BaseActivity(), MainView
 //        notif = intent.getStringExtra("notif_link")
         navigation?.setOnNavigationItemSelectedListener({ item ->
             when (item.itemId) {
-//                R.id.navigation_home -> updateFragment(WelcomeFragment.instance)
+                R.id.navigation_home -> updateFragment(WelcomeFragment.instance)
 //                R.id.navigation_announcements -> updateFragment(AnnouncementFragment.instance)
 //                R.id.navigation_events -> updateFragment(EventsFragment.instance)
 //                R.id.navigation_map -> updateFragment(MapViewFragment.instance)
