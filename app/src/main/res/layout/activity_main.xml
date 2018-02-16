@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.mhacks.app.ui.main.MainActivity">
+    tools:context="com.mhacks.app.ui.main.view.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

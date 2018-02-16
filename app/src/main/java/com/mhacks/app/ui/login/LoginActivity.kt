@@ -10,7 +10,7 @@ import com.mhacks.app.ui.login.components.LoginFragment
 class LoginActivity : BaseActivity(), LoginFragment.OnFromLoginFragmentCallback{
 
 //    @Inject lateinit var mhacksDatabase: MHacksDatabase
-//    @Inject lateinit var hackathonService: HackathonApiService
+//    @Inject lateinit var hackathonService: Retrofit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

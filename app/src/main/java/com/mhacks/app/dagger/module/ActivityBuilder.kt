@@ -1,6 +1,7 @@
 package com.mhacks.app.dagger.module
 
-import com.mhacks.app.ui.main.MainActivity
+import com.mhacks.app.ui.main.MainActivityModule
+import com.mhacks.app.ui.main.view.MainActivity
 import com.mhacks.app.ui.welcome.WelcomeFragmentProvider
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -9,7 +10,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = [
-        WelcomeFragmentProvider::class
-    ])
+        MainActivityModule::class,
+        WelcomeFragmentProvider::class])
     abstract fun bindMainActivity(): MainActivity
 }

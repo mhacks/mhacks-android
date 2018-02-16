@@ -71,7 +71,7 @@
 //        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 //        httpClient.addInterceptor(logging);
 //
-//        Retrofit retrofit = new Retrofit.Builder()
+//        MHacksService retrofit = new MHacksService.Builder()
 //                .baseUrl(BASE_URL)
 //                .addConverterFactory(GsonConverterFactory.create(gson))
 //                .client(httpClient.build()) // only for logging/debugging

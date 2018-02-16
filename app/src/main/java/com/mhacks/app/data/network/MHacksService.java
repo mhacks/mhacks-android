@@ -29,7 +29,7 @@ import retrofit2.http.Query;
  * NOTE: DO NOT begin endpoints with a '/'.
  *       See com.mhacks.android.data.network.NetworkManager.BASE_URL for path.
  */
-public interface HackathonNetworkService {
+public interface MHacksService {
 
     // USERS
     @FormUrlEncoded

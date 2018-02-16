@@ -11,7 +11,7 @@ import retrofit2.http.*
  * Created by jeffreychang on 9/3/17.
  */
 
-interface HackathonApiService {
+interface MHacksService {
 
     @GET("configuration")
     fun getMetaConfiguration(): Observable<MetaConfiguration>

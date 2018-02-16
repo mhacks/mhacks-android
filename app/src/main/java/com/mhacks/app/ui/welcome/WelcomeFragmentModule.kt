@@ -24,5 +24,4 @@ abstract class WelcomeFragmentModule {
         fun provideWelcomePresenter(welcomeView: WelcomeView): WelcomeFragmentPresenter =
                 WelcomeFragmentPresenterImpl(welcomeView)
     }
-
 }

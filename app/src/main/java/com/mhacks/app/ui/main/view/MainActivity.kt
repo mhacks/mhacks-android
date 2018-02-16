@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.main
+package com.mhacks.app.ui.main.view
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -7,14 +7,16 @@ import android.view.MenuItem
 import com.mhacks.app.R
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
+import com.mhacks.app.ui.main.presenter.MainPresenter
 import com.mhacks.app.ui.welcome.view.WelcomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 
 /**
  * Activity defines primarily the initial hackathonService calls to GCM as well as handle Fragment transactions.
  */
-class MainActivity : BaseActivity()
+class MainActivity : BaseActivity(), MainView
 //        ActivityCompat.OnRequestPermissionsResultCallback,
 //        BaseFragment.OnNavigationChangeListener,
 //        WelcomeFragment.Callback,
@@ -24,12 +26,30 @@ class MainActivity : BaseActivity()
 //        EventsFragment.Callback
 {
 
-//    private val appCallback by lazy {
+    @Inject lateinit var mainPresenter: MainPresenter
+
+    override fun onViewLoaded() {
+        //
+//        if (GooglePlayUtil.checkPlayServices(this)) {
+//            val intent = Intent(this, RegistrationIntentService::class.java)
+//            startService(intent)
+//        }
+//        appCallback.hackathonComponent.inject(this)
+        setTheme(R.style.MHacksTheme)
+//    val hackathonApiService = retrofit.create(MHacksService::class.java)
+//    hackathonApiService.getMetaAnnouncements().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe {
+//        Timber.e(it.toString())
+//    }
+        initActivity()
+//        checkIfLogin()
+    }
+
+    //    private val appCallback by lazy {
 //        application as MHacksApplication
 //    }
 //
 //    private var notif: String? = null
-//    @Inject lateinit var retrofit: Retrofit
+//    @Inject lateinit var retrofit: MHacksService
 //    @Inject lateinit var mhacksDatabase: MHacksDatabase
     private lateinit var menuItem: MenuItem
 //
@@ -37,19 +57,7 @@ class MainActivity : BaseActivity()
 //
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//
-//        if (GooglePlayUtil.checkPlayServices(this)) {
-//            val intent = Intent(this, RegistrationIntentService::class.java)
-//            startService(intent)
-//        }
-//        appCallback.hackathonComponent.inject(this)
-        setTheme(R.style.MHacksTheme)
-//    val hackathonApiService = retrofit.create(HackathonApiService::class.java)
-//    hackathonApiService.getMetaAnnouncements().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe {
-//        Timber.e(it.toString())
-//    }
-        initActivity()
-//        checkIfLogin()
+        mainPresenter.onViewLoaded()
     }
 //
 //

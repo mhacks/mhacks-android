@@ -21,7 +21,8 @@ import javax.inject.Singleton
             AppModule::class,
             ActivityBuilder::class,
             RoomModule::class,
-            NetModule::class
+            AuthModule::class,
+            RetrofitModule::class
         ])
 interface AppComponent : AndroidInjector<DaggerApplication> {
 
@@ -29,7 +30,7 @@ interface AppComponent : AndroidInjector<DaggerApplication> {
 
     fun inject(application: MHacksApplication)
 
-    fun netComponentBuilder(): NetComponent.Builder
+    val authInterceptor: AuthModule.AuthInterceptor
 
     @Component.Builder
     interface Builder {
@@ -37,9 +38,11 @@ interface AppComponent : AndroidInjector<DaggerApplication> {
         @BindsInstance
         fun application(application: Application): Builder
 
-        fun netModule(netModule: NetModule): Builder
-
         fun roomModule(roomModule: RoomModule): Builder
+
+        fun authModule(authModule: AuthModule): Builder
+
+        fun retrofitModule(retrofitModule: RetrofitModule): Builder
 
         fun build(): AppComponent
     }
