@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.events
+package com.mhacks.app.ui.events.view
 
 import android.graphics.Color
 import android.os.Bundle
@@ -16,7 +16,7 @@ import java.util.*
  * Made Kotlin by Tristan on 10/6/2017
  */
 
-class EventsFragment : BaseFragment() {
+class EventsFragment : BaseFragment(), EventsView {
 
     override var setTransparent: Boolean = false
     override var appBarTitle: Int = R.string.title_events
@@ -24,24 +24,19 @@ class EventsFragment : BaseFragment() {
 
     private var weekDateFormat = SimpleDateFormat("EEEE", Locale.US)
 
-    private val callback by lazy { activity as Callback }
-
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         event_pager_tab_strip.tabIndicatorColor = Color.parseColor("#5D3E6E")
-        callback.fetchEvents(
-                { events -> bindEvents(events) },
-                { error -> Timber.e(error) })
     }
 
     private fun bindEvents(eventList: List<Event>) {
         val list = eventList.map { events ->
             EventWithDay(weekDateFormat.format(Date(events.startDateTs!!)),
-                    events)  }
+                    events)
+        }
                 .groupBy { it.day }
         val adapter = EventsPagerAdapter(childFragmentManager, list)
         events_pager.adapter = adapter
     }
-
 
     data class EventWithDay (
             val day: String,

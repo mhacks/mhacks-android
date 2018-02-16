@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.map
+package com.mhacks.app.ui.map.view
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -29,27 +29,15 @@ import kotlin.collections.ArrayList
  * Displays maps of the MHacksApplication 8 venues.
  */
 class MapViewFragment :
-        BaseFragment(),
+        BaseFragment(), MapView,
         OnMapReadyCallback, AdapterView.OnItemSelectedListener {
+    
     override var setTransparent: Boolean = true
     override var appBarTitle: Int = R.string.title_map
     override var layoutResourceID: Int = R.layout.fragment_map
-    private val callback by lazy { activity as Callback }
     lateinit var floors: ArrayList<Floor>
     private var mMapFragment: SupportMapFragment? = null
     private var mGoogleMap: GoogleMap? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        callback.fetchFloors(
-                { floors ->
-                    this.floors = ArrayList(floors)
-                    callback.updateFloors(floors, this)
-                    showDefaultLayoutView()
-                },
-                { error -> Timber.e(error) }
-        )
-    }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         setCustomActionBarColor(R.color.semiColorPrimary)
@@ -150,28 +138,6 @@ class MapViewFragment :
 
     @Suppress("UNUSED_PARAMETER")
     private fun onBitmapResponseFailure(error: Throwable) {}
-
-    override fun onResume() {
-        super.onResume()
-        callback.showFloorOptions()
-        setUpMapIfNeeded()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        callback.hideFloorOptions()
-    }
-
-    interface Callback {
-        fun fetchFloors(success: (floor: List<Floor>) -> Unit,
-                        failure: (error: Throwable) -> Unit)
-
-        fun updateFloors(floors: List<Floor>, listener: AdapterView.OnItemSelectedListener)
-
-        fun showFloorOptions()
-
-        fun hideFloorOptions()
-    }
 
     companion object {
         val instance: MapViewFragment

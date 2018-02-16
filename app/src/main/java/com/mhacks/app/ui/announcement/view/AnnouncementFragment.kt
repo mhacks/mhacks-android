@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.announcement
+package com.mhacks.app.ui.announcement.view
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by jeffreychang on 5/26/17.
  */
-class AnnouncementFragment : BaseFragment() {
+class AnnouncementFragment : BaseFragment(), AnnouncementView {
 
     private var announcementList: ArrayList<Announcements> = ArrayList()
 
@@ -24,35 +24,13 @@ class AnnouncementFragment : BaseFragment() {
 
     override var layoutResourceID = R.layout.fragment_announcements
 
-    private val callback by lazy { activity as Callback }
-
     private lateinit var adapter: AnnouncementsAdapter
-
-    override fun onResume() {
-        super.onResume()
-
-        Observable.interval(0,  TimeUnit.MILLISECONDS)
-        callback.fetchAnnouncements(
-                { announcements ->
-                    announcementList.clear()
-                    announcementList.addAll(announcements)
-                    adapter.notifyDataSetChanged()
-                },
-                { error -> Timber.e(error) })
-    }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = AnnouncementsAdapter(context, announcementList)
         announcements_recycler_view.adapter = adapter
         announcements_recycler_view.layoutManager = LinearLayoutManager(context)
-    }
-
-
-    interface Callback {
-        fun fetchAnnouncements(
-                success: (announcements: List<Announcements>) -> Unit,
-                failure: (error: Throwable) -> Unit)
     }
 
     companion object {

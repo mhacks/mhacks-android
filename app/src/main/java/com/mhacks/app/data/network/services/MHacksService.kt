@@ -22,7 +22,7 @@ interface MHacksService {
                   @Field("password") password: String): Observable<Login>
 
     @GET("user/profile/")
-    fun getMetaUser(): Single<MetaUser>
+    fun getMetaUser(): Single<UserResponse>
 
     @GET("floor")
     fun getMetaFloors(): Observable<MetaFloor>

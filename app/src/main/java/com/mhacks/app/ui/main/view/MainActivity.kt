@@ -5,13 +5,15 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.view.MenuItem
 import com.mhacks.app.R
+import com.mhacks.app.ui.announcement.view.AnnouncementFragment
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
+import com.mhacks.app.ui.events.view.EventsFragment
 import com.mhacks.app.ui.main.presenter.MainPresenter
+import com.mhacks.app.ui.map.view.MapViewFragment
 import com.mhacks.app.ui.ticket.view.TicketDialogFragment
 import com.mhacks.app.ui.welcome.view.WelcomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import javax.annotation.CheckForNull
 import javax.inject.Inject
 
 
@@ -24,7 +26,7 @@ class MainActivity : BaseActivity(), MainView
 //        WelcomeFragment.Callback,
 //        TicketDialogFragment.Callback,
 //        MapViewFragment.Callback,
-//        AnnouncementFragment.Callback,
+//        WelcomeFragment.Callback,
 //        EventsFragment.Callback
 {
 
@@ -226,9 +228,9 @@ class MainActivity : BaseActivity(), MainView
         navigation?.setOnNavigationItemSelectedListener({ item ->
             when (item.itemId) {
                 R.id.navigation_home -> updateFragment(WelcomeFragment.instance)
-//                R.id.navigation_announcements -> updateFragment(AnnouncementFragment.instance)
-//                R.id.navigation_events -> updateFragment(EventsFragment.instance)
-//                R.id.navigation_map -> updateFragment(MapViewFragment.instance)
+                R.id.navigation_announcements -> updateFragment(AnnouncementFragment.instance)
+                R.id.navigation_events -> updateFragment(EventsFragment.instance)
+                R.id.navigation_map -> updateFragment(MapViewFragment.instance)
             }
             menuItem = item
             true

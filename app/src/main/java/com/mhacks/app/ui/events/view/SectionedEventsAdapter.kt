@@ -1,7 +1,7 @@
-package com.mhacks.app.ui.events
+package com.mhacks.app.ui.events.view
 
-import com.mhacks.app.ui.events.EventsSection.TimeLineType
-import com.mhacks.app.ui.events.EventsSection.EventSectionModel
+import com.mhacks.app.ui.events.view.EventsSection.TimeLineType
+import com.mhacks.app.ui.events.view.EventsSection.EventSectionModel
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
 import java.text.SimpleDateFormat
 import java.util.*

@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.events
+package com.mhacks.app.ui.events.view
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView

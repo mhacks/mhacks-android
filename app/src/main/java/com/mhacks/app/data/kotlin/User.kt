@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
  */
 
 
-data class MetaUser(
+data class UserResponse(
     @SerializedName("status")
     @Expose
     var status: Boolean,

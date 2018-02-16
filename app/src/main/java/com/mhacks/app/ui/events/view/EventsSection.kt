@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.events
+package com.mhacks.app.ui.events.view
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -15,8 +15,8 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection
  */
 
 class EventsSection(val time: String,
-                     val type: TimeLineType,
-                     val events: ArrayList<Event>): StatelessSection(
+                    val type: TimeLineType,
+                    val events: ArrayList<Event>): StatelessSection(
         SectionParameters.Builder(R.layout.events_list_item)
         .headerResourceId(R.layout.events_header_item)
         .build()) {

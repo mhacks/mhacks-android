@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.events
+package com.mhacks.app.ui.events.view
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -49,7 +49,7 @@ class EventPageFragment: Fragment() {
 
             val ev = event.map { ev -> ev.event }
 
-            args.putString( EXTRA_DAY_OF_THE_WEEK, day)
+            args.putString(EXTRA_DAY_OF_THE_WEEK, day)
             args.putParcelableArrayList(EXTRA_EVENT_LIST, ArrayList(ev))
 
             fragment.arguments = args
