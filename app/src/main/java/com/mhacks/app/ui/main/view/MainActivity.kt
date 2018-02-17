@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.view.MenuItem
 import com.mhacks.app.R
-import com.mhacks.app.data.model.Login
+import com.mhacks.app.data.kotlin.LoginResponse
 import com.mhacks.app.ui.announcement.view.AnnouncementFragment
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
@@ -21,7 +21,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * Main Activity that handles most of the interactions. Sets up the Login Activity and loads
+ * Main Activity that handles most of the interactions. Sets up the LoginResponse Activity and loads
  * feature fragments with a bottom navigation bar.
  */
 class MainActivity : BaseActivity(), MainView {
@@ -53,7 +53,7 @@ class MainActivity : BaseActivity(), MainView {
                 .commit()
     }
 
-    override fun onLogInSuccess(login: Login) {
+    override fun onLogInSuccess(login: LoginResponse) {
         Timber.e(login.toString())
     }
 

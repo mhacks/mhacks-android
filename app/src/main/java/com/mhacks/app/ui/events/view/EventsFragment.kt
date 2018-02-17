@@ -5,9 +5,8 @@ import android.os.Bundle
 import android.view.View
 import com.mhacks.app.R
 import com.mhacks.app.data.kotlin.Event
-import com.mhacks.app.ui.common.BaseFragment
+import com.mhacks.app.ui.common.NavigationFragment
 import kotlinx.android.synthetic.main.fragment_events.*
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -16,13 +15,15 @@ import java.util.*
  * Made Kotlin by Tristan on 10/6/2017
  */
 
-class EventsFragment : BaseFragment(), EventsView {
+class EventsFragment : NavigationFragment(), EventsView {
 
     override var setTransparent: Boolean = false
     override var appBarTitle: Int = R.string.title_events
     override var layoutResourceID: Int = R.layout.fragment_events
 
     private var weekDateFormat = SimpleDateFormat("EEEE", Locale.US)
+
+    override var onProgressStateChange: OnProgressStateChangeListener? = null
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         event_pager_tab_strip.tabIndicatorColor = Color.parseColor("#5D3E6E")

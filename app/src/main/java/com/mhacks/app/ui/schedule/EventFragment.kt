@@ -13,7 +13,7 @@
 //import com.alamkanak.weekview.WeekView
 //import com.alamkanak.weekview.WeekViewEvent
 //import com.mhacks.android.data .model.Event
-//import com.mhacks.android.ui.common.BaseFragment
+//import com.mhacks.android.ui.common.NavigationFragment
 //import kotlinx.android.synthetic.main.fragment_schedule.*
 //
 //import org.mhacks.android.R
@@ -32,7 +32,7 @@
 // * Builds schedule with events pulled from the Parse mhacksDatabase. Uses the EventDetailsFragment to
 // * create event details.
 // */
-//class EventFragment : BaseFragment(),
+//class EventFragment : NavigationFragment(),
 //        WeekView.EventClickListener,
 //        MonthLoader.MonthChangeListener,
 //        WeekView.EventLongPressListener {

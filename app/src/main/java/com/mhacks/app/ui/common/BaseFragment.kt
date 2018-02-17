@@ -1,14 +1,10 @@
 package com.mhacks.app.ui.common
 
-import android.content.Context
-import android.os.Build
 import android.os.Bundle
-import android.support.annotation.ColorRes
-import android.support.annotation.StringRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.mhacks.app.R
+import android.widget.FrameLayout
 import dagger.android.support.DaggerFragment
 
 /**
@@ -16,55 +12,53 @@ import dagger.android.support.DaggerFragment
  */
 abstract class BaseFragment : DaggerFragment() {
 
-    private var callback: OnNavigationChangeListener? = null
-
-    abstract var setTransparent: Boolean
-    abstract var appBarTitle: Int
     abstract var layoutResourceID: Int
 
+    abstract var onProgressStateChange: OnProgressStateChangeListener?
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        callback = activity as? OnNavigationChangeListener
+    private val parent by lazy {
+        FrameLayout(context)
     }
+
+    private val progressBarView by lazy {
+        ProgressBarView(context)
+    }
+
+    private var mainView: View? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        changeColors()
-        return inflater?.inflate(layoutResourceID, container, false)
+        val layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT)
+        parent.layoutParams = layoutParams
+
+        progressBarView.layoutParams = layoutParams
+        progressBarView.visibility = View.GONE
+
+        mainView = inflater?.inflate(layoutResourceID, container, false)
+
+        parent.addView(mainView)
+        parent.addView(progressBarView)
+        return parent
     }
 
-    private fun changeColors() {
-        callback?.setFragmentTitle(appBarTitle)
-        callback?.setActionBarColor(android.R.color.transparent)
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (setTransparent) {
-                callback?.setActionBarColor(android.R.color.transparent)
-                callback?.setStatusBarColor(android.R.color.transparent)
-                callback?.removePadding()
-
-            } else {
-                callback?.setActionBarColor(R.color.colorPrimary)
-                callback?.setStatusBarColor(R.color.colorPrimaryDark)
-                callback?.addPadding()
-            }
-        }
+    fun showProgressBar(loadingText: String) {
+        mainView?.visibility = View.GONE
+        progressBarView.loadingText = loadingText
+        progressBarView.visibility = View.VISIBLE
     }
 
-    fun setCustomActionBarColor(@ColorRes res: Int) {
-        callback?.setActionBarColor(res)
+    fun showMainContent() {
+        progressBarView.visibility = View.GONE
+        mainView?.visibility = View.VISIBLE
     }
 
-    interface OnNavigationChangeListener {
+    interface OnProgressStateChangeListener {
 
-        fun setFragmentTitle(@StringRes title: Int)
+        fun onProgressBarShow()
 
-        fun setActionBarColor(@ColorRes color: Int)
+        fun onProgressBarHide()
 
-        fun setStatusBarColor(color: Int)
-
-        fun addPadding()
-
-        fun removePadding()
+        fun onErrorableViewShow()
     }
 }

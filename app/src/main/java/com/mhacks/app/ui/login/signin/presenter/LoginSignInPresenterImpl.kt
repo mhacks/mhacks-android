@@ -4,6 +4,7 @@ import com.mhacks.app.data.network.services.MHacksService
 import com.mhacks.app.data.room.MHacksDatabase
 import com.mhacks.app.ui.common.BasePresenterImpl
 import com.mhacks.app.ui.login.signin.view.LoginSignInView
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -21,10 +22,19 @@ class LoginSignInPresenterImpl(private val loginSignInView: LoginSignInView,
         compositeDisposable?.add(
                 mHacksService.postLogin(username, password)
                         .subscribeOn(Schedulers.io())
+                        .doOnSuccess({
+                            it.id = 0
+                            Observable.fromCallable {
+                                mHacksDatabase.loginDao().insertLogin(it)
+                            }
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe()
+                        })
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 { loginSignInView.postLoginSuccess(it) },
-                                { loginSignInView.postLoginFailure() }
+                                { loginSignInView.postLoginFailure(username, password, it) }
                         )
         )
     }

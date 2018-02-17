@@ -7,7 +7,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.mhacks.app.R
 import com.mhacks.app.data.kotlin.MetaConfiguration
-import com.mhacks.app.ui.common.BaseFragment
+import com.mhacks.app.ui.common.NavigationFragment
 import com.mhacks.app.ui.welcome.presenter.WelcomeFragmentPresenter
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -22,7 +22,7 @@ import javax.inject.Inject
  * Updated by Shashank on 08/30/17
  */
 
-class WelcomeFragment : BaseFragment(), WelcomeView {
+class WelcomeFragment : NavigationFragment(), WelcomeView {
 
     override var setTransparent: Boolean = false
     override var appBarTitle: Int = R.string.welcome
@@ -37,6 +37,8 @@ class WelcomeFragment : BaseFragment(), WelcomeView {
     private var startDate: Date? = null
     private var duration: Long = 0
 
+    override var onProgressStateChange: OnProgressStateChangeListener? = null
+    
     @Inject lateinit var welcomePresenter: WelcomeFragmentPresenter
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {

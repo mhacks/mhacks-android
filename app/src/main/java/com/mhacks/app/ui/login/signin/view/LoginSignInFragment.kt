@@ -1,49 +1,51 @@
 package com.mhacks.app.ui.login.signin.view
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.mhacks.app.R
-import com.mhacks.app.data.model.Login
+import com.mhacks.app.data.kotlin.LoginResponse
+import com.mhacks.app.di.module.AuthModule
+import com.mhacks.app.ui.common.BaseFragment
 import com.mhacks.app.ui.login.signin.presenter.LoginSignInPresenter
-import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_login.*
-import timber.log.Timber
+import retrofit2.HttpException
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 /**
- * Fragment for the main Login component.
+ * Fragment for logging in the user.
  */
-class LoginSignInFragment : DaggerFragment(), LoginSignInView {
+class LoginSignInFragment : BaseFragment(), LoginSignInView {
 
-    private val callback: OnFromLoginFragmentCallback by lazy {
-        activity as OnFromLoginFragmentCallback
-    }
+    override var layoutResourceID = R.layout.fragment_login
+
+    private var callback: OnFromLoginFragmentCallback? = null
 
     @Inject lateinit var loginSignInPresenter: LoginSignInPresenter
 
-    override fun onCreateView(inflater: LayoutInflater?,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? =
-            inflater?.inflate(R.layout.fragment_login, container, false)
+    @Inject lateinit var authInterceptor: AuthModule.AuthInterceptor
+
+    override var onProgressStateChange: OnProgressStateChangeListener? = null
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         email_sign_in_button.setOnClickListener({
+            showProgressBar(getString(R.string.logging_in))
             loginSignInPresenter.postLogin(
                     login_email.text.toString(),
                     login_password.text.toString())
         })
-
         no_thanks_button.setOnClickListener({
-            callback.skipAndGoToMainActivity()
+            callback?.skipAndGoToMainActivity()
         })
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        if (context is OnFromLoginFragmentCallback) callback = context
         loginSignInPresenter.onAttach()
     }
 
@@ -52,12 +54,27 @@ class LoginSignInFragment : DaggerFragment(), LoginSignInView {
         loginSignInPresenter.onDetach()
     }
 
-    override fun postLoginSuccess(login: Login) {
-        Timber.e(login.toString())
+    override fun postLoginSuccess(login: LoginResponse) {
+        authInterceptor.token = login.token
+        callback?.loggedInAndGoToMainActivity()
     }
 
-    override fun postLoginFailure() {
-        Timber.e("error")
+    override fun postLoginFailure(username: String, password: String, error: Throwable) {
+        when(error) {
+            is HttpException -> {
+                when (error.code()) {
+                    401 -> Snackbar.make(view!!,
+                            R.string.logging_in_auth_error,
+                            Snackbar.LENGTH_SHORT).show()
+                }
+            }
+            is UnknownHostException ->
+                Snackbar.make(view!!, R.string.no_internet, Snackbar.LENGTH_INDEFINITE)
+                        .setActionTextColor(Color.WHITE)
+                        .setAction(R.string.try_again, { loginSignInPresenter
+                                .postLogin(username, password) })
+                        .show()
+        }
     }
 
     interface OnFromLoginFragmentCallback {
@@ -66,10 +83,11 @@ class LoginSignInFragment : DaggerFragment(), LoginSignInView {
 
         fun goToViewPagerFragment(fragment: Fragment)
 
+        fun loggedInAndGoToMainActivity()
+
         fun skipAndGoToMainActivity()
 
         fun showSnackBar(text: String)
-
     }
 
     companion object {

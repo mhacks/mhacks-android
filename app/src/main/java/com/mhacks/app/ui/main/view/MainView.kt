@@ -1,6 +1,6 @@
 package com.mhacks.app.ui.main.view
 
-import com.mhacks.app.data.model.Login
+import com.mhacks.app.data.kotlin.LoginResponse
 
 /**
  * Created by jeffreychang on 2/16/18.
@@ -8,7 +8,7 @@ import com.mhacks.app.data.model.Login
 
 interface MainView {
 
-    fun onLogInSuccess(login: Login)
+    fun onLogInSuccess(login: LoginResponse)
 
     fun onLogInFailure()
 

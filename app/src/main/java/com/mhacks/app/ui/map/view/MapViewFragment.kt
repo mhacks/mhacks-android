@@ -14,7 +14,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.mhacks.app.R
 import com.mhacks.app.data.kotlin.Floor
-import com.mhacks.app.ui.common.BaseFragment
+import com.mhacks.app.ui.common.NavigationFragment
 import com.mhacks.app.ui.common.util.GooglePlayUtil
 import com.mhacks.app.ui.common.util.NetworkUtil
 import com.mhacks.app.ui.common.util.ResourceUtil
@@ -29,7 +29,7 @@ import kotlin.collections.ArrayList
  * Displays maps of the MHacksApplication 8 venues.
  */
 class MapViewFragment :
-        BaseFragment(), MapView,
+        NavigationFragment(), MapView,
         OnMapReadyCallback, AdapterView.OnItemSelectedListener {
 
     override var setTransparent: Boolean = true
@@ -38,6 +38,8 @@ class MapViewFragment :
     lateinit var floors: ArrayList<Floor>
     private var mMapFragment: SupportMapFragment? = null
     private var mGoogleMap: GoogleMap? = null
+
+    override var onProgressStateChange: OnProgressStateChangeListener? = null
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         setCustomActionBarColor(R.color.semiColorPrimary)

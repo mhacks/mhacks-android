@@ -5,16 +5,15 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.mhacks.app.R
 import com.mhacks.app.data.kotlin.Announcements
-import com.mhacks.app.ui.common.BaseFragment
-import io.reactivex.Observable
+import com.mhacks.app.ui.common.NavigationFragment
 import kotlinx.android.synthetic.main.fragment_announcements.*
-import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 /**
  * Created by jeffreychang on 5/26/17.
  */
-class AnnouncementFragment : BaseFragment(), AnnouncementView {
+class AnnouncementFragment : NavigationFragment(), AnnouncementView {
+
+    override var onProgressStateChange: OnProgressStateChangeListener? = null
 
     private var announcementList: ArrayList<Announcements> = ArrayList()
 

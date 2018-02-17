@@ -62,7 +62,7 @@ class TicketDialogFragment : DaggerDialogFragment(), TicketDialogView {
 //                        ticket_school_text_view.text = user.university
 //
 //                },
-//                { Timber.d("About to go to Login")
+//                { Timber.d("About to go to LoginResponse")
 //            callback?.startLoginActivity() } )
 
         ticket_bottom_bar_done_button.setOnClickListener({ dismiss() })

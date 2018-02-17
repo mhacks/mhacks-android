@@ -4,7 +4,7 @@
 //import com.mhacks.android.data.kotlin.Configuration
 //import com.mhacks.android.data.kotlin.RoomUser
 //import com.mhacks.android.data.kotlin.User
-//import com.mhacks.android.data.model.Login
+//import com.mhacks.android.data.model.LoginResponse
 //import io.reactivex.Flowable
 //import io.reactivex.Observable
 //import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,7 +23,7 @@
 //    }
 //
 //    fun getLogin(
-//            success: (Login) -> Unit,
+//            success: (LoginResponse) -> Unit,
 //            failure: (Throwable) -> Unit) {
 //        roomDatabase.loginDao()
 //                .getLogin()
@@ -34,7 +34,7 @@
 //                        { error -> failure(error) })
 //    }
 //
-//    fun getLoginFlowable(): Flowable<Login> {
+//    fun getLoginFlowable(): Flowable<LoginResponse> {
 //        return roomDatabase.loginDao().getLogin()
 //    }
 //
@@ -43,7 +43,7 @@
 //    }
 //
 //
-//    fun insertLogin(login: Login) { Observable.fromCallable({
+//    fun insertLogin(login: LoginResponse) { Observable.fromCallable({
 //        roomDatabase.loginDao()
 //                .insertLogin(login) })
 //                .subscribeOn(Schedulers.newThread())
@@ -86,7 +86,7 @@
 ////                        { error -> failure(error) })
 ////    }
 //
-////    fun insertLoginObservable(login: Login): Observable<Unit> {
+////    fun insertLoginObservable(login: LoginResponse): Observable<Unit> {
 ////        return Observable.fromCallable({ roomDatabase.loginDao().insertLogin(login) })
 ////    }
 //

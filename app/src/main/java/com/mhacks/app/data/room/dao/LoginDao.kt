@@ -4,7 +4,7 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
-import com.mhacks.app.data.model.Login
+import com.mhacks.app.data.kotlin.LoginResponse
 import io.reactivex.Maybe
 
 /**
@@ -13,8 +13,8 @@ import io.reactivex.Maybe
 @Dao
 interface LoginDao {
     @Query("SELECT * FROM login")
-    fun getLogin(): Maybe<Login>
+    fun getLogin(): Maybe<LoginResponse>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertLogin(login: Login)
+    fun insertLogin(login: LoginResponse)
 }

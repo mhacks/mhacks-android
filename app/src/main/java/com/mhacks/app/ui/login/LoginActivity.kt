@@ -1,11 +1,12 @@
 package com.mhacks.app.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import com.mhacks.app.R
-import com.mhacks.app.data.model.Login
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.login.signin.view.LoginSignInFragment
+import com.mhacks.app.ui.main.view.MainActivity
 
 class LoginActivity : BaseActivity(), LoginSignInFragment.OnFromLoginFragmentCallback{
 
@@ -26,13 +27,13 @@ class LoginActivity : BaseActivity(), LoginSignInFragment.OnFromLoginFragmentCal
 
     override fun skipAndGoToMainActivity() {
 
-        // Stores an empty Login so we know that the user skipped the login.
+        // Stores an empty LoginResponse so we know that the user skipped the login.
 
 //        Observable.fromCallable({
 //            mhacksDatabase
 //                    .loginDao()
 //                    .insertLogin(
-//                            Login(0, true, false, "", "")
+//                            LoginResponse(0, true, false, "", "")
 //                    )})
 //                .subscribeOn(Schedulers.newThread())
 //                .observeOn(AndroidSchedulers.mainThread())
@@ -42,35 +43,11 @@ class LoginActivity : BaseActivity(), LoginSignInFragment.OnFromLoginFragmentCal
 //        startActivity(Intent(this, MainActivity::class.java))
     }
 
-    private fun loggedInAndGoToMainActivity(login: Login) {
-//
-//        login.id = 0
-//        Observable.fromCallable({
-//            mhacksDatabase
-//                    .loginDao()
-//                    .insertLogin(login)})
-//            .subscribeOn(Schedulers.newThread())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe()
-//
-//        startActivity(Intent(this, MainActivity::class.java))
-    }
+    override fun loggedInAndGoToMainActivity() =
+            startActivity(Intent(this, MainActivity::class.java))
 
     override fun attemptLogin(email: String, password: String) {
-//        if (NetworkUtil.checkIfNetworkSucceeds(context = this)) {
-//            hackathonService.postLogin(email, password)
-//                    .subscribeOn(Schedulers.newThread())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(
-//                            { response -> loggedInAndGoToMainActivity(response)},
-//                            { error ->
-//                                when (error.message) {
-//                                // The space is nescessary.
-//                                    "HTTP 401 " ->
-//                                        showSnackBar("The username and password is incorrect.")
-//                                }
-//                            }
-//                    ) }
+
     }
 
     override fun goToViewPagerFragment(fragment: android.support.v4.app.Fragment) {
