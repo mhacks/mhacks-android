@@ -10,4 +10,6 @@ interface LoginSignInView {
     fun postLoginSuccess(login: LoginResponse)
 
     fun postLoginFailure(username: String, password: String, error: Throwable)
+
+    fun skipLoginSuccess()
 }

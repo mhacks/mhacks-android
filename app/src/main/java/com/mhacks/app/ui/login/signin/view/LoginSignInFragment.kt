@@ -39,7 +39,8 @@ class LoginSignInFragment : BaseFragment(), LoginSignInView {
                     login_password.text.toString())
         })
         no_thanks_button.setOnClickListener({
-            callback?.skipAndGoToMainActivity()
+            loginSignInPresenter.skipLogin()
+            callback?.goToMainActivity()
         })
     }
 
@@ -56,7 +57,7 @@ class LoginSignInFragment : BaseFragment(), LoginSignInView {
 
     override fun postLoginSuccess(login: LoginResponse) {
         authInterceptor.token = login.token
-        callback?.loggedInAndGoToMainActivity()
+        callback?.goToMainActivity()
     }
 
     override fun postLoginFailure(username: String, password: String, error: Throwable) {
@@ -77,15 +78,17 @@ class LoginSignInFragment : BaseFragment(), LoginSignInView {
         }
     }
 
+    override fun skipLoginSuccess() {
+        callback?.goToMainActivity()
+    }
+
     interface OnFromLoginFragmentCallback {
 
         fun attemptLogin(email: String, password: String)
 
         fun goToViewPagerFragment(fragment: Fragment)
 
-        fun loggedInAndGoToMainActivity()
-
-        fun skipAndGoToMainActivity()
+        fun goToMainActivity()
 
         fun showSnackBar(text: String)
     }

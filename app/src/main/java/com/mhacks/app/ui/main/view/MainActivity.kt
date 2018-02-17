@@ -17,7 +17,6 @@ import com.mhacks.app.ui.map.view.MapViewFragment
 import com.mhacks.app.ui.ticket.view.TicketDialogFragment
 import com.mhacks.app.ui.welcome.view.WelcomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -54,13 +53,12 @@ class MainActivity : BaseActivity(), MainView {
     }
 
     override fun onLogInSuccess(login: LoginResponse) {
-        Timber.e(login.toString())
+        initActivity()
     }
 
     override fun onLogInFailure() = startLoginActivity()
 
     private fun initActivity() {
-        startActivity(Intent(this, LoginActivity::class.java))
         setSystemFullScreenUI()
         setContentView(R.layout.activity_main)
         setBottomNavigationColor(

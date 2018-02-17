@@ -8,7 +8,7 @@ import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.login.signin.view.LoginSignInFragment
 import com.mhacks.app.ui.main.view.MainActivity
 
-class LoginActivity : BaseActivity(), LoginSignInFragment.OnFromLoginFragmentCallback{
+class LoginActivity : BaseActivity(), LoginSignInFragment.OnFromLoginFragmentCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,26 +24,7 @@ class LoginActivity : BaseActivity(), LoginSignInFragment.OnFromLoginFragmentCal
                 text, Snackbar.LENGTH_SHORT).show()
     }
 
-
-    override fun skipAndGoToMainActivity() {
-
-        // Stores an empty LoginResponse so we know that the user skipped the login.
-
-//        Observable.fromCallable({
-//            mhacksDatabase
-//                    .loginDao()
-//                    .insertLogin(
-//                            LoginResponse(0, true, false, "", "")
-//                    )})
-//                .subscribeOn(Schedulers.newThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe()
-//
-//
-//        startActivity(Intent(this, MainActivity::class.java))
-    }
-
-    override fun loggedInAndGoToMainActivity() =
+    override fun goToMainActivity() =
             startActivity(Intent(this, MainActivity::class.java))
 
     override fun attemptLogin(email: String, password: String) {

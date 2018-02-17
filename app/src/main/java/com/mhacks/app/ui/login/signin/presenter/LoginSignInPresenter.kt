@@ -9,4 +9,6 @@ import com.mhacks.app.ui.common.BasePresenter
 interface LoginSignInPresenter: BasePresenter {
 
     fun postLogin(username: String, password: String)
+
+    fun skipLogin()
 }
