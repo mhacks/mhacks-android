@@ -1,5 +1,6 @@
 package com.mhacks.app.ui.main.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
@@ -9,6 +10,7 @@ import com.mhacks.app.ui.announcement.view.AnnouncementFragment
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
 import com.mhacks.app.ui.events.view.EventsFragment
+import com.mhacks.app.ui.login.LoginActivity
 import com.mhacks.app.ui.main.presenter.MainPresenter
 import com.mhacks.app.ui.map.view.MapViewFragment
 import com.mhacks.app.ui.ticket.view.TicketDialogFragment
@@ -210,6 +212,7 @@ class MainActivity : BaseActivity(), MainView
 //    }
 //
     private fun initActivity() {
+        startActivity(Intent(this, LoginActivity::class.java))
 
         setSystemFullScreenUI()
         setContentView(R.layout.activity_main)

@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.login.components
+package com.mhacks.app.ui.login.signin.view
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -6,20 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mhacks.app.R
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 
 /**
  * Fragment for the main Login component.
  */
-class LoginFragment: Fragment() {
+class LoginSignInFragment : DaggerFragment(), LoginSignInView {
 
     private val callback: OnFromLoginFragmentCallback by lazy {
         activity as OnFromLoginFragmentCallback
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_login, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater?,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? =
+            inflater?.inflate(R.layout.fragment_login, container, false)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         email_sign_in_button.setOnClickListener({
@@ -47,6 +49,6 @@ class LoginFragment: Fragment() {
     }
 
     companion object {
-        val instance get() = LoginFragment()
+        val instance get() = LoginSignInFragment()
     }
 }

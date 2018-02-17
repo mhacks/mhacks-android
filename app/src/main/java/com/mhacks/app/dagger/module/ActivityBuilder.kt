@@ -3,6 +3,8 @@ package com.mhacks.app.dagger.module
 import com.mhacks.app.ui.announcement.AnnouncementFragmentProvider
 import com.mhacks.app.ui.events.EventsFragmentProvider
 import com.mhacks.app.ui.events.MapViewFragmentProvider
+import com.mhacks.app.ui.login.LoginActivity
+import com.mhacks.app.ui.login.signin.LoginSignInFragmentProvider
 import com.mhacks.app.ui.main.MainActivityModule
 import com.mhacks.app.ui.main.view.MainActivity
 import com.mhacks.app.ui.ticket.TicketDialogProvider
@@ -23,4 +25,9 @@ abstract class ActivityBuilder {
         AnnouncementFragmentProvider::class
     ])
     abstract fun bindMainActivity(): MainActivity
+
+    @ContributesAndroidInjector(modules = [
+        LoginSignInFragmentProvider::class
+    ])
+    abstract fun bindLoginActivity(): LoginActivity
 }

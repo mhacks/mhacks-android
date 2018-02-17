@@ -31,7 +31,7 @@ import kotlin.collections.ArrayList
 class MapViewFragment :
         BaseFragment(), MapView,
         OnMapReadyCallback, AdapterView.OnItemSelectedListener {
-    
+
     override var setTransparent: Boolean = true
     override var appBarTitle: Int = R.string.title_map
     override var layoutResourceID: Int = R.layout.fragment_map

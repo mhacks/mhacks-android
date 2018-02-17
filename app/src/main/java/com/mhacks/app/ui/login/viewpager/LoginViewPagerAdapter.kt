@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.login.components
+package com.mhacks.app.ui.login.viewpager
 
 /**
  * Created by jeffreychang on 5/31/17.

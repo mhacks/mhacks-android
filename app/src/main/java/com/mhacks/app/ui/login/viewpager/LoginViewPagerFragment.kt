@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.login.components
+package com.mhacks.app.ui.login.viewpager
 
 import android.support.v4.app.Fragment
 

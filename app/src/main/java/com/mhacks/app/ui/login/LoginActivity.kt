@@ -5,20 +5,16 @@ import android.support.design.widget.Snackbar
 import com.mhacks.app.R
 import com.mhacks.app.data.model.Login
 import com.mhacks.app.ui.common.BaseActivity
-import com.mhacks.app.ui.login.components.LoginFragment
+import com.mhacks.app.ui.login.signin.view.LoginSignInFragment
 
-class LoginActivity : BaseActivity(), LoginFragment.OnFromLoginFragmentCallback{
-
-//    @Inject lateinit var mhacksDatabase: MHacksDatabase
-//    @Inject lateinit var hackathonService: Retrofit
+class LoginActivity : BaseActivity(), LoginSignInFragment.OnFromLoginFragmentCallback{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        (application as MHacksApplication).hackathonComponent.inject(this)
-//        setTheme(R.style.MHacksTheme)
-//        setStatusBarTransparent()
+        setTheme(R.style.MHacksTheme)
+        setStatusBarTransparent()
         setContentView(R.layout.activity_login)
-//        goToViewPagerFragment(LoginFragment.instance)
+        goToViewPagerFragment(LoginSignInFragment.instance)
     }
 
 
