@@ -72,8 +72,8 @@ class LoginSignInFragment : BaseFragment(), LoginSignInView {
             is UnknownHostException ->
                 Snackbar.make(view!!, R.string.no_internet, Snackbar.LENGTH_INDEFINITE)
                         .setActionTextColor(Color.WHITE)
-                        .setAction(R.string.try_again, { loginSignInPresenter
-                                .postLogin(username, password) })
+                        .setAction(R.string.try_again, {
+                            loginSignInPresenter.postLogin(username, password) })
                         .show()
         }
     }

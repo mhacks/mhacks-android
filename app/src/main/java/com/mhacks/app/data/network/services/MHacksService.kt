@@ -2,6 +2,7 @@ package com.mhacks.app.data.network.services
 
 import com.mhacks.app.data.kotlin.*
 import com.mhacks.app.data.model.FcmDevice
+import io.reactivex.Maybe
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -20,7 +21,7 @@ interface MHacksService {
                   @Field("password") password: String): Single<LoginResponse>
 
     @GET("user/profile/")
-    fun getMetaUser(): Single<UserResponse>
+    fun getUserResponse(): Single<UserResponse>
 
     @GET("floor")
     fun getMetaFloors(): Single<MetaFloor>

@@ -43,7 +43,7 @@ class LoginSignInPresenterImpl(private val loginSignInView: LoginSignInView,
     override fun skipLogin() {
         Observable.fromCallable {
             mHacksDatabase.loginDao()
-                    .insertLogin(LoginResponse(0,  false, "", ""))
+                    .insertLogin(LoginResponse(1,  false, "", ""))
         }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -10,8 +10,10 @@ import android.view.ViewGroup
 import com.mhacks.app.R
 import com.mhacks.app.di.common.DaggerDialogFragment
 import com.mhacks.app.data.kotlin.User
+import com.mhacks.app.di.module.AuthModule
 import com.mhacks.app.ui.ticket.presenter.TicketDialogPresenter
 import kotlinx.android.synthetic.main.fragment_ticket_dialog.*
+import net.glxn.qrgen.android.QRCode
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -21,6 +23,8 @@ import javax.inject.Inject
 class TicketDialogFragment : DaggerDialogFragment(), TicketDialogView {
 
     @Inject lateinit var ticketDialogPresenter: TicketDialogPresenter
+
+    @Inject lateinit var authInterceptor: AuthModule.AuthInterceptor
 
     private var callback: Callback? = null
 
@@ -47,40 +51,29 @@ class TicketDialogFragment : DaggerDialogFragment(), TicketDialogView {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         ticket_bottom_bar_done_button.setOnClickListener { dismiss() }
-        ticketDialogPresenter.getUser()
-//        callback?.checkOrFetchUser(
-//                { user ->
-//                    val qr = QRCode.from(user.email)
-//                            .withSize(500, 500)
-//                            .withColor(0xFF43384D.toInt(), 0x00FFFFFF)
-//                            .bitmap()
-//                    ticket_qr_code_image_view.setImageBitmap(qr)
-//                    ticket_full_name_text_view.text = user.fullName
-//                    if (user.university.isEmpty())
-//                        ticket_school_text_view.text = getString(R.string.no_school)
-//                    else
-//                        ticket_school_text_view.text = user.university
-//
-//                },
-//                { Timber.d("About to go to LoginResponse")
-//            callback?.startLoginActivity() } )
-
+        ticketDialogPresenter.getUser(authInterceptor)
         ticket_bottom_bar_done_button.setOnClickListener({ dismiss() })
     }
 
     override fun onGetUserSuccess(user: User) {
         Timber.e(user.toString())
+        val qr = QRCode.from(user.email)
+                .withSize(500, 500)
+                .withColor(0xFF43384D.toInt(), 0x00FFFFFF)
+                .bitmap()
+        ticket_qr_code_image_view.setImageBitmap(qr)
+        ticket_full_name_text_view.text = user.fullName
+        if (user.university!!.isEmpty())
+            ticket_school_text_view.text = getString(R.string.no_school)
+        else
+            ticket_school_text_view.text = user.university
     }
 
     override fun onGetUserFailure(error: Throwable) {
-        Timber.e(error.toString())
+        callback?.startLoginActivity()
     }
 
     interface Callback {
-        fun checkOrFetchUser(
-                success: (user: User) -> Unit,
-                failure: (error: Throwable) -> Unit)
-
         fun startLoginActivity()
     }
 

@@ -23,7 +23,8 @@ import javax.inject.Inject
  * Main Activity that handles most of the interactions. Sets up the LoginResponse Activity and loads
  * feature fragments with a bottom navigation bar.
  */
-class MainActivity : BaseActivity(), MainView {
+class MainActivity : BaseActivity(), MainView,
+        TicketDialogFragment.Callback {
 
     @Inject lateinit var mainPresenter: MainPresenter
 
@@ -82,7 +83,7 @@ class MainActivity : BaseActivity(), MainView {
         })
     }
 
-    private fun startLoginActivity() {
+    override fun startLoginActivity() {
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
     }

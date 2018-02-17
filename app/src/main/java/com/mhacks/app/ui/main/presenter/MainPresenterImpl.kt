@@ -20,10 +20,6 @@ class MainPresenterImpl(val mainView: MainView,
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { mainView.onLogInSuccess(it) },
-                        { mainView.onLogInFailure() },
-                        { mainView.onLogInFailure() }
-                )
-
+                        { mainView.onLogInFailure() })
     }
-
 }
