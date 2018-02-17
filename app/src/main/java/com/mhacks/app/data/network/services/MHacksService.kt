@@ -14,27 +14,27 @@ import retrofit2.http.*
 interface MHacksService {
 
     @GET("configuration")
-    fun getMetaConfiguration(): Observable<MetaConfiguration>
+    fun getMetaConfiguration(): Single<MetaConfiguration>
 
     @POST("auth/login/")
     @FormUrlEncoded
     fun postLogin(@Field("email") email: String,
-                  @Field("password") password: String): Observable<Login>
+                  @Field("password") password: String): Single<Login>
 
     @GET("user/profile/")
     fun getMetaUser(): Single<UserResponse>
 
     @GET("floor")
-    fun getMetaFloors(): Observable<MetaFloor>
+    fun getMetaFloors(): Single<MetaFloor>
 
     @GET("announcements")
-    fun getMetaAnnouncements(): Observable<MetaAnnouncements>
+    fun getMetaAnnouncements(): Single<MetaAnnouncements>
 
     @GET("event")
-    fun getMetaEvent(): Observable<MetaEvents>
+    fun getMetaEvent(): Single<MetaEvents>
 
     @FormUrlEncoded
     @POST("device")
-    fun postFirebaseToken(@Field("push_id") pushId: String): Observable<FcmDevice>
+    fun postFirebaseToken(@Field("push_id") pushId: String): Single<FcmDevice>
 
 }

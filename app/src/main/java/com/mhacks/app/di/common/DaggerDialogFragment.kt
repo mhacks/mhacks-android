@@ -1,4 +1,4 @@
-package com.mhacks.app.dagger.common
+package com.mhacks.app.di.common
 
 import android.content.Context
 import android.support.v4.app.Fragment

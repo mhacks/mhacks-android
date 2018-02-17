@@ -12,10 +12,10 @@ import android.graphics.Color
 import android.os.Build
 import android.support.annotation.RequiresApi
 import com.facebook.stetho.Stetho
-import com.mhacks.app.dagger.component.*
-import com.mhacks.app.dagger.module.AuthModule
-import com.mhacks.app.dagger.module.RetrofitModule
-import com.mhacks.app.dagger.module.RoomModule
+import com.mhacks.app.di.component.*
+import com.mhacks.app.di.module.AuthModule
+import com.mhacks.app.di.module.RetrofitModule
+import com.mhacks.app.di.module.RoomModule
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import timber.log.Timber

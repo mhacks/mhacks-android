@@ -18,19 +18,19 @@ class TicketDialogPresenterImpl @Inject constructor(
         private val mHacksDatabase: MHacksDatabase) : TicketDialogPresenter {
 
     override fun getUser() {
-        mHacksDatabase.userDao()
-                .getUser()
-                .onErrorResumeNext ({
-                    mHacksDatabase.loginDao().getLogin()
-                            .flatMap({ login ->
-                                mhacksService.getMetaUser()
-                                        .flatMap { user -> Single.just(user.user) }
-                            })
-                })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { ticketDialogView.onGetUserSuccess(it) },
-                        { ticketDialogView.onGetUserFailure(it) })
+//        mHacksDatabase.userDao()
+//                .getUser()
+//                .onErrorResumeNext ({
+//                    mHacksDatabase.loginDao().getLogin()
+//                            .flatMap({ login ->
+//                                mhacksService.getMetaUser()
+//                                        .flatMap { user -> user.user) }
+//                            })
+//                })
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//                        { ticketDialogView.onGetUserSuccess(it) },
+//                        { ticketDialogView.onGetUserFailure(it) })
     }
 }

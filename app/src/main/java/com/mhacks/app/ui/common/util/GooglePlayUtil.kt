@@ -16,7 +16,7 @@ import timber.log.Timber
  * the Google Play Store or enable it in the device's system settings.
  */
 
-private val PLAY_SERVICES_RESOLUTION_REQUEST = 1337
+private const val PLAY_SERVICES_RESOLUTION_REQUEST = 1337
 
 class GooglePlayUtil {
      companion object {

@@ -1,4 +1,4 @@
-package com.mhacks.app.dagger.component
+package com.mhacks.app.di.component
 
 import com.mhacks.app.ui.login.LoginActivity
 import dagger.Subcomponent

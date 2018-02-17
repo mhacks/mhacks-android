@@ -5,7 +5,7 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import com.mhacks.app.data.model.Login
-import io.reactivex.Single
+import io.reactivex.Maybe
 
 /**
  * Created by jeffreychang on 9/6/17.
@@ -13,7 +13,7 @@ import io.reactivex.Single
 @Dao
 interface LoginDao {
     @Query("SELECT * FROM login")
-    fun getLogin(): Single<Login>
+    fun getLogin(): Maybe<Login>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLogin(login: Login)

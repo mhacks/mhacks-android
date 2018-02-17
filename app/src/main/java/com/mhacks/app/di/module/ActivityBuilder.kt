@@ -1,4 +1,4 @@
-package com.mhacks.app.dagger.module
+package com.mhacks.app.di.module
 
 import com.mhacks.app.ui.announcement.AnnouncementFragmentProvider
 import com.mhacks.app.ui.events.EventsFragmentProvider

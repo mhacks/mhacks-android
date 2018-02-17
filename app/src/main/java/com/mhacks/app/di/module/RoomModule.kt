@@ -1,4 +1,4 @@
-package com.mhacks.app.dagger.module
+package com.mhacks.app.di.module
 
 import android.app.Application
 import android.arch.persistence.room.Room

@@ -1,5 +1,7 @@
 package com.mhacks.app.ui.login.signin
 
+import com.mhacks.app.data.network.services.MHacksService
+import com.mhacks.app.data.room.MHacksDatabase
 import com.mhacks.app.ui.login.signin.presenter.LoginSignInPresenter
 import com.mhacks.app.ui.login.signin.presenter.LoginSignInPresenterImpl
 import com.mhacks.app.ui.login.signin.view.LoginSignInFragment
@@ -22,7 +24,9 @@ abstract class LoginSignInFragmentModule {
     companion object {
         @Provides
         @JvmStatic
-        fun provideLoginSignInPresenter(loginSignInView: LoginSignInView): LoginSignInPresenter =
-                LoginSignInPresenterImpl(loginSignInView)
+        fun provideLoginSignInPresenter(loginSignInView: LoginSignInView,
+                                        mHacksService: MHacksService,
+                                        mHacksDatabase: MHacksDatabase): LoginSignInPresenter =
+                LoginSignInPresenterImpl(loginSignInView, mHacksService, mHacksDatabase)
     }
 }

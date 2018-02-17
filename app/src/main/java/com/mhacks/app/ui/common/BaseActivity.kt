@@ -77,9 +77,8 @@ abstract class BaseActivity: DaggerAppCompatActivity() {
                 ContextCompat.getColor(this, color.primaryColor),
                 ContextCompat.getColor(this, color.secondaryColor)
         )
-
-        navigation?.itemIconTintList = colorStateList
-        navigation?.itemTextColor = colorStateList
+        main_activity_navigation?.itemIconTintList = colorStateList
+        main_activity_navigation?.itemTextColor = colorStateList
     }
 
     /**

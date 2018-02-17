@@ -6,5 +6,6 @@ package com.mhacks.app.ui.main.presenter
 
 interface MainPresenter {
 
-    fun onViewLoaded()
+    fun onCheckIfLoggedIn()
+
 }

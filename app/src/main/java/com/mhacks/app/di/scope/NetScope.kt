@@ -1,4 +1,4 @@
-package com.mhacks.app.dagger.scope
+package com.mhacks.app.di.scope
 
 import javax.inject.Scope
 

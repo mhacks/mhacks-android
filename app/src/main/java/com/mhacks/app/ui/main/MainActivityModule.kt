@@ -1,6 +1,7 @@
 package com.mhacks.app.ui.main
 
 import com.mhacks.app.data.network.services.MHacksService
+import com.mhacks.app.data.room.MHacksDatabase
 import com.mhacks.app.ui.main.presenter.MainPresenter
 import com.mhacks.app.ui.main.presenter.MainPresenterImpl
 import com.mhacks.app.ui.main.view.MainActivity
@@ -22,8 +23,10 @@ abstract class MainActivityModule {
     companion object {
         @Provides
         @JvmStatic
-        fun provideMainPresenter(mainView: MainView, mHacksService: MHacksService)
-                : MainPresenter = MainPresenterImpl(mainView, mHacksService)
+        fun provideMainPresenter(mainView: MainView,
+                                 mHacksService: MHacksService,
+                                 mHacksDatabase: MHacksDatabase): MainPresenter =
+                MainPresenterImpl(mainView, mHacksService, mHacksDatabase)
     }
 
 }

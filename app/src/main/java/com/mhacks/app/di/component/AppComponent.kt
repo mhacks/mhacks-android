@@ -1,8 +1,8 @@
-package com.mhacks.app.dagger.component
+package com.mhacks.app.di.component
 
 import android.app.Application
 import com.mhacks.app.MHacksApplication
-import com.mhacks.app.dagger.module.*
+import com.mhacks.app.di.module.*
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
