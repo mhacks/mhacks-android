@@ -1,6 +1,8 @@
 package com.mhacks.app.ui.welcome.presenter
 
-interface WelcomeFragmentPresenter {
+import com.mhacks.app.ui.common.BasePresenter
 
-    fun onViewLoad()
+interface WelcomeFragmentPresenter: BasePresenter{
+
+    fun getConfig()
 }

@@ -18,8 +18,8 @@ abstract class NavigationFragment : BaseFragment() {
     private var callback: OnNavigationChangeListener? = null
 
     abstract var setTransparent: Boolean
-    abstract var appBarTitle: Int
 
+    abstract var appBarTitle: Int
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

@@ -2,7 +2,6 @@ package com.mhacks.app.data.network.services
 
 import com.mhacks.app.data.kotlin.*
 import com.mhacks.app.data.model.FcmDevice
-import io.reactivex.Maybe
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -12,8 +11,8 @@ import retrofit2.http.*
 
 interface MHacksService {
 
-    @GET("configuration")
-    fun getMetaConfiguration(): Single<MetaConfiguration>
+    @GET("configuration/")
+    fun getConfigurationResponse(): Single<ConfigurationResponse>
 
     @POST("auth/login/")
     @FormUrlEncoded

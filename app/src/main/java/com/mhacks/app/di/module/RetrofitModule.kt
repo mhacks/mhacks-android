@@ -4,6 +4,7 @@ import android.app.Application
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.mhacks.app.BuildConfig
 import com.mhacks.app.data.network.services.MHacksService
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -36,7 +37,7 @@ import javax.inject.Singleton
 
         if (BuildConfig.DEBUG)
                 client.addInterceptor(HttpLoggingInterceptor()
-                        .setLevel(HttpLoggingInterceptor.Level.BASIC))
+                        .setLevel(HttpLoggingInterceptor.Level.BODY))
                         .addInterceptor(StethoInterceptor())
         if (interceptor != null)
             client.addInterceptor(interceptor)

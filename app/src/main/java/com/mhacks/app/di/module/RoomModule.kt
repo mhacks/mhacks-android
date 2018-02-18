@@ -16,5 +16,7 @@ class RoomModule {
     @Singleton
     @Provides
     fun provideMHacksDatabase(application: Application): MHacksDatabase =
-        Room.databaseBuilder(application, MHacksDatabase::class.java, "mhacks-db").build()
+        Room.databaseBuilder(application, MHacksDatabase::class.java, "mhacks-db")
+                .fallbackToDestructiveMigration()
+                .build()
 }

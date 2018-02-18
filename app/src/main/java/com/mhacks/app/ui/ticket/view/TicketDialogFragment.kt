@@ -56,7 +56,6 @@ class TicketDialogFragment : DaggerDialogFragment(), TicketDialogView {
     }
 
     override fun onGetUserSuccess(user: User) {
-        Timber.e(user.toString())
         val qr = QRCode.from(user.email)
                 .withSize(500, 500)
                 .withColor(0xFF43384D.toInt(), 0x00FFFFFF)

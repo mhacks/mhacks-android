@@ -12,9 +12,9 @@ import dagger.android.support.DaggerFragment
  */
 abstract class BaseFragment : DaggerFragment() {
 
-    abstract var layoutResourceID: Int
+    var onProgressStateChange: OnProgressStateChangeListener? = null
 
-    abstract var onProgressStateChange: OnProgressStateChangeListener?
+    abstract var layoutResourceID: Int
 
     private val parent by lazy {
         FrameLayout(context)

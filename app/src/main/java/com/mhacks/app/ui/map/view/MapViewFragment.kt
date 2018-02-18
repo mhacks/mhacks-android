@@ -39,8 +39,6 @@ class MapViewFragment :
     private var mMapFragment: SupportMapFragment? = null
     private var mGoogleMap: GoogleMap? = null
 
-    override var onProgressStateChange: OnProgressStateChangeListener? = null
-
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         setCustomActionBarColor(R.color.semiColorPrimary)
         if (GooglePlayUtil.checkPlayServices(activity)) setUpMapIfNeeded()

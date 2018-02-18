@@ -1,5 +1,7 @@
 package com.mhacks.app.ui.welcome
 
+import com.mhacks.app.data.network.services.MHacksService
+import com.mhacks.app.data.room.MHacksDatabase
 import com.mhacks.app.ui.welcome.presenter.WelcomeFragmentPresenter
 import com.mhacks.app.ui.welcome.presenter.WelcomeFragmentPresenterImpl
 import com.mhacks.app.ui.welcome.view.WelcomeFragment
@@ -21,7 +23,9 @@ abstract class WelcomeFragmentModule {
     companion object {
         @Provides
         @JvmStatic
-        fun provideWelcomePresenter(welcomeView: WelcomeView): WelcomeFragmentPresenter =
-                WelcomeFragmentPresenterImpl(welcomeView)
+        fun provideWelcomePresenter(welcomeView: WelcomeView,
+                                    mHacksService: MHacksService,
+                                    mHacksDatabase: MHacksDatabase): WelcomeFragmentPresenter =
+                WelcomeFragmentPresenterImpl(welcomeView, mHacksService, mHacksDatabase)
     }
 }

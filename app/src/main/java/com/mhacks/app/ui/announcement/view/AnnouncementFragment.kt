@@ -13,8 +13,6 @@ import kotlinx.android.synthetic.main.fragment_announcements.*
  */
 class AnnouncementFragment : NavigationFragment(), AnnouncementView {
 
-    override var onProgressStateChange: OnProgressStateChangeListener? = null
-
     private var announcementList: ArrayList<Announcements> = ArrayList()
 
     override var setTransparent = false

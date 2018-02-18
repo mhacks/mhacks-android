@@ -1,16 +1,18 @@
 package com.mhacks.app.ui.welcome.view
 
+import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
-import android.widget.ProgressBar
-import android.widget.TextView
 import com.mhacks.app.R
-import com.mhacks.app.data.kotlin.MetaConfiguration
+import com.mhacks.app.data.kotlin.Configuration
 import com.mhacks.app.ui.common.NavigationFragment
 import com.mhacks.app.ui.welcome.presenter.WelcomeFragmentPresenter
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
+import kotlinx.android.synthetic.main.fragment_welcome.*
+import org.threeten.bp.Instant
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneId
+import org.threeten.bp.ZoneOffset
 import timber.log.Timber
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -25,123 +27,103 @@ import javax.inject.Inject
 class WelcomeFragment : NavigationFragment(), WelcomeView {
 
     override var setTransparent: Boolean = false
+
     override var appBarTitle: Int = R.string.welcome
+
     override var layoutResourceID: Int = R.layout.fragment_welcome
 
-    private var circularProgress: ProgressBar? = null
-    private var countdownTextView: TextView? = null
+    private var timer: HackingCountdownTimer? = null
 
-    private val countdownLength = (10 * 1000).toLong()
-    private val countdownUpdateIntervals = (1 * 750).toLong()
-
-    private var startDate: Date? = null
-    private var duration: Long = 0
-
-    override var onProgressStateChange: OnProgressStateChangeListener? = null
-    
     @Inject lateinit var welcomePresenter: WelcomeFragmentPresenter
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        welcomePresenter.onViewLoad()
+        welcomePresenter.getConfig()
     }
 
-    override fun onViewLoaded() {
-        circularProgress = view?.findViewById(R.id.progressbar_counter)
-        countdownTextView = view?.findViewById(R.id.timer_text)
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        welcomePresenter.onAttach()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        duration = 129600000
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-        simpleDateFormat.timeZone = TimeZone.getTimeZone("America/Detroit")
-        startDate = simpleDateFormat.parse("2017-09-23T00:00:00.000Z")
+    override fun onDetach() {
+        super.onDetach()
+        welcomePresenter.onDetach()
+        timer = null
+    }
+
+    override fun onGetConfigSuccess(config: Configuration) {
+        Timber.e(config.toString())
+
+
+        initCountdownIfNecessary(config.startDateTs, config.endDateTs)
+    }
+
+    override fun onGetConfigFailure(error: Throwable) {
+        val duration = 129600000L
+        val startDate = LocalDateTime.parse(FIXED_START_DATE)
+                .toEpochSecond(ZoneOffset.UTC)
         initCountdownIfNecessary(startDate, duration)
-
-    }
-
-    private fun onConfigCallbackSuccess(config: MetaConfiguration) {
-
-        startDate = Date(config.configuration.startDateTs)
-        Timber.d(config.configuration.startDate)
-        duration = config.configuration.endDateTs - config.configuration.startDateTs
-        initCountdownIfNecessary(startDate, duration)
-
-    }
-
-    private fun onConfigCallbackFailure(error: Throwable) {
-        Timber.e(error.message)
     }
 
     /**
      * Initializes the countdown based off of the start date and duration if necessary
-     * @param startDate - Date(+time) this countdown is supposed to start
-     * @param duration - How long from this start date this countdown timer should end, in milliseconds
+     *
+     * @param [startDateTs]
+     * When this countdown is supposed to start
+     *
+     * @param [endDateTs]
+     * When this countdown is supposed to end
      */
-    private fun initCountdownIfNecessary(startDate: Date?, duration: Long) {
-        // Get the local date+time
-        val localDateTime = DateTime()
+    private fun initCountdownIfNecessary(startDateTs: Long, endDateTs: Long) {
 
-        // Get the local date time zone to convert DT's to local times
-        val localTZID = TimeZone.getDefault().id
-        val localDTZ = DateTimeZone.forID(localTZID)
+        val startDate = Instant.ofEpochSecond(startDateTs)
+                .atZone(ZoneId.systemDefault()).toLocalDateTime()
+        val duration = endDateTs - startDateTs
 
-        // Get the start date in local time zone
-        val localStartDT = DateTime(startDate) // Get the startDate in joda time library in EST tz
-        localStartDT.toDateTime(localDTZ)
+        val localDateTime = LocalDateTime.now()
 
         // Get the current, start, and end times in millis
-        val curTime = localDateTime.millis
-        val startTime = startDate!!.time
+        val curTime = localDateTime.toEpochSecond(ZoneOffset.UTC)
+        val startTime = startDate!!.toEpochSecond(ZoneOffset.UTC)
         val endTime = startTime + duration
 
         // Holds the strings to display
 
-        if (curTime < startTime) {
-            // If so, it's not hack time just yet
+        when {
+            curTime < startDate.toEpochSecond(ZoneOffset.UTC) ->
+                timer_text.text = getString(R.string.countdown_timer_default)
+            curTime < endTime -> {
+                // Calculate the time remaining and the total time of hacking
+                val timeRemaining = endTime - curTime
+                val totalHackingTime = endTime - startTime
 
-        } else if (curTime < endTime) {
-            // If so, hacking already started
-
-            // Calculate the time remaining and the total time of hacking
-            val timeRemaining = endTime - curTime
-            val totalHackingTime = endTime - startTime
-
-            // Start the countdown timer
-            val timer = HackingCountdownTimer(timeRemaining, totalHackingTime)
-            timer.start()
-        } else {
-            // Otherwise, hacking already ended =<
-
-            // Set the counter to its "finished" state
-            circularProgress!!.progress = 100
-            countdownTextView!!.text = "Done!"
+                // Start the countdown timer
+                timer = HackingCountdownTimer(timeRemaining, totalHackingTime)
+                timer?.start()
+                timer_title.visibility = View.VISIBLE
+            }
+            else -> {
+                progressbar_counter.progress = 100
+                timer_text.text = getString(R.string.done)
+            }
         }
     }
 
-    private inner class HackingCountdownTimer
-    /** DEPRECATED but here for reference
-     * @param millisInFuture    The number of millis in the future from the call
-     * to [.start] until the countdown is done and [.onFinish]
-     * is called.
-     * param countDownInterval The interval along the way to receive
-     * [.onTick] callbacks.
-     */
-    //        public HackingCountdownTimer(long millisInFuture, long countDownInterval) {
-    //            super(millisInFuture, countDownInterval);
-    //        }
-
-    (millisInFuture: Long, // Cached total amount of hacking time in milliseconds, to update the progress circle
-     internal var totalHackingTimeInMillis: Long) : CountDownTimer(millisInFuture, countdownUpdateIntervals) {
-        // Used to display the time remaining prettily
-        internal var outFormat: DateFormat = SimpleDateFormat("HH:mm:ss")
+    /**
+     * @param[totalHackingTimeInMillis]
+     *
+     * Cached total amount of hacking time in milliseconds, to update the progress bar.
+     **/
+    private inner class HackingCountdownTimer(
+            millisInFuture: Long, internal var totalHackingTimeInMillis: Long) :
+            CountDownTimer(millisInFuture, countdownUpdateIntervals) {
+        internal var outFormat: DateFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
 
         init {
-
-            // Set up the formatter, to display the time remaining prettily later
             outFormat.timeZone = TimeZone.getTimeZone("UTC")
-        }// Cache the total hacking time to determine progress later
+        }
 
         override fun onTick(millisUntilFinished: Long) {
             val hours = millisUntilFinished / 3600000
@@ -154,28 +136,28 @@ class WelcomeFragment : NavigationFragment(), WelcomeView {
             val sec: String
             hrs = if (hours < 10) "0" + hours.toString() else hours.toString()
             min = if (minutes < 10) "0" + minutes.toString() else minutes.toString()
-            sec = if (seconds < 10) "0" + seconds.toString() else seconds.toString()
+            sec = (if (seconds < 10) "0" + seconds.toString() else seconds.toString()).substring(0, 2)
 
             // Update the countdown timer textView
-            countdownTextView!!.text = hrs + ":" + min + (":" + sec).substring(0, 3)
+            timer_text?.text = String.format(getString(R.string.timer_countdown_text), hrs, min, sec)
 
             // Update the progress [maxProgressInt - maxProgressInt*timeRemaining/total time]
             val progress = (100 - 100 * millisUntilFinished / totalHackingTimeInMillis).toInt()
-            circularProgress?.progress = progress
+            progressbar_counter?.progress = progress
         }
 
         override fun onFinish() {
-            circularProgress?.progress = 100
-            countdownTextView?.text = "Done!"
+            progressbar_counter?.progress = 100
+            timer_text?.text = getString(R.string.done)
         }
     }
 
-    interface Callback {
-        fun checkOrFetchConfig(success: (config: MetaConfiguration) -> Unit,
-                               failure: (error: Throwable) -> Unit)
-    }
-
     companion object {
+        
         val instance get() = WelcomeFragment()
+
+        private const val countdownUpdateIntervals = 750L
+
+        private const val FIXED_START_DATE = "2017-09-23T00:00:00.000Z"
     }
 }

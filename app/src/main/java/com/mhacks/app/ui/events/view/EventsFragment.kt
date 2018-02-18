@@ -23,8 +23,6 @@ class EventsFragment : NavigationFragment(), EventsView {
 
     private var weekDateFormat = SimpleDateFormat("EEEE", Locale.US)
 
-    override var onProgressStateChange: OnProgressStateChangeListener? = null
-
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         event_pager_tab_strip.tabIndicatorColor = Color.parseColor("#5D3E6E")
     }

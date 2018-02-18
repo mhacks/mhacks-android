@@ -12,6 +12,7 @@ import android.graphics.Color
 import android.os.Build
 import android.support.annotation.RequiresApi
 import com.facebook.stetho.Stetho
+import com.jakewharton.threetenabp.AndroidThreeTen
 import com.mhacks.app.di.component.*
 import com.mhacks.app.di.module.AuthModule
 import com.mhacks.app.di.module.RetrofitModule
@@ -25,6 +26,7 @@ class MHacksApplication : DaggerApplication() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
         super.onCreate()
+        AndroidThreeTen.init(this);
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
             Stetho.initializeWithDefaults(this);
@@ -43,10 +45,6 @@ class MHacksApplication : DaggerApplication() {
 
             notificationManager.createNotificationChannel(notificationChannel);
         }
-    }
-
-    fun setAuthInterceptorToken(token: String) {
-        appComponent.authInterceptor.token = token
     }
 
     private lateinit var appComponent: AppComponent
