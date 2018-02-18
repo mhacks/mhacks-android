@@ -13,15 +13,15 @@ import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZoneOffset
-import timber.log.Timber
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
 /**
- * Created by jawad on 04/11/14.
- * Updated by Shashank on 08/30/17
+ * The first screen that the user will open once they are logged in.
+ *
+ * Manages a ProgressBar that acts as a timer as well as builds
  */
 
 class WelcomeFragment : NavigationFragment(), WelcomeView {
@@ -42,6 +42,16 @@ class WelcomeFragment : NavigationFragment(), WelcomeView {
     }
 
 
+    override fun onGetConfigSuccess(config: Configuration) =
+        initCountdownIfNecessary(config.startDateTs, config.endDateTs)
+
+    override fun onGetConfigFailure(error: Throwable) {
+        val duration = 129600000L
+        val startDate = LocalDateTime.parse(FIXED_START_DATE)
+                .toEpochSecond(ZoneOffset.UTC)
+        initCountdownIfNecessary(startDate, duration)
+    }
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         welcomePresenter.onAttach()
@@ -51,20 +61,6 @@ class WelcomeFragment : NavigationFragment(), WelcomeView {
         super.onDetach()
         welcomePresenter.onDetach()
         timer = null
-    }
-
-    override fun onGetConfigSuccess(config: Configuration) {
-        Timber.e(config.toString())
-
-
-        initCountdownIfNecessary(config.startDateTs, config.endDateTs)
-    }
-
-    override fun onGetConfigFailure(error: Throwable) {
-        val duration = 129600000L
-        val startDate = LocalDateTime.parse(FIXED_START_DATE)
-                .toEpochSecond(ZoneOffset.UTC)
-        initCountdownIfNecessary(startDate, duration)
     }
 
     /**
@@ -84,12 +80,9 @@ class WelcomeFragment : NavigationFragment(), WelcomeView {
 
         val localDateTime = LocalDateTime.now()
 
-        // Get the current, start, and end times in millis
         val curTime = localDateTime.toEpochSecond(ZoneOffset.UTC)
         val startTime = startDate!!.toEpochSecond(ZoneOffset.UTC)
         val endTime = startTime + duration
-
-        // Holds the strings to display
 
         when {
             curTime < startDate.toEpochSecond(ZoneOffset.UTC) ->
@@ -114,7 +107,7 @@ class WelcomeFragment : NavigationFragment(), WelcomeView {
     /**
      * @param[totalHackingTimeInMillis]
      *
-     * Cached total amount of hacking time in milliseconds, to update the progress bar.
+     * Total amount of hacking time in milliseconds.
      **/
     private inner class HackingCountdownTimer(
             millisInFuture: Long, internal var totalHackingTimeInMillis: Long) :
@@ -130,19 +123,20 @@ class WelcomeFragment : NavigationFragment(), WelcomeView {
             val minutes = (millisUntilFinished - hours * 3600000) / 60000
             val seconds = millisUntilFinished - hours * 3600000 - minutes * 60000
 
-            // Padding hrs, mins, and secs to prevent out of range on substring & to improve ux
-            val hrs: String
-            val min: String
-            val sec: String
-            hrs = if (hours < 10) "0" + hours.toString() else hours.toString()
-            min = if (minutes < 10) "0" + minutes.toString() else minutes.toString()
-            sec = (if (seconds < 10) "0" + seconds.toString() else seconds.toString()).substring(0, 2)
+            /**
+             * In the case of there being a single digit during the countdown.
+             *     e.g. 12:9:01
+             *
+             * This code would pad the text so it would be 12:09:01
+             */
+            val hrs = if (hours < 10) "0" + hours.toString() else hours.toString()
+            val min = if (minutes < 10) "0" + minutes.toString() else minutes.toString()
+            val sec = (if (seconds < 10) "0" + seconds.toString() else seconds.toString())
+                    .substring(0, 2)
 
-            // Update the countdown timer textView
             timer_text?.text = String.format(getString(R.string.timer_countdown_text), hrs, min, sec)
 
-            // Update the progress [maxProgressInt - maxProgressInt*timeRemaining/total time]
-            val progress = (100 - 100 * millisUntilFinished / totalHackingTimeInMillis).toInt()
+            val progress = (100 - (100 * millisUntilFinished) / totalHackingTimeInMillis).toInt()
             progressbar_counter?.progress = progress
         }
 
@@ -153,7 +147,7 @@ class WelcomeFragment : NavigationFragment(), WelcomeView {
     }
 
     companion object {
-        
+
         val instance get() = WelcomeFragment()
 
         private const val countdownUpdateIntervals = 750L
