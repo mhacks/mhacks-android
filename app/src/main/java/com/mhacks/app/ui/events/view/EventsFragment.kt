@@ -41,11 +41,6 @@ class EventsFragment : NavigationFragment(), EventsView {
             val day: String,
             val event: Event)
 
-    interface Callback {
-        fun fetchEvents(success: (events: List<Event>) -> Unit,
-                        failure: (error: Throwable) -> Unit)
-    }
-
     companion object {
         val instance: EventsFragment
             get() = EventsFragment()

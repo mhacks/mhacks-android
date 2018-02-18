@@ -1,6 +1,6 @@
 package com.mhacks.app.ui.login.signin.presenter
 
-import com.mhacks.app.data.kotlin.LoginResponse
+import com.mhacks.app.data.kotlin.Login
 import com.mhacks.app.data.network.services.MHacksService
 import com.mhacks.app.data.room.MHacksDatabase
 import com.mhacks.app.ui.common.BasePresenterImpl
@@ -43,7 +43,7 @@ class LoginSignInPresenterImpl(private val loginSignInView: LoginSignInView,
     override fun skipLogin() {
         Observable.fromCallable {
             mHacksDatabase.loginDao()
-                    .insertLogin(LoginResponse(1,  false, "", ""))
+                    .insertLogin(Login(1,  false, "", ""))
         }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

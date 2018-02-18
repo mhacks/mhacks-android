@@ -6,19 +6,17 @@ import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.mhacks.app.R
-import com.mhacks.app.data.kotlin.Announcements
+import com.mhacks.app.data.kotlin.Announcement
 import java.util.*
 
 /**
  * Created by jeffreychang on 9/15/17.
  */
-class AnnouncementsAdapter(val context: Context,
-                          private val announcementList: ArrayList<Announcements>):
+class AnnouncementsAdapter(private val context: Context,
+                           private val announcementList: ArrayList<Announcement>):
         Adapter<AnnouncementViewHolder>() {
 
-    override fun getItemCount(): Int {
-        return announcementList.size
-    }
+    override fun getItemCount() = announcementList.size
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): AnnouncementViewHolder {
         val view = LayoutInflater.from(context)
@@ -26,22 +24,16 @@ class AnnouncementsAdapter(val context: Context,
         return AnnouncementViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: AnnouncementViewHolder, position: Int) {
-        bindItems(holder, announcementList[position])
+    override fun onBindViewHolder(holder: AnnouncementViewHolder, position: Int) =
+            bindItems(holder, announcementList[position])
 
-    }
-    private fun bindItems(holder: AnnouncementViewHolder, announcement: Announcements) {
-
-        holder.announcementsHeader.text = announcement.title
-
+    private fun bindItems(holder: AnnouncementViewHolder, announcement: Announcement) {
         val relativeTime = DateUtils.getRelativeTimeSpanString(
                 announcement.createdAtTs,
                 Date().time, DateUtils.MINUTE_IN_MILLIS,
                 DateUtils.FORMAT_NO_NOON)
-
-
+        holder.announcementsHeader.text = announcement.title
         holder.announcementDate.text = relativeTime
         holder.announcementEventDetail.text = announcement.body
-
     }
 }

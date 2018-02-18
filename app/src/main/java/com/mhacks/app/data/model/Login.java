@@ -11,7 +11,7 @@ package com.mhacks.app.data.model;
 //import com.google.gson.annotations.Expose;
 //import com.google.gson.annotations.SerializedName;
 //
-//public class LoginResponse {
+//public class Login {
 //
 //    @PrimaryKey(autoGenerate = true)
 //    public int id;

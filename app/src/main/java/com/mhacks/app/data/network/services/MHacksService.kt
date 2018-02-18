@@ -17,7 +17,7 @@ interface MHacksService {
     @POST("auth/login/")
     @FormUrlEncoded
     fun postLogin(@Field("email") email: String,
-                  @Field("password") password: String): Single<LoginResponse>
+                  @Field("password") password: String): Single<Login>
 
     @GET("user/profile/")
     fun getUserResponse(): Single<UserResponse>
@@ -26,7 +26,7 @@ interface MHacksService {
     fun getMetaFloors(): Single<MetaFloor>
 
     @GET("announcements")
-    fun getMetaAnnouncements(): Single<MetaAnnouncements>
+    fun getAnnouncementResponse(): Single<AnnouncementResponse>
 
     @GET("event")
     fun getMetaEvent(): Single<MetaEvents>

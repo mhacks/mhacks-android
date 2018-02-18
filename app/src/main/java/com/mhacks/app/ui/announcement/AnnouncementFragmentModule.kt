@@ -1,5 +1,7 @@
 package com.mhacks.app.ui.announcement
 
+import com.mhacks.app.data.network.services.MHacksService
+import com.mhacks.app.data.room.MHacksDatabase
 import com.mhacks.app.ui.announcement.presenter.AnnouncementPresenter
 import com.mhacks.app.ui.announcement.presenter.AnnouncementPresenterImpl
 import com.mhacks.app.ui.announcement.view.AnnouncementFragment
@@ -21,7 +23,9 @@ abstract class AnnouncementFragmentModule {
     companion object {
         @Provides
         @JvmStatic
-        fun provideAnnouncementPresenter(announcementView: AnnouncementView): AnnouncementPresenter =
-                AnnouncementPresenterImpl(announcementView)
+        fun provideAnnouncementPresenter(announcementView: AnnouncementView,
+                                         mHacksService: MHacksService,
+                                         mHacksDatabase: MHacksDatabase): AnnouncementPresenter =
+                AnnouncementPresenterImpl(announcementView, mHacksService, mHacksDatabase)
     }
 }

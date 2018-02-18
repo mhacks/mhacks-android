@@ -7,7 +7,7 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.View
 import com.mhacks.app.R
-import com.mhacks.app.data.kotlin.LoginResponse
+import com.mhacks.app.data.kotlin.Login
 import com.mhacks.app.di.module.AuthModule
 import com.mhacks.app.ui.common.BaseFragment
 import com.mhacks.app.ui.login.signin.presenter.LoginSignInPresenter
@@ -53,7 +53,7 @@ class LoginSignInFragment : BaseFragment(), LoginSignInView {
         loginSignInPresenter.onDetach()
     }
 
-    override fun postLoginSuccess(login: LoginResponse) {
+    override fun postLoginSuccess(login: Login) {
         authInterceptor.token = login.token
         callback?.goToMainActivity()
     }

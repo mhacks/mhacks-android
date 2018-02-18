@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.view.MenuItem
 import com.mhacks.app.R
-import com.mhacks.app.data.kotlin.LoginResponse
+import com.mhacks.app.data.kotlin.Login
 import com.mhacks.app.ui.announcement.view.AnnouncementFragment
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 /**
- * Main Activity that handles most of the interactions. Sets up the LoginResponse Activity and loads
+ * Main Activity that handles most of the interactions. Sets up the Login Activity and loads
  * feature fragments with a bottom navigation bar.
  */
 class MainActivity : BaseActivity(), MainView,
@@ -29,6 +29,8 @@ class MainActivity : BaseActivity(), MainView,
     @Inject lateinit var mainPresenter: MainPresenter
 
     private lateinit var menuItem: MenuItem
+
+    private var itemId = R.id.navigation_home
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,9 +55,7 @@ class MainActivity : BaseActivity(), MainView,
                 .commit()
     }
 
-    override fun onLogInSuccess(login: LoginResponse) {
-        initActivity()
-    }
+    override fun onLogInSuccess(login: Login) = initActivity()
 
     override fun onLogInFailure() = startLoginActivity()
 
@@ -72,13 +72,15 @@ class MainActivity : BaseActivity(), MainView,
         setSupportActionBar(toolbar)
         updateFragment(WelcomeFragment.instance)
         main_activity_navigation?.setOnNavigationItemSelectedListener({ item ->
-            when (item.itemId) {
-                R.id.navigation_home -> updateFragment(WelcomeFragment.instance)
-                R.id.navigation_announcements -> updateFragment(AnnouncementFragment.instance)
-                R.id.navigation_events -> updateFragment(EventsFragment.instance)
-                R.id.navigation_map -> updateFragment(MapViewFragment.instance)
+            if (itemId != item.itemId) {
+                when (item.itemId) {
+                    R.id.navigation_home -> updateFragment(WelcomeFragment.instance)
+                    R.id.navigation_announcements -> updateFragment(AnnouncementFragment.instance)
+                    R.id.navigation_events -> updateFragment(EventsFragment.instance)
+                    R.id.navigation_map -> updateFragment(MapViewFragment.instance)
+                }
+                itemId = item.itemId
             }
-            menuItem = item
             true
         })
     }

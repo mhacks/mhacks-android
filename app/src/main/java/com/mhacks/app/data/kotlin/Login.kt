@@ -9,7 +9,7 @@ import android.arch.persistence.room.PrimaryKey
 import com.squareup.moshi.Json
 
 @Entity(tableName = "login")
-data class LoginResponse(
+data class Login(
         @PrimaryKey(autoGenerate = false) var id: Int,
 		@Json(name = "status") var status: Boolean,
 		@Json(name = "message") var message: String,
