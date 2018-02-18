@@ -22,6 +22,7 @@
 
     <!--Common-->
     <string name="no_internet">No internet.</string>
+    <string name="lost_internet_connection">Lost internet connection</string>
     <string name="try_again">Try again</string>
 
     <!-- Welcome Fragment-->

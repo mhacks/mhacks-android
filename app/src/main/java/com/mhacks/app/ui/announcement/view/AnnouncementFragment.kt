@@ -2,6 +2,7 @@ package com.mhacks.app.ui.announcement.view
 
 import android.content.Context
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.mhacks.app.R
@@ -9,7 +10,6 @@ import com.mhacks.app.data.kotlin.Announcement
 import com.mhacks.app.ui.announcement.presenter.AnnouncementPresenter
 import com.mhacks.app.ui.common.NavigationFragment
 import kotlinx.android.synthetic.main.fragment_announcements.*
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -28,6 +28,8 @@ class AnnouncementFragment : NavigationFragment(), AnnouncementView {
     @Inject lateinit var announcementPresenter: AnnouncementPresenter
 
     private lateinit var adapter: AnnouncementsAdapter
+
+    private var snackbar: Snackbar? = null
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,12 +50,20 @@ class AnnouncementFragment : NavigationFragment(), AnnouncementView {
     }
 
     override fun onGetAnnouncementsSuccess(announcements: List<Announcement>) {
+        snackbar?.dismiss()
+        snackbar = null
+        announcementList.clear()
         announcementList.addAll(announcements)
         adapter.notifyDataSetChanged()
     }
 
     override fun onGetAnnouncementsFailure(error: Throwable) {
-
+        if (snackbar == null) {
+            snackbar = Snackbar.make(view!!,
+                    getString(R.string.lost_internet_connection),
+                    Snackbar.LENGTH_INDEFINITE)
+            snackbar?.show()
+        }
     }
 
     companion object {
