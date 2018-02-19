@@ -13,6 +13,9 @@ import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
+import android.widget.LinearLayout
+
+
 
 /**
  * Fragment to display list of events in a viewpager with tabs corresponding to the weekdays.
@@ -28,8 +31,8 @@ class EventsFragment : NavigationFragment(), EventsView {
     @Inject lateinit var eventsFragmentPresenter: EventsFragmentPresenter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        event_pager_tab_strip.tabIndicatorColor = Color.parseColor("#5D3E6E")
-        showProgressBar(getString(R.string.loading_events))
+        event_pager_tab_strip.tabIndicatorColor = Color.WHITE
+        showProgressBar( getString(R.string.loading_events))
         eventsFragmentPresenter.getEvents()
     }
 

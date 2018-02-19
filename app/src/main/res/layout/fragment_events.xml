@@ -5,8 +5,8 @@
     android:layout_height="match_parent">
 
     <android.support.v4.view.PagerTabStrip
-        android:id="@+id/event_pager_tab_strip"
         style="@style/PagerTitleStrip"
+        android:id="@+id/event_pager_tab_strip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="20dp"
