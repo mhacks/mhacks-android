@@ -60,6 +60,8 @@
     <string name="no_school">No school was selected!</string>
     <string name="logging_in_auth_error">Username or password is incorrect.</string>
 
+    <!--Event Fragment-->
+    <string name="loading_events">Loading events…</string>
 
 
 </resources>

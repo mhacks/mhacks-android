@@ -6,8 +6,7 @@ import io.reactivex.Single
 
 /**
  * Dao for event model.
- */
-
+*/
 @Dao
 abstract class EventDao {
 
