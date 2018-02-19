@@ -14,7 +14,8 @@ import com.mhacks.app.data.room.dao.*
     User::class,
     Configuration::class,
     Announcement::class,
-    Event::class
+    Event::class,
+    Floor::class
 ], version = 3, exportSchema = false)
 abstract class MHacksDatabase : RoomDatabase() {
 
@@ -27,4 +28,6 @@ abstract class MHacksDatabase : RoomDatabase() {
     abstract fun announcementDao(): AnnouncementDao
 
     abstract fun eventDao(): EventDao
+
+    abstract fun mapFloorDao(): MapFloorDao
 }

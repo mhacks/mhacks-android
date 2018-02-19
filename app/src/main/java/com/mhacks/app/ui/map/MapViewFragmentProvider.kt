@@ -1,6 +1,5 @@
-package com.mhacks.app.ui.events
+package com.mhacks.app.ui.map
 
-import com.mhacks.app.ui.events.view.EventsFragment
 import com.mhacks.app.ui.map.view.MapViewFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

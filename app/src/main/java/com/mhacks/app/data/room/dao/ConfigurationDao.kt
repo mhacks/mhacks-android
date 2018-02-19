@@ -8,9 +8,8 @@ import com.mhacks.app.data.kotlin.Configuration
 import io.reactivex.Single
 
 /**
- * Created by jeffreychang on 9/7/17.
+ * Dao for the configuration object.
  */
-
 @Dao
 interface ConfigurationDao {
 

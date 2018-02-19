@@ -9,7 +9,9 @@ import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 
-
+/**
+ * RecyclerViewAdapter that creates each individual timeline for the respective day.
+ */
 class EventsRecyclerViewAdapter(val context: Context,
                                 val events: ArrayList<EventSectionModel>)
     : RecyclerView.Adapter<EventsRecyclerViewAdapter.EventViewHolder>() {

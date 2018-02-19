@@ -1,9 +1,12 @@
 package com.mhacks.app.ui.map.presenter
 
+import com.mhacks.app.ui.common.BasePresenter
+
 /**
- * Created by jeffreychang on 2/16/18.
+ * Contract of map view fragment presenter.
  */
 
-interface MapViewFragmentPresenter {
+interface MapViewFragmentPresenter: BasePresenter {
 
+    fun getMapFloor()
 }
