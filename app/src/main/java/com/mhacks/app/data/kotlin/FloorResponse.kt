@@ -1,5 +1,6 @@
 package com.mhacks.app.data.kotlin
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import com.squareup.moshi.Json
 
 /**
@@ -11,7 +12,7 @@ data class FloorResponse(
 		@Json(name = "floors") var floors: List<Floor>
 )
 
-@Entity(tableName = "floor")
+@Entity(tableName = "mapFloor")
 data class Floor(
 		@Json(name = "updatedAt") var updatedAt: String,
 		@Json(name = "createdAt") var createdAt: String,
@@ -26,5 +27,6 @@ data class Floor(
 		@Json(name = "deleted") var deleted: Boolean,
 		@field:Json(name = "createdAt_ts") var createdAtTs: Long,
 		@field:Json(name = "updatedAt_ts") var updatedAtTs: Long,
+        @PrimaryKey
 		@Json(name = "id") var id: String
 )

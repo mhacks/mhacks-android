@@ -51,6 +51,8 @@
     <!-- ProgressBar View-->
     <string name="logging_in">Logging in…</string>
 
+    <!--Map Fragment-->
+    <string name="overlay_failure">Couldn\'t load overlay.</string>
 
     <!-- Ticket Fragment -->
     <string name="name">Name</string>

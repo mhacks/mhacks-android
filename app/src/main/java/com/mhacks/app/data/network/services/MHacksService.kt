@@ -23,7 +23,7 @@ interface MHacksService {
     fun getUserResponse(): Single<UserResponse>
 
     @GET("floor")
-    fun getMetaFloors(): Single<FloorResponse>
+    fun getFloorResponse(): Single<FloorResponse>
 
     @GET("announcements")
     fun getAnnouncementResponse(): Single<AnnouncementResponse>
