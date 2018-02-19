@@ -26,6 +26,9 @@ class AnnouncementPresenterImpl(private val announcementView: AnnouncementView,
                 mHacksDatabase.announcementDao().getAnnouncements()
                         .flatMap { if (it.isEmpty())
                             getAnnouncementResponseFromAPI()
+                                    .doOnSuccess {
+                                        mHacksDatabase.announcementDao().updateAnnouncements(it)
+                                    }
                             else Single.just(it)
                         }
                         .delay(400, TimeUnit.MILLISECONDS)
@@ -53,6 +56,7 @@ class AnnouncementPresenterImpl(private val announcementView: AnnouncementView,
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe (
                         { getAnnouncementResponseFromAPI()
+                                .doOnSuccess { mHacksDatabase.announcementDao().updateAnnouncements(it) }
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe({

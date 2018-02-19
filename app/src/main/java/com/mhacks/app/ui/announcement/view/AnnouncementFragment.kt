@@ -47,6 +47,7 @@ class AnnouncementFragment : NavigationFragment(), AnnouncementView {
 
     override fun onDetach() {
         super.onDetach()
+        snackbar?.dismiss()
         announcementPresenter.onDetach()
     }
 
@@ -54,12 +55,13 @@ class AnnouncementFragment : NavigationFragment(), AnnouncementView {
         snackbar?.dismiss()
         showMainContent()
         snackbar = null
-        announcementList.clear()
         announcementList.addAll(announcements)
         adapter.notifyDataSetChanged()
     }
 
     override fun onGetAnnouncementsFailure(error: Throwable) {
+        showMainContent()
+        adapter.notifyDataSetChanged()
         if (snackbar == null) {
             snackbar = Snackbar.make(view!!,
                     getString(R.string.lost_internet_connection),
