@@ -3,15 +3,12 @@ package com.mhacks.app.ui.qrscan
 import android.app.Activity
 import android.os.Bundle
 import com.google.zxing.Result
+import com.mhacks.app.R
 import me.dm7.barcodescanner.zxing.ZXingScannerView
-import org.mhacks.x.R
 
-
-//@RuntimePermissions
 class QRScanActivity : Activity(), ZXingScannerView.ResultHandler {
     private var mScannerView: ZXingScannerView? = null
 
-//    @NeedsPermission(Manifest.permission.CAMERA)
     public override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         setTheme(R.style.MHacksTheme)
@@ -31,11 +28,6 @@ class QRScanActivity : Activity(), ZXingScannerView.ResultHandler {
     }
 
     override fun handleResult(rawResult: Result) {
-        // Do something with the result here
-//        Log.v(TAG, rawResult.text) // Prints scan results
-//        Log.v(TAG, rawResult.barcodeFormat.toString()) // Prints the scan format (qrcode, pdf417 etc.)
-
-        // If you would like to resume scanning, call this method below:
         mScannerView!!.resumeCameraPreview(this)
     }
 }

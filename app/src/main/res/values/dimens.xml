@@ -4,6 +4,8 @@
     <!-- Margins -->
 
     <!-- Text Sizes -->
+    <dimen name="common_midsize">18sp</dimen>
+
     <dimen name="text_countdown_normaltitles">18sp</dimen>
     <dimen name="text_countdown_timertext">50sp</dimen>
 

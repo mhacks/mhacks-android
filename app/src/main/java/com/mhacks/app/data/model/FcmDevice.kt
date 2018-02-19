@@ -1,38 +1,17 @@
 package com.mhacks.app.data.model
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json
 
 data class Device (
-    @SerializedName("updatedAt")
-    @Expose
-    var updatedAt: String,
-    @SerializedName("createdAt")
-    @Expose
-    var createdAt: String,
-    @SerializedName("push_id")
-    @Expose
-    var pushId: String,
-    @SerializedName("push_categories")
-    @Expose
-    var pushCategories: List<String>,
-    @SerializedName("deleted")
-    @Expose
-    var deleted: Boolean,
-    @SerializedName("createdAt_ts")
-    @Expose
-    var createdAtTs: Long,
-    @SerializedName("updatedAt_ts")
-    @Expose
-    var updatedAtTs: Long,
-    @SerializedName("id")
-    @Expose
-    var id: String)
+    @Json(name="updatedAt") var updatedAt: String,
+    @Json(name="createdAt") var createdAt: String,
+    @Json(name="push_id") var pushId: String,
+    @Json(name="push_categories") var pushCategories: List<String>,
+    @Json(name="deleted") var deleted: Boolean,
+    @Json(name="createdAt_ts") var createdAtTs: Long,
+    @Json(name="updatedAt_ts") var updatedAtTs: Long,
+    @Json(name="id") var id: String)
 
 data class FcmDevice (
-    @SerializedName("status")
-    @Expose
-    var status: Boolean,
-    @SerializedName("device")
-    @Expose
-    var device: Device)
+    @Json(name="status") var status: Boolean,
+    @Json(name="device") var device: Device)

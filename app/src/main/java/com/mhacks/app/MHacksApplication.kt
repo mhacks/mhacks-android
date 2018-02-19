@@ -4,45 +4,37 @@
 
 package com.mhacks.app
 
-import android.app.Application
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.graphics.Color
 import android.os.Build
-import com.mhacks.app.dagger.component.*
-import com.mhacks.app.dagger.module.AppModule
-import com.mhacks.app.dagger.module.AuthModule
-import com.mhacks.app.dagger.module.RetrofitModule
-import com.mhacks.app.ui.MainActivity
+import android.support.annotation.RequiresApi
+import com.facebook.stetho.Stetho
+import com.jakewharton.threetenabp.AndroidThreeTen
+import com.mhacks.app.di.component.*
+import com.mhacks.app.di.module.AuthModule
+import com.mhacks.app.di.module.RetrofitModule
+import com.mhacks.app.di.module.RoomModule
+import dagger.android.AndroidInjector
+import dagger.android.support.DaggerApplication
 import timber.log.Timber
 
-class MHacksApplication : Application(), MainActivity.OnFromMainActivityCallback {
+class MHacksApplication : DaggerApplication() {
 
-    private lateinit var netComponent: NetComponent
-    lateinit override var hackathonComponent: HackathonComponent
-    private val mhacksGroup = "MHacks Group"
-
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
         super.onCreate()
-        Timber.plant(Timber.DebugTree())
-
-        val appModule = AppModule(this)
-
-        netComponent = DaggerNetComponent.builder()
-                .appModule(appModule)
-                .authModule(AuthModule(null))
-                .retrofitModule(RetrofitModule("https://mhacks.org/v1/"))
-                .build()
-        hackathonComponent = DaggerHackathonComponent
-                .builder()
-                .netComponent(netComponent)
-                .build()
+        AndroidThreeTen.init(this);
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+            Stetho.initializeWithDefaults(this);
+        }
 
         if (Build.VERSION.SDK_INT >= 26) {
-            val notificationChannel = NotificationChannel(mhacksGroup,
-                    mhacksGroup, NotificationManager.IMPORTANCE_HIGH)
+            val notificationChannel = NotificationChannel(MHACKS_GROUP,
+                    MHACKS_GROUP, NotificationManager.IMPORTANCE_HIGH)
 
             notificationChannel.enableLights(true)
             notificationChannel.lightColor = Color.MAGENTA
@@ -55,7 +47,20 @@ class MHacksApplication : Application(), MainActivity.OnFromMainActivityCallback
         }
     }
 
-    override fun setAuthInterceptorToken(token: String) {
-        netComponent.authInterceptor.token = token
+    private lateinit var appComponent: AppComponent
+
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        appComponent = DaggerAppComponent.builder()
+                .application(this)
+                .roomModule(RoomModule())
+                .authModule(AuthModule(null))
+                .retrofitModule(RetrofitModule("https://mhacks.org/v1/"))
+                .build()
+        appComponent.inject(this)
+        return appComponent
+    }
+
+    companion object {
+        private const val MHACKS_GROUP = "MHacks Group"
     }
 }

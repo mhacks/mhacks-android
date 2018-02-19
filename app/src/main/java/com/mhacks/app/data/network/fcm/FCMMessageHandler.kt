@@ -6,7 +6,7 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import org.mhacks.x.R
+import com.mhacks.app.R
 
 /**
  * Created by jeffreychang on 9/20/17.

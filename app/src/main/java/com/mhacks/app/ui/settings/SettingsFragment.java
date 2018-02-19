@@ -3,7 +3,8 @@ package com.mhacks.app.ui.settings;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
-import org.mhacks.x.R;
+import com.mhacks.app.R;
+
 
 /**
  * Created by Omkar Moghe on 2/18/2016.

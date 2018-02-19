@@ -8,18 +8,18 @@ import android.os.Build
 import android.support.annotation.ColorRes
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
+import com.mhacks.app.R
 import com.mhacks.app.ui.common.util.NetworkUtil
 import com.mhacks.app.ui.common.util.ResourceUtil
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import org.mhacks.x.R
 
 /**
  * Created by jeffreychang on 9/13/17.
  */
-abstract class BaseActivity: AppCompatActivity() {
+abstract class BaseActivity: DaggerAppCompatActivity(),  NavigationFragment.OnNavigationChangeListener  {
     fun setStatusBarTransparent() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -43,7 +43,7 @@ abstract class BaseActivity: AppCompatActivity() {
         } else callback()
     }
     @TargetApi(21)
-     fun setStatusBarColor(color: Int) {
+    override fun setStatusBarColor(color: Int) {
         window.statusBarColor = ContextCompat.getColor(this, color)
     }
 
@@ -54,21 +54,21 @@ abstract class BaseActivity: AppCompatActivity() {
     }
 
     @SuppressLint("InlinedApi")
-     fun setTransparentStatusBar() {
+    fun setTransparentStatusBar() {
         window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                 WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 
     @TargetApi(21)
-     fun clearTransparentStatusBar() {
+    fun clearTransparentStatusBar() {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 
-     fun setActionBarColor(@ColorRes color: Int) {
+    override fun setActionBarColor(@ColorRes color: Int) {
         supportActionBar?.setBackgroundDrawable(ContextCompat.getDrawable(this, color))
     }
 
-     fun setFragmentTitle(title: Int) {
+    override fun setFragmentTitle(title: Int) {
         setTitle(title)
     }
 
@@ -77,9 +77,8 @@ abstract class BaseActivity: AppCompatActivity() {
                 ContextCompat.getColor(this, color.primaryColor),
                 ContextCompat.getColor(this, color.secondaryColor)
         )
-
-        navigation?.itemIconTintList = colorStateList
-        navigation?.itemTextColor = colorStateList
+        main_activity_navigation?.itemIconTintList = colorStateList
+        main_activity_navigation?.itemTextColor = colorStateList
     }
 
     /**
@@ -87,13 +86,13 @@ abstract class BaseActivity: AppCompatActivity() {
      * @param startfragment fragment to replace the main container with
      */
 
-     fun addPadding() {
+    override fun addPadding() {
         val height: Int = ResourceUtil.convertDpResToPixel(context = this,
                 res = R.dimen.toolbar_height)
         fragment_container.setPadding(0, height, 0, 0)
     }
 
-     fun removePadding() {
+    override fun removePadding() {
         fragment_container.setPadding(0, 0, 0, 0)
     }
 }

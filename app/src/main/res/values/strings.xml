@@ -20,18 +20,15 @@
         <item>32</item>
     </string-array>
 
-    <!-- /SettingsFragment Preferences -->
+    <!--Common-->
+    <string name="no_internet">No internet.</string>
+    <string name="lost_internet_connection">Lost internet connection</string>
+    <string name="try_again">Try again</string>
 
-    <!-- Test Strings -->
-
-    <!-- The nav items -->
-
-]
-    <!--    TITLES OF FEATURES (in nav drawer and action bar)   -->
-
-    <!-- Strings for the countdown page -->
+    <!-- Welcome Fragment-->
     <string name="countdown_timer_default">36:00:00</string>
     <string name="countdown_timer_title">Time Remaining</string>
+    <string name="timer_countdown_text">%s:%s:%s</string>
 
     <string name="logout">Logout</string>
     <string name="login">LOGIN</string>
@@ -45,21 +42,26 @@
     <string name="password">Password</string>
     <string name="username">Username</string>
 
+    <!--Progress Bar-->
+    <string name="done">Done!</string>
 
-    <!-- Strings for the Info Page -->
+    <!--Announcements-->
+    <string name="loading_announcements">Loading announcements…</string>
+
+    <!-- ProgressBar View-->
+    <string name="logging_in">Logging in…</string>
 
 
-    <!-- Strings for the Ticket Page -->
+    <!-- Ticket Fragment -->
     <string name="name">Name</string>
     <string name="school">School</string>
-
-
-    <string name="done">Done</string>
     <string name="qr_code">QR Code</string>
     <string name="no_thanks">NO THANKS</string>
-
-    <!--Messages if there was no information stored-->
     <string name="no_school">No school was selected!</string>
+    <string name="logging_in_auth_error">Username or password is incorrect.</string>
+
+    <!--Event Fragment-->
+    <string name="loading_events">Loading events…</string>
 
 
 </resources>
