@@ -1,5 +1,7 @@
 package com.mhacks.app.ui.events
 
+import com.mhacks.app.data.network.services.MHacksService
+import com.mhacks.app.data.room.MHacksDatabase
 import com.mhacks.app.ui.events.presenter.EventsFragmentPresenter
 import com.mhacks.app.ui.events.presenter.EventsFragmentPresenterImpl
 import com.mhacks.app.ui.events.view.EventsFragment
@@ -21,7 +23,9 @@ abstract class EventsFragmentModule {
     companion object {
         @Provides
         @JvmStatic
-        fun provideEventsPresenter(eventsView: EventsView): EventsFragmentPresenter =
-                EventsFragmentPresenterImpl(eventsView)
+        fun provideEventsPresenter(eventsView: EventsView,
+                                   mHacksService: MHacksService,
+                                   mHacksDatabase: MHacksDatabase): EventsFragmentPresenter =
+                EventsFragmentPresenterImpl(eventsView, mHacksService, mHacksDatabase)
     }
 }

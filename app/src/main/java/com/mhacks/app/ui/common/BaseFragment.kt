@@ -21,12 +21,12 @@ abstract class BaseFragment : DaggerFragment() {
     }
 
     private val progressBarView by lazy {
-        ProgressBarView(context)
+        ProgressBarView(context!!)
     }
 
     private var mainView: View? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT)
@@ -35,7 +35,7 @@ abstract class BaseFragment : DaggerFragment() {
         progressBarView.layoutParams = layoutParams
         progressBarView.visibility = View.GONE
 
-        mainView = inflater?.inflate(layoutResourceID, container, false)
+        mainView = inflater.inflate(layoutResourceID, container, false)
 
         parent.addView(mainView)
         parent.addView(progressBarView)

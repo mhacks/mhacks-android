@@ -20,7 +20,6 @@ class AnnouncementPresenterImpl(private val announcementView: AnnouncementView,
                                 private val mHacksDatabase: MHacksDatabase)
     : AnnouncementPresenter, BasePresenterImpl() {
 
-
     override fun loadAnnouncements() {
         compositeDisposable?.add(
                 mHacksDatabase.announcementDao().getAnnouncements()
@@ -43,15 +42,11 @@ class AnnouncementPresenterImpl(private val announcementView: AnnouncementView,
         )
     }
 
-    private fun getAnnouncementResponseFromAPI(): Single<List<Announcement>> {
-        return mHacksService.getAnnouncementResponse()
-                .map { it.announcements }
-    }
-
+    private fun getAnnouncementResponseFromAPI(): Single<List<Announcement>>
+            = mHacksService.getAnnouncementResponse().map { it.announcements }
 
     private fun pollAnnouncements() {
         compositeDisposable?.add(Observable.interval(4, TimeUnit.SECONDS)
-
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe (

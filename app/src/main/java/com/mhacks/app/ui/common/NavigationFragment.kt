@@ -26,7 +26,7 @@ abstract class NavigationFragment : BaseFragment() {
         callback = activity as? OnNavigationChangeListener
     }
 
-    override fun onCreateView(inflater: LayoutInflater?,
+    override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         changeColors()

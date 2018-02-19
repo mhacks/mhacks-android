@@ -6,13 +6,13 @@ import com.google.firebase.iid.FirebaseInstanceId
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import java.io.IOException
 import android.preference.PreferenceManager
 import android.content.SharedPreferences
 import com.mhacks.app.data.network.services.MHacksService
 import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 
 /**
  * Created by jeffreychang on 9/19/17.
@@ -23,7 +23,7 @@ class RegistrationIntentService : IntentService(TAG) {
     private val retrofit = Retrofit.Builder()
             .baseUrl("https://mhacks.org/v1/")
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create())
             .build()
 
     private val mhacksService = retrofit.create(MHacksService::class.java)
@@ -49,7 +49,7 @@ class RegistrationIntentService : IntentService(TAG) {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { _ -> sharedPreferences.edit().putBoolean(SENT_TOKEN_TO_SERVER, true).apply() },
+                        { sharedPreferences.edit().putBoolean(SENT_TOKEN_TO_SERVER, true).apply() },
                         { failure -> Timber.e(failure) }
                 )
     }

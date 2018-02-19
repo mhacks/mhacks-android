@@ -41,15 +41,15 @@ class TicketDialogFragment : DaggerDialogFragment(), TicketDialogView {
         super.onResume()
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (dialog != null) {
             dialog.setCanceledOnTouchOutside(true);
             dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
-        return inflater?.inflate(R.layout.fragment_ticket_dialog, container)
+        return inflater.inflate(R.layout.fragment_ticket_dialog, container)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         ticket_bottom_bar_done_button.setOnClickListener { dismiss() }
         ticketDialogPresenter.getUser(authInterceptor)
         ticket_bottom_bar_done_button.setOnClickListener({ dismiss() })

@@ -31,9 +31,9 @@ class AnnouncementFragment : NavigationFragment(), AnnouncementView {
 
     private var snackbar: Snackbar? = null
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = AnnouncementsAdapter(context, announcementList)
+        adapter = AnnouncementsAdapter(context!!, announcementList)
         announcements_recycler_view.adapter = adapter
         announcements_recycler_view.layoutManager = LinearLayoutManager(context)
         showProgressBar(getString(R.string.loading_announcements))

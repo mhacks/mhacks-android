@@ -36,7 +36,7 @@ class WelcomeFragment : NavigationFragment(), WelcomeView {
 
     @Inject lateinit var welcomePresenter: WelcomeFragmentPresenter
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         welcomePresenter.getConfig()
     }

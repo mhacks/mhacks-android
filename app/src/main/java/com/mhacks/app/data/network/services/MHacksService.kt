@@ -6,7 +6,7 @@ import io.reactivex.Single
 import retrofit2.http.*
 
 /**
- * Created by jeffreychang on 9/3/17.
+ * Provides definitions for interactions with the RESTful service.
  */
 
 interface MHacksService {
@@ -23,13 +23,13 @@ interface MHacksService {
     fun getUserResponse(): Single<UserResponse>
 
     @GET("floor")
-    fun getMetaFloors(): Single<MetaFloor>
+    fun getMetaFloors(): Single<FloorResponse>
 
     @GET("announcements")
     fun getAnnouncementResponse(): Single<AnnouncementResponse>
 
     @GET("event")
-    fun getMetaEvent(): Single<MetaEvents>
+    fun getEventResponse(): Single<EventsResponse>
 
     @FormUrlEncoded
     @POST("device")

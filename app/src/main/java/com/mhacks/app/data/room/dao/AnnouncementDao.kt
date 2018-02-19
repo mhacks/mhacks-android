@@ -5,7 +5,7 @@ import com.mhacks.app.data.kotlin.Announcement
 import io.reactivex.Single
 
 /**
- * Created by jeffreychang on 9/7/17.
+ * Dao for Announcement model.
  */
 
 @Dao

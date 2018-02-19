@@ -1,9 +1,14 @@
 package com.mhacks.app.ui.events.view
 
+import com.mhacks.app.data.kotlin.Event
+
 /**
- * Created by jeffreychang on 2/16/18.
+ * Contract for the Events View.
  */
 
 interface EventsView {
 
+    fun onGetEventsSuccess(events: List<Event>)
+
+    fun onGetEventsFailure(error: Throwable)
 }

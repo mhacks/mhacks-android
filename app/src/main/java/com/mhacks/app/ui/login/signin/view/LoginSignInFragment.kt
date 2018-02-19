@@ -29,7 +29,7 @@ class LoginSignInFragment : BaseFragment(), LoginSignInView {
 
     @Inject lateinit var authInterceptor: AuthModule.AuthInterceptor
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         email_sign_in_button.setOnClickListener({
             showProgressBar(getString(R.string.logging_in))
             loginSignInPresenter.postLogin(

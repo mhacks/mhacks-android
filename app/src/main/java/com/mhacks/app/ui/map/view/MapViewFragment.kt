@@ -21,7 +21,6 @@ import com.mhacks.app.ui.common.util.ResourceUtil
 import timber.log.Timber
 import kotlin.collections.ArrayList
 
-
 /**
  * Created by anksh on 12/31/2014.
  * Updated by omkarmoghe on 10/6/16
@@ -36,12 +35,12 @@ class MapViewFragment :
     override var appBarTitle: Int = R.string.title_map
     override var layoutResourceID: Int = R.layout.fragment_map
     lateinit var floors: ArrayList<Floor>
-    private var mMapFragment: SupportMapFragment? = null
-    private var mGoogleMap: GoogleMap? = null
+    private var mapFragment: SupportMapFragment? = null
+    private var googleMap: GoogleMap? = null
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setCustomActionBarColor(R.color.semiColorPrimary)
-        if (GooglePlayUtil.checkPlayServices(activity)) setUpMapIfNeeded()
+        if (GooglePlayUtil.checkPlayServices(activity!!)) setUpMapIfNeeded()
     }
 
     private fun showDefaultLayoutView() {
@@ -50,8 +49,8 @@ class MapViewFragment :
             setUpMapIfNeeded()
 
             NetworkUtil.getImage(floor.floorImage,
-                    {success -> onBitmapResponseSuccess(success, floor)},
-                    {failure -> onBitmapResponseFailure(failure)})
+                    {onBitmapResponseSuccess(it, floor)},
+                    {Timber.e(it)})
         }
     }
 
@@ -64,27 +63,27 @@ class MapViewFragment :
         setUpMapIfNeeded()
 
         NetworkUtil.getImage(floor.floorImage,
-                {success -> onBitmapResponseSuccess(success, floor)},
-                {failure -> onBitmapResponseFailure(failure)})
+                {onBitmapResponseSuccess(it, floor)},
+                {Timber.e(it)})
     }
 
     private fun setUpMapIfNeeded() {
-        if (mMapFragment == null) {
-            mMapFragment = SupportMapFragment.newInstance()
-            fragmentManager.beginTransaction().replace(R.id.map, mMapFragment).commit()
+        if (mapFragment == null) {
+            mapFragment = SupportMapFragment.newInstance()
+            fragmentManager?.beginTransaction()?.replace(R.id.map, mapFragment)?.commit()
         }
-        if (mGoogleMap == null) mMapFragment!!.getMapAsync(this)
+        if (googleMap == null) mapFragment!!.getMapAsync(this)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        mGoogleMap = googleMap
+        this.googleMap = googleMap
         googleMap.isBuildingsEnabled = true
-        googleMap.setPadding(0, ResourceUtil.convertDpToPixel(context,
+        googleMap.setPadding(0, ResourceUtil.convertDpToPixel(context!!,
                 100), 0, 0)
-        val settings = mGoogleMap!!.uiSettings
+        val settings = this.googleMap!!.uiSettings
         settings.isCompassEnabled = true
         settings.isTiltGesturesEnabled = true
-        mGoogleMap?.mapType = GoogleMap.MAP_TYPE_HYBRID
+        this.googleMap?.mapType = GoogleMap.MAP_TYPE_HYBRID
 
         val center = CameraUpdateFactory.newCameraPosition(
                 CameraPosition.Builder()
@@ -95,13 +94,13 @@ class MapViewFragment :
                         .build()
         )
 
-        if (ContextCompat.checkSelfPermission(this.activity.applicationContext,
+        if (ContextCompat.checkSelfPermission(activity!!.applicationContext,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
         }
-        if (ContextCompat.checkSelfPermission(this.activity.applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mGoogleMap!!.isMyLocationEnabled = true
-            mGoogleMap!!.uiSettings.isMyLocationButtonEnabled = true
+        if (ContextCompat.checkSelfPermission(activity!!.applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            this.googleMap?.isMyLocationEnabled = true
+            this.googleMap?.uiSettings?.isMyLocationButtonEnabled = true
         } else { }
 
         googleMap.animateCamera(center)
@@ -111,9 +110,9 @@ class MapViewFragment :
         if (requestCode == 1) {
             if (permissions.size == 1 && permissions[0] == Manifest.permission.ACCESS_FINE_LOCATION &&
                     grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (ContextCompat.checkSelfPermission(this.activity.applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    mGoogleMap!!.isMyLocationEnabled = true
-                    mGoogleMap!!.uiSettings.isMyLocationButtonEnabled = true
+                if (ContextCompat.checkSelfPermission(activity!!.applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    googleMap?.isMyLocationEnabled = true
+                    googleMap?.uiSettings?.isMyLocationButtonEnabled = true
                 }
             } else {
                 // Permission was denied. Display an error message.
@@ -122,7 +121,7 @@ class MapViewFragment :
     }
 
     private fun onBitmapResponseSuccess(image: Bitmap, floor: Floor) {
-        activity.runOnUiThread {
+        activity!!.runOnUiThread {
             val northCampusBounds = LatLngBounds (
                 LatLng(floor.seLatitude.toDouble(), floor.nwLongitude.toDouble()), //South West corner
                 LatLng(floor.nwLatitude.toDouble(), floor.seLongitude.toDouble()) //North East Corner
@@ -130,14 +129,10 @@ class MapViewFragment :
             val northCampusMap = GroundOverlayOptions()
                     .image(BitmapDescriptorFactory.fromBitmap(image))
                     .positionFromBounds(northCampusBounds)
-            mGoogleMap!!.addGroundOverlay(northCampusMap)
+            googleMap!!.addGroundOverlay(northCampusMap)
 
         }
-
     }
-
-    @Suppress("UNUSED_PARAMETER")
-    private fun onBitmapResponseFailure(error: Throwable) {}
 
     companion object {
         val instance: MapViewFragment
