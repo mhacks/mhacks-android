@@ -95,7 +95,6 @@ class WelcomeFragment : NavigationFragment(), WelcomeView {
                 // Start the countdown timer
                 timer = HackingCountdownTimer(timeRemaining, totalHackingTime)
                 timer?.start()
-                timer_title.visibility = View.VISIBLE
             }
             else -> {
                 progressbar_counter.progress = 100

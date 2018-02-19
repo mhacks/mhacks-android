@@ -59,6 +59,7 @@ class LoginSignInFragment : BaseFragment(), LoginSignInView {
     }
 
     override fun postLoginFailure(username: String, password: String, error: Throwable) {
+        showMainContent()
         when(error) {
             is HttpException -> {
                 when (error.code()) {

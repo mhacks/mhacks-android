@@ -45,6 +45,8 @@
     <!--Progress Bar-->
     <string name="done">Done!</string>
 
+    <!--Announcements-->
+    <string name="loading_announcements">Loading announcements…</string>
 
     <!-- ProgressBar View-->
     <string name="logging_in">Logging in…</string>

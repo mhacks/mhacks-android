@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.fragment_announcements.*
 import javax.inject.Inject
 
 /**
- * Created by jeffreychang on 5/26/17.
+ * Fragment to display and update announcements.
  */
 class AnnouncementFragment : NavigationFragment(), AnnouncementView {
 
@@ -36,6 +36,7 @@ class AnnouncementFragment : NavigationFragment(), AnnouncementView {
         adapter = AnnouncementsAdapter(context, announcementList)
         announcements_recycler_view.adapter = adapter
         announcements_recycler_view.layoutManager = LinearLayoutManager(context)
+        showProgressBar(getString(R.string.loading_announcements))
         announcementPresenter.loadAnnouncements()
     }
 
@@ -51,6 +52,7 @@ class AnnouncementFragment : NavigationFragment(), AnnouncementView {
 
     override fun onGetAnnouncementsSuccess(announcements: List<Announcement>) {
         snackbar?.dismiss()
+        showMainContent()
         snackbar = null
         announcementList.clear()
         announcementList.addAll(announcements)

@@ -10,6 +10,7 @@ import com.mhacks.app.data.kotlin.Login
 import com.mhacks.app.ui.announcement.view.AnnouncementFragment
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
+import com.mhacks.app.ui.common.NavigationFragment
 import com.mhacks.app.ui.events.view.EventsFragment
 import com.mhacks.app.ui.login.LoginActivity
 import com.mhacks.app.ui.main.presenter.MainPresenter
@@ -50,7 +51,6 @@ class MainActivity : BaseActivity(), MainView,
 
     private fun updateFragment(fragment: Fragment?) {
         supportFragmentManager.beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.fragment_container, fragment)
                 .commit()
     }
@@ -72,6 +72,7 @@ class MainActivity : BaseActivity(), MainView,
         setSupportActionBar(toolbar)
         updateFragment(WelcomeFragment.instance)
         main_activity_navigation?.setOnNavigationItemSelectedListener({ item ->
+            main_activity_navigation.isEnabled = false
             if (itemId != item.itemId) {
                 when (item.itemId) {
                     R.id.navigation_home -> updateFragment(WelcomeFragment.instance)
@@ -81,6 +82,7 @@ class MainActivity : BaseActivity(), MainView,
                 }
                 itemId = item.itemId
             }
+            main_activity_navigation.isEnabled = true
             true
         })
     }

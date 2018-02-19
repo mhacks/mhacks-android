@@ -1,12 +1,13 @@
 package com.mhacks.app.ui.common
 
 import android.content.Context
+import android.graphics.Color
 import android.widget.RelativeLayout
 import com.mhacks.app.R
 import kotlinx.android.synthetic.main.view_progress.view.*
 
 /**
- * Created by jeffreychang on 2/17/18.
+ * View that shows a ProgressBar. Used when loading content.
  */
 
 /**
@@ -21,5 +22,10 @@ class ProgressBarView(context: Context) : RelativeLayout(context) {
 
     init {
         inflate(context, R.layout.view_progress, this)
+        progress_progressbar.progressDrawable
+                .setColorFilter(Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN)
+        progress_progressbar.indeterminateDrawable
+                .setColorFilter(Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN)
+
     }
 }

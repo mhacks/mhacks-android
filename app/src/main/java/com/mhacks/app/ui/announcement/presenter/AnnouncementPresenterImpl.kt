@@ -9,7 +9,6 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.sql.Time
 import java.util.concurrent.TimeUnit
 
 /**
@@ -29,6 +28,7 @@ class AnnouncementPresenterImpl(private val announcementView: AnnouncementView,
                             getAnnouncementResponseFromAPI()
                             else Single.just(it)
                         }
+                        .delay(400, TimeUnit.MILLISECONDS)
                         .doOnSubscribe { pollAnnouncements() }
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())

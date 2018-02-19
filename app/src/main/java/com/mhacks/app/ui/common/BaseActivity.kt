@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 /**
  * Created by jeffreychang on 9/13/17.
  */
-abstract class BaseActivity: DaggerAppCompatActivity() {
+abstract class BaseActivity: DaggerAppCompatActivity(),  NavigationFragment.OnNavigationChangeListener  {
     fun setStatusBarTransparent() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -43,7 +43,7 @@ abstract class BaseActivity: DaggerAppCompatActivity() {
         } else callback()
     }
     @TargetApi(21)
-     fun setStatusBarColor(color: Int) {
+    override fun setStatusBarColor(color: Int) {
         window.statusBarColor = ContextCompat.getColor(this, color)
     }
 
@@ -54,21 +54,21 @@ abstract class BaseActivity: DaggerAppCompatActivity() {
     }
 
     @SuppressLint("InlinedApi")
-     fun setTransparentStatusBar() {
+    fun setTransparentStatusBar() {
         window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                 WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 
     @TargetApi(21)
-     fun clearTransparentStatusBar() {
+    fun clearTransparentStatusBar() {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 
-     fun setActionBarColor(@ColorRes color: Int) {
+    override fun setActionBarColor(@ColorRes color: Int) {
         supportActionBar?.setBackgroundDrawable(ContextCompat.getDrawable(this, color))
     }
 
-     fun setFragmentTitle(title: Int) {
+    override fun setFragmentTitle(title: Int) {
         setTitle(title)
     }
 
@@ -86,13 +86,13 @@ abstract class BaseActivity: DaggerAppCompatActivity() {
      * @param startfragment fragment to replace the main container with
      */
 
-     fun addPadding() {
+    override fun addPadding() {
         val height: Int = ResourceUtil.convertDpResToPixel(context = this,
                 res = R.dimen.toolbar_height)
         fragment_container.setPadding(0, height, 0, 0)
     }
 
-     fun removePadding() {
+    override fun removePadding() {
         fragment_container.setPadding(0, 0, 0, 0)
     }
 }

@@ -36,7 +36,5 @@
         android:padding="10dip"
         android:text="@string/countdown_timer_title"
         android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/text_countdown_normaltitles"
-        android:visibility="invisible"
-        />
+        android:textSize="@dimen/text_countdown_normaltitles" />
 </RelativeLayout>
