@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mhacks.app.R
-import com.mhacks.app.data.kotlin.Event
+import com.mhacks.app.data.models.Event
 import com.mhacks.app.ui.events.view.EventsRecyclerViewAdapter.*
 import kotlinx.android.synthetic.main.events_pager_view.*
 

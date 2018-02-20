@@ -1,6 +1,6 @@
 package com.mhacks.app.ui.announcement.presenter
 
-import com.mhacks.app.data.kotlin.Announcement
+import com.mhacks.app.data.models.Announcement
 import com.mhacks.app.data.network.services.MHacksService
 import com.mhacks.app.data.room.MHacksDatabase
 import com.mhacks.app.ui.announcement.view.AnnouncementView
@@ -12,7 +12,7 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 /**
- * Created by jeffreychang on 2/16/18.
+ * Implementation of presenter for announcements.
  */
 
 class AnnouncementPresenterImpl(private val announcementView: AnnouncementView,

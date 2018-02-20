@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import com.mhacks.app.R
-import com.mhacks.app.data.kotlin.Configuration
+import com.mhacks.app.data.models.Configuration
 import com.mhacks.app.ui.common.NavigationFragment
 import com.mhacks.app.ui.welcome.presenter.WelcomeFragmentPresenter
 import kotlinx.android.synthetic.main.fragment_welcome.*
@@ -151,6 +151,6 @@ class WelcomeFragment : NavigationFragment(), WelcomeView {
 
         private const val countdownUpdateIntervals = 750L
 
-        private const val FIXED_START_DATE = "2017-09-23T00:00:00.000Z"
+        private const val FIXED_START_DATE = "2018-05-01T00:00:00" // Using ISO Local Date and Time
     }
 }

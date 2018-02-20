@@ -1,11 +1,11 @@
-package com.mhacks.app.data.kotlin
+package com.mhacks.app.data.models
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import com.squareup.moshi.Json
 
 /**
- * Created by jeffreychang on 9/6/17.
+ * Model for storing information about an user's information.
  */
 
 data class UserResponse(

@@ -15,7 +15,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.mhacks.app.R
-import com.mhacks.app.data.kotlin.Floor
+import com.mhacks.app.data.models.Floor
 import com.mhacks.app.ui.common.NavigationFragment
 import com.mhacks.app.ui.common.util.GooglePlayUtil
 import com.mhacks.app.ui.common.util.NetworkUtil

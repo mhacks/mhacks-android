@@ -1,6 +1,6 @@
 package com.mhacks.app.ui.events.presenter
 
-import com.mhacks.app.data.kotlin.Event
+import com.mhacks.app.data.models.Event
 import com.mhacks.app.data.network.services.MHacksService
 import com.mhacks.app.data.room.MHacksDatabase
 import com.mhacks.app.ui.common.BasePresenterImpl
@@ -8,7 +8,6 @@ import com.mhacks.app.ui.events.view.EventsView
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 /**

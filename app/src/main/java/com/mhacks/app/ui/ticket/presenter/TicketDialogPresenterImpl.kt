@@ -9,10 +9,11 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
- * Created by jeffreychang on 2/16/18.
+ * Implementation of presenter for the ticket dialog.
  */
 
 class TicketDialogPresenterImpl @Inject constructor(
@@ -40,6 +41,7 @@ class TicketDialogPresenterImpl @Inject constructor(
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe()
                 }
+                .delay(500, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

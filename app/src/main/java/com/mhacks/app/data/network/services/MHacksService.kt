@@ -1,7 +1,7 @@
 package com.mhacks.app.data.network.services
 
-import com.mhacks.app.data.kotlin.*
-import com.mhacks.app.data.model.FcmDevice
+import com.mhacks.app.data.models.*
+import com.mhacks.app.data.models.FcmDevice
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -33,6 +33,6 @@ interface MHacksService {
 
     @FormUrlEncoded
     @POST("device")
-    fun postFirebaseToken(@Field("push_id") pushId: String): Single<FcmDevice>
+    fun postFireBaseToken(@Field("push_id") pushId: String): Single<FcmDevice>
 
 }

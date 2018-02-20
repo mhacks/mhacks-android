@@ -9,11 +9,9 @@ import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
-
 /**
- * Created by jeffreychang on 2/16/18.
+ * A dialog fragment that supports dependency injection
  */
-
 abstract class DaggerDialogFragment: AppCompatDialogFragment(), HasSupportFragmentInjector {
 
     @Inject lateinit var childFragmentInjector: DispatchingAndroidInjector<Fragment>
@@ -23,7 +21,5 @@ abstract class DaggerDialogFragment: AppCompatDialogFragment(), HasSupportFragme
         super.onAttach(context)
     }
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment>? {
-        return childFragmentInjector
-    }
+    override fun supportFragmentInjector(): AndroidInjector<Fragment>? = childFragmentInjector
 }

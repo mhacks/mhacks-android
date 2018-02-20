@@ -1,6 +1,6 @@
 package com.mhacks.app.ui.announcement.view
 
-import com.mhacks.app.data.kotlin.Announcement
+import com.mhacks.app.data.models.Announcement
 
 /**
  * Created by jeffreychang on 2/16/18.

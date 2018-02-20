@@ -3,7 +3,7 @@ package com.mhacks.app.ui.events.view
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
-import com.mhacks.app.data.kotlin.Event
+import com.mhacks.app.data.models.Event
 import com.github.vipulasri.timelineview.TimelineView
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId

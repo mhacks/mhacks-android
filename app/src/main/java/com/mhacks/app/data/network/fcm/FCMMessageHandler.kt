@@ -9,7 +9,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.mhacks.app.R
 
 /**
- * Created by jeffreychang on 9/20/17.
+ * Service for handling push notifications.
  */
 
 class FCMMessageHandler : FirebaseMessagingService() {

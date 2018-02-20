@@ -1,6 +1,6 @@
 package com.mhacks.app.ui.events.view
 
-import com.mhacks.app.data.kotlin.Event
+import com.mhacks.app.data.models.Event
 
 /**
  * Contract for the Events View.

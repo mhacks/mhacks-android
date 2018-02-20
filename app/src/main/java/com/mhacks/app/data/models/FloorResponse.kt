@@ -1,4 +1,4 @@
-package com.mhacks.app.data.kotlin
+package com.mhacks.app.data.models
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import com.squareup.moshi.Json
@@ -6,7 +6,6 @@ import com.squareup.moshi.Json
 /**
  * Model for floors of the buildings to be overlay on Google Maps.
  */
-
 data class FloorResponse(
 		@Json(name = "status") var status: Boolean,
 		@Json(name = "floors") var floors: List<Floor>

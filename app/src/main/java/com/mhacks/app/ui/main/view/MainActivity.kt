@@ -3,14 +3,12 @@ package com.mhacks.app.ui.main.view
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
 import android.view.MenuItem
 import com.mhacks.app.R
-import com.mhacks.app.data.kotlin.Login
+import com.mhacks.app.data.models.Login
 import com.mhacks.app.ui.announcement.view.AnnouncementFragment
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
-import com.mhacks.app.ui.common.NavigationFragment
 import com.mhacks.app.ui.events.view.EventsFragment
 import com.mhacks.app.ui.login.LoginActivity
 import com.mhacks.app.ui.main.presenter.MainPresenter
