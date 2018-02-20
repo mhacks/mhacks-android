@@ -42,11 +42,16 @@
     <string name="password">Password</string>
     <string name="username">Username</string>
 
+    <!--No internet view-->
+    <string name="disconnected">Disconnected</string>
+    <string name="device_offline">Device Offline</string>
+
     <!--Progress Bar-->
-    <string name="done">Done!</string>
+    <string name="done">Done</string>
 
     <!--Announcements-->
     <string name="loading_announcements">Loading announcements…</string>
+    <string name="announcement_network_failure">Couldn\'t fetch announcements.</string>
 
     <!-- ProgressBar View-->
     <string name="logging_in">Logging in…</string>
@@ -60,10 +65,10 @@
     <string name="qr_code">QR Code</string>
     <string name="no_thanks">NO THANKS</string>
     <string name="no_school">No school was selected!</string>
+    <string name="ticket_network_error">Couldn\'t fetch ticket.</string>
     <string name="logging_in_auth_error">Username or password is incorrect.</string>
 
     <!--Event Fragment-->
     <string name="loading_events">Loading events…</string>
-
-
+    <string name="events_network_failure">Couldn\'t fetch events.</string>
 </resources>

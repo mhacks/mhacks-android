@@ -5,17 +5,13 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import com.mhacks.app.R
-import com.mhacks.app.data.kotlin.Event
+import com.mhacks.app.data.models.Event
 import com.mhacks.app.ui.common.NavigationFragment
 import com.mhacks.app.ui.events.presenter.EventsFragmentPresenter
 import kotlinx.android.synthetic.main.fragment_events.*
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
-import android.widget.LinearLayout
-
-
 
 /**
  * Fragment to display list of events in a viewpager with tabs corresponding to the weekdays.
@@ -60,11 +56,13 @@ class EventsFragment : NavigationFragment(), EventsView {
         bindEvents(events)
     }
 
-    override fun onGetEventsFailure(error: Throwable) {
-        Timber.e(error)
-    }
+    override fun onGetEventsFailure(error: Throwable) =
+        showErrorView(R.string.events_network_failure, {
+            showProgressBar(getString(R.string.loading_events))
+            eventsFragmentPresenter.getEvents()
+        })
 
-    data class EventWithDay (
+    data class EventWithDay(
             val day: String,
             val event: Event)
 

@@ -1,6 +1,6 @@
 package com.mhacks.app.ui.welcome.view
 
-import com.mhacks.app.data.kotlin.Configuration
+import com.mhacks.app.data.models.Configuration
 
 interface WelcomeView {
 

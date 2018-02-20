@@ -1,6 +1,6 @@
 package com.mhacks.app.ui.login.signin.presenter
 
-import com.mhacks.app.data.kotlin.Login
+import com.mhacks.app.data.models.Login
 import com.mhacks.app.data.network.services.MHacksService
 import com.mhacks.app.data.room.MHacksDatabase
 import com.mhacks.app.ui.common.BasePresenterImpl

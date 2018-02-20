@@ -1,8 +1,11 @@
-package com.mhacks.app.data.kotlin
+package com.mhacks.app.data.models
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import com.squareup.moshi.Json
 
+/**
+ * Model about the details of the event.
+ */
 data class ConfigurationResponse(
 		@Json(name = "status") var status: Boolean,
 		@Json(name = "configuration") var configuration: Configuration

@@ -4,13 +4,11 @@ import android.content.Intent
 import com.google.firebase.iid.FirebaseInstanceIdService
 
 /**
- * Created by jeffreychang on 9/20/17.
+ * Service for handling token registration needed to receive push notifications.
  */
-
 class MyFirebaseInstanceIDService: FirebaseInstanceIdService() {
 
     override fun onTokenRefresh() {
-        // Fetch updated Instance ID token and notify of changes
         val intent = Intent(this, RegistrationIntentService::class.java)
         startService(intent)
     }

@@ -1,7 +1,7 @@
 package com.mhacks.app.data.room.dao
 
 import android.arch.persistence.room.*
-import com.mhacks.app.data.kotlin.Event
+import com.mhacks.app.data.models.Event
 import io.reactivex.Single
 
 /**

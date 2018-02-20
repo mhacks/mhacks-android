@@ -1,6 +1,6 @@
 package com.mhacks.app.ui.ticket.view
 
-import com.mhacks.app.data.kotlin.User
+import com.mhacks.app.data.models.User
 
 /**
  * Created by jeffreychang on 2/16/18.

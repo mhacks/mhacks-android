@@ -30,8 +30,6 @@ interface AppComponent : AndroidInjector<DaggerApplication> {
 
     fun inject(application: MHacksApplication)
 
-    val authInterceptor: AuthModule.AuthInterceptor
-
     @Component.Builder
     interface Builder {
 

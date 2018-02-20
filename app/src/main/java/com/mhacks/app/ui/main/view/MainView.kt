@@ -1,6 +1,6 @@
 package com.mhacks.app.ui.main.view
 
-import com.mhacks.app.data.kotlin.Login
+import com.mhacks.app.data.models.Login
 
 /**
  * Created by jeffreychang on 2/16/18.

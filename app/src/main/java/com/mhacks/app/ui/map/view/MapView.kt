@@ -1,6 +1,6 @@
 package com.mhacks.app.ui.map.view
 
-import com.mhacks.app.data.kotlin.Floor
+import com.mhacks.app.data.models.Floor
 
 /**
  * View contract for the map fragment.

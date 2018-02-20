@@ -1,7 +1,7 @@
-package com.mhacks.app.data.kotlin
+package com.mhacks.app.data.models
 
 /**
- * Created by Omkar Moghe on 10/4/2016.
+ * Model for storing login information.
  */
 
 import android.arch.persistence.room.Entity

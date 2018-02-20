@@ -1,4 +1,4 @@
-package com.mhacks.app.data.kotlin
+package com.mhacks.app.data.models
 
 /**
  * Created by jeffreychang on 9/19/17.

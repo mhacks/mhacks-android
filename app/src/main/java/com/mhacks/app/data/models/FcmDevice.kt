@@ -1,7 +1,11 @@
-package com.mhacks.app.data.model
+package com.mhacks.app.data.models
 
 import com.squareup.moshi.Json
 
+/**
+ * Model that is necessary to send to Firebase Cloud Messaging services to receive push
+ * notifications
+ */
 data class Device (
     @Json(name="updatedAt") var updatedAt: String,
     @Json(name="createdAt") var createdAt: String,

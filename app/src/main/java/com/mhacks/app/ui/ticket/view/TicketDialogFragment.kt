@@ -9,16 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import com.mhacks.app.R
 import com.mhacks.app.di.common.DaggerDialogFragment
-import com.mhacks.app.data.kotlin.User
+import com.mhacks.app.data.models.User
 import com.mhacks.app.di.module.AuthModule
 import com.mhacks.app.ui.ticket.presenter.TicketDialogPresenter
 import kotlinx.android.synthetic.main.fragment_ticket_dialog.*
 import net.glxn.qrgen.android.QRCode
 import timber.log.Timber
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 /**
- * Created by jeffreychang on 8/26/17.
+ * Fragment to display user information and show their QR code
  */
 class TicketDialogFragment : DaggerDialogFragment(), TicketDialogView {
 
@@ -66,10 +67,40 @@ class TicketDialogFragment : DaggerDialogFragment(), TicketDialogView {
             ticket_school_text_view.text = getString(R.string.no_school)
         else
             ticket_school_text_view.text = user.university
+        showMainContent()
     }
 
     override fun onGetUserFailure(error: Throwable) {
-        callback?.startLoginActivity()
+        Timber.e(error)
+        if (error is UnknownHostException) {
+            showError()
+            ticket_error_view.tryAgainCallback = {
+                showProgressBar()
+                ticketDialogPresenter.getUser(authInterceptor) }
+        }
+        else callback?.startLoginActivity()
+    }
+
+    private fun showProgressBar() {
+        ticket_progressbar.visibility = View.VISIBLE
+        ticket_main.visibility = View.INVISIBLE
+        ticket_error_view.visibility = View.INVISIBLE
+    }
+
+    private fun showMainContent() {
+        ticket_progressbar.visibility = View.INVISIBLE
+        ticket_main.visibility = View.VISIBLE
+        ticket_error_view.visibility = View.INVISIBLE
+    }
+
+    private fun showError() {
+        ticket_error_view.removeBackground()
+        ticket_error_view.titleText = R.string.ticket_network_error
+        ticket_error_view.iconDrawable = R.drawable.ic_cloud_off_black_24dp
+        ticket_error_view.textColor = R.color.colorPrimaryDark
+        ticket_progressbar.visibility = View.INVISIBLE
+        ticket_main.visibility = View.INVISIBLE
+        ticket_error_view.visibility = View.VISIBLE
     }
 
     interface Callback {

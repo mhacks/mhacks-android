@@ -1,6 +1,6 @@
 package com.mhacks.app.ui.map.presenter
 
-import com.mhacks.app.data.kotlin.Floor
+import com.mhacks.app.data.models.Floor
 import com.mhacks.app.data.network.services.MHacksService
 import com.mhacks.app.data.room.MHacksDatabase
 import com.mhacks.app.ui.common.BasePresenterImpl

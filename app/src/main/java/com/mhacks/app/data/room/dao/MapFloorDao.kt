@@ -1,7 +1,7 @@
 package com.mhacks.app.data.room.dao
 
 import android.arch.persistence.room.*
-import com.mhacks.app.data.kotlin.Floor
+import com.mhacks.app.data.models.Floor
 import io.reactivex.Single
 
 /**

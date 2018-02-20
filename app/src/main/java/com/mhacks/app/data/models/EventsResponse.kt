@@ -1,4 +1,4 @@
-package com.mhacks.app.data.kotlin
+package com.mhacks.app.data.models
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
@@ -65,9 +65,7 @@ data class Event(
         parcel.writeLong(endDateTs)
     }
 
-    override fun describeContents(): Int {
-        return 0
-    }
+    override fun describeContents() = 0
 
     companion object CREATOR : Parcelable.Creator<Event> {
         override fun createFromParcel(parcel: Parcel): Event {

@@ -7,10 +7,6 @@ import com.mhacks.app.R
 import kotlinx.android.synthetic.main.view_progress.view.*
 
 /**
- * View that shows a ProgressBar. Used when loading content.
- */
-
-/**
  * View that displays a progress bar and a message that is the rationale for the progress bar.
  */
 class ProgressBarView(context: Context) : RelativeLayout(context) {

@@ -4,7 +4,7 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
-import com.mhacks.app.data.kotlin.Login
+import com.mhacks.app.data.models.Login
 import io.reactivex.Single
 
 /**

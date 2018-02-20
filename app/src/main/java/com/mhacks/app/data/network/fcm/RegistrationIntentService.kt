@@ -15,7 +15,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 /**
- * Created by jeffreychang on 9/19/17.
+ * Service that receives tokens from Firebase and saved it into saved preferences.
  */
 
 class RegistrationIntentService : IntentService(TAG) {
@@ -35,7 +35,7 @@ class RegistrationIntentService : IntentService(TAG) {
     override fun onHandleIntent(intent: Intent?) {
         val instanceID = FirebaseInstanceId.getInstance()
         try {
-            val token = instanceID.token;
+            val token = instanceID.token
             if (token !== null) {
                 sendRegistrationToServer(token)
             }
@@ -45,12 +45,12 @@ class RegistrationIntentService : IntentService(TAG) {
     }
 
     private fun sendRegistrationToServer(token: String) {
-        mhacksService.postFirebaseToken(token)
+        mhacksService.postFireBaseToken(token)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { sharedPreferences.edit().putBoolean(SENT_TOKEN_TO_SERVER, true).apply() },
-                        { failure -> Timber.e(failure) }
+                        { Timber.e(it) }
                 )
     }
 

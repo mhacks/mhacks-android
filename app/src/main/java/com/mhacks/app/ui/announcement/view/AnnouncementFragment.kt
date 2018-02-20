@@ -6,7 +6,7 @@ import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.mhacks.app.R
-import com.mhacks.app.data.kotlin.Announcement
+import com.mhacks.app.data.models.Announcement
 import com.mhacks.app.ui.announcement.presenter.AnnouncementPresenter
 import com.mhacks.app.ui.common.NavigationFragment
 import kotlinx.android.synthetic.main.fragment_announcements.*
@@ -29,7 +29,7 @@ class AnnouncementFragment : NavigationFragment(), AnnouncementView {
 
     private lateinit var adapter: AnnouncementsAdapter
 
-    private var snackbar: Snackbar? = null
+    private var snackBar: Snackbar? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,14 +47,14 @@ class AnnouncementFragment : NavigationFragment(), AnnouncementView {
 
     override fun onDetach() {
         super.onDetach()
-        snackbar?.dismiss()
+        snackBar?.dismiss()
         announcementPresenter.onDetach()
     }
 
     override fun onGetAnnouncementsSuccess(announcements: List<Announcement>) {
-        snackbar?.dismiss()
+        snackBar?.dismiss()
         showMainContent()
-        snackbar = null
+        snackBar = null
         announcementList.addAll(announcements)
         adapter.notifyDataSetChanged()
     }
@@ -62,12 +62,15 @@ class AnnouncementFragment : NavigationFragment(), AnnouncementView {
     override fun onGetAnnouncementsFailure(error: Throwable) {
         showMainContent()
         adapter.notifyDataSetChanged()
-        if (snackbar == null) {
-            snackbar = Snackbar.make(view!!,
+        if ((snackBar == null) and (!announcementList.isEmpty())) {
+            snackBar = Snackbar.make(view!!,
                     getString(R.string.lost_internet_connection),
                     Snackbar.LENGTH_INDEFINITE)
-            snackbar?.show()
-        }
+            snackBar?.show()
+        } else showErrorView(R.string.announcement_network_failure, {
+            showProgressBar(getString(R.string.loading_announcements))
+            announcementPresenter.loadAnnouncements()
+        })
     }
 
     companion object {
