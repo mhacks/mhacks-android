@@ -102,7 +102,7 @@
         android:layout_gravity="center"
         android:indeterminate="true" />
 
-    <com.mhacks.app.ui.common.ErrorView
+    <com.mhacks.app.ui.common.ErrorableView
         android:id="@+id/ticket_error_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
