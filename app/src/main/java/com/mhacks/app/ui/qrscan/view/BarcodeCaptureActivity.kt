@@ -167,11 +167,11 @@ class BarcodeCaptureActivity : AppCompatActivity(), BarcodeGraphicTracker.Barcod
                 .setRequestedFps(15.0f)
 
         // make sure that auto focus is an available option
-        builder = builder.setFocusMode(
-                if (autoFocus) Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE else null)
-
+        builder = builder.setAutoFocusEnabled(true)
         mCameraSource = builder
-                .setFlashMode(if (useFlash) Camera.Parameters.FLASH_MODE_TORCH else null)
+
+                // TODO: This method doesn't exist. Look into alternatives.
+//                .setFlashMode(if (useFlash) Camera.Parameters.FLASH_MODE_TORCH else null)
                 .build()
     }
 
@@ -268,7 +268,7 @@ class BarcodeCaptureActivity : AppCompatActivity(), BarcodeGraphicTracker.Barcod
 
         if (mCameraSource != null) {
             try {
-                mPreview!!.start(mCameraSource, mGraphicOverlay)
+                mPreview?.start(mCameraSource!!, mGraphicOverlay!!)
             } catch (e: IOException) {
                 Timber.e("Unable to start camera source.")
                 mCameraSource!!.release()
@@ -289,21 +289,21 @@ class BarcodeCaptureActivity : AppCompatActivity(), BarcodeGraphicTracker.Barcod
         // Find tap point in preview frame coordinates.
         val location = IntArray(2)
         mGraphicOverlay!!.getLocationOnScreen(location)
-        val x = (rawX - location[0]) / mGraphicOverlay!!.getWidthScaleFactor()
-        val y = (rawY - location[1]) / mGraphicOverlay!!.getHeightScaleFactor()
+        val x = (rawX - location[0]) / mGraphicOverlay!!.widthScaleFactor
+        val y = (rawY - location[1]) / mGraphicOverlay!!.heightScaleFactor
 
         // Find the barcode whose center is closest to the tapped point.
         var best: Barcode? = null
         var bestDistance = java.lang.Float.MAX_VALUE
-        for (graphic in mGraphicOverlay!!.getGraphics()) {
-            val barcode = graphic.getBarcode()
-            if (barcode.getBoundingBox().contains(x.toInt(), y.toInt())) {
+        for (graphic in mGraphicOverlay!!.graphics) {
+            val barcode = graphic.barcode
+            if (barcode?.boundingBox?.contains(x.toInt(), y.toInt())!!) {
                 // Exact hit, no need to keep looking.
                 best = barcode
                 break
             }
-            val dx = x - barcode.getBoundingBox().centerX()
-            val dy = y - barcode.getBoundingBox().centerY()
+            val dx = x - barcode.boundingBox.centerX()
+            val dy = y - barcode.boundingBox.centerY()
             val distance = dx * dx + dy * dy  // actually squared distance
             if (distance < bestDistance) {
                 best = barcode
@@ -375,7 +375,10 @@ class BarcodeCaptureActivity : AppCompatActivity(), BarcodeGraphicTracker.Barcod
          * retrieve extended info about event state.
          */
         override fun onScaleEnd(detector: ScaleGestureDetector) {
-            mCameraSource!!.zoom(detector.scaleFactor)
+
+            // TODO: These methods don't exist. Look into why.
+//            mCameraSource!!.zoom(detector.scaleFactor)
+//            mCameraSource!!.zoom(detector.scaleFactor)
         }
     }
 
