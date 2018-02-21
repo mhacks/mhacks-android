@@ -83,8 +83,6 @@ class LoginSignInFragment : BaseFragment(), LoginSignInView {
 
     interface OnFromLoginFragmentCallback {
 
-        fun attemptLogin(email: String, password: String)
-
         fun goToViewPagerFragment(fragment: Fragment)
 
         fun goToMainActivity()

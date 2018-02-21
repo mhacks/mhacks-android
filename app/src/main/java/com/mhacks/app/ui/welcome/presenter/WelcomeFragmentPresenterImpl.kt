@@ -16,16 +16,15 @@ import timber.log.Timber
 
 class WelcomeFragmentPresenterImpl(private val welcomeView: WelcomeView,
                                    private val mHacksService: MHacksService,
-                                   private val mHacksDatabase: MHacksDatabase): WelcomeFragmentPresenter, BasePresenterImpl() {
+                                   private val mHacksDatabase: MHacksDatabase)
+    : WelcomeFragmentPresenter, BasePresenterImpl() {
 
     override fun getConfig() {
         compositeDisposable?.add(
                 mHacksDatabase.configDao().getConfig()
                         .onErrorResumeNext {
                             mHacksService.getConfigurationResponse()
-                                    .map {
-                                        Timber.e(it.configuration.toString())
-                                        it.configuration }
+                                    .map { it.configuration }
                         }
                         .doOnSuccess {
                             Observable.fromCallable {

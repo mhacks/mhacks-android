@@ -10,7 +10,6 @@ import timber.log.Timber
  * it doesn't, display a dialog that allows users to download the APK from
  * the Google Play Store or enable it in the device's system settings.
  */
-
 private const val PLAY_SERVICES_RESOLUTION_REQUEST = 1337
 
 object GooglePlayUtil {

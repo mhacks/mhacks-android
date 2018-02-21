@@ -11,13 +11,13 @@ import dagger.Module
 import dagger.Provides
 
 /**
- * Created by jeffreychang on 2/16/18.
+ * Module for [MainActivity]
  */
 @Module
 abstract class MainActivityModule {
 
     @Binds
-    abstract fun provideMainActivity(mainActivity: MainActivity): MainView
+    abstract fun provideMainView(mainActivity: MainActivity): MainView
 
     @Module
     companion object {

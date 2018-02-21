@@ -15,9 +15,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 /**
- * Service that receives tokens from Firebase and saved it into saved preferences.
+ * Service that receives tokens from FireBase and saved it into saved preferences.
  */
-
 class RegistrationIntentService : IntentService(TAG) {
 
     private val retrofit = Retrofit.Builder()
@@ -45,8 +44,9 @@ class RegistrationIntentService : IntentService(TAG) {
     }
 
     private fun sendRegistrationToServer(token: String) {
+        Timber.e(token)
         mhacksService.postFireBaseToken(token)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { sharedPreferences.edit().putBoolean(SENT_TOKEN_TO_SERVER, true).apply() },

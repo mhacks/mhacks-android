@@ -23,7 +23,6 @@ import javax.inject.Inject
  *
  * Manages a ProgressBar that acts as a timer as well as builds
  */
-
 class WelcomeFragment : NavigationFragment(), WelcomeView {
 
     override var setTransparent: Boolean = false
@@ -40,7 +39,6 @@ class WelcomeFragment : NavigationFragment(), WelcomeView {
         super.onViewCreated(view, savedInstanceState)
         welcomePresenter.getConfig()
     }
-
 
     override fun onGetConfigSuccess(config: Configuration) =
         initCountdownIfNecessary(config.startDateTs, config.endDateTs)

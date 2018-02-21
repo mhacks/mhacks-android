@@ -27,10 +27,6 @@ class LoginActivity : BaseActivity(), LoginSignInFragment.OnFromLoginFragmentCal
     override fun goToMainActivity() =
             startActivity(Intent(this, MainActivity::class.java))
 
-    override fun attemptLogin(email: String, password: String) {
-
-    }
-
     override fun goToViewPagerFragment(fragment: android.support.v4.app.Fragment) {
         supportFragmentManager
                 .beginTransaction()
