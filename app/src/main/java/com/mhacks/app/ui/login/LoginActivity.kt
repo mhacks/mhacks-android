@@ -3,6 +3,7 @@ package com.mhacks.app.ui.login
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v4.app.Fragment
 import com.mhacks.app.R
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.login.signin.view.LoginSignInFragment
@@ -27,11 +28,7 @@ class LoginActivity : BaseActivity(), LoginSignInFragment.OnFromLoginFragmentCal
     override fun goToMainActivity() =
             startActivity(Intent(this, MainActivity::class.java))
 
-    override fun attemptLogin(email: String, password: String) {
-
-    }
-
-    override fun goToViewPagerFragment(fragment: android.support.v4.app.Fragment) {
+    override fun goToViewPagerFragment(fragment: Fragment) {
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.login_container, fragment)

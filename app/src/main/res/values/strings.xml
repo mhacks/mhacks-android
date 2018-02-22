@@ -24,6 +24,7 @@
     <string name="no_internet">No internet.</string>
     <string name="lost_internet_connection">Lost internet connection</string>
     <string name="try_again">Try again</string>
+    <string name="unknown_error">Unknown error</string>
 
     <!-- Welcome Fragment-->
     <string name="countdown_timer_default">36:00:00</string>
@@ -67,8 +68,34 @@
     <string name="no_school">No school was selected!</string>
     <string name="ticket_network_error">Couldn\'t fetch ticket.</string>
     <string name="logging_in_auth_error">Username or password is incorrect.</string>
+    <string name="ticket_description">My ticket.</string>
 
     <!--Event Fragment-->
     <string name="loading_events">Loading events…</string>
     <string name="events_network_failure">Couldn\'t fetch events.</string>
+
+    <!--Barcode-->
+    <string name="ok">OK</string>
+    <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
+    <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
+    <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
+    <string name="title_activity_main">Barcode Reader Sample</string>
+    <string name="barcode_header">Click &quot;Read Barcode&quot; to read a barcode</string>
+    <string name="read_barcode">Read Barcode</string>
+    <string name="auto_focus">Auto Focus</string>
+    <string name="use_flash">Use Flash</string>
+    <string name="barcode_success">Barcode read successfully</string>
+    <string name="barcode_failure">No barcode captured</string>
+    <string name="barcode_error">"Error reading barcode: %1$s"</string>
+    <string name="title_activity_barcode_capture">BarcodeCaptureActivity</string>
+    <string name="flash_icon">Flash Icon</string>
+    <string name="autofocus_icon">Autofocus Icon</string>
+    <string name="last_scanned">Last scanned</string>
+    <string name="camera_filler">---</string>
+    <string name="user_not_authorized">Person is not a participant.</string>
+    <string name="post_not_authorized">You are not authorized to scan users.</string>
+    <string name="barcode_hint">Tap to capture. Pinch/Stretch to zoom</string>
+    <string name="not_valid_email">Not a valid e-mail address.</string>
+    <string name="checked_in">Checked in!</string>
+
 </resources>

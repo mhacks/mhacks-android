@@ -1,20 +1,25 @@
 package com.mhacks.app.ui.main.presenter
 
-import com.mhacks.app.data.network.services.MHacksService
+import com.mhacks.app.data.SharedPreferencesManager
 import com.mhacks.app.data.room.MHacksDatabase
 import com.mhacks.app.ui.main.view.MainView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 /**
- * Created by jeffreychang on 2/16/18.
+ * Implementation of the MainActivity presenter.
  */
 
-class MainPresenterImpl(val mainView: MainView,
-                        var mHacksService: MHacksService,
-                        var mHacksDatabase: MHacksDatabase): MainPresenter {
+class MainPresenterImpl(private val mainView: MainView,
+                        private var mHacksDatabase: MHacksDatabase,
+                        private val sharedPreferencesManager: SharedPreferencesManager)
+    : MainPresenter {
 
-    override fun onCheckIfLoggedIn() {
+    override fun checkAdmin() {
+        mainView.onCheckAdmin(sharedPreferencesManager.getIsAdmin())
+    }
+
+    override fun checkIfLoggedIn() {
         mHacksDatabase.loginDao().getLogin()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

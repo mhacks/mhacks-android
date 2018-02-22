@@ -28,7 +28,7 @@ abstract class BaseFragment : DaggerFragment() {
     private var mainView: View? = null
 
     private val errorView by lazy {
-        ErrorView(context!!, null)
+        ErrorableView(context!!, null)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

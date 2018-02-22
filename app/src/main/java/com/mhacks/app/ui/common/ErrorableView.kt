@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.view_error.view.*
  *
  * @property[tryAgainCallback] A callback to load to reattempt the network call.
  */
-class ErrorView(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
+class ErrorableView(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
 
     var iconDrawable: Int = R.drawable.ic_cloud_off_black_24dp
         set(icon) = error_view_imageview_icon.setImageResource(icon)

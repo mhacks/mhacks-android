@@ -44,8 +44,10 @@ class MapViewFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setCustomActionBarColor(R.color.semiColorPrimary)
-        if (GooglePlayUtil.checkPlayServices(activity!!)) setUpMapIfNeeded()
-        mapViewFragmentPresenter.getMapFloor()
+        if (GooglePlayUtil.checkPlayServices(activity!!)) {
+            setUpMapIfNeeded()
+            mapViewFragmentPresenter.getMapFloor()
+        }
     }
 
     private fun showDefaultLayoutView() {

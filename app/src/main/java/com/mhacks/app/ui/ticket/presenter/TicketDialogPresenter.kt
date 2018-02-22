@@ -8,5 +8,5 @@ import com.mhacks.app.di.module.AuthModule
 
 interface TicketDialogPresenter {
     
-    fun getUser(authInterceptor: AuthModule.AuthInterceptor)
+    fun getUser()
 }

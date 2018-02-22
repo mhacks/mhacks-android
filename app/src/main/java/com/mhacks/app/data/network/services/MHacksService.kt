@@ -22,6 +22,10 @@ interface MHacksService {
     @GET("user/profile/")
     fun getUserResponse(): Single<UserResponse>
 
+    @POST("user/ticket/verify")
+    @FormUrlEncoded
+    fun verifyUserTicket(@Field("email") email: String): Single<VerifyTicketResponse>
+
     @GET("floor")
     fun getFloorResponse(): Single<FloorResponse>
 

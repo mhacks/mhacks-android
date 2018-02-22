@@ -1,5 +1,6 @@
 package com.mhacks.app.ui.welcome.presenter
 
+import com.mhacks.app.data.SharedPreferencesManager
 import com.mhacks.app.data.network.services.MHacksService
 import com.mhacks.app.data.room.MHacksDatabase
 import com.mhacks.app.ui.common.BasePresenterImpl
@@ -7,7 +8,6 @@ import com.mhacks.app.ui.welcome.view.WelcomeView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 
 /**
  * Created by jawad on 04/11/14.
@@ -16,16 +16,15 @@ import timber.log.Timber
 
 class WelcomeFragmentPresenterImpl(private val welcomeView: WelcomeView,
                                    private val mHacksService: MHacksService,
-                                   private val mHacksDatabase: MHacksDatabase): WelcomeFragmentPresenter, BasePresenterImpl() {
+                                   private val mHacksDatabase: MHacksDatabase)
+    : WelcomeFragmentPresenter, BasePresenterImpl() {
 
     override fun getConfig() {
         compositeDisposable?.add(
                 mHacksDatabase.configDao().getConfig()
                         .onErrorResumeNext {
                             mHacksService.getConfigurationResponse()
-                                    .map {
-                                        Timber.e(it.configuration.toString())
-                                        it.configuration }
+                                    .map { it.configuration }
                         }
                         .doOnSuccess {
                             Observable.fromCallable {
