@@ -19,9 +19,10 @@ import javax.inject.Inject
 class TicketDialogPresenterImpl @Inject constructor(
         private var ticketDialogView: TicketDialogView,
         private val mHacksService: MHacksService,
-        private val mHacksDatabase: MHacksDatabase) : TicketDialogPresenter {
+        private val mHacksDatabase: MHacksDatabase,
+        private val authInterceptor: AuthModule.AuthInterceptor) : TicketDialogPresenter {
 
-    override fun getUser(authInterceptor: AuthModule.AuthInterceptor) {
+    override fun getUser() {
         mHacksDatabase.userDao()
                 .getUser()
                 .onErrorResumeNext {

@@ -1,5 +1,6 @@
 package com.mhacks.app.ui.welcome.presenter
 
+import com.mhacks.app.data.SharedPreferencesManager
 import com.mhacks.app.data.network.services.MHacksService
 import com.mhacks.app.data.room.MHacksDatabase
 import com.mhacks.app.ui.common.BasePresenterImpl
@@ -7,7 +8,6 @@ import com.mhacks.app.ui.welcome.view.WelcomeView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 
 /**
  * Created by jawad on 04/11/14.

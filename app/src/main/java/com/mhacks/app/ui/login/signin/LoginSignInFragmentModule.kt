@@ -1,5 +1,6 @@
 package com.mhacks.app.ui.login.signin
 
+import com.mhacks.app.data.SharedPreferencesManager
 import com.mhacks.app.data.network.services.MHacksService
 import com.mhacks.app.data.room.MHacksDatabase
 import com.mhacks.app.ui.login.signin.presenter.LoginSignInPresenter
@@ -11,7 +12,7 @@ import dagger.Module
 import dagger.Provides
 
 /**
- * Created by jeffreychang on 2/16/18.
+ * Module that provides dependencies needed for login sign-in.
  */
 
 @Module
@@ -26,7 +27,12 @@ abstract class LoginSignInFragmentModule {
         @JvmStatic
         fun provideLoginSignInPresenter(loginSignInView: LoginSignInView,
                                         mHacksService: MHacksService,
-                                        mHacksDatabase: MHacksDatabase): LoginSignInPresenter =
-                LoginSignInPresenterImpl(loginSignInView, mHacksService, mHacksDatabase)
+                                        mHacksDatabase: MHacksDatabase,
+                                        sharedPreferencesManager: SharedPreferencesManager)
+                : LoginSignInPresenter =
+                LoginSignInPresenterImpl(
+                        loginSignInView,
+                        mHacksService,
+                        mHacksDatabase, sharedPreferencesManager)
     }
 }

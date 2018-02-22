@@ -18,17 +18,18 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.ImageViewCompat
 import android.support.v7.app.AlertDialog
+import android.util.Patterns
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
-import android.widget.Toast
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.mhacks.app.R
+import com.mhacks.app.data.models.Feedback
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.qrscan.presenter.QRScanPresenter
 import com.mhacks.app.ui.qrscan.view.BarcodeGraphic
@@ -38,9 +39,11 @@ import com.mhacks.app.ui.qrscan.view.QRScanView
 import com.mhacks.app.ui.qrscan.view.camera.CameraSource
 import com.mhacks.app.ui.qrscan.view.camera.CameraSourcePreview
 import com.mhacks.app.ui.qrscan.view.camera.GraphicOverlay
-import kotlinx.android.synthetic.main.activity_barcode_capture.*
+import kotlinx.android.synthetic.main.activity_qr_scan.*
+import retrofit2.HttpException
 import timber.log.Timber
 import java.io.IOException
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 /**
@@ -51,26 +54,29 @@ import javax.inject.Inject
 class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeUpdateListener {
 
     private var cameraSource: CameraSource? = null
+
     private var preview: CameraSourcePreview? = null
+
     private var graphicOverlay: GraphicOverlay<BarcodeGraphic>? = null
 
     private var scaleGestureDetector: ScaleGestureDetector? = null
-    private var gestureDetector: GestureDetector? = null
 
-    @Inject lateinit var qrScanPresenter: QRScanPresenter
+    private var gestureDetector: GestureDetector? = null
 
     private var hasAutoFocus = false
 
     private var useFlash = false
 
+    @Inject lateinit var qrScanPresenter: QRScanPresenter
+
     /**
      * Initializes the UI and creates the detector pipeline.
      */
-    public override fun onCreate(icicle: Bundle?) {
-        super.onCreate(icicle)
-        setContentView(R.layout.activity_barcode_capture)
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_qr_scan)
 
-        preview = findViewById<View>(R.id.activity_camera_source_preview) as CameraSourcePreview
+        preview = findViewById(R.id.activity_camera_source_preview)
         graphicOverlay = findViewById(R.id.activity_barcode_graphic_overlay)
 
 
@@ -93,8 +99,8 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
         gestureDetector = GestureDetector(this, CaptureGestureListener())
         scaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
         activity_camera_source_autofocus_icon
-        Toast.makeText(this,"Tap to capture. Pinch/Stretch to zoom",
-                Toast.LENGTH_LONG).show()
+        showToast(R.string.barcode_hint)
+
     }
 
     private fun requestCameraPermission() {
@@ -139,7 +145,7 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
      * the constant.
      */
     @SuppressLint("InlinedApi")
-    private fun createCameraSource(autoFocus: Boolean, useFlash: Boolean) {
+    private fun createCameraSource() {
         val context = applicationContext
 
         // A barcode detector is created to track barcodes.  An associated multi-processor instance
@@ -169,8 +175,7 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
             val hasLowStorage = registerReceiver(null, lowStorageFilter) != null
 
             if (hasLowStorage) {
-                Toast.makeText(this, R.string.low_storage_error,
-                        Toast.LENGTH_LONG).show()
+                showToast(R.string.low_storage_error)
                 Timber.w(getString(R.string.low_storage_error))
             }
         }
@@ -243,7 +248,6 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
 
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Timber.w("Camera permission granted - initialize the camera source")
-            // we have permission, so create the camerasource
             qrScanPresenter.getCameraSettings()
             return
         }
@@ -320,7 +324,12 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
             }
         }
         best?.let {
-            activity_camera_source_id_text_view.text = best.displayValue
+
+            if (Patterns.EMAIL_ADDRESS.matcher(best.displayValue).matches()) {
+                activity_camera_source_id_text_view.text = best.displayValue
+                qrScanPresenter.verifyTicket(best.displayValue)
+            }
+            else showToast(R.string.not_valid_email)
             return true
         }
         return false
@@ -402,7 +411,7 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
         if (useFlash) ImageViewCompat.setImageTintList(activity_camera_source_flash_icon, colorAccent)
         else ImageViewCompat.setImageTintList(activity_camera_source_flash_icon,
                 ColorStateList.valueOf(Color.WHITE))
-        createCameraSource(hasAutoFocus, useFlash)
+        createCameraSource()
     }
 
     override fun onUpdateCameraSettings(settings: Pair<Boolean, Boolean>) {
@@ -426,11 +435,15 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
         if (camera != null) {
             try {
                 val param = camera!!.parameters
-                param.flashMode = if (hasFlash) Camera.Parameters.FLASH_MODE_TORCH else Camera.Parameters.FLASH_MODE_OFF
-                param.focusMode = if (hasAutoFocus) Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE else Camera.Parameters.FOCUS_MODE_AUTO
+                param.flashMode =
+                        if (hasFlash) Camera.Parameters.FLASH_MODE_TORCH
+                        else Camera.Parameters.FLASH_MODE_OFF
+                param.focusMode =
+                        if (hasAutoFocus) Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE
+                        else Camera.Parameters.FOCUS_MODE_FIXED
                 camera?.parameters = param
             } catch (e: Exception) {
-                e.printStackTrace()
+                Timber.e(e)
             }
         }
     }
@@ -444,7 +457,7 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
                 try {
                     return field.get(cameraSource) as Camera
                 } catch (e: IllegalAccessException) {
-                    e.printStackTrace()
+                    Timber.e(e)
                 }
                 break
             }
@@ -452,12 +465,24 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
         return null
     }
 
-    override fun onPostQREventSuccess() {
+    override fun onVerifyTicketSuccess(user: List<Feedback>)
+            = showToast(R.string.checked_in)
 
-    }
 
-    override fun onPostQREventFailure() {
+    override fun onVerifyTicketFailure(error: Throwable) {
+        when (error) {
+            is HttpException -> {
+                when (error.code()) {
 
+                    400 -> showToast(R.string.user_not_authorized)
+
+                    401 -> showToast(R.string.post_not_authorized)
+
+                    else -> showToast(R.string.unknown_error)
+                }
+            }
+            is UnknownHostException -> showToast(R.string.no_internet)
+        }
     }
 
     companion object {

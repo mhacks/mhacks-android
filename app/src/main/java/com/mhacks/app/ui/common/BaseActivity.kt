@@ -8,6 +8,7 @@ import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import com.mhacks.app.R
 import com.mhacks.app.ui.common.util.ResourceUtil
 import dagger.android.support.DaggerAppCompatActivity
@@ -34,7 +35,7 @@ abstract class BaseActivity: DaggerAppCompatActivity(),  NavigationFragment.OnNa
         window.statusBarColor = ContextCompat.getColor(this, color)
     }
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    @SuppressLint("InlinedApi")
     fun setSystemFullScreenUI() {
         window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                 WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -63,5 +64,17 @@ abstract class BaseActivity: DaggerAppCompatActivity(),  NavigationFragment.OnNa
 
     override fun removePadding() {
         fragment_container.setPadding(0, 0, 0, 0)
+    }
+
+    fun showToast(stringRes: Int) {
+        Toast.makeText(this,
+                stringRes,
+                Toast.LENGTH_LONG).show()
+    }
+
+    fun showToast(string: String) {
+        Toast.makeText(this,
+                string,
+                Toast.LENGTH_LONG).show()
     }
 }

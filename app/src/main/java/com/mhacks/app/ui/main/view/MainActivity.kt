@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog
 import android.view.MenuItem
 import com.mhacks.app.R
 import com.mhacks.app.data.models.Login
+import com.mhacks.app.ui.announcement.createannouncement.view.CreateAnnouncementDialogFragment
 import com.mhacks.app.ui.announcement.view.AnnouncementFragment
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
@@ -19,9 +20,6 @@ import com.mhacks.app.ui.ticket.view.TicketDialogFragment
 import com.mhacks.app.ui.welcome.view.WelcomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
-import android.app.PendingIntent
-import android.support.v4.app.TaskStackBuilder
-
 
 /**
  * Main Activity that handles most of the interactions. Sets up the Login Activity and loads
@@ -39,7 +37,7 @@ class MainActivity : BaseActivity(), MainView,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.MHacksTheme)
-        mainPresenter.onCheckIfLoggedIn()
+        mainPresenter.checkIfLoggedIn()
     }
 
     private fun showTicketDialogFragment() {
@@ -62,14 +60,17 @@ class MainActivity : BaseActivity(), MainView,
 
     override fun onLogInFailure() = startLoginActivity()
 
+    override fun onCheckAdmin(isAdmin: Boolean) {
+        if (isAdmin) qr_ticket_fab.setOnClickListener({ showAdminOptions() })
+        else qr_ticket_fab.setOnClickListener({ showTicketDialogFragment() })
+    }
+
     private fun initActivity() {
         setSystemFullScreenUI()
         setContentView(R.layout.activity_main)
+        mainPresenter.checkAdmin()
         setBottomNavigationColor(
                 NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
-
-//        qr_ticket_fab.setOnClickListener({ showTicketDialogFragment() })
-        qr_ticket_fab.setOnClickListener({ showAdminOptions() })
 
         menuItem = main_activity_navigation.menu.getItem(0)
         menuItem.setTitle(R.string.title_home)
@@ -103,6 +104,10 @@ class MainActivity : BaseActivity(), MainView,
     private fun startQRScanActivity() =
             startActivity(Intent(this, QRScanActivity::class.java))
 
+    private fun startCreateAnnouncementDialogFragment() {
+        CreateAnnouncementDialogFragment.instance.show(supportFragmentManager, null)
+    }
+
     private fun showAdminOptions() {
         val colors = arrayOf<CharSequence>("Scan ticket", "Post an announcement", "Ticket")
         AlertDialog.Builder(this)
@@ -112,7 +117,7 @@ class MainActivity : BaseActivity(), MainView,
 
                         0 -> startQRScanActivity()
 
-                        1 -> {}
+                        1 -> startCreateAnnouncementDialogFragment()
 
                         2 -> showTicketDialogFragment()
                     }

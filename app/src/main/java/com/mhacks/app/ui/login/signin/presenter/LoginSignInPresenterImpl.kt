@@ -1,5 +1,6 @@
 package com.mhacks.app.ui.login.signin.presenter
 
+import com.mhacks.app.data.SharedPreferencesManager
 import com.mhacks.app.data.models.Login
 import com.mhacks.app.data.network.services.MHacksService
 import com.mhacks.app.data.room.MHacksDatabase
@@ -10,12 +11,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 /**
- * Created by jeffreychang on 2/16/18.
+ * Implementation of Login Signin Presenter.
  */
-
 class LoginSignInPresenterImpl(private val loginSignInView: LoginSignInView,
                                private val mHacksService: MHacksService,
-                               private val mHacksDatabase: MHacksDatabase) :
+                               private val mHacksDatabase: MHacksDatabase,
+                               private val sharedPreferencesManager: SharedPreferencesManager) :
         BasePresenterImpl(),
         LoginSignInPresenter {
 
@@ -23,6 +24,7 @@ class LoginSignInPresenterImpl(private val loginSignInView: LoginSignInView,
         compositeDisposable?.add(
                 mHacksService.postLogin(username, password)
                         .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
                         .doOnSuccess({
                             it.id = 1
                             Observable.fromCallable {
@@ -31,8 +33,9 @@ class LoginSignInPresenterImpl(private val loginSignInView: LoginSignInView,
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe()
+                            if (it.user?.groups?.contains("admin")!!)
+                                sharedPreferencesManager.putIsAdmin(true)
                         })
-                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 { loginSignInView.postLoginSuccess(it) },
                                 { loginSignInView.postLoginFailure(username, password, it) }

@@ -7,7 +7,7 @@ import com.mhacks.app.ui.common.BasePresenter
  */
 interface QRScanPresenter: BasePresenter {
 
-    fun postQRScanEvent()
+    fun verifyTicket(email: String)
 
     fun getCameraSettings()
 

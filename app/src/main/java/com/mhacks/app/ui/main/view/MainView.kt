@@ -3,7 +3,7 @@ package com.mhacks.app.ui.main.view
 import com.mhacks.app.data.models.Login
 
 /**
- * Created by jeffreychang on 2/16/18.
+ * View contract for the main activity.
  */
 
 interface MainView {
@@ -12,4 +12,5 @@ interface MainView {
 
     fun onLogInFailure()
 
+    fun onCheckAdmin(isAdmin: Boolean)
 }

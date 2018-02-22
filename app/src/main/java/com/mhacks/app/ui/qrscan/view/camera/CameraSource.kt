@@ -1,7 +1,9 @@
+@file:Suppress("DEPRECATION", "unused")
+
 package com.mhacks.app.ui.qrscan.view.camera
 
 /**
- * Created by jeffreychang on 2/21/18.
+ * Camera Source that wraps around the Camera API provided by a Google Sample.
  */
 
 import android.Manifest
@@ -16,10 +18,8 @@ import android.os.Build
 import android.os.SystemClock
 import android.support.annotation.RequiresPermission
 import android.support.annotation.StringDef
-import android.util.Log
 import android.view.Surface
 import android.view.SurfaceHolder
-import android.view.SurfaceView
 import android.view.WindowManager
 
 import com.google.android.gms.common.images.Size
@@ -29,7 +29,6 @@ import timber.log.Timber
 
 import java.io.IOException
 import java.lang.Thread.State
-import java.lang.annotation.RetentionPolicy
 import java.nio.ByteBuffer
 import java.util.ArrayList
 import java.util.HashMap
@@ -106,7 +105,6 @@ private constructor() {
     // These instances need to be held onto to avoid GC of their underlying resources.  Even though
     // these aren't used outside of the method that creates them, they still must have hard
     // references maintained to them.
-    private var mDummySurfaceView: SurfaceView? = null
     private var mDummySurfaceTexture: SurfaceTexture? = null
 
     /**
@@ -188,8 +186,8 @@ private constructor() {
             // Restrict the requested range to something within the realm of possibility.  The
             // choice of 1000000 is a bit arbitrary -- intended to be well beyond resolutions that
             // devices can support.  We bound this to avoid int overflow in the code later.
-            val MAX = 1000000
-            if (width <= 0 || width > MAX || height <= 0 || height > MAX) {
+            val max = 1000000
+            if (width <= 0 || width > max || height <= 0 || height > max) {
                 throw IllegalArgumentException("Invalid preview size: " + width + "x" + height)
             }
             mCameraSource.mRequestedPreviewWidth = width
@@ -375,7 +373,7 @@ private constructor() {
                     // quickly after stop).
                     mProcessingThread!!.join()
                 } catch (e: InterruptedException) {
-                    Log.d(TAG, "Frame processing thread interrupted on release.")
+                    Timber.d("Frame processing thread interrupted on release.")
                 }
 
                 mProcessingThread = null
@@ -388,19 +386,9 @@ private constructor() {
                 mCamera!!.stopPreview()
                 mCamera!!.setPreviewCallbackWithBuffer(null)
                 try {
-                    // We want to be compatible back to Gingerbread, but SurfaceTexture
-                    // wasn't introduced until Honeycomb.  Since the interface cannot use a SurfaceTexture, if the
-                    // developer wants to display a preview we must use a SurfaceHolder.  If the developer doesn't
-                    // want to display a preview we use a SurfaceTexture if we are running at least Honeycomb.
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                        mCamera!!.setPreviewTexture(null)
-
-                    } else {
-                        mCamera!!.setPreviewDisplay(null)
-                    }
+                    mCamera!!.setPreviewTexture(null)
                 } catch (e: Exception) {
-                    Log.e(TAG, "Failed to clear camera preview: " + e)
+                    Timber.e("Failed to clear camera preview")
                 }
 
                 mCamera!!.release()
@@ -418,17 +406,17 @@ private constructor() {
             val maxZoom: Int
             val parameters = mCamera!!.parameters
             if (!parameters.isZoomSupported) {
-                Log.w(TAG, "Zoom is not supported on this device")
+                Timber.e("Zoom is not supported on this device")
                 return currentZoom
             }
             maxZoom = parameters.maxZoom
 
             currentZoom = parameters.zoom + 1
             val newZoom: Float
-            if (scale > 1) {
-                newZoom = currentZoom + scale * (maxZoom / 10)
+            newZoom = if (scale > 1) {
+                currentZoom + scale * (maxZoom / 10)
             } else {
-                newZoom = currentZoom * scale
+                currentZoom * scale
             }
             currentZoom = Math.round(newZoom) - 1
             if (currentZoom < 0) {
@@ -719,7 +707,7 @@ private constructor() {
                             mFocusMode)) {
                 parameters.focusMode = mFocusMode
             } else {
-                Log.i(TAG, "Camera focus mode: $mFocusMode is not supported on this device.")
+                Timber.i("Camera focus mode: $mFocusMode is not supported on this device.")
             }
         }
 
@@ -831,7 +819,7 @@ private constructor() {
             Surface.ROTATION_90 -> degrees = 90
             Surface.ROTATION_180 -> degrees = 180
             Surface.ROTATION_270 -> degrees = 270
-            else -> Timber.e("Bad rotation value: " + rotation)
+            else -> Timber.e("""Bad rotation value: $rotation""")
         }
 
         val cameraInfo = CameraInfo()
@@ -954,7 +942,7 @@ private constructor() {
 
                 if (!mBytesToByteBuffer.containsKey(data)) {
                     Timber.d(
-                            "Skipping frame.  Could not find ByteBuffer associated with the image " + "data from the camera.")
+                            """Skipping frame.  Could not find ByteBuffer associated with the image data from the camera.""")
                     return
                 }
 
@@ -997,7 +985,7 @@ private constructor() {
                             // don't have it yet.
                             mLock.wait()
                         } catch (e: InterruptedException) {
-                            Log.d(TAG, "Frame processing loop terminated.", e)
+                            Timber.d("Frame processing loop terminated.")
                             return
                         }
 
@@ -1033,7 +1021,7 @@ private constructor() {
                 try {
                     mDetector!!.receiveFrame(outputFrame)
                 } catch (t: Throwable) {
-                    Log.e(TAG, "Exception thrown from receiver.", t)
+                    Timber.e("Exception thrown from receiver.")
                 } finally {
                     mCamera!!.addCallbackBuffer(data?.array())
                 }
@@ -1047,19 +1035,19 @@ private constructor() {
         @SuppressLint("InlinedApi")
         val CAMERA_FACING_FRONT = CameraInfo.CAMERA_FACING_FRONT
 
-        private val TAG = "OpenCameraSource"
+        private const val TAG = "OpenCameraSource"
 
         /**
          * The dummy surface texture must be assigned a chosen name.  Since we never use an OpenGL
          * context, we can choose any ID we want here.
          */
-        private val DUMMY_TEXTURE_NAME = 100
+        private const val DUMMY_TEXTURE_NAME = 100
 
         /**
          * If the absolute difference between a preview size aspect ratio and a picture size aspect
          * ratio is less than this tolerance, they are considered to be the same aspect ratio.
          */
-        private val ASPECT_RATIO_TOLERANCE = 0.01f
+        private const val ASPECT_RATIO_TOLERANCE = 0.01f
 
         /**
          * Gets the id for the camera specified by the direction it is facing.  Returns -1 if no such
@@ -1147,11 +1135,10 @@ private constructor() {
             // of the preview sizes and hope that the camera can handle it.  Probably unlikely, but we
             // still account for it.
             if (validPreviewSizes.size == 0) {
-                Log.w(TAG, "No preview sizes have a corresponding same-aspect-ratio picture size")
-                for (previewSize in supportedPreviewSizes) {
-                    // The null picture size will let us know that we shouldn't set a picture size.
-                    validPreviewSizes.add(SizePair(previewSize, null))
-                }
+                Timber.w("No preview sizes have a corresponding same-aspect-ratio picture size")
+                supportedPreviewSizes.mapTo(
+                        // The null picture size will let us know that we shouldn't set a picture size.
+                        validPreviewSizes) { SizePair(it, null) }
             }
 
             return validPreviewSizes

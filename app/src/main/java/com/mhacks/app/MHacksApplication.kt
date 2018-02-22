@@ -1,7 +1,3 @@
-/**
- * Created by jeffreychang on 9/2/17.
- */
-
 package com.mhacks.app
 
 import android.app.Notification
@@ -54,7 +50,7 @@ class MHacksApplication : DaggerApplication() {
                 .application(this)
                 .roomModule(RoomModule())
                 .authModule(AuthModule(null))
-                .retrofitModule(RetrofitModule("https://mhacks.org/v1/"))
+                .retrofitModule(RetrofitModule("https://staging.mhacks.org/v1/"))
                 .build()
         appComponent.inject(this)
         return appComponent

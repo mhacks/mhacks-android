@@ -40,7 +40,7 @@ class WelcomeFragment : NavigationFragment(), WelcomeView {
         welcomePresenter.getConfig()
     }
 
-    override fun onGetConfigSuccess(config: Configuration) =
+    override fun onGetConfigSuccess(config: Configuration) = 
         initCountdownIfNecessary(config.startDateTs, config.endDateTs)
 
     override fun onGetConfigFailure(error: Throwable) {

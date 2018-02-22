@@ -1,58 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/topLayout"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="8dp"
-    android:paddingRight="8dp"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp">
+    android:layout_height="match_parent"
+    android:keepScreenOn="true">
 
-    <TextView
+    <com.mhacks.app.ui.qrscan.view.camera.CameraSourcePreview
+        android:id="@+id/activity_camera_source_preview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/barcode_header"
-        android:id="@+id/status_message"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/activity_camera_source_divider">
 
-    <TextView
+        <com.mhacks.app.ui.qrscan.view.camera.GraphicOverlay
+            android:id="@+id/activity_barcode_graphic_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.mhacks.app.ui.qrscan.view.camera.CameraSourcePreview>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/activity_camera_source_divider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/barcode_value"
-        android:layout_below="@+id/status_message"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="110dp"
-        android:layout_alignEnd="@+id/status_message" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".90"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/read_barcode"
-        android:id="@+id/read_barcode"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/activity_camera_source_settings_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintTop_toTopOf="@id/activity_camera_source_divider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/auto_focus"
-        android:id="@+id/auto_focus"
-        android:layout_below="@+id/barcode_value"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="66dp"
-        android:checked="false" />
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/use_flash"
-        android:id="@+id/use_flash"
-        android:layout_alignTop="@+id/auto_focus"
-        android:layout_alignParentEnd="true"
-        android:checked="false" />
+        <TextView
+            android:id="@+id/activity_camera_source_description_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="24dp"
+            android:contentDescription="@string/flash_icon"
+            android:text="@string/last_scanned"
+            android:textAllCaps="true"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/activity_camera_source_id_text_view"
+            app:layout_constraintEnd_toStartOf="@id/activity_camera_source_flash_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/activity_camera_source_id_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:text="@string/camera_filler"
+            android:contentDescription="@string/flash_icon"
+            app:layout_constraintTop_toBottomOf="@+id/activity_camera_source_description_text_view"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/activity_camera_source_flash_icon" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/activity_camera_source_flash_icon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:tint="@color/white"
+            android:padding="4dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/flash_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/activity_camera_source_autofocus_icon"
+            app:srcCompat="@drawable/ic_flash_on_black_24dp" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/activity_camera_source_autofocus_icon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:tint="@color/white"
+            android:padding="4dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="30dp"
+            android:contentDescription="@string/autofocus_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_center_focus_strong_black_24dp" />
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

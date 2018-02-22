@@ -7,5 +7,4 @@ interface WelcomeView {
     fun onGetConfigSuccess(config: Configuration)
 
     fun onGetConfigFailure(error: Throwable)
-
 }

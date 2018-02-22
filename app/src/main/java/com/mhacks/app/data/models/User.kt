@@ -2,6 +2,8 @@ package com.mhacks.app.data.models
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.TypeConverters
+import com.mhacks.app.data.room.Converters
 import com.squareup.moshi.Json
 
 /**
@@ -10,9 +12,10 @@ import com.squareup.moshi.Json
 
 data class UserResponse(
 		@Json(name = "status") var status: Boolean?,
-		@Json(name = "user") var user: User?
+		@Json(name = "user") var user: User
 )
 
+@TypeConverters(Converters::class)
 @Entity(tableName = "user")
 data class User(
     @PrimaryKey
@@ -32,6 +35,7 @@ data class User(
     @field:Json(name = "university") var university: String?,
     @Json(name = "resume") var resume: String?,
     @Json(name = "github") var github: String?,
+	@Json(name = "groups") var groups: List<String>?,
     @Json(name = "linkedin") var linkedin: String?,
     @Json(name = "devpost") var devpost: String?,
     @Json(name = "portfolio") var portfolio: String?,
