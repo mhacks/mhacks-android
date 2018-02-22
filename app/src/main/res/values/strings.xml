@@ -86,4 +86,8 @@
     <string name="barcode_failure">No barcode captured</string>
     <string name="barcode_error">"Error reading barcode: %1$s"</string>
     <string name="title_activity_barcode_capture">BarcodeCaptureActivity</string>
+    <string name="flash_icon">Flash Icon</string>
+    <string name="autofocus_icon">Autofocus Icon</string>
+    <string name="last_scanned">Last scanned</string>
+    <string name="camera_filler">---</string>
 </resources>

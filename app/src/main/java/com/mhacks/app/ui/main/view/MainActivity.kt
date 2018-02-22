@@ -19,6 +19,8 @@ import com.mhacks.app.ui.ticket.view.TicketDialogFragment
 import com.mhacks.app.ui.welcome.view.WelcomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
+import android.app.PendingIntent
+import android.support.v4.app.TaskStackBuilder
 
 
 /**
@@ -98,10 +100,8 @@ class MainActivity : BaseActivity(), MainView,
         finish()
     }
 
-    private fun startQRScanActivity() {
-        startActivity(Intent(this, QRScanActivity::class.java))
-        finish()
-    }
+    private fun startQRScanActivity() =
+            startActivity(Intent(this, QRScanActivity::class.java))
 
     private fun showAdminOptions() {
         val colors = arrayOf<CharSequence>("Scan ticket", "Post an announcement", "Ticket")

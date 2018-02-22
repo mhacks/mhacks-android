@@ -8,4 +8,9 @@ import com.mhacks.app.ui.common.BasePresenter
 interface QRScanPresenter: BasePresenter {
 
     fun postQRScanEvent()
+
+    fun getCameraSettings()
+
+    fun updateCameraSettings(isAutoFocusEnabled: Boolean,
+                             isFlashEnabled: Boolean)
 }

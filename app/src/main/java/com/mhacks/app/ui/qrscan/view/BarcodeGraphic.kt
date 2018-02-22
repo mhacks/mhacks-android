@@ -2,7 +2,6 @@ package com.mhacks.app.ui.qrscan.view
 
 import android.graphics.Canvas
 import android.graphics.Color
-import sun.swing.SwingUtilities2.drawRect
 import android.graphics.Paint
 import android.graphics.RectF
 import com.google.android.gms.vision.barcode.Barcode
@@ -14,7 +13,7 @@ import com.mhacks.app.ui.qrscan.view.camera.GraphicOverlay
  * Created by jeffreychang on 2/21/18.
  */
 
-class BarcodeGraphic internal constructor(overlay: GraphicOverlay) : GraphicOverlay.Graphic(overlay) {
+class BarcodeGraphic internal constructor(overlay: GraphicOverlay<*>) : GraphicOverlay.Graphic(overlay) {
 
     var id: Int = 0
 

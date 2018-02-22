@@ -1,6 +1,8 @@
 package com.mhacks.app.ui.qrscan
 
+import android.content.SharedPreferences
 import com.mhacks.app.data.network.services.MHacksService
+import com.mhacks.app.ui.qrscan.presenter.QRScanPresenter
 import com.mhacks.app.ui.qrscan.presenter.QRScanPresenterImpl
 import com.mhacks.app.ui.qrscan.view.QRScanView
 import dagger.Binds
@@ -21,7 +23,8 @@ abstract class QRScanActivityModule {
         @Provides
         @JvmStatic
         fun provideQRScanPresenter(qrScanView: QRScanView,
-                                 mHacksService: MHacksService) =
-                QRScanPresenterImpl(qrScanView, mHacksService)
+                                   mHacksService: MHacksService,
+                                   sharedPreferences: SharedPreferences): QRScanPresenter =
+                QRScanPresenterImpl(qrScanView, mHacksService, sharedPreferences)
     }
 }

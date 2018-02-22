@@ -4,7 +4,7 @@ import android.content.Context
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.Tracker
-
+import com.mhacks.app.ui.qrscan.view.camera.GraphicOverlay
 
 /**
  * Created by jeffreychang on 2/21/18.

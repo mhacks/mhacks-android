@@ -8,9 +8,8 @@ import dagger.Provides
 import javax.inject.Singleton
 
 /**
- * Created by jeffreychang on 9/6/17.
+ * Module that provides the room database.
  */
-
 @Module
 class RoomModule {
     @Singleton

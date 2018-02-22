@@ -22,7 +22,8 @@ import javax.inject.Singleton
             ActivityBuilder::class,
             RoomModule::class,
             AuthModule::class,
-            RetrofitModule::class
+            RetrofitModule::class,
+            SharedPreferencesModule::class
         ])
 interface AppComponent : AndroidInjector<DaggerApplication> {
 

@@ -150,8 +150,8 @@ class GraphicOverlay<T : GraphicOverlay.Graphic>(context: Context, attrs: Attrib
 
         synchronized(mLock) {
             if (mPreviewWidth != 0 && mPreviewHeight != 0) {
-                widthScaleFactor = canvas.getWidth() as Float / mPreviewWidth.toFloat()
-                heightScaleFactor = canvas.getHeight() as Float / mPreviewHeight.toFloat()
+                widthScaleFactor = canvas.width.toFloat() / mPreviewWidth.toFloat()
+                heightScaleFactor = canvas.height.toFloat() / mPreviewHeight.toFloat()
             }
 
             for (graphic in mGraphics) {

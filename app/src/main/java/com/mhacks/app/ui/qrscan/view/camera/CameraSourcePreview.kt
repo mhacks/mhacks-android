@@ -1,20 +1,16 @@
 package com.mhacks.app.ui.qrscan.view.camera
 
 import android.Manifest
-import android.R.attr.orientation
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
-import android.opengl.ETC1.getHeight
-import android.opengl.ETC1.getWidth
-import android.view.SurfaceHolder
 import android.support.annotation.RequiresPermission
 import android.util.AttributeSet
-import com.google.android.gms.vision.CameraSource
+import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.ViewGroup
 import timber.log.Timber
 import java.io.IOException
-
 
 /**
  * Created by jeffreychang on 2/21/18.
@@ -30,7 +26,7 @@ class CameraSourcePreview(private val mContext: Context, attrs: AttributeSet) : 
 
     private val isPortraitMode: Boolean
         get() {
-            val orientation = mContext.getResources().getConfiguration().orientation
+            val orientation = mContext.resources.configuration.orientation
             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 return false
             }
@@ -53,7 +49,7 @@ class CameraSourcePreview(private val mContext: Context, attrs: AttributeSet) : 
 
     @RequiresPermission(Manifest.permission.CAMERA)
     @Throws(IOException::class, SecurityException::class)
-    fun start(cameraSource: CameraSource?) {
+    private fun start(cameraSource: CameraSource?) {
         if (cameraSource == null) {
             stop()
         }
@@ -68,7 +64,7 @@ class CameraSourcePreview(private val mContext: Context, attrs: AttributeSet) : 
 
     @RequiresPermission(Manifest.permission.CAMERA)
     @Throws(IOException::class, SecurityException::class)
-    fun start(cameraSource: CameraSource, overlay: GraphicOverlay<*>) {
+    fun start(cameraSource: com.mhacks.app.ui.qrscan.view.camera.CameraSource, overlay: GraphicOverlay<*>) {
         mOverlay = overlay
         start(cameraSource)
     }
@@ -93,7 +89,7 @@ class CameraSourcePreview(private val mContext: Context, attrs: AttributeSet) : 
             mCameraSource!!.start(mSurfaceView.holder)
             if (mOverlay != null) {
                 val size = mCameraSource!!.previewSize
-                val min = Math.min(size.width, size.height)
+                val min = Math.min(size?.width!!, size.height)
                 val max = Math.max(size.width, size.height)
                 if (isPortraitMode) {
                     // Swap width and height sizes when in portrait, since it will be rotated by
@@ -128,49 +124,63 @@ class CameraSourcePreview(private val mContext: Context, attrs: AttributeSet) : 
         override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {}
     }
 
+    @SuppressLint("MissingPermission")
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        var width = 320
-        var height = 240
+        var previewWidth = 320
+        var previewHeight = 240
         if (mCameraSource != null) {
-            val size = mCameraSource!!.previewSize
+            val size = mCameraSource?.previewSize
             if (size != null) {
-                width = size.width
-                height = size.height
+                previewWidth = size.width
+                previewHeight = size.height
             }
         }
 
         // Swap width and height sizes when in portrait, since it will be rotated 90 degrees
         if (isPortraitMode) {
-            val tmp = width
-
-            width = height
-            height = tmp
+            val tmp = previewWidth
+            previewWidth = previewHeight
+            previewHeight = tmp
         }
 
-        val layoutWidth = right - left
-        val layoutHeight = bottom - top
+        val viewWidth = right - left
+        val viewHeight = bottom - top
 
-        // Computes height and width for potentially doing fit width.
-        var childWidth = layoutWidth
-        var childHeight = (layoutWidth.toFloat() / width.toFloat() * height).toInt()
+        val childWidth: Int
+        val childHeight: Int
+        var childXOffset = 0
+        var childYOffset = 0
+        val widthRatio = viewWidth.toFloat() / previewWidth.toFloat()
+        val heightRatio = viewHeight.toFloat() / previewHeight.toFloat()
 
-        // If height is too tall using fit width, does fit height instead.
-        if (childHeight > layoutHeight) {
-            childHeight = layoutHeight
-            childWidth = (layoutHeight.toFloat() / height.toFloat() * width).toInt()
+        // To fill the view with the camera preview, while also preserving the correct aspect ratio,
+        // it is usually necessary to slightly oversize the child and to crop off portions along one
+        // of the dimensions.  We scale up based on the dimension requiring the most correction, and
+        // compute a crop offset for the other dimension.
+        if (widthRatio > heightRatio) {
+            childWidth = viewWidth
+            childHeight = (previewHeight.toFloat() * widthRatio).toInt()
+            childYOffset = (childHeight - viewHeight) / 2
+        } else {
+            childWidth = (previewWidth.toFloat() * heightRatio).toInt()
+            childHeight = viewHeight
+            childXOffset = (childWidth - viewWidth) / 2
         }
 
         for (i in 0 until childCount) {
-            getChildAt(i).layout(0, 0, childWidth, childHeight)
+            // One dimension will be cropped.  We shift child over or up by this offset and adjust
+            // the size to maintain the proper aspect ratio.
+            getChildAt(i).layout(
+                    -1 * childXOffset, -1 * childYOffset,
+                    childWidth - childXOffset, childHeight - childYOffset)
         }
 
         try {
             startIfReady()
-        } catch (se: SecurityException) {
-            Timber.e("Do not have permission to start the camera")
         } catch (e: IOException) {
             Timber.e("Could not start camera source.")
         }
 
     }
 }
+

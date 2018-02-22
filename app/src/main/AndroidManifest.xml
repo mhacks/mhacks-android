@@ -46,10 +46,17 @@
             android:name=".ui.login.LoginActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.qrscan.QRScanActivity"
+            android:launchMode="singleTop"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.qrscan.view.BarcodeCaptureActivity"
+            android:label="@string/title_activity_barcode_capture"
+            android:theme="@style/SplashTheme" />
 
         <service
             android:name=".data.network.fcm.RegistrationIntentService"
@@ -87,11 +94,6 @@
         <meta-data
             android:name="android.app.default_searchable"
             android:value=".SearchResultsActivity" />
-
-        <activity
-            android:name=".ui.qrscan.view.BarcodeCaptureActivity"
-            android:label="@string/title_activity_barcode_capture"
-            android:theme="@style/SplashTheme"></activity>
     </application>
 
 </manifest>

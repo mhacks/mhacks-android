@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.os.Build
 import android.support.annotation.ColorRes
+import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.WindowManager
@@ -33,7 +34,7 @@ abstract class BaseActivity: DaggerAppCompatActivity(),  NavigationFragment.OnNa
         window.statusBarColor = ContextCompat.getColor(this, color)
     }
 
-    @SuppressLint("InlinedApi")
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun setSystemFullScreenUI() {
         window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                 WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
