@@ -18,7 +18,7 @@ class AnnouncementsAdapter(private val context: Context,
 
     override fun getItemCount() = announcementList.size
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): AnnouncementViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnnouncementViewHolder {
         val view = LayoutInflater.from(context)
                 .inflate(R.layout.announcements_viewholder_item, parent, false)
         return AnnouncementViewHolder(view)
