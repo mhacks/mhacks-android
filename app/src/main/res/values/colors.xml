@@ -7,9 +7,9 @@
     <color name="recyclerview_background">#F4F4F4</color>
 
     <!--Global color themes-->
-    <color name="colorPrimary">#5D3E6E</color>
-    <color name="colorPrimaryDark">#43374E</color>
-    <color name="colorAccent">#F4A4A8</color>
+    <color name="colorPrimary">#cb1458</color>
+    <color name="colorPrimaryDark">#13162b</color>
+    <color name="colorAccent">#ffffff</color>
 
     <!--Map Fragment-->
     <color name="semiColorPrimary">#9643384D</color>
