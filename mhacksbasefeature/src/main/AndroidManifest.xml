@@ -48,9 +48,20 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="topeka.instantappsample.com"
-                    android:pathPattern="/schedule"
-                    android:scheme="http" />
+                    android:host="mhacks.org"
+                    android:scheme="http"
+                    android:pathPattern="/schedule" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="mhacks.org"
+                    android:pathPattern="/schedule" />
             </intent-filter>
         </activity>
         <activity
@@ -104,21 +115,6 @@
             android:name="android.app.default_searchable"
             android:value=".SearchResultsActivity" />
 
-        <activity
-            android:name=".Main2Activity"
-            android:label="@string/title_activity_main2">
-            <intent-filter android:order="1">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data
-                    android:host="unum.la"
-                    android:pathPattern="/.*"
-                    android:scheme="https" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
