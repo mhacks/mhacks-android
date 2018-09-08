@@ -19,7 +19,8 @@ import javax.inject.Singleton
 /**
  * Created by jeffreychang on 9/2/17.
  */
-@Module class RetrofitModule(private var baseUrl: String) {
+@Module class RetrofitModule(
+        private var baseUrl: String) {
 
     @Provides
     @Singleton
