@@ -40,8 +40,7 @@ android {
         }
     }
     defaultConfig {
-//        applicationId 'org.mhacks.app'
-        minSdkVersion 17
+        minSdkVersion 21
         targetSdkVersion 27
         versionName "10.0.0"
         resValue "string", "google_maps_api_key", google_maps_api_key
@@ -123,6 +122,7 @@ dependencies {
     }
     kapt "android.arch.persistence.room:compiler:$room_version"
     kapt "com.github.hotchemi:permissionsdispatcher-processor:3.0.1"
+    feature project(":mhacksui")
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
