@@ -6,4 +6,6 @@ object Constants {
 
     const val RELEASE_URL = "https://mhacks.org/v1/"
 
+    const val INSTANT_APP_PATH = "/schedule"
+
 }

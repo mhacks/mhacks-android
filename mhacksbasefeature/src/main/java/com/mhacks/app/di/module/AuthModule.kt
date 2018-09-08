@@ -17,17 +17,14 @@ class AuthModule(internal var token: String?) {
 
     @Provides
     @Singleton
-    internal fun provideAuthInterceptor(): AuthInterceptor {
-        return if (token != null) AuthInterceptor(token!!)
-        else AuthInterceptor(null)
-    }
+    internal fun provideAuthInterceptor(): AuthInterceptor = AuthInterceptor(token)
 
     class AuthInterceptor(var token: String?): Interceptor {
 
         override fun intercept(chain: Interceptor.Chain): Response {
             val newRequest: Request = if (token != null) {
                 chain.request().newBuilder()
-                        .addHeader("Authorization", "Bearer " + token)
+                        .addHeader("Authorization", "Bearer $token")
                         .build()
             } else {
                 chain.request()

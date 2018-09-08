@@ -30,16 +30,16 @@ class LoginSignInFragment : BaseFragment(), LoginSignInView {
     @Inject lateinit var authInterceptor: AuthModule.AuthInterceptor
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        email_sign_in_button.setOnClickListener({
+        email_sign_in_button.setOnClickListener {
             showProgressBar(getString(R.string.logging_in))
             loginSignInPresenter.postLogin(
                     login_email.text.toString(),
                     login_password.text.toString())
-        })
-        no_thanks_button.setOnClickListener({
+        }
+        no_thanks_button.setOnClickListener {
             loginSignInPresenter.skipLogin()
             callback?.goToMainActivity()
-        })
+        }
     }
 
     override fun onAttach(context: Context?) {
@@ -71,8 +71,8 @@ class LoginSignInFragment : BaseFragment(), LoginSignInView {
             is UnknownHostException ->
                 Snackbar.make(view!!, R.string.no_internet, Snackbar.LENGTH_INDEFINITE)
                         .setActionTextColor(Color.WHITE)
-                        .setAction(R.string.try_again, {
-                            loginSignInPresenter.postLogin(username, password) })
+                        .setAction(R.string.try_again) {
+                            loginSignInPresenter.postLogin(username, password) }
                         .show()
         }
     }

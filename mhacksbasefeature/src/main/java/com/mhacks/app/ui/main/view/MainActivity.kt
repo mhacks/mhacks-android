@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.view.MenuItem
 import com.mhacks.app.R
+import com.mhacks.app.data.Constants
 import com.mhacks.app.data.models.Login
 import com.mhacks.app.ui.announcement.createannouncement.view.CreateAnnouncementDialogFragment
 import com.mhacks.app.ui.announcement.view.AnnouncementFragment
@@ -38,15 +39,20 @@ class MainActivity : BaseActivity(), MainView,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.MHacksTheme)
-        mainPresenter.checkIfLoggedIn()
 
+        checkIfInstantApp()
+    }
+
+    private fun checkIfInstantApp() {
         val appLinkIntent = intent
-        val appLinkAction = appLinkIntent?.action
         val appLinkData = appLinkIntent?.data
 
-        appLinkData?.let {
-            Timber.d(appLinkData.path)
+        if (appLinkData?.path == Constants.INSTANT_APP_PATH) {
+            initActivity()
+            return
         }
+
+        mainPresenter.checkIfLoggedIn()
     }
 
     private fun showTicketDialogFragment() {
@@ -70,8 +76,8 @@ class MainActivity : BaseActivity(), MainView,
     override fun onLogInFailure() = startLoginActivity()
 
     override fun onCheckAdmin(isAdmin: Boolean) {
-        if (isAdmin) qr_ticket_fab.setOnClickListener({ showAdminOptions() })
-        else qr_ticket_fab.setOnClickListener({ showTicketDialogFragment() })
+        if (isAdmin) qr_ticket_fab.setOnClickListener { showAdminOptions() }
+        else qr_ticket_fab.setOnClickListener { showTicketDialogFragment() }
     }
 
     private fun initActivity() {
@@ -85,7 +91,7 @@ class MainActivity : BaseActivity(), MainView,
         menuItem.setTitle(R.string.title_home)
         setSupportActionBar(toolbar)
         updateFragment(WelcomeFragment.instance)
-        main_activity_navigation?.setOnNavigationItemSelectedListener({ item ->
+        main_activity_navigation?.setOnNavigationItemSelectedListener { item ->
             main_activity_navigation.isEnabled = false
             if (itemId != item.itemId) {
                 when (item.itemId) {
@@ -102,7 +108,7 @@ class MainActivity : BaseActivity(), MainView,
             }
             main_activity_navigation.isEnabled = true
             true
-        })
+        }
     }
 
     override fun startLoginActivity() {
@@ -121,7 +127,7 @@ class MainActivity : BaseActivity(), MainView,
         val colors = arrayOf<CharSequence>("Scan ticket", "Post an announcement", "Ticket")
         AlertDialog.Builder(this)
                 .setTitle("Admin")
-                .setItems(colors, { _, which ->
+                .setItems(colors) { _, which ->
                     when (which) {
 
                         0 -> startQRScanActivity()
@@ -130,6 +136,6 @@ class MainActivity : BaseActivity(), MainView,
 
                         2 -> showTicketDialogFragment()
                     }
-                }).show()
+                }.show()
     }
 }
