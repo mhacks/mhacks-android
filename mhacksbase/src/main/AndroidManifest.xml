@@ -53,7 +53,7 @@
                     android:host="mhacks.org"
                     android:scheme="http"
                     android:pathPattern="/schedule" />
-                
+
             </intent-filter>
             <intent-filter
                 android:autoVerify="true"

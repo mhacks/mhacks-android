@@ -1,1 +1,1 @@
-include ':mhacksbasefeature', ':mhacksapk', ':instantapp'
+include ':mhacksbase', ':mhacksapk', ':instantapp'
