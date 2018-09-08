@@ -41,18 +41,27 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="topeka.instantappsample.com"
+                    android:pathPattern="/schedule"
+                    android:scheme="http" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.login.LoginActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ui.qrscan.QRScanActivity"
-            android:launchMode="singleTop"
             android:configChanges="orientation"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ui.qrscan.view.BarcodeCaptureActivity"
             android:label="@string/title_activity_barcode_capture"
@@ -94,6 +103,22 @@
         <meta-data
             android:name="android.app.default_searchable"
             android:value=".SearchResultsActivity" />
+
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2">
+            <intent-filter android:order="1">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="unum.la"
+                    android:pathPattern="/.*"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

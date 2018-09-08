@@ -19,6 +19,7 @@ import com.mhacks.app.ui.qrscan.QRScanActivity
 import com.mhacks.app.ui.ticket.view.TicketDialogFragment
 import com.mhacks.app.ui.welcome.view.WelcomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -38,6 +39,14 @@ class MainActivity : BaseActivity(), MainView,
         super.onCreate(savedInstanceState)
         setTheme(R.style.MHacksTheme)
         mainPresenter.checkIfLoggedIn()
+
+        val appLinkIntent = intent
+        val appLinkAction = appLinkIntent?.action
+        val appLinkData = appLinkIntent?.data
+
+        appLinkData?.let {
+            Timber.d(appLinkData.path)
+        }
     }
 
     private fun showTicketDialogFragment() {

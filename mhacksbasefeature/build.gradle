@@ -1,4 +1,5 @@
-apply plugin: "com.android.application"
+//apply plugin: "com.android.application"
+apply plugin: 'com.android.feature'
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-android-extensions"
 apply plugin: "kotlin-kapt"
@@ -12,6 +13,7 @@ ext {
 android {
     compileSdkVersion 27
     buildToolsVersion "27.0.3"
+    baseFeature true
     dexOptions {
         javaMaxHeapSize "4g"
     }
@@ -38,7 +40,7 @@ android {
         }
     }
     defaultConfig {
-        applicationId 'org.mhacks.app'
+//        applicationId 'org.mhacks.app'
         minSdkVersion 17
         targetSdkVersion 27
         versionName "10.0.0"
