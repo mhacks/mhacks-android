@@ -7,7 +7,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import timber.log.Timber
-import java.io.IOException
 import android.preference.PreferenceManager
 import android.content.SharedPreferences
 import com.mhacks.app.data.network.services.MHacksService
@@ -32,14 +31,17 @@ class RegistrationIntentService : IntentService(TAG) {
     }
 
     override fun onHandleIntent(intent: Intent?) {
-        val instanceID = FirebaseInstanceId.getInstance()
-        try {
-            val token = instanceID.token
-            if (token !== null) {
-                sendRegistrationToServer(token)
+        FirebaseInstanceId
+                .getInstance()
+                .instanceId.addOnSuccessListener {
+            if (it != null) {
+                sendRegistrationToServer(it.token)
+            } else {
+                sharedPreferences
+                        .edit()
+                        .putBoolean(SENT_TOKEN_TO_SERVER, false)
+                        .apply()
             }
-        } catch (e: IOException) {
-            sharedPreferences.edit().putBoolean(SENT_TOKEN_TO_SERVER, false).apply();
         }
     }
 
