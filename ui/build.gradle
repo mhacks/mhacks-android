@@ -17,8 +17,6 @@ android {
 
     }
 
-    kapt { generateStubs = true }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -33,7 +31,7 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-    implementation project(':mhacksbase')
+    implementation project(':base')
 
     testImplementation 'junit:junit:4.12'
 

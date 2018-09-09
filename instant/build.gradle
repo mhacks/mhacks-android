@@ -7,6 +7,6 @@ android {
 }
 
 dependencies {
-    implementation project(':mhacksbase')
-    implementation project(':mhacksui')
+    implementation project(':base')
+    implementation project(':ui')
 }

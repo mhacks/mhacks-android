@@ -1,1 +1,1 @@
-include ':mhacksbase', ':mhacksapk', ':instantapp', ':mhacksui'
+include ':base', ':apk', ':instant', ':ui'
