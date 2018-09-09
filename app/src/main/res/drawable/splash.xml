@@ -5,6 +5,6 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/mh10_logo" />
+            android:src="@drawable/m11_logo" />
     </item>
 </layer-list>

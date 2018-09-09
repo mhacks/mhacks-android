@@ -2,7 +2,7 @@
 
 buildscript {
     ext.dagger_version = "2.14.1"
-    ext.kotlin_version = '1.2.21'
+    ext.kotlin_version = '1.2.51'
     ext.anko_version = '0.10.0'
     ext.room_version = '1.0.0'
     ext.google_play_version = '27.0.2'
@@ -11,7 +11,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.3.0-alpha08'
         classpath 'com.google.gms:google-services:3.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"

@@ -93,8 +93,8 @@ class MapViewFragment :
 
         val center = CameraUpdateFactory.newCameraPosition(
                 CameraPosition.Builder()
-                        .target(LatLng(42.292150, -83.715836))
-                        .zoom(16.5f)
+                        .target(LatLng(42.2694, -83.7425))
+                        .zoom(16.8f)
                         .bearing(0f)
                         .tilt(0f)
                         .build()

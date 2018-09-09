@@ -63,7 +63,7 @@ class TicketDialogFragment : DaggerDialogFragment(), TicketDialogView {
                 .bitmap()
         ticket_qr_code_image_view.setImageBitmap(qr)
         ticket_full_name_text_view.text = user.fullName
-        if (user.university!!.isEmpty())
+        if (user.university.isNullOrEmpty())
             ticket_school_text_view.text = getString(R.string.no_school)
         else
             ticket_school_text_view.text = user.university
