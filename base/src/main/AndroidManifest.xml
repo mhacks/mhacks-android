@@ -99,20 +99,6 @@
             </intent-filter>
         </service>
 
-        <!--
-         A service that extends FireBaseInstanceIdService to handle the creation, rotation,
-         and updating of registration tokens.
-        -->
-
-        <service
-            android:name=".data.network.fcm.MyFireBaseInstanceIDService"
-            android:exported="false"
-            android:permission="">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_api_key" />
