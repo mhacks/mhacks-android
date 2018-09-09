@@ -76,7 +76,7 @@ class MapViewFragment :
     private fun setUpMapIfNeeded() {
         if (mapFragment == null) {
             mapFragment = SupportMapFragment.newInstance()
-            fragmentManager?.beginTransaction()?.replace(R.id.map, mapFragment)?.commit()
+            fragmentManager?.beginTransaction()?.replace(R.id.map, mapFragment!!)?.commit()
         }
         if (googleMap == null) mapFragment?.getMapAsync(this)
     }

@@ -38,14 +38,14 @@ class TicketDialogFragment : DaggerDialogFragment(), TicketDialogView {
         val width = (resources.displayMetrics.widthPixels * .85).toInt()
         val height = (resources.displayMetrics.heightPixels * .7).toInt()
 
-        dialog.window.setLayout(width, height)
+        dialog.window?.setLayout(width, height)
         super.onResume()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (dialog != null) {
             dialog.setCanceledOnTouchOutside(true)
-            dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
         return inflater.inflate(R.layout.fragment_ticket_dialog, container)
     }

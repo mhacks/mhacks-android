@@ -11,7 +11,7 @@ ext {
 }
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion "27.0.3"
     baseFeature true
     dexOptions {
@@ -41,7 +41,7 @@ android {
     }
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionName "10.0.0"
         resValue "string", "google_maps_api_key", google_maps_api_key
         vectorDrawables.useSupportLibrary = true
@@ -74,6 +74,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.3'
     implementation 'com.google.firebase:firebase-messaging:17.3.1'
 
+    implementation "com.android.support:appcompat-v7:$google_play_version"
+    implementation "com.android.support:support-v4:$google_play_version"
+    implementation "com.android.support:support-media-compat:$google_play_version"
+
     // Networking
     implementation 'com.squareup.retrofit2:converter-moshi:2.4.0'
 
@@ -89,6 +93,8 @@ dependencies {
     // Debugging
 //    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
     implementation 'com.jakewharton.timber:timber:4.7.0'
+
+
 
     kapt "android.arch.persistence.room:compiler:$room_version"
 
