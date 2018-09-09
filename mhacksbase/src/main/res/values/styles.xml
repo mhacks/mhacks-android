@@ -1,35 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="CountdownProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:layout_centerInParent">true</item>
-        <item name="android:indeterminate">false</item>
-        <item name="android:progressDrawable">@drawable/progressbar_circular_progressdraw</item>
-        <item name="android:background">@drawable/progressbar_circular_background</item>
-    </style>
-
     <style name="MHacksEditText" parent="@android:style/Widget.EditText">
         <item name="android:textColor">@color/white</item>
         <item name="android:layout_height">45dip</item>
     </style>
-
-    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="PagerTitleStrip">
-        <item name="android:textAppearance">@style/PagerTitleStripTextAppearance</item>
-    </style>
-
-    <style name="PagerTitleStripTextAppearance">
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
-    <style name="SplashTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="SplashTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
