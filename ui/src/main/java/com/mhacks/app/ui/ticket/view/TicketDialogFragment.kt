@@ -8,10 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import org.mhacks.mhacksui.R
-import com.mhacks.app.di.common.DaggerDialogFragment
 import com.mhacks.app.data.models.User
 import com.mhacks.app.di.module.AuthModule
 import com.mhacks.app.ui.ticket.presenter.TicketDialogPresenter
+import dagger.android.support.DaggerAppCompatDialogFragment
 import kotlinx.android.synthetic.main.fragment_ticket_dialog.*
 import net.glxn.qrgen.android.QRCode
 import timber.log.Timber
@@ -21,7 +21,7 @@ import javax.inject.Inject
 /**
  * Fragment to display user information and show their QR code
  */
-class TicketDialogFragment : DaggerDialogFragment(), TicketDialogView {
+class TicketDialogFragment : DaggerAppCompatDialogFragment(), TicketDialogView {
 
     @Inject lateinit var ticketDialogPresenter: TicketDialogPresenter
 
@@ -63,10 +63,14 @@ class TicketDialogFragment : DaggerDialogFragment(), TicketDialogView {
                 .bitmap()
         ticket_qr_code_image_view.setImageBitmap(qr)
         ticket_full_name_text_view.text = user.fullName
-        if (user.university!!.isEmpty())
-            ticket_school_text_view.text = getString(R.string.no_school)
+        if (user.university != null)
+            if (user.university!!.isEmpty()) {
+                ticket_school_text_view.text = getString(R.string.no_school)
+            } else {
+                ticket_school_text_view.text = user.university
+            }
         else
-            ticket_school_text_view.text = user.university
+            ticket_school_text_view.text = getString(R.string.no_school)
         showMainContent()
     }
 

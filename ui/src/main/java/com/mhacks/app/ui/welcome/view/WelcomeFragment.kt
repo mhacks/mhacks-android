@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
+import com.mhacks.app.data.Constants
 import org.mhacks.mhacksui.R
 import com.mhacks.app.data.models.Configuration
 import com.mhacks.app.ui.common.NavigationFragment
@@ -45,7 +46,7 @@ class WelcomeFragment : NavigationFragment(), WelcomeView {
 
     override fun onGetConfigFailure(error: Throwable) {
         val duration = 129600000L
-        val startDate = LocalDateTime.parse(FIXED_START_DATE)
+        val startDate = LocalDateTime.parse(Constants.FIXED_START_DATE)
                 .toEpochSecond(ZoneOffset.UTC)
         initCountdownIfNecessary(startDate, duration)
     }
@@ -149,6 +150,5 @@ class WelcomeFragment : NavigationFragment(), WelcomeView {
 
         private const val countdownUpdateIntervals = 750L
 
-        private const val FIXED_START_DATE = "2018-05-01T00:00:00" // Using ISO Local Date and Time
     }
 }
