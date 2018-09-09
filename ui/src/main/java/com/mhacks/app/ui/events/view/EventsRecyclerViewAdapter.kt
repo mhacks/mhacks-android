@@ -16,7 +16,8 @@ class EventsRecyclerViewAdapter(val context: Context,
                                 val events: ArrayList<EventSectionModel>)
     : RecyclerView.Adapter<EventsRecyclerViewAdapter.EventViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): EventViewHolder {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val viewHolder = EventViewHolder(EventTimeLineItem(context))
         viewHolder.eventTimeLineItem.timeLineType = viewType
         return viewHolder
@@ -24,15 +25,15 @@ class EventsRecyclerViewAdapter(val context: Context,
 
     override fun getItemCount() = events.size
 
-    override fun onBindViewHolder(holder: EventViewHolder?, position: Int) {
-        holder?.eventTimeLineItem?.addEventGroup(events[position])
+    override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
+        holder.eventTimeLineItem.addEventGroup(events[position])
         val localTime =
                 Instant.ofEpochMilli(events[position].time)
                         .atZone(ZoneId.systemDefault())
                         .toLocalDateTime()
         val formatter = DateTimeFormatter.ofPattern("h:mm a")
 
-        holder?.eventTimeLineItem?.timeText = formatter.format(localTime)
+        holder.eventTimeLineItem.timeText = formatter.format(localTime)
     }
 
     override fun getItemViewType(position: Int): Int {

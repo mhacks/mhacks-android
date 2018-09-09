@@ -17,7 +17,7 @@ class EventDescriptionItem(context: Context, attrs: AttributeSet?)
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
     }
 
-    fun bindItem(title: String, description: String) {
+    fun bindItem(title: String?, description: String?) {
         events_description_item_title.text = title
         events_description_item_description.text = description
     }

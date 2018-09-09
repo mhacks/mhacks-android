@@ -64,7 +64,7 @@ class MainActivity : BaseActivity(), MainView,
         ticket.show(ft, "ticket_dialog")
     }
 
-    private fun updateFragment(fragment: Fragment?) {
+    private fun updateFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit()

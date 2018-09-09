@@ -1,6 +1,7 @@
 package com.mhacks.app.data.network.fcm
 
 import android.app.Notification
+import android.content.Intent
 import android.provider.Settings
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
@@ -15,7 +16,7 @@ import com.mhacks.app.R
 class FCMMessageHandler : FirebaseMessagingService() {
 
     private val mhacksGroup = "MHacks Group"
-    private val MESSAGE_NOTIFICATION_ID = 435345
+
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         val notification = remoteMessage.notification
         createNotification(notification!!)
@@ -32,5 +33,17 @@ class FCMMessageHandler : FirebaseMessagingService() {
 
         val notificationManager = NotificationManagerCompat.from(baseContext)
         notificationManager.notify(MESSAGE_NOTIFICATION_ID, builder.build())
+    }
+
+    override fun onNewToken(newToken: String?) {
+        super.onNewToken(newToken)
+        val intent = Intent(this, RegistrationIntentService::class.java)
+        startService(intent)
+    }
+
+    companion object {
+
+        private const val MESSAGE_NOTIFICATION_ID = 435345
+
     }
 }
