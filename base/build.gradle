@@ -63,37 +63,36 @@ android {
         }
     }
     productFlavors {
+
     }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.kotlin_version"
 
     // Play Services
     implementation 'com.google.firebase:firebase-core:16.0.3'
     implementation 'com.google.firebase:firebase-messaging:17.3.1'
 
-    implementation "com.android.support:appcompat-v7:$google_play_version"
-    implementation "com.android.support:support-v4:$google_play_version"
-    implementation "com.android.support:support-media-compat:$google_play_version"
+    implementation "com.android.support:appcompat-v7:$rootProject.google_play_version"
+    implementation "com.android.support:support-v4:$rootProject.google_play_version"
+    implementation "com.android.support:support-media-compat:$rootProject.google_play_version"
 
     // Networking
     implementation 'com.squareup.retrofit2:converter-moshi:2.4.0'
 
     // Persistence
-    implementation "android.arch.persistence.room:runtime:$room_version"
-    implementation "android.arch.persistence.room:rxjava2:$room_version"
+    implementation "android.arch.persistence.room:runtime:$rootProject.room_version"
+    implementation "android.arch.persistence.room:rxjava2:$rootProject.room_version"
 
     // RxJava
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.12'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
 
     // Debugging
     implementation 'com.jakewharton.timber:timber:4.7.0'
-
-
 
     kapt "android.arch.persistence.room:compiler:$room_version"
 
