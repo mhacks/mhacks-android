@@ -60,7 +60,6 @@ class MainActivity : BaseActivity(), MainView,
         if (prev != null) ft.remove(prev)
         ft.addToBackStack(null)
         val ticket: TicketDialogFragment = TicketDialogFragment.newInstance()
-
         ticket.show(ft, "ticket_dialog")
     }
 

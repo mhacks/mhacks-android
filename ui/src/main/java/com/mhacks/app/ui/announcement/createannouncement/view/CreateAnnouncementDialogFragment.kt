@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import org.mhacks.mhacksui.R
-import com.mhacks.app.di.common.DaggerDialogFragment
+import dagger.android.support.DaggerAppCompatDialogFragment
 
 /**
  * Fragment used to create and post a new announcement.
  */
-class CreateAnnouncementDialogFragment: DaggerDialogFragment(), CreateAnnouncementView {
+class CreateAnnouncementDialogFragment: DaggerAppCompatDialogFragment(), CreateAnnouncementView {
 
 
     override fun onCreateView(inflater: LayoutInflater,
