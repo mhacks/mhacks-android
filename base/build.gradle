@@ -62,6 +62,11 @@ android {
             resValue "string", "google_maps_api_key", google_maps_api_key
         }
     }
+
+//    dataBinding {
+//        enabled = true
+//    }
+
     productFlavors {
 
     }
@@ -70,6 +75,8 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.kotlin_version"
+
+    kapt 'com.android.databinding:compiler:3.1.4'
 
     // Play Services
     implementation 'com.google.firebase:firebase-core:16.0.3'

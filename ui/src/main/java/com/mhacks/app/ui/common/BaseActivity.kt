@@ -17,7 +17,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 /**
  * Abstracted class that contains a lot of the UI interactions used throughout the application
  */
-abstract class BaseActivity: DaggerAppCompatActivity(),  NavigationFragment.OnNavigationChangeListener  {
+abstract class BaseActivity: DaggerAppCompatActivity(),
+        NavigationFragment.OnNavigationChangeListener  {
 
     fun setStatusBarTransparent() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -56,14 +57,15 @@ abstract class BaseActivity: DaggerAppCompatActivity(),  NavigationFragment.OnNa
         main_activity_navigation?.itemTextColor = colorStateList
     }
 
+    // Used for Map View to have a transparent Action Bar.
     override fun addPadding() {
-        val height: Int = ResourceUtil.convertDpResToPixel(context = this,
+        val height = ResourceUtil.convertDpResToPixel(context = this,
                 res = R.dimen.toolbar_height)
-        fragment_container.setPadding(0, height, 0, 0)
+        main_activity_fragment_container?.setPadding(0, height, 0, 0)
     }
 
     override fun removePadding() {
-        fragment_container.setPadding(0, 0, 0, 0)
+        main_activity_fragment_container?.setPadding(0, 0, 0, 0)
     }
 
     fun showToast(stringRes: Int) {

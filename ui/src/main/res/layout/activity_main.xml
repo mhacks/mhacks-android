@@ -1,66 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.mhacks.app.ui.main.view.MainActivity">
-
-    <RelativeLayout
+    xmlns:tools="http://schemas.android.com/tools">
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/root_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/main_activity_navigation">
+        android:layout_height="match_parent"
+        tools:context="com.mhacks.app.ui.main.view.MainActivity">
 
-        <android.support.design.widget.CoordinatorLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/main_activity_navigation">
 
-            <FrameLayout
-                android:id="@+id/fragment_container"
+            <android.support.design.widget.CoordinatorLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:color="#FFF"  />
+                android:layout_height="match_parent">
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/qr_ticket_fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                app:srcCompat="@drawable/ic_ticket"
-                app:fabSize="normal"
-                app:layout_anchor="@+id/fragment_container"
-                app:layout_anchorGravity="right|bottom"
-                app:rippleColor="@color/colorAccent"
-                app:useCompatPadding="true" />
+                <FrameLayout
+                    android:id="@+id/main_activity_fragment_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-        </android.support.design.widget.CoordinatorLayout>
+                    <fragment
+                        android:id="@+id/main_activity_fragment_host"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:name="androidx.navigation.fragment.NavHostFragment"
+                        app:navGraph="@navigation/navigation_main" />
 
-        <android.support.v7.widget.Toolbar
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/toolbar"
+                </FrameLayout>
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/main_activity_qr_ticket_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:srcCompat="@drawable/ic_ticket"
+                    app:fabSize="normal"
+                    app:layout_anchor="@+id/main_activity_fragment_container"
+                    app:layout_anchorGravity="right|bottom"
+                    app:rippleColor="@color/colorAccent"
+                    app:useCompatPadding="true" />
+
+            </android.support.design.widget.CoordinatorLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/main_activity_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_height"
+                android:layout_alignParentTop="true"
+                android:paddingTop="24dp"
+                android:paddingBottom="8dp"
+                app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                app:titleTextAppearance="@style/Toolbar.TitleText" />
+
+        </RelativeLayout>
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/main_activity_navigation"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_height"
-            android:layout_alignParentTop="true"
-            android:paddingTop="24dp"
-            android:paddingBottom="8dp"
-            app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:titleTextAppearance="@style/Toolbar.TitleText">
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="?android:attr/windowBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:menu="@menu/navigation" />
 
-        </android.support.v7.widget.Toolbar>
-
-    </RelativeLayout>
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/main_activity_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/navigation" />
-
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+</layout>
