@@ -1,25 +1,24 @@
 package com.mhacks.app.ui.main.view
 
 import android.content.Intent
+import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.view.MenuItem
-import org.mhacks.mhacksui.R
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import com.mhacks.app.data.Constants
 import com.mhacks.app.data.models.Login
 import com.mhacks.app.ui.announcement.createannouncement.view.CreateAnnouncementDialogFragment
-import com.mhacks.app.ui.announcement.view.AnnouncementFragment
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
-import com.mhacks.app.ui.events.view.EventsFragment
 import com.mhacks.app.ui.login.LoginActivity
 import com.mhacks.app.ui.main.presenter.MainPresenter
-import com.mhacks.app.ui.map.view.MapViewFragment
 import com.mhacks.app.ui.qrscan.QRScanActivity
 import com.mhacks.app.ui.ticket.view.TicketDialogFragment
-import com.mhacks.app.ui.welcome.view.WelcomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import org.mhacks.mhacksui.R
+import org.mhacks.mhacksui.databinding.ActivityMainBinding
 import javax.inject.Inject
 
 /**
@@ -33,7 +32,14 @@ class MainActivity : BaseActivity(), MainView,
 
     private lateinit var menuItem: MenuItem
 
-    private var itemId = R.id.navigation_home
+    // Default value for the first fragment id reference.
+    private var itemId = R.id.welcome_fragment
+
+    private val navController by lazy {
+        Navigation.findNavController(
+                this,
+                R.id.main_activity_fragment_host)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,50 +69,40 @@ class MainActivity : BaseActivity(), MainView,
         ticket.show(ft, "ticket_dialog")
     }
 
-    private fun updateFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit()
-    }
-
     override fun onLogInSuccess(login: Login) = initActivity()
 
     override fun onLogInFailure() = startLoginActivity()
 
     override fun onCheckAdmin(isAdmin: Boolean) {
-        if (isAdmin) qr_ticket_fab.setOnClickListener { showAdminOptions() }
-        else qr_ticket_fab.setOnClickListener { showTicketDialogFragment() }
+        if (isAdmin) main_activity_qr_ticket_fab.setOnClickListener { showAdminOptions() }
+        else main_activity_qr_ticket_fab.setOnClickListener { showTicketDialogFragment() }
     }
 
     private fun initActivity() {
         setSystemFullScreenUI()
-        setContentView(R.layout.activity_main)
+        val binding: ActivityMainBinding =
+                DataBindingUtil.setContentView(this, R.layout.activity_main)
+
         mainPresenter.checkAdmin()
         setBottomNavigationColor(
                 NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
 
         menuItem = main_activity_navigation.menu.getItem(0)
         menuItem.setTitle(R.string.title_home)
-        setSupportActionBar(toolbar)
-        updateFragment(WelcomeFragment.instance)
-        main_activity_navigation?.setOnNavigationItemSelectedListener { item ->
-            main_activity_navigation.isEnabled = false
-            if (itemId != item.itemId) {
-                when (item.itemId) {
 
-                    R.id.navigation_home -> updateFragment(WelcomeFragment.instance)
+        setSupportActionBar(main_activity_toolbar)
 
-                    R.id.navigation_announcements -> updateFragment(AnnouncementFragment.instance)
+        // Set this after action bar is set so the fragment can change the action bar color.
+        navController.navigate(R.id.welcome_fragment)
 
-                    R.id.navigation_events -> updateFragment(EventsFragment.instance)
+        setupBottomNavBar()
 
-                    R.id.navigation_map -> updateFragment(MapViewFragment.instance)
-                }
-                itemId = item.itemId
-            }
-            main_activity_navigation.isEnabled = true
-            true
-        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return NavigationUI.navigateUp(null,
+                Navigation.findNavController(this, R.id.main_activity_fragment_host))
+
     }
 
     override fun startLoginActivity() {
@@ -121,6 +117,31 @@ class MainActivity : BaseActivity(), MainView,
         CreateAnnouncementDialogFragment.instance.show(supportFragmentManager, null)
     }
 
+    // Handles the click events for bottom navigation menu
+    private fun setupBottomNavBar() {
+        main_activity_navigation?.setOnNavigationItemSelectedListener { item ->
+            main_activity_navigation.isEnabled = false
+            if (itemId != item.itemId) {
+                val fragmentId = when (item.itemId) {
+
+                    R.id.welcome_fragment -> R.id.welcome_fragment
+
+                    R.id.announcement_fragment -> R.id.announcement_fragment
+
+                    R.id.events_fragment -> R.id.events_fragment
+
+                    R.id.map_view_fragment -> R.id.map_view_fragment
+
+                    else -> 0
+                }
+
+                navController.navigate(fragmentId)
+                itemId = item.itemId
+            }
+            main_activity_navigation.isEnabled = true
+            true
+        }
+    }
     private fun showAdminOptions() {
         val colors = arrayOf<CharSequence>("Scan ticket", "Post an announcement", "Ticket")
         AlertDialog.Builder(this)

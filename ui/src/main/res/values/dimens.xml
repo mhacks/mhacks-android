@@ -12,7 +12,7 @@
     <!-- Parameters -->
     <dimen name="countdown_progressbar_thickness">10dp</dimen>
 
-    <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
+    <!-- Per the design guidelines, navigation_main drawers should be between 240dp and 320dp:
          https://developer.android.com/design/patterns/navigation-drawer.html -->
     <dimen name="adapter_card_padding">8dp</dimen>
     <dimen name="toolbar_height">100dp</dimen>
