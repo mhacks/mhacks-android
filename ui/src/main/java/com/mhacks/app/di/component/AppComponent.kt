@@ -2,6 +2,7 @@ package com.mhacks.app.di.component
 
 import android.app.Application
 import com.mhacks.app.MHacksApplication
+import com.mhacks.app.di.ViewModelModule
 import com.mhacks.app.di.module.*
 import dagger.BindsInstance
 import dagger.Component
@@ -20,6 +21,7 @@ import javax.inject.Singleton
             AndroidSupportInjectionModule::class,
             AppModule::class,
             ActivityBuilder::class,
+            ViewModelModule::class,
             RoomModule::class,
             AuthModule::class,
             RetrofitModule::class,

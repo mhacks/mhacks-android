@@ -13,6 +13,7 @@ import com.mhacks.app.ui.announcement.createannouncement.view.CreateAnnouncement
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
 import com.mhacks.app.ui.login.LoginActivity
+import com.mhacks.app.ui.main.MainViewModel
 import com.mhacks.app.ui.main.presenter.MainPresenter
 import com.mhacks.app.ui.qrscan.QRScanActivity
 import com.mhacks.app.ui.ticket.view.TicketDialogFragment
@@ -29,6 +30,8 @@ class MainActivity : BaseActivity(), MainView,
         TicketDialogFragment.Callback {
 
     @Inject lateinit var mainPresenter: MainPresenter
+
+    @Inject lateinit var mainViewModel: MainViewModel
 
     private lateinit var menuItem: MenuItem
 
