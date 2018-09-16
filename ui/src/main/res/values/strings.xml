@@ -97,6 +97,11 @@
     <string name="barcode_hint">Tap to capture. Pinch/Stretch to zoom</string>
     <string name="not_valid_email">Not a valid e-mail address.</string>
     <string name="checked_in">Checked in!</string>
-    <string name="title_activity_main2">Main2Activity</string>
 
+
+    <!--Admin-->
+    <string name="admin">Admin</string>
+    <string name="scan_ticket">Scan ticket</string>
+    <string name="post_announcement">Post an announcement</string>
+    <string name="ticket">Ticket</string>
 </resources>

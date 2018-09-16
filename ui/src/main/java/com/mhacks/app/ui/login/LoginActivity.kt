@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment
 import org.mhacks.mhacksui.R
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.login.signin.view.LoginSignInFragment
-import com.mhacks.app.ui.main.view.MainActivity
+import com.mhacks.app.ui.main.MainActivity
 
 class LoginActivity : BaseActivity(), LoginSignInFragment.OnFromLoginFragmentCallback {
 

@@ -4,11 +4,12 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.os.Build
 import android.support.annotation.ColorRes
-import android.support.annotation.RequiresApi
+import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import com.mhacks.app.data.models.common.SnackbarMessage
 import org.mhacks.mhacksui.R
 import com.mhacks.app.ui.common.util.ResourceUtil
 import dagger.android.support.DaggerAppCompatActivity
@@ -74,9 +75,10 @@ abstract class BaseActivity: DaggerAppCompatActivity(),
                 Toast.LENGTH_LONG).show()
     }
 
-    fun showToast(string: String) {
-        Toast.makeText(this,
-                string,
-                Toast.LENGTH_LONG).show()
+    fun showSnackBar(snackBarMessage: SnackbarMessage) {
+        Snackbar.make(
+                findViewById(android.R.id.content),
+                snackBarMessage.textResId,
+                Snackbar.LENGTH_SHORT).show()
     }
 }

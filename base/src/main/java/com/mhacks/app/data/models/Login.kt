@@ -17,6 +17,11 @@ data class Login(
     @Json(name = "token") var token: String,
     @Ignore @Json(name = "user") var user: User?
 ) {
+    data class Request(
+            @Json(name = "email") val email: String,
+            @Json(name = "password") val password: String) {
+
+    }
     constructor(id: Int, status: Boolean, message: String, token: String)
             :this(id, status, message, token, null)
 }

@@ -1,35 +1,34 @@
-package com.mhacks.app.ui.main.view
+package com.mhacks.app.ui.main
 
+import android.annotation.SuppressLint
+import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AlertDialog
 import android.view.MenuItem
+import android.view.View
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.mhacks.app.data.Constants
-import com.mhacks.app.data.models.Login
 import com.mhacks.app.ui.announcement.createannouncement.view.CreateAnnouncementDialogFragment
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
 import com.mhacks.app.ui.login.LoginActivity
-import com.mhacks.app.ui.main.MainViewModel
-import com.mhacks.app.ui.main.presenter.MainPresenter
 import com.mhacks.app.ui.qrscan.QRScanActivity
 import com.mhacks.app.ui.ticket.view.TicketDialogFragment
-import kotlinx.android.synthetic.main.activity_main.*
 import org.mhacks.mhacksui.R
 import org.mhacks.mhacksui.databinding.ActivityMainBinding
 import javax.inject.Inject
 
+@SuppressLint("Registered")
 /**
  * Main Activity that handles most of the interactions. Sets up the Login Activity and loads
  * feature fragments with a bottom navigation bar.
  */
-class MainActivity : BaseActivity(), MainView,
+class MainActivity : BaseActivity(),
         TicketDialogFragment.Callback {
-
-    @Inject lateinit var mainPresenter: MainPresenter
 
     @Inject lateinit var mainViewModel: MainViewModel
 
@@ -48,7 +47,26 @@ class MainActivity : BaseActivity(), MainView,
         super.onCreate(savedInstanceState)
         setTheme(R.style.MHacksTheme)
 
+        setUpNonViewObserver()
+
         checkIfInstantApp()
+    }
+
+    private fun setUpNonViewObserver() {
+
+        mainViewModel.login.observe(this, Observer {
+            initActivity()
+        })
+
+        mainViewModel.loginFailed.observe(this, Observer {
+            startLoginActivity()
+        })
+
+        mainViewModel.snackBarMessage.observe(this, Observer {
+            it?.let { snackBarMessage ->
+                showSnackBar(snackBarMessage)
+            }
+        })
     }
 
     private fun checkIfInstantApp() {
@@ -60,7 +78,7 @@ class MainActivity : BaseActivity(), MainView,
             return
         }
 
-        mainPresenter.checkIfLoggedIn()
+        mainViewModel.checkIfLoggedIn()
     }
 
     private fun showTicketDialogFragment() {
@@ -72,34 +90,45 @@ class MainActivity : BaseActivity(), MainView,
         ticket.show(ft, "ticket_dialog")
     }
 
-    override fun onLogInSuccess(login: Login) = initActivity()
-
-    override fun onLogInFailure() = startLoginActivity()
-
-    override fun onCheckAdmin(isAdmin: Boolean) {
-        if (isAdmin) main_activity_qr_ticket_fab.setOnClickListener { showAdminOptions() }
-        else main_activity_qr_ticket_fab.setOnClickListener { showTicketDialogFragment() }
-    }
-
     private fun initActivity() {
         setSystemFullScreenUI()
+
         val binding: ActivityMainBinding =
                 DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        mainPresenter.checkAdmin()
+        setUpViewObserver(binding)
+        menuItem = binding.mainActivityNavigation.menu.getItem(0)
+
         setBottomNavigationColor(
                 NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
 
-        menuItem = main_activity_navigation.menu.getItem(0)
+//        menuItem = main_activity_navigation.menu.getItem(0)
         menuItem.setTitle(R.string.title_home)
 
-        setSupportActionBar(main_activity_toolbar)
+        setSupportActionBar(binding.mainActivityToolbar)
 
         // Set this after action bar is set so the fragment can change the action bar color.
         navController.navigate(R.id.welcome_fragment)
 
-        setupBottomNavBar()
+        setupBottomNavBar(binding.mainActivityNavigation)
 
+    }
+
+    private fun setUpViewObserver(binding: ActivityMainBinding) {
+        mainViewModel.isAdmin.observe(this, Observer {
+            it?.let { isAdmin ->
+                val listener = if (isAdmin) {
+                    View.OnClickListener { _ ->
+                        showAdminOptions()
+                    }
+                } else {
+                    View.OnClickListener { _ ->
+                        showTicketDialogFragment()
+                    }
+                }
+                binding.mainActivityQrTicketFab.setOnClickListener(listener)
+            }
+        })
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -121,9 +150,9 @@ class MainActivity : BaseActivity(), MainView,
     }
 
     // Handles the click events for bottom navigation menu
-    private fun setupBottomNavBar() {
-        main_activity_navigation?.setOnNavigationItemSelectedListener { item ->
-            main_activity_navigation.isEnabled = false
+    private fun setupBottomNavBar(bottomNavigationView: BottomNavigationView) {
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            bottomNavigationView.isEnabled = false
             if (itemId != item.itemId) {
                 val fragmentId = when (item.itemId) {
 
@@ -141,15 +170,14 @@ class MainActivity : BaseActivity(), MainView,
                 navController.navigate(fragmentId)
                 itemId = item.itemId
             }
-            main_activity_navigation.isEnabled = true
+            bottomNavigationView.isEnabled = true
             true
         }
     }
     private fun showAdminOptions() {
-        val colors = arrayOf<CharSequence>("Scan ticket", "Post an announcement", "Ticket")
         AlertDialog.Builder(this)
-                .setTitle("Admin")
-                .setItems(colors) { _, which ->
+                .setTitle(getString(R.string.admin))
+                .setItems(R.array.admin_options) { _, which ->
                     when (which) {
 
                         0 -> startQRScanActivity()

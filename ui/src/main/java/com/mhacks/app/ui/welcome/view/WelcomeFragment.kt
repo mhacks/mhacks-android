@@ -85,7 +85,7 @@ class WelcomeFragment : NavigationFragment(), WelcomeView {
 
         when {
             curTime < startDate.toEpochSecond(ZoneOffset.UTC) ->
-                timer_text.text = getString(R.string.countdown_timer_default)
+                timer_text?.text = getString(R.string.countdown_timer_default)
             curTime < endTime -> {
                 // Calculate the time remaining and the total time of hacking
                 val timeRemaining = endTime - curTime

@@ -7,7 +7,7 @@
         android:id="@+id/root_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.mhacks.app.ui.main.view.MainActivity">
+        tools:context="com.mhacks.app.ui.main.MainActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"
