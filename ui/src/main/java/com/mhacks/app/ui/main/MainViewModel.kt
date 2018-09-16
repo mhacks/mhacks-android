@@ -6,28 +6,29 @@ import android.arch.lifecycle.ViewModel
 import android.arch.persistence.room.EmptyResultSetException
 import com.mhacks.app.data.models.Login
 import com.mhacks.app.data.models.Result
-import com.mhacks.app.data.models.common.SnackbarMessage
+import com.mhacks.app.data.models.common.TextMessage
 import com.mhacks.app.ui.main.usecase.CheckAdminAuthUseCase
 import com.mhacks.app.ui.main.usecase.CheckLoginAuthUseCase
 import org.mhacks.mhacksui.R
+import timber.log.Timber
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
         private val checkLoginAuthUseCase: CheckLoginAuthUseCase,
         private val checkAdminAuthUseCase: CheckAdminAuthUseCase): ViewModel() {
 
-    private val checkLoginResult: MediatorLiveData<Result<Login>> = checkLoginAuthUseCase.observe()
+    private val checkLoginResult = checkLoginAuthUseCase.observe()
 
-    private val checkAdminResult: MediatorLiveData<Result<Boolean>> = checkAdminAuthUseCase.observe()
+    private val checkAdminResult = checkAdminAuthUseCase.observe()
 
     private val _login = MediatorLiveData<Login>()
 
     val login: LiveData<Login?>
         get() = _login
 
-    private val _snackBarMessage = MediatorLiveData<SnackbarMessage>()
+    private val _snackBarMessage = MediatorLiveData<TextMessage>()
 
-    val snackBarMessage: MediatorLiveData<SnackbarMessage>
+    val textMessage: MediatorLiveData<TextMessage>
         get() = _snackBarMessage
 
     private val _isAdmin = MediatorLiveData<Boolean>()
@@ -38,6 +39,7 @@ class MainViewModel @Inject constructor(
     init {
         _login.addSource(checkLoginResult) {
             if (it is Result.Success) {
+                Timber.e("LOGIN SUCCESS")
                 _login.value = it.data
                 checkIfAdmin()
             } else if (it is Result.Error<*>) {
@@ -45,7 +47,7 @@ class MainViewModel @Inject constructor(
                     _login.value = null
                 } else {
                     _snackBarMessage.value =
-                            SnackbarMessage(R.string.unknown_error, null)
+                            TextMessage(R.string.unknown_error, null)
                 }
             }
         }
@@ -53,10 +55,16 @@ class MainViewModel @Inject constructor(
         _isAdmin.addSource(checkAdminResult) {
             if (it is Result.Success) {
                 _isAdmin.value = it.data
-
             }
         }
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        checkLoginAuthUseCase.onCleared()
+        checkAdminAuthUseCase.onCleared()
+    }
+
     fun checkIfLoggedIn() {
         checkLoginAuthUseCase.execute(Unit)
     }

@@ -8,7 +8,7 @@ import retrofit2.http.*
 
 interface UserService {
 
-    @POST("auth/login/")
+    @POST("auth/config/")
     @FormUrlEncoded
     fun postLogin(@Body loginRequest: Login.Request): Single<Login>
 

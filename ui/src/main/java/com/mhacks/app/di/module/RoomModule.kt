@@ -24,4 +24,30 @@ class RoomModule {
     @Singleton
     @Provides
     fun provideLoginDao(mHacksDatabase: MHacksDatabase) = mHacksDatabase.loginDao()
+
+    @Singleton
+    @Provides
+    fun provideConfigDao(mHacksDatabase: MHacksDatabase) =
+            mHacksDatabase.configDao()
+
+    @Singleton
+    @Provides
+    fun provideEventDao(mHacksDatabase: MHacksDatabase) =
+            mHacksDatabase.eventDao()
+
+    @Singleton
+    @Provides
+    fun provideMapFloorDao(mHacksDatabase: MHacksDatabase) =
+            mHacksDatabase.mapFloorDao()
+
+    @Singleton
+    @Provides
+    fun provideAnnouncementDao(mHacksDatabase: MHacksDatabase) =
+            mHacksDatabase.announcementDao()
+
+    @Singleton
+    @Provides
+    fun provideUserdao(mHacksDatabase: MHacksDatabase) =
+            mHacksDatabase.userDao()
+
 }

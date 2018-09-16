@@ -10,7 +10,7 @@ class CheckLoginAuthUseCase @Inject constructor(
         private val userRepository: UserRepository)
     : UseCase<Unit, Login>() {
 
-    override fun getSingle(parameters: Unit): Single<Login> =
+    override fun getSingle(parameters: Unit) =
             userRepository.getLoginCache()
 
 }

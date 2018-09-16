@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.common.util
+package com.mhacks.app.util
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

@@ -15,6 +15,7 @@ import com.mhacks.app.data.Constants
 import com.mhacks.app.ui.announcement.createannouncement.view.CreateAnnouncementDialogFragment
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
+import com.mhacks.app.ui.common.NavigationFragment
 import com.mhacks.app.ui.login.LoginActivity
 import com.mhacks.app.ui.qrscan.QRScanActivity
 import com.mhacks.app.ui.ticket.view.TicketDialogFragment
@@ -58,9 +59,9 @@ class MainActivity : BaseActivity(),
             initActivity()
         })
         
-        mainViewModel.snackBarMessage.observe(this, Observer {
-            it?.let { snackBarMessage ->
-                showSnackBar(snackBarMessage)
+        mainViewModel.textMessage.observe(this, Observer {
+            it?.let { textMessage ->
+                showSnackBar(textMessage)
             } ?: run {
                 startLoginActivity()
             }
@@ -90,26 +91,23 @@ class MainActivity : BaseActivity(),
 
     private fun initActivity() {
         setSystemFullScreenUI()
+        DataBindingUtil.setContentView<ActivityMainBinding>(
+                this, R.layout.activity_main).apply {
+            setUpViewObserver(this)
+            menuItem = mainActivityNavigation.menu.getItem(0)
 
-        val binding: ActivityMainBinding =
-                DataBindingUtil.setContentView(this, R.layout.activity_main)
+            setBottomNavigationColor(
+                    NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
 
-        setUpViewObserver(binding)
-        menuItem = binding.mainActivityNavigation.menu.getItem(0)
+            menuItem.setTitle(R.string.title_home)
 
-        setBottomNavigationColor(
-                NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
+            setSupportActionBar(mainActivityToolbar)
 
-//        menuItem = main_activity_navigation.menu.getItem(0)
-        menuItem.setTitle(R.string.title_home)
+            // Set this after action bar is set so the fragment can change the action bar color.
+            navController.navigate(R.id.welcome_fragment)
 
-        setSupportActionBar(binding.mainActivityToolbar)
-
-        // Set this after action bar is set so the fragment can change the action bar color.
-        navController.navigate(R.id.welcome_fragment)
-
-        setupBottomNavBar(binding.mainActivityNavigation)
-
+            setupBottomNavBar(mainActivityNavigation)
+        }
     }
 
     private fun setUpViewObserver(binding: ActivityMainBinding) {

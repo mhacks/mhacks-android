@@ -10,8 +10,9 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import com.mhacks.app.data.models.common.SnackbarMessage
+import com.mhacks.app.data.models.common.TextMessage
 import org.mhacks.mhacksui.R
-import com.mhacks.app.ui.common.util.ResourceUtil
+import com.mhacks.app.util.ResourceUtil
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -80,5 +81,20 @@ abstract class BaseActivity: DaggerAppCompatActivity(),
                 findViewById(android.R.id.content),
                 snackBarMessage.textResId,
                 Snackbar.LENGTH_SHORT).show()
+    }
+
+    fun showSnackBar(textMessage: TextMessage) {
+        textMessage.textResId?.let {
+            Snackbar.make(
+                findViewById(android.R.id.content),
+                    it,
+                Snackbar.LENGTH_SHORT).show()
+        }
+        textMessage.text?.let {
+            Snackbar.make(
+                    findViewById(android.R.id.content),
+                    it,
+                    Snackbar.LENGTH_SHORT).show()
+        }
     }
 }

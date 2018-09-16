@@ -6,7 +6,7 @@ import com.squareup.moshi.Json
 /**
  * Model about the details of the event.
  */
-data class ConfigurationResponse(
+data class ConfigResponse(
     @Json(name = "status") var status: Boolean,
     @Json(name = "user") var user: User?,
     @Json(name = "configuration") var configuration: Configuration

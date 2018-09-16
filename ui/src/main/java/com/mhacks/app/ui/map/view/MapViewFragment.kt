@@ -17,9 +17,9 @@ import com.google.android.gms.maps.model.*
 import org.mhacks.mhacksui.R
 import com.mhacks.app.data.models.Floor
 import com.mhacks.app.ui.common.NavigationFragment
-import com.mhacks.app.ui.common.util.GooglePlayUtil
-import com.mhacks.app.ui.common.util.NetworkUtil
-import com.mhacks.app.ui.common.util.ResourceUtil
+import com.mhacks.app.util.GooglePlayUtil
+import com.mhacks.app.util.NetworkUtil
+import com.mhacks.app.util.ResourceUtil
 import com.mhacks.app.ui.map.presenter.MapViewFragmentPresenter
 import timber.log.Timber
 import javax.inject.Inject
@@ -35,9 +35,13 @@ class MapViewFragment :
     override var setTransparent: Boolean = true
 
     override var appBarTitle: Int = R.string.title_map
+
     override var layoutResourceID: Int = R.layout.fragment_map
+
     private lateinit var floors: ArrayList<Floor>
+
     private var mapFragment: SupportMapFragment? = null
+
     private var googleMap: GoogleMap? = null
 
     @Inject lateinit var mapViewFragmentPresenter: MapViewFragmentPresenter

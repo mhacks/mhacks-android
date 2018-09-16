@@ -6,13 +6,12 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 
 abstract class UseCase<in P, R> {
 
     private val disposables = CompositeDisposable()
 
-    private val result = MediatorLiveData<Result<R>>()
+    private val resultMediator = MediatorLiveData<Result<R>>()
 
     abstract fun getSingle(parameters: P): Single<R>
 
@@ -21,17 +20,14 @@ abstract class UseCase<in P, R> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    result.postValue(Result.Success<R>(it))
+                    resultMediator.postValue(Result.Success<R>(it))
                 }, {
-                    Timber.e(it)
-                    result.postValue(Result.Error(it))
+                    resultMediator.postValue(Result.Error(it))
                 })
         disposables.add(disposable)
     }
 
-    open fun observe(): MediatorLiveData<Result<R>> {
-        return result
-    }
+    open fun observe(): MediatorLiveData<Result<R>> = resultMediator
 
     fun onCleared() {
         if (!disposables.isDisposed) {
