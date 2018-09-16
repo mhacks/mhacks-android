@@ -22,13 +22,8 @@ class MainViewModel @Inject constructor(
 
     private val _login = MediatorLiveData<Login>()
 
-    val login: LiveData<Login>
+    val login: LiveData<Login?>
         get() = _login
-
-    private val _loginFailed = MediatorLiveData<Unit>()
-
-    val loginFailed: LiveData<Unit>
-        get() = _loginFailed
 
     private val _snackBarMessage = MediatorLiveData<SnackbarMessage>()
 
@@ -47,7 +42,7 @@ class MainViewModel @Inject constructor(
                 checkIfAdmin()
             } else if (it is Result.Error<*>) {
                 if (it.exception is EmptyResultSetException) {
-                    _loginFailed.value = Unit
+                    _login.value = null
                 } else {
                     _snackBarMessage.value =
                             SnackbarMessage(R.string.unknown_error, null)

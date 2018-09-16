@@ -57,14 +57,12 @@ class MainActivity : BaseActivity(),
         mainViewModel.login.observe(this, Observer {
             initActivity()
         })
-
-        mainViewModel.loginFailed.observe(this, Observer {
-            startLoginActivity()
-        })
-
+        
         mainViewModel.snackBarMessage.observe(this, Observer {
             it?.let { snackBarMessage ->
                 showSnackBar(snackBarMessage)
+            } ?: run {
+                startLoginActivity()
             }
         })
     }
