@@ -2,18 +2,18 @@ package com.mhacks.app.ui.welcome.view
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
-import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.android.databinding.library.baseAdapters.BR.viewModel
+import com.mhacks.app.extension.showSnackBar
 import com.mhacks.app.extension.viewModelProvider
 import com.mhacks.app.ui.common.NavigationBindingFragment
 import com.mhacks.app.ui.welcome.WelcomeViewModel
 import org.mhacks.mhacksui.R
 import org.mhacks.mhacksui.databinding.FragmentWelcomeBinding
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -39,10 +39,10 @@ class WelcomeFragment : NavigationBindingFragment() {
         val binding = FragmentWelcomeBinding.inflate(inflater, container, false).apply {
             viewModel = viewModelProvider(viewModelFactory)
 
-            // Don't remove this line. Needed for the view to bind clock events.
-            viewModel?.config?.observe(this@WelcomeFragment, Observer {
-                Timber.d("Configuration Successful: $it")
-            })
+            viewModel?.let {
+                subscribeUi(it)
+            }
+
             viewModel?.getAndCacheConfig()
 
             setLifecycleOwner(this@WelcomeFragment)
@@ -50,6 +50,16 @@ class WelcomeFragment : NavigationBindingFragment() {
         }
 
         return binding.root
+    }
+
+
+    private fun subscribeUi(welcomeViewModel: WelcomeViewModel) {
+        welcomeViewModel.config.observe(this@WelcomeFragment, Observer {
+            Timber.d("Get Configuration: Success: $it")
+        })
+        welcomeViewModel.textMessage.observe(this@WelcomeFragment, Observer {
+            rootView?.showSnackBar(it)
+        })
     }
 
     companion object {

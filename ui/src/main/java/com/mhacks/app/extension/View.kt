@@ -16,7 +16,7 @@ fun View.showSnackBar(textMessage: TextMessage?) {
         Snackbar.make(
                 this,
                 it,
-                Snackbar.LENGTH_SHORT).show()
+                Snackbar.LENGTH_INDEFINITE).show()
         }
 
 }

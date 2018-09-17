@@ -7,15 +7,15 @@ import android.arch.persistence.room.EmptyResultSetException
 import com.mhacks.app.data.models.Login
 import com.mhacks.app.data.models.Result
 import com.mhacks.app.data.models.common.TextMessage
-import com.mhacks.app.ui.main.usecase.CheckAdminAuthUseCase
-import com.mhacks.app.ui.main.usecase.CheckLoginAuthUseCase
+import com.mhacks.app.ui.main.usecase.CheckAdminAuthSingleUseCase
+import com.mhacks.app.ui.main.usecase.CheckLoginAuthSingleUseCase
 import org.mhacks.mhacksui.R
 import timber.log.Timber
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
-        private val checkLoginAuthUseCase: CheckLoginAuthUseCase,
-        private val checkAdminAuthUseCase: CheckAdminAuthUseCase): ViewModel() {
+        private val checkLoginAuthUseCase: CheckLoginAuthSingleUseCase,
+        private val checkAdminAuthUseCase: CheckAdminAuthSingleUseCase): ViewModel() {
 
     private val checkLoginResult = checkLoginAuthUseCase.observe()
 

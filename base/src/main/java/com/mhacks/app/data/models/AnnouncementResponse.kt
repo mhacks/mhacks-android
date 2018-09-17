@@ -9,7 +9,7 @@ import com.squareup.moshi.Json
  */
 data class AnnouncementResponse(
     @Json(name = "status") var status: Boolean,
-    @Json(name = "announcements") var announcements: List<Announcement>?
+    @Json(name = "announcements") var announcements: List<Announcement>
 )
 
 @Entity(tableName = "announcement")

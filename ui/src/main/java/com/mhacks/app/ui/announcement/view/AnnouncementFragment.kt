@@ -1,81 +1,107 @@
 package com.mhacks.app.ui.announcement.view
 
-import android.content.Context
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
 import android.view.View
-import org.mhacks.mhacksui.R
-import com.mhacks.app.data.models.Announcement
-import com.mhacks.app.ui.announcement.presenter.AnnouncementPresenter
-import com.mhacks.app.ui.common.NavigationFragment
+import android.view.ViewGroup
+import com.mhacks.app.data.models.Result
+import com.mhacks.app.extension.showSnackBar
+import com.mhacks.app.extension.viewModelProvider
+import com.mhacks.app.ui.announcement.AnnouncementViewModel
+import com.mhacks.app.ui.common.NavigationBindingFragment
 import kotlinx.android.synthetic.main.fragment_announcements.*
+import org.mhacks.mhacksui.R
+import org.mhacks.mhacksui.databinding.FragmentAnnouncementsBinding
 import javax.inject.Inject
 
 /**
  * Fragment to display and update announcements.
  */
-class AnnouncementFragment : NavigationFragment(), AnnouncementView {
-
-    private var announcementList: ArrayList<Announcement> = ArrayList()
+class AnnouncementFragment : NavigationBindingFragment() {
 
     override var setTransparent = false
 
     override var appBarTitle = R.string.title_announcements
 
-    override var layoutResourceID = R.layout.fragment_announcements
+    override var rootView: View? = null
 
-    @Inject lateinit var announcementPresenter: AnnouncementPresenter
-
-    private lateinit var adapter: AnnouncementsAdapter
+    private var adapter: AnnouncementsAdapter? = null
 
     private var snackBar: Snackbar? = null
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        adapter = AnnouncementsAdapter(context!!, announcementList)
-        announcements_recycler_view.adapter = adapter
-        announcements_recycler_view.layoutManager = LinearLayoutManager(context)
-        showProgressBar(getString(R.string.loading_announcements))
-        announcementPresenter.loadAnnouncements()
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+        FragmentAnnouncementsBinding.inflate(inflater, container, false)
+                .apply {
+                    val viewModel = viewModelProvider<AnnouncementViewModel>(viewModelFactory)
+
+                    subscribeUi(viewModel)
+                    viewModel.getAndCacheAnnouncements()
+
+                    setLifecycleOwner(this@AnnouncementFragment)
+                    rootView = root
+        }
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        announcementPresenter.onAttach()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        showProgressBar(getString(R.string.loading_events))
+    }
+
+    private fun subscribeUi(announcementViewModel: AnnouncementViewModel) {
+        announcementViewModel.announcements.observe(this, Observer { announcements ->
+            snackBar?.dismiss()
+            snackBar = null
+            context?.let { context ->
+                announcements?.let {
+                    if (adapter != null) {
+                        adapter = AnnouncementsAdapter(context, ArrayList(announcements))
+                        announcements_recycler_view.adapter = adapter
+                        announcements_recycler_view.layoutManager = LinearLayoutManager(context)
+                    } else {
+                        adapter?.updateList(ArrayList(announcements))
+                    }
+                }
+                showMainContent()
+            }
+
+            announcementViewModel.error.observe(this, Observer { error ->
+                when (error) {
+                    Result.Error.Kind.NETWORK -> {
+                        showErrorView(R.string.announcement_network_failure) {
+                            showProgressBar(getString(R.string.loading_announcements))
+                        }
+                    }
+                    else -> {
+                        // no-op
+                    }
+                }
+            })
+            announcementViewModel.snackbarMessage.observe(this, Observer {
+                it?.let { textMessage ->
+                    rootView?.showSnackBar(textMessage)
+                }
+            })
+        })
     }
 
     override fun onDetach() {
         super.onDetach()
         snackBar?.dismiss()
-        announcementPresenter.onDetach()
     }
 
-    override fun onGetAnnouncementsSuccess(announcements: List<Announcement>) {
-        snackBar?.dismiss()
-        showMainContent()
-        snackBar = null
-        announcementList.addAll(announcements)
-        adapter.notifyDataSetChanged()
-    }
-
-    override fun onGetAnnouncementsFailure(error: Throwable) {
-        showMainContent()
-        adapter.notifyDataSetChanged()
-        if ((snackBar == null) and (!announcementList.isEmpty())) {
-            snackBar = Snackbar.make(view!!,
-                    getString(R.string.lost_internet_connection),
-                    Snackbar.LENGTH_INDEFINITE)
-            snackBar?.show()
-        } else showErrorView(R.string.announcement_network_failure) {
-            showProgressBar(getString(R.string.loading_announcements))
-            announcementPresenter.loadAnnouncements()
-        }
-    }
 
     companion object {
-        val instance
-            get() = AnnouncementFragment()
+
+        val instance get() = AnnouncementFragment()
+
     }
 }
 

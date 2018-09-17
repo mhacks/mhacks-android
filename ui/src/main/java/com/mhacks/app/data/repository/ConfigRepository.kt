@@ -10,9 +10,9 @@ class ConfigRepository @Inject constructor(
         private val configService: ConfigService,
         private val configDao: ConfigurationDao) {
 
-    fun getConfigCache() = configDao.getConfig()
+    fun getConfigLocal() = configDao.getConfig()
 
-    fun putConfig(config: Configuration) =
+    fun putConfigLocal(config: Configuration) =
             Single.fromCallable {
                 configDao.insertConfig(config)
                 return@fromCallable config
