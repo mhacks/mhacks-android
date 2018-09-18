@@ -2,6 +2,7 @@ package com.mhacks.app.ui.welcome
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.os.CountDownTimer
 import com.mhacks.app.data.Constants
@@ -39,16 +40,15 @@ class WelcomeViewModel @Inject constructor(
     val timerProgress: LiveData<Int>
         get() = _timerProgress
 
-    private val _textMessage = MediatorLiveData<TextMessage>()
+    private val _snackBarMessage = MediatorLiveData<TextMessage>()
 
-    val textMessage: LiveData<TextMessage>
-        get() = _textMessage
+    val snackbarMessage: LiveData<TextMessage>
+        get() = _snackBarMessage
 
     private var timer: HackingCountdownTimer? = null
 
     init {
         _config.addSource(getAndCacheConfigResult) {
-            Timber.d("Config")
             if (it is Result.Success) {
                 Timber.d("Config Success")
                 val duration = 129600000L
@@ -57,8 +57,17 @@ class WelcomeViewModel @Inject constructor(
                 initCountdownIfNecessary(startDate, duration)
             } else if (it is Result.Error<*>) {
                 Timber.d("Config Failure")
-                _textMessage.value =
-                    TextMessage(R.string.unknown_error, null)
+
+                when (it.kind) {
+                    Result.Error.Kind.NETWORK -> {
+                        _snackBarMessage.value =
+                                TextMessage(R.string.welcome_network_failure, null)
+                    }
+                    else -> {
+                        _snackBarMessage.value =
+                                TextMessage(R.string.unknown_error, null)
+                    }
+                }
             }
         }
     }

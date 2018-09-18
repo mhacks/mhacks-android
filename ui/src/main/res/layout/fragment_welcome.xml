@@ -34,6 +34,7 @@
             android:paddingEnd="10dip"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/text_countdown_timertext"
+            android:text="@string/countdown_timer_default"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/welcome_fragment_timer_title"
             app:layout_constraintStart_toStartOf="parent"

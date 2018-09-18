@@ -33,7 +33,7 @@ class EventsFragment : NavigationFragment(), EventsView {
     }
 
     private fun bindEvents(eventList: List<Event>) {
-        val list = eventList.map { events ->
+        val list = eventList.asSequence().map { events ->
             EventWithDay(weekDateFormat.format(Date(events.startDateTs)),
                     events) }
                 .groupBy { it.day }

@@ -50,9 +50,13 @@
     <!--Progress Bar-->
     <string name="done">Done</string>
 
+    <!--Welcome-->
+    <string name="welcome_loading">Loading…</string>
+    <string name="welcome_network_failure">Couldn\'t get configuration…</string>
+
     <!--Announcements-->
     <string name="loading_announcements">Loading announcements…</string>
-    <string name="announcement_network_failure">Couldn\'t fetch announcements.</string>
+    <string name="announcement_network_failure">Couldn\'t get announcements.</string>
 
     <!-- ProgressBar View-->
     <string name="logging_in">Logging in…</string>
