@@ -3,12 +3,13 @@ package com.mhacks.app.ui.events.view
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import com.mhacks.app.ui.events.EventsViewModel
 
 /**
  * Pager adapter for events.
  */
 class EventsPagerAdapter(fm: FragmentManager, listWithDays: Map<String,
-        List<EventsFragment.EventWithDay>>) : FragmentPagerAdapter(fm) {
+        List<EventsViewModel.EventWithDay>>) : FragmentPagerAdapter(fm) {
 
     val list = listWithDays.toList()
 

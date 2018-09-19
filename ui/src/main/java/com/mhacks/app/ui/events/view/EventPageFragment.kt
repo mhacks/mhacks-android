@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import org.mhacks.mhacksui.R
 import com.mhacks.app.data.models.Event
+import com.mhacks.app.ui.events.EventsViewModel
 import com.mhacks.app.ui.events.view.EventsRecyclerViewAdapter.*
 import kotlinx.android.synthetic.main.events_pager_view.*
 
@@ -40,7 +41,7 @@ class EventPageFragment: Fragment() {
     }
 
     companion object {
-        fun newInstance(day: String, event: List<EventsFragment.EventWithDay>): EventPageFragment {
+        fun newInstance(day: String, event: List<EventsViewModel.EventWithDay>): EventPageFragment {
             val fragment = EventPageFragment()
             val args = Bundle()
 

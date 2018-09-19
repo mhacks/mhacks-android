@@ -5,7 +5,7 @@ import com.mhacks.app.data.repository.UserRepository
 import com.mhacks.app.di.SingleUseCase
 import javax.inject.Inject
 
-class CheckLoginAuthSingleUseCase @Inject constructor(
+class CheckLoginAuthUseCase @Inject constructor(
         private val userRepository: UserRepository)
     : SingleUseCase<Unit, Login>() {
 

@@ -2,14 +2,13 @@ package com.mhacks.app.ui.welcome
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.os.CountDownTimer
 import com.mhacks.app.data.Constants
 import com.mhacks.app.data.models.Configuration
 import com.mhacks.app.data.models.Result
 import com.mhacks.app.data.models.common.TextMessage
-import com.mhacks.app.ui.welcome.usecase.GetAndCacheConfigSingleUseCase
+import com.mhacks.app.ui.welcome.usecase.GetAndCacheConfigUseCase
 import org.mhacks.mhacksui.R
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
@@ -22,7 +21,7 @@ import java.util.*
 import javax.inject.Inject
 
 class WelcomeViewModel @Inject constructor(
-        private val getAndCacheConfigUseCase: GetAndCacheConfigSingleUseCase): ViewModel() {
+        private val getAndCacheConfigUseCase: GetAndCacheConfigUseCase): ViewModel() {
 
     private val getAndCacheConfigResult = getAndCacheConfigUseCase.observe()
 

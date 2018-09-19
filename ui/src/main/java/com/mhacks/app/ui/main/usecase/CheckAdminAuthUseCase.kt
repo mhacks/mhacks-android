@@ -5,7 +5,7 @@ import com.mhacks.app.di.SingleUseCase
 import io.reactivex.Single
 import javax.inject.Inject
 
-class CheckAdminAuthSingleUseCase @Inject constructor(
+class CheckAdminAuthUseCase @Inject constructor(
         private val userRepository: UserRepository)
     : SingleUseCase<Unit, Boolean>() {
 

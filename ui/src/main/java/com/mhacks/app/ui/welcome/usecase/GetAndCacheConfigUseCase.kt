@@ -3,15 +3,17 @@ package com.mhacks.app.ui.welcome.usecase
 import com.mhacks.app.data.models.Configuration
 import com.mhacks.app.data.repository.ConfigRepository
 import com.mhacks.app.di.SingleUseCase
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class GetAndCacheConfigSingleUseCase @Inject constructor(
+class GetAndCacheConfigUseCase @Inject constructor(
         private val configRepository: ConfigRepository)
     : SingleUseCase<Unit, Configuration>() {
 
     override fun getSingle(parameters: Unit) =
             configRepository
                     .getConfigLocal()
+                    .delay(400, TimeUnit.MILLISECONDS)
                     .onErrorResumeNext {
                         configRepository.getConfigRemote()
                                 .map { configResponse ->

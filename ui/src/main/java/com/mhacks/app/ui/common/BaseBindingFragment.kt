@@ -47,6 +47,9 @@ abstract class BaseBindingFragment : DaggerFragment() {
         progressBarView?.visibility = View.GONE
         errorView?.visibility = View.GONE
 
+        if (rootView == null) {
+            throw Exception("rootView must be instantiated in onCreateView()")
+        }
         parent?.addView(rootView)
         parent?.addView(progressBarView)
         parent?.addView(errorView)

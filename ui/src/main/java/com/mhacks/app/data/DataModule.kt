@@ -2,10 +2,8 @@ package com.mhacks.app.data
 
 import com.mhacks.app.data.repository.UserRepository
 import com.mhacks.app.data.room.dao.LoginDao
-import com.mhacks.app.data.service.AnnouncementService
-import com.mhacks.app.data.service.ConfigService
-import com.mhacks.app.data.service.UserService
-//import com.mhacks.app.ui.main.usecase.GetAndCacheConfigSingleUseCase
+import com.mhacks.app.data.service.*
+//import com.mhacks.app.ui.main.usecase.GetAndCacheConfigUseCase
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -32,6 +30,16 @@ class DataModule {
     @Singleton
     internal fun provideAnnouncementService(retrofit: Retrofit) =
             retrofit.create(AnnouncementService::class.java)
+
+    @Provides
+    @Singleton
+    internal fun provideEventService(retrofit: Retrofit) =
+            retrofit.create(EventService::class.java)
+
+    @Provides
+    @Singleton
+    internal fun provideMapService(retrofit: Retrofit) =
+            retrofit.create(MapService::class.java)
 
     @Provides
     @Singleton

@@ -32,7 +32,7 @@ class AnnouncementRepository @Inject constructor(
                 .subscribe {
                     getAnnouncementRemote()
                             .doOnSuccess { response ->
-                                response.announcements?.let { announcementList ->
+                                response.announcements.let { announcementList ->
                                     announcementDao.updateAnnouncements(announcementList)
                                 }
                             }

@@ -7,14 +7,14 @@ import android.arch.lifecycle.ViewModel
 import com.mhacks.app.data.models.Announcement
 import com.mhacks.app.data.models.Result
 import com.mhacks.app.data.models.common.TextMessage
-import com.mhacks.app.ui.announcement.usecase.GetAndCacheAnnouncementSingleUseCase
+import com.mhacks.app.ui.announcement.usecase.GetAndCacheAnnouncementUseCase
 import com.mhacks.app.ui.welcome.usecase.PollAnnouncementsUseCase
 import org.mhacks.mhacksui.R
 import timber.log.Timber
 import javax.inject.Inject
 
 class AnnouncementViewModel @Inject constructor(
-        private val getAndCacheAnnouncementUseCase: GetAndCacheAnnouncementSingleUseCase,
+        private val getAndCacheAnnouncementUseCase: GetAndCacheAnnouncementUseCase,
         private val pollAnnouncementsUseCase: PollAnnouncementsUseCase): ViewModel() {
 
     private val getAnnouncementResult = getAndCacheAnnouncementUseCase.observe()
