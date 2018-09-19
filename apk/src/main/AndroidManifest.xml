@@ -3,6 +3,10 @@
 
     <application android:label="@string/app_name">
 
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
         <activity android:name="com.mhacks.app.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

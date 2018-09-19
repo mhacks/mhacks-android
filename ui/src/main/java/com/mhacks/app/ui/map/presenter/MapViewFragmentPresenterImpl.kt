@@ -1,6 +1,6 @@
 package com.mhacks.app.ui.map.presenter
 
-import com.mhacks.app.data.models.Floor
+import com.mhacks.app.data.models.MapFloor
 import com.mhacks.app.data.network.services.MHacksService
 import com.mhacks.app.data.room.MHacksDatabase
 import com.mhacks.app.ui.common.BasePresenterImpl
@@ -39,6 +39,6 @@ class MapViewFragmentPresenterImpl(private val mapView: MapView,
                         })
         )
     }
-    private fun getFloorsFromAPI(): Single<List<Floor>>
+    private fun getFloorsFromAPI(): Single<List<MapFloor>>
             = mHacksService.getFloorResponse().map { it.floors}
 }

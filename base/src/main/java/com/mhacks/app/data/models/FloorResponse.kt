@@ -8,11 +8,11 @@ import com.squareup.moshi.Json
  */
 data class FloorResponse(
 		@Json(name = "status") var status: Boolean,
-		@Json(name = "floors") var floors: List<Floor>
+		@Json(name = "floors") var floors: List<MapFloor>
 )
 
 @Entity(tableName = "mapFloor")
-data class Floor(
+data class MapFloor(
 		@Json(name = "updatedAt") var updatedAt: String,
 		@Json(name = "createdAt") var createdAt: String,
 		@Json(name = "name") var name: String,

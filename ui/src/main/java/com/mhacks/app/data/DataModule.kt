@@ -43,6 +43,12 @@ class DataModule {
 
     @Provides
     @Singleton
+    internal fun provideGetBitmapFromUrl(retrofit: Retrofit) =
+            GetImageFromUrlService()
+
+
+    @Provides
+    @Singleton
     @Named("userRepository")
     fun provideUserRepository(
             userService: UserService,

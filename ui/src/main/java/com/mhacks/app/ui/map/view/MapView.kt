@@ -1,6 +1,6 @@
 package com.mhacks.app.ui.map.view
 
-import com.mhacks.app.data.models.Floor
+import com.mhacks.app.data.models.MapFloor
 
 /**
  * View contract for the map fragment.
@@ -8,7 +8,7 @@ import com.mhacks.app.data.models.Floor
 
 interface MapView {
 
-    fun onGetMapFloorsSuccess(mapFloors: List<Floor>)
+    fun onGetMapFloorsSuccess(mapFloors: List<MapFloor>)
 
     fun onGetMapFloorsFailure(error: Throwable)
 }
