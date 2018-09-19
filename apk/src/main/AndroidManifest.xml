@@ -36,6 +36,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="com.mhacks.app.ui.signin.SignInActivity" />
+
+
     </application>
 
 </manifest>

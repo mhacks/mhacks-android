@@ -1,13 +1,9 @@
 package com.mhacks.app.data
 
-import com.mhacks.app.data.repository.UserRepository
-import com.mhacks.app.data.room.dao.LoginDao
 import com.mhacks.app.data.service.*
-//import com.mhacks.app.ui.main.usecase.GetAndCacheConfigUseCase
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
-import javax.inject.Named
 import javax.inject.Singleton
 
 /**
@@ -43,17 +39,6 @@ class DataModule {
 
     @Provides
     @Singleton
-    internal fun provideGetBitmapFromUrl(retrofit: Retrofit) =
-            GetImageFromUrlService()
-
-
-    @Provides
-    @Singleton
-    @Named("userRepository")
-    fun provideUserRepository(
-            userService: UserService,
-            loginDao: LoginDao,
-            sharedPreferencesManager: SharedPreferencesManager)
-            = UserRepository(userService, loginDao, sharedPreferencesManager)
+    internal fun provideGetBitmapFromUrl() = GetImageFromUrlService()
 
 }

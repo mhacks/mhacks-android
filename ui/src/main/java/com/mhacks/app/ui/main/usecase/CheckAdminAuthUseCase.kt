@@ -9,7 +9,7 @@ class CheckAdminAuthUseCase @Inject constructor(
         private val userRepository: UserRepository)
     : SingleUseCase<Unit, Boolean>() {
 
-    override fun getSingle(parameters: Unit): Single<Boolean> =
-            userRepository.getIsAdmin()
+    override fun getSingle(parameters: Unit): Single<Boolean> = Single.just(false)
+//            userRepository.getIsAdmin()
 
 }

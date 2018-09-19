@@ -1,21 +1,24 @@
 package com.mhacks.app.data.repository
 
-import com.mhacks.app.data.SharedPreferencesManager
 import com.mhacks.app.data.models.Login
 import com.mhacks.app.data.room.dao.LoginDao
 import com.mhacks.app.data.service.UserService
+import io.reactivex.Single
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
         private val userService: UserService,
-        private val loginDao: LoginDao,
-        private val sharedPreferencesManager: SharedPreferencesManager) {
+        private val loginDao: LoginDao) {
 
     fun getLoginCache() = loginDao.getLogin()
 
-    fun getLoginRemote(loginRequest: Login.Request) =
-        userService.postLogin(loginRequest)
+    fun postLogin(loginRequest: Login.Request) =
+            userService.postLogin(loginRequest)
 
-    fun getIsAdmin() = sharedPreferencesManager.getIsAdminRx()
-
+    fun updateLoginCache(login: Login) =
+            Single.fromCallable {
+                loginDao.insertLogin(login)
+                return@fromCallable login
+            }
 }
+

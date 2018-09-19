@@ -1,22 +1,21 @@
-package com.mhacks.app.ui.login
+package com.mhacks.app.ui.signin
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import org.mhacks.mhacksui.R
 import com.mhacks.app.ui.common.BaseActivity
-import com.mhacks.app.ui.login.signin.view.LoginSignInFragment
 import com.mhacks.app.ui.main.MainActivity
 
-class LoginActivity : BaseActivity(),
-        LoginSignInFragment.Callback {
+class SignInActivity : BaseActivity(),
+        SignInFragment.Callback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.MHacksTheme)
         setStatusBarTransparent()
         setContentView(R.layout.activity_login)
-        startViewPagerFragment(LoginSignInFragment.instance)
+        startViewPagerFragment(SignInFragment.instance)
     }
 
     override fun startMainActivity() =

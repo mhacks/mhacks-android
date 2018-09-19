@@ -15,7 +15,7 @@ import com.mhacks.app.data.Constants
 import com.mhacks.app.ui.announcement.createannouncement.view.CreateAnnouncementDialogFragment
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
-import com.mhacks.app.ui.login.LoginActivity
+import com.mhacks.app.ui.signin.SignInActivity
 import com.mhacks.app.ui.qrscan.QRScanActivity
 import com.mhacks.app.ui.ticket.view.TicketDialogFragment
 import org.mhacks.mhacksui.R
@@ -132,11 +132,10 @@ class MainActivity : BaseActivity(),
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(null,
                 Navigation.findNavController(this, R.id.main_activity_fragment_host))
-
     }
 
     override fun startLoginActivity() {
-        startActivity(Intent(this, LoginActivity::class.java))
+        startActivity(Intent(this, SignInActivity::class.java))
         finish()
     }
 

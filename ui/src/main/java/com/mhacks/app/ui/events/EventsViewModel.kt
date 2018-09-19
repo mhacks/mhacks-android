@@ -9,11 +9,7 @@ import com.mhacks.app.data.models.Event
 import com.mhacks.app.data.models.Result
 import com.mhacks.app.data.models.common.TextMessage
 import com.mhacks.app.ui.events.usecase.GetAndCacheEventsUseCase
-import com.mhacks.app.ui.events.view.EventsFragment
-import com.mhacks.app.ui.events.view.EventsPagerAdapter
-import kotlinx.android.synthetic.main.fragment_events.*
 import org.mhacks.mhacksui.R
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
