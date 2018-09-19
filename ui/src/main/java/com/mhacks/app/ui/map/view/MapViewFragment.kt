@@ -87,8 +87,8 @@ class MapViewFragment :
         mapFloorViewModel.error.observe(this, Observer { error ->
             when (error) {
                 Result.Error.Kind.NETWORK -> {
-                    showErrorView(R.string.events_network_failure) {
-                        showProgressBar(getString(R.string.loading_events))
+                    showErrorView(R.string.maps_network_failure) {
+                        showProgressBar(getString(R.string.loading_maps))
                     }
                 }
                 else -> {
