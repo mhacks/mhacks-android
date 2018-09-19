@@ -23,7 +23,7 @@ class LoginSignInFragment : BaseFragment(), LoginSignInView {
 
     override var layoutResourceID = R.layout.fragment_login
 
-    private var callback: OnFromLoginFragmentCallback? = null
+    private var callback: Callback? = null
 
     @Inject lateinit var loginSignInPresenter: LoginSignInPresenter
 
@@ -38,13 +38,13 @@ class LoginSignInFragment : BaseFragment(), LoginSignInView {
         }
         no_thanks_button.setOnClickListener {
             loginSignInPresenter.skipLogin()
-            callback?.goToMainActivity()
+            callback?.startMainActivity()
         }
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is OnFromLoginFragmentCallback) callback = context
+        if (context is Callback) callback = context
         loginSignInPresenter.onAttach()
     }
 
@@ -55,7 +55,7 @@ class LoginSignInFragment : BaseFragment(), LoginSignInView {
 
     override fun postLoginSuccess(login: Login) {
         authInterceptor.token = login.token
-        callback?.goToMainActivity()
+        callback?.startMainActivity()
     }
 
     override fun postLoginFailure(username: String, password: String, error: Throwable) {
@@ -78,19 +78,20 @@ class LoginSignInFragment : BaseFragment(), LoginSignInView {
     }
 
     override fun skipLoginSuccess() {
-        callback?.goToMainActivity()
+        callback?.startMainActivity()
     }
 
-    interface OnFromLoginFragmentCallback {
+    interface Callback {
 
-        fun goToViewPagerFragment(fragment: Fragment)
+        fun startViewPagerFragment(fragment: Fragment)
 
-        fun goToMainActivity()
+        fun startMainActivity()
 
-        fun showSnackBar(text: String)
     }
 
     companion object {
+
         val instance get() = LoginSignInFragment()
+
     }
 }

@@ -15,7 +15,6 @@ import com.mhacks.app.data.Constants
 import com.mhacks.app.ui.announcement.createannouncement.view.CreateAnnouncementDialogFragment
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
-import com.mhacks.app.ui.common.NavigationFragment
 import com.mhacks.app.ui.login.LoginActivity
 import com.mhacks.app.ui.qrscan.QRScanActivity
 import com.mhacks.app.ui.ticket.view.TicketDialogFragment
@@ -48,22 +47,25 @@ class MainActivity : BaseActivity(),
         super.onCreate(savedInstanceState)
         setTheme(R.style.MHacksTheme)
 
-        setUpNonViewObserver()
+        subscribeNonUi()
 
         checkIfInstantApp()
     }
 
-    private fun setUpNonViewObserver() {
+    private fun subscribeNonUi() {
 
         mainViewModel.login.observe(this, Observer {
-            initActivity()
+            it?.let { _ ->
+                initActivity()
+            } ?: run {
+                startLoginActivity()
+            }
+
         })
         
         mainViewModel.textMessage.observe(this, Observer {
             it?.let { textMessage ->
                 showSnackBar(textMessage)
-            } ?: run {
-                startLoginActivity()
             }
         })
     }
@@ -93,7 +95,7 @@ class MainActivity : BaseActivity(),
         setSystemFullScreenUI()
         DataBindingUtil.setContentView<ActivityMainBinding>(
                 this, R.layout.activity_main).apply {
-            setUpViewObserver(this)
+            subscribeUi(this)
             menuItem = mainActivityNavigation.menu.getItem(0)
 
             setBottomNavigationColor(
@@ -110,7 +112,7 @@ class MainActivity : BaseActivity(),
         }
     }
 
-    private fun setUpViewObserver(binding: ActivityMainBinding) {
+    private fun subscribeUi(binding: ActivityMainBinding) {
         mainViewModel.isAdmin.observe(this, Observer {
             it?.let { isAdmin ->
                 val listener = if (isAdmin) {

@@ -39,10 +39,11 @@ class MainViewModel @Inject constructor(
     init {
         _login.addSource(checkLoginResult) {
             if (it is Result.Success) {
-                Timber.e("LOGIN SUCCESS")
+                Timber.d("Login Success")
                 _login.value = it.data
                 checkIfAdmin()
             } else if (it is Result.Error<*>) {
+                Timber.d("Login Failure")
                 if (it.exception is EmptyResultSetException) {
                     _login.value = null
                 } else {
