@@ -17,8 +17,6 @@ import timber.log.Timber
 import javax.inject.Inject
 import com.mhacks.app.ui.common.ProgressBarAnimation
 
-
-
 /**
  * The first screen that the user will open once they are logged in.
  *
@@ -56,8 +54,7 @@ class WelcomeFragment : NavigationBindingFragment() {
 
         return binding.root
     }
-
-
+    
     private fun subscribeUi(
             welcomeViewModel: WelcomeViewModel,
             fragmentWelcomeBinding: FragmentWelcomeBinding) {
@@ -69,11 +66,10 @@ class WelcomeFragment : NavigationBindingFragment() {
                     Snackbar.LENGTH_SHORT, it)
         })
         welcomeViewModel.firstTimerProgress.observe(this@WelcomeFragment, Observer {
-            val progressAnimation =
-                    ProgressBarAnimation(
-                            fragmentWelcomeBinding.welcomeFragmentProgressbarCounter,
-                            1500)
-            progressAnimation.setProgress(100)
+            it?.let { percent ->
+                fragmentWelcomeBinding.welcomeFragmentProgressbarCounter.setPercentage(percent)
+            }
+
         })
     }
 

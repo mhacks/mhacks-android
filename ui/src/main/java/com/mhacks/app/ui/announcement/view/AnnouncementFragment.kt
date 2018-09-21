@@ -52,7 +52,7 @@ class AnnouncementFragment : NavigationBindingFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        showProgressBar(getString(R.string.loading_events))
+        showProgressBar(getString(R.string.loading_announcements))
     }
 
     private fun subscribeUi(announcementViewModel: AnnouncementViewModel) {

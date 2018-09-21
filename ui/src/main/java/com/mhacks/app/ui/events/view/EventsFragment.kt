@@ -31,7 +31,10 @@ class EventsFragment : NavigationBindingFragment() {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?): View? {
         FragmentEventsBinding.inflate(inflater, container, false)
                 .apply {
                     val viewModel = viewModelProvider<EventsViewModel>(viewModelFactory)

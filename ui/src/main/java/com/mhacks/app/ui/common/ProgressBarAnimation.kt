@@ -1,8 +1,10 @@
 package com.mhacks.app.ui.common
 
+import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.widget.ProgressBar
+
 
 /**
  * @param fullDuration - time required to fill progress from 0% to 100%
@@ -14,6 +16,9 @@ class ProgressBarAnimation(
     private var from: Int = 0
     private val stepDuration: Long = fullDuration / progressBar.max
 
+    init {
+        interpolator = FastOutSlowInInterpolator()
+    }
 
     fun setProgress(_progress: Int) {
         var progress = _progress

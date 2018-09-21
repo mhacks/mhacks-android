@@ -6,8 +6,8 @@
     <!-- Text Sizes -->
     <dimen name="common_midsize">18sp</dimen>
 
-    <dimen name="text_countdown_normaltitles">18sp</dimen>
-    <dimen name="text_countdown_timertext">50sp</dimen>
+    <dimen name="text_countdown_normaltitles">24sp</dimen>
+    <dimen name="text_countdown_timertext">36sp</dimen>
 
     <!-- Parameters -->
     <dimen name="countdown_progressbar_thickness">10dp</dimen>
