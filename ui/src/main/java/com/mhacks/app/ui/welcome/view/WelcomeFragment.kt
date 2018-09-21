@@ -15,7 +15,6 @@ import org.mhacks.mhacksui.R
 import org.mhacks.mhacksui.databinding.FragmentWelcomeBinding
 import timber.log.Timber
 import javax.inject.Inject
-import com.mhacks.app.ui.common.ProgressBarAnimation
 
 /**
  * The first screen that the user will open once they are logged in.
@@ -61,7 +60,7 @@ class WelcomeFragment : NavigationBindingFragment() {
         welcomeViewModel.config.observe(this@WelcomeFragment, Observer {
             Timber.d("Get Configuration: Success: $it")
         })
-        welcomeViewModel.snackbarMessage.observe(this@WelcomeFragment, Observer {
+        welcomeViewModel.snackBarMessage.observe(this@WelcomeFragment, Observer {
             rootView?.showSnackBar(
                     Snackbar.LENGTH_SHORT, it)
         })

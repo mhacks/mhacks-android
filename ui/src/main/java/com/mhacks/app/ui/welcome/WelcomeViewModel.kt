@@ -47,7 +47,7 @@ class WelcomeViewModel @Inject constructor(
 
     private val _snackBarMessage = MediatorLiveData<TextMessage>()
 
-    val snackbarMessage: LiveData<TextMessage>
+    val snackBarMessage: LiveData<TextMessage>
         get() = _snackBarMessage
 
     private var timer: HackingCountdownTimer? = null
