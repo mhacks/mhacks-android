@@ -1,8 +1,5 @@
 package com.mhacks.app.data.models
 
-import com.mhacks.app.data.models.common.RetrofitException
-import java.net.UnknownHostException
-
 /**
  * A generic class that holds a value with its loading status.
  * @param <T>
@@ -11,23 +8,7 @@ sealed class Result<out R> {
 
     data class Success<out T>(val data: T) : Result<T>()
 
-    data class Error<out R: Throwable>(val exception: R) : Result<Nothing>() {
-
-        val kind: Kind get() {
-            return when (exception) {
-                is UnknownHostException -> {
-                    Kind.NETWORK
-                } else -> {
-                    Kind.UNKNOWN
-                }
-            }
-        }
-
-        enum class Kind {
-            NETWORK,
-            UNKNOWN
-        }
-    }
+    data class Error<out R: Throwable>(val exception: R) : Result<Nothing>()
 
     object Loading : Result<Nothing>()
 

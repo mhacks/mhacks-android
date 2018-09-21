@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.persistence.room.EmptyResultSetException
 import com.mhacks.app.data.models.Login
 import com.mhacks.app.data.models.Result
+import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.data.models.common.TextMessage
 import com.mhacks.app.ui.main.usecase.CheckAdminAuthUseCase
 import com.mhacks.app.ui.main.usecase.CheckLoginAuthUseCase
@@ -47,9 +48,32 @@ class MainViewModel @Inject constructor(
                 if (it.exception is EmptyResultSetException) {
                     Timber.d("Going to the SignInActivity")
                     _login.value = null
-                } else {
-                    _snackBarMessage.value =
-                            TextMessage(R.string.unknown_error, null)
+                }
+
+                (it.exception as? RetrofitException)?.let { retrofitException ->
+
+                    when (retrofitException.kind) {
+                        RetrofitException.Kind.HTTP -> {
+                            retrofitException.errorResponse?.let { errorResponse ->
+                                _snackBarMessage.value =
+                                                TextMessage(
+                                                        null,
+                                                        errorResponse.message)
+                            }
+                        }
+                        RetrofitException.Kind.NETWORK -> {
+                            _snackBarMessage.value =
+                                            TextMessage(
+                                                    R.string.no_internet,
+                                                    null)
+                        }
+                        RetrofitException.Kind.UNEXPECTED -> {
+                            _snackBarMessage.value =
+                                            TextMessage(
+                                                    R.string.unknown_error,
+                                                    null)
+                        }
+                    }
                 }
             }
         }

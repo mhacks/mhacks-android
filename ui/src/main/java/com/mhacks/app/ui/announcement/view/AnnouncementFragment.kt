@@ -8,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.mhacks.app.data.models.Result
+import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.extension.showSnackBar
 import com.mhacks.app.extension.viewModelProvider
 import com.mhacks.app.ui.announcement.AnnouncementViewModel
@@ -74,7 +74,7 @@ class AnnouncementFragment : NavigationBindingFragment() {
 
             announcementViewModel.error.observe(this, Observer { error ->
                 when (error) {
-                    Result.Error.Kind.NETWORK -> {
+                    RetrofitException.Kind.NETWORK -> {
                         showErrorView(R.string.announcement_network_failure) {
                             showProgressBar(getString(R.string.loading_announcements))
                         }
@@ -84,6 +84,8 @@ class AnnouncementFragment : NavigationBindingFragment() {
                     }
                 }
             })
+
+
             announcementViewModel.snackbarMessage.observe(this, Observer {
                 it?.let { textMessage ->
                     rootView?.showSnackBar(
@@ -97,7 +99,6 @@ class AnnouncementFragment : NavigationBindingFragment() {
         super.onDetach()
         snackBar?.dismiss()
     }
-
 
     companion object {
 

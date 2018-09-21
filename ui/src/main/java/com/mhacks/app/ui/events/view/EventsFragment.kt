@@ -8,7 +8,7 @@ import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.mhacks.app.data.models.Result
+import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.extension.showSnackBar
 import com.mhacks.app.extension.viewModelProvider
 import com.mhacks.app.ui.common.NavigationBindingFragment
@@ -63,7 +63,7 @@ class EventsFragment : NavigationBindingFragment() {
 
         eventsViewModel.error.observe(this, Observer { error ->
             when (error) {
-                Result.Error.Kind.NETWORK -> {
+                RetrofitException.Kind.NETWORK -> {
                     showErrorView(R.string.events_network_failure) {
                         showProgressBar(getString(R.string.loading_events))
                     }

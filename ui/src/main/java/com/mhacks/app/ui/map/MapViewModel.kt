@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModel
 import android.graphics.Bitmap
 import com.mhacks.app.data.models.MapFloor
 import com.mhacks.app.data.models.Result
+import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.data.models.common.TextMessage
 import com.mhacks.app.ui.map.usecase.GetAndCacheMapResultUseCase
 import org.mhacks.mhacksui.R
@@ -27,9 +28,9 @@ class MapViewModel @Inject constructor(
     val snackBarMessage: LiveData<TextMessage>
         get() = _snackBarMessage
 
-    private val _error: MutableLiveData<Result.Error.Kind> = MutableLiveData()
+    private val _error: MutableLiveData<RetrofitException.Kind> = MutableLiveData()
 
-    val error: LiveData<Result.Error.Kind>
+    val error: LiveData<RetrofitException.Kind>
         get() = _error
 
     init {
@@ -39,13 +40,26 @@ class MapViewModel @Inject constructor(
                     _mapResult.value = mapResult.data
                 }
             } else if (it is Result.Error<*>) {
-                when (it.kind) {
-                    Result.Error.Kind.NETWORK-> {
-                        _error.value = it.kind
-                    }
-                    else -> {
-                        _snackBarMessage.value =
-                                TextMessage(R.string.unknown_error, null)
+                (it.exception as? RetrofitException)?.let { retrofitException ->
+                    when (retrofitException.kind) {
+                        RetrofitException.Kind.HTTP -> {
+                            retrofitException.errorResponse?.let { errorResponse ->
+                                _snackBarMessage.value =
+                                        TextMessage(
+                                                null,
+                                                errorResponse.message)
+                            }
+                        }
+                        RetrofitException.Kind.NETWORK -> {
+                            _error.value = retrofitException.kind
+
+                        }
+                        RetrofitException.Kind.UNEXPECTED -> {
+                            _snackBarMessage.value =
+                                    TextMessage(
+                                            R.string.unknown_error,
+                                            null)
+                        }
                     }
                 }
             }
