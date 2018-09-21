@@ -7,6 +7,7 @@ import android.os.CountDownTimer
 import com.mhacks.app.data.Constants
 import com.mhacks.app.data.models.Configuration
 import com.mhacks.app.data.models.Result
+import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.data.models.common.TextMessage
 import com.mhacks.app.ui.welcome.usecase.GetAndCacheConfigUseCase
 import org.mhacks.mhacksui.R
@@ -39,6 +40,11 @@ class WelcomeViewModel @Inject constructor(
     val timerProgress: LiveData<Int>
         get() = _timerProgress
 
+    private val _firstTimerProgress = MediatorLiveData<Int>()
+
+    val firstTimerProgress: LiveData<Int>
+        get() = _firstTimerProgress
+
     private val _snackBarMessage = MediatorLiveData<TextMessage>()
 
     val snackbarMessage: LiveData<TextMessage>
@@ -56,15 +62,27 @@ class WelcomeViewModel @Inject constructor(
                 initCountdownIfNecessary(startDate, duration)
             } else if (it is Result.Error<*>) {
                 Timber.d("Config Failure")
+                (it.exception as? RetrofitException)?.let { retrofitException ->
+                    when (retrofitException.kind) {
+                        RetrofitException.Kind.HTTP -> {
+                            retrofitException.errorResponse?.let { errorResponse ->
+                                _snackBarMessage.value =
+                                        TextMessage(
+                                                null,
+                                                errorResponse.message)
+                            }
+                        }
+                        RetrofitException.Kind.NETWORK -> {
+                            _snackBarMessage.value =
+                                    TextMessage(R.string.welcome_network_failure, null)
 
-                when (it.kind) {
-                    Result.Error.Kind.NETWORK -> {
-                        _snackBarMessage.value =
-                                TextMessage(R.string.welcome_network_failure, null)
-                    }
-                    else -> {
-                        _snackBarMessage.value =
-                                TextMessage(R.string.unknown_error, null)
+                        }
+                        RetrofitException.Kind.UNEXPECTED -> {
+                            _snackBarMessage.value =
+                                    TextMessage(
+                                            R.string.unknown_error,
+                                            null)
+                        }
                     }
                 }
             }
@@ -101,7 +119,7 @@ class WelcomeViewModel @Inject constructor(
                 timer?.start()
             }
             else -> {
-                _timerProgress.value = 100
+                _firstTimerProgress.value = 100
                 _timerText.value = TextMessage(R.string.done, null)
             }
         }

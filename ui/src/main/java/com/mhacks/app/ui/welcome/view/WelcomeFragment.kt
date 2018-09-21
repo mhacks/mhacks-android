@@ -7,8 +7,6 @@ import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.android.databinding.library.baseAdapters.BR.viewModel
-import com.mhacks.app.data.models.Result
 import com.mhacks.app.extension.showSnackBar
 import com.mhacks.app.extension.viewModelProvider
 import com.mhacks.app.ui.common.NavigationBindingFragment
@@ -17,6 +15,9 @@ import org.mhacks.mhacksui.R
 import org.mhacks.mhacksui.databinding.FragmentWelcomeBinding
 import timber.log.Timber
 import javax.inject.Inject
+import com.mhacks.app.ui.common.ProgressBarAnimation
+
+
 
 /**
  * The first screen that the user will open once they are logged in.
@@ -41,11 +42,13 @@ class WelcomeFragment : NavigationBindingFragment() {
         val binding = FragmentWelcomeBinding.inflate(inflater, container, false).apply {
             viewModel = viewModelProvider(viewModelFactory)
 
+
             viewModel?.let {
-                subscribeUi(it)
+                subscribeUi(it, this)
             }
 
             viewModel?.getAndCacheConfig()
+
 
             setLifecycleOwner(this@WelcomeFragment)
             rootView = root
@@ -55,13 +58,22 @@ class WelcomeFragment : NavigationBindingFragment() {
     }
 
 
-    private fun subscribeUi(welcomeViewModel: WelcomeViewModel) {
+    private fun subscribeUi(
+            welcomeViewModel: WelcomeViewModel,
+            fragmentWelcomeBinding: FragmentWelcomeBinding) {
         welcomeViewModel.config.observe(this@WelcomeFragment, Observer {
             Timber.d("Get Configuration: Success: $it")
         })
         welcomeViewModel.snackbarMessage.observe(this@WelcomeFragment, Observer {
             rootView?.showSnackBar(
                     Snackbar.LENGTH_SHORT, it)
+        })
+        welcomeViewModel.firstTimerProgress.observe(this@WelcomeFragment, Observer {
+            val progressAnimation =
+                    ProgressBarAnimation(
+                            fragmentWelcomeBinding.welcomeFragmentProgressbarCounter,
+                            1500)
+            progressAnimation.setProgress(100)
         })
     }
 
