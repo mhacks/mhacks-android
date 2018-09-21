@@ -18,7 +18,11 @@ data class Login(
     @Ignore @Json(name = "user") var user: User?
 ) {
 
-    val isAdmin get() = user?.isAdmin
+    // Checks if user or groups are in the user currently null.
+    // If so, it will return false. The only case it will return true is if "admin is in groups.
+    val isAdmin get() =  if (user != null) {
+        user!!.isAdmin
+    } else false
 
     val isSkipped get() = user == null
 

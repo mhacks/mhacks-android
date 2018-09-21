@@ -44,7 +44,11 @@ data class User(
     @Json(name = "sex") var sex: String?
 ) {
 	val isAdmin
-		get() = groups?.any {
-			it == "admin"
+		get() = if (groups == null) {
+			false
+		} else {
+			groups?.any {
+				it == "admin"
+			}
 		}
 }
