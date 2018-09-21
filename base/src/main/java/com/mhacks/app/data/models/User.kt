@@ -42,4 +42,9 @@ data class User(
     @Json(name = "tshirt") var tshirt: String?,
     @Json(name = "race") var race: String?,
     @Json(name = "sex") var sex: String?
-)
+) {
+	val isAdmin
+		get() = groups?.any {
+			it == "admin"
+		}
+}

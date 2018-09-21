@@ -17,6 +17,11 @@ data class Login(
     @Json(name = "token") var token: String,
     @Ignore @Json(name = "user") var user: User?
 ) {
+
+    val isAdmin get() = user?.isAdmin
+
+    val isSkipped get() = user == null
+
     data class Request(
             @Json(name = "email") val email: String,
             @Json(name = "password") val password: String) {

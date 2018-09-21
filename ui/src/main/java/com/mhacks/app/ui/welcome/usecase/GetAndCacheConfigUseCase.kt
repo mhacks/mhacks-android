@@ -2,7 +2,7 @@ package com.mhacks.app.ui.welcome.usecase
 
 import com.mhacks.app.data.models.Configuration
 import com.mhacks.app.data.repository.ConfigRepository
-import com.mhacks.app.di.SingleUseCase
+import com.mhacks.app.mvvm.SingleUseCase
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

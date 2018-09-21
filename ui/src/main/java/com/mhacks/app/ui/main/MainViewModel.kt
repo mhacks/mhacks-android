@@ -45,6 +45,7 @@ class MainViewModel @Inject constructor(
             } else if (it is Result.Error<*>) {
                 Timber.d("Login Failure")
                 if (it.exception is EmptyResultSetException) {
+                    Timber.d("Going to the SignInActivity")
                     _login.value = null
                 } else {
                     _snackBarMessage.value =

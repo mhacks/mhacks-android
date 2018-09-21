@@ -2,7 +2,7 @@ package com.mhacks.app.ui.announcement.usecase
 
 import com.mhacks.app.data.models.Announcement
 import com.mhacks.app.data.repository.AnnouncementRepository
-import com.mhacks.app.di.SingleUseCase
+import com.mhacks.app.mvvm.SingleUseCase
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

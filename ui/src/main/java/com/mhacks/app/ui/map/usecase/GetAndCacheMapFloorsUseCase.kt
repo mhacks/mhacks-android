@@ -1,7 +1,7 @@
 package com.mhacks.app.ui.map.usecase
 
 import com.mhacks.app.data.repository.MapFloorsRepository
-import com.mhacks.app.di.SingleUseCase
+import com.mhacks.app.mvvm.SingleUseCase
 import com.mhacks.app.ui.map.MapViewModel
 import io.reactivex.Single
 import java.util.concurrent.TimeUnit

@@ -1,17 +1,11 @@
-package com.mhacks.app.di
+package com.mhacks.app.mvvm
 
-import android.arch.lifecycle.MediatorLiveData
 import com.mhacks.app.data.models.Result
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-abstract class SingleUseCase<in P, R> {
-
-    private val disposables = CompositeDisposable()
-
-    private val resultMediator = MediatorLiveData<Result<R>>()
+abstract class SingleUseCase<in P, R>: UseCase<P, R>() {
 
     abstract fun getSingle(parameters: P): Single<R>
 
@@ -22,17 +16,12 @@ abstract class SingleUseCase<in P, R> {
                 .subscribe({
                     resultMediator.postValue(Result.Success<R>(it))
                 }, {
-                    resultMediator.postValue(Result.Error(it))
+                    asRetrofitException(it)?.let { exception ->
+                        resultMediator.postValue(Result.Error(exception))
+                    } ?: run {
+                        resultMediator.postValue(Result.Error(it))
+                    }
                 })
         disposables.add(disposable)
     }
-
-    open fun observe(): MediatorLiveData<Result<R>> = resultMediator
-
-    fun onCleared() {
-        if (!disposables.isDisposed) {
-            disposables.dispose()
-        }
-    }
-
 }

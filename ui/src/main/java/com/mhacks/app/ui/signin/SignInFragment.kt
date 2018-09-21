@@ -1,77 +1,84 @@
 package com.mhacks.app.ui.signin
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
-import org.mhacks.mhacksui.R
+import android.view.ViewGroup
+import com.mhacks.app.data.models.Login
 import com.mhacks.app.di.module.AuthModule
-import com.mhacks.app.ui.common.BaseFragment
-import kotlinx.android.synthetic.main.fragment_login.*
+import com.mhacks.app.extension.showSnackBar
+import com.mhacks.app.extension.viewModelProvider
+import com.mhacks.app.ui.common.BaseBindingFragment
+import org.mhacks.mhacksui.R
+import org.mhacks.mhacksui.databinding.FragmentSigninBinding
 import javax.inject.Inject
 
 /**
  * Fragment for logging in the user.
  */
-class SignInFragment : BaseFragment() {
+class SignInFragment : BaseBindingFragment() {
 
-    override var layoutResourceID = R.layout.fragment_login
+    override var rootView: View? = null
 
     private var callback: Callback? = null
 
     @Inject lateinit var authInterceptor: AuthModule.AuthInterceptor
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        email_sign_in_button.setOnClickListener {
-//            showProgressBar(getString(R.string.logging_in))
-//            loginSignInPresenter.postLogin(
-//                    login_email.text.toString(),
-//                    login_password.text.toString())
-//        }
-//        no_thanks_button.setOnClickListener {
-//            loginSignInPresenter.skipLogin()
-//            callback?.startMainActivity()
-//        }
-    }
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-//        if (context is Callback) callback = context
-//        loginSignInPresenter.onAttach()
+        if (context is Callback) callback = context
     }
 
-    override fun onDetach() {
-        super.onDetach()
-//        loginSignInPresenter.onDetach()
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        FragmentSigninBinding.inflate(inflater, container, false)
+                .apply {
+                    val viewModel = viewModelProvider<SignInViewModel>(viewModelFactory)
+
+                    subscribeUi(viewModel)
+
+                    emailSignInButton.setOnClickListener {
+                        viewModel.postLogin(
+                                Login.Request(
+                                        loginEmail.text.toString(),
+                                        loginPassword.text.toString()))
+                    }
+
+                    noThanksButton.setOnClickListener {
+                        viewModel.skipLogin()
+                    }
+                    setLifecycleOwner(this@SignInFragment)
+                    rootView = root
+                }
+
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-//    override fun postLoginSuccess(login: Login) {
-//        authInterceptor.token = login.token
-//        callback?.startMainActivity()
-//    }
-//
-//    override fun postLoginFailure(username: String, password: String, error: Throwable) {
-//        showMainContent()
-//        when(error) {
-//            is HttpException -> {
-//                when (error.code()) {
-//                    401 -> Snackbar.make(view!!,
-//                            R.string.logging_in_auth_error,
-//                            Snackbar.LENGTH_SHORT).show()
-//                }
-//            }
-//            is UnknownHostException ->
-//                Snackbar.make(view!!, R.string.no_internet, Snackbar.LENGTH_INDEFINITE)
-//                        .setActionTextColor(Color.WHITE)
-//                        .setAction(R.string.try_again) {
-//                            loginSignInPresenter.postLogin(username, password) }
-//                        .show()
-//        }
-//    }
+    private fun subscribeUi(viewModel: SignInViewModel) {
+        viewModel.login.observe(this, Observer {
+            it?.let { login ->
+                if (!login.isSkipped) {
+                    authInterceptor.token = login.token
+                }
+                callback?.startMainActivity()
+            }
+        })
 
-//    override fun skipLoginSuccess() {
-//        callback?.startMainActivity()
-//    }
+        viewModel.snackBarMessage.observe(this, Observer {
+            it?.let { message ->
+                val (textMessage, loginRequest) = message
+                rootView?.showSnackBar(Snackbar.LENGTH_LONG, textMessage, R.string.try_again) {
+                    viewModel.postLogin(loginRequest)
+                }
+            }
+        })
+    }
 
     interface Callback {
 

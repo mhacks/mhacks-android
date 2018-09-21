@@ -12,13 +12,16 @@ class UserRepository @Inject constructor(
 
     fun getLoginCache() = loginDao.getLogin()
 
-    fun postLogin(loginRequest: Login.Request) =
-            userService.postLogin(loginRequest)
+    fun postLogin(loginRequest: Login.Request): Single<Login> {
+        val (email, password) = loginRequest
+        return userService.postLogin(email, password)
+    }
 
     fun updateLoginCache(login: Login) =
             Single.fromCallable {
                 loginDao.insertLogin(login)
                 return@fromCallable login
-            }
+            }!!
+
 }
 

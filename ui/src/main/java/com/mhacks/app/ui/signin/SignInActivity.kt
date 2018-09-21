@@ -22,9 +22,9 @@ class SignInActivity : BaseActivity(),
             startActivity(Intent(this, MainActivity::class.java))
 
     override fun startViewPagerFragment(fragment: Fragment) {
-        supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.login_container, fragment)
-                .commit()
+//        supportFragmentManager
+//                .beginTransaction()
+//                .replace(R.id.login_container, fragment)
+//                .commit()
     }
 }

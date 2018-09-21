@@ -1,5 +1,6 @@
 package com.mhacks.app.data.models
 
+import com.mhacks.app.data.models.common.RetrofitException
 import java.net.UnknownHostException
 
 /**
@@ -10,7 +11,7 @@ sealed class Result<out R> {
 
     data class Success<out T>(val data: T) : Result<T>()
 
-    data class Error<out E: Throwable>(val exception: E) : Result<Nothing>() {
+    data class Error<out R: Throwable>(val exception: R) : Result<Nothing>() {
 
         val kind: Kind get() {
             return when (exception) {

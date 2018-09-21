@@ -1,6 +1,6 @@
 package com.mhacks.app.data.repository
 
-import com.mhacks.app.data.GetImageFromUrlService
+import com.mhacks.app.data.service.GetImageFromUrlService
 import com.mhacks.app.data.models.MapFloor
 import com.mhacks.app.data.room.dao.MapFloorDao
 import com.mhacks.app.data.service.MapService

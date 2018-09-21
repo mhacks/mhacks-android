@@ -1,4 +1,4 @@
-package com.mhacks.app.data
+package com.mhacks.app.data.service
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

@@ -2,7 +2,7 @@ package com.mhacks.app.ui.welcome.usecase
 
 import com.mhacks.app.data.models.Announcement
 import com.mhacks.app.data.repository.AnnouncementRepository
-import com.mhacks.app.di.ObservableUseCase
+import com.mhacks.app.mvvm.ObservableUseCase
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
