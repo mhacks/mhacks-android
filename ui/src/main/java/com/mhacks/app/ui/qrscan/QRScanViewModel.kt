@@ -7,18 +7,22 @@ import com.mhacks.app.data.models.Feedback
 import com.mhacks.app.data.models.Result
 import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.data.models.common.TextMessage
+import com.mhacks.app.ui.qrscan.usecase.GetCameraSettingsUseCase
+import com.mhacks.app.ui.qrscan.usecase.UpdateCameraSettingsUseCase
 import com.mhacks.app.ui.qrscan.usecase.VerifyTicketUseCase
 import org.mhacks.mhacksui.R
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
  * ViewModel for QRScan feature
  */
-
 class QRScanViewModel @Inject constructor(
-        private val verifyTicketUseCase: VerifyTicketUseCase): ViewModel() {
+        private val verifyTicketUseCase: VerifyTicketUseCase,
+        private val getCameraSettingsUseCase: GetCameraSettingsUseCase,
+        private val updateCameraSettingsUseCase: UpdateCameraSettingsUseCase): ViewModel() {
 
-    private val _verifyTicketResult = verifyTicketUseCase.observe()
+    private val verifyTicketResult = verifyTicketUseCase.observe()
 
     private val _verifyTicket = MediatorLiveData<List<Feedback>>()
 
@@ -30,8 +34,16 @@ class QRScanViewModel @Inject constructor(
     val snackBarMessage: LiveData<TextMessage>
         get() = _snackBarMessage
 
+    private val _cameraSettings = MediatorLiveData<Pair<Boolean, Boolean>>()
+
+    private val getCameraSettingsResult = getCameraSettingsUseCase.observe()
+
+    private val putCameraSettingsResult = updateCameraSettingsUseCase.observe()
+
+    val cameraSettings get() = _cameraSettings
+
     init {
-        _verifyTicket.addSource(_verifyTicketResult) {
+        _verifyTicket.addSource(verifyTicketResult) {
             if (it is Result.Success) {
                 it.let { mapResult ->
                     verifyTicket.value = mapResult.data
@@ -72,47 +84,58 @@ class QRScanViewModel @Inject constructor(
                 }
             }
         }
+
+        _cameraSettings.addSource(getCameraSettingsResult, ::updateCameraSettings)
+
+        _cameraSettings.addSource(putCameraSettingsResult, ::updateCameraSettings)
+    }
+
+
+    private fun updateCameraSettings(result: Result<Pair<Boolean, Boolean>>?) {
+        if (result is Result.Success) {
+            result.let { settings ->
+                Timber.d("Updated camera settings")
+                _cameraSettings.value = settings.data
+            }
+        }
     }
 
     fun verifyTicket(email: String) {
         verifyTicketUseCase.execute(email)
     }
 
+    fun getCameraSettings() {
+        getCameraSettingsUseCase.execute(Unit)
+    }
+
+    fun changeCameraSettings(settingChanged: Int) {
+        // Pair is <AUTO_FOCUSED_ENABLED, FLASH_ENABLED>
+
+        var cameraSettings = _cameraSettings.value ?: Pair(false, false)
+
+        with(cameraSettings) {
+            cameraSettings = when (settingChanged) {
+                AUTO_FOCUS -> Pair(first, !second)
+                FLASH -> Pair(!first, second)
+                else -> {
+                    Timber.e("Use constants in Companion to update camera settings")
+                    return
+                }
+            }
+        }
+
+        updateCameraSettingsUseCase.execute(cameraSettings)
+    }
+
     override fun onCleared() {
         super.onCleared()
         verifyTicketUseCase.onCleared()
     }
+
+    companion object {
+
+        const val AUTO_FOCUS = 0
+
+        const val FLASH = 1
+    }
 }
-//class QRScanPresenterImpl @Inject constructor(
-//        private val qrScanView: QRScanView,
-//        private val mHacksService: MHacksService,
-//        private val mHacksDatabase: MHacksDatabase,
-//        private val sharedPreferencesManager: SharedPreferencesManager,
-//        private val authInterceptor: AuthModule.AuthInterceptor)
-//    : QRScanPresenter, BasePresenterImpl() {
-
-
-//    override fun getCameraSettings()
-//            = qrScanView.onGetCameraSettings(sharedPreferencesManager.getCameraSettings())
-//
-//    override fun verifyTicket(email: String) {
-//        mHacksDatabase.loginDao().getLogin()
-//                .flatMap { authInterceptor.token = it.token
-//                    mHacksService.verifyUserTicket(email) }
-//                .map { it.feedback }
-//                .subscribeOn(Schedulers.newThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(
-//                        { qrScanView.onVerifyTicketSuccess(it) },
-//                        { qrScanView.onVerifyTicketFailure(it) }
-//                )
-//    }
-//
-//    override fun updateCameraSettings(isAutoFocusEnabled: Boolean,
-//                                      isFlashEnabled: Boolean) {
-//        sharedPreferencesManager.putCameraSettings(isAutoFocusEnabled, isFlashEnabled)
-//        qrScanView.onUpdateCameraSettings(Pair(
-//                isAutoFocusEnabled, isFlashEnabled)
-//        )
-//    }
-//}

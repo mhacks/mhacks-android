@@ -90,7 +90,6 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-
     override fun onCleared() {
         super.onCleared()
         postLoginUseCase.onCleared()
