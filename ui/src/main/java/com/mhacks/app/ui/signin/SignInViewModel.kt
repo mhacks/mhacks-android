@@ -82,6 +82,9 @@ class SignInViewModel @Inject constructor(
                                                 null),
                                         loginRequest)
                     }
+                    RetrofitException.Kind.UNAUTHORIZED -> {
+                        // no-op
+                    }
                 }
             }
         }

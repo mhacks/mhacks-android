@@ -85,7 +85,6 @@ class AnnouncementFragment : NavigationBindingFragment() {
                 }
             })
 
-
             announcementViewModel.snackbarMessage.observe(this, Observer {
                 it?.let { textMessage ->
                     rootView?.showSnackBar(

@@ -33,7 +33,10 @@ class RetrofitException internal constructor(
          * An internal error occurred while attempting to execute a request. It is best practice to
          * re-throw this exception so your application crashes.
          */
-        UNEXPECTED
+        UNEXPECTED,
+        /** A 401 HTTP status code was received from the server.  */
+
+        UNAUTHORIZED
     }
 
     /**
@@ -68,6 +71,11 @@ class RetrofitException internal constructor(
 
         fun unexpectedError(exception: Throwable): RetrofitException {
             return RetrofitException(exception.message, null, null, Kind.UNEXPECTED, exception)
+        }
+
+        fun unauthorizedError(url: String, response: Response<*>): RetrofitException {
+            val message = """${response.code()} ${response.message()}"""
+            return RetrofitException(message, url, response, Kind.UNAUTHORIZED, null)
         }
     }
 }

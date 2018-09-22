@@ -83,6 +83,12 @@ class WelcomeViewModel @Inject constructor(
                                             R.string.unknown_error,
                                             null)
                         }
+                        RetrofitException.Kind.UNAUTHORIZED -> {
+                            _snackBarMessage.value =
+                                    TextMessage(
+                                            R.string.unauthorized_error,
+                                            null)
+                        }
                     }
                 }
             }

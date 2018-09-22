@@ -18,6 +18,10 @@ abstract class UseCase<in P, R> {
     protected fun asRetrofitException(throwable: Throwable): RetrofitException? {
         if (throwable is HttpException) {
             val response = throwable.response()
+            if (throwable.code() == 401) {
+                return RetrofitException.unauthorizedError(
+                        response.raw().request().url().toString(), response)
+            }
             return RetrofitException.httpError(
                     response.raw().request().url().toString(), response)
         }

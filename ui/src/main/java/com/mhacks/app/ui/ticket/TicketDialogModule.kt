@@ -1,15 +1,10 @@
 package com.mhacks.app.ui.ticket
 
-import com.mhacks.app.data.network.services.MHacksService
-import com.mhacks.app.data.room.MHacksDatabase
-import com.mhacks.app.di.module.AuthModule
-import com.mhacks.app.ui.ticket.presenter.TicketDialogPresenter
-import com.mhacks.app.ui.ticket.presenter.TicketDialogPresenterImpl
-import com.mhacks.app.ui.ticket.view.TicketDialogFragment
-import com.mhacks.app.ui.ticket.view.TicketDialogView
+import android.arch.lifecycle.ViewModel
+import com.mhacks.app.di.ViewModelKey
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
+import dagger.multibindings.IntoMap
 
 /**
  * Provides dependencies for welcome module.
@@ -18,21 +13,8 @@ import dagger.Provides
 abstract class TicketDialogModule {
 
     @Binds
-    abstract fun provideTicketDialogView(ticketDialogFragment: TicketDialogFragment): TicketDialogView
+    @IntoMap
+    @ViewModelKey(TicketViewModel::class)
+    abstract fun bindTicketViewModel(ticketViewModel: TicketViewModel): ViewModel
 
-    @Module
-    companion object {
-        @Provides
-        @JvmStatic
-        fun provideTicketDialogPresenter(ticketDialogView: TicketDialogView,
-                                         mHacksService: MHacksService,
-                                         mHacksDatabase: MHacksDatabase,
-                                         authInterceptor: AuthModule.AuthInterceptor)
-                : TicketDialogPresenter =
-                TicketDialogPresenterImpl(
-                        ticketDialogView,
-                        mHacksService,
-                        mHacksDatabase,
-                        authInterceptor)
-    }
 }

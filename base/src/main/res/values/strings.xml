@@ -9,6 +9,7 @@
     <string name="no_internet">No internet.</string>
     <string name="try_again">Try again</string>
     <string name="unknown_error">Unknown error</string>
+    <string name="unauthorized_error">Unauthorized</string>
 
     <!-- Welcome Fragment-->
     <string name="countdown_timer_default">36:00:00</string>

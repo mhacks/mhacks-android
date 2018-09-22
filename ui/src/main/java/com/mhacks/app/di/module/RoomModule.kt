@@ -47,7 +47,7 @@ class RoomModule {
 
     @Singleton
     @Provides
-    fun provideUserdao(mHacksDatabase: MHacksDatabase) =
+    fun provideUserao(mHacksDatabase: MHacksDatabase) =
             mHacksDatabase.userDao()
 
 }

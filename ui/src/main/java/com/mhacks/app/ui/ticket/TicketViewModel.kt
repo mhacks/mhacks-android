@@ -1,34 +1,30 @@
-package com.mhacks.app.ui.events
+package com.mhacks.app.ui.ticket
 
-import android.annotation.SuppressLint
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.mhacks.app.data.models.Event
 import com.mhacks.app.data.models.Result
+import com.mhacks.app.data.models.User
 import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.data.models.common.TextMessage
-import com.mhacks.app.ui.events.usecase.GetAndCacheEventsUseCase
+import com.mhacks.app.ui.ticket.usecase.GetAndCacheUserUseCase
 import org.mhacks.mhacksui.R
-import java.text.SimpleDateFormat
-import java.util.*
+import timber.log.Timber
 import javax.inject.Inject
 
-class EventsViewModel @Inject constructor(
-        private val getAndCacheEventsUseCase: GetAndCacheEventsUseCase): ViewModel() {
+class TicketViewModel @Inject constructor(
+        private val getAndCacheUserUseCase: GetAndCacheUserUseCase): ViewModel() {
 
-    private val getAndCacheEventResult = getAndCacheEventsUseCase.observe()
+    private val getAndCacheConfigResult = getAndCacheUserUseCase.observe()
 
-    private val _events = MediatorLiveData<
-            Map<String, List<EventsViewModel.EventWithDay>>>()
+    private val _user = MediatorLiveData<User>()
 
-    val events
-        get() =_events
+    val user: LiveData<User> = _user
 
     private val _snackBarMessage = MediatorLiveData<TextMessage>()
 
-    val snackbarMessage: LiveData<TextMessage>
+    val snackBarMessage: LiveData<TextMessage>
         get() = _snackBarMessage
 
     private val _error: MutableLiveData<RetrofitException.Kind> = MutableLiveData()
@@ -36,13 +32,14 @@ class EventsViewModel @Inject constructor(
     val error: LiveData<RetrofitException.Kind>
         get() = _error
 
+
     init {
-        _events.addSource(getAndCacheEventResult) {
+        _user.addSource(getAndCacheConfigResult) {
             if (it is Result.Success) {
-                it.let { resultList ->
-                    _events.value = mapToEventWithDay(resultList.data)
-                }
+                Timber.d("Ticket Success")
+                _user.value = it.data
             } else if (it is Result.Error<*>) {
+                Timber.d("Ticket Failure")
                 (it.exception as? RetrofitException)?.let { retrofitException ->
                     when (retrofitException.kind) {
                         RetrofitException.Kind.HTTP -> {
@@ -54,7 +51,7 @@ class EventsViewModel @Inject constructor(
                             }
                         }
                         RetrofitException.Kind.NETWORK -> {
-                            _error.value = retrofitException.kind
+                            _error.value = RetrofitException.Kind.NETWORK
 
                         }
                         RetrofitException.Kind.UNEXPECTED -> {
@@ -64,10 +61,8 @@ class EventsViewModel @Inject constructor(
                                             null)
                         }
                         RetrofitException.Kind.UNAUTHORIZED -> {
-                            _snackBarMessage.value =
-                                    TextMessage(
-                                            R.string.unknown_error,
-                                            null)
+                            Timber.d("User not signed in from Ticket Dialog")
+                            _error.value = RetrofitException.Kind.UNAUTHORIZED
                         }
                     }
                 }
@@ -75,33 +70,13 @@ class EventsViewModel @Inject constructor(
         }
     }
 
-    private fun mapToEventWithDay(eventList: List<Event>): Map<String, List<EventWithDay>> =
-            eventList.asSequence()
-                    .map { events ->
-                        EventWithDay(
-                                weekDateFormat.format(Date(events.startDateTs)),
-                                events)
-                    }
-                    .groupBy { it.day }
-
-    fun getAndCacheEvents() {
-        getAndCacheEventsUseCase.execute(Unit)
+    fun getAndCacheUser() {
+        getAndCacheUserUseCase.execute(Unit)
     }
 
     override fun onCleared() {
         super.onCleared()
-        getAndCacheEventsUseCase.onCleared()
+        getAndCacheUserUseCase.onCleared()
     }
 
-    data class EventWithDay(
-            val day: String,
-            val event: Event)
-
-
-    companion object {
-
-        @SuppressLint("ConstantLocale")
-        val weekDateFormat = SimpleDateFormat("EEEE", Locale.getDefault())
-
-    }
 }

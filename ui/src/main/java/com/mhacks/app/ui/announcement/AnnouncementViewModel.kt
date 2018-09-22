@@ -44,6 +44,7 @@ class AnnouncementViewModel @Inject constructor(
                 pollAnnouncementsUseCase.execute(Unit)
 
             } else if (it is Result.Error<*>) {
+                Timber.d("Announcements Errpr")
                 (it.exception as? RetrofitException)?.let { retrofitException ->
                     when (retrofitException.kind) {
                         RetrofitException.Kind.HTTP -> {
@@ -62,6 +63,12 @@ class AnnouncementViewModel @Inject constructor(
                             _snackBarMessage.value =
                                     TextMessage(
                                             R.string.unknown_error,
+                                            null)
+                        }
+                        RetrofitException.Kind.UNAUTHORIZED -> {
+                            _snackBarMessage.value =
+                                    TextMessage(
+                                            R.string.unauthorized_error,
                                             null)
                         }
                     }
@@ -93,6 +100,12 @@ class AnnouncementViewModel @Inject constructor(
                             _snackBarMessage.value =
                                     TextMessage(
                                             R.string.unknown_error,
+                                            null)
+                        }
+                        RetrofitException.Kind.UNAUTHORIZED -> {
+                            _snackBarMessage.value =
+                                    TextMessage(
+                                            R.string.unauthorized_error,
                                             null)
                         }
                     }
