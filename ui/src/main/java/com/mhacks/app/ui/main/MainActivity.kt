@@ -103,8 +103,7 @@ class MainActivity : BaseActivity(),
                     }
                 } else {
                     View.OnClickListener { _ ->
-                        showAdminOptions()
-//                        showTicketDialogFragment()
+                        showTicketDialogFragment()
                     }
                 }
                 binding.mainActivityQrTicketFab.setOnClickListener(listener)
@@ -113,7 +112,6 @@ class MainActivity : BaseActivity(),
     }
 
     private fun subscribeNonUi() {
-
         mainViewModel.login.observe(this, Observer {
             it?.let { _ ->
                 initActivity()

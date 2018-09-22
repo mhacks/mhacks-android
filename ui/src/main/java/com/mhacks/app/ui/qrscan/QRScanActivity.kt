@@ -10,11 +10,15 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.hardware.Camera
 import android.os.Bundle
 import android.support.annotation.NonNull
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
+import android.support.v4.widget.ImageViewCompat
 import android.support.v7.app.AlertDialog
 import android.util.Patterns
 import android.view.GestureDetector
@@ -49,6 +53,8 @@ class QRScanActivity:
         BaseActivity(),
         BarcodeGraphicTracker.BarcodeUpdateListener {
 
+    private var camera: Camera? = null
+
     private var cameraSource: CameraSource? = null
 
     private var preview: CameraSourcePreview? = null
@@ -60,10 +66,6 @@ class QRScanActivity:
     private var gestureDetector: GestureDetector? = null
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private var hasAutoFocus = false
-
-    private var useFlash = false
 
     private var qrScanViewModel: QRScanViewModel? = null
 
@@ -84,20 +86,15 @@ class QRScanActivity:
 
         val rc = ActivityCompat.checkSelfPermission(this@QRScanActivity, Manifest.permission.CAMERA)
         if (rc == PackageManager.PERMISSION_GRANTED) {
-//                viewModel.getCameraSettings()
-
-            // TODO: REMOVE
             createCameraSource()
-
+            qrScanViewModel?.getCameraSettings()
 
             activity_camera_source_flash_icon.setOnClickListener {
-                useFlash = !useFlash
-//                qrScanPresenter.updateCameraSettings(hasAutoFocus, useFlash)
+                qrScanViewModel?.changeCameraSettings(QRScanViewModel.FLASH)
 
             }
             activity_camera_source_autofocus_icon.setOnClickListener {
-                hasAutoFocus = !hasAutoFocus
-//                viewModel.updateCameraSettings(hasAutoFocus, useFlash)
+                qrScanViewModel?.changeCameraSettings(QRScanViewModel.AUTO_FOCUS)
             }
         } else {
             requestCameraPermission()
@@ -116,6 +113,12 @@ class QRScanActivity:
         qrScanViewModel?.snackBarMessage?.observe(this, Observer {
             it?.let { textMessage ->
                 showSnackBar(textMessage)
+            }
+        })
+        qrScanViewModel?.cameraSettings?.observe(this, Observer {
+            it?.let { cameraSettings ->
+                val (isAutoFocus, isFlash) = cameraSettings
+                updateCameraSettings(isAutoFocus, isFlash)
             }
         })
     }
@@ -206,8 +209,6 @@ class QRScanActivity:
                 .setRequestedFps(15.0f)
 
         cameraSource = builder
-                .setFocusMode(if (this.hasAutoFocus) Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE else null)
-                .setFlashMode(if (this.useFlash) Camera.Parameters.FLASH_MODE_TORCH else null)
                 .build()
     }
 
@@ -258,14 +259,15 @@ class QRScanActivity:
                                             @NonNull permissions: Array<String>,
                                             @NonNull grantResults: IntArray) {
         if (requestCode != RC_HANDLE_CAMERA_PERM) {
-            Timber.w("Got unexpected permission result: " + requestCode)
+            Timber.w("Got unexpected permission result: $requestCode")
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
             return
         }
 
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Timber.w("Camera permission granted - initialize the camera source")
-//            qrScanPresenter.getCameraSettings()
+            createCameraSource()
+            qrScanViewModel?.getCameraSettings()
             return
         }
 
@@ -412,49 +414,19 @@ class QRScanActivity:
     override fun onBarcodeDetected(barcode: Barcode) {
         Timber.d("%s Detected", barcode.displayValue)
     }
-//
-//    override fun onGetCameraSettings(settings: Pair<Boolean, Boolean>) {
-//        hasAutoFocus = settings.first
-//        useFlash = settings.second
-//
-//        val colorAccent =
-//                ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
-//
-//        if (hasAutoFocus) ImageViewCompat.setImageTintList(activity_camera_source_autofocus_icon, colorAccent)
-//        else ImageViewCompat.setImageTintList(activity_camera_source_autofocus_icon,
-//                ColorStateList.valueOf(Color.WHITE))
-//
-//        if (useFlash) ImageViewCompat.setImageTintList(activity_camera_source_flash_icon, colorAccent)
-//        else ImageViewCompat.setImageTintList(activity_camera_source_flash_icon,
-//                ColorStateList.valueOf(Color.WHITE))
-//        createCameraSource()
-//    }
 
-//    override fun onUpdateCameraSettings(settings: Pair<Boolean, Boolean>) {
-//        val colorAccent =
-//                ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
-//
-//        if (hasAutoFocus) ImageViewCompat.setImageTintList(activity_camera_source_autofocus_icon, colorAccent)
-//        else ImageViewCompat.setImageTintList(activity_camera_source_autofocus_icon,
-//                ColorStateList.valueOf(Color.WHITE))
-//
-//        if (useFlash)
-//            ImageViewCompat.setImageTintList(activity_camera_source_flash_icon, colorAccent)
-//        else ImageViewCompat.setImageTintList(activity_camera_source_flash_icon,
-//                ColorStateList.valueOf(Color.WHITE))
-//        updateCameraSettings(useFlash, hasAutoFocus)
-//    }
 
-    private var camera: Camera? = null
     private fun updateCameraSettings(hasFlash: Boolean, hasAutoFocus: Boolean) {
-        camera = getCamera(cameraSource!!)
+        camera = cameraSource?.let {
+            getCamera(it)
+        }
         if (camera != null) {
             try {
-                val param = camera!!.parameters
-                param.flashMode =
+                val param = camera?.parameters
+                param?.flashMode =
                         if (hasFlash) Camera.Parameters.FLASH_MODE_TORCH
                         else Camera.Parameters.FLASH_MODE_OFF
-                param.focusMode =
+                param?.focusMode =
                         if (hasAutoFocus) Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE
                         else Camera.Parameters.FOCUS_MODE_FIXED
                 camera?.parameters = param
@@ -462,6 +434,25 @@ class QRScanActivity:
                 Timber.e(e)
             }
         }
+
+        val colorAccent =
+                ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
+
+        if (hasAutoFocus)
+            ImageViewCompat.setImageTintList(
+                    activity_camera_source_autofocus_icon,
+                    colorAccent)
+        else ImageViewCompat.setImageTintList(
+                activity_camera_source_autofocus_icon,
+                ColorStateList.valueOf(Color.WHITE))
+
+        if (hasFlash)
+            ImageViewCompat.setImageTintList(
+                    activity_camera_source_flash_icon,
+                    colorAccent)
+        else ImageViewCompat.setImageTintList(
+                activity_camera_source_flash_icon,
+                ColorStateList.valueOf(Color.WHITE))
     }
 
 
@@ -471,7 +462,7 @@ class QRScanActivity:
             if (field.type === Camera::class.java) {
                 field.isAccessible = true
                 try {
-                    return field.get(cameraSource) as Camera
+                    return field.get(cameraSource) as Camera?
                 } catch (e: IllegalAccessException) {
                     Timber.e(e)
                 }
