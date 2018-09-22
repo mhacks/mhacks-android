@@ -1,15 +1,10 @@
 package com.mhacks.app.ui.qrscan
 
-import com.mhacks.app.data.SharedPreferencesManager
-import com.mhacks.app.data.network.services.MHacksService
-import com.mhacks.app.data.room.MHacksDatabase
-import com.mhacks.app.di.module.AuthModule
-import com.mhacks.app.ui.qrscan.presenter.QRScanPresenter
-import com.mhacks.app.ui.qrscan.presenter.QRScanPresenterImpl
-import com.mhacks.app.ui.qrscan.view.QRScanView
+import android.arch.lifecycle.ViewModel
+import com.mhacks.app.di.ViewModelKey
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
+import dagger.multibindings.IntoMap
 
 /**
  * Module for the QRScanActivity.
@@ -18,23 +13,8 @@ import dagger.Provides
 abstract class QRScanActivityModule {
 
     @Binds
-    abstract fun provideQRScanView(QRActivity: QRScanActivity): QRScanView
+    @IntoMap
+    @ViewModelKey(QRScanViewModel::class)
+    abstract fun bindQRScanViewModel(qrScanViewModel: QRScanViewModel): ViewModel
 
-    @Module
-    companion object {
-        @Provides
-        @JvmStatic
-        fun provideQRScanPresenter(qrScanView: QRScanView,
-                                   mHacksService: MHacksService,
-                                   mHacksDatabase: MHacksDatabase,
-                                   sharedPreferencesManager: SharedPreferencesManager,
-                                   authInterceptor: AuthModule.AuthInterceptor)
-                : QRScanPresenter =
-                QRScanPresenterImpl(
-                        qrScanView,
-                        mHacksService,
-                        mHacksDatabase,
-                        sharedPreferencesManager,
-                        authInterceptor)
-    }
 }

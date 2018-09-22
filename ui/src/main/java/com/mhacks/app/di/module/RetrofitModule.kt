@@ -12,6 +12,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
@@ -28,12 +29,12 @@ import javax.inject.Singleton
         return Cache(application.cacheDir, cacheSize.toLong())
     }
 
-
     @Provides
     @Singleton
     internal fun provideOkhttpClient(cache: Cache, interceptor: AuthModule.AuthInterceptor?): OkHttpClient {
         val client = OkHttpClient.Builder()
-        client.cache(cache)
+                .cache(cache)
+                .connectTimeout(10, TimeUnit.SECONDS)
 
         if (BuildConfig.DEBUG)
                 client.addInterceptor(HttpLoggingInterceptor()

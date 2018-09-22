@@ -1,5 +1,6 @@
 package com.mhacks.app.data.models
 
+import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import android.arch.persistence.room.TypeConverters
@@ -19,6 +20,7 @@ data class UserResponse(
 @Entity(tableName = "user")
 data class User(
     @PrimaryKey
+	@ColumnInfo(name = "user_id")
     @Json(name = "id") var id: String,
     @Json(name = "createdAt") var createdAt: String?,
     @Json(name = "updatedAt") var updatedAt: String?,
@@ -42,4 +44,13 @@ data class User(
     @Json(name = "tshirt") var tshirt: String?,
     @Json(name = "race") var race: String?,
     @Json(name = "sex") var sex: String?
-)
+) {
+	val isAdmin
+		get() = if (groups == null) {
+			false
+		} else {
+			groups?.any {
+				it == "admin"
+			}
+		}
+}

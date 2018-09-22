@@ -1,40 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:animateLayoutChanges="true">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ProgressBar
-        style="@style/CountdownProgressBar"
-        android:id="@+id/progressbar_counter"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:max="100"
-        android:progress="0" />
+    <data>
+        <variable
+            name="viewModel"
+            type="com.mhacks.app.ui.welcome.WelcomeViewModel" />
+    </data>
 
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
 
-    <TextView
-        android:id="@+id/timer_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:paddingStart="10dip"
-        android:paddingEnd="10dip"
-        android:text="@string/countdown_timer_default"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/text_countdown_timertext"
-        />
+        <com.mhacks.app.ui.common.ProgressWheel
+            android:id="@+id/welcome_fragment_progressbar_counter"
+            android:layout_width="325dp"
+            android:layout_height="325dp"
+            app:textMessage="@{viewModel.timerText}"
+            app:definitionText="@string/countdown_timer_title"
+            app:percentage="@{safeUnbox(viewModel.timerProgress)}"
+            app:defTextSize="@dimen/text_countdown_normaltitles"
+            app:countTextSize="@dimen/text_countdown_timertext"
+            app:marginBtwText= "26dp"
+            app:barWidth="15dp"
+            app:progressColor="@color/colorPrimary"
+            app:defTextColor="@color/colorPrimary"
+            app:countTextColor="@color/colorPrimary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <TextView
-        android:id="@+id/timer_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/timer_text"
-        android:padding="10dip"
-        android:text="@string/countdown_timer_title"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/text_countdown_normaltitles" />
-</RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
+</layout>

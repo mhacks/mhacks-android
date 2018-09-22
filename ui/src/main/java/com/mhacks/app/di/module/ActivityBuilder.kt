@@ -3,10 +3,10 @@ package com.mhacks.app.di.module
 import com.mhacks.app.ui.announcement.AnnouncementFragmentProvider
 import com.mhacks.app.ui.announcement.createannouncement.CreateAnnouncementDialogFragmentProvider
 import com.mhacks.app.ui.events.EventsFragmentProvider
-import com.mhacks.app.ui.login.LoginActivity
-import com.mhacks.app.ui.login.signin.LoginSignInFragmentProvider
+import com.mhacks.app.ui.signin.SignInActivity
+import com.mhacks.app.ui.signin.SignInFragmentProvider
 import com.mhacks.app.ui.main.MainActivityModule
-import com.mhacks.app.ui.main.view.MainActivity
+import com.mhacks.app.ui.main.MainActivity
 import com.mhacks.app.ui.map.MapViewFragmentProvider
 import com.mhacks.app.ui.qrscan.QRScanActivity
 import com.mhacks.app.ui.qrscan.QRScanActivityModule
@@ -31,9 +31,9 @@ abstract class ActivityBuilder {
     abstract fun bindMainActivity(): MainActivity
 
     @ContributesAndroidInjector(modules = [
-        LoginSignInFragmentProvider::class
+        SignInFragmentProvider::class
     ])
-    abstract fun bindLoginActivity(): LoginActivity
+    abstract fun bindSignInActivity(): SignInActivity
 
     @ContributesAndroidInjector(modules = [
         QRScanActivityModule::class])

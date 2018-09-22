@@ -4,19 +4,17 @@ package com.mhacks.app.ui.qrscan
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.hardware.Camera
 import android.os.Bundle
 import android.support.annotation.NonNull
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v4.widget.ImageViewCompat
 import android.support.v7.app.AlertDialog
 import android.util.Patterns
 import android.view.GestureDetector
@@ -28,22 +26,18 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
-import org.mhacks.mhacksui.R
-import com.mhacks.app.data.models.Feedback
+import com.mhacks.app.extension.viewModelProvider
 import com.mhacks.app.ui.common.BaseActivity
-import com.mhacks.app.ui.qrscan.presenter.QRScanPresenter
 import com.mhacks.app.ui.qrscan.view.BarcodeGraphic
 import com.mhacks.app.ui.qrscan.view.BarcodeGraphicTracker
 import com.mhacks.app.ui.qrscan.view.BarcodeTrackerFactory
-import com.mhacks.app.ui.qrscan.view.QRScanView
 import com.mhacks.app.ui.qrscan.view.camera.CameraSource
 import com.mhacks.app.ui.qrscan.view.camera.CameraSourcePreview
 import com.mhacks.app.ui.qrscan.view.camera.GraphicOverlay
 import kotlinx.android.synthetic.main.activity_qr_scan.*
-import retrofit2.HttpException
+import org.mhacks.mhacksui.R
 import timber.log.Timber
 import java.io.IOException
-import java.net.UnknownHostException
 import javax.inject.Inject
 
 /**
@@ -51,7 +45,9 @@ import javax.inject.Inject
  * rear facing camera. During detection overlay graphics are drawn to indicate the position,
  * size, and ID of each barcode.
  */
-class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeUpdateListener {
+class QRScanActivity:
+        BaseActivity(),
+        BarcodeGraphicTracker.BarcodeUpdateListener {
 
     private var cameraSource: CameraSource? = null
 
@@ -63,11 +59,13 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
 
     private var gestureDetector: GestureDetector? = null
 
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private var hasAutoFocus = false
 
     private var useFlash = false
 
-    @Inject lateinit var qrScanPresenter: QRScanPresenter
+    private var qrScanViewModel: QRScanViewModel? = null
 
     /**
      * Initializes the UI and creates the detector pipeline.
@@ -76,21 +74,30 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_scan)
 
+        qrScanViewModel = viewModelProvider(viewModelFactory)
+
+        subscribeUi()
+
         preview = findViewById(R.id.activity_camera_source_preview)
         graphicOverlay = findViewById(R.id.activity_barcode_graphic_overlay)
 
 
-        val rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+        val rc = ActivityCompat.checkSelfPermission(this@QRScanActivity, Manifest.permission.CAMERA)
         if (rc == PackageManager.PERMISSION_GRANTED) {
-            qrScanPresenter.getCameraSettings()
+//                viewModel.getCameraSettings()
+
+            // TODO: REMOVE
+            createCameraSource()
+
+
             activity_camera_source_flash_icon.setOnClickListener {
                 useFlash = !useFlash
-                qrScanPresenter.updateCameraSettings(hasAutoFocus, useFlash)
+//                qrScanPresenter.updateCameraSettings(hasAutoFocus, useFlash)
 
             }
             activity_camera_source_autofocus_icon.setOnClickListener {
                 hasAutoFocus = !hasAutoFocus
-                qrScanPresenter.updateCameraSettings(hasAutoFocus, useFlash)
+//                viewModel.updateCameraSettings(hasAutoFocus, useFlash)
             }
         } else {
             requestCameraPermission()
@@ -98,9 +105,19 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
 
         gestureDetector = GestureDetector(this, CaptureGestureListener())
         scaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
-        activity_camera_source_autofocus_icon
         showToast(R.string.barcode_hint)
+    }
 
+    private fun subscribeUi() {
+        qrScanViewModel?.verifyTicket?.observe(this, Observer {
+            showToast(R.string.checked_in)
+        })
+
+        qrScanViewModel?.snackBarMessage?.observe(this, Observer {
+            it?.let { textMessage ->
+                showSnackBar(textMessage)
+            }
+        })
     }
 
     private fun requestCameraPermission() {
@@ -248,7 +265,7 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
 
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Timber.w("Camera permission granted - initialize the camera source")
-            qrScanPresenter.getCameraSettings()
+//            qrScanPresenter.getCameraSettings()
             return
         }
 
@@ -324,10 +341,9 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
             }
         }
         best?.let {
-
             if (Patterns.EMAIL_ADDRESS.matcher(best.displayValue).matches()) {
                 activity_camera_source_id_text_view.text = best.displayValue
-                qrScanPresenter.verifyTicket(best.displayValue)
+                qrScanViewModel?.verifyTicket(best.displayValue)
             }
             else showToast(R.string.not_valid_email)
             return true
@@ -394,40 +410,40 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
     }
 
     override fun onBarcodeDetected(barcode: Barcode) {
-
+        Timber.d("%s Detected", barcode.displayValue)
     }
+//
+//    override fun onGetCameraSettings(settings: Pair<Boolean, Boolean>) {
+//        hasAutoFocus = settings.first
+//        useFlash = settings.second
+//
+//        val colorAccent =
+//                ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
+//
+//        if (hasAutoFocus) ImageViewCompat.setImageTintList(activity_camera_source_autofocus_icon, colorAccent)
+//        else ImageViewCompat.setImageTintList(activity_camera_source_autofocus_icon,
+//                ColorStateList.valueOf(Color.WHITE))
+//
+//        if (useFlash) ImageViewCompat.setImageTintList(activity_camera_source_flash_icon, colorAccent)
+//        else ImageViewCompat.setImageTintList(activity_camera_source_flash_icon,
+//                ColorStateList.valueOf(Color.WHITE))
+//        createCameraSource()
+//    }
 
-    override fun onGetCameraSettings(settings: Pair<Boolean, Boolean>) {
-        hasAutoFocus = settings.first
-        useFlash = settings.second
-
-        val colorAccent =
-                ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
-
-        if (hasAutoFocus) ImageViewCompat.setImageTintList(activity_camera_source_autofocus_icon, colorAccent)
-        else ImageViewCompat.setImageTintList(activity_camera_source_autofocus_icon,
-                ColorStateList.valueOf(Color.WHITE))
-
-        if (useFlash) ImageViewCompat.setImageTintList(activity_camera_source_flash_icon, colorAccent)
-        else ImageViewCompat.setImageTintList(activity_camera_source_flash_icon,
-                ColorStateList.valueOf(Color.WHITE))
-        createCameraSource()
-    }
-
-    override fun onUpdateCameraSettings(settings: Pair<Boolean, Boolean>) {
-        val colorAccent =
-                ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
-
-        if (hasAutoFocus) ImageViewCompat.setImageTintList(activity_camera_source_autofocus_icon, colorAccent)
-        else ImageViewCompat.setImageTintList(activity_camera_source_autofocus_icon,
-                ColorStateList.valueOf(Color.WHITE))
-
-        if (useFlash)
-            ImageViewCompat.setImageTintList(activity_camera_source_flash_icon, colorAccent)
-        else ImageViewCompat.setImageTintList(activity_camera_source_flash_icon,
-                ColorStateList.valueOf(Color.WHITE))
-        updateCameraSettings(useFlash, hasAutoFocus)
-    }
+//    override fun onUpdateCameraSettings(settings: Pair<Boolean, Boolean>) {
+//        val colorAccent =
+//                ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
+//
+//        if (hasAutoFocus) ImageViewCompat.setImageTintList(activity_camera_source_autofocus_icon, colorAccent)
+//        else ImageViewCompat.setImageTintList(activity_camera_source_autofocus_icon,
+//                ColorStateList.valueOf(Color.WHITE))
+//
+//        if (useFlash)
+//            ImageViewCompat.setImageTintList(activity_camera_source_flash_icon, colorAccent)
+//        else ImageViewCompat.setImageTintList(activity_camera_source_flash_icon,
+//                ColorStateList.valueOf(Color.WHITE))
+//        updateCameraSettings(useFlash, hasAutoFocus)
+//    }
 
     private var camera: Camera? = null
     private fun updateCameraSettings(hasFlash: Boolean, hasAutoFocus: Boolean) {
@@ -463,26 +479,6 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
             }
         }
         return null
-    }
-
-    override fun onVerifyTicketSuccess(user: List<Feedback>)
-            = showToast(R.string.checked_in)
-
-
-    override fun onVerifyTicketFailure(error: Throwable) {
-        when (error) {
-            is HttpException -> {
-                when (error.code()) {
-
-                    400 -> showToast(R.string.user_not_authorized)
-
-                    401 -> showToast(R.string.post_not_authorized)
-
-                    else -> showToast(R.string.unknown_error)
-                }
-            }
-            is UnknownHostException -> showToast(R.string.no_internet)
-        }
     }
 
     companion object {

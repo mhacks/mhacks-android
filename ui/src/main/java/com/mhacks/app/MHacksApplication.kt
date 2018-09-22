@@ -6,7 +6,6 @@ import android.app.NotificationManager
 import android.content.Context
 import android.graphics.Color
 import android.os.Build
-import android.support.annotation.RequiresApi
 import com.facebook.stetho.Stetho
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.mhacks.app.data.Constants
@@ -20,13 +19,14 @@ import timber.log.Timber
 
 class MHacksApplication : DaggerApplication() {
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    private lateinit var appComponent: AppComponent
+
     override fun onCreate() {
         super.onCreate()
-        AndroidThreeTen.init(this);
+        AndroidThreeTen.init(this)
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-            Stetho.initializeWithDefaults(this);
+            Stetho.initializeWithDefaults(this)
         }
 
         if (Build.VERSION.SDK_INT >= 26) {
@@ -40,11 +40,9 @@ class MHacksApplication : DaggerApplication() {
 
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-            notificationManager.createNotificationChannel(notificationChannel);
+            notificationManager.createNotificationChannel(notificationChannel)
         }
     }
-
-    private lateinit var appComponent: AppComponent
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
 

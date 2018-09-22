@@ -12,9 +12,11 @@ import io.reactivex.Single
  */
 @Dao
 interface LoginDao {
+
     @Query("SELECT * FROM login")
     fun getLogin(): Single<Login>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLogin(login: Login)
+
 }
