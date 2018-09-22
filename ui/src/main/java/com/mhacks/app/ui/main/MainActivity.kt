@@ -17,7 +17,7 @@ import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
 import com.mhacks.app.ui.signin.SignInActivity
 import com.mhacks.app.ui.qrscan.QRScanActivity
-import com.mhacks.app.ui.ticket.view.TicketDialogFragment
+import com.mhacks.app.ui.ticket.TicketDialogFragment
 import org.mhacks.mhacksui.R
 import org.mhacks.mhacksui.databinding.ActivityMainBinding
 import javax.inject.Inject

@@ -15,6 +15,8 @@ class PostLoginUseCase @Inject constructor(
     override fun getSingle(parameters: Login.Request) = userRepository
                 .postLogin(parameters)
                 .doOnSuccess {
+
+                    // Always overwrites the current login stored in SQLite.
                     it.id = 1
                     userRepository.updateLoginCache(it)
                             .subscribeOn(Schedulers.io())

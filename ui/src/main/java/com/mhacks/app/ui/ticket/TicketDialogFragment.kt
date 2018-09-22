@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.ticket.view
+package com.mhacks.app.ui.ticket
 
 import android.arch.lifecycle.Observer
 import android.content.Context
@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import org.mhacks.mhacksui.R
 import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.di.module.AuthModule
-import com.mhacks.app.ui.ticket.TicketViewModel
 import dagger.android.support.DaggerAppCompatDialogFragment
 import kotlinx.android.synthetic.main.fragment_ticket_dialog.*
 import net.glxn.qrgen.android.QRCode
@@ -99,7 +98,7 @@ class TicketDialogFragment : DaggerAppCompatDialogFragment() {
             }
         })
     }
-    
+
     private fun showProgressBar() {
         ticket_progressbar.visibility = View.VISIBLE
         ticket_main.visibility = View.INVISIBLE
