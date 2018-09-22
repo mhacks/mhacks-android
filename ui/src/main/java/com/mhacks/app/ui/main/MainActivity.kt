@@ -52,24 +52,6 @@ class MainActivity : BaseActivity(),
         checkIfInstantApp()
     }
 
-    private fun subscribeNonUi() {
-
-        mainViewModel.login.observe(this, Observer {
-            it?.let { _ ->
-                initActivity()
-            } ?: run {
-                startLoginActivity()
-            }
-
-        })
-        
-        mainViewModel.textMessage.observe(this, Observer {
-            it?.let { textMessage ->
-                showSnackBar(textMessage)
-            }
-        })
-    }
-
     private fun checkIfInstantApp() {
         val appLinkIntent = intent
         val appLinkData = appLinkIntent?.data
@@ -121,10 +103,29 @@ class MainActivity : BaseActivity(),
                     }
                 } else {
                     View.OnClickListener { _ ->
-                        showTicketDialogFragment()
+                        showAdminOptions()
+//                        showTicketDialogFragment()
                     }
                 }
                 binding.mainActivityQrTicketFab.setOnClickListener(listener)
+            }
+        })
+    }
+
+    private fun subscribeNonUi() {
+
+        mainViewModel.login.observe(this, Observer {
+            it?.let { _ ->
+                initActivity()
+            } ?: run {
+                startLoginActivity()
+            }
+
+        })
+
+        mainViewModel.textMessage.observe(this, Observer {
+            it?.let { textMessage ->
+                showSnackBar(textMessage)
             }
         })
     }
