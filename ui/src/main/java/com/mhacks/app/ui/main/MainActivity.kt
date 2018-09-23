@@ -6,13 +6,14 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.view.MenuItem
 import android.view.View
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.mhacks.app.data.Constants
-import com.mhacks.app.ui.announcement.createannouncement.view.CreateAnnouncementDialogFragment
+import com.mhacks.app.ui.createannouncement.CreateAnnouncementDialogFragment
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
 import com.mhacks.app.ui.signin.SignInActivity
@@ -103,7 +104,8 @@ class MainActivity : BaseActivity(),
                     }
                 } else {
                     View.OnClickListener { _ ->
-                        showTicketDialogFragment()
+//                        showTicketDialogFragment()
+                        showAdminOptions()
                     }
                 }
                 binding.mainActivityQrTicketFab.setOnClickListener(listener)
@@ -141,8 +143,11 @@ class MainActivity : BaseActivity(),
     private fun startQRScanActivity() =
             startActivity(Intent(this, QRScanActivity::class.java))
 
-    private fun startCreateAnnouncementDialogFragment() {
-        CreateAnnouncementDialogFragment.instance.show(supportFragmentManager, null)
+
+    private fun showCreateAnnouncementDialogFragment() {
+        val fragment = CreateAnnouncementDialogFragment.instance
+        fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_AppCompat_Light_Dialog)
+        fragment.show(supportFragmentManager, null)
     }
 
     // Handles the click events for bottom navigation menu
@@ -178,7 +183,7 @@ class MainActivity : BaseActivity(),
 
                         0 -> startQRScanActivity()
 
-                        1 -> startCreateAnnouncementDialogFragment()
+                        1 -> showCreateAnnouncementDialogFragment()
 
                         2 -> showTicketDialogFragment()
                     }

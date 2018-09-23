@@ -26,7 +26,6 @@ class ErrorableView(context: Context, attrs: AttributeSet?) : RelativeLayout(con
     var titleText: Int = R.string.device_offline
         set(title) = error_view_error_textview.setText(title)
 
-
     @ColorInt var textColor: Int? = null
         set(colorRes) {
             colorRes?.let {
@@ -41,9 +40,9 @@ class ErrorableView(context: Context, attrs: AttributeSet?) : RelativeLayout(con
 
     var tryAgainCallback: (() -> Unit)? = null
         set(callback) {
-            error_view_error_description_textview.setOnClickListener({
+            error_view_error_description_textview.setOnClickListener {
                 callback?.invoke()
-            })
+            }
         }
 
     init {

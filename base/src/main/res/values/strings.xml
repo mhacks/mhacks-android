@@ -51,6 +51,7 @@
     <string name="qr_code">QR Code</string>
     <string name="no_thanks">NO THANKS</string>
     <string name="no_school">No school was selected!</string>
+    <string name="loading_ticket">Loading your ticket…</string>
     <string name="ticket_network_error">Couldn\'t fetch ticket.</string>
     <string name="logging_in_auth_error">Username or password is incorrect.</string>
     <string name="ticket_description">My ticket.</string>

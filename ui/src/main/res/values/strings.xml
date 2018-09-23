@@ -79,4 +79,10 @@
     <!--Maps-->
     <string name="maps_network_failure">Couldn\'t fetch map data.</string>
 
+    <!--Create Announcement Fragment-->
+    <string name="title">Title</string>
+    <string name="category">Category</string>
+    <string name="body">Body</string>
+    <string name="post">post</string>
+
 </resources>

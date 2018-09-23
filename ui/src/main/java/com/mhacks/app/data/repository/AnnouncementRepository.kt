@@ -1,6 +1,7 @@
 package com.mhacks.app.data.repository
 
 import com.mhacks.app.data.models.Announcement
+import com.mhacks.app.data.models.CreateAnnouncement
 import com.mhacks.app.data.room.dao.AnnouncementDao
 import com.mhacks.app.data.service.AnnouncementService
 import io.reactivex.Observable
@@ -25,18 +26,10 @@ class AnnouncementRepository @Inject constructor(
                 return@fromCallable announcementList
             }!!
 
-    private fun pollAnnouncements() =
-        Observable.interval(4, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    getAnnouncementRemote()
-                            .doOnSuccess { response ->
-                                response.announcements.let { announcementList ->
-                                    announcementDao.updateAnnouncements(announcementList)
-                                }
-                            }
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                }
+    fun postAnnouncement(createAnnouncement: CreateAnnouncement) =
+            announcementService.postAnnouncement(
+                    createAnnouncement.title,
+                    createAnnouncement.category,
+                    createAnnouncement.body,
+                    true, true, true)
 }

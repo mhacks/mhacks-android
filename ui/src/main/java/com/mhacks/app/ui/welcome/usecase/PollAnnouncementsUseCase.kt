@@ -30,5 +30,4 @@ class PollAnnouncementsUseCase @Inject constructor(
                                     response.announcements
                                 }.toObservable()
                     }!!
-
 }

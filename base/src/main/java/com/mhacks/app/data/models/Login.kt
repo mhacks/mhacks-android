@@ -5,7 +5,6 @@ package com.mhacks.app.data.models
  */
 
 import android.arch.persistence.room.*
-import android.arch.persistence.room.ForeignKey.CASCADE
 import com.squareup.moshi.Json
 
 @Entity(tableName = "login")
@@ -15,8 +14,7 @@ data class Login(
     @Json(name = "status") var status: Boolean,
     @Json(name = "message") var message: String,
     @Json(name = "token") var token: String,
-    @Embedded
-    @Json(name = "user") var user: User?
+    @Embedded @Json(name = "user") var user: User?
 ) {
 
     // Checks if user or groups are in the user currently null.
