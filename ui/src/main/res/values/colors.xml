@@ -6,6 +6,7 @@
     <!--Global color themes-->
     <color name="colorPrimary">#5D3E6E</color>
     <color name="colorPrimaryDark">#43374E</color>
+    <color name="colorPrimaryDisabled">#595D3E6E</color>
     <color name="colorAccent">#F4A4A8</color>
 
     <!--Map Fragment-->

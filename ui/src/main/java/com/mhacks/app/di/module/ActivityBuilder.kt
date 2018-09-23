@@ -1,7 +1,7 @@
 package com.mhacks.app.di.module
 
 import com.mhacks.app.ui.announcement.AnnouncementFragmentProvider
-import com.mhacks.app.ui.announcement.createannouncement.CreateAnnouncementDialogFragmentProvider
+import com.mhacks.app.ui.createannouncement.CreateAnnouncementDialogFragmentProvider
 import com.mhacks.app.ui.events.EventsFragmentProvider
 import com.mhacks.app.ui.signin.SignInActivity
 import com.mhacks.app.ui.signin.SignInFragmentProvider

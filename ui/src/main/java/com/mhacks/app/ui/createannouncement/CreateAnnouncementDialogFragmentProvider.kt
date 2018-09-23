@@ -1,6 +1,5 @@
-package com.mhacks.app.ui.announcement.createannouncement
+package com.mhacks.app.ui.createannouncement
 
-import com.mhacks.app.ui.announcement.createannouncement.view.CreateAnnouncementDialogFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -11,6 +10,6 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class CreateAnnouncementDialogFragmentProvider {
 
-    @ContributesAndroidInjector(modules = [CreateAnnouncementDialogFragmentModule::class])
+    @ContributesAndroidInjector(modules = [CreateAnnouncementModule::class])
     abstract fun provideCreateAnnouncementDialogFragment(): CreateAnnouncementDialogFragment
 }
