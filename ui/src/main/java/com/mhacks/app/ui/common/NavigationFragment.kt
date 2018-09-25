@@ -5,9 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.annotation.ColorRes
 import android.support.annotation.StringRes
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import org.mhacks.mhacksui.R
 
 /**
@@ -26,11 +24,9 @@ abstract class NavigationFragment : BaseFragment() {
         callback = activity as? OnNavigationChangeListener
     }
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         changeColors()
-        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     private fun changeColors() {
@@ -67,4 +63,5 @@ abstract class NavigationFragment : BaseFragment() {
 
         fun removePadding()
     }
+
 }

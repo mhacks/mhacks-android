@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.mhacks.app.extension.showSnackBar
 import com.mhacks.app.extension.viewModelProvider
-import com.mhacks.app.ui.common.NavigationBindingFragment
+import com.mhacks.app.ui.common.NavigationFragment
 import com.mhacks.app.ui.welcome.WelcomeViewModel
 import org.mhacks.mhacksui.R
 import org.mhacks.mhacksui.databinding.FragmentWelcomeBinding
@@ -21,7 +21,7 @@ import javax.inject.Inject
  *
  * Manages a ProgressBar that acts as a timer as well as builds
  */
-class WelcomeFragment : NavigationBindingFragment() {
+class WelcomeFragment : NavigationFragment() {
 
     override var setTransparent: Boolean = false
 

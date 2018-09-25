@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
 import com.mhacks.app.data.Constants
 import com.mhacks.app.ui.createannouncement.CreateAnnouncementDialogFragment
 import com.mhacks.app.ui.common.BaseActivity
@@ -151,7 +152,12 @@ class MainActivity : BaseActivity(),
     }
 
     // Handles the click events for bottom navigation menu
-    private fun setupBottomNavBar(bottomNavigationView: BottomNavigationView) {
+    private fun setupBottomNavBar(bottomNavigationView: BottomNavigationViewEx) {
+
+        bottomNavigationView.enableAnimation(false)
+        bottomNavigationView.enableShiftingMode(false)
+        bottomNavigationView.enableItemShiftingMode(false)
+
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             bottomNavigationView.isEnabled = false
             if (itemId != item.itemId) {
@@ -164,6 +170,8 @@ class MainActivity : BaseActivity(),
                     R.id.events_fragment -> R.id.events_fragment
 
                     R.id.map_view_fragment -> R.id.map_view_fragment
+
+                    R.id.info_fragment -> R.id.info_fragment
 
                     else -> 0
                 }

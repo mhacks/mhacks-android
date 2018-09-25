@@ -61,13 +61,16 @@
 
         </RelativeLayout>
 
-        <android.support.design.widget.BottomNavigationView
+        <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
             android:id="@+id/main_activity_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="?android:attr/windowBackground"
+            app:itemIconTint="@color/colorPrimary"
+            app:itemTextColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:labelVisibilityMode="labeled"
             app:menu="@menu/navigation" />
 
     </android.support.constraint.ConstraintLayout>

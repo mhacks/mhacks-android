@@ -16,7 +16,7 @@
 
     <string name="login">LOGIN</string>
     <string name="title_home">Home</string>
-    <string name="title_announcements">Announcements</string>
+    <string name="title_announcements">Feed</string>
     <string name="title_events">Events</string>
     <string name="title_map">Map</string>
     <string name="welcome">Welcome</string>
@@ -84,5 +84,6 @@
     <string name="category">Category</string>
     <string name="body">Body</string>
     <string name="post">post</string>
+    <string name="title_info">Info</string>
 
 </resources>

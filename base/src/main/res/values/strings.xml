@@ -17,7 +17,7 @@
 
     <string name="login">LOGIN</string>
     <string name="title_home">Home</string>
-    <string name="title_announcements">Announcements</string>
+    <string name="title_announcements">Feed</string>
     <string name="title_events">Events</string>
     <string name="title_map">Map</string>
     <string name="welcome">Welcome</string>

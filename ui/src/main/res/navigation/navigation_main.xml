@@ -15,7 +15,6 @@
         android:label="@string/ticket_description"
         tools:layout="@layout/fragment_ticket_dialog" />
 
-
     <fragment
         android:id="@+id/welcome_fragment"
         android:name="com.mhacks.app.ui.welcome.view.WelcomeFragment"
@@ -39,5 +38,11 @@
         android:name="com.mhacks.app.ui.map.view.MapViewFragment"
         android:label="@string/title_map"
         tools:layout="@layout/fragment_map" />
+
+    <fragment
+        android:id="@+id/info_fragment"
+        android:name="com.mhacks.app.ui.info.InfoFragment"
+        android:label="@string/title_info"
+        tools:layout="@layout/fragment_info" />
 
 </navigation>
