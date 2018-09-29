@@ -13,7 +13,7 @@ import com.mhacks.app.data.models.Login
 import com.mhacks.app.di.module.AuthModule
 import com.mhacks.app.extension.showSnackBar
 import com.mhacks.app.extension.viewModelProvider
-import com.mhacks.app.ui.common.BaseBindingFragment
+import com.mhacks.app.ui.common.BaseFragment
 import org.mhacks.mhacksui.R
 import org.mhacks.mhacksui.databinding.FragmentSigninBinding
 import javax.inject.Inject
@@ -21,7 +21,7 @@ import javax.inject.Inject
 /**
  * Fragment for logging in the user.
  */
-class SignInFragment : BaseBindingFragment() {
+class SignInFragment : BaseFragment() {
 
     override var rootView: View? = null
 

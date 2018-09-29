@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/info_fragment_info_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="?colorPrimaryDark"
+            android:clipToPadding="false"
+            android:paddingBottom="12dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"/>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/info_fragment_info_recycler_view">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:orientation="vertical"
+                android:showDividers="middle"
+                android:divider="@drawable/list_divider">
+
+                <com.mhacks.app.ui.info.widget.CollapsibleCard
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardDescription="Lorem Ipsum"
+                    app:cardTitle="Lorem Ipsum" />
+
+                <com.mhacks.app.ui.info.widget.CollapsibleCard
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardDescription="Lorem Ipsum"
+                    app:cardTitle="Lorem Ipsum" />
+
+                <com.mhacks.app.ui.info.widget.CollapsibleCard
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardDescription="Lorem Ipsum"
+                    app:cardTitle="Lorem Ipsum" />
+
+                <com.mhacks.app.ui.info.widget.CollapsibleCard
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardDescription="Lorem Ipsum"
+                    app:cardTitle="Lorem Ipsum" />
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

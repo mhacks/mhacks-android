@@ -12,7 +12,7 @@ import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.extension.showSnackBar
 import com.mhacks.app.extension.viewModelProvider
 import com.mhacks.app.ui.announcement.AnnouncementViewModel
-import com.mhacks.app.ui.common.NavigationBindingFragment
+import com.mhacks.app.ui.common.NavigationFragment
 import kotlinx.android.synthetic.main.fragment_announcements.*
 import org.mhacks.mhacksui.R
 import org.mhacks.mhacksui.databinding.FragmentAnnouncementsBinding
@@ -21,7 +21,7 @@ import javax.inject.Inject
 /**
  * Fragment to display and update announcements.
  */
-class AnnouncementFragment : NavigationBindingFragment() {
+class AnnouncementFragment : NavigationFragment() {
 
     override var setTransparent = false
 

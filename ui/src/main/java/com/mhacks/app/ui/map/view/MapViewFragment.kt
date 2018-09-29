@@ -18,7 +18,7 @@ import com.google.android.gms.maps.model.*
 import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.extension.showSnackBar
 import com.mhacks.app.extension.viewModelProvider
-import com.mhacks.app.ui.common.NavigationBindingFragment
+import com.mhacks.app.ui.common.NavigationFragment
 import com.mhacks.app.ui.map.MapViewModel
 import com.mhacks.app.util.GooglePlayUtil
 import com.mhacks.app.util.ResourceUtil
@@ -30,7 +30,7 @@ import javax.inject.Inject
  * Displays the rooms and terrain of the venue.
  */
 class MapViewFragment :
-        NavigationBindingFragment(),
+        NavigationFragment(),
         OnMapReadyCallback {
 
     override var setTransparent: Boolean = true
@@ -108,7 +108,9 @@ class MapViewFragment :
         if (mapFragment == null) {
             mapFragment = SupportMapFragment.newInstance()
             mapFragment?.let {
-                fragmentManager?.beginTransaction()?.replace(R.id.map_fragment_host_container, it)?.commit()
+                fragmentManager?.beginTransaction()?.replace(
+                        R.id.map_fragment_host_container,
+                        it)?.commit()
             }
         }
         if (googleMap == null) mapFragment?.getMapAsync(this)

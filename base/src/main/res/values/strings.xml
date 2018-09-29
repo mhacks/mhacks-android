@@ -17,7 +17,7 @@
 
     <string name="login">LOGIN</string>
     <string name="title_home">Home</string>
-    <string name="title_announcements">Announcements</string>
+    <string name="title_announcements">Feed</string>
     <string name="title_events">Events</string>
     <string name="title_map">Map</string>
     <string name="welcome">Welcome</string>
@@ -38,6 +38,7 @@
     <!--Announcements-->
     <string name="loading_announcements">Loading announcements…</string>
     <string name="announcement_network_failure">Couldn\'t get announcements.</string>
+    <string name="post_announcements">Post announcements</string>
 
     <!-- ProgressBar View-->
     <string name="logging_in">Logging in…</string>

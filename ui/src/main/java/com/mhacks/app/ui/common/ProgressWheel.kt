@@ -39,7 +39,7 @@ class ProgressWheel : View {
     private var progressBounds = RectF()
 
     //Paints
-    private val circlePaint = Paint()
+//    private val circlePaint = Paint()
     private val barPaint = Paint()
     private var countTextPaint = TextPaint()
     private val defTextPaint = TextPaint()
@@ -84,11 +84,10 @@ class ProgressWheel : View {
         barPaint.strokeWidth = barWidth
         barPaint.strokeCap = Paint.Cap.ROUND
 
-
-        circlePaint.color = rimColor
-        circlePaint.isAntiAlias = true
-        circlePaint.style = Paint.Style.STROKE
-        circlePaint.strokeWidth = barWidth
+//        circlePaint.color = rimColor
+//        circlePaint.isAntiAlias = true
+//        circlePaint.style = Paint.Style.STROKE
+//        circlePaint.strokeWidth = barWidth
 
         countTextPaint.color = countTextColor
         countTextPaint.flags = Paint.ANTI_ALIAS_FLAG
@@ -172,14 +171,14 @@ class ProgressWheel : View {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas.drawArc(rimBounds, 0f, 360f, false, circlePaint)
+//        canvas.drawArc(rimBounds, 0f, 360f, false, circlePaint)
         canvas.drawArc(progressBounds, -90f, percentage.toFloat(), false, barPaint)
 
         if (centerText != null){
             val horizontalCountTextOffset = countTextPaint.measureText(centerText) / 2
             canvas.drawText(centerText!!,
                     this.width / 2 - horizontalCountTextOffset,
-                    (this.height / 2).toFloat() + if (defText == null) countTextSize/2 else 0f,
+                    (this.height / 2).toFloat() + if (defText == null) countTextSize /2 else 0f,
                     countTextPaint
             )
         }

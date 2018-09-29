@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.extension.showSnackBar
 import com.mhacks.app.extension.viewModelProvider
-import com.mhacks.app.ui.common.NavigationBindingFragment
+import com.mhacks.app.ui.common.NavigationFragment
 import com.mhacks.app.ui.events.EventsViewModel
 import kotlinx.android.synthetic.main.fragment_events.*
 import org.mhacks.mhacksui.R
@@ -21,7 +21,7 @@ import javax.inject.Inject
 /**
  * Fragment to display list of events in a viewpager with tabs corresponding to the weekdays.
  */
-class EventsFragment : NavigationBindingFragment() {
+class EventsFragment : NavigationFragment() {
 
     override var setTransparent: Boolean = false
 

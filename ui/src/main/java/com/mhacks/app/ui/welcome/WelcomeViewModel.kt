@@ -96,6 +96,7 @@ class WelcomeViewModel @Inject constructor(
     }
 
     fun getAndCacheConfig() {
+        _timerText.value = TextMessage(R.string.timer_placeholder, null)
         getAndCacheConfigUseCase.execute(Unit)
     }
 

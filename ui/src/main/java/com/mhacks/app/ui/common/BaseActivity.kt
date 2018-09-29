@@ -2,6 +2,7 @@ package com.mhacks.app.ui.common
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.support.annotation.ColorRes
 import android.support.design.widget.Snackbar
@@ -9,7 +10,6 @@ import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
-import com.mhacks.app.data.models.common.SnackbarMessage
 import com.mhacks.app.data.models.common.TextMessage
 import org.mhacks.mhacksui.R
 import com.mhacks.app.util.ResourceUtil
@@ -44,8 +44,9 @@ abstract class BaseActivity: DaggerAppCompatActivity(),
                 WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 
-    override fun setActionBarColor(@ColorRes color: Int) {
-        supportActionBar?.setBackgroundDrawable(ContextCompat.getDrawable(this, color))
+    override fun setActionBarColor(@ColorRes colorRes: Int) {
+        val color = ContextCompat.getColor(this, colorRes)
+        supportActionBar?.setBackgroundDrawable(ColorDrawable(color))
     }
 
     override fun setFragmentTitle(title: Int) = setTitle(title)
@@ -74,13 +75,6 @@ abstract class BaseActivity: DaggerAppCompatActivity(),
         Toast.makeText(this,
                 stringRes,
                 Toast.LENGTH_LONG).show()
-    }
-
-    fun showSnackBar(snackBarMessage: SnackbarMessage) {
-        Snackbar.make(
-                findViewById(android.R.id.content),
-                snackBarMessage.textResId,
-                Snackbar.LENGTH_SHORT).show()
     }
 
     fun showSnackBar(textMessage: TextMessage) {
