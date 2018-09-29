@@ -25,4 +25,6 @@ object Constants {
 
             return wifiConfig
         }
+
+    const val GOOGLE_MAPS_URL = "http://maps.google.co.in/maps?q="
 }

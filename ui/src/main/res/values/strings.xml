@@ -92,20 +92,31 @@
     <string name="info_wifi_sub_header">Tap to save password.</string>
     <string name="info_wifi_desc">Name:\n"mhacks"\nPassword:\n"sdfaf"</string>
 
+    <!--Address-->
     <string name="info_address_header">Address</string>
     <string name="info_address_sub_header">Tap to open Maps</string>
     <string name="info_address_desc">606 E Hoover Ave, Ann Arbor, MI 48104</string>
 
+    <!--Slack-->
     <string name="info_slack_header">Slack</string>
     <string name="info_slack_sub_header">Register Slack</string>
     <string name="info_slack_desc">Team:\nmhacks11</string>
 
+    <!--Email-->
     <string name="info_email_header">Email</string>
     <string name="info_email_sub_header">Send us an email</string>
     <string name="info_email_desc">hackathon@umich.edu</string>
+
+    <!--Collapsible Card View-->
     <string name="expanded">Expanded</string>
     <string name="collapsed">Collapsed</string>
+
+    <!--Wi-Fi-->
     <string name="wifi_install_success">Successfully installed Wi-Fi!</string>
     <string name="wifi_install_failure">Copied password to clipboard!</string>
+
+    <!--Address-->
+    <string name="info_address">606 E Hoover Ave, Ann Arbor, MI 48104</string>
+    <string name="google_maps_error">Google Maps is not installed.</string>
 
 </resources>
