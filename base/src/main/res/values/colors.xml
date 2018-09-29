@@ -7,6 +7,7 @@
     <color name="colorPrimary">#5D3E6E</color>
     <color name="colorPrimaryDark">#43374E</color>
     <color name="colorAccent">#F4A4A8</color>
+    <color name="black">#000</color>
 
     <!--Map Fragment-->
     <color name="semiColorPrimary">#9643384D</color>

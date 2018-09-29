@@ -87,4 +87,21 @@
     <string name="title_info">Info</string>
     <string name="timer_placeholder">---</string>
 
+    <!--Info-->
+    <string name="info_wifi_header">Wi-Fi</string>
+    <string name="info_wifi_sub_header">Tap to save password.</string>
+    <string name="info_wifi_desc">Name:\n"mhacks"\nPassword:\n"sdfaf"</string>
+
+    <string name="info_address_header">Address</string>
+    <string name="info_address_sub_header">Tap to open Maps</string>
+    <string name="info_address_desc">606 E Hoover Ave, Ann Arbor, MI 48104</string>
+
+    <string name="info_slack_header">Slack</string>
+    <string name="info_slack_sub_header">Register Slack</string>
+    <string name="info_slack_desc">Team:\nmhacks11</string>
+
+    <string name="info_email_header">Email</string>
+    <string name="info_email_sub_header">Send us an email</string>
+    <string name="info_email_desc">hackathon@umich.edu</string>
+
 </resources>

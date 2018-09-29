@@ -54,6 +54,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/events_description_time_textview"
         app:layout_constraintBottom_toBottomOf="parent">
+
         <LinearLayout
             android:id="@+id/events_description_linear_layout"
             android:layout_width="match_parent"
@@ -62,6 +63,7 @@
             android:paddingBottom="8dp"
             android:orientation="vertical">
         </LinearLayout>
+
     </android.support.v7.widget.CardView>
 
 </android.support.constraint.ConstraintLayout>

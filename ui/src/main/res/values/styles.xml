@@ -26,4 +26,18 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="HeaderTextView">
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="SubHeaderTextView">
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 </resources>
