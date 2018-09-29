@@ -21,7 +21,6 @@ import javax.inject.Inject
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
 
-
 class InfoFragment: NavigationFragment() {
 
     @Inject lateinit var wiFiInstaller: WifiInstaller
@@ -97,12 +96,20 @@ class InfoFragment: NavigationFragment() {
                                 .show()
                     }
                 }
-
                 Info.TYPE.SLACK -> {
-
+                    val i = Intent(ACTION_VIEW, Uri.parse(Constants.SLACK_INVITE_URL))
+                    i.action = ACTION_VIEW
+                    startActivity(i)
                 }
                 Info.TYPE.EMAIL -> {
-
+                    val i = Intent(
+                            Intent.ACTION_SENDTO,
+                            Uri.fromParts(
+                                    "mailto",
+                                    Constants.MHACKS_EMAIL,
+                                    null))
+                    i.putExtra(Intent.EXTRA_TEXT, "Sent from Android app.")
+                    startActivity(Intent.createChooser(i, "Send Email"))
                 }
             }
         }

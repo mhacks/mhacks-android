@@ -27,4 +27,8 @@ object Constants {
         }
 
     const val GOOGLE_MAPS_URL = "http://maps.google.co.in/maps?q="
+
+    const val SLACK_INVITE_URL = "https://join.slack.com/t/mhacks11/shared_invite/enQtNDQzMDI0MDY3ODQ1LTM3YTIyMmJmNjU3NGM2NDk1MzQzZjZmMmY3ZDliZmZlNTRjOGNiMTc2OWRiZjIyODBiNzk2ZGQ4YjBmMjlkZjU"
+
+    const val MHACKS_EMAIL = "hackathon@umich.edu"
 }
