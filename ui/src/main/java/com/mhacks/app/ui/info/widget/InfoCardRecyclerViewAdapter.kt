@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.info.view
+package com.mhacks.app.ui.info.widget
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

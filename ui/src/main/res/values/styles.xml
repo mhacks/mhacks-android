@@ -22,7 +22,7 @@
     </style>
 
     <style name="MHacksDialogColoredButton" parent="Widget.AppCompat.Button.Colored">
-        <item name="colorButtonNormal">@drawable/mhacks_button</item>
+        <item name="colorButtonNormal">@color/mhacks_button</item>
         <item name="android:textColor">@color/white</item>
     </style>
 

@@ -103,5 +103,7 @@
     <string name="info_email_header">Email</string>
     <string name="info_email_sub_header">Send us an email</string>
     <string name="info_email_desc">hackathon@umich.edu</string>
+    <string name="expanded">Expanded</string>
+    <string name="collapsed">Collapsed</string>
 
 </resources>

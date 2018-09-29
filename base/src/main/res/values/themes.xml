@@ -1,9 +1,8 @@
-
 <resources>
     <style name="MHacksTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="editTextStyle">@style/MHacksEditText</item>
         <item name="android:textColorHint">@color/colorPrimaryDark</item>
         <item name="colorControlNormal">@color/colorPrimary</item>
@@ -11,6 +10,7 @@
         <item name="android:windowActionBarOverlay">true</item>
         <item name="windowActionBarOverlay">true</item>
     </style>
+
     <style name="SplashTheme" parent="MHacksTheme">
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:windowBackground">@drawable/splash</item>

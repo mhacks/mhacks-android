@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="android.widget.FrameLayout">
+
+    <!-- Note: putting everything in a RelativeLayout confuses Talkback, which does not always
+    focus on the HtmlTextView. -->
+    <LinearLayout
+        android:id="@+id/collapsible_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/title_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:minHeight="?android:listPreferredItemHeightSmall">
+
+            <TextView
+                android:id="@+id/card_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/collapsing_section"
+                android:paddingBottom="8dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                tools:text="HELLO WORLD" />
+
+            <ImageView
+                android:id="@+id/expand_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_keyboard_arrow_down_black_24dp"
+                android:tint="@color/collapsing_section"
+                android:tintMode="src_in" />
+        </RelativeLayout>
+
+        <com.mhacks.app.ui.info.widget.HtmlTextView
+            android:id="@+id/card_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:paddingEnd="26dp"
+            android:paddingStart="26dp"
+            android:paddingTop="8dp"
+            android:textColor="?android:textColorPrimary"
+            android:visibility="gone"
+            tools:text="This is a card description" />
+
+    </LinearLayout>
+
+</merge>
