@@ -14,9 +14,8 @@ class EventsPagerAdapter(fm: FragmentManager, listWithDays: Map<String,
     val list = listWithDays.toList()
 
     override fun getItem(position: Int): Fragment {
-        val days = list[position]
-        list[0].second
-        return EventPageFragment.newInstance(days.first, days.second)
+        val (days, events) = list[position]
+        return EventPageFragment.newInstance(days, events)
     }
 
     override fun getCount() = list.size

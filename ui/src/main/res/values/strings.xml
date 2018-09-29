@@ -54,6 +54,7 @@
     <!--Event Fragment-->
     <string name="loading_events">Loading events…</string>
     <string name="events_network_failure">Couldn\'t fetch events.</string>
+    <string name="like">Like</string>
 
     <!--Barcode-->
     <string name="ok">OK</string>

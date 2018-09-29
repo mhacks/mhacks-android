@@ -9,7 +9,6 @@ import kotlinx.android.synthetic.main.events_timeline_item.view.*
 /**
  * Add events TextViews to a Linear Layout
  */
-
 class EventTimeLineItem(context: Context): ConstraintLayout(context) {
 
     init {

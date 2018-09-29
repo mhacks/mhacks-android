@@ -13,19 +13,40 @@
     <TextView
         style="@style/HeaderTextView"
         android:id="@+id/events_description_item_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
+        android:layout_marginEnd="4dp"
         android:maxLines="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:text="Event Title" />
 
     <TextView
         style="@style/SubHeaderTextView"
         android:id="@+id/events_description_item_description"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
         android:maxLines="2"
         app:layout_constraintTop_toBottomOf="@id/events_description_item_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:text="Event info here..." />
+
+    <CheckBox
+        android:id="@+id/events_description_item_like_image_view"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="8dp"
+        android:button="@null"
+        android:background="@drawable/like_button"
+        android:contentDescription="@string/like"
+        android:focusable="true"
+        android:checked="false"
+        android:stateListAnimator="@animator/scale"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/events_description_item_title"
+        app:layout_constraintBottom_toBottomOf="@+id/events_description_item_title" />
 
 </android.support.constraint.ConstraintLayout>

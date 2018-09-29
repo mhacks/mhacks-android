@@ -34,18 +34,22 @@ class EventPageFragment: Fragment() {
                     eventSectionModelList
                             .add(EventSectionModel(time, ArrayList(value)))
             }
-            events_recycler_view.layoutManager = LinearLayoutManager(context)
-            events_recycler_view.adapter =
-                    EventsRecyclerViewAdapter(context!!, eventSectionModelList)
+            context?.let {
+                events_recycler_view.layoutManager = LinearLayoutManager(it)
+                events_recycler_view.adapter =
+                        EventsRecyclerViewAdapter(it, eventSectionModelList)
+            }
         }
     }
 
     companion object {
-        fun newInstance(day: String, event: List<EventsViewModel.EventWithDay>): EventPageFragment {
+
+        fun newInstance(day: String, events: List<EventsViewModel.EventWithDay>)
+                : EventPageFragment {
             val fragment = EventPageFragment()
             val args = Bundle()
 
-            val ev = event.map { ev -> ev.event }
+            val ev = events.map { ev -> ev.event }
 
             args.putString(EXTRA_DAY_OF_THE_WEEK, day)
             args.putParcelableArrayList(EXTRA_EVENT_LIST, ArrayList(ev))
@@ -53,6 +57,7 @@ class EventPageFragment: Fragment() {
             fragment.arguments = args
             return fragment
         }
+
         private const val EXTRA_DAY_OF_THE_WEEK = "EXTRA_DAY_OF_THE_WEEK"
 
         private const val EXTRA_EVENT_LIST = "EXTRA_EVENT_LIST"

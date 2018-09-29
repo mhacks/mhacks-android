@@ -3,8 +3,8 @@ package com.mhacks.app.ui.events.view
 import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
-import org.mhacks.mhacksui.R
 import kotlinx.android.synthetic.main.events_description_item.view.*
+import org.mhacks.mhacksui.R
 
 /**
  * Add events descriptions within a Linear Layout
@@ -18,6 +18,7 @@ class EventDescriptionItem(context: Context, attrs: AttributeSet?)
     }
 
     fun bindItem(title: String?, description: String?) {
+
         events_description_item_title.text = title
         events_description_item_description.text = description
     }

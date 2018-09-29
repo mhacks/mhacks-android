@@ -37,7 +37,9 @@ class EventsFragment : NavigationFragment() {
             savedInstanceState: Bundle?): View? {
         FragmentEventsBinding.inflate(inflater, container, false)
                 .apply {
-                    val viewModel = viewModelProvider<EventsViewModel>(viewModelFactory)
+                    val viewModel = viewModelProvider<EventsViewModel>(
+                            viewModelFactory
+                    )
 
                     eventPagerTabStrip.tabIndicatorColor = Color.WHITE
 
