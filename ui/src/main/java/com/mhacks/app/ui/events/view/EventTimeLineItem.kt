@@ -3,6 +3,7 @@ package com.mhacks.app.ui.events.view
 import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.view.ViewGroup
+import com.mhacks.app.data.models.Event
 import org.mhacks.mhacksui.R
 import kotlinx.android.synthetic.main.events_timeline_item.view.*
 
@@ -10,6 +11,8 @@ import kotlinx.android.synthetic.main.events_timeline_item.view.*
  * Add events TextViews to a Linear Layout
  */
 class EventTimeLineItem(context: Context): ConstraintLayout(context) {
+
+    var onEventClicked: ((event: Event, isChecked: Boolean) -> Unit)? = null
 
     init {
         inflate(context, R.layout.events_timeline_item, this)
@@ -30,7 +33,9 @@ class EventTimeLineItem(context: Context): ConstraintLayout(context) {
         events_description_linear_layout.removeAllViews()
         for (event in eventsSection.events) {
             val eventDescriptionItem = EventDescriptionItem(context, null)
-            eventDescriptionItem.bindItem(event.name, event.desc)
+            onEventClicked?.let {
+                eventDescriptionItem.bindItem(event, it)
+            }
             events_description_linear_layout.addView(eventDescriptionItem)
         }
     }
