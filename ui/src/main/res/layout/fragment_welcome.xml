@@ -11,27 +11,41 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:animateLayoutChanges="true">
+        android:layout_height="match_parent">
 
-        <com.mhacks.app.ui.common.ProgressWheel
-            android:id="@+id/welcome_fragment_progressbar_counter"
-            android:layout_width="325dp"
+        <com.github.florent37.arclayout.ArcLayout
+            android:layout_width="match_parent"
             android:layout_height="325dp"
-            app:textMessage="@{viewModel.timerText}"
-            app:definitionText="@string/countdown_timer_title"
-            app:percentage="@{safeUnbox(viewModel.timerProgress)}"
-            app:defTextSize="@dimen/text_countdown_normaltitles"
-            app:countTextSize="@dimen/text_countdown_timertext"
-            app:marginBtwText= "26dp"
-            app:barWidth="15dp"
-            app:progressColor="@color/colorPrimary"
-            app:defTextColor="@color/colorPrimary"
-            app:countTextColor="@color/colorPrimary"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:elevation="6dp"
+            app:arc_cropDirection="cropOutside"
+            app:arc_position="bottom"
+            app:arc_height="45dp">
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="16dp"
+                android:background="@color/colorPrimaryDark">
+
+                <com.mhacks.app.ui.common.ProgressWheel
+                    android:id="@+id/welcome_fragment_progressbar_counter"
+                    android:layout_width="250dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    app:textMessage="@{viewModel.timerText}"
+                    app:definitionText="@string/countdown_timer_title"
+                    app:percentage="@{safeUnbox(viewModel.timerProgress)}"
+                    app:defTextSize="@dimen/text_countdown_normaltitles"
+                    app:countTextSize="@dimen/text_countdown_timertext"
+                    app:marginBtwText= "26dp"
+                    app:barWidth="15dp"
+                    app:progressColor="@color/white"
+                    app:defTextColor="@color/white"
+                    app:countTextColor="@color/white" />
+            </FrameLayout>
+
+
+
+        </com.github.florent37.arclayout.ArcLayout>
     </android.support.constraint.ConstraintLayout>
 </layout>

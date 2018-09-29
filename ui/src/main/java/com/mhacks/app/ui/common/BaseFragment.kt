@@ -27,7 +27,6 @@ abstract class BaseFragment : DaggerFragment() {
         }
     }
 
-
     private val errorView by lazy {
         context?.let {
             ErrorableView(it, null)

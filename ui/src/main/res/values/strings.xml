@@ -85,5 +85,6 @@
     <string name="body">Body</string>
     <string name="post">post</string>
     <string name="title_info">Info</string>
+    <string name="timer_placeholder">---</string>
 
 </resources>
