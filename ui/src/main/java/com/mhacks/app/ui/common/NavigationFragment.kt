@@ -55,7 +55,7 @@ abstract class NavigationFragment : BaseFragment() {
 
         fun setFragmentTitle(@StringRes title: Int)
 
-        fun setActionBarColor(@ColorRes color: Int)
+        fun setActionBarColor(@ColorRes colorRes: Int)
 
         fun setStatusBarColor(color: Int)
 

@@ -108,7 +108,9 @@ class MapViewFragment :
         if (mapFragment == null) {
             mapFragment = SupportMapFragment.newInstance()
             mapFragment?.let {
-                fragmentManager?.beginTransaction()?.replace(R.id.map_fragment_host_container, it)?.commit()
+                fragmentManager?.beginTransaction()?.replace(
+                        R.id.map_fragment_host_container,
+                        it)?.commit()
             }
         }
         if (googleMap == null) mapFragment?.getMapAsync(this)
