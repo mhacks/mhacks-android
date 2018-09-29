@@ -38,6 +38,7 @@
     <!--Announcements-->
     <string name="loading_announcements">Loading announcements…</string>
     <string name="announcement_network_failure">Couldn\'t get announcements.</string>
+    <string name="post_announcements">Post announcements</string>
 
     <!-- ProgressBar View-->
     <string name="logging_in">Logging in…</string>
