@@ -15,10 +15,17 @@ class InfoCardRecyclerViewAdapter
         getInfoList()
     }
 
+    var infoCallback: ((info: Info) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): InfoCardViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemInfoBinding.inflate(inflater, parent, false)
-        return InfoCardViewHolder(binding)
+
+        val viewHolder = InfoCardViewHolder(binding)
+        binding.root.setOnClickListener {
+            infoCallback?.invoke(infoList[viewHolder.adapterPosition])
+        }
+        return viewHolder
     }
 
     override fun getItemCount() = infoList.size
@@ -37,8 +44,6 @@ class InfoCardRecyclerViewAdapter
                 itemInfoSubHeaderTextView.setText(info.subHeader)
                 itemInfoDescTextView.setText(info.description)
             }
-
         }
-
     }
 }

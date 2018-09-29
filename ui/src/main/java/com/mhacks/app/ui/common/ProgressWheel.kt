@@ -83,7 +83,7 @@ class ProgressWheel : View {
         barPaint.style = Paint.Style.STROKE
         barPaint.strokeWidth = barWidth
         barPaint.strokeCap = Paint.Cap.ROUND
-        
+
 //        circlePaint.color = rimColor
 //        circlePaint.isAntiAlias = true
 //        circlePaint.style = Paint.Style.STROKE

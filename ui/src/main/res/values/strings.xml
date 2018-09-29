@@ -105,5 +105,7 @@
     <string name="info_email_desc">hackathon@umich.edu</string>
     <string name="expanded">Expanded</string>
     <string name="collapsed">Collapsed</string>
+    <string name="wifi_install_success">Successfully installed Wi-Fi!</string>
+    <string name="wifi_install_failure">Copied password to clipboard!</string>
 
 </resources>
