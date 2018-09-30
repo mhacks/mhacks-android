@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.events.view
+package com.mhacks.app.ui.events.widget
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
@@ -73,7 +73,7 @@ class EventsFragment : NavigationFragment() {
         })
 
         eventsViewModel.favoriteEvent.observe(this, Observer {
-            Timber.e("HELLO WORLD")
+            Timber.d("Event favorited.")
         })
 
         eventsViewModel.error.observe(this, Observer { error ->

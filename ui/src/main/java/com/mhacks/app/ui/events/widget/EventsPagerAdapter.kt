@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.events.view
+package com.mhacks.app.ui.events.widget
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager

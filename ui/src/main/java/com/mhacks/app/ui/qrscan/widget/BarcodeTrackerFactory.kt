@@ -1,10 +1,10 @@
-package com.mhacks.app.ui.qrscan.view
+package com.mhacks.app.ui.qrscan.widget
 
 import android.content.Context
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.Tracker
-import com.mhacks.app.ui.qrscan.view.camera.GraphicOverlay
+import com.mhacks.app.ui.qrscan.widget.camera.GraphicOverlay
 
 /**
  * Created by jeffreychang on 2/21/18.

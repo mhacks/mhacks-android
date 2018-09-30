@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION", "unused")
 
-package com.mhacks.app.ui.qrscan.view.camera
+package com.mhacks.app.ui.qrscan.widget.camera
 
 /**
  * Camera Source that wraps around the Camera API provided by a Google Sample.

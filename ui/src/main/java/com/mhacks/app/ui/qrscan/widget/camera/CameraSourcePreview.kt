@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.qrscan.view.camera
+package com.mhacks.app.ui.qrscan.widget.camera
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -64,7 +64,7 @@ class CameraSourcePreview(private val mContext: Context, attrs: AttributeSet) : 
 
     @RequiresPermission(Manifest.permission.CAMERA)
     @Throws(IOException::class, SecurityException::class)
-    fun start(cameraSource: com.mhacks.app.ui.qrscan.view.camera.CameraSource, overlay: GraphicOverlay<*>) {
+    fun start(cameraSource: com.mhacks.app.ui.qrscan.widget.camera.CameraSource, overlay: GraphicOverlay<*>) {
         mOverlay = overlay
         start(cameraSource)
     }

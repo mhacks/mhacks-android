@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.events.view
+package com.mhacks.app.ui.events.widget
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import org.mhacks.mhacksui.R
 import com.mhacks.app.data.models.Event
 import com.mhacks.app.ui.events.EventsViewModel
-import com.mhacks.app.ui.events.view.EventsRecyclerViewAdapter.*
+import com.mhacks.app.ui.events.widget.EventsRecyclerViewAdapter.*
 import kotlinx.android.synthetic.main.events_pager_view.*
 
 /**

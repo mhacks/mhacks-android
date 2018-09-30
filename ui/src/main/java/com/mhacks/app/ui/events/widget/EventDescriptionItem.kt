@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.events.view
+package com.mhacks.app.ui.events.widget
 
 import android.content.Context
 import android.support.constraint.ConstraintLayout

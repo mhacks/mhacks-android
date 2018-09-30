@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.welcome.view
+package com.mhacks.app.ui.welcome.widget
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
@@ -80,7 +80,7 @@ class WelcomeFragment : NavigationFragment() {
 
     private fun subscribeEventsUi(eventsViewModel: EventsViewModel) {
         eventsViewModel.favoriteEvents.observe(this@WelcomeFragment, Observer {
-            Timber.e("HELLO WORLDr")
+
         })
     }
 
