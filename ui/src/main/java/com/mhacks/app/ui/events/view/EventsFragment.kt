@@ -72,7 +72,7 @@ class EventsFragment : NavigationFragment() {
             showMainContent()
         })
 
-        eventsViewModel.event.observe(this, Observer {
+        eventsViewModel.favoriteEvent.observe(this, Observer {
             Timber.e("HELLO WORLD")
         })
 
@@ -99,7 +99,7 @@ class EventsFragment : NavigationFragment() {
     private fun onEventsClicked(event: Event, isChecked: Boolean) {
         Timber.d("Event %s was clicked:", event.id)
         event.favorited = isChecked
-        viewModel?.favoriteEvent(event)
+        viewModel?.insertFavoriteEvent(event)
     }
 
     companion object {

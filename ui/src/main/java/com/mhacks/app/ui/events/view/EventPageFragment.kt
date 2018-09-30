@@ -13,7 +13,7 @@ import com.mhacks.app.ui.events.view.EventsRecyclerViewAdapter.*
 import kotlinx.android.synthetic.main.events_pager_view.*
 
 /**
- * Create page for each event day.
+ * Create page for each insertFavoriteEvent day.
  */
 class EventPageFragment: Fragment() {
 

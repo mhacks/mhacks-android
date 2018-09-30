@@ -15,7 +15,7 @@
 
         <com.github.florent37.arclayout.ArcLayout
             android:layout_width="match_parent"
-            android:layout_height="325dp"
+            android:layout_height="300dp"
             android:elevation="6dp"
             app:arc_cropDirection="cropOutside"
             app:arc_position="bottom"
@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingBottom="16dp"
-                android:background="@color/colorPrimaryDark">
+                android:background="?colorPrimary">
 
                 <com.mhacks.app.ui.common.ProgressWheel
                     android:id="@+id/welcome_fragment_progressbar_counter"
@@ -38,14 +38,13 @@
                     app:defTextSize="@dimen/text_countdown_normaltitles"
                     app:countTextSize="@dimen/text_countdown_timertext"
                     app:marginBtwText= "26dp"
-                    app:barWidth="15dp"
+                    app:barWidth="12dp"
                     app:progressColor="@color/white"
                     app:defTextColor="@color/white"
                     app:countTextColor="@color/white" />
             </FrameLayout>
-
-
-
         </com.github.florent37.arclayout.ArcLayout>
+
+
     </android.support.constraint.ConstraintLayout>
 </layout>

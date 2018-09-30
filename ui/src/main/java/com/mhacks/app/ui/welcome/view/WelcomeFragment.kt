@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.mhacks.app.extension.showSnackBar
 import com.mhacks.app.extension.viewModelProvider
 import com.mhacks.app.ui.common.NavigationFragment
+import com.mhacks.app.ui.events.EventsViewModel
 import com.mhacks.app.ui.welcome.WelcomeViewModel
 import org.mhacks.mhacksui.R
 import org.mhacks.mhacksui.databinding.FragmentWelcomeBinding
@@ -31,25 +32,31 @@ class WelcomeFragment : NavigationFragment() {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    private var eventsViewModel: EventsViewModel? = null
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?): View? {
 
-        val binding = FragmentWelcomeBinding.inflate(inflater, container, false).apply {
-            viewModel = viewModelProvider(viewModelFactory)
+        val binding =
+                FragmentWelcomeBinding.inflate(inflater, container, false).apply {
+                    viewModel = viewModelProvider(viewModelFactory)
 
+                    eventsViewModel = viewModelProvider(viewModelFactory)
 
-            viewModel?.let {
-                subscribeUi(it, this)
-            }
+                    subscribeEventsUi(eventsViewModel!!)
 
-            viewModel?.getAndCacheConfig()
+                    viewModel?.let {
+                        subscribeUi(it, this)
+                    }
 
+                    viewModel?.getAndCacheConfig()
+                    eventsViewModel?.getFavoriteEvents()
 
-            setLifecycleOwner(this@WelcomeFragment)
-            rootView = root
-        }
+                    setLifecycleOwner(this@WelcomeFragment)
+                    rootView = root
+                }
 
         return binding.root
     }
@@ -68,7 +75,12 @@ class WelcomeFragment : NavigationFragment() {
             it?.let { percent ->
                 fragmentWelcomeBinding.welcomeFragmentProgressbarCounter.setPercentage(percent)
             }
+        })
+    }
 
+    private fun subscribeEventsUi(eventsViewModel: EventsViewModel) {
+        eventsViewModel.favoriteEvents.observe(this@WelcomeFragment, Observer {
+            Timber.e("HELLO WORLDr")
         })
     }
 
