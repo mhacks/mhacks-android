@@ -35,7 +35,7 @@
         tools:text="Event info here..." />
 
     <CheckBox
-        android:id="@+id/events_description_item_like_image_view"
+        android:id="@+id/events_description_item_like_check_box"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginEnd="8dp"

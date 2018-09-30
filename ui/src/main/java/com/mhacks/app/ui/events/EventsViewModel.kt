@@ -9,6 +9,7 @@ import com.mhacks.app.data.models.Event
 import com.mhacks.app.data.models.Result
 import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.data.models.common.TextMessage
+import com.mhacks.app.ui.events.usecase.FavoriteEventUseCase
 import com.mhacks.app.ui.events.usecase.GetAndCacheEventsUseCase
 import org.mhacks.mhacksui.R
 import java.text.SimpleDateFormat
@@ -16,15 +17,23 @@ import java.util.*
 import javax.inject.Inject
 
 class EventsViewModel @Inject constructor(
-        private val getAndCacheEventsUseCase: GetAndCacheEventsUseCase): ViewModel() {
+        private val getAndCacheEventsUseCase: GetAndCacheEventsUseCase,
+        private val favoriteEventUseCase: FavoriteEventUseCase): ViewModel() {
 
     private val getAndCacheEventResult = getAndCacheEventsUseCase.observe()
+
+    private val favoriteEventResult = favoriteEventUseCase.observe()
 
     private val _events = MediatorLiveData<
             Map<String, List<EventsViewModel.EventWithDay>>>()
 
     val events
         get() =_events
+
+    private val _event = MediatorLiveData<Event>()
+
+    val event
+        get() =_event
 
     private val _snackBarMessage = MediatorLiveData<TextMessage>()
 
@@ -73,6 +82,14 @@ class EventsViewModel @Inject constructor(
                 }
             }
         }
+
+        _event.addSource(favoriteEventResult) {
+            if (it is Result.Success) {
+                it.let { result ->
+                    _event.value = result.data
+                }
+            }
+        }
     }
 
     private fun mapToEventWithDay(eventList: List<Event>): Map<String, List<EventWithDay>> =
@@ -88,9 +105,14 @@ class EventsViewModel @Inject constructor(
         getAndCacheEventsUseCase.execute(Unit)
     }
 
+    fun favoriteEvent(event: Event) {
+        favoriteEventUseCase.execute(event)
+    }
+
     override fun onCleared() {
         super.onCleared()
         getAndCacheEventsUseCase.onCleared()
+        favoriteEventUseCase.onCleared()
     }
 
     data class EventWithDay(

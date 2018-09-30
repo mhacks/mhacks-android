@@ -8,19 +8,19 @@ import com.github.vipulasri.timelineview.TimelineView
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
-import timber.log.Timber
 
 /**
  * RecyclerViewAdapter that creates each individual timeline for the respective day.
  */
 class EventsRecyclerViewAdapter(val context: Context,
-                                val events: ArrayList<EventSectionModel>)
+                                val events: ArrayList<EventSectionModel>,
+                                private val eventsCallback: (event: Event, isChecked: Boolean) -> Unit)
     : RecyclerView.Adapter<EventsRecyclerViewAdapter.EventViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val viewHolder = EventViewHolder(EventTimeLineItem(context))
         viewHolder.eventTimeLineItem.timeLineType = viewType
-        viewHolder.eventTimeLineItem.onEventClicked = ::onEventClicked
+        viewHolder.eventTimeLineItem.onEventClicked = eventsCallback
         return viewHolder
     }
 
@@ -39,10 +39,6 @@ class EventsRecyclerViewAdapter(val context: Context,
 
     override fun getItemViewType(position: Int): Int {
         return TimelineView.getTimeLineViewType(position, itemCount)
-    }
-
-    private fun onEventClicked(event: Event, isChecked: Boolean) {
-        Timber.d("Event %s was clicked.", event.id)
     }
 
     class EventViewHolder(val eventTimeLineItem: EventTimeLineItem)

@@ -30,7 +30,8 @@ data class Event(
 	@field:Json(name = "createdAt_ts") var createdAtTs: Long,
 	@field:Json(name = "updatedAt_ts") var updatedAtTs: Long,
 	@field:Json(name = "startDate_ts") var startDateTs: Long,
-	@field:Json(name = "endDate_ts") var endDateTs: Long
+	@field:Json(name = "endDate_ts") var endDateTs: Long,
+    var favorited: Boolean = false
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?:  "",

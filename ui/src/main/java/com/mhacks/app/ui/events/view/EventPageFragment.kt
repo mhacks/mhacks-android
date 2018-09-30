@@ -17,6 +17,8 @@ import kotlinx.android.synthetic.main.events_pager_view.*
  */
 class EventPageFragment: Fragment() {
 
+    var onEventsClicked: ((event: Event, isChecked: Boolean) -> Unit)? = null
+
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?)
@@ -34,10 +36,12 @@ class EventPageFragment: Fragment() {
                     eventSectionModelList
                             .add(EventSectionModel(time, ArrayList(value)))
             }
-            context?.let {
-                events_recycler_view.layoutManager = LinearLayoutManager(it)
-                events_recycler_view.adapter =
-                        EventsRecyclerViewAdapter(it, eventSectionModelList)
+            context?.let { context ->
+                events_recycler_view.layoutManager = LinearLayoutManager(context)
+                onEventsClicked?.let { callback ->
+                    events_recycler_view.adapter =
+                            EventsRecyclerViewAdapter(context, eventSectionModelList, callback)
+                }
             }
         }
     }

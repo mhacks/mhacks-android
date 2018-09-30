@@ -24,7 +24,8 @@ class EventDescriptionItem(context: Context, attrs: AttributeSet?)
 
         events_description_item_title.text = event.name
         events_description_item_description.text = event.desc
-        events_description_item_like_image_view.setOnCheckedChangeListener { _, isChecked ->
+        events_description_item_like_check_box.isChecked = event.favorited
+        events_description_item_like_check_box.setOnCheckedChangeListener { _, isChecked ->
             onEventClicked.invoke(event, isChecked)
         }
     }
