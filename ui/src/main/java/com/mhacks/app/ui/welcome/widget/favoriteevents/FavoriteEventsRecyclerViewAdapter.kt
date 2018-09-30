@@ -1,7 +1,8 @@
 package com.mhacks.app.ui.welcome.widget.favoriteevents
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.github.vipulasri.timelineview.TimelineView
@@ -9,6 +10,7 @@ import com.mhacks.app.data.models.Event
 import com.mhacks.app.ui.events.EventsViewModel
 import com.mhacks.app.ui.events.model.EventSectionModel
 import com.mhacks.app.ui.events.widget.EventTimeLineItem
+import org.mhacks.mhacksui.R
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
@@ -26,7 +28,12 @@ class FavoriteEventsRecyclerViewAdapter(
 
         eventsMap.forEach {
 
-            eventFlatArrayList.add(EventFlatList(it.key, null, EVENT_HEADER_VIEW_TYPE))
+            eventFlatArrayList.add(
+                    EventFlatList(
+                            it.key,
+                            null,
+                            EVENT_HEADER_VIEW_TYPE)
+            )
 
             val groupedEvent = it.value
                     .asSequence()
@@ -48,7 +55,6 @@ class FavoriteEventsRecyclerViewAdapter(
                             )
                     )
                 }
-
             }
         }
         eventFlatArrayList
@@ -62,7 +68,11 @@ class FavoriteEventsRecyclerViewAdapter(
             : RecyclerView.ViewHolder{
         val viewHolder: RecyclerView.ViewHolder
         if (viewType == EVENT_HEADER_VIEW_TYPE) {
-            viewHolder = EventHeaderViewHolder(parent.context)
+
+            val eventHeaderTextView =
+                    LayoutInflater.from(parent.context)
+                            .inflate(R.layout.events_header_item, parent, false)
+            viewHolder = EventHeaderViewHolder(eventHeaderTextView)
         } else {
             viewHolder =
                     FavoriteEventsRecyclerViewAdapter.EventViewHolder(
@@ -94,7 +104,6 @@ class FavoriteEventsRecyclerViewAdapter(
                                 .toLocalDateTime()
 
                 eventHeaderViewHolder.eventTimeLineItem.addEventGroup(eventSectionModel)
-
                 eventHeaderViewHolder.eventTimeLineItem.timeText = dateFormatter.format(localTime)
             }
         }
@@ -103,17 +112,16 @@ class FavoriteEventsRecyclerViewAdapter(
     override fun getItemCount() =
             eventFlatList.size
 
-    override fun getItemViewType(position: Int): Int {
-        return eventFlatList[position].timeLineType
-    }
+    override fun getItemViewType(position: Int)=
+            eventFlatList[position].timeLineType
 
     class EventViewHolder(val eventTimeLineItem: EventTimeLineItem)
         : RecyclerView.ViewHolder(eventTimeLineItem)
 
-    class EventHeaderViewHolder(context: Context)
-        : RecyclerView.ViewHolder(TextView(context)) {
+    class EventHeaderViewHolder(view: View)
+        : RecyclerView.ViewHolder(view) {
 
-        fun bind (weekDay: String) {
+        fun bind(weekDay: String) {
             (itemView as TextView).text = weekDay
         }
     }

@@ -19,13 +19,12 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="230dp" />
-
+            app:layout_constraintGuide_begin="155dp" />
 
         <com.github.florent37.arclayout.ArcLayout
             android:id="@+id/welcome_fragment_arc_layout"
             android:layout_width="match_parent"
-            android:layout_height="275dp"
+            android:layout_height="200dp"
             android:elevation="6dp"
             app:arc_cropDirection="cropOutside"
             app:arc_position="bottom"
@@ -39,7 +38,7 @@
 
                 <com.mhacks.app.ui.common.ProgressWheel
                     android:id="@+id/welcome_fragment_progressbar_counter"
-                    android:layout_width="250dp"
+                    android:layout_width="175dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     app:textMessage="@{viewModel.timerText}"
