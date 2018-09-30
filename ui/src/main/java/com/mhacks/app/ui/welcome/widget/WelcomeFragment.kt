@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.mhacks.app.extension.viewModelProvider
 import com.mhacks.app.ui.common.NavigationFragment
 import com.mhacks.app.ui.events.EventsViewModel
 import com.mhacks.app.ui.welcome.WelcomeViewModel
+import com.mhacks.app.ui.welcome.widget.favoriteevents.FavoriteEventsRecyclerViewAdapter
 import org.mhacks.mhacksui.R
 import org.mhacks.mhacksui.databinding.FragmentWelcomeBinding
 import timber.log.Timber
@@ -45,7 +47,10 @@ class WelcomeFragment : NavigationFragment() {
 
                     eventsViewModel = viewModelProvider(viewModelFactory)
 
-                    subscribeEventsUi(eventsViewModel!!)
+                    subscribeEventsUi(
+                            eventsViewModel!!,
+                            this
+                    )
 
                     viewModel?.let {
                         subscribeUi(it, this)
@@ -78,9 +83,19 @@ class WelcomeFragment : NavigationFragment() {
         })
     }
 
-    private fun subscribeEventsUi(eventsViewModel: EventsViewModel) {
+    private fun subscribeEventsUi(
+            eventsViewModel: EventsViewModel,
+            fragmentWelcomeBinding: FragmentWelcomeBinding
+    ) {
         eventsViewModel.favoriteEvents.observe(this@WelcomeFragment, Observer {
 
+            it?.let { events ->
+
+                fragmentWelcomeBinding.welcomeFragmentFavoriteEventsRecyclerView.layoutManager =
+                        LinearLayoutManager(context)
+                fragmentWelcomeBinding.welcomeFragmentFavoriteEventsRecyclerView.adapter =
+                        FavoriteEventsRecyclerViewAdapter(events, null)
+            }
         })
     }
 

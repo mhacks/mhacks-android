@@ -40,7 +40,7 @@ class EventsViewModel @Inject constructor(
     val favoriteEvent
         get() =_favoriteEvent
 
-    private val _favoriteEvents = MediatorLiveData<List<Event>>()
+    private val _favoriteEvents = MediatorLiveData<Map<String, List<EventsViewModel.EventWithDay>>>()
 
     val favoriteEvents
         get() = _favoriteEvents
@@ -104,7 +104,7 @@ class EventsViewModel @Inject constructor(
         _favoriteEvents.addSource(getFavoriteCachedEventsResult) {
             if (it is Result.Success) {
                 it.let { result ->
-                    _favoriteEvents.value = result.data
+                    _favoriteEvents.value = mapToEventWithDay(result.data)
                 }
             }
         }

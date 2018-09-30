@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import org.mhacks.mhacksui.R
 import com.mhacks.app.data.models.Event
 import com.mhacks.app.ui.events.EventsViewModel
-import com.mhacks.app.ui.events.widget.EventsRecyclerViewAdapter.*
+import com.mhacks.app.ui.events.model.EventSectionModel
 import kotlinx.android.synthetic.main.events_pager_view.*
 
 /**

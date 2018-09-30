@@ -11,12 +11,21 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?colorPrimaryDark">
+
+        <android.support.constraint.Guideline
+            android:id="@+id/welcome_fragment_arc_guideline"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="230dp" />
+
 
         <com.github.florent37.arclayout.ArcLayout
             android:id="@+id/welcome_fragment_arc_layout"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="275dp"
             android:elevation="6dp"
             app:arc_cropDirection="cropOutside"
             app:arc_position="bottom"
@@ -43,6 +52,7 @@
                     app:progressColor="@color/white"
                     app:defTextColor="@color/white"
                     app:countTextColor="@color/white" />
+
             </FrameLayout>
         </com.github.florent37.arclayout.ArcLayout>
 
@@ -50,7 +60,9 @@
             android:id="@+id/welcome_fragment_favorite_events_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/welcome_fragment_arc_layout"
+            android:paddingTop="50dp"
+            android:clipToPadding="false"
+            app:layout_constraintTop_toBottomOf="@+id/welcome_fragment_arc_guideline"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </android.support.constraint.ConstraintLayout>

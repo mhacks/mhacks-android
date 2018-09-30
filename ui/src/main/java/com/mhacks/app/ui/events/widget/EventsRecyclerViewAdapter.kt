@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.mhacks.app.data.models.Event
 import com.github.vipulasri.timelineview.TimelineView
+import com.mhacks.app.ui.events.model.EventSectionModel
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
@@ -14,7 +15,9 @@ import org.threeten.bp.format.DateTimeFormatter
  */
 class EventsRecyclerViewAdapter(val context: Context,
                                 val events: ArrayList<EventSectionModel>,
-                                private val eventsCallback: (event: Event, isChecked: Boolean) -> Unit)
+                                private val eventsCallback: (
+                                        event: Event,
+                                        isChecked: Boolean) -> Unit)
     : RecyclerView.Adapter<EventsRecyclerViewAdapter.EventViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
@@ -37,12 +40,10 @@ class EventsRecyclerViewAdapter(val context: Context,
         holder.eventTimeLineItem.timeText = formatter.format(localTime)
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return TimelineView.getTimeLineViewType(position, itemCount)
-    }
+    override fun getItemViewType(position: Int) =
+            TimelineView.getTimeLineViewType(position, itemCount)
 
     class EventViewHolder(val eventTimeLineItem: EventTimeLineItem)
         : RecyclerView.ViewHolder(eventTimeLineItem)
 
-    data class EventSectionModel(val time: Long, val events: ArrayList<Event>)
 }

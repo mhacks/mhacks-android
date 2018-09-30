@@ -20,13 +20,13 @@ class EventDescriptionItem(context: Context, attrs: AttributeSet?)
 
     fun bindItem(
             event: Event,
-            onEventClicked: (event: Event, isChecked: Boolean) -> Unit) {
+            onEventClicked: ((event: Event, isChecked: Boolean) -> Unit)?) {
 
         events_description_item_title.text = event.name
         events_description_item_description.text = event.desc
         events_description_item_like_check_box.isChecked = event.favorited
         events_description_item_like_check_box.setOnCheckedChangeListener { _, isChecked ->
-            onEventClicked.invoke(event, isChecked)
+            onEventClicked?.invoke(event, isChecked)
         }
     }
 }

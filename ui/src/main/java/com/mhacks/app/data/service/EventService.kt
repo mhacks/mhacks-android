@@ -6,7 +6,7 @@ import retrofit2.http.GET
 
 interface EventService {
 
-    @GET("insertFavoriteEvent")
+    @GET("event")
     fun getEventResponse(): Single<EventsResponse>
 
 }
