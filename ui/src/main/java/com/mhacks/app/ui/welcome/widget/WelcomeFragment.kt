@@ -12,6 +12,7 @@ import com.mhacks.app.extension.showSnackBar
 import com.mhacks.app.extension.viewModelProvider
 import com.mhacks.app.ui.common.NavigationFragment
 import com.mhacks.app.ui.events.EventsViewModel
+import com.mhacks.app.ui.main.MainActivity
 import com.mhacks.app.ui.welcome.WelcomeViewModel
 import com.mhacks.app.ui.welcome.widget.favoriteevents.FavoriteEventsRecyclerViewAdapter
 import org.mhacks.mhacksui.R
@@ -90,11 +91,20 @@ class WelcomeFragment : NavigationFragment() {
         eventsViewModel.favoriteEvents.observe(this@WelcomeFragment, Observer {
 
             it?.let { events ->
-
-                fragmentWelcomeBinding.welcomeFragmentFavoriteEventsRecyclerView.layoutManager =
-                        LinearLayoutManager(context)
-                fragmentWelcomeBinding.welcomeFragmentFavoriteEventsRecyclerView.adapter =
-                        FavoriteEventsRecyclerViewAdapter(events, null)
+                fragmentWelcomeBinding.apply {
+                    if (events.isEmpty()) {
+                        welcomeFragmentFavoriteAddEventsButton.visibility = View.VISIBLE
+                        welcomeFragmentFavoriteAddEventsButton.setOnClickListener { _ ->
+                            (activity as? MainActivity)?.
+                                    navigateFragment(R.id.events_fragment)
+                        }
+                    } else {
+                        welcomeFragmentFavoriteEventsRecyclerView.layoutManager =
+                                LinearLayoutManager(context)
+                        welcomeFragmentFavoriteEventsRecyclerView.adapter =
+                                FavoriteEventsRecyclerViewAdapter(events, null)
+                    }
+                }
             }
         })
     }
