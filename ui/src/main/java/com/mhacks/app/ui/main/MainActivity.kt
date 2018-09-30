@@ -105,8 +105,7 @@ class MainActivity : BaseActivity(),
                     }
                 } else {
                     View.OnClickListener { _ ->
-//                        showTicketDialogFragment()
-                        showAdminOptions()
+                        showTicketDialogFragment()
                     }
                 }
                 binding.mainActivityQrTicketFab.setOnClickListener(listener)
@@ -183,6 +182,13 @@ class MainActivity : BaseActivity(),
             true
         }
     }
+
+
+    fun navigateFragment(fragmentId: Int) {
+        navController.navigate(fragmentId)
+    }
+
+
     private fun showAdminOptions() {
         AlertDialog.Builder(this)
                 .setTitle(getString(R.string.admin))

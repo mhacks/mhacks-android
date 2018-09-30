@@ -64,5 +64,21 @@
             app:layout_constraintTop_toBottomOf="@+id/welcome_fragment_arc_guideline"
             app:layout_constraintBottom_toBottomOf="parent" />
 
+        <Button
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:id="@+id/welcome_fragment_favorite_add_events_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:background="@color/colorPrimary"
+            android:text="@string/add_favorited_events"
+            android:visibility="gone"
+            android:textSize="18sp"
+            android:padding="12dp"
+            app:layout_constraintTop_toBottomOf="@+id/welcome_fragment_arc_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
     </android.support.constraint.ConstraintLayout>
 </layout>
