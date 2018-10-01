@@ -1,40 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:animateLayoutChanges="true">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ProgressBar
-        style="@style/CountdownProgressBar"
-        android:id="@+id/progressbar_counter"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:max="100"
-        android:progress="0" />
+    <data>
+        <variable
+            name="viewModel"
+            type="com.mhacks.app.ui.welcome.WelcomeViewModel" />
+    </data>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?colorPrimaryDark">
 
-    <TextView
-        android:id="@+id/timer_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:paddingStart="10dip"
-        android:paddingEnd="10dip"
-        android:text="@string/countdown_timer_default"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/text_countdown_timertext"
-        />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/welcome_fragment_arc_guideline"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="155dp" />
 
-    <TextView
-        android:id="@+id/timer_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/timer_text"
-        android:padding="10dip"
-        android:text="@string/countdown_timer_title"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/text_countdown_normaltitles" />
-</RelativeLayout>
+        <com.github.florent37.arclayout.ArcLayout
+            android:id="@+id/welcome_fragment_arc_layout"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:elevation="6dp"
+            app:arc_cropDirection="cropOutside"
+            app:arc_position="bottom"
+            app:arc_height="45dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="16dp"
+                android:background="?colorPrimary">
+
+                <com.mhacks.app.ui.common.ProgressWheel
+                    android:id="@+id/welcome_fragment_progressbar_counter"
+                    android:layout_width="175dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    app:textMessage="@{viewModel.timerText}"
+                    app:definitionText="@string/countdown_timer_title"
+                    app:percentage="@{safeUnbox(viewModel.timerProgress)}"
+                    app:defTextSize="@dimen/text_countdown_normaltitles"
+                    app:countTextSize="@dimen/text_countdown_timertext"
+                    app:marginBtwText= "26dp"
+                    app:barWidth="8dp"
+                    app:progressColor="@color/white"
+                    app:defTextColor="@color/white"
+                    app:countTextColor="@color/white" />
+
+            </FrameLayout>
+        </com.github.florent37.arclayout.ArcLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/welcome_fragment_favorite_events_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="50dp"
+            android:clipToPadding="false"
+            app:layout_constraintTop_toBottomOf="@+id/welcome_fragment_arc_guideline"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <Button
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:id="@+id/welcome_fragment_favorite_add_events_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:background="@color/colorPrimary"
+            android:text="@string/add_favorited_events"
+            android:visibility="gone"
+            android:textSize="14sp"
+            android:padding="12dp"
+            app:layout_constraintTop_toBottomOf="@+id/welcome_fragment_arc_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

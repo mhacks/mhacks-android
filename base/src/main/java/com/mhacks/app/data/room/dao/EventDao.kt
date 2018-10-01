@@ -1,6 +1,9 @@
 package com.mhacks.app.data.room.dao
 
-import android.arch.persistence.room.*
+
+import android.os.Parcel
+import android.os.Parcelable
+import androidx.room.*
 import com.mhacks.app.data.models.Event
 import io.reactivex.Single
 
@@ -14,7 +17,10 @@ abstract class EventDao {
     abstract fun getEvents(): Single<List<Event>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun updateEvents(announcements: List<Event>)
+    abstract fun updateEvents(events: List<Event>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun updateEvent(event: Event)
 
     @Query("DELETE FROM event")
     abstract fun deleteEvents()

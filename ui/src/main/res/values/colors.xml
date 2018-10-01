@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
     <color name="blueGrey">#37474F</color>
-    <color name="brown">#A1887F</color>
-    <color name="recyclerview_background">#F4F4F4</color>
 
     <!--Global color themes-->
     <color name="colorPrimary">#5D3E6E</color>
     <color name="colorPrimaryDark">#43374E</color>
+    <color name="colorPrimaryDisabled">#595D3E6E</color>
     <color name="colorAccent">#F4A4A8</color>
 
     <!--Map Fragment-->
     <color name="semiColorPrimary">#9643384D</color>
+    <color name="light_grey">#eee</color>
+    <color name="red">#f44336</color>
 
 </resources>

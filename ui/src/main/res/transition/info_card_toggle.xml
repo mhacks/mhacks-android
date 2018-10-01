@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<transitionSet
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:interpolator/fast_out_slow_in">
+
+    <transition class="com.mhacks.app.ui.info.widget.Rotate">
+        <targets>
+            <target android:targetId="@id/expand_icon" />
+        </targets>
+    </transition>
+
+    <changeBounds />
+
+</transitionSet>

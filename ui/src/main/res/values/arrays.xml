@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <array name="admin_options">
+        <item>@string/scan_ticket</item>
+        <item>@string/post_announcements</item>
+        <item>@string/ticket</item>
+    </array>
+</resources>

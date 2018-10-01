@@ -1,7 +1,6 @@
 package com.mhacks.app.data.models
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.*
 import android.os.Parcel
 import android.os.Parcelable
 import com.squareup.moshi.Json
@@ -18,21 +17,23 @@ data class EventsResponse(
 data class Event(
 	@PrimaryKey
 	@Json(name = "id") var id: String,
-	@Json(name = "updatedAt") var updatedAt: String,
-	@Json(name = "createdAt") var createdAt: String,
-	@Json(name = "name") var name: String,
-	@Json(name = "desc") var desc: String,
-	@Json(name = "startDate") var startDate: String,
-	@Json(name = "endDate") var endDate: String,
-	@Json(name = "location") var location: String,
-	@Json(name = "category") var category: String,
-	@Json(name = "deleted") var deleted: Boolean,
+	@Json(name = "updatedAt") var updatedAt: String?,
+	@Json(name = "createdAt") var createdAt: String?,
+	@Json(name = "name") var name: String?,
+	@Json(name = "desc") var desc: String?,
+	@Json(name = "startDate") var startDate: String?,
+	@Json(name = "endDate") var endDate: String?,
+	@Json(name = "location") var location: String?,
+	@Json(name = "category") var category: String?,
+	@Json(name = "deleted") var deleted: Boolean?,
 	@field:Json(name = "createdAt_ts") var createdAtTs: Long,
 	@field:Json(name = "updatedAt_ts") var updatedAtTs: Long,
 	@field:Json(name = "startDate_ts") var startDateTs: Long,
-	@field:Json(name = "endDate_ts") var endDateTs: Long
+	@field:Json(name = "endDate_ts") var endDateTs: Long,
+    var favorited: Boolean = false
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString() ?:  "",
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
@@ -41,8 +42,7 @@ data class Event(
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
-            parcel.readString(),
-            parcel.readByte() != 0.toByte(),
+            parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
             parcel.readLong(),
             parcel.readLong(),
             parcel.readLong(),
@@ -58,14 +58,16 @@ data class Event(
         parcel.writeString(endDate)
         parcel.writeString(location)
         parcel.writeString(category)
-        parcel.writeByte(if (deleted) 1 else 0)
+        parcel.writeValue(deleted)
         parcel.writeLong(createdAtTs)
         parcel.writeLong(updatedAtTs)
         parcel.writeLong(startDateTs)
         parcel.writeLong(endDateTs)
     }
 
-    override fun describeContents() = 0
+    override fun describeContents(): Int {
+        return 0
+    }
 
     companion object CREATOR : Parcelable.Creator<Event> {
         override fun createFromParcel(parcel: Parcel): Event {
@@ -76,4 +78,5 @@ data class Event(
             return arrayOfNulls(size)
         }
     }
+
 }

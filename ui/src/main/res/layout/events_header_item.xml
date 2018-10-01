@@ -1,48 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/events_header_weekday_textview"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <TextView
-        android:id="@+id/events_time_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/events_info_time_marker"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="8:00PM" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/events_vertical_divider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.35" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/events_horizontal_divider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="75dp" />
-
-    <com.github.vipulasri.timelineview.TimelineView
-        android:id="@+id/events_info_time_marker"
-        android:layout_width="48dp"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="8dp"
-        android:layout_weight="1"
-        android:paddingTop="16dp"
-        app:line="@color/brown"
-        app:linePadding="8dp"
-        app:lineSize="2dp"
-        app:marker="@drawable/timeline_purple_marker"
-        app:markerInCenter="true"
-        app:markerSize="36dp"
-        app:layout_constraintRight_toLeftOf="@id/events_vertical_divider"/>
-
-</android.support.constraint.ConstraintLayout>
+    android:layout_height="wrap_content"
+    android:textColor="?colorAccent"
+    android:textStyle="bold"
+    android:paddingTop="20dp"
+    android:paddingBottom="8dp"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
+    android:gravity="start"
+    android:textAllCaps="true"
+    android:textSize="16sp"
+    tools:text="Wednesday" />

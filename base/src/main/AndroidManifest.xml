@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -79,7 +80,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.qrscan.view.BarcodeCaptureActivity"
+            android:name=".ui.qrscan.widget.BarcodeCaptureActivity"
             android:label="@string/title_activity_barcode_capture"
             android:theme="@style/SplashTheme" />
 
@@ -96,20 +97,6 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
-        <!--
-         A service that extends FireBaseInstanceIdService to handle the creation, rotation,
-         and updating of registration tokens.
-        -->
-
-        <service
-            android:name=".data.network.fcm.MyFireBaseInstanceIDService"
-            android:exported="false"
-            android:permission="">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 

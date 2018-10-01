@@ -3,27 +3,30 @@
     android:id="@+id/navigation_menu">
 
     <item
-        android:id="@+id/navigation_home"
+        android:id="@id/welcome_fragment"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home"
-        android:visible="false" />
+        android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_announcements"
+        android:id="@id/announcement_fragment"
         android:icon="@drawable/ic_rss_feed_black_24dp"
         android:title="@string/title_announcements"
-        android:visible="false" />
+     />
 
     <item
-        android:id="@+id/navigation_events"
+        android:id="@id/events_fragment"
         android:icon="@drawable/ic_calendar_black_24dp"
-        android:title="@string/title_events"
-        android:visible="false" />
+        android:title="@string/title_events" />
 
     <item
-        android:id="@+id/navigation_map"
+        android:id="@id/map_view_fragment"
         android:icon="@drawable/ic_map_black_24dp"
-        android:title="@string/title_map"
-        android:visible="false" />
+        android:title="@string/title_map" />
+
+    <item
+        android:id="@id/info_fragment"
+        android:icon="@drawable/ic_info_outline_black_24dp"
+        android:title="@string/title_info" />
+
 
 </menu>

@@ -4,19 +4,32 @@ package com.mhacks.app.data.models
  * Model for storing login information.
  */
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Ignore
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.*
 import com.squareup.moshi.Json
 
 @Entity(tableName = "login")
 data class Login(
-    @PrimaryKey(autoGenerate = false) var id: Int,
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "login_id") var id: Int,
     @Json(name = "status") var status: Boolean,
     @Json(name = "message") var message: String,
     @Json(name = "token") var token: String,
-    @Ignore @Json(name = "user") var user: User?
+    @Embedded @Json(name = "user") var user: User?
 ) {
-    constructor(id: Int, status: Boolean, message: String, token: String)
+
+    // Checks if user or groups are in the user currently null.
+    // If so, it will return false. The only case it will return true is if "admin is in groups.
+    val isAdmin get() =  if (user != null) {
+        user!!.isAdmin
+    } else false
+
+    val isSkipped get() = user == null
+
+    data class Request(
+            @Json(name = "email") val email: String,
+            @Json(name = "password") val password: String) {
+    }
+
+    @Ignore constructor(id: Int, status: Boolean, message: String, token: String)
             :this(id, status, message, token, null)
 }

@@ -4,44 +4,26 @@
     <string name="app_name">MHacks</string>
 
     <!-- SettingsFragment Preferences -->
-    <string-array name="notif_channels">
-        <item>Logistics</item>
-        <item>Food</item>
-        <item>Swag</item>
-        <item>Sponsorship</item>
-        <item>Other</item>
-    </string-array>
-
-    <string-array name="notif_channels_values">
-        <item>2</item>
-        <item>4</item>
-        <item>8</item>
-        <item>16</item>
-        <item>32</item>
-    </string-array>
 
     <!--Common-->
     <string name="no_internet">No internet.</string>
-    <string name="lost_internet_connection">Lost internet connection</string>
     <string name="try_again">Try again</string>
     <string name="unknown_error">Unknown error</string>
 
     <!-- Welcome Fragment-->
     <string name="countdown_timer_default">36:00:00</string>
     <string name="countdown_timer_title">Time Remaining</string>
-    <string name="timer_countdown_text">%s:%s:%s</string>
 
-    <string name="logout">Logout</string>
     <string name="login">LOGIN</string>
-    <string name="logged_in">You are currently logged in.</string>
     <string name="title_home">Home</string>
-    <string name="title_announcements">Announcements</string>
+    <string name="title_announcements">Feed</string>
     <string name="title_events">Events</string>
     <string name="title_map">Map</string>
     <string name="welcome">Welcome</string>
     <string name="sign_in">Sign in</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
+    <string name="add_favorited_events">Add favorite events</string>
 
     <!--No internet view-->
     <string name="disconnected">Disconnected</string>
@@ -52,7 +34,7 @@
 
     <!--Announcements-->
     <string name="loading_announcements">Loading announcements…</string>
-    <string name="announcement_network_failure">Couldn\'t fetch announcements.</string>
+    <string name="announcement_network_failure">Couldn\'t fetch announcements</string>
 
     <!-- ProgressBar View-->
     <string name="logging_in">Logging in…</string>
@@ -73,20 +55,13 @@
     <!--Event Fragment-->
     <string name="loading_events">Loading events…</string>
     <string name="events_network_failure">Couldn\'t fetch events.</string>
+    <string name="like">Like</string>
 
     <!--Barcode-->
     <string name="ok">OK</string>
     <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
-    <string name="title_activity_main">Barcode Reader Sample</string>
-    <string name="barcode_header">Click &quot;Read Barcode&quot; to read a barcode</string>
-    <string name="read_barcode">Read Barcode</string>
-    <string name="auto_focus">Auto Focus</string>
-    <string name="use_flash">Use Flash</string>
-    <string name="barcode_success">Barcode read successfully</string>
-    <string name="barcode_failure">No barcode captured</string>
-    <string name="barcode_error">"Error reading barcode: %1$s"</string>
     <string name="title_activity_barcode_capture">BarcodeCaptureActivity</string>
     <string name="flash_icon">Flash Icon</string>
     <string name="autofocus_icon">Autofocus Icon</string>
@@ -97,6 +72,54 @@
     <string name="barcode_hint">Tap to capture. Pinch/Stretch to zoom</string>
     <string name="not_valid_email">Not a valid e-mail address.</string>
     <string name="checked_in">Checked in!</string>
-    <string name="title_activity_main2">Main2Activity</string>
+
+    <!--Admin-->
+    <string name="admin">Admin</string>
+    <string name="scan_ticket">Scan ticket</string>
+    <string name="ticket">Ticket</string>
+
+    <!--Maps-->
+    <string name="maps_network_failure">Couldn\'t fetch map data.</string>
+
+    <!--Create Announcement Fragment-->
+    <string name="title">Title</string>
+    <string name="category">Category</string>
+    <string name="body">Body</string>
+    <string name="post">post</string>
+    <string name="title_info">Info</string>
+    <string name="timer_placeholder">---</string>
+
+    <!--Info-->
+    <string name="info_wifi_header">Wi-Fi</string>
+    <string name="info_wifi_sub_header">Tap to save password.</string>
+    <string name="info_wifi_desc">Name:\n"mhacks"\nPassword:\n"sdfaf"</string>
+
+    <!--Address-->
+    <string name="info_address_header">Address</string>
+    <string name="info_address_sub_header">Tap to open Maps</string>
+    <string name="info_address_desc">606 E Hoover Ave, Ann Arbor, MI 48104</string>
+
+    <!--Slack-->
+    <string name="info_slack_header">Slack</string>
+    <string name="info_slack_sub_header">Register Slack</string>
+    <string name="info_slack_desc">Team:\nmhacks11</string>
+
+    <!--Email-->
+    <string name="info_email_header">Email</string>
+    <string name="info_email_sub_header">Send us an email</string>
+    <string name="info_email_desc">hackathon@umich.edu</string>
+
+    <!--Collapsible Card View-->
+    <string name="expanded">Expanded</string>
+    <string name="collapsed">Collapsed</string>
+
+    <!--Wi-Fi-->
+    <string name="wifi_install_success">Successfully installed Wi-Fi!</string>
+    <string name="wifi_install_failure">Copied password to clipboard!</string>
+
+    <!--Address-->
+    <string name="info_address">606 E Hoover Ave, Ann Arbor, MI 48104</string>
+    <string name="google_maps_error">Google Maps is not installed.</string>
+    <string name="create_announcement_success">Successfully created announcement!</string>
 
 </resources>

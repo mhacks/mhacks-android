@@ -1,9 +1,9 @@
 package com.mhacks.app.data.room.dao
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.mhacks.app.data.models.Login
 import io.reactivex.Single
 
@@ -12,9 +12,11 @@ import io.reactivex.Single
  */
 @Dao
 interface LoginDao {
+
     @Query("SELECT * FROM login")
     fun getLogin(): Single<Login>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLogin(login: Login)
+
 }

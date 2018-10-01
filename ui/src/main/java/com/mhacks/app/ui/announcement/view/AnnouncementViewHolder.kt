@@ -1,8 +1,8 @@
 package com.mhacks.app.ui.announcement.view
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import org.mhacks.mhacksui.R
 
 /**

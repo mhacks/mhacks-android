@@ -1,14 +1,10 @@
 package com.mhacks.app.ui.map
 
-import com.mhacks.app.data.network.services.MHacksService
-import com.mhacks.app.data.room.MHacksDatabase
-import com.mhacks.app.ui.map.presenter.MapViewFragmentPresenter
-import com.mhacks.app.ui.map.presenter.MapViewFragmentPresenterImpl
-import com.mhacks.app.ui.map.view.MapView
-import com.mhacks.app.ui.map.view.MapViewFragment
+import androidx.lifecycle.ViewModel
+import com.mhacks.app.di.ViewModelKey
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
+import dagger.multibindings.IntoMap
 
 /**
  * Provides dependencies for map fragment module.
@@ -17,15 +13,8 @@ import dagger.Provides
 abstract class MapViewFragmentModule {
 
     @Binds
-    abstract fun provideMapView(mapViewFragment: MapViewFragment): MapView
+    @IntoMap
+    @ViewModelKey(MapViewModel::class)
+    abstract fun bindMapViewModel(mapViewModel: MapViewModel): ViewModel
 
-    @Module
-    companion object {
-        @Provides
-        @JvmStatic
-        fun provideMapViewPresenter(mapView: MapView,
-                                    mHacksService: MHacksService,
-                                    mHacksDatabase: MHacksDatabase): MapViewFragmentPresenter =
-                MapViewFragmentPresenterImpl(mapView, mHacksService, mHacksDatabase)
-    }
 }

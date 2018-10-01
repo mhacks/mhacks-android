@@ -1,10 +1,10 @@
 package com.mhacks.app.ui.announcement.view
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView.Adapter
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import com.mhacks.app.data.models.Announcement
 import org.mhacks.mhacksui.R
 import java.util.*
@@ -14,18 +14,24 @@ import java.util.*
  */
 class AnnouncementsAdapter(private val context: Context,
                            private val announcementList: ArrayList<Announcement>):
-        Adapter<AnnouncementViewHolder>() {
+        ListAdapter<Announcement, AnnouncementViewHolder>(AnnouncementDiffCallback()) {
 
     override fun getItemCount() = announcementList.size
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): AnnouncementViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnnouncementViewHolder {
         val view = LayoutInflater.from(context)
-                .inflate(R.layout.announcements_viewholder_item, parent, false)
+                .inflate(R.layout.announcements_item, parent, false)
         return AnnouncementViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: AnnouncementViewHolder, position: Int) =
             bindItems(holder, announcementList[position])
+
+    fun updateList(announcementList: ArrayList<Announcement>) {
+        this.announcementList.clear()
+        this.announcementList.addAll(announcementList)
+        notifyDataSetChanged()
+    }
 
     private fun bindItems(holder: AnnouncementViewHolder, announcement: Announcement) {
         val relativeTime = DateUtils.getRelativeTimeSpanString(

@@ -1,21 +1,15 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-
-    <!-- Margins -->
-
     <!-- Text Sizes -->
     <dimen name="common_midsize">18sp</dimen>
 
-    <dimen name="text_countdown_normaltitles">18sp</dimen>
-    <dimen name="text_countdown_timertext">50sp</dimen>
+    <dimen name="text_countdown_normaltitles">16sp</dimen>
+    <dimen name="text_countdown_timertext">24sp</dimen>
 
     <!-- Parameters -->
     <dimen name="countdown_progressbar_thickness">10dp</dimen>
 
-    <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
+    <!-- Per the design guidelines, navigation_main drawers should be between 240dp and 320dp:
          https://developer.android.com/design/patterns/navigation-drawer.html -->
-    <dimen name="adapter_card_padding">8dp</dimen>
     <dimen name="toolbar_height">100dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
 
 </resources>

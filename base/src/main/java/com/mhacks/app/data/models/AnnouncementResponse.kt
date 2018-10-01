@@ -1,7 +1,7 @@
 package com.mhacks.app.data.models
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 
 /**
@@ -9,7 +9,7 @@ import com.squareup.moshi.Json
  */
 data class AnnouncementResponse(
     @Json(name = "status") var status: Boolean,
-    @Json(name = "announcements") var announcements: List<Announcement>?
+    @Json(name = "announcements") var announcements: List<Announcement>
 )
 
 @Entity(tableName = "announcement")

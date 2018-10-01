@@ -12,38 +12,36 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.hardware.Camera
 import android.os.Bundle
-import android.support.annotation.NonNull
-import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v4.widget.ImageViewCompat
-import android.support.v7.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.widget.ImageViewCompat
 import android.util.Patterns
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
+import androidx.annotation.NonNull
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
-import org.mhacks.mhacksui.R
-import com.mhacks.app.data.models.Feedback
+import com.google.android.material.snackbar.Snackbar
+import com.mhacks.app.extension.viewModelProvider
 import com.mhacks.app.ui.common.BaseActivity
-import com.mhacks.app.ui.qrscan.presenter.QRScanPresenter
-import com.mhacks.app.ui.qrscan.view.BarcodeGraphic
-import com.mhacks.app.ui.qrscan.view.BarcodeGraphicTracker
-import com.mhacks.app.ui.qrscan.view.BarcodeTrackerFactory
-import com.mhacks.app.ui.qrscan.view.QRScanView
-import com.mhacks.app.ui.qrscan.view.camera.CameraSource
-import com.mhacks.app.ui.qrscan.view.camera.CameraSourcePreview
-import com.mhacks.app.ui.qrscan.view.camera.GraphicOverlay
+import com.mhacks.app.ui.qrscan.widget.BarcodeGraphic
+import com.mhacks.app.ui.qrscan.widget.BarcodeGraphicTracker
+import com.mhacks.app.ui.qrscan.widget.BarcodeTrackerFactory
+import com.mhacks.app.ui.qrscan.widget.camera.CameraSource
+import com.mhacks.app.ui.qrscan.widget.camera.CameraSourcePreview
+import com.mhacks.app.ui.qrscan.widget.camera.GraphicOverlay
 import kotlinx.android.synthetic.main.activity_qr_scan.*
-import retrofit2.HttpException
+import org.mhacks.mhacksui.R
 import timber.log.Timber
 import java.io.IOException
-import java.net.UnknownHostException
 import javax.inject.Inject
 
 /**
@@ -51,7 +49,11 @@ import javax.inject.Inject
  * rear facing camera. During detection overlay graphics are drawn to indicate the position,
  * size, and ID of each barcode.
  */
-class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeUpdateListener {
+class QRScanActivity:
+        BaseActivity(),
+        BarcodeGraphicTracker.BarcodeUpdateListener {
+
+    private var camera: Camera? = null
 
     private var cameraSource: CameraSource? = null
 
@@ -63,11 +65,9 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
 
     private var gestureDetector: GestureDetector? = null
 
-    private var hasAutoFocus = false
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private var useFlash = false
-
-    @Inject lateinit var qrScanPresenter: QRScanPresenter
+    private var qrScanViewModel: QRScanViewModel? = null
 
     /**
      * Initializes the UI and creates the detector pipeline.
@@ -76,21 +76,25 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_scan)
 
+        qrScanViewModel = viewModelProvider(viewModelFactory)
+
+        subscribeUi()
+
         preview = findViewById(R.id.activity_camera_source_preview)
         graphicOverlay = findViewById(R.id.activity_barcode_graphic_overlay)
 
 
-        val rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+        val rc = ActivityCompat.checkSelfPermission(this@QRScanActivity, Manifest.permission.CAMERA)
         if (rc == PackageManager.PERMISSION_GRANTED) {
-            qrScanPresenter.getCameraSettings()
+            createCameraSource()
+            qrScanViewModel?.getCameraSettings()
+
             activity_camera_source_flash_icon.setOnClickListener {
-                useFlash = !useFlash
-                qrScanPresenter.updateCameraSettings(hasAutoFocus, useFlash)
+                qrScanViewModel?.changeCameraSettings(QRScanViewModel.FLASH)
 
             }
             activity_camera_source_autofocus_icon.setOnClickListener {
-                hasAutoFocus = !hasAutoFocus
-                qrScanPresenter.updateCameraSettings(hasAutoFocus, useFlash)
+                qrScanViewModel?.changeCameraSettings(QRScanViewModel.AUTO_FOCUS)
             }
         } else {
             requestCameraPermission()
@@ -98,9 +102,25 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
 
         gestureDetector = GestureDetector(this, CaptureGestureListener())
         scaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
-        activity_camera_source_autofocus_icon
         showToast(R.string.barcode_hint)
+    }
 
+    private fun subscribeUi() {
+        qrScanViewModel?.verifyTicket?.observe(this, Observer {
+            showToast(R.string.checked_in)
+        })
+
+        qrScanViewModel?.snackBarMessage?.observe(this, Observer {
+            it?.let { textMessage ->
+                showSnackBar(textMessage)
+            }
+        })
+        qrScanViewModel?.cameraSettings?.observe(this, Observer {
+            it?.let { cameraSettings ->
+                val (isAutoFocus, isFlash) = cameraSettings
+                updateCameraSettings(isAutoFocus, isFlash)
+            }
+        })
     }
 
     private fun requestCameraPermission() {
@@ -189,8 +209,6 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
                 .setRequestedFps(15.0f)
 
         cameraSource = builder
-                .setFocusMode(if (this.hasAutoFocus) Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE else null)
-                .setFlashMode(if (this.useFlash) Camera.Parameters.FLASH_MODE_TORCH else null)
                 .build()
     }
 
@@ -241,14 +259,15 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
                                             @NonNull permissions: Array<String>,
                                             @NonNull grantResults: IntArray) {
         if (requestCode != RC_HANDLE_CAMERA_PERM) {
-            Timber.w("Got unexpected permission result: " + requestCode)
+            Timber.w("Got unexpected permission result: $requestCode")
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
             return
         }
 
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Timber.w("Camera permission granted - initialize the camera source")
-            qrScanPresenter.getCameraSettings()
+            createCameraSource()
+            qrScanViewModel?.getCameraSettings()
             return
         }
 
@@ -324,10 +343,9 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
             }
         }
         best?.let {
-
             if (Patterns.EMAIL_ADDRESS.matcher(best.displayValue).matches()) {
                 activity_camera_source_id_text_view.text = best.displayValue
-                qrScanPresenter.verifyTicket(best.displayValue)
+                qrScanViewModel?.verifyTicket(best.displayValue)
             }
             else showToast(R.string.not_valid_email)
             return true
@@ -347,11 +365,11 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
          * Responds to scaling events for a gesture in progress.
          * Reported by pointer motion.
          *
-         * @param detector The detector reporting the event - use this to
-         * retrieve extended info about event state.
-         * @return Whether or not the detector should consider this event
-         * as handled. If an event was not handled, the detector
-         * will continue to accumulate movement until an event is
+         * @param detector The detector reporting the insertFavoriteEvent - use this to
+         * retrieve extended info about insertFavoriteEvent state.
+         * @return Whether or not the detector should consider this insertFavoriteEvent
+         * as handled. If an insertFavoriteEvent was not handled, the detector
+         * will continue to accumulate movement until an insertFavoriteEvent is
          * handled. This can be useful if an application, for example,
          * only wants to update scaling factors if the change is
          * greater than 0.01.
@@ -364,8 +382,8 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
          * Responds to the beginning of a scaling gesture. Reported by
          * new pointers going down.
          *
-         * @param detector The detector reporting the event - use this to
-         * retrieve extended info about event state.
+         * @param detector The detector reporting the insertFavoriteEvent - use this to
+         * retrieve extended info about insertFavoriteEvent state.
          * @return Whether or not the detector should continue recognizing
          * this gesture. For example, if a gesture is beginning
          * with a focal point outside of a region where it makes
@@ -385,8 +403,8 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
          * and [ScaleGestureDetector.getFocusY] will return focal point
          * of the pointers remaining on the screen.
          *
-         * @param detector The detector reporting the event - use this to
-         * retrieve extended info about event state.
+         * @param detector The detector reporting the insertFavoriteEvent - use this to
+         * retrieve extended info about insertFavoriteEvent state.
          */
         override fun onScaleEnd(detector: ScaleGestureDetector) {
             cameraSource?.doZoom(detector.scaleFactor)
@@ -394,51 +412,21 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
     }
 
     override fun onBarcodeDetected(barcode: Barcode) {
-
+        Timber.d("%s Detected", barcode.displayValue)
     }
 
-    override fun onGetCameraSettings(settings: Pair<Boolean, Boolean>) {
-        hasAutoFocus = settings.first
-        useFlash = settings.second
 
-        val colorAccent =
-                ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
-
-        if (hasAutoFocus) ImageViewCompat.setImageTintList(activity_camera_source_autofocus_icon, colorAccent)
-        else ImageViewCompat.setImageTintList(activity_camera_source_autofocus_icon,
-                ColorStateList.valueOf(Color.WHITE))
-
-        if (useFlash) ImageViewCompat.setImageTintList(activity_camera_source_flash_icon, colorAccent)
-        else ImageViewCompat.setImageTintList(activity_camera_source_flash_icon,
-                ColorStateList.valueOf(Color.WHITE))
-        createCameraSource()
-    }
-
-    override fun onUpdateCameraSettings(settings: Pair<Boolean, Boolean>) {
-        val colorAccent =
-                ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
-
-        if (hasAutoFocus) ImageViewCompat.setImageTintList(activity_camera_source_autofocus_icon, colorAccent)
-        else ImageViewCompat.setImageTintList(activity_camera_source_autofocus_icon,
-                ColorStateList.valueOf(Color.WHITE))
-
-        if (useFlash)
-            ImageViewCompat.setImageTintList(activity_camera_source_flash_icon, colorAccent)
-        else ImageViewCompat.setImageTintList(activity_camera_source_flash_icon,
-                ColorStateList.valueOf(Color.WHITE))
-        updateCameraSettings(useFlash, hasAutoFocus)
-    }
-
-    private var camera: Camera? = null
     private fun updateCameraSettings(hasFlash: Boolean, hasAutoFocus: Boolean) {
-        camera = getCamera(cameraSource!!)
+        camera = cameraSource?.let {
+            getCamera(it)
+        }
         if (camera != null) {
             try {
-                val param = camera!!.parameters
-                param.flashMode =
+                val param = camera?.parameters
+                param?.flashMode =
                         if (hasFlash) Camera.Parameters.FLASH_MODE_TORCH
                         else Camera.Parameters.FLASH_MODE_OFF
-                param.focusMode =
+                param?.focusMode =
                         if (hasAutoFocus) Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE
                         else Camera.Parameters.FOCUS_MODE_FIXED
                 camera?.parameters = param
@@ -446,16 +434,35 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
                 Timber.e(e)
             }
         }
+
+        val colorAccent =
+                ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
+
+        if (hasAutoFocus)
+            ImageViewCompat.setImageTintList(
+                    activity_camera_source_autofocus_icon,
+                    colorAccent)
+        else ImageViewCompat.setImageTintList(
+                activity_camera_source_autofocus_icon,
+                ColorStateList.valueOf(Color.WHITE))
+
+        if (hasFlash)
+            ImageViewCompat.setImageTintList(
+                    activity_camera_source_flash_icon,
+                    colorAccent)
+        else ImageViewCompat.setImageTintList(
+                activity_camera_source_flash_icon,
+                ColorStateList.valueOf(Color.WHITE))
     }
 
 
-    private fun getCamera(@NonNull cameraSource: CameraSource): Camera? {
+    private fun getCamera(cameraSource: CameraSource): Camera? {
         val declaredFields = CameraSource::class.java.declaredFields
         for (field in declaredFields) {
             if (field.type === Camera::class.java) {
                 field.isAccessible = true
                 try {
-                    return field.get(cameraSource) as Camera
+                    return field.get(cameraSource) as Camera?
                 } catch (e: IllegalAccessException) {
                     Timber.e(e)
                 }
@@ -463,26 +470,6 @@ class QRScanActivity: BaseActivity(), QRScanView, BarcodeGraphicTracker.BarcodeU
             }
         }
         return null
-    }
-
-    override fun onVerifyTicketSuccess(user: List<Feedback>)
-            = showToast(R.string.checked_in)
-
-
-    override fun onVerifyTicketFailure(error: Throwable) {
-        when (error) {
-            is HttpException -> {
-                when (error.code()) {
-
-                    400 -> showToast(R.string.user_not_authorized)
-
-                    401 -> showToast(R.string.post_not_authorized)
-
-                    else -> showToast(R.string.unknown_error)
-                }
-            }
-            is UnknownHostException -> showToast(R.string.no_internet)
-        }
     }
 
     companion object {

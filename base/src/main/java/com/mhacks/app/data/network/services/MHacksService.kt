@@ -12,7 +12,7 @@ import retrofit2.http.*
 interface MHacksService {
 
     @GET("configuration/")
-    fun getConfigurationResponse(): Single<ConfigurationResponse>
+    fun getConfigurationResponse(): Single<ConfigResponse>
 
     @POST("auth/login/")
     @FormUrlEncoded

@@ -1,6 +1,6 @@
 package com.mhacks.app.di.component
 
-import com.mhacks.app.ui.main.view.MainActivity
+import com.mhacks.app.ui.main.MainActivity
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 

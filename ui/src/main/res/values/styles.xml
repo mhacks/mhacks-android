@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="CountdownProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:layout_centerInParent">true</item>
-        <item name="android:indeterminate">false</item>
-        <item name="android:progressDrawable">@drawable/progressbar_circular_progressdraw</item>
-        <item name="android:background">@drawable/progressbar_circular_background</item>
-    </style>
-
     <style name="MHacksEditText" parent="@android:style/Widget.EditText">
         <item name="android:textColor">@color/white</item>
         <item name="android:layout_height">45dip</item>
@@ -15,6 +7,7 @@
 
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textColor">@color/white</item>
+        <item name="android:background">@null</item>
     </style>
 
     <style name="PagerTitleStrip">
@@ -28,8 +21,23 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="SplashTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="MHacksDialogColoredButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/mhacks_button</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 
-    <style name="SplashTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="HeaderTextView">
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 
+    <style name="SubHeaderTextView">
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 </resources>

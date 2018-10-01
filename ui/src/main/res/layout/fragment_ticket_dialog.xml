@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<FrameLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_ticket">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ticket_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible">
+        android:background="@drawable/background_ticket">
 
         <ImageView
             android:id="@+id/ticket_qr_code_image_view"
@@ -33,8 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
             android:text="@string/name"
-            app:layout_constraintBottom_toTopOf="@id/ticket_full_name_text_view"
-            app:layout_constraintLeft_toLeftOf="@id/ticket_qr_code_image_view"
+            app:layout_constraintBottom_toTopOf="@+id/ticket_full_name_text_view"
+            app:layout_constraintLeft_toLeftOf="@+id/ticket_qr_code_image_view"
             app:layout_constraintTop_toBottomOf="@+id/ticket_qr_code_image_view"
             app:layout_constraintVertical_bias="0.1"
             app:layout_constraintVertical_chainStyle="packed" />
@@ -46,9 +42,9 @@
             android:layout_marginStart="35dp"
             android:textStyle="bold"
             android:textColor="@color/colorAccent"
-            app:layout_constraintLeft_toLeftOf="@id/ticket_qr_code_image_view"
-            app:layout_constraintTop_toBottomOf="@id/ticket_full_name_descriptor"
-            app:layout_constraintBottom_toTopOf="@id/ticket_school_descriptor"
+            app:layout_constraintLeft_toLeftOf="@+id/ticket_qr_code_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/ticket_full_name_descriptor"
+            app:layout_constraintBottom_toTopOf="@+id/ticket_school_descriptor"
             tools:text="Firstname Lastname"/>
 
         <TextView
@@ -59,9 +55,9 @@
             android:layout_marginStart="35dp"
             android:contentDescription="@string/qr_code"
             android:text="@string/school"
-            app:layout_constraintLeft_toLeftOf="@id/ticket_qr_code_image_view"
-            app:layout_constraintTop_toBottomOf="@id/ticket_full_name_text_view"
-            app:layout_constraintBottom_toTopOf="@id/ticket_school_text_view"/>
+            app:layout_constraintLeft_toLeftOf="@+id/ticket_qr_code_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/ticket_full_name_text_view"
+            app:layout_constraintBottom_toTopOf="@+id/ticket_school_text_view"/>
 
         <TextView
             android:id="@+id/ticket_school_text_view"
@@ -70,9 +66,9 @@
             android:layout_marginStart="35dp"
             android:textColor="@color/colorAccent"
             android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="@id/ticket_qr_code_image_view"
-            app:layout_constraintTop_toBottomOf="@id/ticket_school_descriptor"
-            app:layout_constraintBottom_toTopOf="@id/ticket_bottom_bar"
+            app:layout_constraintLeft_toLeftOf="@+id/ticket_qr_code_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/ticket_school_descriptor"
+            app:layout_constraintBottom_toTopOf="@+id/ticket_bottom_bar"
             tools:text="University of Michigan"/>
 
         <FrameLayout
@@ -93,18 +89,5 @@
                 android:textColor="@color/colorAccent" />
         </FrameLayout>
 
-    </android.support.constraint.ConstraintLayout>
-    <ProgressBar
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:id="@+id/ticket_progressbar"
-        android:layout_width="125dp"
-        android:layout_height="11dp"
-        android:layout_gravity="center"
-        android:indeterminate="true" />
-
-    <com.mhacks.app.ui.common.ErrorableView
-        android:id="@+id/ticket_error_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible"/>
-</FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,7 +1,7 @@
 package com.mhacks.app.data.room.dao
 
-import android.arch.persistence.room.*
-import com.mhacks.app.data.models.Floor
+import androidx.room.*
+import com.mhacks.app.data.models.MapFloor
 import io.reactivex.Single
 
 /**
@@ -11,17 +11,17 @@ import io.reactivex.Single
 abstract class MapFloorDao {
 
     @Query("SELECT * FROM mapFloor")
-    abstract fun getFloors(): Single<List<Floor>>
+    abstract fun getFloors(): Single<List<MapFloor>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun updateMapFloors(announcements: List<Floor>)
+    abstract fun updateMapFloors(announcements: List<MapFloor>)
 
     @Query("DELETE FROM mapFloor")
     abstract fun deleteMapFloors()
 
     @Transaction
-    open fun deleteAndUpdateMapFloors(announcements: List<Floor>) {
+    open fun deleteAndUpdateMapFloors(mapFloors: List<MapFloor>) {
         deleteMapFloors()
-        updateMapFloors(announcements)
+        updateMapFloors(mapFloors)
     }
 }

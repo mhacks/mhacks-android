@@ -1,28 +1,35 @@
 package com.mhacks.app.data
 
 import android.content.SharedPreferences
+import io.reactivex.Single
 
 /**
  * Defines the interactions with SharedPreferences within the app.
  */
 class SharedPreferencesManager(private val sharedPreferences: SharedPreferences) {
 
-    fun putIsAdmin(isAdmin: Boolean)
-            = sharedPreferences.edit().putBoolean(IS_ADMIN_KEY, isAdmin).apply()
-
-    fun getIsAdmin() = sharedPreferences.getBoolean(IS_ADMIN_KEY, false)
-
-    fun putCameraSettings(isAutoFocusEnabled: Boolean, isFlashEnabled: Boolean) =
+    private fun putCameraSettings(settings: Pair<Boolean, Boolean>): Pair<Boolean, Boolean> {
         sharedPreferences.edit()
-                .putBoolean(AUTO_FOCUS_ENABLED_KEY, isAutoFocusEnabled)
-                .putBoolean(FLASH_ENABLED_KEY, isFlashEnabled)
+                .putBoolean(AUTO_FOCUS_ENABLED_KEY, settings.first)
+                .putBoolean(FLASH_ENABLED_KEY, settings.second)
                 .apply()
+        return settings
+    }
 
-    fun getCameraSettings() =
+    fun putCameraSettingsRx(settings: Pair<Boolean, Boolean>) =
+            getRxSingle(putCameraSettings(settings))
+
+    private fun getCameraSettings() =
             Pair(
                 sharedPreferences.getBoolean(AUTO_FOCUS_ENABLED_KEY, false),
                 sharedPreferences.getBoolean(FLASH_ENABLED_KEY, false))
 
+    fun getCameraSettingsRx() =
+            getRxSingle(getCameraSettings())
+
+    private fun <T> getRxSingle(source: T) = Single.create<T> {
+        it.onSuccess(source)
+    }!!
 
     companion object {
 
