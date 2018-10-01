@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.mhacks.app.data.models.Event
 import com.mhacks.app.extension.showSnackBar
 import com.mhacks.app.extension.viewModelProvider
 import com.mhacks.app.ui.common.NavigationFragment
@@ -102,12 +103,19 @@ class WelcomeFragment : NavigationFragment() {
                         welcomeFragmentFavoriteEventsRecyclerView.layoutManager =
                                 LinearLayoutManager(context)
                         welcomeFragmentFavoriteEventsRecyclerView.adapter =
-                                FavoriteEventsRecyclerViewAdapter(events, null)
+                                FavoriteEventsRecyclerViewAdapter(events, ::onEventsClicked)
                     }
                 }
             }
         })
     }
+
+    private fun onEventsClicked(event: Event, isChecked: Boolean) {
+        Timber.d("Event %s was clicked:", event.id)
+        event.favorited = isChecked
+        eventsViewModel?.insertFavoriteEvent(event)
+    }
+
 
     companion object {
 
