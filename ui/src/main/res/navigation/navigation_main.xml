@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/welcome_fragment"
-        android:name="com.mhacks.app.ui.welcome.view.WelcomeFragment"
+        android:name="com.mhacks.app.ui.welcome.widget.WelcomeFragment"
         android:label="@string/welcome"
         tools:layout="@layout/fragment_welcome" />
 
@@ -29,13 +29,13 @@
 
     <fragment
         android:id="@+id/events_fragment"
-        android:name="com.mhacks.app.ui.events.view.EventsFragment"
+        android:name="com.mhacks.app.ui.events.widget.EventsFragment"
         android:label="@string/title_events"
         tools:layout="@layout/fragment_events" />
 
     <fragment
         android:id="@+id/map_view_fragment"
-        android:name="com.mhacks.app.ui.map.view.MapViewFragment"
+        android:name="com.mhacks.app.ui.map.widget.MapViewFragment"
         android:label="@string/title_map"
         tools:layout="@layout/fragment_map" />
 

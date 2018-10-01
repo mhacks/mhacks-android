@@ -12,5 +12,6 @@
     <!--Map Fragment-->
     <color name="semiColorPrimary">#9643384D</color>
     <color name="light_grey">#eee</color>
+    <color name="red">#f44336</color>
 
 </resources>

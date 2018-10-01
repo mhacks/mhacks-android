@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.events.view
+package com.mhacks.app.ui.events.widget
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.mhacks.app.data.models.Event
 import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.extension.showSnackBar
 import com.mhacks.app.extension.viewModelProvider
@@ -16,6 +17,7 @@ import com.mhacks.app.ui.events.EventsViewModel
 import kotlinx.android.synthetic.main.fragment_events.*
 import org.mhacks.mhacksui.R
 import org.mhacks.mhacksui.databinding.FragmentEventsBinding
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -31,18 +33,21 @@ class EventsFragment : NavigationFragment() {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    private var viewModel: EventsViewModel? = null
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?): View? {
         FragmentEventsBinding.inflate(inflater, container, false)
                 .apply {
-                    val viewModel = viewModelProvider<EventsViewModel>(viewModelFactory)
+                    viewModel =
+                            viewModelProvider(viewModelFactory)
 
                     eventPagerTabStrip.tabIndicatorColor = Color.WHITE
 
-                    subscribeUi(viewModel)
-                    viewModel.getAndCacheEvents()
+                    subscribeUi(viewModel!!)
+                    viewModel!!.getAndCacheEvents()
 
                     setLifecycleOwner(this@EventsFragment)
                     rootView = root
@@ -58,10 +63,17 @@ class EventsFragment : NavigationFragment() {
     private fun subscribeUi(eventsViewModel: EventsViewModel) {
         eventsViewModel.events.observe(this, Observer {
             it?.let { eventMap ->
-                val adapter = EventsPagerAdapter(childFragmentManager, eventMap)
+                val adapter = EventsPagerAdapter(
+                        childFragmentManager,
+                        eventMap,
+                        ::onEventsClicked)
                 events_pager.adapter = adapter
             }
             showMainContent()
+        })
+
+        eventsViewModel.favoriteEvent.observe(this, Observer {
+            Timber.d("Event favorited.")
         })
 
         eventsViewModel.error.observe(this, Observer { error ->
@@ -82,6 +94,12 @@ class EventsFragment : NavigationFragment() {
                         Snackbar.LENGTH_SHORT, textMessage)
             }
         })
+    }
+
+    private fun onEventsClicked(event: Event, isChecked: Boolean) {
+        Timber.d("Event %s was clicked:", event.id)
+        event.favorited = isChecked
+        viewModel?.insertFavoriteEvent(event)
     }
 
     companion object {

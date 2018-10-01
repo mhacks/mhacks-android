@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.map.view
+package com.mhacks.app.ui.map.widget
 
 import android.Manifest
 import android.arch.lifecycle.Observer

@@ -14,7 +14,10 @@ abstract class EventDao {
     abstract fun getEvents(): Single<List<Event>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun updateEvents(announcements: List<Event>)
+    abstract fun updateEvents(events: List<Event>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun updateEvent(event: Event)
 
     @Query("DELETE FROM event")
     abstract fun deleteEvents()

@@ -23,6 +23,7 @@
     <string name="sign_in">Sign in</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
+    <string name="add_favorited_events">Add favorite events</string>
 
     <!--No internet view-->
     <string name="disconnected">Disconnected</string>
@@ -54,6 +55,7 @@
     <!--Event Fragment-->
     <string name="loading_events">Loading events…</string>
     <string name="events_network_failure">Couldn\'t fetch events.</string>
+    <string name="like">Like</string>
 
     <!--Barcode-->
     <string name="ok">OK</string>

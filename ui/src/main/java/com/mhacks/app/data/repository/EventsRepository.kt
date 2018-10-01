@@ -14,6 +14,12 @@ class EventsRepository @Inject constructor(
     fun getEventRemote() =
             eventService.getEventResponse()
 
+    fun updateEvent(event: Event) {
+        eventDao.updateEvent(event)
+        return
+    }
+
+
     fun deleteAndUpdateEvents(events: List<Event>) =
             eventDao.deleteAndUpdateEvents(events)
 

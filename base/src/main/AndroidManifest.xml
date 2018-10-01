@@ -80,7 +80,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.qrscan.view.BarcodeCaptureActivity"
+            android:name=".ui.qrscan.widget.BarcodeCaptureActivity"
             android:label="@string/title_activity_barcode_capture"
             android:theme="@style/SplashTheme" />
 

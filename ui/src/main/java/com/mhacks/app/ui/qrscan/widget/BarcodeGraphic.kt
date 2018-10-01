@@ -1,11 +1,11 @@
-package com.mhacks.app.ui.qrscan.view
+package com.mhacks.app.ui.qrscan.widget
 
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import com.google.android.gms.vision.barcode.Barcode
-import com.mhacks.app.ui.qrscan.view.camera.GraphicOverlay
+import com.mhacks.app.ui.qrscan.widget.camera.GraphicOverlay
 
 
 

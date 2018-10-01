@@ -11,11 +11,20 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?colorPrimaryDark">
+
+        <android.support.constraint.Guideline
+            android:id="@+id/welcome_fragment_arc_guideline"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="155dp" />
 
         <com.github.florent37.arclayout.ArcLayout
+            android:id="@+id/welcome_fragment_arc_layout"
             android:layout_width="match_parent"
-            android:layout_height="325dp"
+            android:layout_height="200dp"
             android:elevation="6dp"
             app:arc_cropDirection="cropOutside"
             app:arc_position="bottom"
@@ -25,11 +34,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingBottom="16dp"
-                android:background="@color/colorPrimaryDark">
+                android:background="?colorPrimary">
 
                 <com.mhacks.app.ui.common.ProgressWheel
                     android:id="@+id/welcome_fragment_progressbar_counter"
-                    android:layout_width="250dp"
+                    android:layout_width="175dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     app:textMessage="@{viewModel.timerText}"
@@ -38,14 +47,38 @@
                     app:defTextSize="@dimen/text_countdown_normaltitles"
                     app:countTextSize="@dimen/text_countdown_timertext"
                     app:marginBtwText= "26dp"
-                    app:barWidth="15dp"
+                    app:barWidth="8dp"
                     app:progressColor="@color/white"
                     app:defTextColor="@color/white"
                     app:countTextColor="@color/white" />
+
             </FrameLayout>
-
-
-
         </com.github.florent37.arclayout.ArcLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/welcome_fragment_favorite_events_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="50dp"
+            android:clipToPadding="false"
+            app:layout_constraintTop_toBottomOf="@+id/welcome_fragment_arc_guideline"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <Button
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:id="@+id/welcome_fragment_favorite_add_events_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:background="@color/colorPrimary"
+            android:text="@string/add_favorited_events"
+            android:visibility="gone"
+            android:textSize="14sp"
+            android:padding="12dp"
+            app:layout_constraintTop_toBottomOf="@+id/welcome_fragment_arc_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
     </android.support.constraint.ConstraintLayout>
 </layout>

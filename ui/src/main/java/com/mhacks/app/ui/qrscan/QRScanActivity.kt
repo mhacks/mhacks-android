@@ -32,12 +32,12 @@ import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.mhacks.app.extension.viewModelProvider
 import com.mhacks.app.ui.common.BaseActivity
-import com.mhacks.app.ui.qrscan.view.BarcodeGraphic
-import com.mhacks.app.ui.qrscan.view.BarcodeGraphicTracker
-import com.mhacks.app.ui.qrscan.view.BarcodeTrackerFactory
-import com.mhacks.app.ui.qrscan.view.camera.CameraSource
-import com.mhacks.app.ui.qrscan.view.camera.CameraSourcePreview
-import com.mhacks.app.ui.qrscan.view.camera.GraphicOverlay
+import com.mhacks.app.ui.qrscan.widget.BarcodeGraphic
+import com.mhacks.app.ui.qrscan.widget.BarcodeGraphicTracker
+import com.mhacks.app.ui.qrscan.widget.BarcodeTrackerFactory
+import com.mhacks.app.ui.qrscan.widget.camera.CameraSource
+import com.mhacks.app.ui.qrscan.widget.camera.CameraSourcePreview
+import com.mhacks.app.ui.qrscan.widget.camera.GraphicOverlay
 import kotlinx.android.synthetic.main.activity_qr_scan.*
 import org.mhacks.mhacksui.R
 import timber.log.Timber
@@ -365,11 +365,11 @@ class QRScanActivity:
          * Responds to scaling events for a gesture in progress.
          * Reported by pointer motion.
          *
-         * @param detector The detector reporting the event - use this to
-         * retrieve extended info about event state.
-         * @return Whether or not the detector should consider this event
-         * as handled. If an event was not handled, the detector
-         * will continue to accumulate movement until an event is
+         * @param detector The detector reporting the insertFavoriteEvent - use this to
+         * retrieve extended info about insertFavoriteEvent state.
+         * @return Whether or not the detector should consider this insertFavoriteEvent
+         * as handled. If an insertFavoriteEvent was not handled, the detector
+         * will continue to accumulate movement until an insertFavoriteEvent is
          * handled. This can be useful if an application, for example,
          * only wants to update scaling factors if the change is
          * greater than 0.01.
@@ -382,8 +382,8 @@ class QRScanActivity:
          * Responds to the beginning of a scaling gesture. Reported by
          * new pointers going down.
          *
-         * @param detector The detector reporting the event - use this to
-         * retrieve extended info about event state.
+         * @param detector The detector reporting the insertFavoriteEvent - use this to
+         * retrieve extended info about insertFavoriteEvent state.
          * @return Whether or not the detector should continue recognizing
          * this gesture. For example, if a gesture is beginning
          * with a focal point outside of a region where it makes
@@ -403,8 +403,8 @@ class QRScanActivity:
          * and [ScaleGestureDetector.getFocusY] will return focal point
          * of the pointers remaining on the screen.
          *
-         * @param detector The detector reporting the event - use this to
-         * retrieve extended info about event state.
+         * @param detector The detector reporting the insertFavoriteEvent - use this to
+         * retrieve extended info about insertFavoriteEvent state.
          */
         override fun onScaleEnd(detector: ScaleGestureDetector) {
             cameraSource?.doZoom(detector.scaleFactor)

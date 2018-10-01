@@ -1,6 +1,6 @@
 package com.mhacks.app.ui.map
 
-import com.mhacks.app.ui.map.view.MapViewFragment
+import com.mhacks.app.ui.map.widget.MapViewFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

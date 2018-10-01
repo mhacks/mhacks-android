@@ -9,22 +9,41 @@ import com.mhacks.app.data.models.Event
 import com.mhacks.app.data.models.Result
 import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.data.models.common.TextMessage
+import com.mhacks.app.ui.events.usecase.FavoriteEventUseCase
 import com.mhacks.app.ui.events.usecase.GetAndCacheEventsUseCase
+import com.mhacks.app.ui.events.usecase.GetFavoriteCachedEventsUseCase
 import org.mhacks.mhacksui.R
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
 class EventsViewModel @Inject constructor(
-        private val getAndCacheEventsUseCase: GetAndCacheEventsUseCase): ViewModel() {
+        private val getAndCacheEventsUseCase: GetAndCacheEventsUseCase,
+        private val favoriteEventUseCase: FavoriteEventUseCase,
+        private val getFavoriteCachedEventsUseCase: GetFavoriteCachedEventsUseCase)
+    : ViewModel() {
 
     private val getAndCacheEventResult = getAndCacheEventsUseCase.observe()
+
+    private val favoriteEventResult = favoriteEventUseCase.observe()
+
+    private val getFavoriteCachedEventsResult = getFavoriteCachedEventsUseCase.observe()
 
     private val _events = MediatorLiveData<
             Map<String, List<EventsViewModel.EventWithDay>>>()
 
     val events
         get() =_events
+
+    private val _favoriteEvent = MediatorLiveData<Event>()
+
+    val favoriteEvent
+        get() =_favoriteEvent
+
+    private val _favoriteEvents = MediatorLiveData<Map<String, List<EventsViewModel.EventWithDay>>>()
+
+    val favoriteEvents
+        get() = _favoriteEvents
 
     private val _snackBarMessage = MediatorLiveData<TextMessage>()
 
@@ -73,6 +92,22 @@ class EventsViewModel @Inject constructor(
                 }
             }
         }
+
+        _favoriteEvent.addSource(favoriteEventResult) {
+            if (it is Result.Success) {
+                it.let { result ->
+                    _favoriteEvent.value = result.data
+                }
+            }
+        }
+
+        _favoriteEvents.addSource(getFavoriteCachedEventsResult) {
+            if (it is Result.Success) {
+                it.let { result ->
+                    _favoriteEvents.value = mapToEventWithDay(result.data)
+                }
+            }
+        }
     }
 
     private fun mapToEventWithDay(eventList: List<Event>): Map<String, List<EventWithDay>> =
@@ -88,15 +123,24 @@ class EventsViewModel @Inject constructor(
         getAndCacheEventsUseCase.execute(Unit)
     }
 
+    fun insertFavoriteEvent(event: Event) {
+        favoriteEventUseCase.execute(event)
+    }
+
+    fun getFavoriteEvents() {
+        getFavoriteCachedEventsUseCase.execute(Unit)
+    }
+
     override fun onCleared() {
         super.onCleared()
         getAndCacheEventsUseCase.onCleared()
+        favoriteEventUseCase.onCleared()
+        getFavoriteCachedEventsUseCase.onCleared()
     }
 
     data class EventWithDay(
             val day: String,
             val event: Event)
-
 
     companion object {
 

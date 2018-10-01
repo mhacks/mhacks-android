@@ -25,7 +25,7 @@ class CreateAnnouncementDialogFragment: BaseDialogFragment() {
     override var rootView: View? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding = FragmentCreateAnnouncementsBinding.inflate(
+        FragmentCreateAnnouncementsBinding.inflate(
                 inflater, container, false).apply {
 
             dialog?.setTitle("Post announcement")

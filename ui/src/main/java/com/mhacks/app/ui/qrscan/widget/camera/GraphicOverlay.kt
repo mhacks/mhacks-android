@@ -1,4 +1,4 @@
-package com.mhacks.app.ui.qrscan.view.camera
+package com.mhacks.app.ui.qrscan.widget.camera
 
 import android.content.Context
 import android.graphics.Canvas
