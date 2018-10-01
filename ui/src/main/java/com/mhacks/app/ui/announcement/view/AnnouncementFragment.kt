@@ -62,11 +62,11 @@ class AnnouncementFragment : NavigationFragment() {
             context?.let { context ->
                 announcements?.let {
                     if (adapter != null) {
-                        adapter = AnnouncementsAdapter(context, ArrayList(announcements))
-                        announcements_recycler_view.adapter = adapter
-                        announcements_recycler_view.layoutManager = LinearLayoutManager(context)
-                    } else {
                         adapter?.updateList(ArrayList(announcements))
+                    } else {
+                        adapter = AnnouncementsAdapter(context, ArrayList(announcements))
+                        announcements_recycler_view.layoutManager = LinearLayoutManager(context)
+                        announcements_recycler_view.adapter = adapter
                     }
                 }
                 showMainContent()
