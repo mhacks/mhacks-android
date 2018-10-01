@@ -121,6 +121,7 @@ class AnnouncementViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         getAndCacheAnnouncementUseCase.onCleared()
+        pollAnnouncementsUseCase.onCleared()
     }
 
 }
