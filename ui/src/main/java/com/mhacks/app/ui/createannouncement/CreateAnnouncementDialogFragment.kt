@@ -1,5 +1,6 @@
 package com.mhacks.app.ui.createannouncement
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,9 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import com.mhacks.app.data.models.CreateAnnouncement
 import com.mhacks.app.ui.common.BaseDialogFragment
 import kotlinx.android.synthetic.main.fragment_create_announcements.*
 import org.mhacks.mhacksui.databinding.FragmentCreateAnnouncementsBinding
+import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Fragment used to create and post a new announcement.
@@ -24,13 +28,24 @@ class CreateAnnouncementDialogFragment: BaseDialogFragment() {
 
     override var rootView: View? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    @Inject lateinit var createAnnouncementViewModel: CreateAnnouncementViewModel
+
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?): View? {
         FragmentCreateAnnouncementsBinding.inflate(
                 inflater, container, false).apply {
 
             dialog?.setTitle("Post announcement")
 
-            val countries = arrayOf("Food", "Emergency", "Event", "Logistics", "Sponsored")
+            val countries = arrayOf(
+                    "Food",
+                    "Emergency",
+                    "Event",
+                    "Logistics",
+                    "Sponsored")
+
             activity?.let {
                 val adapter = ArrayAdapter<String>(it,
                         android.R.layout.simple_dropdown_item_1line, countries)
@@ -73,19 +88,35 @@ class CreateAnnouncementDialogFragment: BaseDialogFragment() {
                 isCategoryValid = true
                 validate()
             }
+
+            subscribeUi(createAnnouncementViewModel)
+
             fragmentCreateAnnouncementsPostButton.setOnClickListener {
-//                createAnnouncementPresenter.postAnnouncement(
-//                        fragment_create_announcements_title_edit_text.text.toString().trim(),
-//                        fragment_create_announcements_category_edit_text.text
-//                                .toString().toLowerCase().trim(),
-//                        fragment_create_announcements_body_edit_text.text.toString().trim()
-//                )
+                createAnnouncementViewModel.postAnnouncement(
+                        CreateAnnouncement(
+                                fragment_create_announcements_title_edit_text.text.
+                                        toString().trim(),
+                                fragment_create_announcements_body_edit_text.text
+                                        .toString().trim(),
+                                fragment_create_announcements_category_edit_text.text
+                                    .toString().toLowerCase().trim(),
+                                true, true, true
+                        )
+                )
             }
             rootView = root
         }
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    private fun subscribeUi(createAnnouncementViewModel: CreateAnnouncementViewModel) {
+        createAnnouncementViewModel.createAnnouncement.observe(this, Observer {
+            it?.let { createAnnouncement ->
+                Timber.e("asdf")
+                createAnnouncement
+            }
+        })
+    }
 
     private fun validate() {
         fragment_create_announcements_post_button.isEnabled =
