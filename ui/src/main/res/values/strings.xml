@@ -120,5 +120,6 @@
     <!--Address-->
     <string name="info_address">606 E Hoover Ave, Ann Arbor, MI 48104</string>
     <string name="google_maps_error">Google Maps is not installed.</string>
+    <string name="create_announcement_success">Successfully created announcement!</string>
 
 </resources>
