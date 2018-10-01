@@ -1,10 +1,9 @@
 package com.mhacks.app.ui.common
 
-import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.widget.ProgressBar
-
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 
 /**
  * @param fullDuration - time required to fill progress from 0% to 100%

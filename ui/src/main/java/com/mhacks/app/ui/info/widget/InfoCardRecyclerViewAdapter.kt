@@ -1,8 +1,8 @@
 package com.mhacks.app.ui.info.widget
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.mhacks.app.ui.info.getInfoList
 import com.mhacks.app.ui.info.model.Info
 import org.mhacks.mhacksui.databinding.ItemInfoBinding

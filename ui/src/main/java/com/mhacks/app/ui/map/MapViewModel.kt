@@ -1,10 +1,10 @@
 package com.mhacks.app.ui.map
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import android.graphics.Bitmap
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.mhacks.app.data.models.MapFloor
 import com.mhacks.app.data.models.Result
 import com.mhacks.app.data.models.common.RetrofitException

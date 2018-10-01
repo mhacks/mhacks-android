@@ -3,9 +3,9 @@ package com.mhacks.app.ui.common
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.ColorRes
-import android.support.annotation.StringRes
 import android.view.View
+import androidx.annotation.ColorRes
+import androidx.annotation.StringRes
 import org.mhacks.mhacksui.R
 
 /**

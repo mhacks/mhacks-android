@@ -1,8 +1,8 @@
 package com.mhacks.app.util
 
 import android.content.Context
-import android.support.annotation.DimenRes
 import android.util.TypedValue
+import androidx.annotation.DimenRes
 
 /**
  * Created by jeffreychang on 8/6/17.

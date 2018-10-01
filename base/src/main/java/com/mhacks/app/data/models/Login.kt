@@ -4,7 +4,7 @@ package com.mhacks.app.data.models
  * Model for storing login information.
  */
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import com.squareup.moshi.Json
 
 @Entity(tableName = "login")

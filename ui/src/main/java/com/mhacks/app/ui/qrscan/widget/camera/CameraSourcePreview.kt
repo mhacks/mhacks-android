@@ -4,11 +4,11 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
-import android.support.annotation.RequiresPermission
 import android.util.AttributeSet
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.ViewGroup
+import androidx.annotation.RequiresPermission
 import timber.log.Timber
 import java.io.IOException
 

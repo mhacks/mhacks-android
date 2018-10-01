@@ -1,6 +1,6 @@
 package com.mhacks.app.ui.events
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import com.mhacks.app.di.ViewModelKey
 import dagger.Binds
 import dagger.Module

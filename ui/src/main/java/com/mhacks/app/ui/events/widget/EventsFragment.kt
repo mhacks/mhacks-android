@@ -1,13 +1,13 @@
 package com.mhacks.app.ui.events.widget
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
 import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.mhacks.app.data.models.Event
 import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.extension.showSnackBar

@@ -1,7 +1,7 @@
 package com.mhacks.app.ui.info.model
 
-import android.support.annotation.DrawableRes
-import android.support.annotation.StringRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 
 data class Info(
         val type: TYPE,

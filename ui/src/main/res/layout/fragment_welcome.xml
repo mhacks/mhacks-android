@@ -9,12 +9,12 @@
             type="com.mhacks.app.ui.welcome.WelcomeViewModel" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?colorPrimaryDark">
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/welcome_fragment_arc_guideline"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -55,7 +55,7 @@
             </FrameLayout>
         </com.github.florent37.arclayout.ArcLayout>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/welcome_fragment_favorite_events_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -80,5 +80,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

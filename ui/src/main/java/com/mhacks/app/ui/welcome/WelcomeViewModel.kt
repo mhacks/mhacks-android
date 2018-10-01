@@ -1,9 +1,9 @@
 package com.mhacks.app.ui.welcome
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.ViewModel
 import android.os.CountDownTimer
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.ViewModel
 import com.mhacks.app.data.Constants
 import com.mhacks.app.data.models.Configuration
 import com.mhacks.app.data.models.Result

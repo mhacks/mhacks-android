@@ -1,12 +1,12 @@
 package com.mhacks.app.ui.common
 
 import android.content.Context
-import android.support.annotation.ColorInt
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
 import android.util.AttributeSet
 import android.widget.RelativeLayout
+import androidx.annotation.ColorInt
 import org.mhacks.mhacksui.R
 import kotlinx.android.synthetic.main.view_error.view.*
 
@@ -26,7 +26,8 @@ class ErrorableView(context: Context, attrs: AttributeSet?) : RelativeLayout(con
     var titleText: Int = R.string.device_offline
         set(title) = error_view_error_textview.setText(title)
 
-    @ColorInt var textColor: Int? = null
+    @ColorInt
+    var textColor: Int? = null
         set(colorRes) {
             colorRes?.let {
                 val color = ContextCompat.getColor(context, colorRes)
@@ -52,7 +53,4 @@ class ErrorableView(context: Context, attrs: AttributeSet?) : RelativeLayout(con
         error_view_error_description_textview.text = tryAgainSpan
     }
 
-    fun removeBackground() {
-        error_view_layout.background = null
-    }
 }

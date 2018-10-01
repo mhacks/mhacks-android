@@ -1,6 +1,6 @@
 package com.mhacks.app.ui.welcome
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import com.mhacks.app.di.ViewModelKey
 import com.mhacks.app.ui.events.EventsViewModel
 import dagger.Binds

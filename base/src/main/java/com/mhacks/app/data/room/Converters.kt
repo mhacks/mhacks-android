@@ -1,6 +1,6 @@
 package com.mhacks.app.data.room
 
-import android.arch.persistence.room.TypeConverter
+import androidx.room.TypeConverter
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types

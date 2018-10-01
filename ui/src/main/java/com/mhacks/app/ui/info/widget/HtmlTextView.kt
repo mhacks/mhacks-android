@@ -1,11 +1,11 @@
 package com.mhacks.app.ui.info.widget
 
 import android.content.Context
-import android.support.v7.widget.AppCompatTextView
 import android.text.Spanned
 import android.text.style.ClickableSpan
 import android.util.AttributeSet
 import android.view.MotionEvent
+import androidx.appcompat.widget.AppCompatTextView
 
 class HtmlTextView @JvmOverloads constructor(
         context: Context,

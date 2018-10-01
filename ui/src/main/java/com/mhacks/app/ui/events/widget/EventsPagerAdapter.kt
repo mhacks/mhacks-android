@@ -1,8 +1,9 @@
 package com.mhacks.app.ui.events.widget
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import com.mhacks.app.data.models.Event
 import com.mhacks.app.ui.events.EventsViewModel
 

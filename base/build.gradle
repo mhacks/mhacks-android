@@ -12,7 +12,7 @@ ext {
 
 android {
     compileSdkVersion 28
-    buildToolsVersion "27.0.3"
+    buildToolsVersion '28.0.2'
     baseFeature true
     dexOptions {
         javaMaxHeapSize "4g"
@@ -63,9 +63,9 @@ android {
         }
     }
 
-//    dataBinding {
-//        enabled = true
-//    }
+    dataBinding {
+        enabled = true
+    }
 
     productFlavors {
 
@@ -76,22 +76,22 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.kotlin_version"
 
-    kapt 'com.android.databinding:compiler:3.1.4'
+//    kapt 'androidx.databinding:databinding-compiler:3.2.0'
 
     // Play Services
     implementation 'com.google.firebase:firebase-core:16.0.3'
-    implementation 'com.google.firebase:firebase-messaging:17.3.1'
+    implementation 'com.google.firebase:firebase-messaging:17.3.2'
 
-    implementation "com.android.support:appcompat-v7:$rootProject.google_play_version"
-    implementation "com.android.support:support-v4:$rootProject.google_play_version"
-    implementation "com.android.support:support-media-compat:$rootProject.google_play_version"
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.media:media:1.0.0'
 
     // Networking
     implementation 'com.squareup.retrofit2:converter-moshi:2.4.0'
 
     // Persistence
-    implementation "android.arch.persistence.room:runtime:$rootProject.room_version"
-    implementation "android.arch.persistence.room:rxjava2:$rootProject.room_version"
+    implementation 'androidx.room:room-runtime:2.0.0-rc01'
+    implementation 'androidx.room:room-rxjava2:2.0.0-rc01'
 
     // RxJava
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
@@ -101,7 +101,7 @@ dependencies {
     // Debugging
     implementation 'com.jakewharton.timber:timber:4.7.0'
 
-    kapt "android.arch.persistence.room:compiler:$room_version"
+    kapt 'androidx.room:room-compiler:2.0.0-rc01'
 
     feature project(':ui')
 }

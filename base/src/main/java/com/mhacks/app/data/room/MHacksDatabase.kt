@@ -1,7 +1,7 @@
 package com.mhacks.app.data.room
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.RoomDatabase
 import com.mhacks.app.data.models.*
 import com.mhacks.app.data.room.dao.*
 

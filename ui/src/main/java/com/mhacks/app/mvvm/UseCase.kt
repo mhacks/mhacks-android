@@ -1,6 +1,6 @@
 package com.mhacks.app.mvvm
 
-import android.arch.lifecycle.MediatorLiveData
+import androidx.lifecycle.MediatorLiveData
 import com.mhacks.app.data.models.Result
 import com.mhacks.app.data.models.common.RetrofitException
 import io.reactivex.disposables.CompositeDisposable

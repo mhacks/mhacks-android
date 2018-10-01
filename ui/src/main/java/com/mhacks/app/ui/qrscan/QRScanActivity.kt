@@ -4,8 +4,6 @@ package com.mhacks.app.ui.qrscan
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
@@ -14,22 +12,24 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.hardware.Camera
 import android.os.Bundle
-import android.support.annotation.NonNull
-import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v4.widget.ImageViewCompat
-import android.support.v7.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.widget.ImageViewCompat
 import android.util.Patterns
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
+import androidx.annotation.NonNull
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
+import com.google.android.material.snackbar.Snackbar
 import com.mhacks.app.extension.viewModelProvider
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.qrscan.widget.BarcodeGraphic
@@ -456,7 +456,7 @@ class QRScanActivity:
     }
 
 
-    private fun getCamera(@NonNull cameraSource: CameraSource): Camera? {
+    private fun getCamera(cameraSource: CameraSource): Camera? {
         val declaredFields = CameraSource::class.java.declaredFields
         for (field in declaredFields) {
             if (field.type === Camera::class.java) {
