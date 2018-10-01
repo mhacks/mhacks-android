@@ -3,8 +3,8 @@ package com.mhacks.app.data.network.fcm
 import android.app.Notification
 import android.content.Intent
 import android.provider.Settings
-import android.support.v4.app.NotificationCompat
-import android.support.v4.app.NotificationManagerCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.mhacks.app.R

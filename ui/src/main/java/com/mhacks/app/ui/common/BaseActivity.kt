@@ -4,12 +4,12 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
-import android.support.annotation.ColorRes
-import android.support.design.widget.Snackbar
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.annotation.ColorRes
+import com.google.android.material.snackbar.Snackbar
 import com.mhacks.app.data.models.common.TextMessage
 import org.mhacks.mhacksui.R
 import com.mhacks.app.util.ResourceUtil

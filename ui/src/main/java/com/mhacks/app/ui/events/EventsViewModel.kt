@@ -1,10 +1,10 @@
 package com.mhacks.app.ui.events
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.mhacks.app.data.models.Event
 import com.mhacks.app.data.models.Result
 import com.mhacks.app.data.models.common.RetrofitException
@@ -30,7 +30,7 @@ class EventsViewModel @Inject constructor(
     private val getFavoriteCachedEventsResult = getFavoriteCachedEventsUseCase.observe()
 
     private val _events = MediatorLiveData<
-            Map<String, List<EventsViewModel.EventWithDay>>>()
+            Map<String, List<EventWithDay>>>()
 
     val events
         get() =_events

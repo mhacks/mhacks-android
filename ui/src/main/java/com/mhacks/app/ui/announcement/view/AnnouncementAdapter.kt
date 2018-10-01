@@ -1,10 +1,10 @@
 package com.mhacks.app.ui.announcement.view
 
 import android.content.Context
-import android.support.v7.recyclerview.extensions.ListAdapter
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import com.mhacks.app.data.models.Announcement
 import org.mhacks.mhacksui.R
 import java.util.*

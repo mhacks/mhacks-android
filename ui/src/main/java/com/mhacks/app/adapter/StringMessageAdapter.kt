@@ -1,6 +1,6 @@
 package com.mhacks.app.adapter
 
-import android.databinding.BindingAdapter
+import androidx.databinding.BindingAdapter
 import com.mhacks.app.data.models.common.TextMessage
 import com.mhacks.app.ui.common.ProgressWheel
 

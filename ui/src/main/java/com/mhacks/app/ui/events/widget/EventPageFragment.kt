@@ -1,11 +1,11 @@
 package com.mhacks.app.ui.events.widget
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import org.mhacks.mhacksui.R
 import com.mhacks.app.data.models.Event
 import com.mhacks.app.ui.events.EventsViewModel

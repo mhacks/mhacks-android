@@ -1,9 +1,8 @@
 package com.mhacks.app.di.module
 
 import android.app.Application
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import com.mhacks.app.data.room.MHacksDatabase
-import com.mhacks.app.data.room.dao.LoginDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

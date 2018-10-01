@@ -5,7 +5,6 @@ import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES.M
 import android.os.Parcel
 import android.os.Parcelable
-import android.support.v7.content.res.AppCompatResources
 import android.transition.Transition
 import android.transition.TransitionInflater
 import android.transition.TransitionManager
@@ -16,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import org.mhacks.mhacksui.R
 
 class CollapsibleCard @JvmOverloads constructor(

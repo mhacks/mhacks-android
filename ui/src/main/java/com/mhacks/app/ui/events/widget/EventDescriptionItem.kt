@@ -1,8 +1,8 @@
 package com.mhacks.app.ui.events.widget
 
 import android.content.Context
-import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.mhacks.app.data.models.Event
 import kotlinx.android.synthetic.main.events_description_item.view.*
 import org.mhacks.mhacksui.R

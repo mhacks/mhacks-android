@@ -6,10 +6,10 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
-import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import org.mhacks.mhacksui.R
 
 class ProgressWheel : View {

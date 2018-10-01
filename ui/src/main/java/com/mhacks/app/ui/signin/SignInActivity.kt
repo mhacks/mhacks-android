@@ -2,7 +2,7 @@ package com.mhacks.app.ui.signin
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import org.mhacks.mhacksui.R
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.main.MainActivity

@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +19,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
+import androidx.recyclerview.widget.LinearLayoutManager
 
 class InfoFragment: NavigationFragment() {
 

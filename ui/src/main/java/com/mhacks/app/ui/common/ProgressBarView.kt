@@ -2,10 +2,10 @@ package com.mhacks.app.ui.common
 
 import android.content.Context
 import android.graphics.Color
-import android.support.constraint.ConstraintLayout
-import android.support.v4.content.ContextCompat
-import org.mhacks.mhacksui.R
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.view_progress.view.*
+import org.mhacks.mhacksui.R
 
 /**
  * View that displays a progress bar and a message that is the rationale for the progress bar.

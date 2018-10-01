@@ -4,12 +4,12 @@ package com.mhacks.app.ui.info.widget
 import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.support.annotation.Keep
 import android.transition.Transition
 import android.transition.TransitionValues
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.Keep
 
 /**
  * A [Transition] which animates the rotation of a [View].

@@ -1,6 +1,6 @@
 package com.mhacks.app.ui.signin
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import com.mhacks.app.di.ViewModelKey
 import com.mhacks.app.ui.signin.SignInViewModel
 import dagger.Binds

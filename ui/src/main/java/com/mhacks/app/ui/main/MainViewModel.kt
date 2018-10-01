@@ -1,9 +1,9 @@
 package com.mhacks.app.ui.main
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.ViewModel
-import android.arch.persistence.room.EmptyResultSetException
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.ViewModel
+import androidx.room.EmptyResultSetException
 import com.mhacks.app.data.models.Login
 import com.mhacks.app.data.models.Result
 import com.mhacks.app.data.models.common.RetrofitException

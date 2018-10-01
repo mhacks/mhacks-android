@@ -1,8 +1,8 @@
 package com.mhacks.app.ui.createannouncement
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.ViewModel
 import com.mhacks.app.data.models.CreateAnnouncement
 import com.mhacks.app.data.models.Result
 import com.mhacks.app.data.models.common.RetrofitException

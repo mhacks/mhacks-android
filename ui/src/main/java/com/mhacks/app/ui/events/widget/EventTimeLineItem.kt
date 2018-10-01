@@ -1,12 +1,12 @@
 package com.mhacks.app.ui.events.widget
 
 import android.content.Context
-import android.support.constraint.ConstraintLayout
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.mhacks.app.data.models.Event
 import com.mhacks.app.ui.events.model.EventSectionModel
-import org.mhacks.mhacksui.R
 import kotlinx.android.synthetic.main.events_timeline_item.view.*
+import org.mhacks.mhacksui.R
 
 /**
  * Add events TextViews to a Linear Layout

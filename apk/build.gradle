@@ -13,7 +13,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
 
@@ -36,5 +36,5 @@ dependencies {
     implementation project(':base')
     implementation project(':ui')
 
-    implementation "com.android.support:support-v4:$google_play_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }

@@ -1,6 +1,5 @@
 package com.mhacks.app.ui.ticket
 
-import android.arch.lifecycle.Observer
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -8,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import org.mhacks.mhacksui.R
 import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.ui.common.BaseDialogFragment

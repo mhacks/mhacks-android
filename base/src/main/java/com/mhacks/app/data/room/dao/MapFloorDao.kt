@@ -1,6 +1,6 @@
 package com.mhacks.app.data.room.dao
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import com.mhacks.app.data.models.MapFloor
 import io.reactivex.Single
 

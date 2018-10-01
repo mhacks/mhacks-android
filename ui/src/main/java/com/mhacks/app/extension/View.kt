@@ -1,8 +1,8 @@
 package com.mhacks.app.extension
 
-import android.support.annotation.StringRes
-import android.support.design.widget.Snackbar
 import android.view.View
+import androidx.annotation.StringRes
+import com.google.android.material.snackbar.Snackbar
 import com.mhacks.app.data.models.common.TextMessage
 
 fun View.showSnackBar(duration: Int, textMessage: TextMessage?) {

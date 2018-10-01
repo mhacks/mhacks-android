@@ -1,7 +1,6 @@
 package com.mhacks.app.data.models
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.*
 import android.os.Parcel
 import android.os.Parcelable
 import com.squareup.moshi.Json

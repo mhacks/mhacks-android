@@ -1,8 +1,8 @@
 package com.mhacks.app.ui.events.widget
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.mhacks.app.data.models.Event
 import com.github.vipulasri.timelineview.TimelineView
 import com.mhacks.app.ui.events.model.EventSectionModel
