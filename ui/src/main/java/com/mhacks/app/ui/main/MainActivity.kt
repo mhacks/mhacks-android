@@ -129,6 +129,7 @@ class MainActivity : BaseActivity(),
         })
     }
 
+    // No Android X dependency yet.
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(null,
                 Navigation.findNavController(this, R.id.main_activity_fragment_host))
