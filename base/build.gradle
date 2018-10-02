@@ -12,7 +12,7 @@ ext {
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '28.0.2'
+    buildToolsVersion '28.0.3'
     baseFeature true
     dexOptions {
         javaMaxHeapSize "4g"
@@ -42,23 +42,20 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 28
-        versionName "10.0.0"
+        versionName "11.0.0"
         resValue "string", "google_maps_api_key", google_maps_api_key
         vectorDrawables.useSupportLibrary = true
-        multiDexEnabled true
     }
     buildTypes {
         release {
             debuggable false
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
-            multiDexEnabled true
             resValue "string", "google_maps_api_key", google_maps_api_key
             signingConfig signingConfigs.release
         }
         debug {
-            debuggable true
-            minifyEnabled false
+            minifyEnabled true
             resValue "string", "google_maps_api_key", google_maps_api_key
         }
     }
@@ -67,16 +64,11 @@ android {
         enabled = true
     }
 
-    productFlavors {
-
-    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.kotlin_version"
-
-//    kapt 'androidx.databinding:databinding-compiler:3.2.0'
 
     // Play Services
     implementation 'com.google.firebase:firebase-core:16.0.3'

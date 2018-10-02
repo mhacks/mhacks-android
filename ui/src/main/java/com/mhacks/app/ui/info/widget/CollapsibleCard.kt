@@ -35,7 +35,7 @@ class CollapsibleCard @JvmOverloads constructor(
 
     init {
         val arr = context.obtainStyledAttributes(attrs, R.styleable.CollapsibleCard, 0, 0)
-        cardTitle = arr.getString(R.styleable.CollapsibleCard_cardTitle)
+        cardTitle = arr.getString(R.styleable.CollapsibleCard_cardTitle)!!
         val cardDescription = arr.getString(R.styleable.CollapsibleCard_cardDescription)
         arr.recycle()
         root = LayoutInflater.from(context)
