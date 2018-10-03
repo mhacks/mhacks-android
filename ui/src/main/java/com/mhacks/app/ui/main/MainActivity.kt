@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
@@ -146,7 +145,6 @@ class MainActivity : BaseActivity(),
 
     private fun showCreateAnnouncementDialogFragment() {
         val fragment = CreateAnnouncementDialogFragment.instance
-        fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_AppCompat_Light_Dialog)
         fragment.show(supportFragmentManager, null)
     }
 
@@ -180,6 +178,7 @@ class MainActivity : BaseActivity(),
 
 
     fun navigateFragment(fragmentId: Int) {
+        itemId = fragmentId
         navController.navigate(fragmentId)
     }
 
