@@ -130,7 +130,7 @@ class MapViewFragment :
 
         val center = CameraUpdateFactory.newCameraPosition(
                 CameraPosition.Builder()
-                        .target(LatLng(42.292150, -83.715836))
+                        .target(LatLng(42.2694, -83.7425)) //42.2694° N, 83.7425° W
                         .zoom(16.5f)
                         .bearing(0f)
                         .tilt(0f)
@@ -176,7 +176,7 @@ class MapViewFragment :
     private fun setupMap(mapResult: MapViewModel.MapResult) {
         val (floorImage, mapFloor) = mapResult
 
-        val northCampusBounds = LatLngBounds(
+        val sportsBuildingBounds = LatLngBounds(
             LatLng(
                     mapFloor.seLatitude.toDouble(),
                     mapFloor.nwLongitude.toDouble()), // South West corner
@@ -184,10 +184,10 @@ class MapViewFragment :
                     mapFloor.nwLatitude.toDouble(),
                     mapFloor.seLongitude.toDouble()) // North East Corner
         )
-        val northCampusMap = GroundOverlayOptions()
+        val sportsBuildingMap = GroundOverlayOptions()
                 .image(BitmapDescriptorFactory.fromBitmap(floorImage))
-                .positionFromBounds(northCampusBounds)
-        googleMap?.addGroundOverlay(northCampusMap)
+                .positionFromBounds(sportsBuildingBounds)
+        googleMap?.addGroundOverlay(sportsBuildingMap)
     }
 
     companion object {

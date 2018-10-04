@@ -4,13 +4,19 @@
     <color name="blueGrey">#37474F</color>
 
     <!--Global color themes-->
-    <color name="colorPrimary">#5D3E6E</color>
-    <color name="colorPrimaryDark">#43374E</color>
-    <color name="colorPrimaryDisabled">#595D3E6E</color>
-    <color name="colorAccent">#F4A4A8</color>
+    <color name="Primary">#5D3E6E</color>
+    <color name="PrimaryDark">#43374E</color>
+    <color name="PrimaryDisabled">#595D3E6E</color>
+    <color name="Accent">#F4A4A8</color>
+
+    <color name="colorPrimary">#CB1458</color>
+    <color name="colorPrimaryDark">#13162B</color>
+    <color name="colorPrimaryDisabled">#A5154B</color>
+    <color name="colorAccent">#F09DBC</color>
+
 
     <!--Map Fragment-->
-    <color name="semiColorPrimary">#9643384D</color>
+    <color name="semiColorPrimary">#4E3940</color>
     <color name="light_grey">#eee</color>
     <color name="red">#f44336</color>
 

@@ -10,7 +10,7 @@ object Constants {
 
     const val INSTANT_APP_PATH = "/schedule"
 
-    const val FIXED_START_DATE = "2018-05-01T00:00:00" // Using ISO Local Date and Time
+    const val FIXED_START_DATE = "2018-10-12T00:00:00" // Using ISO Local Date and Time
 
     private const val WIFI_SSID = "MHacks11"
 
