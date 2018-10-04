@@ -10,7 +10,7 @@ android {
         applicationId 'org.mhacks.app'
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
+        versionCode 11
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
