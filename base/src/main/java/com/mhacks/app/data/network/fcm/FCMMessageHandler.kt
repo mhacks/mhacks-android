@@ -25,7 +25,7 @@ class FCMMessageHandler : FirebaseMessagingService() {
     private fun createNotification(notification: RemoteMessage.Notification) {
         val builder = NotificationCompat.Builder(baseContext, mhacksGroup)
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setSmallIcon(R.mipmap.launcher_icon)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(notification.title)
                 .setContentText(notification.body)
                 .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
