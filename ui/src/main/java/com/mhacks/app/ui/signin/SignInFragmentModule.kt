@@ -2,7 +2,6 @@ package com.mhacks.app.ui.signin
 
 import androidx.lifecycle.ViewModel
 import com.mhacks.app.di.ViewModelKey
-import com.mhacks.app.ui.signin.SignInViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

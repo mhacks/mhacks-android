@@ -4,7 +4,6 @@ import com.mhacks.app.data.models.Event
 import com.mhacks.app.data.repository.EventsRepository
 import com.mhacks.app.mvvm.SingleUseCase
 import io.reactivex.Single
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class FavoriteEventUseCase @Inject constructor(

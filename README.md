@@ -42,7 +42,6 @@ To build this project, there are several requirements.
    
    // Needed to use data binding for feature modules.
    android.enableExperimentalFeatureDatabinding = true
-   android.databinding.enableV2 = true
    ```
 
 4. Android Studio 3.2
@@ -64,8 +63,7 @@ To build this project, there are several requirements.
 <table>
     <tr>
         <td><img style="width: 350px: height:auto; margin: 0 50px" src="/screenshots/horizontal.png"></img></td>
-        <td><img src="/screenshots/vertical_liked.png"></img></td>
-g"></img></td>
+        <td><img src="/screenshots/vertical_liked.png"></img></td></img></td>
     </tr>
         <tr>
         <td align="center"><b>Welcome Screen / Timer<b></td>

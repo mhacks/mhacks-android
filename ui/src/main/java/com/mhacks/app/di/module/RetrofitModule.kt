@@ -3,7 +3,7 @@ package com.mhacks.app.di.module
 import android.app.Application
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.mhacks.app.BuildConfig
-import com.mhacks.app.data.network.services.MHacksService
+import com.mhacks.app.data.network.services.FireBaseService
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -59,7 +59,7 @@ import javax.inject.Singleton
 
     @Provides
     @Singleton
-    internal fun provideMHacksService(retrofit: Retrofit): MHacksService {
-        return retrofit.create(MHacksService::class.java)
+    internal fun provideMHacksService(retrofit: Retrofit): FireBaseService {
+        return retrofit.create(FireBaseService::class.java)
     }
 }

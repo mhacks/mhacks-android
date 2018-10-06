@@ -9,7 +9,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import timber.log.Timber
 import android.preference.PreferenceManager
 import android.content.SharedPreferences
-import com.mhacks.app.data.network.services.MHacksService
+import com.mhacks.app.data.network.services.FireBaseService
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
@@ -24,7 +24,7 @@ class RegistrationIntentService : IntentService(TAG) {
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
 
-    private val mhacksService = retrofit.create(MHacksService::class.java)
+    private val mhacksService = retrofit.create(FireBaseService::class.java)
 
     private val sharedPreferences: SharedPreferences by lazy {
         PreferenceManager.getDefaultSharedPreferences(this)

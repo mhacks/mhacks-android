@@ -8,8 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import org.mhacks.mhacksui.R
 import com.mhacks.app.data.models.common.RetrofitException
+import com.mhacks.app.extension.showSnackBar
 import com.mhacks.app.ui.common.BaseDialogFragment
 import kotlinx.android.synthetic.main.fragment_ticket_dialog.*
 import net.glxn.qrgen.android.QRCode
@@ -92,6 +94,10 @@ class TicketDialogFragment : BaseDialogFragment() {
                     // no-op
                 }
             }
+        })
+        ticketViewModel.snackBarMessage.observe(this, Observer { textMessage ->
+            rootView?.showSnackBar(
+                    Snackbar.LENGTH_SHORT, textMessage)
         })
     }
 

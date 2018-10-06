@@ -9,7 +9,7 @@ class RetrofitException internal constructor(
         /** The request URL which produced the error.  */
         val url: String?,
         /** Response object containing status code, headers, body, etc.  */
-        val response: Response<*>?,
+        private val response: Response<*>?,
         /** The event kind which triggered this error.  */
         val kind: Kind,
         val exception: Throwable?) : RuntimeException(message, exception) {
