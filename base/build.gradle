@@ -5,7 +5,6 @@ apply plugin: "kotlin-android-extensions"
 apply plugin: "kotlin-kapt"
 
 ext {
-    bugsnag_key = ext.MHACKS_BUGSNAG_KEY
     google_maps_api_key = ext.MHACKS_GOOGLE_MAPS_API_KEY
     gcm_server_id = ext.GCM_SERVER_ID
 }
@@ -72,8 +71,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.kotlin_version"
 
     // Play Services
-    implementation 'com.google.firebase:firebase-core:16.0.3'
-    implementation 'com.google.firebase:firebase-messaging:17.3.2'
+    implementation 'com.google.firebase:firebase-core:16.0.4'
+    implementation 'com.google.firebase:firebase-messaging:17.3.3'
 
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -83,8 +82,9 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-moshi:2.4.0'
 
     // Persistence
-    implementation 'androidx.room:room-runtime:2.0.0-rc01'
-    implementation 'androidx.room:room-rxjava2:2.0.0-rc01'
+    implementation 'androidx.room:room-runtime:2.0.0'
+    implementation 'androidx.room:room-rxjava2:2.0.0'
+    kapt 'androidx.room:room-compiler:2.0.0'
 
     // RxJava
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
@@ -93,8 +93,6 @@ dependencies {
 
     // Debugging
     implementation 'com.jakewharton.timber:timber:4.7.0'
-
-    kapt 'androidx.room:room-compiler:2.0.0-rc01'
 
     feature project(':ui')
 }
