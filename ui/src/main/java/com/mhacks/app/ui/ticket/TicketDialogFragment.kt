@@ -95,29 +95,8 @@ class TicketDialogFragment : BaseDialogFragment() {
         })
     }
 
-//    private fun showProgressBar() {
-//        ticket_progressbar.visibility = View.VISIBLE
-//        ticket_main.visibility = View.INVISIBLE
-//        ticket_error_view.visibility = View.INVISIBLE
-//    }
-//
-//    private fun showMainContent() {
-//        ticket_progressbar.visibility = View.INVISIBLE
-//        ticket_main.visibility = View.VISIBLE
-//        ticket_error_view.visibility = View.INVISIBLE
-//    }
-//
-//    private fun showErrorView() {
-//        ticket_error_view.removeBackground()
-//        ticket_error_view.titleText = R.string.ticket_network_error
-//        ticket_error_view.iconDrawable = R.drawable.ic_cloud_off_black_24dp
-//        ticket_error_view.textColor = R.color.colorPrimaryDark
-//        ticket_progressbar.visibility = View.INVISIBLE
-//        ticket_main.visibility = View.INVISIBLE
-//        ticket_error_view.visibility = View.VISIBLE
-//    }
-
     interface Callback {
+
         fun startLoginActivity()
     }
 
