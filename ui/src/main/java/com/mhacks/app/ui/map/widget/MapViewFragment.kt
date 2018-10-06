@@ -150,6 +150,12 @@ class MapViewFragment :
         } else { }
 
         googleMap.animateCamera(center)
+        googleMap.setLatLngBoundsForCameraTarget(
+                LatLngBounds(
+                        LatLng(42.2694 - LAT_LNG_BOUNDARY, -83.7425 - LAT_LNG_BOUNDARY),
+                        LatLng(42.2694 + LAT_LNG_BOUNDARY, -83.7425 + LAT_LNG_BOUNDARY)
+                )
+        )
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,
@@ -193,5 +199,8 @@ class MapViewFragment :
     companion object {
         val instance: MapViewFragment
             get() = MapViewFragment()
+
+        // Constant of the boundaries to where the user can pan their map camera.
+        private const val LAT_LNG_BOUNDARY = 0.0025
     }
 }
