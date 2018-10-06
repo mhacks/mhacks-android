@@ -42,7 +42,24 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionName "11.0.0"
+
+        buildConfigField "String", "FIXED_START_DATE", "\"2018-10-12T00:00:00\""
+        buildConfigField "String", "INSTANT_APP_URL",  "\"schedule\""
+
+        buildConfigField "String", "WIFI_SSID", "\"MHacks11\""
+        buildConfigField "String", "WIFI_PASSWORD", "\"anyonecancode\""
+
+        buildConfigField "String", "MHACKS_EMAIL", "\"hackathon@umich.edu\""
+
+        buildConfigField "String",
+                "SLACK_INVITE_URL",
+                "\"https://join.slack.com/t/mhacks11/shared_invite/enQtNDQzMDI0MDY3ODQ1LTM3YTIyMmJmNjU3NGM2NDk1MzQzZjZmMmY3ZDliZmZlNTRjOGNiMTc2OWRiZjIyODBiNzk2ZGQ4YjBmMjlkZjU\""
+
+        buildConfigField 'double', 'LAT', '42.2694'
+        buildConfigField 'double', 'LNG', '-83.7425'
+
         resValue "string", "google_maps_api_key", google_maps_api_key
+
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -52,11 +69,16 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
             resValue "string", "google_maps_api_key", google_maps_api_key
             signingConfig signingConfigs.release
+
+            buildConfigField "String", "API_URL", "\"https://mhacks.org/v1/\""
         }
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
             resValue "string", "google_maps_api_key", google_maps_api_key
+
+
+            buildConfigField "String", "API_URL", "\"https://staging.mhacks.org/v1/\""
         }
     }
 

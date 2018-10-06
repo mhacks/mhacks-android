@@ -4,7 +4,7 @@ import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
-import com.mhacks.app.data.Constants
+import com.mhacks.app.BuildConfig
 import com.mhacks.app.data.models.Configuration
 import com.mhacks.app.data.models.Result
 import com.mhacks.app.data.models.common.RetrofitException
@@ -57,7 +57,7 @@ class WelcomeViewModel @Inject constructor(
             if (it is Result.Success) {
                 Timber.d("Config Success")
                 val duration = 129600000L
-                val startDate = LocalDateTime.parse(Constants.FIXED_START_DATE)
+                val startDate = LocalDateTime.parse(BuildConfig.FIXED_START_DATE)
                         .toEpochSecond(ZoneOffset.UTC)
                 initCountdownIfNecessary(startDate, duration)
             } else if (it is Result.Error<*>) {

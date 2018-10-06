@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.mhacks.app.data.Constants
+import com.mhacks.app.BuildConfig
 import com.mhacks.app.ui.createannouncement.CreateAnnouncementDialogFragment
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
@@ -56,7 +56,7 @@ class MainActivity : BaseActivity(),
         val appLinkIntent = intent
         val appLinkData = appLinkIntent?.data
 
-        if (appLinkData?.path == Constants.INSTANT_APP_PATH) {
+        if (appLinkData?.path == BuildConfig.INSTANT_APP_URL) {
             initActivity()
             return
         }

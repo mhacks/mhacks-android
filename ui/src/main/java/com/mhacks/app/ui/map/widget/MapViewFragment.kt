@@ -16,6 +16,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
+import com.mhacks.app.BuildConfig
 import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.extension.showSnackBar
 import com.mhacks.app.extension.viewModelProvider
@@ -130,7 +131,12 @@ class MapViewFragment :
 
         val center = CameraUpdateFactory.newCameraPosition(
                 CameraPosition.Builder()
-                        .target(LatLng(42.2694, -83.7425)) //42.2694° N, 83.7425° W
+                        .target(
+                                LatLng(
+                                        BuildConfig.LAT,
+                                        BuildConfig.LNG
+                                )
+                        )
                         .zoom(16.5f)
                         .bearing(0f)
                         .tilt(0f)
@@ -152,8 +158,14 @@ class MapViewFragment :
         googleMap.animateCamera(center)
         googleMap.setLatLngBoundsForCameraTarget(
                 LatLngBounds(
-                        LatLng(42.2694 - LAT_LNG_BOUNDARY, -83.7425 - LAT_LNG_BOUNDARY),
-                        LatLng(42.2694 + LAT_LNG_BOUNDARY, -83.7425 + LAT_LNG_BOUNDARY)
+                        LatLng(
+                                BuildConfig.LAT - LAT_LNG_BOUNDARY,
+                                BuildConfig.LNG - LAT_LNG_BOUNDARY
+                        ),
+                        LatLng(
+                                BuildConfig.LAT + LAT_LNG_BOUNDARY,
+                                BuildConfig.LNG + LAT_LNG_BOUNDARY
+                        )
                 )
         )
     }
