@@ -14,9 +14,8 @@
     <color name="colorPrimaryDisabled">#A5154B</color>
     <color name="colorAccent">#F09DBC</color>
 
-
     <!--Map Fragment-->
-    <color name="semiColorPrimary">#4E3940</color>
+    <color name="semiColorPrimary">#40CB1458</color>
     <color name="light_grey">#eee</color>
     <color name="red">#f44336</color>
 
