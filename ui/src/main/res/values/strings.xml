@@ -96,7 +96,7 @@
     <!--Info-->
     <string name="info_wifi_header">Wi-Fi</string>
     <string name="info_wifi_sub_header">Tap to save password.</string>
-    <string name="info_wifi_desc">Name:\n"mhacks"\nPassword:\n"sdfaf"</string>
+    <string name="info_wifi_desc">Name:\n"MHacks11"\nPassword:\n"anyonecancode"</string>
 
     <!--Address-->
     <string name="info_address_header">Address</string>

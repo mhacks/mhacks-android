@@ -64,7 +64,7 @@ class InfoFragment: NavigationFragment() {
         context?.let {
             when (info.type) {
                 Info.TYPE.WIFI -> {
-                    val isWifiInstall = wiFiInstaller.installConferenceWifi(WIFI_CONFIGUATION)
+                    val isWifiInstall = wiFiInstaller.installConferenceWifi(WIFI_CONFIGURATION)
                     val wifiMessage = if (isWifiInstall) {
                         R.string.wifi_install_success
                     } else {
@@ -122,7 +122,7 @@ class InfoFragment: NavigationFragment() {
 
         const val GOOGLE_MAPS_URL = "http://maps.google.co.in/maps?q="
 
-        val WIFI_CONFIGUATION: WifiConfiguration
+        val WIFI_CONFIGURATION: WifiConfiguration
             get() {
                 val wifiConfig = WifiConfiguration()
 
