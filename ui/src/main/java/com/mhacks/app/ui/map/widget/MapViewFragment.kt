@@ -7,7 +7,6 @@ import androidx.core.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -16,6 +15,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
+import com.mhacks.app.BuildConfig
 import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.extension.showSnackBar
 import com.mhacks.app.extension.viewModelProvider
@@ -130,7 +130,12 @@ class MapViewFragment :
 
         val center = CameraUpdateFactory.newCameraPosition(
                 CameraPosition.Builder()
-                        .target(LatLng(42.292150, -83.715836))
+                        .target(
+                                LatLng(
+                                        BuildConfig.LAT,
+                                        BuildConfig.LNG
+                                )
+                        )
                         .zoom(16.5f)
                         .bearing(0f)
                         .tilt(0f)
@@ -150,6 +155,18 @@ class MapViewFragment :
         } else { }
 
         googleMap.animateCamera(center)
+        googleMap.setLatLngBoundsForCameraTarget(
+                LatLngBounds(
+                        LatLng(
+                                BuildConfig.LAT - LAT_LNG_BOUNDARY,
+                                BuildConfig.LNG - LAT_LNG_BOUNDARY
+                        ),
+                        LatLng(
+                                BuildConfig.LAT + LAT_LNG_BOUNDARY,
+                                BuildConfig.LNG + LAT_LNG_BOUNDARY
+                        )
+                )
+        )
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,
@@ -176,7 +193,7 @@ class MapViewFragment :
     private fun setupMap(mapResult: MapViewModel.MapResult) {
         val (floorImage, mapFloor) = mapResult
 
-        val northCampusBounds = LatLngBounds(
+        val sportsBuildingBounds = LatLngBounds(
             LatLng(
                     mapFloor.seLatitude.toDouble(),
                     mapFloor.nwLongitude.toDouble()), // South West corner
@@ -184,14 +201,17 @@ class MapViewFragment :
                     mapFloor.nwLatitude.toDouble(),
                     mapFloor.seLongitude.toDouble()) // North East Corner
         )
-        val northCampusMap = GroundOverlayOptions()
+        val sportsBuildingMap = GroundOverlayOptions()
                 .image(BitmapDescriptorFactory.fromBitmap(floorImage))
-                .positionFromBounds(northCampusBounds)
-        googleMap?.addGroundOverlay(northCampusMap)
+                .positionFromBounds(sportsBuildingBounds)
+        googleMap?.addGroundOverlay(sportsBuildingMap)
     }
 
     companion object {
         val instance: MapViewFragment
             get() = MapViewFragment()
+
+        // Constant of the boundaries to where the user can pan their map camera.
+        private const val LAT_LNG_BOUNDARY = 0.0025
     }
 }

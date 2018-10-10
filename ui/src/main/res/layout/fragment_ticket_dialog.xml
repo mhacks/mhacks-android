@@ -16,7 +16,7 @@
             android:layout_height="250dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:contentDescription="@string/qr_code"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -75,18 +75,18 @@
             android:id="@+id/ticket_bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="?colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <Button
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:id="@+id/ticket_bottom_bar_done_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:background="@android:color/transparent"
-                android:fontFamily="sans-serif-light"
                 android:text="@string/done"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@color/white" />
+
         </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

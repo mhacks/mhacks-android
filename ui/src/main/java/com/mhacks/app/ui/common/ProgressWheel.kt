@@ -200,11 +200,6 @@ class ProgressWheel : View {
         invalidate()
     }
 
-    fun setDefText(defText: String) {
-        this.defText = defText
-        invalidate()
-    }
-
     fun setPercentage(per: Int) {
         startAnimation(per)
     }

@@ -92,14 +92,13 @@
         This is required if you want to do any message handling beyond receiving
         notifications on apps in the background.
         -->
+
         <service
-            android:name=".data.network.fcm.FCMMessageHandler"
-            android:exported="false">
+            android:name=".data.network.fcm.FCMMessageHandler">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_api_key" />

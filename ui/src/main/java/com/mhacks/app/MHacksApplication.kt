@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.os.Build
 import com.facebook.stetho.Stetho
 import com.jakewharton.threetenabp.AndroidThreeTen
-import com.mhacks.app.data.Constants
 import com.mhacks.app.di.component.*
 import com.mhacks.app.di.module.AuthModule
 import com.mhacks.app.di.module.RetrofitModule
@@ -46,17 +45,11 @@ class MHacksApplication : DaggerApplication() {
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
 
-        val url = if (BuildConfig.DEBUG) {
-            Constants.STAGING_URL
-        } else {
-            Constants.RELEASE_URL
-        }
-
         appComponent = DaggerAppComponent.builder()
                 .application(this)
                 .roomModule(RoomModule())
                 .authModule(AuthModule(null))
-                .retrofitModule(RetrofitModule(url))
+                .retrofitModule(RetrofitModule(BuildConfig.API_URL))
                 .build()
         appComponent.inject(this)
         return appComponent

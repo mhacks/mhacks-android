@@ -1,7 +1,6 @@
 package com.mhacks.app.ui.qrscan.usecase
 
 import com.mhacks.app.data.models.Feedback
-import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.data.repository.UserRepository
 import com.mhacks.app.di.module.AuthModule
 import com.mhacks.app.mvvm.SingleUseCase

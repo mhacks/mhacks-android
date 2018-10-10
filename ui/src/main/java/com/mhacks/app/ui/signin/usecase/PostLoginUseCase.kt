@@ -21,7 +21,7 @@ class PostLoginUseCase @Inject constructor(
                     userRepository.updateLoginCache(it)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({
+                            .subscribe({ _ ->
                                 Timber.d("Login Success")
                             }, {
                                 Timber.d("Login Failure")

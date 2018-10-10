@@ -37,6 +37,5 @@ class SharedPreferencesManager(private val sharedPreferences: SharedPreferences)
 
         private const val FLASH_ENABLED_KEY = "FLASH_ENABLED_KEY"
 
-        private const val IS_ADMIN_KEY = "IS_ADMIN_KEY"
     }
 }
