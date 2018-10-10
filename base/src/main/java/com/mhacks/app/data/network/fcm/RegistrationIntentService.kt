@@ -35,13 +35,17 @@ class RegistrationIntentService : IntentService(TAG) {
                 .getInstance()
                 .instanceId.addOnSuccessListener {
             if (it != null) {
+                Timber.d("Register to service")
                 sendRegistrationToServer(it.token)
             } else {
+                Timber.d("Save to Shared Prefs that our value is false")
                 sharedPreferences
                         .edit()
                         .putBoolean(SENT_TOKEN_TO_SERVER, false)
                         .apply()
             }
+        }.addOnFailureListener {
+            Timber.e(it)
         }
     }
 
