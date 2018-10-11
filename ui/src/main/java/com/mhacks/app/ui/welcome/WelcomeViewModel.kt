@@ -11,14 +11,12 @@ import com.mhacks.app.data.models.common.RetrofitException
 import com.mhacks.app.data.models.common.TextMessage
 import com.mhacks.app.ui.welcome.usecase.GetAndCacheConfigUseCase
 import org.mhacks.mhacksui.R
-import org.threeten.bp.Instant
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneId
-import org.threeten.bp.ZoneOffset
+import org.threeten.bp.*
 import timber.log.Timber
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class WelcomeViewModel @Inject constructor(
@@ -56,10 +54,12 @@ class WelcomeViewModel @Inject constructor(
         _config.addSource(getAndCacheConfigResult) {
             if (it is Result.Success) {
                 Timber.d("Config Success")
-                val duration = 129600000L
-                val startDate = LocalDateTime.parse(BuildConfig.FIXED_START_DATE)
-                        .toEpochSecond(ZoneOffset.UTC)
-                initCountdownIfNecessary(startDate, duration)
+
+                val startDateTs = 1539403200000L
+                val endDateTs = 1539532800000L
+
+                initCountdownIfNecessary(startDateTs, endDateTs)
+
             } else if (it is Result.Error<*>) {
                 Timber.d("Config Failure")
                 (it.exception as? RetrofitException)?.let { retrofitException ->
@@ -101,20 +101,12 @@ class WelcomeViewModel @Inject constructor(
     }
 
     private fun initCountdownIfNecessary(startDateTs: Long, endDateTs: Long) {
-
-        val startDate = Instant.ofEpochSecond(startDateTs)
-                .atZone(ZoneId.systemDefault()).toLocalDateTime()
-        val duration = endDateTs - startDateTs
-
-        val localDateTime = LocalDateTime.now()
-
-        val curTime = localDateTime.toEpochSecond(ZoneOffset.UTC)
-        val startTime = startDate!!.toEpochSecond(ZoneOffset.UTC)
-        val endTime = startTime + duration
-
+        val curTime = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+        val startTime = startDateTs
+        val endTime = endDateTs
 
         when {
-            curTime < startDate.toEpochSecond(ZoneOffset.UTC) ->
+            curTime < startTime ->
                 _timerText.value  = TextMessage(R.string.countdown_timer_default, null)
             curTime < endTime -> {
                 // Calculate the time remaining and the total time of hacking

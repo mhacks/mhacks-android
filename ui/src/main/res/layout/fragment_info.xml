@@ -34,26 +34,26 @@
                 <com.mhacks.app.ui.info.widget.CollapsibleCard
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardDescription="Lorem Ipsum"
-                    app:cardTitle="Lorem Ipsum" />
+                    app:cardDescription="@string/collapsible_card_desc_1"
+                    app:cardTitle="@string/collapsible_card_title_1"/>
 
                 <com.mhacks.app.ui.info.widget.CollapsibleCard
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardDescription="Lorem Ipsum"
-                    app:cardTitle="Lorem Ipsum" />
+                    app:cardDescription="@string/collapsible_card_desc_2"
+                    app:cardTitle="@string/collapsible_card_title_2" />
 
                 <com.mhacks.app.ui.info.widget.CollapsibleCard
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardDescription="Lorem Ipsum"
-                    app:cardTitle="Lorem Ipsum" />
+                    app:cardDescription="@string/collapsible_card_desc_3"
+                    app:cardTitle="@string/collapsible_card_title_3" />
 
                 <com.mhacks.app.ui.info.widget.CollapsibleCard
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardDescription="Lorem Ipsum"
-                    app:cardTitle="Lorem Ipsum" />
+                    app:cardDescription="@string/collapsible_card_desc_4"
+                    app:cardTitle="@string/collapsible_card_title_4" />
 
             </LinearLayout>
 
