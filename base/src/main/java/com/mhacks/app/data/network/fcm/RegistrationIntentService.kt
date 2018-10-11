@@ -37,6 +37,10 @@ class RegistrationIntentService : IntentService(TAG) {
                 .instanceId.addOnSuccessListener {
             if (it != null) {
                 Timber.d("Register to service")
+                sharedPreferences
+                        .edit()
+                        .putString(PUSH_TOKEN, it.token)
+                        .apply()
                 sendRegistrationToServer(it.token)
             } else {
                 Timber.d("Save to Shared Prefs that our value is false")
@@ -52,7 +56,7 @@ class RegistrationIntentService : IntentService(TAG) {
 
     private fun sendRegistrationToServer(token: String) {
         Timber.e(token)
-        mhacksService.postFireBaseToken(token)
+        mhacksService.postFireBaseToken(token, "")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -63,6 +67,8 @@ class RegistrationIntentService : IntentService(TAG) {
 
     companion object {
         private const val TAG = "RegIntentService"
-        private const val SENT_TOKEN_TO_SERVER = "sentTokenToServer"
+        const val SENT_TOKEN_TO_SERVER = "sentTokenToServer"
+        const val PUSH_TOKEN = "pushToken"
+        const val AUTH_TOKEN= "authToken"
     }
 }

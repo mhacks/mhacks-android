@@ -12,6 +12,6 @@ interface FireBaseService {
 
     @FormUrlEncoded
     @POST("device")
-    fun postFireBaseToken(@Field("push_id") pushId: String): Single<FcmDevice>
+    fun postFireBaseToken(@Field("push_id") pushId: String, @Header("Authorization") authToken: String): Single<FcmDevice>
 
 }
