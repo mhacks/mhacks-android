@@ -7,7 +7,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import android.R
 import timber.log.Timber
 
 /**
@@ -25,7 +24,6 @@ class FCMMessageHandler : FirebaseMessagingService() {
 
     private fun createNotification(notification: RemoteMessage.Notification) {
         val builder = NotificationCompat.Builder(baseContext, mhacksGroup)
-                .setSmallIcon(R.mipmap.sym_def_app_icon)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setContentTitle(notification.title)
                 .setContentText(notification.body)
