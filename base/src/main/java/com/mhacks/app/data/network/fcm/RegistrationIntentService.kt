@@ -9,6 +9,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import timber.log.Timber
 import android.preference.PreferenceManager
 import android.content.SharedPreferences
+import com.mhacks.app.BuildConfig
 import com.mhacks.app.data.network.services.FireBaseService
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -19,7 +20,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class RegistrationIntentService : IntentService(TAG) {
 
     private val retrofit = Retrofit.Builder()
-            .baseUrl("https://mhacks.org/v1/")
+            .baseUrl(BuildConfig.API_URL)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
