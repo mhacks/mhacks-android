@@ -8,6 +8,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import timber.log.Timber
+import com.mhacks.app.R
 
 /**
  * Service for handling push notifications.
@@ -25,6 +26,7 @@ class FCMMessageHandler : FirebaseMessagingService() {
     private fun createNotification(notification: RemoteMessage.Notification) {
         val builder = NotificationCompat.Builder(baseContext, mhacksGroup)
                 .setDefaults(Notification.DEFAULT_ALL)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentTitle(notification.title)
                 .setContentText(notification.body)
                 .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))

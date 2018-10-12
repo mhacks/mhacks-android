@@ -136,7 +136,7 @@ class MapViewFragment :
                                         BuildConfig.LNG
                                 )
                         )
-                        .zoom(16.5f)
+                        .zoom(17.5f)
                         .bearing(0f)
                         .tilt(0f)
                         .build()
