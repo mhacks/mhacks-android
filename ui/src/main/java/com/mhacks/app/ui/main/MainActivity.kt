@@ -7,12 +7,11 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
-import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
-import com.mhacks.app.data.Constants
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.mhacks.app.BuildConfig
 import com.mhacks.app.ui.createannouncement.CreateAnnouncementDialogFragment
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.common.NavigationColor
@@ -57,7 +56,7 @@ class MainActivity : BaseActivity(),
         val appLinkIntent = intent
         val appLinkData = appLinkIntent?.data
 
-        if (appLinkData?.path == Constants.INSTANT_APP_PATH) {
+        if (appLinkData?.path == BuildConfig.INSTANT_APP_URL) {
             initActivity()
             return
         }
@@ -129,6 +128,7 @@ class MainActivity : BaseActivity(),
         })
     }
 
+    // No Android X dependency yet.
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(null,
                 Navigation.findNavController(this, R.id.main_activity_fragment_host))
@@ -145,17 +145,11 @@ class MainActivity : BaseActivity(),
 
     private fun showCreateAnnouncementDialogFragment() {
         val fragment = CreateAnnouncementDialogFragment.instance
-        fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_AppCompat_Light_Dialog)
         fragment.show(supportFragmentManager, null)
     }
 
     // Handles the click events for bottom navigation menu
-    private fun setupBottomNavBar(bottomNavigationView: BottomNavigationViewEx) {
-
-        bottomNavigationView.enableAnimation(false)
-        bottomNavigationView.enableShiftingMode(false)
-        bottomNavigationView.enableItemShiftingMode(false)
-
+    private fun setupBottomNavBar(bottomNavigationView: BottomNavigationView) {
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             bottomNavigationView.isEnabled = false
             if (itemId != item.itemId) {
@@ -184,9 +178,9 @@ class MainActivity : BaseActivity(),
 
 
     fun navigateFragment(fragmentId: Int) {
+        itemId = fragmentId
         navController.navigate(fragmentId)
     }
-
 
     private fun showAdminOptions() {
         AlertDialog.Builder(this)

@@ -8,8 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import org.mhacks.mhacksui.R
 import com.mhacks.app.data.models.common.RetrofitException
+import com.mhacks.app.extension.showSnackBar
 import com.mhacks.app.ui.common.BaseDialogFragment
 import kotlinx.android.synthetic.main.fragment_ticket_dialog.*
 import net.glxn.qrgen.android.QRCode
@@ -93,31 +95,14 @@ class TicketDialogFragment : BaseDialogFragment() {
                 }
             }
         })
+        ticketViewModel.snackBarMessage.observe(this, Observer { textMessage ->
+            rootView?.showSnackBar(
+                    Snackbar.LENGTH_SHORT, textMessage)
+        })
     }
 
-//    private fun showProgressBar() {
-//        ticket_progressbar.visibility = View.VISIBLE
-//        ticket_main.visibility = View.INVISIBLE
-//        ticket_error_view.visibility = View.INVISIBLE
-//    }
-//
-//    private fun showMainContent() {
-//        ticket_progressbar.visibility = View.INVISIBLE
-//        ticket_main.visibility = View.VISIBLE
-//        ticket_error_view.visibility = View.INVISIBLE
-//    }
-//
-//    private fun showErrorView() {
-//        ticket_error_view.removeBackground()
-//        ticket_error_view.titleText = R.string.ticket_network_error
-//        ticket_error_view.iconDrawable = R.drawable.ic_cloud_off_black_24dp
-//        ticket_error_view.textColor = R.color.colorPrimaryDark
-//        ticket_progressbar.visibility = View.INVISIBLE
-//        ticket_main.visibility = View.INVISIBLE
-//        ticket_error_view.visibility = View.VISIBLE
-//    }
-
     interface Callback {
+
         fun startLoginActivity()
     }
 

@@ -15,7 +15,6 @@ import com.mhacks.app.ui.common.BaseDialogFragment
 import kotlinx.android.synthetic.main.fragment_create_announcements.*
 import org.mhacks.mhacksui.R
 import org.mhacks.mhacksui.databinding.FragmentCreateAnnouncementsBinding
-import timber.log.Timber
 import javax.inject.Inject
 
 /**

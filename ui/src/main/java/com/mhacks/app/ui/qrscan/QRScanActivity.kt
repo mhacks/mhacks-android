@@ -22,6 +22,7 @@ import android.view.ScaleGestureDetector
 import android.view.View
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AlertDialogLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.common.ConnectionResult
@@ -30,6 +31,8 @@ import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.google.android.material.snackbar.Snackbar
+import com.mhacks.app.adapter.setTextMessage
+import com.mhacks.app.data.models.common.TextMessage
 import com.mhacks.app.extension.viewModelProvider
 import com.mhacks.app.ui.common.BaseActivity
 import com.mhacks.app.ui.qrscan.widget.BarcodeGraphic
@@ -107,7 +110,16 @@ class QRScanActivity:
 
     private fun subscribeUi() {
         qrScanViewModel?.verifyTicket?.observe(this, Observer {
-            showToast(R.string.checked_in)
+            var response = ""
+            for (feedback in it ) {
+                response += feedback.label + ": " + feedback.value + "\n"
+            }
+
+            AlertDialog.Builder(this)
+                    .setTitle("QR Response")
+                    .setMessage(response)
+                    .setPositiveButton("Ok") { dialog, which -> Timber.i(response) }
+                    .show()
         })
 
         qrScanViewModel?.snackBarMessage?.observe(this, Observer {
@@ -142,6 +154,7 @@ class QRScanActivity:
         }
 
         findViewById<View>(R.id.topLayout).setOnClickListener(listener)
+
         Snackbar.make(graphicOverlay!!, R.string.permission_camera_rationale,
                 Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.ok, listener)

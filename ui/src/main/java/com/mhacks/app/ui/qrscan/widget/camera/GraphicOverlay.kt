@@ -80,7 +80,7 @@ class GraphicOverlay<T : GraphicOverlay.Graphic>(context: Context, attrs: Attrib
          */
         fun translateX(x: Float): Float {
             return if (mOverlay.mFacing == CameraSource.CAMERA_FACING_FRONT) {
-                mOverlay.getWidth() - scaleX(x)
+                mOverlay.width - scaleX(x)
             } else {
                 scaleX(x)
             }

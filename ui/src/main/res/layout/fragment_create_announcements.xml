@@ -15,6 +15,7 @@
             android:background="@null"
             android:maxLines="1"
             android:padding="16dp"
+            android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:hint="@string/title" />
@@ -47,6 +48,7 @@
             android:layout_height="0dp"
             android:layout_width="match_parent"
             android:background="@null"
+            android:textColor="@color/black"
             android:padding="16dp"
             android:layout_weight="1"
             android:hint="@string/body"

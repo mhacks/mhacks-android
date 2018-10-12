@@ -7,6 +7,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import timber.log.Timber
 import com.mhacks.app.R
 
 /**
@@ -25,7 +26,7 @@ class FCMMessageHandler : FirebaseMessagingService() {
     private fun createNotification(notification: RemoteMessage.Notification) {
         val builder = NotificationCompat.Builder(baseContext, mhacksGroup)
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setSmallIcon(R.mipmap.launcher_icon)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentTitle(notification.title)
                 .setContentText(notification.body)
                 .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
@@ -37,6 +38,8 @@ class FCMMessageHandler : FirebaseMessagingService() {
 
     override fun onNewToken(newToken: String?) {
         super.onNewToken(newToken)
+        Timber.d("New Token is $newToken")
+
         val intent = Intent(this, RegistrationIntentService::class.java)
         startService(intent)
     }

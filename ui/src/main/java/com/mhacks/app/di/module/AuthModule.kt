@@ -13,7 +13,7 @@ import javax.inject.Singleton
  */
 
 @Module
-class AuthModule(internal var token: String?) {
+class AuthModule(private var token: String?) {
 
     @Provides
     @Singleton

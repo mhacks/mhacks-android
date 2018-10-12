@@ -4,9 +4,10 @@
     <color name="blueGrey">#37474F</color>
 
     <!--Global color themes-->
-    <color name="colorPrimary">#5D3E6E</color>
-    <color name="colorPrimaryDark">#43374E</color>
-    <color name="colorAccent">#F4A4A8</color>
+    <color name="colorPrimary">#CB1458</color>
+    <color name="colorPrimaryDark">#13162B</color>
+    <color name="colorPrimaryDisabled">#A5154B</color>
+    <color name="colorAccent">#F09DBC</color>
     <color name="black">#000</color>
 
     <!--Map Fragment-->

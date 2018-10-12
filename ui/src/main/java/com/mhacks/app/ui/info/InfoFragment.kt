@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.mhacks.app.data.Constants
 import com.mhacks.app.ui.common.NavigationFragment
 import com.mhacks.app.ui.common.SpacingItemDecoration
 import com.mhacks.app.ui.info.model.Info
@@ -19,7 +18,11 @@ import timber.log.Timber
 import javax.inject.Inject
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
+import android.net.wifi.WifiConfiguration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mhacks.app.BuildConfig
+import com.mhacks.app.BuildConfig.WIFI_PASSWORD
+import com.mhacks.app.BuildConfig.WIFI_SSID
 
 class InfoFragment: NavigationFragment() {
 
@@ -61,9 +64,7 @@ class InfoFragment: NavigationFragment() {
         context?.let {
             when (info.type) {
                 Info.TYPE.WIFI -> {
-                    val isWifiInstall = wiFiInstaller.installConferenceWifi(
-                        Constants.WIFI_CONFIGUATION
-                    )
+                    val isWifiInstall = wiFiInstaller.installConferenceWifi(WIFI_CONFIGURATION)
                     val wifiMessage = if (isWifiInstall) {
                         R.string.wifi_install_success
                     } else {
@@ -78,7 +79,7 @@ class InfoFragment: NavigationFragment() {
                             it.getString(R.string.info_address)
                                     .replace(" ", "+" )
 
-                    val googleMapsUrl = Constants.GOOGLE_MAPS_URL + formattedAddress
+                    val googleMapsUrl = GOOGLE_MAPS_URL + formattedAddress
 
                     Timber.d("Opening $formattedAddress in Google Maps")
 
@@ -97,7 +98,9 @@ class InfoFragment: NavigationFragment() {
                     }
                 }
                 Info.TYPE.SLACK -> {
-                    val i = Intent(ACTION_VIEW, Uri.parse(Constants.SLACK_INVITE_URL))
+                    val i = Intent(ACTION_VIEW, Uri.parse(
+                            BuildConfig.SLACK_INVITE_URL)
+                    )
                     i.action = ACTION_VIEW
                     startActivity(i)
                 }
@@ -106,12 +109,28 @@ class InfoFragment: NavigationFragment() {
                             Intent.ACTION_SENDTO,
                             Uri.fromParts(
                                     "mailto",
-                                    Constants.MHACKS_EMAIL,
+                                    BuildConfig.MHACKS_EMAIL,
                                     null))
                     i.putExtra(Intent.EXTRA_TEXT, "Sent from Android app.")
                     startActivity(Intent.createChooser(i, "Send Email"))
                 }
             }
         }
+    }
+
+    companion object {
+
+        const val GOOGLE_MAPS_URL = "http://maps.google.co.in/maps?q="
+
+        val WIFI_CONFIGURATION: WifiConfiguration
+            get() {
+                val wifiConfig = WifiConfiguration()
+
+                wifiConfig.SSID = String.format("\"%s\"", WIFI_SSID)
+                wifiConfig.preSharedKey = String.format("\"%s\"", WIFI_PASSWORD)
+
+                return wifiConfig
+            }
+
     }
 }

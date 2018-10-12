@@ -32,9 +32,6 @@
     <!--Progress Bar-->
     <string name="done">Done</string>
 
-    <!--Welcome-->
-    <string name="welcome_network_failure">Couldn\'t get configuration…</string>
-
     <!--Announcements-->
     <string name="loading_announcements">Loading announcements…</string>
     <string name="announcement_network_failure">Couldn\'t get announcements.</string>
@@ -44,7 +41,7 @@
     <string name="logging_in">Logging in…</string>
 
     <!--Map Fragment-->
-    <string name="loading_maps">Loading map info…</string>
+
 
     <!-- Ticket Fragment -->
     <string name="name">Name</string>
@@ -52,7 +49,7 @@
     <string name="qr_code">QR Code</string>
     <string name="no_thanks">NO THANKS</string>
     <string name="no_school">No school was selected!</string>
-    <string name="loading_ticket">Loading your ticket…</string>
+
     <string name="ticket_network_error">Couldn\'t fetch ticket.</string>
     <string name="logging_in_auth_error">Username or password is incorrect.</string>
     <string name="ticket_description">My ticket.</string>
@@ -76,4 +73,22 @@
     <string name="barcode_hint">Tap to capture. Pinch/Stretch to zoom</string>
     <string name="not_valid_email">Not a valid e-mail address.</string>
     <string name="checked_in">Checked in!</string>
+
+
+    <!--Info Fragment-->
+    <string name="collapsible_card_title_1">Have Fun!</string>
+    <string name="collapsible_card_desc_1">We want you to have fun, meet others, and enjoy the event. We have tons of great events throughout the weekend, check them out in the schedule!</string>
+
+    <string name="collapsible_card_title_2">Trouble with your project?</string>
+    <string name="collapsible_card_desc_2">Got a bug you can\'t solve? Hit a dead end with your project? Need inspiration? Need ideas? Request one of our mentors to come help you be successful with your project! Find them on the Dashboard of the MHacks website!</string>
+
+    <string name="collapsible_card_title_3">Need help?</string>
+    <string name="collapsible_card_desc_3">Have a problem during the event? Large or small, come talk to an organizer and we\'ll get you helped out (we\'re wearing black MHacks shirts!)</string>
+
+    <string name="collapsible_card_title_4">Meet the sponsors!</string>
+    <string name="collapsible_card_desc_4">We\'ve got a ton of great sponsors here to meet you and help you this weekend. Talk to them!</string>
+
+
+
+
 </resources>
