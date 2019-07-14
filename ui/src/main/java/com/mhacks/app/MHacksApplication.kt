@@ -54,7 +54,7 @@ class MHacksApplication : DaggerApplication() {
                     MHACKS_GROUP, NotificationManager.IMPORTANCE_HIGH)
 
             notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.MAGENTA
+            notificationChannel.lightColor = Color.argb(255, 203, 20, 88)
             notificationChannel.setShowBadge(true)
             notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
 

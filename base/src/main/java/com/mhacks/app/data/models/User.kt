@@ -36,6 +36,7 @@ data class User(
     @Json(name = "birthday") var birthday: String?,
     @Json(name = "major") var major: String?,
     @field:Json(name = "university") var university: String?,
+	@Json(name="avatar") var avatar: String?,
     @Json(name = "resume") var resume: String?,
     @Json(name = "github") var github: String?,
 	@Json(name = "groups") var groups: List<String>?,

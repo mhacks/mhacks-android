@@ -30,7 +30,7 @@ class EventsRecyclerViewAdapter(val context: Context,
     override fun getItemCount() = events.size
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        holder.eventTimeLineItem.addEventGroup(events[position])
+        holder?.eventTimeLineItem?.addEventGroup(events[position])
         val localTime =
                 Instant.ofEpochMilli(events[position].time)
                         .atZone(ZoneId.systemDefault())
