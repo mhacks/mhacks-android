@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
     package="com.mhacks.app"
     android:versionCode="3">
 
@@ -21,6 +22,19 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
+
+    <dist:module dist:instant="true" />
+
+    <dist:module dist:instant="false" dist:onDemand="false"
+        dist:title="apk">
+        <dist:fusing dist:include="true" />
+    </dist:module>
+
+    <dist:module dist:instant="true" dist:onDemand="false"
+        dist:title="ui">
+        <dist:fusing dist:include="true" />
+    </dist:module>
+
 
     <application
         android:name=".MHacksApplication"

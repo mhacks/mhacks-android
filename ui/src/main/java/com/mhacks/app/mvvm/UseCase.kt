@@ -20,10 +20,10 @@ abstract class UseCase<in P, R> {
             val response = throwable.response()
             if (throwable.code() == 401) {
                 return RetrofitException.unauthorizedError(
-                        response.raw().request().url().toString(), response)
+                        response?.raw()!!.request.url.toString(), response)
             }
             return RetrofitException.httpError(
-                    response.raw().request().url().toString(), response)
+                    response?.raw()!!.request.url.toString(), response)
         }
         return if (throwable is IOException) {
             RetrofitException.networkError(throwable)

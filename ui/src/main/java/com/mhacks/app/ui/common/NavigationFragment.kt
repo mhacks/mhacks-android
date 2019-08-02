@@ -19,8 +19,8 @@ abstract class NavigationFragment : BaseFragment() {
 
     abstract var appBarTitle: Int
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
+    override fun onAttach(context: Context) {
+        context?.let { super.onAttach(it) }
         callback = activity as? OnNavigationChangeListener
     }
 

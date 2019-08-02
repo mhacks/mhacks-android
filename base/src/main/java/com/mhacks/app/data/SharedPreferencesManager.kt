@@ -29,7 +29,7 @@ class SharedPreferencesManager(private val sharedPreferences: SharedPreferences)
 
     private fun <T> getRxSingle(source: T) = Single.create<T> {
         it.onSuccess(source)
-    }!!
+    }
 
     companion object {
 

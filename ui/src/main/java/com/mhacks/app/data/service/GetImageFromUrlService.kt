@@ -32,7 +32,7 @@ class GetImageFromUrlService {
                     if (response.isSuccessful) {
                         observer.onSuccess(
                                 BitmapFactory.decodeStream(
-                                        response.body()?.byteStream()))
+                                        response.body?.byteStream()))
                     }
                 }
 

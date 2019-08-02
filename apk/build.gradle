@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.dynamic-feature'
 
 apply plugin: "kotlin-android"
 apply plugin: 'kotlin-kapt'
@@ -8,7 +8,7 @@ android {
 
 
     defaultConfig {
-        applicationId 'org.mhacks.app'
+        // applicationId 'org.mhacks.app'
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 11
@@ -21,12 +21,15 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
     dataBinding {
         enabled = true
+    }
+    compileOptions {
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
     }
 
 }
@@ -37,7 +40,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     implementation project(':base')
-    implementation project(':ui')
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }

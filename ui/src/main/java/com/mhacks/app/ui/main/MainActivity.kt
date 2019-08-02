@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mhacks.app.BuildConfig
@@ -130,8 +131,9 @@ class MainActivity : BaseActivity(),
 
     // No Android X dependency yet.
     override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(null,
-                Navigation.findNavController(this, R.id.main_activity_fragment_host))
+        return findNavController(R.id.main_activity_fragment_host).navigateUp()
+        //return NavigationUI.navigateUp(null,
+        //        Navigation.findNavController(this, R.id.main_activity_fragment_host))
     }
 
     override fun startLoginActivity() {

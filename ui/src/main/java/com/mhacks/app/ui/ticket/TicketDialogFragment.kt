@@ -29,12 +29,13 @@ class TicketDialogFragment : BaseDialogFragment() {
 
     override var rootView: View? = null
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
+    override fun onAttach(context: Context) {
+        context?.let { super.onAttach(it) }
         callback = activity as? Callback
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val dialog = dialog
         if (dialog != null) {
             dialog.setCanceledOnTouchOutside(true)
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

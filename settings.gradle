@@ -1,1 +1,1 @@
-include ':base', ':apk', ':instant', ':ui'
+include ':base', ':apk', ':ui'

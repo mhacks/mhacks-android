@@ -31,8 +31,8 @@ class SignInFragment : BaseFragment() {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
+    override fun onAttach(context: Context) {
+        context?.let { super.onAttach(it) }
         if (context is Callback) callback = context
     }
 
