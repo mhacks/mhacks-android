@@ -1,0 +1,33 @@
+apply plugin: 'com.android.dynamic-feature'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+apply from: '../gradle/shared.gradle'
+
+android {
+    compileSdkVersion versions.compileSdk
+
+    dataBinding {
+        enabled = true
+    }
+
+    defaultConfig {
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode 1
+        versionName "1.0"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':app')
+    implementation project(':core')
+
+    implementation "com.jakewharton.threetenabp:threetenabp:1.2.1"
+    implementation 'com.github.vipulasri:timelineview:1.0.5'
+
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
+
+    kapt deps.dagger.daggerCompiler
+}

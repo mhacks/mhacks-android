@@ -10,7 +10,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mhacks.app.BuildConfig
 import com.mhacks.app.ui.createannouncement.CreateAnnouncementDialogFragment
@@ -43,6 +42,7 @@ class MainActivity : BaseActivity(),
                 this,
                 R.id.main_activity_fragment_host)
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

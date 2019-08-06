@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/events_fragment"
-        android:name="com.mhacks.app.ui.events.widget.EventsFragment"
+        android:name="org.mhacks.app.event.widget.EventFragment"
         android:label="@string/title_events"
         tools:layout="@layout/fragment_events" />
 

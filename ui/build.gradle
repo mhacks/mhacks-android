@@ -6,16 +6,15 @@ apply plugin: "kotlin-android-extensions"
 apply plugin: "com.google.gms.google-services"
 
 android {
-
-    compileSdkVersion 28
+    compileSdkVersion versions.compileSdk
 
     dataBinding {
         enabled = true
     }
-    
+
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 28
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
         versionCode 3
         versionName "1.0"
 

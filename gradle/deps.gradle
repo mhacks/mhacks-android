@@ -1,0 +1,29 @@
+def androidx = [
+        coreKtx         : 'androidx.core:core-ktx:1.0.2',
+        appcompat       : 'androidx.appcompat:appcompat:1.1.0-rc01',
+        constraintlayout: 'androidx.constraintlayout:constraintlayout:1.1.3',
+        navigation      : "android.arch.navigation:navigation-fragment-ktx:${versions.navigation}",
+        navigationKtx   : "android.arch.navigation:navigation-ui-ktx:${versions.navigation}"
+]
+
+def google = [
+        material: 'com.google.android.material:material:1.0.0'
+]
+
+def kotlin = [
+        kotlin: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
+]
+
+def dagger = [
+        dagger                : "com.google.dagger:dagger:${versions.dagger}",
+        daggerAndroid         : "com.google.dagger:dagger-android-support:${versions.dagger}",
+        daggerCompiler        : "com.google.dagger:dagger-compiler:${versions.dagger}",
+        daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:${versions.dagger}",
+]
+
+ext.deps = [
+        'androidx': androidx,
+        'dagger'  : dagger,
+        'google'  : google,
+        'kotlin'  : kotlin
+]

@@ -1,15 +1,15 @@
 <resources>
-    <!-- Text Sizes -->
-    <dimen name="common_midsize">18sp</dimen>
+<!-- Text Sizes -->
+<dimen name="common_midsize">18sp</dimen>
 
-    <dimen name="text_countdown_normaltitles">16sp</dimen>
-    <dimen name="text_countdown_timertext">24sp</dimen>
+<dimen name="text_countdown_normaltitles">16sp</dimen>
+<dimen name="text_countdown_timertext">24sp</dimen>
 
-    <!-- Parameters -->
-    <dimen name="countdown_progressbar_thickness">10dp</dimen>
+<!-- Parameters -->
+<dimen name="countdown_progressbar_thickness">10dp</dimen>
 
-    <!-- Per the design guidelines, navigation_main drawers should be between 240dp and 320dp:
-         https://developer.android.com/design/patterns/navigation-drawer.html -->
-    <dimen name="toolbar_height">100dp</dimen>
+<!-- Per the design guidelines, nav_main drawers should be between 240dp and 320dp:
+     https://developer.android.com/design/patterns/navigation-drawer.html -->
+<dimen name="toolbar_height">100dp</dimen>
 
 </resources>

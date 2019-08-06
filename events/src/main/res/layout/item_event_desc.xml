@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="6dp">
+
+        <CheckBox
+            android:id="@+id/item_event_description_like_check_box"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/like_button"
+            android:button="@null"
+            android:checked="false"
+            android:contentDescription="@string/like"
+            android:focusable="true"
+            android:stateListAnimator="@animator/scale"
+            app:layout_constraintBottom_toBottomOf="@+id/item_event_description_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/item_event_description_title" />
+
+        <TextView
+            android:id="@+id/item_event_description_desc_text_view"
+            style="@style/SubHeaderTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:maxLines="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_event_description_title"
+            tools:text="Event info here..." />
+
+        <TextView
+            android:id="@+id/item_event_description_title"
+            style="@style/HeaderTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:maxLines="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Event Title" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

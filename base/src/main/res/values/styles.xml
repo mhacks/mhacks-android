@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <style name="MHacksEditText" parent="@android:style/Widget.EditText">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:layout_height">45dip</item>
-    </style>
-
-</resources>
