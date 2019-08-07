@@ -25,7 +25,7 @@ class DataModule {
 
     @Provides
     @Singleton
-    internal fun provideOkhttpClient(cache: Cache): OkHttpClient {
+    internal fun provideOkHttpClient(cache: Cache): OkHttpClient {
         val client = OkHttpClient.Builder()
                 .cache(cache)
                 .connectTimeout(10, TimeUnit.SECONDS)
@@ -36,12 +36,11 @@ class DataModule {
 
     @Provides
     @Singleton
-    internal fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-                .addConverterFactory(MoshiConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(BuildConfig.API_URL)
-                .client(okHttpClient)
-                .build()
-    }
+    internal fun provideRetrofit(okHttpClient: OkHttpClient) =
+            Retrofit.Builder()
+                    .addConverterFactory(MoshiConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .baseUrl(BuildConfig.API_URL)
+                    .client(okHttpClient)
+                    .build()
 }

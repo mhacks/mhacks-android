@@ -1,13 +1,11 @@
 package org.mhacks.app.events
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
-import org.mhacks.app.core.CoroutinesDispatcherProvider
 import org.mhacks.app.data.models.Event
 import org.mhacks.app.data.models.common.RetrofitException
 import org.mhacks.app.data.models.common.TextMessage
@@ -21,10 +19,7 @@ data class EventWithDay(
         val event: Event)
 
 class EventViewModel @Inject constructor(
-        private val getEventsUseCase: GetEventsUseCase,
-        private val dispatcherProvider: CoroutinesDispatcherProvider
-//        private val favoriteEventUseCase: FavoriteEventUseCase,
-//        private val getFavoriteCachedEventsUseCase: GetFavoriteCachedEventsUseCase
+        private val getEventsUseCase: GetEventsUseCase
 ) : ViewModel() {
 
 
@@ -118,9 +113,7 @@ class EventViewModel @Inject constructor(
                     .groupBy { it.day }
 
     fun getAndCacheEvents() {
-        viewModelScope.launch(dispatcherProvider.main) {
-            getEventsUseCase()
-        }
+        Log.d("sdfasd", "asdf")
 
 //        getEventsUseCase.execute(Unit)
     }

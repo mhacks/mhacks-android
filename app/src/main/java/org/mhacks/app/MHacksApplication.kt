@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import androidx.core.os.BuildCompat
 import androidx.fragment.app.Fragment
+import org.mhacks.app.core.di.AppModule
 import org.mhacks.app.core.di.CoreComponent
 import org.mhacks.app.core.di.DaggerCoreComponent
 
@@ -16,7 +17,7 @@ private const val MHACKS_GROUP = "MHacks Group"
 class MHacksApplication : Application() {
 
     private val coreComponent: CoreComponent by lazy {
-        DaggerCoreComponent.create()
+        DaggerCoreComponent.builder().appModule(AppModule(this)).build()
     }
 
     override fun onCreate() {

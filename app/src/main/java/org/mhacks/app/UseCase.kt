@@ -2,8 +2,8 @@ package org.mhacks.app
 
 abstract class UseCase<P, Q> {
 
-    abstract suspend fun execute(parameters: P): Result<Q>
+    abstract fun execute(parameters: P): Q
 
-    suspend operator fun invoke(parameters: P) = execute(parameters)
+    operator fun invoke(parameters: P) = execute(parameters)
 
 }

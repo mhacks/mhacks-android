@@ -24,7 +24,8 @@ class EventFragment : NavigationFragment() {
 
     override var rootView: View? = null
 
-    @Inject lateinit var viewModel: EventViewModel
+    @Inject
+    lateinit var viewModel: EventViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -33,11 +34,10 @@ class EventFragment : NavigationFragment() {
         inject()
         FragmentEventBinding.inflate(inflater, container, false)
                 .apply {
-
                     eventPagerTabStrip.tabIndicatorColor = Color.WHITE
 
                     subscribeUi(viewModel)
-//                    viewModel.getAndCacheEvents()
+                    viewModel.getAndCacheEvents()
 
                     lifecycleOwner = this@EventFragment
                     rootView = root
