@@ -82,7 +82,7 @@ dependencies {
 
     // Debugging
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
-    implementation 'com.jakewharton.timber:timber:4.7.1'
+
 
     // Dagger related libraries
     implementation "com.google.dagger:dagger:$rootProject.dagger_version"
