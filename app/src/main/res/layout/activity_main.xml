@@ -19,7 +19,16 @@
             <FrameLayout
                 android:id="@+id/main_activity_fragment_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent">
+
+                <fragment
+                    android:id="@+id/main_activity_fragment_host"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:name="androidx.navigation.fragment.NavHostFragment"
+                    app:navGraph="@navigation/nav_main" />
+
+            </FrameLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/main_activity_qr_ticket_fab"

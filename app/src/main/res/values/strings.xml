@@ -65,8 +65,14 @@
 
     <string name="collapsible_card_title_4">Meet the sponsors!</string>
     <string name="collapsible_card_desc_4">We\'ve got a ton of great sponsors here to meet you and help you this weekend. Talk to them!</string>
+
+
+    <!--Needed for navigation component-->
     <string name="title_welcome">welcome</string>
     <string name="title_maps">Maps</string>
+    <string name="title_events">Events</string>
+    <string name="title_map">Maps</string>
+    <string name="title_info">Info</string>
 
 
 </resources>
