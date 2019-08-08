@@ -16,11 +16,11 @@ import org.mhacks.app.events.usecase.GetFavoriteCachedEventsUseCase
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
-import javax.inject.Named
 
 data class EventWithDay(
         val day: String,
-        val event: Event)
+        val event: Event
+)
 
 class EventViewModel @Inject constructor(
         private val getAndCacheEventsUseCase: GetAndCacheEventsUseCase,
@@ -70,15 +70,11 @@ class EventViewModel @Inject constructor(
                         }
                         RetrofitException.Kind.UNEXPECTED -> {
                             _snackBarMessage.value =
-                                    TextMessage(
-                                            R.string.unknown_error,
-                                            null)
+                                    TextMessage(R.string.unknown_error, null)
                         }
                         RetrofitException.Kind.UNAUTHORIZED -> {
                             _snackBarMessage.value =
-                                    TextMessage(
-                                            R.string.unknown_error,
-                                            null)
+                                    TextMessage(R.string.unknown_error, null)
                         }
                     }
                 }
@@ -107,7 +103,8 @@ class EventViewModel @Inject constructor(
                     .map { events ->
                         EventWithDay(
                                 weekDateFormat.format(Date(events.startDateTs)),
-                                events)
+                                events
+                        )
                     }
                     .groupBy { it.day }
 

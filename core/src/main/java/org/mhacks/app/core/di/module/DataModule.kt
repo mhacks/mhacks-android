@@ -1,6 +1,6 @@
 package org.mhacks.app.core.di.module
 
-import android.app.Application
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -18,9 +18,9 @@ class DataModule {
 
     @Provides
     @Singleton
-    internal fun provideHttpCache(application: Application): Cache {
+    internal fun provideHttpCache(context: Context): Cache {
         val cacheSize = 10 * 1024 * 1024
-        return Cache(application.cacheDir, cacheSize.toLong())
+        return Cache(context.cacheDir, cacheSize.toLong())
     }
 
     @Provides
@@ -43,4 +43,5 @@ class DataModule {
                     .baseUrl(BuildConfig.API_URL)
                     .client(okHttpClient)
                     .build()
+
 }

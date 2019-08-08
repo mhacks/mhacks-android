@@ -1,6 +1,7 @@
 package org.mhacks.app.core.di
 
 import android.app.Application
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -10,5 +11,5 @@ class AppModule(val application: Application) {
 
     @Provides
     @Singleton
-    fun provideContext() = application
+    fun provideContext(): Context = application
 }

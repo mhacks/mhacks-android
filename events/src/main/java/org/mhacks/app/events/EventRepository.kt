@@ -1,7 +1,7 @@
 package org.mhacks.app.events
 
 import org.mhacks.app.data.models.Event
-import org.mhacks.app.data.room.dao.EventDao
+import org.mhacks.app.events.data.db.EventDao
 import org.mhacks.app.events.data.service.EventService
 import javax.inject.Inject
 

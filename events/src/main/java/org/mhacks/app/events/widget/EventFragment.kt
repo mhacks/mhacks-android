@@ -5,12 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
+import com.jakewharton.threetenabp.AndroidThreeTen
 import org.mhacks.app.core.widget.NavigationFragment
 import org.mhacks.app.data.models.Event
+import org.mhacks.app.data.models.common.RetrofitException
+import org.mhacks.app.data.models.common.TextMessage
 import org.mhacks.app.event.R
 import org.mhacks.app.event.databinding.FragmentEventBinding
 import org.mhacks.app.events.EventViewModel
 import org.mhacks.app.events.di.inject
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -24,6 +30,8 @@ class EventFragment : NavigationFragment() {
 
     override var rootView: View? = null
 
+    private lateinit var binding: FragmentEventBinding
+
     @Inject
     lateinit var viewModel: EventViewModel
 
@@ -31,8 +39,9 @@ class EventFragment : NavigationFragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?): View? {
+        AndroidThreeTen.init(context)
         inject()
-        FragmentEventBinding.inflate(inflater, container, false)
+        binding = FragmentEventBinding.inflate(inflater, container, false)
                 .apply {
                     eventPagerTabStrip.tabIndicatorColor = Color.WHITE
 
@@ -52,51 +61,65 @@ class EventFragment : NavigationFragment() {
     }
 
     private fun subscribeUi(eventsViewModel: EventViewModel) {
-//        eventsViewModel.events.observe(viewLifecycleOwner, Observer {
-//            it?.let { eventMap ->
-//                val adapter = EventsPagerAdapter(
-//                        childFragmentManager,
-//                        eventMap,
-//                        ::onEventsClicked)
-//                events_pager.adapter = adapter
-//            }
-//            showMainContent()
-//        })
-//
-//        eventsViewModel.favoriteEvent.observe(viewLifecycleOwner, Observer {
-//            Timber.d("Event favorited.")
-//        })
-//
-//        eventsViewModel.error.observe(viewLifecycleOwner, Observer { error ->
-//            when (error) {
-//                RetrofitException.Kind.NETWORK -> {
-//                    showErrorView(R.string.events_network_failure) {
-//                        showProgressBar(getString(R.string.loading_events))
-//                    }
-//                }
-//                else -> {
-//                    // no-op
-//                }
-//            }
-//        })
-//        eventsViewModel.snackbarMessage.observe(this, Observer {
-//            it?.let { textMessage ->
-//                rootView?.showSnackBar(
-//                        Snackbar.LENGTH_SHORT, textMessage)
-//            }
-//        })
+        eventsViewModel.events.observe(viewLifecycleOwner, Observer {
+            it?.let { eventMap ->
+                val adapter = EventsPagerAdapter(
+                        childFragmentManager,
+                        eventMap,
+                        ::onEventsClicked)
+                binding.eventsPager.adapter = adapter
+            }
+            showMainContent()
+        })
+
+        eventsViewModel.favoriteEvent.observe(viewLifecycleOwner, Observer {
+            Timber.d("Event favorited.")
+        })
+
+        eventsViewModel.error.observe(viewLifecycleOwner, Observer { error ->
+            when (error) {
+                RetrofitException.Kind.NETWORK -> {
+                    showErrorView(R.string.events_network_failure) {
+                        showProgressBar(getString(R.string.loading_events))
+                    }
+                }
+                else -> {
+                    // no-op
+                }
+            }
+        })
+        eventsViewModel.snackbarMessage.observe(this, Observer {
+            it?.let { textMessage ->
+                rootView?.showSnackBar(textMessage)
+            }
+        })
     }
 
     private fun onEventsClicked(event: Event, isChecked: Boolean) {
-//        Timber.d("Event %s was clicked:", event.id)
-//        event.favorited = isChecked
-//        viewModel?.insertFavoriteEvent(event)
+        Timber.d("Event %s was clicked:", event.id)
+        event.favorited = isChecked
+        viewModel.insertFavoriteEvent(event)
     }
 
     companion object {
 
         val instance: EventFragment
             get() = EventFragment()
+    }
+}
+
+fun View.showSnackBar(textMessage: TextMessage) {
+    textMessage.textResId?.let {
+        Snackbar.make(
+                findViewById(android.R.id.content),
+                it,
+                Snackbar.LENGTH_SHORT).show()
+    }
+    textMessage.text?.let {
+        Snackbar.make(
+                findViewById(android.R.id.content),
+                it,
+                Snackbar.LENGTH_SHORT).show()
     }
 }
 

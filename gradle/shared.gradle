@@ -14,4 +14,9 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
 
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    // Persistence
+    implementation "androidx.room:room-runtime:${versions.room}‘"
+    implementation "androidx.room:room-rxjava2:${versions.room}"
+    kapt "androidx.room:room-compiler:${versions.room}"
 }

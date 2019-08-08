@@ -2,7 +2,6 @@
     <!--Common-->
     <string name="no_internet">No internet.</string>
     <string name="try_again">Try again</string>
-    <string name="unknown_error">Unknown error</string>
     <string name="unauthorized_error">Unauthorized</string>
 
     <!--Progress Bar-->
@@ -11,5 +10,6 @@
     <!--No internet view-->
     <string name="disconnected">Disconnected</string>
     <string name="device_offline">Device Offline</string>
+
 
 </resources>

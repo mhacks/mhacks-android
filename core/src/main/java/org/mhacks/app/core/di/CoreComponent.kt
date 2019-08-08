@@ -1,5 +1,6 @@
 package org.mhacks.app.core.di
 
+import android.content.Context
 import dagger.Component
 import org.mhacks.app.core.di.module.DataModule
 import org.mhacks.app.core.di.module.ViewModelModule
@@ -20,6 +21,8 @@ import javax.inject.Singleton
 interface CoreComponent {
 
     fun retrofit(): Retrofit
+
+    fun context(): Context
 
     @Component.Builder
     interface Builder {
