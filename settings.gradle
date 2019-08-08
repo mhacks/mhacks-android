@@ -1,1 +1,1 @@
-include ':app', ':events', ':core'
+include ':app', ':events', ':core', ':maps'

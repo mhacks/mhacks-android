@@ -5,10 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.mhacks.app.data.models.Event
-import org.mhacks.app.data.models.Outcome
-import org.mhacks.app.data.models.common.RetrofitException
-import org.mhacks.app.data.models.common.TextMessage
+import org.mhacks.app.core.data.model.Text
+import org.mhacks.app.data.model.Event
+import org.mhacks.app.data.model.Outcome
+import org.mhacks.app.data.model.common.RetrofitException
 import org.mhacks.app.event.R
 import org.mhacks.app.events.usecase.FavoriteEventUseCase
 import org.mhacks.app.events.usecase.GetAndCacheEventsUseCase
@@ -16,6 +16,7 @@ import org.mhacks.app.events.usecase.GetFavoriteCachedEventsUseCase
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
+import org.mhacks.app.core.R as coreR
 
 data class EventWithDay(
         val day: String,
@@ -41,8 +42,8 @@ class EventViewModel @Inject constructor(
     private val _favoriteEvents = MediatorLiveData<Map<String, List<EventWithDay>>>()
     val favoriteEvents get() = _favoriteEvents
 
-    private val _snackBarMessage = MediatorLiveData<TextMessage>()
-    val snackbarMessage: LiveData<TextMessage> get() = _snackBarMessage
+    private val _snackBarMessage = MediatorLiveData<Text>()
+    val snackbarText: LiveData<Text> get() = _snackBarMessage
 
     private val _error: MutableLiveData<RetrofitException.Kind> = MutableLiveData()
     val error: LiveData<RetrofitException.Kind> get() = _error
@@ -59,9 +60,7 @@ class EventViewModel @Inject constructor(
                         RetrofitException.Kind.HTTP -> {
                             retrofitException.errorResponse?.let { errorResponse ->
                                 _snackBarMessage.value =
-                                        TextMessage(
-                                                null,
-                                                errorResponse.message)
+                                        Text.String(errorResponse.message)
                             }
                         }
                         RetrofitException.Kind.NETWORK -> {
@@ -70,11 +69,11 @@ class EventViewModel @Inject constructor(
                         }
                         RetrofitException.Kind.UNEXPECTED -> {
                             _snackBarMessage.value =
-                                    TextMessage(R.string.unknown_error, null)
+                                    Text.Res(coreR.string.unknown_error)
                         }
                         RetrofitException.Kind.UNAUTHORIZED -> {
                             _snackBarMessage.value =
-                                    TextMessage(R.string.unknown_error, null)
+                                    Text.Res(coreR.string.unknown_error)
                         }
                     }
                 }

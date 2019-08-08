@@ -1,0 +1,34 @@
+apply plugin: 'com.android.dynamic-feature'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+apply from: '../gradle/shared.gradle'
+
+android {
+    compileSdkVersion versions.compileSdk
+
+    dataBinding {
+        enabled = true
+    }
+
+    defaultConfig {
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode 1
+        versionName "1.0"
+
+        buildConfigField 'double', 'LAT', '42.2694'
+        buildConfigField 'double', 'LNG', '-83.7425'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':app')
+    implementation project(':core')
+
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-vision:18.0.0'
+
+    kapt deps.dagger.daggerCompiler
+}

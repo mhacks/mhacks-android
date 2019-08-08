@@ -6,7 +6,6 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import org.mhacks.app.data.models.common.TextMessage
 
 /**
  * Abstracted class that contains a lot of the UI interactions used throughout the application
@@ -66,20 +65,5 @@ abstract class BaseActivity : AppCompatActivity()
         Toast.makeText(this,
                 stringRes,
                 Toast.LENGTH_LONG).show()
-    }
-
-    fun showSnackBar(textMessage: TextMessage) {
-        textMessage.textResId?.let {
-            Snackbar.make(
-                    findViewById(android.R.id.content),
-                    it,
-                    Snackbar.LENGTH_SHORT).show()
-        }
-        textMessage.text?.let {
-            Snackbar.make(
-                    findViewById(android.R.id.content),
-                    it,
-                    Snackbar.LENGTH_SHORT).show()
-        }
     }
 }

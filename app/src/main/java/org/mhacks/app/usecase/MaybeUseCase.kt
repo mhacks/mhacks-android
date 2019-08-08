@@ -2,7 +2,7 @@ package org.mhacks.app.usecase
 
 import io.reactivex.Maybe
 import io.reactivex.Scheduler
-import org.mhacks.app.data.models.Outcome
+import org.mhacks.app.data.model.Outcome
 
 abstract class MaybeUseCase<in P, R>: UseCase<P, R>() {
 

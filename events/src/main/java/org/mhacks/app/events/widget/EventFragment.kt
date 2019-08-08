@@ -6,12 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.threetenabp.AndroidThreeTen
+import org.mhacks.app.core.ktx.showSnackBar
 import org.mhacks.app.core.widget.NavigationFragment
-import org.mhacks.app.data.models.Event
-import org.mhacks.app.data.models.common.RetrofitException
-import org.mhacks.app.data.models.common.TextMessage
+import org.mhacks.app.data.model.Event
+import org.mhacks.app.data.model.common.RetrofitException
 import org.mhacks.app.event.R
 import org.mhacks.app.event.databinding.FragmentEventBinding
 import org.mhacks.app.events.EventViewModel
@@ -32,8 +31,7 @@ class EventFragment : NavigationFragment() {
 
     private lateinit var binding: FragmentEventBinding
 
-    @Inject
-    lateinit var viewModel: EventViewModel
+    @Inject lateinit var viewModel: EventViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -88,7 +86,7 @@ class EventFragment : NavigationFragment() {
                 }
             }
         })
-        eventsViewModel.snackbarMessage.observe(this, Observer {
+        eventsViewModel.snackbarText.observe(this, Observer {
             it?.let { textMessage ->
                 rootView?.showSnackBar(textMessage)
             }
@@ -107,23 +105,4 @@ class EventFragment : NavigationFragment() {
             get() = EventFragment()
     }
 }
-
-fun View.showSnackBar(textMessage: TextMessage) {
-    textMessage.textResId?.let {
-        Snackbar.make(
-                findViewById(android.R.id.content),
-                it,
-                Snackbar.LENGTH_SHORT).show()
-    }
-    textMessage.text?.let {
-        Snackbar.make(
-                findViewById(android.R.id.content),
-                it,
-                Snackbar.LENGTH_SHORT).show()
-    }
-}
-
-
-
-
 

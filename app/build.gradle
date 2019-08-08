@@ -13,7 +13,7 @@ android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
 
-    dynamicFeatures = [":events"]
+    dynamicFeatures = [":events", ":maps"]
 
     dexOptions {
         javaMaxHeapSize "4g"
@@ -58,9 +58,6 @@ android {
         buildConfigField "String",
                 "SLACK_INVITE_URL",
                 "\"https://join.slack.com/t/mhacks11/shared_invite/enQtNDQzMDI0MDY3ODQ1LTM3YTIyMmJmNjU3NGM2NDk1MzQzZjZmMmY3ZDliZmZlNTRjOGNiMTc2OWRiZjIyODBiNzk2ZGQ4YjBmMjlkZjU\""
-
-        buildConfigField 'double', 'LAT', '42.2694'
-        buildConfigField 'double', 'LNG', '-83.7425'
 
         resValue "string", "google_maps_api_key", google_maps_api_key
 

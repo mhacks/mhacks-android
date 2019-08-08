@@ -60,7 +60,7 @@
             android:resource="@mipmap/ic_launcher_round" />
 
         <!--
-        This is required if you want to do any message handling beyond receiving
+        This is required if you want to do any text handling beyond receiving
         notifications on apps in the background.
         -->
 

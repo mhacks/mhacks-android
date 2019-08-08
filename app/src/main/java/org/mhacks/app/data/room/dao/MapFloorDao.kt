@@ -2,7 +2,7 @@ package org.mhacks.app.data.room.dao
 
 import androidx.room.*
 import io.reactivex.Single
-import org.mhacks.app.data.models.MapFloor
+import org.mhacks.app.data.model.MapFloor
 
 /**
  * Dao for the map floor model.

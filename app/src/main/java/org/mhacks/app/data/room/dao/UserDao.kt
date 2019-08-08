@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.reactivex.Single
-import org.mhacks.app.data.models.User
+import org.mhacks.app.data.model.User
 
 /**
  * Created by jeffreychang on 9/6/17.

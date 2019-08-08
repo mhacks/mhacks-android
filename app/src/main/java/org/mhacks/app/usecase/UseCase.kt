@@ -2,8 +2,8 @@ package org.mhacks.app.usecase
 
 import androidx.lifecycle.MediatorLiveData
 import io.reactivex.disposables.CompositeDisposable
-import org.mhacks.app.data.models.common.RetrofitException
-import org.mhacks.app.data.models.Outcome
+import org.mhacks.app.data.model.common.RetrofitException
+import org.mhacks.app.data.model.Outcome
 import retrofit2.HttpException
 import java.io.IOException
 

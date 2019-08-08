@@ -10,6 +10,5 @@
     <!--No internet view-->
     <string name="disconnected">Disconnected</string>
     <string name="device_offline">Device Offline</string>
-
-
+    <string name="unknown_error">Unknown error</string>
 </resources>

@@ -1,7 +1,7 @@
 package org.mhacks.app.events.data.service
 
 import io.reactivex.Single
-import org.mhacks.app.data.models.EventsResponse
+import org.mhacks.app.data.model.EventsResponse
 import retrofit2.http.GET
 
 interface EventService {

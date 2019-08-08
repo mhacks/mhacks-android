@@ -2,7 +2,7 @@ package org.mhacks.app.usecase
 
 import io.reactivex.Single
 import org.mhacks.app.core.DispatcherProvider
-import org.mhacks.app.data.models.Outcome
+import org.mhacks.app.data.model.Outcome
 import javax.inject.Inject
 
 abstract class SingleUseCase<in P, R>: UseCase<P, R>() {

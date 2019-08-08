@@ -1,7 +1,7 @@
 package org.mhacks.app.events.usecase
 
 import io.reactivex.Single
-import org.mhacks.app.data.models.Event
+import org.mhacks.app.data.model.Event
 import org.mhacks.app.events.EventRepository
 import org.mhacks.app.usecase.SingleUseCase
 import javax.inject.Inject

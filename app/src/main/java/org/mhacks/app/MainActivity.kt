@@ -69,7 +69,7 @@ class MainActivity : BaseActivity()
                             .beginTransaction()
                             .add(
                                     R.id.main_activity_fragment_container,
-                                    Fragments.Event.getFragment(this@MainActivity),
+                                    Fragments.Map.getFragment(this@MainActivity),
                                     null
                             )
                             .commit()

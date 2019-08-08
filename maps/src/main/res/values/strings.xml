@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overlay_failure">Couldn\'t load overlay.</string>
+    <string name="maps_network_failure">Couldn\'t fetch map data.</string>
+    <string name="loading_maps">Loading map info…</string>
+    <string name="title_map">Map</string>
+</resources>

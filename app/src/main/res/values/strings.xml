@@ -10,7 +10,6 @@
     <string name="login">LOGIN</string>
     <string name="title_home">Home</string>
     <string name="title_announcements">Feed</string>
-    <string name="title_map">Map</string>
     <string name="welcome">Welcome</string>
     <string name="sign_in">Sign in</string>
     <string name="password">Password</string>
@@ -67,6 +66,7 @@
     <string name="collapsible_card_title_4">Meet the sponsors!</string>
     <string name="collapsible_card_desc_4">We\'ve got a ton of great sponsors here to meet you and help you this weekend. Talk to them!</string>
     <string name="title_welcome">welcome</string>
+    <string name="title_maps">Maps</string>
 
 
 </resources>

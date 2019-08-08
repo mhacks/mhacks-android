@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import org.mhacks.app.data.models.Event
+import org.mhacks.app.data.model.Event
 import org.mhacks.app.event.databinding.ItemEventDescBinding
 
 /**

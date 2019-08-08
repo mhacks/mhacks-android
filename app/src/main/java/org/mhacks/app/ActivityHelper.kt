@@ -25,7 +25,8 @@ abstract class AddressableFragment {
         }
         val clazz = FragmentFactory.loadFragmentClass(
                 context.classLoader,
-                Fragments.Event.className)
+                className
+        )
 
         return clazz.getConstructor().newInstance()
     }
@@ -50,6 +51,10 @@ object Fragments {
 
     object Event : AddressableFragment() {
         override val className = "$PACKAGE_NAME.events.widget.EventFragment"
+    }
+
+    object Map : AddressableFragment() {
+        override val className = "$PACKAGE_NAME.maps.widget.MapViewFragment"
     }
 
 }

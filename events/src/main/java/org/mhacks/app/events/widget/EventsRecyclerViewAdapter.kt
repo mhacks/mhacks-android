@@ -3,7 +3,7 @@ package org.mhacks.app.events.widget
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.github.vipulasri.timelineview.TimelineView
-import org.mhacks.app.data.models.Event
+import org.mhacks.app.data.model.Event
 import org.mhacks.app.events.data.model.EventSectionModel
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId

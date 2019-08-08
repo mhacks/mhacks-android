@@ -1,7 +1,7 @@
 package org.mhacks.app.data.network.services
 
 import io.reactivex.Single
-import org.mhacks.app.data.models.FcmDevice
+import org.mhacks.app.data.model.FcmDevice
 import retrofit2.http.*
 
 /**
