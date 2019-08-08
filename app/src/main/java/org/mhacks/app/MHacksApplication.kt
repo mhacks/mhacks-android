@@ -17,16 +17,16 @@ private const val MHACKS_GROUP = "MHacks Group"
 class MHacksApplication : Application() {
 
     private val coreComponent: CoreComponent by lazy {
-        DaggerCoreComponent.builder().appModule(AppModule(this)).build()
+        DaggerCoreComponent.builder()
+                .appModule(AppModule(this))
+                .build()
     }
 
     override fun onCreate() {
         super.onCreate()
-        val nightMode = if (BuildCompat.isAtLeastQ()) {
-            MODE_NIGHT_FOLLOW_SYSTEM
-        } else {
-            MODE_NIGHT_AUTO_BATTERY
-        }
+        val nightMode =
+                if (BuildCompat.isAtLeastQ()) MODE_NIGHT_FOLLOW_SYSTEM
+                else MODE_NIGHT_AUTO_BATTERY
         setDefaultNightMode(nightMode)
     }
 
@@ -35,7 +35,6 @@ class MHacksApplication : Application() {
         @JvmStatic
         fun coreComponent(context: Context) =
                 (context.applicationContext as MHacksApplication).coreComponent
-
     }
 }
 

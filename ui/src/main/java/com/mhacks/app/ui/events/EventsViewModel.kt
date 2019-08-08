@@ -29,8 +29,7 @@ class EventsViewModel @Inject constructor(
 
     private val getFavoriteCachedEventsResult = getFavoriteCachedEventsUseCase.observe()
 
-    private val _events = MediatorLiveData<
-            Map<String, List<EventWithDay>>>()
+    private val _events = MediatorLiveData<Map<String, List<EventWithDay>>>()
 
     val events
         get() =_events

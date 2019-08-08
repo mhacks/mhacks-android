@@ -12,7 +12,6 @@ import dagger.multibindings.IntoMap
 @Module
 abstract class EventsFragmentModule {
 
-
     @Binds
     @IntoMap
     @ViewModelKey(EventsViewModel::class)
