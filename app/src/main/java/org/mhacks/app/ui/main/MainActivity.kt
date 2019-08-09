@@ -1,4 +1,4 @@
-package org.mhacks.app.ui
+package org.mhacks.app.ui.main
 
 import android.os.Bundle
 import android.widget.FrameLayout
@@ -9,6 +9,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.mhacks.app.BuildConfig
 import org.mhacks.app.R
 import org.mhacks.app.databinding.ActivityMainBinding
+import org.mhacks.app.ui.BaseActivity
+import org.mhacks.app.ui.NavigationColor
 
 /**
  * Main Activity that handles most of the interactions. Sets up the Login Activity and loads
