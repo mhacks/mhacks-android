@@ -20,7 +20,7 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.material.snackbar.Snackbar
 import org.mhacks.app.core.ktx.showSnackBar
 import org.mhacks.app.core.widget.NavigationFragment
-import org.mhacks.app.data.model.common.RetrofitException
+import org.mhacks.app.core.data.model.RetrofitException
 import org.mhacks.app.maps.BuildConfig
 import org.mhacks.app.maps.MapViewModel
 import org.mhacks.app.maps.R

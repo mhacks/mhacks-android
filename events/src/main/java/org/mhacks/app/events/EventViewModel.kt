@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import org.mhacks.app.core.data.model.Text
 import org.mhacks.app.data.model.Event
 import org.mhacks.app.core.data.model.Outcome
-import org.mhacks.app.data.model.common.RetrofitException
+import org.mhacks.app.core.data.model.RetrofitException
 import org.mhacks.app.events.usecase.FavoriteEventUseCase
 import org.mhacks.app.events.usecase.GetAndCacheEventsUseCase
 import org.mhacks.app.events.usecase.GetFavoriteCachedEventsUseCase

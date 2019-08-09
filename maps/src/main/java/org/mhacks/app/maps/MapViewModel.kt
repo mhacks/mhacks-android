@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.mhacks.app.core.data.model.Text
 import org.mhacks.app.data.model.MapFloor
-import org.mhacks.app.data.model.common.RetrofitException
+import org.mhacks.app.core.data.model.RetrofitException
 import timber.log.Timber
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package org.mhacks.app.data.model.common
+package org.mhacks.app.core.data.model
 
 import com.squareup.moshi.Moshi
 import retrofit2.Response
