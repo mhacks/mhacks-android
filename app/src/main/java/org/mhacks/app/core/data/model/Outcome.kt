@@ -1,4 +1,4 @@
-package org.mhacks.app.data.model
+package org.mhacks.app.core.data.model
 
 /**
  * A generic class that holds a value with its loading status.

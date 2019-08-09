@@ -1,13 +1,14 @@
-package org.mhacks.app.usecase
+package org.mhacks.app.core.usecase
 
 import io.reactivex.Single
 import org.mhacks.app.core.DispatcherProvider
-import org.mhacks.app.data.model.Outcome
+import org.mhacks.app.core.data.model.Outcome
 import javax.inject.Inject
 
 abstract class SingleUseCase<in P, R>: UseCase<P, R>() {
 
-    @Inject lateinit var dispatcherProvider: DispatcherProvider
+    @Inject
+    lateinit var dispatcherProvider: DispatcherProvider
 
     abstract fun getSingle(parameters: P): Single<R>
 

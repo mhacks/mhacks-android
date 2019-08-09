@@ -1,6 +1,5 @@
-package org.mhacks.app
+package org.mhacks.app.ui
 
-import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.drawable.ColorDrawable
 import android.view.View
@@ -10,6 +9,7 @@ import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import org.mhacks.app.R
 import org.mhacks.app.core.widget.NavigationFragment
 import org.mhacks.app.util.ResourceUtil
 

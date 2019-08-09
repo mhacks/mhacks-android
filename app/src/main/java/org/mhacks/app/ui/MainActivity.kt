@@ -1,4 +1,4 @@
-package org.mhacks.app
+package org.mhacks.app.ui
 
 import android.os.Bundle
 import android.widget.FrameLayout
@@ -6,6 +6,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import org.mhacks.app.BuildConfig
+import org.mhacks.app.R
 import org.mhacks.app.databinding.ActivityMainBinding
 
 /**
