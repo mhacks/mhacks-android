@@ -25,12 +25,12 @@ abstract class NavigationFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        callback?.setFragmentTitle(appBarTitle)
         super.onViewCreated(view, savedInstanceState)
         changeColors()
     }
 
     private fun changeColors() {
-        callback?.setFragmentTitle(appBarTitle)
         callback?.setActionBarColor(android.R.color.transparent)
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

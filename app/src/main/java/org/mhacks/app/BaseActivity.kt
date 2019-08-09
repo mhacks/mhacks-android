@@ -1,18 +1,26 @@
 package org.mhacks.app
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
+import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
+import android.widget.FrameLayout
+import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.Snackbar
+import androidx.core.content.ContextCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import org.mhacks.app.core.widget.NavigationFragment
+import org.mhacks.app.util.ResourceUtil
 
 /**
  * Abstracted class that contains a lot of the UI interactions used throughout the application
  */
-abstract class BaseActivity : AppCompatActivity()
-//        , NavigationFragment.OnNavigationChangeListener
-{
+abstract class BaseActivity : AppCompatActivity(), NavigationFragment.OnNavigationChangeListener {
+
+    abstract val bottomNavigationView: BottomNavigationView
+
+    abstract val containerView: FrameLayout
 
     fun setStatusBarTransparent() {
         window.decorView.systemUiVisibility =
@@ -23,47 +31,48 @@ abstract class BaseActivity : AppCompatActivity()
                 WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 
-//    @TargetApi(21)
-//    override fun setStatusBarColor(color: Int) {
-//        window.statusBarColor = ContextCompat.getColor(this, color)
-//    }
-
-    @SuppressLint("InlinedApi")
-    fun setSystemFullScreenUI() {
-        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+    override fun setStatusBarColor(color: Int) {
+        window.statusBarColor = ContextCompat.getColor(this, color)
     }
 
-//    override fun setActionBarColor(@ColorRes colorRes: Int) {
-//        val color = ContextCompat.getColor(this, colorRes)
-//        supportActionBar?.setBackgroundDrawable(ColorDrawable(color))
-//    }
-//
-//    override fun setFragmentTitle(title: Int) = setTitle(title)
-//
-//    fun setBottomNavigationColor(color: NavigationColor) {
-//        val colorStateList = NavigationColor.getColorStateList(
-//                ContextCompat.getColor(this, color.primaryColor),
-//                ContextCompat.getColor(this, color.secondaryColor)
-//        )
-//        main_activity_navigation?.itemIconTintList = colorStateList
-//        main_activity_navigation?.itemTextColor = colorStateList
-//    }
-//
-//    // Used for Map View to have a transparent Action Bar.
-//    override fun addPadding() {
-//        val height = ResourceUtil.convertDpResToPixel(context = this,
-//                res = R.dimen.toolbar_height)
-//        main_activity_fragment_container?.setPadding(0, height, 0, 0)
-//    }
-//
-//    override fun removePadding() {
-//        main_activity_fragment_container?.setPadding(0, 0, 0, 0)
-//    }
+    fun setSystemFullScreenUI() {
+        window.setFlags(
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+        )
+    }
 
-    fun showToast(stringRes: Int) {
-        Toast.makeText(this,
-                stringRes,
-                Toast.LENGTH_LONG).show()
+    override fun setActionBarColor(@ColorRes colorRes: Int) {
+        val color = ContextCompat.getColor(this, colorRes)
+        supportActionBar?.setBackgroundDrawable(ColorDrawable(color))
+    }
+
+    override fun setFragmentTitle(title: Int) = setTitle(title)
+
+    fun setBottomNavigationColor(color: NavigationColor) {
+        bottomNavigationView.itemIconTintList = color.getColorStateList()
+        bottomNavigationView.itemTextColor = color.getColorStateList()
+    }
+
+    // Used for Map View to have a transparent Action Bar.
+    override fun addPadding() {
+        val height = ResourceUtil.convertDpResToPixel(context = this,
+                res = R.dimen.toolbar_height)
+        containerView.setPadding(0, height, 0, 0)
+    }
+
+    override fun removePadding() {
+        containerView.setPadding(0, 0, 0, 0)
+    }
+}
+
+data class NavigationColor(val primaryColor: Int, val secondaryColor: Int) {
+    fun getColorStateList(): ColorStateList {
+        val states = arrayOf(
+                intArrayOf(android.R.attr.state_checked),
+                intArrayOf(-android.R.attr.state_checked)
+        )
+        val colors = intArrayOf(primaryColor, secondaryColor)
+        return ColorStateList(states, colors)
     }
 }

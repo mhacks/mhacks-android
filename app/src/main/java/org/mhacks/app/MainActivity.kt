@@ -1,7 +1,7 @@
 package org.mhacks.app
 
 import android.os.Bundle
-import android.view.MenuItem
+import android.widget.FrameLayout
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -16,11 +16,13 @@ import org.mhacks.app.databinding.ActivityMainBinding
 class MainActivity : BaseActivity()
 //        , TicketDialogFragment.Callback
 {
+    private lateinit var binding: ActivityMainBinding
 
-//    @Inject
-//    lateinit var mainViewModel: MainViewModel
+    override val bottomNavigationView: BottomNavigationView
+        get() = binding.mainActivityNavigation
 
-    private lateinit var menuItem: MenuItem
+    override val containerView: FrameLayout
+        get() = binding.mainActivityFragmentContainer
 
     // Default value for the first fragment id reference.
     private var itemId = R.id.welcome_fragment
@@ -65,21 +67,22 @@ class MainActivity : BaseActivity()
 
     private fun initActivity() {
         setSystemFullScreenUI()
-        DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main).apply {
+        binding = DataBindingUtil.setContentView<ActivityMainBinding>(
+                this,
+                R.layout.activity_main
+        ).apply {
             subscribeUi(this)
-//            menuItem = mainActivityNavigation.menu.getItem(0)
-
-//            setBottomNavigationColor(
-//                    NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
-
-//            menuItem.setTitle(R.string.title_home)
+            mainActivityNavigation.menu.getItem(0).setTitle(R.string.title_home)
 
             setSupportActionBar(mainActivityToolbar)
 
+
             navController.navigate(R.id.welcome_fragment)
             setupBottomNavBar(mainActivityNavigation)
-        }
 
+        }
+        setBottomNavigationColor(
+                NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
     }
 
     private fun subscribeUi(binding: ActivityMainBinding) {
@@ -116,10 +119,8 @@ class MainActivity : BaseActivity()
 //        })
     }
 
-    // No Android X dependency yet.
-    override fun onSupportNavigateUp(): Boolean {
-        return findNavController(R.id.main_activity_fragment_host).navigateUp()
-    }
+    override fun onSupportNavigateUp() =
+            findNavController(R.id.main_activity_fragment_host).navigateUp()
 //
 //    override fun startLoginActivity() {
 //        startActivity(Intent(this, SignInActivity::class.java))
@@ -161,11 +162,6 @@ class MainActivity : BaseActivity()
             bottomNavigationView.isEnabled = true
             true
         }
-    }
-
-    fun navigateFragment(fragmentId: Int) {
-        itemId = fragmentId
-        navController.navigate(fragmentId)
     }
 //
 //    private fun showAdminOptions() {
