@@ -11,6 +11,7 @@ import org.mhacks.app.data.model.MapFloor
 import org.mhacks.app.core.data.model.RetrofitException
 import org.mhacks.app.maps.usecase.GetAndCacheMapResultUseCase
 import javax.inject.Inject
+import org.mhacks.app.core.R as coreR
 
 class MapViewModel @Inject constructor(
         private val getAndCacheMapResultUseCase: GetAndCacheMapResultUseCase): ViewModel() {
@@ -53,11 +54,11 @@ class MapViewModel @Inject constructor(
                         }
                         RetrofitException.Kind.UNEXPECTED -> {
                             _snackBarMessage.value =
-                                    Text.Res(R.string.unknown_error)
+                                    Text.Res(coreR.string.unknown_error)
                         }
                         RetrofitException.Kind.UNAUTHORIZED -> {
                             _snackBarMessage.value =
-                                    Text.Res(R.string.unauthorized_error)
+                                    Text.Res(coreR.string.unauthorized_error)
                         }
                     }
                 }
