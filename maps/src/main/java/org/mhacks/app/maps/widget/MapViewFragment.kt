@@ -88,7 +88,7 @@ class MapViewFragment :
             showMainContent()
         })
 
-        val x = mapFloorViewModel.error.observe(this, Observer { error ->
+        mapFloorViewModel.error.observe(this, Observer { error ->
             when (error) {
                 RetrofitException.Kind.NETWORK -> {
                     showErrorView(R.string.maps_network_failure) {

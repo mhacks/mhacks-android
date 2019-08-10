@@ -40,7 +40,7 @@ class ErrorView(context: Context, attrs: AttributeSet?) : RelativeLayout(context
                     errorViewErrorTextView.setTextColor(color)
                     errorViewErrorDescriptionTextView
                             .setTextColor(color)
-                    errorViewImageViewIcon?.setColorFilter(color,
+                    errorViewImageViewIcon.setColorFilter(color,
                             PorterDuff.Mode.SRC_IN)
                 }
             }
