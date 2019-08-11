@@ -45,7 +45,7 @@ class MapViewModel @Inject constructor(
                         RetrofitException.Kind.HTTP -> {
                             retrofitException.errorResponse?.let { errorResponse ->
                                 _snackBarMessage.value =
-                                        Text.String(errorResponse.message)
+                                        Text.TextString(errorResponse.message)
                             }
                         }
                         RetrofitException.Kind.NETWORK -> {

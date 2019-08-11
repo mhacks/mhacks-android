@@ -24,7 +24,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
-            android:text="@string/login"
+            android:text="@string/auth"
             android:textColor="@color/colorAccent"
             android:textSize="64sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -84,7 +84,7 @@
                 android:textSize="15sp"
                 android:layout_marginTop="35dp"
                 android:hint="@string/password"
-                android:imeActionLabel="@string/login"
+                android:imeActionLabel="@string/auth"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1" />

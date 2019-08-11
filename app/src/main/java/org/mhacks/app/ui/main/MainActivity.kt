@@ -1,8 +1,10 @@
 package org.mhacks.app.ui.main
 
 import android.os.Bundle
+import android.view.View
 import android.widget.FrameLayout
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -11,9 +13,10 @@ import org.mhacks.app.R
 import org.mhacks.app.databinding.ActivityMainBinding
 import org.mhacks.app.ui.BaseActivity
 import org.mhacks.app.ui.NavigationColor
+import javax.inject.Inject
 
 /**
- * Main Activity that handles most of the interactions. Sets up the Login Activity and loads
+ * Main Activity that handles most of the interactions. Sets up the Auth Activity and loads
  * feature fragments with a bottom navigation bar.
  */
 
@@ -37,8 +40,12 @@ class MainActivity : BaseActivity()
                 R.id.main_activity_fragment_host)
     }
 
+    @Inject
+    lateinit var mainViewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        inject()
         setTheme(R.style.MHacksTheme)
 
         subscribeNonUi()
@@ -90,24 +97,24 @@ class MainActivity : BaseActivity()
     }
 
     private fun subscribeUi(binding: ActivityMainBinding) {
-//        mainViewModel.isAdmin.observe(this, Observer {
-//            it?.let { isAdmin ->
-//                val listener = if (isAdmin) {
-//                    View.OnClickListener { _ ->
-//                        showAdminOptions()
-//                    }
-//                } else {
-//                    View.OnClickListener { _ ->
-//                        showTicketDialogFragment()
-//                    }
-//                }
-//                binding.mainActivityQrTicketFab.setOnClickListener(listener)
-//            }
-//        })
+        mainViewModel.isAdmin.observe(this, Observer {
+            it?.let { isAdmin ->
+                val listener = if (isAdmin) {
+                    View.OnClickListener { _ ->
+                        showAdminOptions()
+                    }
+                } else {
+                    View.OnClickListener { _ ->
+                        showTicketDialogFragment()
+                    }
+                }
+                binding.mainActivityQrTicketFab.setOnClickListener(listener)
+            }
+        })
     }
 
     private fun subscribeNonUi() {
-//        mainViewModel.login.observe(this, Observer {
+//        mainViewModel.auth.observe(this, Observer {
 //            it?.let { _ ->
 //                initActivity()
 //            } ?: run {
@@ -125,20 +132,23 @@ class MainActivity : BaseActivity()
 
     override fun onSupportNavigateUp() =
             findNavController(R.id.main_activity_fragment_host).navigateUp()
-//
+
+    //
 //    override fun startLoginActivity() {
 //        startActivity(Intent(this, SignInActivity::class.java))
 //        finish()
 //    }
 //
-//    private fun startQRScanActivity() =
-//            startActivity(Intent(this, QRScanActivity::class.java))
+    private fun startQRScanActivity() {
+//    startActivity(Intent(this, QRScanActivity::class.java))
+    }
+
+    //
 //
-//
-//    private fun showCreateAnnouncementDialogFragment() {
+    private fun showCreateAnnouncementDialogFragment() {
 //        val fragment = CreateAnnouncementDialogFragment.instance
 //        fragment.show(supportFragmentManager, null)
-//    }
+    }
 
     //    // Handles the click events for bottom navigation menu
     private fun setupBottomNavBar(bottomNavigationView: BottomNavigationView) {
@@ -167,8 +177,8 @@ class MainActivity : BaseActivity()
             true
         }
     }
-//
-//    private fun showAdminOptions() {
+
+    private fun showAdminOptions() {
 //        AlertDialog.Builder(this)
 //                .setTitle(getString(R.string.admin))
 //                .setItems(R.array.admin_options) { _, which ->
@@ -181,5 +191,5 @@ class MainActivity : BaseActivity()
 //                        2 -> showTicketDialogFragment()
 //                    }
 //                }.show()
+    }
 }
-

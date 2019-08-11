@@ -10,6 +10,7 @@ import timber.log.Timber
 import android.preference.PreferenceManager
 import android.content.SharedPreferences
 import org.mhacks.app.BuildConfig
+import org.mhacks.app.core.Constants.FIREBASE_AUTH_TOKEN
 import org.mhacks.app.data.network.services.FireBaseService
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -39,7 +40,7 @@ class RegistrationIntentService : IntentService(TAG) {
                 Timber.d("Register to service")
                 sharedPreferences
                         .edit()
-                        .putString(PUSH_TOKEN, it.token)
+                        .putString(FIREBASE_AUTH_TOKEN, it.token)
                         .apply()
                 sendRegistrationToServer(it.token)
             } else {

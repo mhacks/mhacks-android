@@ -1,15 +1,11 @@
-package org.mhacks.app.data.room.dao
+package org.mhacks.app.core.domain.user.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.reactivex.Single
-import org.mhacks.app.data.model.User
-
-/**
- * Created by jeffreychang on 9/6/17.
- */
+import org.mhacks.app.core.domain.user.data.User
 
 @Dao
 interface UserDao {

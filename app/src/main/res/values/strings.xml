@@ -7,7 +7,7 @@
     <string name="countdown_timer_default">36:00:00</string>
     <string name="countdown_timer_title">Time Remaining</string>
 
-    <string name="login">LOGIN</string>
+    <string name="auth">LOGIN</string>
     <string name="title_home">Home</string>
     <string name="title_announcements">Feed</string>
     <string name="welcome">Welcome</string>
@@ -73,6 +73,7 @@
     <string name="title_events">Events</string>
     <string name="title_map">Maps</string>
     <string name="title_info">Info</string>
+    <string name="admin">Admin</string>
 
 
 </resources>

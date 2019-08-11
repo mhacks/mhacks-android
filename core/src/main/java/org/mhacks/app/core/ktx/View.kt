@@ -6,7 +6,7 @@ import org.mhacks.app.core.data.model.Text
 
 fun View.showSnackBar(text: Text) {
     when (text) {
-        is Text.String -> {
+        is Text.TextString -> {
             Snackbar.make(
                     findViewById(android.R.id.content),
                     text.text,

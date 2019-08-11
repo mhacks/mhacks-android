@@ -2,14 +2,15 @@ package org.mhacks.app.data.model
 
 import androidx.room.*
 import com.squareup.moshi.Json
+import org.mhacks.app.core.domain.user.data.User
 
 /**
  * Model about the details of the event.
  */
 data class ConfigResponse(
-    @Json(name = "status") var status: Boolean,
-    @Json(name = "user") var user: User?,
-    @Json(name = "configuration") var configuration: Configuration
+        @Json(name = "status") var status: Boolean,
+        @Json(name = "user") var user: User?,
+        @Json(name = "configuration") var configuration: Configuration
 )
 
 @Entity(tableName = "config")

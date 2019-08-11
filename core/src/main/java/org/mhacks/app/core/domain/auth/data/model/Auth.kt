@@ -1,20 +1,20 @@
-package org.mhacks.app.data.model
-
-/**
- * Model for storing login information.
- */
+package org.mhacks.app.core.domain.auth.data.model
 
 import androidx.room.*
 import com.squareup.moshi.Json
+import org.mhacks.app.core.domain.user.data.User
 
-@Entity(tableName = "login")
-data class Login(
-    @PrimaryKey(autoGenerate = false)
-    @ColumnInfo(name = "login_id") var id: Int,
-    @Json(name = "status") var status: Boolean,
-    @Json(name = "message") var message: String,
-    @Json(name = "token") var token: String,
-    @Embedded @Json(name = "user") var user: User?
+/**
+ * Model for storing auth information.
+ */
+@Entity(tableName = "auth")
+data class Auth(
+        @PrimaryKey(autoGenerate = false)
+        @ColumnInfo(name = "login_id") var id: Int,
+        @Json(name = "status") var status: Boolean,
+        @Json(name = "message") var message: String,
+        @Json(name = "token") var token: String,
+        @Embedded @Json(name = "user") var user: User?
 ) {
 
     // Checks if user or groups are in the user currently null.
