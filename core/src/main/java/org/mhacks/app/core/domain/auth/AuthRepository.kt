@@ -8,12 +8,12 @@ import org.mhacks.app.core.Constants
 import org.mhacks.app.core.domain.auth.data.dao.AuthDao
 import org.mhacks.app.core.domain.auth.data.model.Auth
 import org.mhacks.app.core.domain.auth.data.service.AuthService
-import javax.inject.Inject
 
-class AuthRepository constructor(
+class AuthRepository(
         private val appContext: Context,
         private val authDao: AuthDao,
-        private val authService: AuthService) {
+        private val authService: AuthService
+) {
 
     private val sharedPreferences: SharedPreferences by lazy {
         PreferenceManager.getDefaultSharedPreferences(appContext)

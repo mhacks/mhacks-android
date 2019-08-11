@@ -7,12 +7,12 @@ import io.reactivex.Single
 import org.mhacks.app.core.domain.user.dao.UserDao
 import org.mhacks.app.core.domain.user.data.User
 import org.mhacks.app.core.domain.user.service.UserService
-import javax.inject.Inject
 
-class UserRepository @Inject constructor(
+class UserRepository(
+        private val appContext: Context,
         private val userService: UserService,
-        private val userDao: UserDao,
-        private val appContext: Context) {
+        private val userDao: UserDao
+) {
 
     private val sharedPreferences: SharedPreferences by lazy {
         PreferenceManager.getDefaultSharedPreferences(appContext)

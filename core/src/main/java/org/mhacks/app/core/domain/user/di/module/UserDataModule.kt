@@ -12,7 +12,8 @@ import retrofit2.Retrofit
 class UserDataModule {
 
     @Provides
-    internal fun provideUserService(retrofit: Retrofit) = retrofit.create(UserService::class.java)
+    @PrivateToUser
+    fun provideUserService(retrofit: Retrofit) = retrofit.create(UserService::class.java)
 
     @Provides
     fun provideUserDatabase(context: Context) = UserDatabase.getInstance(context)

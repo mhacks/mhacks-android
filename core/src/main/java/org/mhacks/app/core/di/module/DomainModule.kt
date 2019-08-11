@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import org.mhacks.app.core.domain.auth.AuthRepository
 import org.mhacks.app.core.domain.auth.data.di.AuthComponent
+import org.mhacks.app.core.domain.user.UserRepository
 import org.mhacks.app.core.domain.user.di.UserComponent
 import javax.inject.Singleton
 
@@ -24,8 +25,13 @@ class DomainModule {
 
     @Provides
     @Singleton
-    fun userDao(
+    fun userComponent(
             databaseComponentBuilder: UserComponent.Builder) =
-            databaseComponentBuilder.build().userDao()
+            databaseComponentBuilder.build()
+
+    @Provides
+    @Singleton
+    fun userRepository(context: Context, userComponent: UserComponent) =
+            UserRepository(context, userComponent.userService(), userComponent.userDao())
 
 }

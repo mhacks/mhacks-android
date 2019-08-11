@@ -6,8 +6,7 @@ import org.mhacks.app.core.di.module.DataModule
 import org.mhacks.app.core.di.module.DomainModule
 import org.mhacks.app.core.di.module.ViewModelModule
 import org.mhacks.app.core.domain.auth.AuthRepository
-import org.mhacks.app.core.domain.auth.data.dao.AuthDao
-import org.mhacks.app.core.domain.user.dao.UserDao
+import org.mhacks.app.core.domain.user.UserRepository
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
@@ -32,7 +31,7 @@ interface CoreComponent {
 
     fun authRepository(): AuthRepository
 
-    fun userDao(): UserDao
+    fun userRepository(): UserRepository
 
     @Component.Builder
     interface Builder {
