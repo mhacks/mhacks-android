@@ -75,5 +75,9 @@
     <string name="title_info">Info</string>
     <string name="admin">Admin</string>
 
+    <string name="scan_ticket">Scan Ticket</string>
+    <string name="ticket">Ticket</string>
+    <string name="title_signin">Sign in</string>
+
 
 </resources>

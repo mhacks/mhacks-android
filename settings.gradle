@@ -1,1 +1,2 @@
 include ':app', ':events', ':core', ':maps'
+include ':signin'

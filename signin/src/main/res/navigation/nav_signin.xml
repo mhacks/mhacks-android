@@ -9,6 +9,6 @@
         android:id="@+id/signin_fragment"
         android:name="org.mhacks.app.signin.ui.SignInFragment"
         android:label="@string/welcome"
-        tools:layout="@layout/fragment_welcome" />
+        tools:layout="@layout/fragment_signin" />
 
 </navigation>

@@ -1,0 +1,34 @@
+apply plugin: 'com.android.dynamic-feature'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+
+apply from: '../gradle/shared.gradle'
+android {
+    compileSdkVersion 29
+
+    dataBinding {
+        enabled = true
+    }
+
+    defaultConfig {
+        minSdkVersion 29
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':app')
+    implementation project(':core')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation deps.androidx.constraintlayout
+    implementation deps.androidx.navigation
+    implementation deps.androidx.navigationKtx
+}
+repositories {
+    mavenCentral()
+}

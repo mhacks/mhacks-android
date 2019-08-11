@@ -5,6 +5,7 @@ import dagger.Component
 import org.mhacks.app.core.di.module.DataModule
 import org.mhacks.app.core.di.module.DomainModule
 import org.mhacks.app.core.di.module.ViewModelModule
+import org.mhacks.app.core.domain.auth.AuthRepository
 import org.mhacks.app.core.domain.auth.data.dao.AuthDao
 import org.mhacks.app.core.domain.user.dao.UserDao
 import retrofit2.Retrofit
@@ -29,7 +30,7 @@ interface CoreComponent {
 
     fun context(): Context
 
-    fun authDao(): AuthDao
+    fun authRepository(): AuthRepository
 
     fun userDao(): UserDao
 

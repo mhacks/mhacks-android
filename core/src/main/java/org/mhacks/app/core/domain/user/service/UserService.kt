@@ -9,12 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface UserService {
-
-//    @POST("auth/auth/")
-//    @FormUrlEncoded
-//    fun postLogin(@Field("email") email: String,
-//                  @Field("password") password: String): Single<Auth>
-
+    
     @GET("user/profile/")
     fun getUserResponse(): Single<UserResponse>
 

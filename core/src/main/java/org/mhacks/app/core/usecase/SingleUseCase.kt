@@ -5,7 +5,7 @@ import org.mhacks.app.core.DispatcherProvider
 import org.mhacks.app.core.data.model.Outcome
 import javax.inject.Inject
 
-abstract class SingleUseCase<in P, R>: UseCase<P, R>() {
+abstract class SingleUseCase<in P, R> : UseCase<P, R>() {
 
     @Inject
     lateinit var dispatcherProvider: DispatcherProvider

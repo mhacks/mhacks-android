@@ -1,5 +1,6 @@
 package org.mhacks.app.ui.main
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
@@ -10,8 +11,9 @@ import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.mhacks.app.BuildConfig
 import org.mhacks.app.R
+import org.mhacks.app.core.ktx.showSnackBar
 import org.mhacks.app.databinding.ActivityMainBinding
-import org.mhacks.app.ui.BaseActivity
+import org.mhacks.app.ui.NavigationActivity
 import org.mhacks.app.ui.NavigationColor
 import javax.inject.Inject
 
@@ -20,7 +22,7 @@ import javax.inject.Inject
  * feature fragments with a bottom navigation bar.
  */
 
-class MainActivity : BaseActivity()
+class MainActivity : NavigationActivity()
 //        , TicketDialogFragment.Callback
 {
     private lateinit var binding: ActivityMainBinding
@@ -64,7 +66,7 @@ class MainActivity : BaseActivity()
             return
         }
 
-//        mainViewModel.checkIfLoggedIn()
+        mainViewModel.checkIfLoggedIn()
     }
 
     private fun showTicketDialogFragment() {
@@ -100,11 +102,11 @@ class MainActivity : BaseActivity()
         mainViewModel.isAdmin.observe(this, Observer {
             it?.let { isAdmin ->
                 val listener = if (isAdmin) {
-                    View.OnClickListener { _ ->
+                    View.OnClickListener {
                         showAdminOptions()
                     }
                 } else {
-                    View.OnClickListener { _ ->
+                    View.OnClickListener {
                         showTicketDialogFragment()
                     }
                 }
@@ -114,37 +116,32 @@ class MainActivity : BaseActivity()
     }
 
     private fun subscribeNonUi() {
-//        mainViewModel.auth.observe(this, Observer {
-//            it?.let { _ ->
-//                initActivity()
-//            } ?: run {
-//                startLoginActivity()
-//            }
-//
-//        })
-//
-//        mainViewModel.textMessage.observe(this, Observer {
-//            it?.let { textMessage ->
-//                showSnackBar(textMessage)
-//            }
-//        })
+        mainViewModel.auth.observe(this, Observer {
+            it?.let { _ ->
+                initActivity()
+            } ?: run {
+                startLoginActivity()
+            }
+
+        })
+        mainViewModel.text.observe(this, Observer {
+            binding.root.showSnackBar(it)
+        })
     }
 
     override fun onSupportNavigateUp() =
             findNavController(R.id.main_activity_fragment_host).navigateUp()
 
-    //
-//    override fun startLoginActivity() {
+    private fun startLoginActivity() {
 //        startActivity(Intent(this, SignInActivity::class.java))
 //        finish()
-//    }
-//
-    private fun startQRScanActivity() {
-//    startActivity(Intent(this, QRScanActivity::class.java))
     }
 
-    //
-//
+    private fun startQRScanActivity() {
+//        startActivity(Intent(this, QRScanActivity::class.java))
+//        finish()
+    }
+
     private fun showCreateAnnouncementDialogFragment() {
 //        val fragment = CreateAnnouncementDialogFragment.instance
 //        fragment.show(supportFragmentManager, null)
@@ -179,17 +176,17 @@ class MainActivity : BaseActivity()
     }
 
     private fun showAdminOptions() {
-//        AlertDialog.Builder(this)
-//                .setTitle(getString(R.string.admin))
-//                .setItems(R.array.admin_options) { _, which ->
-//                    when (which) {
-//
-//                        0 -> startQRScanActivity()
-//
-//                        1 -> showCreateAnnouncementDialogFragment()
-//
-//                        2 -> showTicketDialogFragment()
-//                    }
-//                }.show()
+        AlertDialog.Builder(this)
+                .setTitle(getString(R.string.admin))
+                .setItems(R.array.admin_options) { _, which ->
+                    when (which) {
+
+                        0 -> startQRScanActivity()
+
+                        1 -> showCreateAnnouncementDialogFragment()
+
+                        2 -> showTicketDialogFragment()
+                    }
+                }.show()
     }
 }

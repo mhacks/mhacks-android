@@ -30,7 +30,7 @@ class MainViewModel @Inject constructor(
 
     private val _text = MediatorLiveData<Text>()
 
-    val Text: MediatorLiveData<Text>
+    val text: MediatorLiveData<Text>
         get() = _text
 
     private val _isAdmin = MediatorLiveData<Boolean>()
@@ -87,10 +87,10 @@ class MainViewModel @Inject constructor(
     }
 
     fun checkIfLoggedIn() {
-        getAuthUseCase.execute(Unit)
+        getAuthUseCase(Unit)
     }
 
     private fun checkIfAdmin() {
-        checkAdminAuthUseCase.execute(Unit)
+        checkAdminAuthUseCase(Unit)
     }
 }
