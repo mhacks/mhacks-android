@@ -19,9 +19,9 @@ class AuthRepository(
         PreferenceManager.getDefaultSharedPreferences(appContext)
     }
 
-    fun getLoginCache() = authDao.getLogin()
+    fun getCachedAuth() = authDao.getAuth()
 
-    fun updateAuthCache(auth: Auth) =
+    fun updateCachedAuth(auth: Auth) =
             Single.fromCallable {
                 authDao.insertLogin(auth)
                 sharedPreferences

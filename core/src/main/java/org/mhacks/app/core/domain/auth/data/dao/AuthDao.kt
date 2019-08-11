@@ -14,7 +14,7 @@ import org.mhacks.app.core.domain.auth.data.model.Auth
 interface AuthDao {
 
     @Query("SELECT * FROM auth")
-    fun getLogin(): Single<Auth>
+    fun getAuth(): Single<Auth>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLogin(auth: Auth)

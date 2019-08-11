@@ -7,6 +7,9 @@ import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.mhacks.app.core.BuildConfig
+import org.mhacks.app.core.data.interceptor.AuthInterceptor
+import org.mhacks.app.core.domain.auth.data.dao.AuthDao
+import org.mhacks.app.core.domain.auth.data.di.AuthComponent
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -25,13 +28,21 @@ class DataModule {
 
     @Provides
     @Singleton
-    internal fun provideOkHttpClient(cache: Cache): OkHttpClient {
+    internal fun provideAuthDao(authComponent: AuthComponent) = authComponent.authDao()
+
+    @Provides
+    @Singleton
+    internal fun provideAuthInterceptor(autoDao: AuthDao) = AuthInterceptor(autoDao)
+
+    @Provides
+    @Singleton
+    internal fun provideOkHttpClient(cache: Cache, interceptor: AuthInterceptor): OkHttpClient {
         val client = OkHttpClient.Builder()
                 .cache(cache)
                 .connectTimeout(10, TimeUnit.SECONDS)
         if (BuildConfig.DEBUG)
             client.addInterceptor(HttpLoggingInterceptor())
-        return client.build()
+        return client.addInterceptor(interceptor).build()
     }
 
     @Provides

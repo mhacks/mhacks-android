@@ -25,7 +25,7 @@ class PostLoginUseCase @Inject constructor(
                 .doOnSuccess {
                     // Overwrites the current login stored in SQLite.
                     it.id = 1
-                    authRepository.updateAuthCache(it)
+                    authRepository.updateCachedAuth(it)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({
