@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.squareup.moshi.Json
-import org.mhacks.app.core.Converters
+import org.mhacks.app.core.data.Converters
 
 /**
  * Model for storing information about an user's information.

@@ -3,12 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@+id/signin_fragment">
+    app:startDestination="@+id/fragment_sign_in">
 
     <fragment
-        android:id="@+id/signin_fragment"
+        android:id="@+id/fragment_sign_in"
         android:name="org.mhacks.app.signin.ui.SignInFragment"
         android:label="@string/welcome"
-        tools:layout="@layout/fragment_signin" />
+        tools:layout="@layout/fragment_sign_in" />
 
 </navigation>

@@ -23,10 +23,10 @@ class MainViewModel @Inject constructor(
 
     private val checkAdminResult = checkAdminAuthUseCase.observe()
 
-    private val _login = MediatorLiveData<Auth>()
+    private val _auth = MediatorLiveData<Auth>()
 
     val auth: LiveData<Auth?>
-        get() = _login
+        get() = _auth
 
     private val _text = MediatorLiveData<Text>()
 
@@ -39,16 +39,16 @@ class MainViewModel @Inject constructor(
         get() = _isAdmin
 
     init {
-        _login.addSource(checkLoginResult) {
+        _auth.addSource(checkLoginResult) {
             if (it is Outcome.Success) {
                 Timber.d("Auth Success")
-                _login.value = it.data
+                _auth.value = it.data
                 checkIfAdmin()
             } else if (it is Outcome.Error<*>) {
                 Timber.d("Auth Failure")
                 if (it.exception is EmptyResultSetException) {
                     Timber.d("Going to the SignInActivity")
-                    _login.value = null
+                    _auth.value = null
                 }
 
                 (it.exception as? RetrofitException)?.let { retrofitException ->

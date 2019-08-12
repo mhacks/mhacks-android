@@ -1,4 +1,4 @@
-package org.mhacks.app.core
+package org.mhacks.app.core.data
 
 import androidx.room.TypeConverter
 import com.squareup.moshi.JsonAdapter

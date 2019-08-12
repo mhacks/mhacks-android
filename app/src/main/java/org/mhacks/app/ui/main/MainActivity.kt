@@ -11,6 +11,8 @@ import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.mhacks.app.BuildConfig
 import org.mhacks.app.R
+import org.mhacks.app.core.Activities
+import org.mhacks.app.core.intentTo
 import org.mhacks.app.core.ktx.showSnackBar
 import org.mhacks.app.databinding.ActivityMainBinding
 import org.mhacks.app.ui.NavigationActivity
@@ -39,7 +41,8 @@ class MainActivity : NavigationActivity()
     private val navController by lazy {
         Navigation.findNavController(
                 this,
-                R.id.main_activity_fragment_host)
+                R.id.main_activity_fragment_host
+        )
     }
 
     @Inject
@@ -48,12 +51,7 @@ class MainActivity : NavigationActivity()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         inject()
-        setTheme(R.style.MHacksTheme)
-
         subscribeNonUi()
-
-        initActivity()
-
         checkIfInstantApp()
     }
 
@@ -83,19 +81,19 @@ class MainActivity : NavigationActivity()
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(
                 this,
                 R.layout.activity_main
-        ).apply {
+        )
+        .apply {
             subscribeUi(this)
             mainActivityNavigation.menu.getItem(0).setTitle(R.string.title_home)
-
             setSupportActionBar(mainActivityToolbar)
-
-
-            navController.navigate(R.id.welcome_fragment)
             setupBottomNavBar(mainActivityNavigation)
 
         }
-        setBottomNavigationColor(
-                NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
+        // Must be set after binding is set. The navigation fragment accesses abstract values that
+        // require binding to be set.
+        navController.setGraph(R.navigation.nav_main)
+        navController.navigate(R.id.welcome_fragment)
+        setBottomNavigationColor(NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
     }
 
     private fun subscribeUi(binding: ActivityMainBinding) {
@@ -117,12 +115,7 @@ class MainActivity : NavigationActivity()
 
     private fun subscribeNonUi() {
         mainViewModel.auth.observe(this, Observer {
-            it?.let { _ ->
-                initActivity()
-            } ?: run {
-                startLoginActivity()
-            }
-
+            it?.let { initActivity() } ?: run { startSignInActivity() }
         })
         mainViewModel.text.observe(this, Observer {
             binding.root.showSnackBar(it)
@@ -132,9 +125,10 @@ class MainActivity : NavigationActivity()
     override fun onSupportNavigateUp() =
             findNavController(R.id.main_activity_fragment_host).navigateUp()
 
-    private fun startLoginActivity() {
-//        startActivity(Intent(this, SignInActivity::class.java))
-//        finish()
+    private fun startSignInActivity() {
+        val intent = intentTo(Activities.SignIn)
+        startActivity(intent)
+        finish()
     }
 
     private fun startQRScanActivity() {

@@ -16,7 +16,9 @@ class SignInActivity : BaseActivity(), SignInFragment.Callback {
         setContentView(R.layout.activity_signin)
     }
 
-    override fun startMainActivity() =
-            startActivity(Intent(this, MainActivity::class.java))
+    override fun startMainActivity() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
 
 }

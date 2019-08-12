@@ -55,7 +55,6 @@ class EventFragment : NavigationFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showProgressBar(getString(R.string.loading_events))
-
     }
 
     private fun subscribeUi(eventsViewModel: EventViewModel) {
