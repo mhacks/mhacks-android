@@ -15,8 +15,8 @@ import org.mhacks.app.core.Activities
 import org.mhacks.app.core.intentTo
 import org.mhacks.app.core.ktx.showSnackBar
 import org.mhacks.app.databinding.ActivityMainBinding
-import org.mhacks.app.ui.NavigationActivity
-import org.mhacks.app.ui.NavigationColor
+import org.mhacks.app.core.widget.NavigationActivity
+import org.mhacks.app.core.widget.NavigationColor
 import javax.inject.Inject
 
 /**

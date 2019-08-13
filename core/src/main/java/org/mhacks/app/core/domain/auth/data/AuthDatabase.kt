@@ -21,8 +21,7 @@ abstract class AuthDatabase : RoomDatabase() {
 
         fun getInstance(context: Context): AuthDatabase {
             return instance ?: synchronized(this) {
-                instance
-                        ?: buildDatabase(context).also { instance = it }
+                instance ?: buildDatabase(context).also { instance = it }
             }
         }
 

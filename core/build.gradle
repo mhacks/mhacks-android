@@ -44,6 +44,9 @@ dependencies {
     implementation deps.androidx.navigation
     implementation deps.androidx.navigationKtx
 
+    api deps.googlePlay.maps
+//    api deps.googlePlay.vision
+
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
     implementation 'com.squareup.okhttp3:okhttp:4.0.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.10'

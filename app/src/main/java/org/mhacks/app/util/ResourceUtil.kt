@@ -8,14 +8,7 @@ import androidx.annotation.DimenRes
  * Created by jeffreychang on 8/6/17.
  */
 object ResourceUtil{
-    fun convertDpResToPixel(context: Context, @DimenRes res: Int): Int {
-        return context.resources.getDimensionPixelSize(res)
-    }
-    fun convertDpToPixel(context: Context, dim: Int): Int =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                (dim.toFloat()),
-                context.resources.displayMetrics)
-                .toInt()
+
 
     fun getStatusBarHeight(context: Context): Int {
         val resourceId = context.resources.getIdentifier(

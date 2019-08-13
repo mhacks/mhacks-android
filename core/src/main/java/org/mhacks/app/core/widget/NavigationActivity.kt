@@ -1,4 +1,4 @@
-package org.mhacks.app.ui
+package org.mhacks.app.core.widget
 
 import android.content.res.ColorStateList
 import android.graphics.drawable.ColorDrawable
@@ -6,9 +6,8 @@ import android.widget.FrameLayout
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import org.mhacks.app.R
-import org.mhacks.app.core.widget.NavigationFragment
-import org.mhacks.app.util.ResourceUtil
+import org.mhacks.app.core.R
+import org.mhacks.app.core.ktx.convertDpResToPixel
 
 abstract class NavigationActivity : BaseActivity(), NavigationFragment.OnNavigationChangeListener {
 
@@ -23,8 +22,7 @@ abstract class NavigationActivity : BaseActivity(), NavigationFragment.OnNavigat
 
     // Used for Map View to have a transparent Action Bar.
     override fun addPadding() {
-        val height = ResourceUtil.convertDpResToPixel(context = this,
-                res = R.dimen.toolbar_height)
+        val height = convertDpResToPixel(res = R.dimen.toolbar_height)
         containerView.setPadding(0, height, 0, 0)
     }
 

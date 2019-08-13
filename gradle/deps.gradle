@@ -10,6 +10,11 @@ def google = [
         material: 'com.google.android.material:material:1.0.0'
 ]
 
+def googlePlay = [
+        vision: "com.google.android.gms:play-services-vision:$versions.googlePlayVision",
+        maps  : "com.google.android.gms:play-services-maps:$versions.googlePlayMaps"
+]
+
 def kotlin = [
         kotlin: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
 ]
@@ -21,9 +26,14 @@ def dagger = [
         daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:${versions.dagger}",
 ]
 
+def thirdParty = [
+        'qrGen': "com.github.kenglxn.QRGen:android:${versions.qrGen}"
+]
 ext.deps = [
-        'androidx': androidx,
-        'dagger'  : dagger,
-        'google'  : google,
-        'kotlin'  : kotlin
+        'androidx'  : androidx,
+        'dagger'    : dagger,
+        'google'    : google,
+        'kotlin'    : kotlin,
+        'googlePlay': googlePlay,
+        'thirdParty': thirdParty,
 ]

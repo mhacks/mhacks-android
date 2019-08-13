@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 apply from: '../gradle/shared.gradle'
-
 android {
     compileSdkVersion versions.compileSdk
 
@@ -24,9 +23,12 @@ dependencies {
     implementation project(':app')
     implementation project(':core')
 
-    implementation "com.jakewharton.threetenabp:threetenabp:1.2.1"
-    implementation 'com.github.vipulasri:timelineview:1.0.5'
+    implementation deps.thirdParty.qrGen
 
     implementation deps.androidx.constraintlayout
     kapt deps.dagger.daggerCompiler
+}
+
+repositories {
+    mavenCentral()
 }

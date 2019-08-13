@@ -20,6 +20,6 @@ class AuthDataModule {
 
     @Provides
     @PrivateToAuth
-    fun provideAuthService(retrofit: Retrofit) = retrofit.create(AuthService::class.java)
+    fun provideAuthService(retrofit: Retrofit) = retrofit.create(AuthService::class.java)!!
 
 }

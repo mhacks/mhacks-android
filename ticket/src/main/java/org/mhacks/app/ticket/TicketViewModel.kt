@@ -1,30 +1,32 @@
-package com.mhacks.app.ui.ticket
+package org.mhacks.app.ticket
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mhacks.app.data.models.Result
-import com.mhacks.app.data.models.User
-import com.mhacks.app.data.models.common.RetrofitException
-import com.mhacks.app.data.models.common.TextMessage
-import com.mhacks.app.ui.ticket.usecase.GetAndCacheUserUseCase
-import org.mhacks.mhacksui.R
+import org.mhacks.app.core.data.model.Outcome
+import org.mhacks.app.core.data.model.RetrofitException
+import org.mhacks.app.core.data.model.Text
+import org.mhacks.app.core.domain.user.data.User
+import org.mhacks.app.ticket.usecase.GetAndCacheUserUseCase
 import timber.log.Timber
 import javax.inject.Inject
+import org.mhacks.app.core.R as coreR
 
 class TicketViewModel @Inject constructor(
-        private val getAndCacheUserUseCase: GetAndCacheUserUseCase): ViewModel() {
+        private val getAndCacheUserUseCase: GetAndCacheUserUseCase
+) : ViewModel() {
 
-    private val getAndCacheConfigResult = getAndCacheUserUseCase.observe()
+    private val getAndCacheConfigOutcome = getAndCacheUserUseCase.observe()
 
-    private val _user = MediatorLiveData<User>()
+    private val _userResult = MediatorLiveData<User>()
 
+    private val _user = MutableLiveData<User>()
     val user: LiveData<User> = _user
 
-    private val _snackBarMessage = MediatorLiveData<TextMessage>()
+    private val _snackBarMessage = MediatorLiveData<Text>()
 
-    val snackBarMessage: LiveData<TextMessage>
+    val snackBarMessage: LiveData<Text>
         get() = _snackBarMessage
 
     private val _error: MutableLiveData<RetrofitException.Kind> = MutableLiveData()
@@ -33,20 +35,17 @@ class TicketViewModel @Inject constructor(
         get() = _error
 
     init {
-        _user.addSource(getAndCacheConfigResult) {
-            if (it is Result.Success) {
+        _userResult.addSource(getAndCacheConfigOutcome) {
+            if (it is Outcome.Success) {
                 Timber.d("Ticket Success")
                 _user.value = it.data
-            } else if (it is Result.Error<*>) {
+            } else if (it is Outcome.Error<*>) {
                 Timber.d("Ticket Failure")
                 (it.exception as? RetrofitException)?.let { retrofitException ->
                     when (retrofitException.kind) {
                         RetrofitException.Kind.HTTP -> {
                             retrofitException.errorResponse?.let { errorResponse ->
-                                _snackBarMessage.value =
-                                        TextMessage(
-                                                null,
-                                                errorResponse.message)
+                                _snackBarMessage.value = Text.TextString(errorResponse.message)
                             }
                         }
                         RetrofitException.Kind.NETWORK -> {
@@ -55,9 +54,7 @@ class TicketViewModel @Inject constructor(
                         }
                         RetrofitException.Kind.UNEXPECTED -> {
                             _snackBarMessage.value =
-                                    TextMessage(
-                                            R.string.unknown_error,
-                                            null)
+                                    Text.Res(coreR.string.unknown_error)
                         }
                         RetrofitException.Kind.UNAUTHORIZED -> {
                             Timber.d("User not signed in from Ticket Dialog")

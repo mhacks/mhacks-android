@@ -1,0 +1,5 @@
+<resources>
+    <style name="TitleDialog" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="android:windowNoTitle">false</item>
+    </style>
+</resources>

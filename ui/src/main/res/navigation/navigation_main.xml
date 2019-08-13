@@ -11,7 +11,7 @@
 
     <fragment
         android:id="@+id/ticket_dialog_fragment"
-        android:name="com.mhacks.app.ui.ticket.TicketDialogFragment"
+        android:name="org.mhacks.app.ticket.TicketDialogFragment"
         android:label="@string/ticket_description"
         tools:layout="@layout/fragment_ticket_dialog" />
 

@@ -1,4 +1,4 @@
-package org.mhacks.app.ui
+package org.mhacks.app.core.widget
 
 import android.view.View
 import android.view.WindowManager

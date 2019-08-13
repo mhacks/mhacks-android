@@ -31,7 +31,7 @@
                 </FrameLayout>
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/main_activity_qr_ticket_fab"
+                    android:id="@+id/main_activity_qr_fragment_ticketfab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"

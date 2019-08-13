@@ -18,15 +18,15 @@ import com.google.android.gms.maps.model.GroundOverlayOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.material.snackbar.Snackbar
+import org.mhacks.app.core.data.model.RetrofitException
+import org.mhacks.app.core.ktx.convertDpToPixel
 import org.mhacks.app.core.ktx.showSnackBar
 import org.mhacks.app.core.widget.NavigationFragment
-import org.mhacks.app.core.data.model.RetrofitException
 import org.mhacks.app.maps.BuildConfig
 import org.mhacks.app.maps.MapViewModel
 import org.mhacks.app.maps.R
 import org.mhacks.app.maps.databinding.FragmentMapBinding
 import org.mhacks.app.maps.di.inject
-import org.mhacks.app.util.ResourceUtil
 import org.mhacks.app.util.checkPlayServices
 import javax.inject.Inject
 import org.mhacks.app.core.R as coreR
@@ -121,8 +121,7 @@ class MapViewFragment :
 
     override fun onMapReady(googleMap: GoogleMap) {
         this.googleMap = googleMap
-
-        val padding = context?.let { ResourceUtil.convertDpToPixel(it, 100) } ?: 150
+        val padding = requireContext().convertDpToPixel(100)
         googleMap.isBuildingsEnabled = true
         googleMap.setPadding(0, padding, 0, 0)
         val settings = this.googleMap?.uiSettings

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string name="loading_ticket">Loading your ticket…</string>
+        <string name="ticket_network_error">Couldn\'t fetch ticket.</string>
+        <string name="no_school">No school was selected!</string>
+</resources>

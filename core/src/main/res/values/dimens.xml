@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="toolbar_height">100dp</dimen>
+
+    <!--Text Size-->
     <dimen name="medium_text_size">18sp</dimen>
 </resources>
