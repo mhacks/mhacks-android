@@ -1,6 +1,7 @@
 dependencies {
-    implementation "com.google.android.material:material:${versions.material}"
-    implementation "com.google.dagger:dagger:${versions.dagger}"
+    implementation deps.google.material
+    implementation deps.androidx.constraintlayout
+
     implementation "androidx.core:core-ktx:${versions.coreKtx}"
     implementation "com.squareup.retrofit2:retrofit:${versions.retrofit}"
     implementation "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
@@ -15,10 +16,14 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
+    implementation deps.kotlin.kotlin
+
+    // Dagger 2
+    kapt deps.dagger.daggerCompiler
+    implementation "com.google.dagger:dagger:${versions.dagger}"
 
     // Persistence
-    implementation "androidx.room:room-runtime:${versions.room}‘"
+    implementation "androidx.room:room-runtime:${versions.room}"
     implementation "androidx.room:room-rxjava2:${versions.room}"
     kapt "androidx.room:room-compiler:${versions.room}"
 }

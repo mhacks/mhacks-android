@@ -26,6 +26,4 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':app')
     implementation project(':core')
-
-    kapt deps.dagger.daggerCompiler
 }

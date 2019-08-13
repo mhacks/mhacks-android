@@ -23,13 +23,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':app')
     implementation project(':core')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation deps.androidx.constraintlayout
     implementation deps.androidx.navigation
     implementation deps.androidx.navigationKtx
-
-    kapt deps.dagger.daggerCompiler
 }
 repositories {
     mavenCentral()

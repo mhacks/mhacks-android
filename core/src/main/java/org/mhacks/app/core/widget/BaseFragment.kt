@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
-import dagger.android.support.DaggerFragment
 import org.mhacks.app.core.R
 
 /**
