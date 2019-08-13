@@ -25,10 +25,8 @@ abstract class AddressableFragment {
         if (!isClassAvailableInProject(className)) {
             throw ClassNotFoundException("Fragment class does not exist")
         }
-        val clazz = FragmentFactory.loadFragmentClass(
-                context.classLoader,
-                Fragments.Event.className)
-
+        val clazz =
+                FragmentFactory.loadFragmentClass(context.classLoader, className)
         return clazz.getConstructor().newInstance()
     }
 
@@ -67,8 +65,8 @@ object Activities {
  */
 object Fragments {
 
-    object Event : AddressableFragment() {
-        override val className = "$PACKAGE_NAME.events.widget.EventFragment"
+    object Ticket : AddressableFragment() {
+        override val className = "$PACKAGE_NAME.ticket.TicketDialogFragment"
     }
 
 }

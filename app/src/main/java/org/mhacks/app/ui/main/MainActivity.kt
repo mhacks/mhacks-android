@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -12,6 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.mhacks.app.BuildConfig
 import org.mhacks.app.R
 import org.mhacks.app.core.Activities
+import org.mhacks.app.core.Fragments
 import org.mhacks.app.core.intentTo
 import org.mhacks.app.core.ktx.showSnackBar
 import org.mhacks.app.databinding.ActivityMainBinding
@@ -68,12 +70,12 @@ class MainActivity : NavigationActivity()
     }
 
     private fun showTicketDialogFragment() {
-//        val ft = supportFragmentManager.beginTransaction()
-//        val prev = supportFragmentManager.findFragmentByTag("ticket_dialog")
-//        if (prev != null) ft.remove(prev)
-//        ft.addToBackStack(null)
-//        val ticket: TicketDialogFragment = TicketDialogFragment.newInstance()
-//        ticket.show(ft, "ticket_dialog")
+        val ft = supportFragmentManager.beginTransaction()
+        val prev = supportFragmentManager.findFragmentByTag("ticket_dialog")
+        if (prev != null) ft.remove(prev)
+        ft.addToBackStack(null)
+        val ticket = Fragments.Ticket.getFragment(this) as DialogFragment
+        ticket.show(ft, "ticket_dialog")
     }
 
     private fun initActivity() {

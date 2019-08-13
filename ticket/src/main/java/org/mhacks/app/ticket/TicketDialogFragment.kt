@@ -20,7 +20,8 @@ class TicketDialogFragment : BaseDialogFragment() {
 
     private lateinit var binding: FragmentTicketDialogBinding
 
-    @Inject lateinit var ticketViewModel: TicketViewModel
+    @Inject
+    lateinit var ticketViewModel: TicketViewModel
 
     private var callback: Callback? = null
 
@@ -39,8 +40,14 @@ class TicketDialogFragment : BaseDialogFragment() {
             dialog.setCanceledOnTouchOutside(true)
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
-        binding = FragmentTicketDialogBinding.inflate(
-                inflater, container, false).apply {
+        binding = FragmentTicketDialogBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        showProgressBar(R.string.loading_ticket)
+        binding.apply {
             fragmentTicketBottomBarDoneButton.setOnClickListener {
                 dismiss()
             }
@@ -51,13 +58,6 @@ class TicketDialogFragment : BaseDialogFragment() {
 
             rootView = root
         }
-
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        showProgressBar(R.string.loading_ticket)
     }
 
     private fun subscribeUi(ticketViewModel: TicketViewModel) {
