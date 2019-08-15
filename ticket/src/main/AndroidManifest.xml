@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
-    package="org.mhacks.app">
+    package="org.mhacks.app.ticket">
 
     <dist:module
         dist:instant="false"

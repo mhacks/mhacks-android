@@ -24,9 +24,7 @@ dependencies {
     implementation project(':core')
 
     implementation deps.thirdParty.qrGen
-
     implementation deps.androidx.constraintlayout
-    kapt deps.dagger.daggerCompiler
 }
 
 repositories {

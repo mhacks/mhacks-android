@@ -14,6 +14,7 @@ import org.mhacks.app.BuildConfig
 import org.mhacks.app.R
 import org.mhacks.app.core.Activities
 import org.mhacks.app.core.Fragments
+import org.mhacks.app.core.callback.TicketDialogCallback
 import org.mhacks.app.core.intentTo
 import org.mhacks.app.core.ktx.showSnackBar
 import org.mhacks.app.databinding.ActivityMainBinding
@@ -26,9 +27,7 @@ import javax.inject.Inject
  * feature fragments with a bottom navigation bar.
  */
 
-class MainActivity : NavigationActivity()
-//        , TicketDialogFragment.Callback
-{
+class MainActivity : NavigationActivity(), TicketDialogCallback {
     private lateinit var binding: ActivityMainBinding
 
     override val bottomNavigationView: BottomNavigationView
@@ -184,5 +183,9 @@ class MainActivity : NavigationActivity()
                         2 -> showTicketDialogFragment()
                     }
                 }.show()
+    }
+
+    override fun onTicketUnauthorized() {
+        startSignInActivity()
     }
 }

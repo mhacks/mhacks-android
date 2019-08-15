@@ -17,11 +17,10 @@ class TicketViewModel @Inject constructor(
         private val getAndCacheUserUseCase: GetAndCacheUserUseCase
 ) : ViewModel() {
 
-    private val getAndCacheConfigOutcome = getAndCacheUserUseCase.observe()
+    private val getAndCacheUserOutcome = getAndCacheUserUseCase.observe()
 
-    private val _userResult = MediatorLiveData<User>()
 
-    private val _user = MutableLiveData<User>()
+    private val _user = MediatorLiveData<User>()
     val user: LiveData<User> = _user
 
     private val _snackBarMessage = MediatorLiveData<Text>()
@@ -35,7 +34,7 @@ class TicketViewModel @Inject constructor(
         get() = _error
 
     init {
-        _userResult.addSource(getAndCacheConfigOutcome) {
+        _user.addSource(getAndCacheUserOutcome) {
             if (it is Outcome.Success) {
                 Timber.d("Ticket Success")
                 _user.value = it.data

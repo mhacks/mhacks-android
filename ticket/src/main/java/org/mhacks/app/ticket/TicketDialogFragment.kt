@@ -9,11 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import net.glxn.qrgen.android.QRCode
-import org.mhacks.app.R
+import org.mhacks.app.core.callback.TicketDialogCallback
 import org.mhacks.app.core.data.model.RetrofitException
 import org.mhacks.app.core.ktx.showSnackBar
 import org.mhacks.app.core.widget.BaseDialogFragment
-import org.mhacks.app.databinding.FragmentTicketDialogBinding
+import org.mhacks.app.ticket.databinding.FragmentTicketDialogBinding
 import javax.inject.Inject
 
 class TicketDialogFragment : BaseDialogFragment() {
@@ -23,41 +23,37 @@ class TicketDialogFragment : BaseDialogFragment() {
     @Inject
     lateinit var ticketViewModel: TicketViewModel
 
-    private var callback: Callback? = null
+    private var callback: TicketDialogCallback? = null
 
     override var rootView: View? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        callback = activity as? Callback
-
+        callback = activity as? TicketDialogCallback
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         inject()
-        val dialog = dialog
-        if (dialog != null) {
-            dialog.setCanceledOnTouchOutside(true)
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        }
+        dialog?.setCanceledOnTouchOutside(true)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         binding = FragmentTicketDialogBinding.inflate(inflater, container, false)
-        return binding.root
+                .apply {
+                    fragmentTicketBottomBarDoneButton.setOnClickListener {
+                        dismiss()
+                    }
+                    subscribeUi(ticketViewModel)
+
+                    ticketViewModel.getAndCacheUser()
+                    lifecycleOwner = this@TicketDialogFragment
+
+                    rootView = root
+                }
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showProgressBar(R.string.loading_ticket)
-        binding.apply {
-            fragmentTicketBottomBarDoneButton.setOnClickListener {
-                dismiss()
-            }
-            subscribeUi(ticketViewModel)
-
-            ticketViewModel.getAndCacheUser()
-            lifecycleOwner = this@TicketDialogFragment
-
-            rootView = root
-        }
     }
 
     private fun subscribeUi(ticketViewModel: TicketViewModel) {
@@ -86,7 +82,7 @@ class TicketDialogFragment : BaseDialogFragment() {
                     }
                 }
                 RetrofitException.Kind.UNAUTHORIZED -> {
-                    callback?.startLoginActivity()
+                    callback?.onTicketUnauthorized()
                 }
                 else -> {
                     // no-op
@@ -96,12 +92,6 @@ class TicketDialogFragment : BaseDialogFragment() {
         ticketViewModel.snackBarMessage.observe(this, Observer { textMessage ->
             rootView?.showSnackBar(textMessage)
         })
-    }
-
-    interface Callback {
-
-        fun startLoginActivity()
-
     }
 }
 
