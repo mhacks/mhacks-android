@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.DialogFragment
 import org.mhacks.app.core.R
@@ -59,6 +60,12 @@ abstract class BaseDialogFragment : DialogFragment() {
         val width = (resources.displayMetrics.widthPixels * .85).toInt()
         val height = (resources.displayMetrics.heightPixels * .7).toInt()
         dialog?.window?.setLayout(width, height)
+    }
+
+
+    fun setParentBackground(@DrawableRes backgroundRes: Int) {
+        parent?.setBackgroundResource(backgroundRes)
+        progressBarView?.setBackgroundResource(backgroundRes)
     }
 
     fun showProgressBar(loadingText: String) {

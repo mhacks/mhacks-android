@@ -32,7 +32,11 @@ class TicketDialogFragment : BaseDialogFragment() {
         callback = activity as? TicketDialogCallback
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
         inject()
         dialog?.setCanceledOnTouchOutside(true)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -46,6 +50,7 @@ class TicketDialogFragment : BaseDialogFragment() {
                     ticketViewModel.getAndCacheUser()
                     lifecycleOwner = this@TicketDialogFragment
 
+                    setParentBackground(R.drawable.ticket_background)
                     rootView = root
                 }
         return super.onCreateView(inflater, container, savedInstanceState)
