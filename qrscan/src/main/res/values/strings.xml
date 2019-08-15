@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ok">OK</string>
+    <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
+    <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
+    <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
+    <string name="title_activity_barcode_capture">BarcodeCaptureActivity</string>
+    <string name="flash_icon">Flash Icon</string>
+    <string name="autofocus_icon">Autofocus Icon</string>
+    <string name="last_scanned">Last scanned</string>
+    <string name="camera_filler">---</string>
+    <string name="user_not_authorized">Person is not a participant.</string>
+    <string name="post_not_authorized">You are not authorized to scan users.</string>
+    <string name="barcode_hint">Tap to capture. Pinch/Stretch to zoom</string>
+    <string name="not_valid_email">Not a valid e-mail address.</string>
+    <string name="checked_in">Checked in!</string>
+</resources>

@@ -1,3 +1,4 @@
 include ':app', ':events', ':core', ':maps'
 include ':signin'
 include ':ticket'
+include ':qrscan'

@@ -3,7 +3,9 @@ def androidx = [
         appcompat       : 'androidx.appcompat:appcompat:1.1.0-rc01',
         constraintlayout: 'androidx.constraintlayout:constraintlayout:1.1.3',
         navigation      : "android.arch.navigation:navigation-fragment-ktx:${versions.navigation}",
-        navigationKtx   : "android.arch.navigation:navigation-ui-ktx:${versions.navigation}"
+        navigationKtx   : "android.arch.navigation:navigation-ui-ktx:${versions.navigation}",
+        preference      : "androidx.preference:preference:${versions.preference}",
+        preferenceKtx   : "androidx.preference:preference-ktx:${versions.preference}"
 ]
 
 def google = [

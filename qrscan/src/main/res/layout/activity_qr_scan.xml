@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:keepScreenOn="true"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/activity_camera_source_settings_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/colorPrimaryDark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/activity_camera_source_divider">
+
+
+            <ImageView
+                android:id="@+id/activity_camera_source_flash_icon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/flash_icon"
+                android:padding="4dp"
+                android:tint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/activity_camera_source_autofocus_icon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_flash_on_black_24dp" />
+
+            <ImageView
+                android:id="@+id/activity_camera_source_autofocus_icon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="30dp"
+                android:contentDescription="@string/autofocus_icon"
+                android:padding="4dp"
+                android:tint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_center_focus_strong_black_24dp" />
+
+            <TextView
+                android:id="@+id/activity_camera_source_description_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/flash_icon"
+                android:text="@string/last_scanned"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/activity_camera_source_id_text_view"
+                app:layout_constraintEnd_toStartOf="@id/activity_camera_source_flash_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/activity_camera_source_id_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/flash_icon"
+                android:text="@string/camera_filler"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/activity_camera_source_flash_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activity_camera_source_description_text_view" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/activity_camera_source_divider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".90" />
+
+        <org.mhacks.app.qrscan.ui.widget.camera.CameraSourcePreview
+            android:id="@+id/activity_camera_source_preview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/activity_camera_source_divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <org.mhacks.app.qrscan.ui.widget.camera.GraphicOverlay
+                android:id="@+id/activity_barcode_graphic_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </org.mhacks.app.qrscan.ui.widget.camera.CameraSourcePreview>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

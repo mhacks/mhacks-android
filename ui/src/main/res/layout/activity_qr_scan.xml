@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:keepScreenOn="true">
 
-    <com.mhacks.app.ui.qrscan.widget.camera.CameraSourcePreview
+    <org.mhacks.app.qrscan.ui.widget.camera.CameraSourcePreview
         android:id="@+id/activity_camera_source_preview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -17,11 +17,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/activity_camera_source_divider">
 
-        <com.mhacks.app.ui.qrscan.widget.camera.GraphicOverlay
+        <org.mhacks.app.qrscan.ui.widget.camera.GraphicOverlay
             android:id="@+id/activity_barcode_graphic_overlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </com.mhacks.app.ui.qrscan.widget.camera.CameraSourcePreview>
+    </org.mhacks.app.qrscan.ui.widget.camera.CameraSourcePreview>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/activity_camera_source_divider"

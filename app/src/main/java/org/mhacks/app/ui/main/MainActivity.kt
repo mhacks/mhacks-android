@@ -148,20 +148,13 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
             bottomNavigationView.isEnabled = false
             if (itemId != item.itemId) {
                 val fragmentId = when (item.itemId) {
-
                     R.id.welcome_fragment -> R.id.welcome_fragment
-
                     R.id.announcement_fragment -> R.id.announcement_fragment
-
                     R.id.events_fragment -> R.id.events_fragment
-
                     R.id.map_view_fragment -> R.id.map_view_fragment
-
                     R.id.info_fragment -> R.id.info_fragment
-
                     else -> 0
                 }
-
                 navController.navigate(fragmentId)
                 itemId = item.itemId
             }

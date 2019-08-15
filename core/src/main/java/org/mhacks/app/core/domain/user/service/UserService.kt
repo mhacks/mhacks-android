@@ -9,7 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface UserService {
-    
+
     @GET("user/profile/")
     fun getUserResponse(): Single<UserResponse>
 

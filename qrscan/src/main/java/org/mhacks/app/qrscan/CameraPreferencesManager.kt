@@ -1,12 +1,14 @@
-package org.mhacks.app.data
+package org.mhacks.app.qrscan
 
 import android.content.SharedPreferences
 import io.reactivex.Single
+import java.lang.reflect.Constructor
+import javax.inject.Inject
 
 /**
  * Defines the interactions with SharedPreferences within the app.
  */
-class SharedPreferencesManager(private val sharedPreferences: SharedPreferences) {
+class CameraPreferencesManager(private val sharedPreferences: SharedPreferences) {
 
     private fun putCameraSettings(settings: Pair<Boolean, Boolean>): Pair<Boolean, Boolean> {
         sharedPreferences.edit()
