@@ -19,7 +19,6 @@ class TicketViewModel @Inject constructor(
 
     private val getAndCacheUserOutcome = getAndCacheUserUseCase.observe()
 
-
     private val _user = MediatorLiveData<User>()
     val user: LiveData<User> = _user
 

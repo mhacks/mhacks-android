@@ -14,7 +14,7 @@ class QRScanDataModule {
     @Provides
     @FeatureScope
     fun provideSharedPreferences(context: Context) =
-            PreferenceManager.getDefaultSharedPreferences(context)
+            PreferenceManager.getDefaultSharedPreferences(context)!!
 
     @Provides
     @FeatureScope

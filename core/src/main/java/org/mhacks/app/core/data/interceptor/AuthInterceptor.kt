@@ -4,9 +4,17 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import org.mhacks.app.core.domain.auth.data.dao.AuthDao
 
-class AuthInterceptor(authDao: AuthDao) : Interceptor {
+class AuthInterceptor(private val authDao: AuthDao) : Interceptor {
 
-    private var cachedToken = authDao
+    private var cachedToken = ""
+        get() {
+            if (field.isBlank()) {
+                field = loadToken()
+            }
+            return field
+        }
+
+    private fun loadToken() = authDao
             .getAuth()
             .map { it.token }
             .onErrorReturnItem("")

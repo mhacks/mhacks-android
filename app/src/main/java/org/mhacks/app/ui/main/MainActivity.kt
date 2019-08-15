@@ -22,11 +22,11 @@ import org.mhacks.app.core.widget.NavigationActivity
 import org.mhacks.app.core.widget.NavigationColor
 import javax.inject.Inject
 
+private val TICKET_DIALOG_FRAGMENT_TAG = "ticket_dialog_fragment"
 /**
  * Main Activity that handles most of the interactions. Sets up the Auth Activity and loads
  * feature fragments with a bottom navigation bar.
  */
-
 class MainActivity : NavigationActivity(), TicketDialogCallback {
     private lateinit var binding: ActivityMainBinding
 
@@ -70,11 +70,13 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
 
     private fun showTicketDialogFragment() {
         val ft = supportFragmentManager.beginTransaction()
-        val prev = supportFragmentManager.findFragmentByTag("ticket_dialog")
-        if (prev != null) ft.remove(prev)
+        val prev = supportFragmentManager.findFragmentByTag(TICKET_DIALOG_FRAGMENT_TAG)
+        prev?.let {
+            ft.remove(it)
+        }
         ft.addToBackStack(null)
         val ticket = Fragments.Ticket.getFragment(this) as DialogFragment
-        ticket.show(ft, "ticket_dialog")
+        ticket.show(ft, TICKET_DIALOG_FRAGMENT_TAG)
     }
 
     private fun initActivity() {
