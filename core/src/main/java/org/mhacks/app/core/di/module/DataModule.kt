@@ -41,7 +41,10 @@ class DataModule {
                 .cache(cache)
                 .connectTimeout(10, TimeUnit.SECONDS)
         if (BuildConfig.DEBUG)
-            client.addInterceptor(HttpLoggingInterceptor())
+            client.addInterceptor(
+                    HttpLoggingInterceptor().apply {
+                        level = HttpLoggingInterceptor.Level.BODY
+                    })
         return client.addInterceptor(interceptor).build()
     }
 
