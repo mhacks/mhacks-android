@@ -133,8 +133,8 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
     }
 
     private fun startQRScanActivity() {
-//        startActivity(Intent(this, QRScanActivity::class.java))
-//        finish()
+        val intent = intentTo(Activities.QRScan)
+        startActivity(intent)
     }
 
     private fun showCreateAnnouncementDialogFragment() {

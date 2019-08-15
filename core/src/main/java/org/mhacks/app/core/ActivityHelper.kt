@@ -56,7 +56,11 @@ object Activities {
     object SignIn : AddressableActivity {
         override val className = "$PACKAGE_NAME.signin.ui.SignInActivity"
     }
+    object QRScan : AddressableActivity {
+        override val className = "$PACKAGE_NAME.qrscan.ui.QRScanActivity"
+    }
 }
+
 
 /**
  * All addressable fragments.
