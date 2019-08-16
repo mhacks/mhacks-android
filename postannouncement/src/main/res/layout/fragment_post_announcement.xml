@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <AutoCompleteTextView
+            android:id="@+id/fragment_create_announcement_category_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"
+            android:hint="@string/category"
+            android:maxLines="1"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_create_announcement_title_edit_text" />
+
+        <Button
+            android:id="@+id/fragment_create_announcement_post_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_margin="8dp"
+            android:enabled="false"
+            android:padding="8dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/post"
+            android:theme="@style/MHacksDialogColoredButton" />
+
+        <EditText
+            android:id="@+id/fragment_create_announcement_body_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="top"
+            android:hint="@string/body"
+            android:padding="16dp"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/fragment_create_announcement_title_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/title"
+            android:maxLines="1"
+            android:padding="16dp"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ccc" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ccc" />
+
+    </LinearLayout>
+</layout>

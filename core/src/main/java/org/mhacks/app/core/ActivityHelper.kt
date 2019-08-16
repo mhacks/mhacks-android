@@ -13,8 +13,6 @@ fun intentTo(addressableActivity: AddressableActivity): Intent {
             addressableActivity.className)
 }
 
-
-
 abstract class AddressableFragment {
     /**
      * The activity class name.
@@ -56,11 +54,11 @@ object Activities {
     object SignIn : AddressableActivity {
         override val className = "$PACKAGE_NAME.signin.ui.SignInActivity"
     }
+
     object QRScan : AddressableActivity {
         override val className = "$PACKAGE_NAME.qrscan.ui.QRScanActivity"
     }
 }
-
 
 /**
  * All addressable fragments.
@@ -71,6 +69,10 @@ object Fragments {
 
     object Ticket : AddressableFragment() {
         override val className = "$PACKAGE_NAME.ticket.TicketDialogFragment"
+    }
+
+    object PostAnnouncement : AddressableFragment() {
+        override val className = "$PACKAGE_NAME.postannouncement.ui.PostAnnouncementDialogFragment"
     }
 
 }

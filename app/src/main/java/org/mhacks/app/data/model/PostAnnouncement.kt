@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 /**
  * Model used for creating an announcement.
  */
-data class CreateAnnouncement(
+data class PostAnnouncement(
         @Json(name="title") var title: String,
         @Json(name="body") var body: String,
         @Json(name="category") var category: String,

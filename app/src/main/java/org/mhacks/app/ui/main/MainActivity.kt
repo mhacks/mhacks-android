@@ -13,6 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.mhacks.app.BuildConfig
 import org.mhacks.app.R
 import org.mhacks.app.core.Activities
+import org.mhacks.app.core.AddressableFragment
 import org.mhacks.app.core.Fragments
 import org.mhacks.app.core.callback.TicketDialogCallback
 import org.mhacks.app.core.intentTo
@@ -22,7 +23,9 @@ import org.mhacks.app.core.widget.NavigationActivity
 import org.mhacks.app.core.widget.NavigationColor
 import javax.inject.Inject
 
-private val TICKET_DIALOG_FRAGMENT_TAG = "ticket_dialog_fragment"
+private const val TICKET_DIALOG_FRAGMENT_TAG = "ticket_dialog_fragment"
+
+private const val POST_ANNOUNCEMENT_FRAGMENT_TAG = "post_announcement_fragment"
 /**
  * Main Activity that handles most of the interactions. Sets up the Auth Activity and loads
  * feature fragments with a bottom navigation bar.
@@ -139,12 +142,18 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
         startActivity(intent)
     }
 
-    private fun showCreateAnnouncementDialogFragment() {
-//        val fragment = CreateAnnouncementDialogFragment.instance
-//        fragment.show(supportFragmentManager, null)
+    private fun showSingleInstanceDialogFragment(addressableFragment: AddressableFragment, tag: String) {
+        val ft = supportFragmentManager.beginTransaction()
+        val prev = supportFragmentManager.findFragmentByTag(tag)
+        prev?.let {
+            ft.remove(it)
+        }
+        ft.addToBackStack(null)
+        val ticket = addressableFragment.getFragment(this) as DialogFragment
+        ticket.show(ft, tag)
     }
 
-    //    // Handles the click events for bottom navigation menu
+    // Handles the click events for bottom navigation menu
     private fun setupBottomNavBar(bottomNavigationView: BottomNavigationView) {
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             bottomNavigationView.isEnabled = false
@@ -173,9 +182,15 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
 
                         0 -> startQRScanActivity()
 
-                        1 -> showCreateAnnouncementDialogFragment()
+                        1 -> showSingleInstanceDialogFragment(
+                                Fragments.PostAnnouncement,
+                                POST_ANNOUNCEMENT_FRAGMENT_TAG
+                        )
 
-                        2 -> showTicketDialogFragment()
+                        2 -> showSingleInstanceDialogFragment(
+                                Fragments.Ticket,
+                                TICKET_DIALOG_FRAGMENT_TAG
+                        )
                     }
                 }.show()
     }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="post_announcement">Post Announcement</string>
+    <string name="post_announcement_success">Success</string>
+    <string name="title">Title</string>
+    <string name="category">Category</string>
+    <string name="body">Body</string>
+    <string name="post">Post</string>
+</resources>

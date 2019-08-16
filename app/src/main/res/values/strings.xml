@@ -19,10 +19,12 @@
     <!--Announcements-->
     <string name="loading_announcements">Loading announcements…</string>
     <string name="announcement_network_failure">Couldn\'t get announcements.</string>
-    <string name="post_announcements">Post announcements</string>
+
 
     <!-- ProgressBar View-->
     <string name="logging_in">Logging in…</string>
+
+    <string name="post_announcements">Post Announcement</string>
 
 
     <!-- Ticket Fragment -->
@@ -62,6 +64,7 @@
     <string name="title_signin">Sign in</string>
     <string name="title_ticket">Ticket</string>
     <string name="title_qrscan">QR Scan</string>
+    <string name="title_postannouncement">Post Announcements</string>
 
 
 </resources>

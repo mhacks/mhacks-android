@@ -21,11 +21,4 @@ class AnnouncementRepository @Inject constructor(
                 announcementDao.updateAnnouncements(announcementList)
                 return@fromCallable announcementList
             }!!
-
-    fun postAnnouncement(createAnnouncement: CreateAnnouncement) =
-            announcementService.postAnnouncement(
-                    createAnnouncement.title,
-                    createAnnouncement.category,
-                    createAnnouncement.body,
-                    true, true, true)
 }
