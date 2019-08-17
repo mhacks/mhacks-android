@@ -13,6 +13,8 @@ import org.mhacks.app.core.widget.BaseFragment
 import org.mhacks.app.signin.R
 import org.mhacks.app.signin.databinding.FragmentSignInBinding
 import org.mhacks.app.signin.inject
+import org.mhacks.app.signin.ui.widget.validator.BlankValidator
+import org.mhacks.app.signin.ui.widget.validator.EmailValidator
 import org.mhacks.app.signin.usecase.AuthRequest
 import javax.inject.Inject
 import org.mhacks.app.core.R as coreR
@@ -54,15 +56,21 @@ class SignInFragment : BaseFragment() {
                 .apply {
                     subscribeUi(viewModel)
                     fragmentSignInEmailSubmitButton.setOnClickListener {
-                        viewModel.postAuth(authRequest)
+                        validate()
                     }
 
                     fragmentSignInNoThanksButton.setOnClickListener {
                         viewModel.skipAuth()
                     }
+                    fragmentSignInUsernameTextInputLayout.validators = listOf(
+                            EmailValidator(),
+                            BlankValidator()
+                    )
+                    fragmentSignInPasswordTextInputLayout.validators = listOf(
+                            BlankValidator()
+                    )
                     fragmentSignInPasswordEditText.setOnEditorActionListener { _, actionId, _ ->
                         if (actionId == EditorInfo.IME_ACTION_DONE) {
-                            viewModel.postAuth(authRequest)
                             return@setOnEditorActionListener true
                         }
                         false
@@ -88,7 +96,7 @@ class SignInFragment : BaseFragment() {
                             text,
                             coreR.string.try_again
                     ) {
-                        viewModel.postAuth(it)
+                        viewModel.postAuth(authRequest)
                     }
                 } ?: run {
                     binding.root.showSnackBar(text)
@@ -99,6 +107,15 @@ class SignInFragment : BaseFragment() {
         viewModel.loading.observe(viewLifecycleOwner, Observer {
             showProgressBar(R.string.signing_in)
         })
+    }
+
+    private fun validate() {
+        if (
+                binding.fragmentSignInUsernameTextInputLayout.validate() and
+                binding.fragmentSignInPasswordTextInputLayout.validate()
+        ) {
+            viewModel.postAuth(authRequest)
+        }
     }
 
     interface Callback {

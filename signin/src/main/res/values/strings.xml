@@ -5,5 +5,8 @@
     <string name="username">Username</string>
     <string name="no_thanks">No thanks</string>
     <string name="signing_in">Signing in!</string>
+
     <string name="auth_error">Username or password is incorrect.</string>
+    <string name="email_error">Enter a valid email</string>
+    <string name="blank_error">Field can\'t be empty</string>
 </resources>
