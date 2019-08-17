@@ -7,11 +7,12 @@ import org.mhacks.app.core.domain.auth.AuthRepository
 import org.mhacks.app.core.domain.auth.data.model.Auth
 import org.mhacks.app.core.usecase.SingleUseCase
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 data class AuthRequest(
-        val email: String,
-        val password: String
+        val email: String = "",
+        val password: String = ""
 )
 
 class PostLoginUseCase @Inject constructor(

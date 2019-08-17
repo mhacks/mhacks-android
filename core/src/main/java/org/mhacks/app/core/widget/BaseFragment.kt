@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import org.mhacks.app.core.R
 
@@ -56,11 +58,19 @@ abstract class BaseFragment : Fragment() {
         return parent
     }
 
+    fun setLoadingBackground(@DrawableRes drawableRes: Int) {
+        progressBarView?.background = requireContext().getDrawable(drawableRes)
+    }
+
     fun showProgressBar(loadingText: String) {
         rootView?.visibility = View.GONE
         progressBarView?.loadingText = loadingText
         progressBarView?.visibility = View.VISIBLE
         errorView?.visibility = View.GONE
+    }
+
+    fun showProgressBar(@StringRes textRes: Int) {
+       showProgressBar(requireContext().getString(textRes))
     }
 
     fun showMainContent() {

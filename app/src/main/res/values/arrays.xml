@@ -8,5 +8,6 @@
 
     <array name="debug_options">
         <item>Toggle Dark Mode</item>
+        <item>Clear App Data</item>
     </array>
 </resources>

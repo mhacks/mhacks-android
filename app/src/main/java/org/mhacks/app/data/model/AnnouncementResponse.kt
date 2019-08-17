@@ -8,8 +8,8 @@ import com.squareup.moshi.Json
  * Model about announcements.
  */
 data class AnnouncementResponse(
-    @Json(name = "status") var status: Boolean,
-    @Json(name = "announcements") var announcements: List<Announcement>
+        @Json(name = "status") var status: Boolean,
+        @Json(name = "announcements") var announcements: List<Announcement>
 )
 
 @Entity(tableName = "announcement")

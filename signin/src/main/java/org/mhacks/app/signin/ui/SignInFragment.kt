@@ -7,14 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.Observer
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import org.mhacks.app.core.ktx.showSnackBar
 import org.mhacks.app.core.widget.BaseFragment
+import org.mhacks.app.signin.R
 import org.mhacks.app.signin.databinding.FragmentSignInBinding
 import org.mhacks.app.signin.inject
 import org.mhacks.app.signin.usecase.AuthRequest
 import javax.inject.Inject
-import org.mhacks.app.R as coreR
+import org.mhacks.app.core.R as coreR
 
 /**
  * Fragment for logging in the user.
@@ -42,14 +43,18 @@ class SignInFragment : BaseFragment() {
             callback = context
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
         inject()
+        setLoadingBackground(R.drawable.mhacks_wallpaper)
         binding = FragmentSignInBinding.inflate(inflater, container, false)
                 .apply {
                     subscribeUi(viewModel)
                     fragmentSignInEmailSubmitButton.setOnClickListener {
                         viewModel.postAuth(authRequest)
-
                     }
 
                     fragmentSignInNoThanksButton.setOnClickListener {
@@ -61,7 +66,7 @@ class SignInFragment : BaseFragment() {
                             return@setOnEditorActionListener true
                         }
                         false
-                    };
+                    }
                     lifecycleOwner = this@SignInFragment
                     rootView = root
                 }
@@ -73,14 +78,26 @@ class SignInFragment : BaseFragment() {
         viewModel.auth.observe(this, Observer {
             callback?.startMainActivity()
         })
-
-        viewModel.snackBarMessage.observe(this, Observer {
+        viewModel.loginFail.observe(this, Observer {
+            showMainContent()
             it?.let { message ->
-                val (textMessage, loginRequest) = message
-                binding.root.showSnackBar(Snackbar.LENGTH_LONG, textMessage, coreR.string.try_again) {
-                    viewModel.postAuth(loginRequest)
+                val (text, authRequest) = message
+                authRequest?.let {
+                    binding.root.showSnackBar(
+                            BaseTransientBottomBar.LENGTH_LONG,
+                            text,
+                            coreR.string.try_again
+                    ) {
+                        viewModel.postAuth(it)
+                    }
+                } ?: run {
+                    binding.root.showSnackBar(text)
                 }
             }
+
+        })
+        viewModel.loading.observe(viewLifecycleOwner, Observer {
+            showProgressBar(R.string.signing_in)
         })
     }
 

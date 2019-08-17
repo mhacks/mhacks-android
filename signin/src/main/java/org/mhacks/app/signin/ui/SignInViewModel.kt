@@ -2,23 +2,25 @@ package org.mhacks.app.signin.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.mhacks.app.signin.usecase.SkipLoginUseCase
 import org.mhacks.app.core.data.model.Outcome
 import org.mhacks.app.core.data.model.RetrofitException
 import org.mhacks.app.core.data.model.Text
 import org.mhacks.app.core.domain.auth.data.model.Auth
+import org.mhacks.app.signin.R
 import org.mhacks.app.signin.usecase.AuthRequest
 import org.mhacks.app.signin.usecase.PostLoginUseCase
-import org.mhacks.app.core.R as coreR
+import org.mhacks.app.signin.usecase.SkipLoginUseCase
 import timber.log.Timber
 import javax.inject.Inject
+import org.mhacks.app.core.R as coreR
 
 class SignInViewModel @Inject constructor(
         private val postAuthUseCase: PostLoginUseCase,
-        private val skipAuthUseCase: SkipLoginUseCase): ViewModel() {
+        private val skipAuthUseCase: SkipLoginUseCase) : ViewModel() {
 
-    private val authRequest = AuthRequest("", "")
+    private var authRequest = AuthRequest()
 
     private val postAuthResult = postAuthUseCase.observe()
 
@@ -27,12 +29,15 @@ class SignInViewModel @Inject constructor(
     private val _auth = MediatorLiveData<Auth>()
 
     val auth
-        get() =_auth
+        get() = _auth
 
-    private val _snackBarMessage = MediatorLiveData<Pair<Text, AuthRequest>>()
+    private val _loading = MutableLiveData<Unit>()
+    val loading: LiveData<Unit> get() = _loading
 
-    val snackBarMessage: LiveData<Pair<Text, AuthRequest>>
-        get() = _snackBarMessage
+    private val _message = MediatorLiveData<Pair<Text, AuthRequest?>>()
+
+    val loginFail: LiveData<Pair<Text, AuthRequest?>>
+        get() = _message
 
     init {
         _auth.addSource(postAuthResult, ::updateAuth)
@@ -40,6 +45,8 @@ class SignInViewModel @Inject constructor(
     }
 
     fun postAuth(request: AuthRequest) {
+        authRequest = request
+        _loading.postValue(Unit)
         postAuthUseCase(request)
     }
 
@@ -48,39 +55,44 @@ class SignInViewModel @Inject constructor(
     }
 
     private fun updateAuth(result: Outcome<Auth>) {
-        if (result is Outcome.Success) {
-            result.let { auth ->
+        when (result) {
+            is Outcome.Success -> {
                 Timber.d("Sign in Successful")
-                _auth.value = auth.data
+                _auth.value = result.data
             }
-        } else if (result is Outcome.Error<*>) {
-            (result.exception as? RetrofitException)?.let { retrofitException ->
-                when (retrofitException.kind) {
-                    RetrofitException.Kind.HTTP -> {
-                        retrofitException.errorResponse?.let { errorResponse ->
-                            _snackBarMessage.value =
+            is Outcome.Error<*> -> {
+                (result.exception as? RetrofitException)?.let { retrofitException ->
+                    when (retrofitException.kind) {
+                        RetrofitException.Kind.HTTP -> {
+                            retrofitException.errorResponse?.let { errorResponse ->
+                                _message.value =
+                                        Pair(
+                                                Text.TextString(errorResponse.message),
+                                                authRequest)
+                            }
+                        }
+                        RetrofitException.Kind.NETWORK -> {
+                            _message.value =
                                     Pair(
-                                            Text.TextString(errorResponse.message),
+                                            Text.Res(coreR.string.no_internet),
                                             authRequest)
                         }
-                    }
-                    RetrofitException.Kind.NETWORK -> {
-                        _snackBarMessage.value =
-                                Pair(
-                                        Text.Res(coreR.string.no_internet),
-                                        authRequest)
-                    }
-                    RetrofitException.Kind.UNEXPECTED -> {
-                        _snackBarMessage.value =
-                                Pair(
-                                        Text.Res(coreR.string.unknown_error), authRequest)
-                    }
-                    RetrofitException.Kind.UNAUTHORIZED -> {
-                        // no-op
+                        RetrofitException.Kind.UNEXPECTED -> {
+                            _message.value =
+                                    Pair(
+                                            Text.Res(coreR.string.unknown_error), authRequest)
+                        }
+                        RetrofitException.Kind.UNAUTHORIZED -> {
+                            _message.value = Pair(Text.Res(R.string.auth_error), null)
+                        }
                     }
                 }
             }
+            is Outcome.Loading -> {
+
+            }
         }
+        authRequest = AuthRequest()
     }
 
     override fun onCleared() {

@@ -11,9 +11,9 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import org.mhacks.app.core.ktx.showSnackBar
 import org.mhacks.app.core.widget.BaseDialogFragment
-import org.mhacks.app.data.model.PostAnnouncement
 import org.mhacks.app.postannouncement.PostAnnouncementViewModel
 import org.mhacks.app.postannouncement.R
+import org.mhacks.app.postannouncement.data.model.PostAnnouncement
 import org.mhacks.app.postannouncement.databinding.FragmentPostAnnouncementBinding
 import org.mhacks.app.postannouncement.inject
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package org.mhacks.app.data.model
+package org.mhacks.app.postannouncement.data.model
 
 import com.squareup.moshi.Json
 

@@ -4,4 +4,6 @@
     <string name="password">Password</string>
     <string name="username">Username</string>
     <string name="no_thanks">No thanks</string>
+    <string name="signing_in">Signing in!</string>
+    <string name="auth_error">Username or password is incorrect.</string>
 </resources>

@@ -4,25 +4,25 @@ import android.view.View
 import androidx.annotation.StringRes
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
-import org.mhacks.app.core.R
 import org.mhacks.app.core.data.model.Text
 
-fun View.showSnackBar(text: Text) {
+fun View.showSnackBar(
+        text: Text,
+        @BaseTransientBottomBar.Duration duration: Int = BaseTransientBottomBar.LENGTH_SHORT) {
     when (text) {
         is Text.TextString -> {
             Snackbar.make(
-                    findViewById(android.R.id.content),
+                    this,
                     text.text,
-                    Snackbar.LENGTH_SHORT
+                    duration
             ).show()
         }
         is Text.Res -> {
             Snackbar.make(
-                    findViewById(android.R.id.content),
+                    this,
                     text.textResId,
-                    Snackbar.LENGTH_SHORT
+                    duration
             ).show()
-
         }
     }
 }
@@ -35,16 +35,16 @@ fun View.showSnackBar(
     val snackBar: Snackbar = when (text) {
         is Text.TextString -> {
             Snackbar.make(
-                    findViewById(R.id.content),
+                    this,
                     text.text,
                     duration
             )
         }
         is Text.Res -> {
             Snackbar.make(
-                    findViewById(R.id.content),
+                    this,
                     text.textResId,
-                    Snackbar.LENGTH_SHORT
+                    duration
             )
         }
     }

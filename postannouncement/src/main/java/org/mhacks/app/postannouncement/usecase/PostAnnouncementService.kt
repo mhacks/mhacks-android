@@ -1,7 +1,7 @@
 package org.mhacks.app.postannouncement.usecase
 
 import io.reactivex.Single
-import org.mhacks.app.data.model.PostAnnouncement
+import org.mhacks.app.postannouncement.data.model.PostAnnouncement
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST

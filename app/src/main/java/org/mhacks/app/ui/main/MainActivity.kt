@@ -1,6 +1,8 @@
 package org.mhacks.app.ui.main
 
+import android.app.ActivityManager
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
@@ -205,6 +207,12 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
                         .setItems(R.array.debug_options) { _, which ->
                             when (which) {
                                 0 -> (application as MHacksApplication).toggleDarkMode(this)
+
+                                1 -> {
+                                    (getSystemService(ACTIVITY_SERVICE) as ActivityManager)
+                                            .clearApplicationUserData()
+                                    startActivity(Intent(this, this::class.java))
+                                }
                             }
                         }.show()
             }
@@ -212,6 +220,7 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
     }
 
     override fun onTicketUnauthorized() {
+
         startSignInActivity()
     }
 }

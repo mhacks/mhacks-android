@@ -1,6 +1,6 @@
 package org.mhacks.app.postannouncement.usecase
 
-import org.mhacks.app.data.model.PostAnnouncement
+import org.mhacks.app.postannouncement.data.model.PostAnnouncement
 import javax.inject.Inject
 
 class PostAnnouncementRepository @Inject constructor(

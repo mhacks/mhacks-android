@@ -3,11 +3,11 @@ package org.mhacks.app.postannouncement
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
-import org.mhacks.app.postannouncement.usecase.PostAnnouncementUseCase
 import org.mhacks.app.core.data.model.Outcome
 import org.mhacks.app.core.data.model.RetrofitException
 import org.mhacks.app.core.data.model.Text
-import org.mhacks.app.data.model.PostAnnouncement
+import org.mhacks.app.postannouncement.data.model.PostAnnouncement
+import org.mhacks.app.postannouncement.usecase.PostAnnouncementUseCase
 import javax.inject.Inject
 import org.mhacks.app.core.R as coreR
 
