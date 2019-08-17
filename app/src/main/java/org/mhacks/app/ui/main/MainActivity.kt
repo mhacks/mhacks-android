@@ -11,6 +11,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.mhacks.app.BuildConfig
+import org.mhacks.app.MHacksApplication
 import org.mhacks.app.R
 import org.mhacks.app.core.Activities
 import org.mhacks.app.core.AddressableFragment
@@ -18,14 +19,15 @@ import org.mhacks.app.core.Fragments
 import org.mhacks.app.core.callback.TicketDialogCallback
 import org.mhacks.app.core.intentTo
 import org.mhacks.app.core.ktx.showSnackBar
-import org.mhacks.app.databinding.ActivityMainBinding
 import org.mhacks.app.core.widget.NavigationActivity
 import org.mhacks.app.core.widget.NavigationColor
+import org.mhacks.app.databinding.ActivityMainBinding
 import javax.inject.Inject
 
 private const val TICKET_DIALOG_FRAGMENT_TAG = "ticket_dialog_fragment"
 
 private const val POST_ANNOUNCEMENT_FRAGMENT_TAG = "post_announcement_fragment"
+
 /**
  * Main Activity that handles most of the interactions. Sets up the Auth Activity and loads
  * feature fragments with a bottom navigation bar.
@@ -88,13 +90,13 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
                 this,
                 R.layout.activity_main
         )
-        .apply {
-            subscribeUi(this)
-            mainActivityNavigation.menu.getItem(0).setTitle(R.string.title_home)
-            setSupportActionBar(mainActivityToolbar)
-            setupBottomNavBar(mainActivityNavigation)
+                .apply {
+                    subscribeUi(this)
+                    mainActivityNavigation.menu.getItem(0).setTitle(R.string.title_home)
+                    setSupportActionBar(mainActivityToolbar)
+                    setupBottomNavBar(mainActivityNavigation)
 
-        }
+                }
         // Must be set after binding is set. The navigation fragment accesses abstract values that
         // require binding to be set.
         navController.setGraph(R.navigation.nav_main)
@@ -107,10 +109,12 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
             it?.let { isAdmin ->
                 val listener = if (isAdmin) {
                     View.OnClickListener {
+                        (application as MHacksApplication).toggleDarkMode(this)
                         showAdminOptions()
                     }
                 } else {
                     View.OnClickListener {
+                        (application as MHacksApplication).toggleDarkMode(this)
                         showTicketDialogFragment()
                     }
                 }
@@ -179,14 +183,11 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
                 .setTitle(getString(R.string.admin))
                 .setItems(R.array.admin_options) { _, which ->
                     when (which) {
-
                         0 -> startQRScanActivity()
-
                         1 -> showSingleInstanceDialogFragment(
                                 Fragments.PostAnnouncement,
                                 POST_ANNOUNCEMENT_FRAGMENT_TAG
                         )
-
                         2 -> showSingleInstanceDialogFragment(
                                 Fragments.Ticket,
                                 TICKET_DIALOG_FRAGMENT_TAG

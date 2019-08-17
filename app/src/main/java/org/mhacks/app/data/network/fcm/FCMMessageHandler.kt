@@ -7,8 +7,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import timber.log.Timber
 import org.mhacks.app.R
+import timber.log.Timber
 
 /**
  * Service for handling push notifications.
@@ -36,7 +36,7 @@ class FCMMessageHandler : FirebaseMessagingService() {
         notificationManager.notify(MESSAGE_NOTIFICATION_ID, builder.build())
     }
 
-    override fun onNewToken(newToken: String?) {
+    override fun onNewToken(newToken: String) {
         super.onNewToken(newToken)
         Timber.d("New Token is $newToken")
 

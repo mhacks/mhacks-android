@@ -93,9 +93,11 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':core')
 
+    implementation 'com.google.android.material:material:1.1.0-alpha09'
+
     // Play Services
-    implementation 'com.google.firebase:firebase-core:17.0.1'
-    implementation 'com.google.firebase:firebase-messaging:19.0.1'
+    implementation 'com.google.firebase:firebase-core:17.1.0'
+    implementation 'com.google.firebase:firebase-messaging:20.0.0'
 
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -103,6 +105,8 @@ dependencies {
 
     // Networking
     implementation 'com.squareup.retrofit2:converter-moshi:2.6.1'
+
+    implementation deps.google.material
 
     implementation deps.androidx.navigation
     implementation deps.androidx.navigationKtx

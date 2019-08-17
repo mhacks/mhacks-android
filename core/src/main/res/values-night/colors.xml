@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="blueGrey">#37474F</color>
+
+    <!--Global color themes-->
+    <color name="colorPrimary">#CB1458</color>
+    <color name="colorPrimaryDark">#13162B</color>
+    <color name="colorPrimaryDisabled">#A5154B</color>
+    <color name="colorAccent">#F09DBC</color>
+    <color name="black">#000</color>
+
+    <!--Map Fragment-->
+    <color name="semiColorPrimary">#9643384D</color>
+</resources>

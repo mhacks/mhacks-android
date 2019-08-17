@@ -3,18 +3,25 @@ package org.mhacks.app
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import androidx.core.os.BuildCompat
 import androidx.fragment.app.Fragment
 import org.mhacks.app.core.di.AppModule
 import org.mhacks.app.core.di.CoreComponent
 import org.mhacks.app.core.di.DaggerCoreComponent
+import org.mhacks.app.ui.main.MainActivity
+import org.mhacks.app.ui.main.SplashActivity
 
 private const val MHACKS_GROUP = "MHacks Group"
 
 class MHacksApplication : Application() {
+
+    var darkMode = false
 
     private val coreComponent: CoreComponent by lazy {
         DaggerCoreComponent.builder()
@@ -28,6 +35,18 @@ class MHacksApplication : Application() {
                 if (BuildCompat.isAtLeastQ()) MODE_NIGHT_FOLLOW_SYSTEM
                 else MODE_NIGHT_AUTO_BATTERY
         setDefaultNightMode(nightMode)
+    }
+
+    fun toggleDarkMode(activity: Activity) {
+        darkMode = !darkMode
+        val nightMode =
+                if (darkMode) MODE_NIGHT_YES
+                else MODE_NIGHT_NO
+        setDefaultNightMode(nightMode)
+        startActivity(Intent(activity, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        })
+        activity.finish()
     }
 
     companion object {

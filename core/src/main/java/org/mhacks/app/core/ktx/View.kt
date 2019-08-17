@@ -2,6 +2,7 @@ package org.mhacks.app.core.ktx
 
 import android.view.View
 import androidx.annotation.StringRes
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import org.mhacks.app.core.R
 import org.mhacks.app.core.data.model.Text
@@ -27,7 +28,7 @@ fun View.showSnackBar(text: Text) {
 }
 
 fun View.showSnackBar(
-        @Snackbar.Duration duration: Int,
+        @BaseTransientBottomBar.Duration duration: Int,
         text: Text,
         @StringRes actionText: Int,
         actionCallback: (() -> Unit)) {

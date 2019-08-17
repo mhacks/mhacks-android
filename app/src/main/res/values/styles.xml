@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="MHacksEditText" parent="@android:style/Widget.EditText">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:layout_height">45dip</item>
-    </style>
-
-    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:background">@null</item>
-    </style>
-
-
     <style name="MHacksDialogColoredButton" parent="Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">@color/mhacks_button</item>
         <item name="android:textColor">@color/white</item>

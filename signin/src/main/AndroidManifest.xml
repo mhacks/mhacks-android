@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:extractNativeLibs="false"
         android:appCategory="image"
-        android:theme="@style/MHacksTheme"
+        android:theme="@style/Theme.MHacks"
         android:name="org.mhacks.app.MHacksApplication">
 
         <activity
