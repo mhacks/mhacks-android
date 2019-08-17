@@ -6,15 +6,17 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.mhacks.app.core.data.model.Outcome
+import org.mhacks.app.core.data.model.RetrofitException
 import org.mhacks.app.core.data.model.Text
 import org.mhacks.app.data.model.MapFloor
-import org.mhacks.app.core.data.model.RetrofitException
 import org.mhacks.app.maps.usecase.GetAndCacheMapResultUseCase
 import javax.inject.Inject
 import org.mhacks.app.core.R as coreR
 
+data class MapResult(val floorImage: Bitmap, val mapFloor: MapFloor)
+
 class MapViewModel @Inject constructor(
-        private val getAndCacheMapResultUseCase: GetAndCacheMapResultUseCase): ViewModel() {
+        private val getAndCacheMapResultUseCase: GetAndCacheMapResultUseCase) : ViewModel() {
 
     private val _getAndCacheMapFloorResult = getAndCacheMapResultUseCase.observe()
 
@@ -74,7 +76,5 @@ class MapViewModel @Inject constructor(
         super.onCleared()
         getAndCacheMapResultUseCase.onCleared()
     }
-
-    data class MapResult(val floorImage: Bitmap, val mapFloor: MapFloor)
 
 }

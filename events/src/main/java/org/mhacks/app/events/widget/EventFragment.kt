@@ -23,7 +23,7 @@ import javax.inject.Inject
  */
 class EventFragment : NavigationFragment() {
 
-    override var setTransparent: Boolean = false
+    override var transparentToolbarColor: Int? = null
 
     override var appBarTitle: Int = R.string.title_events
 

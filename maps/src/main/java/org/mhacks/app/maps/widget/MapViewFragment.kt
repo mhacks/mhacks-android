@@ -23,6 +23,7 @@ import org.mhacks.app.core.ktx.convertDpToPixel
 import org.mhacks.app.core.ktx.showSnackBar
 import org.mhacks.app.core.widget.NavigationFragment
 import org.mhacks.app.maps.BuildConfig
+import org.mhacks.app.maps.MapResult
 import org.mhacks.app.maps.MapViewModel
 import org.mhacks.app.maps.R
 import org.mhacks.app.maps.databinding.FragmentMapBinding
@@ -41,7 +42,7 @@ class MapViewFragment :
         NavigationFragment(),
         OnMapReadyCallback {
 
-    override var setTransparent: Boolean = true
+    override var transparentToolbarColor: Int? = coreR.color.semiColorPrimary
 
     override var appBarTitle: Int = R.string.title_map
 
@@ -72,23 +73,13 @@ class MapViewFragment :
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setCustomActionBarColor(coreR.color.semiColorPrimary)
-    }
-
     private fun subscribeUi(mapFloorViewModel: MapViewModel) {
-        mapFloorViewModel.mapResult.observe(this, Observer {
-            setUpMapIfNeeded()
-
-            it?.let { mapResult ->
-                setupMap(mapResult)
-            }
-
+        mapFloorViewModel.mapResult.observe(viewLifecycleOwner, Observer {
+            setupMap(it)
             showMainContent()
         })
 
-        mapFloorViewModel.error.observe(this, Observer { error ->
+        mapFloorViewModel.error.observe(viewLifecycleOwner, Observer { error ->
             when (error) {
                 RetrofitException.Kind.NETWORK -> {
                     showErrorView(R.string.maps_network_failure) {
@@ -100,7 +91,7 @@ class MapViewFragment :
                 }
             }
         })
-        mapFloorViewModel.snackBarMessage.observe(this, Observer {
+        mapFloorViewModel.snackBarMessage.observe(viewLifecycleOwner, Observer {
             it?.let { textMessage ->
                 rootView?.showSnackBar(textMessage)
             }
@@ -192,10 +183,10 @@ class MapViewFragment :
         }
     }
 
-    private fun setupMap(mapResult: MapViewModel.MapResult) {
+    private fun setupMap(mapResult: MapResult) {
+        setUpMapIfNeeded()
         val (floorImage, mapFloor) = mapResult
-
-        val sportsBuildingBounds = LatLngBounds(
+        val locationBounds = LatLngBounds(
                 LatLng(
                         mapFloor.seLatitude.toDouble(),
                         mapFloor.nwLongitude.toDouble()), // South West corner
@@ -203,14 +194,10 @@ class MapViewFragment :
                         mapFloor.nwLatitude.toDouble(),
                         mapFloor.seLongitude.toDouble()) // North East Corner
         )
-        val sportsBuildingMap = GroundOverlayOptions()
+        val locationMap = GroundOverlayOptions()
                 .image(BitmapDescriptorFactory.fromBitmap(floorImage))
-                .positionFromBounds(sportsBuildingBounds)
-        googleMap?.addGroundOverlay(sportsBuildingMap)
+                .positionFromBounds(locationBounds)
+        googleMap?.addGroundOverlay(locationMap)
     }
-
-    companion object {
-        val instance: MapViewFragment
-            get() = MapViewFragment()
-    }
+     
 }

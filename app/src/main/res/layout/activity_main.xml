@@ -9,15 +9,6 @@
         android:layout_height="match_parent"
         tools:context="com.mhacks.app.ui.main.MainActivity">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/main_activity_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_height"
-            android:layout_alignParentTop="true"
-            android:paddingTop="24dp"
-            android:paddingBottom="8dp"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -36,6 +27,15 @@
                     android:layout_height="match_parent" />
 
             </FrameLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/main_activity_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_height"
+                android:layout_alignParentTop="true"
+                android:paddingTop="24dp"
+                android:paddingBottom="8dp"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/main_activity_qr_ticket_fab"

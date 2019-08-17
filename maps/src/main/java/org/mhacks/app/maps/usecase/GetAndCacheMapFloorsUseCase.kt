@@ -1,15 +1,15 @@
 package org.mhacks.app.maps.usecase
 
-import org.mhacks.app.maps.MapFloorsRepository
-import org.mhacks.app.core.usecase.SingleUseCase
-import org.mhacks.app.maps.MapViewModel
 import io.reactivex.Single
+import org.mhacks.app.core.usecase.SingleUseCase
+import org.mhacks.app.maps.MapFloorsRepository
+import org.mhacks.app.maps.MapResult
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class GetAndCacheMapResultUseCase @Inject constructor(
         private val mapFloorsRepository: MapFloorsRepository)
-    : SingleUseCase<Unit, MapViewModel.MapResult>() {
+    : SingleUseCase<Unit, MapResult>() {
 
     override fun getSingle(parameters: Unit) =
             mapFloorsRepository
@@ -28,7 +28,7 @@ class GetAndCacheMapResultUseCase @Inject constructor(
                         mapFloorsRepository
                                 .getImageFromUrl(mapFloors[0].floorImage)
                                 .map {
-                                    MapViewModel.MapResult(it, mapFloors[0])
+                                    MapResult(it, mapFloors[0])
                                 }
                     }
 }

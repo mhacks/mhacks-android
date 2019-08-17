@@ -35,7 +35,6 @@ abstract class NavigationFragment : BaseFragment() {
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (setTransparent) {
-                callback?.setActionBarColor(android.R.color.transparent)
                 callback?.setStatusBarColor(android.R.color.transparent)
                 callback?.removePadding()
 

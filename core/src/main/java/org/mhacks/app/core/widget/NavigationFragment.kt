@@ -15,7 +15,8 @@ abstract class NavigationFragment : BaseFragment() {
 
     private var callback: OnNavigationChangeListener? = null
 
-    abstract var setTransparent: Boolean
+    @get:ColorRes
+    abstract var transparentToolbarColor: Int?
 
     abstract var appBarTitle: Int
 
@@ -32,23 +33,15 @@ abstract class NavigationFragment : BaseFragment() {
     @SuppressLint("ObsoleteSdkInt")
     private fun changeColors() {
         callback?.setFragmentTitle(appBarTitle)
-        callback?.setActionBarColor(android.R.color.transparent)
-
-        if (setTransparent) {
-            callback?.setActionBarColor(android.R.color.transparent)
+        if (transparentToolbarColor != null) {
+            callback?.setActionBarColor(transparentToolbarColor!!)
             callback?.setStatusBarColor(android.R.color.transparent)
             callback?.removePadding()
-
         } else {
             callback?.setActionBarColor(R.color.colorPrimary)
             callback?.setStatusBarColor(R.color.colorPrimaryDark)
             callback?.addPadding()
         }
-
-    }
-
-    fun setCustomActionBarColor(@ColorRes res: Int) {
-        callback?.setActionBarColor(res)
     }
 
     interface OnNavigationChangeListener {
