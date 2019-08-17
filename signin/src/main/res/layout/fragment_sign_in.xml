@@ -8,81 +8,65 @@
         android:background="@drawable/mhacks_wallpaper"
         tools:ignore="MissingPrefix">
 
-        <Button
-            android:id="@+id/email_sign_in_button"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_button"
-            android:padding="12dp"
-            android:text="@string/sign_in"
-            android:textColor="@drawable/sign_in_button"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/no_thanks_button"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
-            app:layout_constraintVertical_chainStyle="packed" />
-
-        <Button
-            android:id="@+id/no_thanks_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:text="@string/no_thanks"
-            android:textColor="@drawable/sign_in_button"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/email_sign_in_button" />
-
-
-        <ProgressBar
-            android:id="@+id/login_progress"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
-
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/fragment_sign_in_header_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/auth"
+            android:text="@string/login"
+            android:textAllCaps="true"
             android:textColor="@color/colorAccent"
             android:textSize="64sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.30" />
+            app:layout_constraintVertical_bias="0.20" />
+
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout2"
+            android:id="@+id/fragment_sign_in_username_text_input_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:theme="@style/SignInTextInputLayout"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toTopOf="@id/fragment_sign_in_password_text_input_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_sign_in_header_text_view"
+            app:layout_constraintVertical_chainStyle="packed">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/login_password"
+                android:id="@+id/fragment_sign_in_email_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
+                android:hint="@string/username"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragment_sign_in_password_text_input_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_sign_in_email_submit_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_sign_in_username_text_input_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragment_sign_in_password_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="@string/password"
-                android:imeActionLabel="@string/auth"
+                android:imeActionLabel="@string/login"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
@@ -90,29 +74,38 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout"
+        <androidx.constraintlayout.widget.Placeholder
+            android:id="@+id/placeholder"
             android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_sign_in_password_text_input_layout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <Button
+            android:id="@+id/fragment_sign_in_email_submit_button"
+            style="@style/LoginButton"
+            android:layout_width="175dp"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:theme="@style/SignInTextInputLayout"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            android:text="@string/sign_in"
+            app:layout_constraintBottom_toTopOf="@id/fragment_sign_in_no_thanks_button"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:layout_constraintVertical_bias="0.10">
+            app:layout_constraintTop_toBottomOf="@+id/placeholder"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/login_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/username"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:textSize="15sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
-        </com.google.android.material.textfield.TextInputLayout>
+        <Button
+            android:id="@+id/fragment_sign_in_no_thanks_button"
+            style="@style/LoginButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/no_thanks"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_sign_in_email_submit_button"
+            app:layout_constraintStart_toStartOf="@+id/fragment_sign_in_email_submit_button"
+            app:layout_constraintTop_toBottomOf="@id/fragment_sign_in_email_submit_button" />
+
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

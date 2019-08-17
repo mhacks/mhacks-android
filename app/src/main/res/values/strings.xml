@@ -7,7 +7,7 @@
     <string name="countdown_timer_default">36:00:00</string>
     <string name="countdown_timer_title">Time Remaining</string>
 
-    <string name="auth">LOGIN</string>
+    <string name="login">login</string>
     <string name="title_home">Home</string>
     <string name="title_announcements">Feed</string>
     <string name="welcome">Welcome</string>
@@ -23,7 +23,6 @@
 
     <!-- ProgressBar View-->
     <string name="logging_in">Logging in…</string>
-
     <string name="post_announcements">Post Announcement</string>
 
 
@@ -31,7 +30,7 @@
     <string name="name">Name</string>
     <string name="school">School</string>
     <string name="qr_code">QR Code</string>
-    <string name="no_thanks">NO THANKS</string>
+    <string name="no_thanks">No thanks</string>
     <string name="no_school">No school was selected!</string>
 
     <string name="logging_in_auth_error">Username or password is incorrect.</string>

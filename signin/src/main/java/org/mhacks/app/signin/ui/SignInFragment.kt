@@ -39,14 +39,14 @@ class SignInFragment : BaseFragment() {
         binding = FragmentSignInBinding.inflate(inflater, container, false)
                 .apply {
                     subscribeUi(viewModel)
-                    emailSignInButton.setOnClickListener {
+                    fragmentSignInEmailSubmitButton.setOnClickListener {
                         viewModel.postAuth(
                                 AuthRequest(
-                                        loginEmail.text.toString(),
-                                        loginPassword.text.toString()))
+                                        fragmentSignInEmailEditText.text.toString(),
+                                        fragmentSignInPasswordEditText.text.toString()))
                     }
 
-                    noThanksButton.setOnClickListener {
+                    fragmentSignInNoThanksButton.setOnClickListener {
                         viewModel.skipAuth()
                     }
                     lifecycleOwner = this@SignInFragment
