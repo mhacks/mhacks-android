@@ -5,4 +5,8 @@
         <item>@string/post_announcements</item>
         <item>@string/ticket</item>
     </array>
+
+    <array name="debug_options">
+        <item>Toggle Dark Mode</item>
+    </array>
 </resources>

@@ -15,13 +15,12 @@ import org.mhacks.app.core.di.AppModule
 import org.mhacks.app.core.di.CoreComponent
 import org.mhacks.app.core.di.DaggerCoreComponent
 import org.mhacks.app.ui.main.MainActivity
-import org.mhacks.app.ui.main.SplashActivity
 
 private const val MHACKS_GROUP = "MHacks Group"
 
 class MHacksApplication : Application() {
 
-    var darkMode = false
+    private var debugDarkMode = false
 
     private val coreComponent: CoreComponent by lazy {
         DaggerCoreComponent.builder()
@@ -37,10 +36,11 @@ class MHacksApplication : Application() {
         setDefaultNightMode(nightMode)
     }
 
+    // For debugging.
     fun toggleDarkMode(activity: Activity) {
-        darkMode = !darkMode
+        debugDarkMode = !debugDarkMode
         val nightMode =
-                if (darkMode) MODE_NIGHT_YES
+                if (debugDarkMode) MODE_NIGHT_YES
                 else MODE_NIGHT_NO
         setDefaultNightMode(nightMode)
         startActivity(Intent(activity, MainActivity::class.java).apply {

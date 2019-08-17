@@ -199,5 +199,5 @@ class MapViewFragment :
                 .positionFromBounds(locationBounds)
         googleMap?.addGroundOverlay(locationMap)
     }
-     
+
 }

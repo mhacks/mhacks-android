@@ -92,6 +92,7 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
         )
                 .apply {
                     subscribeUi(this)
+                    initDebug(this)
                     mainActivityNavigation.menu.getItem(0).setTitle(R.string.title_home)
                     setSupportActionBar(mainActivityToolbar)
                     setupBottomNavBar(mainActivityNavigation)
@@ -109,12 +110,11 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
             it?.let { isAdmin ->
                 val listener = if (isAdmin) {
                     View.OnClickListener {
-                        (application as MHacksApplication).toggleDarkMode(this)
+
                         showAdminOptions()
                     }
                 } else {
                     View.OnClickListener {
-                        (application as MHacksApplication).toggleDarkMode(this)
                         showTicketDialogFragment()
                     }
                 }
@@ -194,6 +194,21 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
                         )
                     }
                 }.show()
+    }
+
+    private fun initDebug(activityMainBinding: ActivityMainBinding) {
+        if (BuildConfig.DEBUG) {
+            activityMainBinding.mainActivityDebugMenuButton.visibility = View.VISIBLE
+            activityMainBinding.mainActivityDebugMenuButton.setOnClickListener {
+                AlertDialog.Builder(this)
+                        .setTitle("Debug")
+                        .setItems(R.array.debug_options) { _, which ->
+                            when (which) {
+                                0 -> (application as MHacksApplication).toggleDarkMode(this)
+                            }
+                        }.show()
+            }
+        }
     }
 
     override fun onTicketUnauthorized() {
