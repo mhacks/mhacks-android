@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">MHacks</string>
 
     <!-- Welcome Fragment-->
@@ -11,30 +10,12 @@
     <string name="title_home">Home</string>
     <string name="title_announcements">Feed</string>
     <string name="welcome">Welcome</string>
-    <string name="sign_in">Sign in</string>
-    <string name="password">Password</string>
-    <string name="username">Username</string>
 
 
     <!--Announcements-->
     <string name="loading_announcements">Loading announcements…</string>
     <string name="announcement_network_failure">Couldn\'t get announcements.</string>
 
-
-    <!-- ProgressBar View-->
-    <string name="logging_in">Logging in…</string>
-    <string name="post_announcements">Post Announcement</string>
-
-
-    <!-- Ticket Fragment -->
-    <string name="name">Name</string>
-    <string name="school">School</string>
-    <string name="qr_code">QR Code</string>
-    <string name="no_thanks">No thanks</string>
-    <string name="no_school">No school was selected!</string>
-
-    <string name="logging_in_auth_error">Username or password is incorrect.</string>
-    <string name="ticket_description">My ticket.</string>
 
     <!--Info Fragment-->
     <string name="collapsible_card_title_1">Have Fun!</string>
@@ -50,20 +31,18 @@
     <string name="collapsible_card_desc_4">We\'ve got a ton of great sponsors here to meet you and help you this weekend. Talk to them!</string>
 
 
-    <!--Needed for navigation component-->
+    <!--Needed for navigation component and dynamic modules -->
     <string name="title_welcome">welcome</string>
     <string name="title_maps">Maps</string>
     <string name="title_events">Events</string>
     <string name="title_map">Maps</string>
     <string name="title_info">Info</string>
-    <string name="admin">Admin</string>
-
-    <string name="scan_ticket">Scan Ticket</string>
-    <string name="ticket">Ticket</string>
-    <string name="title_signin">Sign in</string>
     <string name="title_ticket">Ticket</string>
-    <string name="title_qrscan">QR Scan</string>
-    <string name="title_postannouncement">Post Announcements</string>
+    <string name="title_qr_scan">QR Scan</string>
+    <string name="title_sign_in">Sign in</string>
+    <string name="title_post_announcements">Post Announcements</string>
 
+    <!--Admin-->
+    <string name="admin">Admin</string>
 
 </resources>

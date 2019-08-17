@@ -4,7 +4,7 @@
 
     <dist:module
         dist:instant="false"
-        dist:title="@string/title_signin">
+        dist:title="@string/title_sign_in">
         <dist:delivery>
             <dist:install-time />
         </dist:delivery>

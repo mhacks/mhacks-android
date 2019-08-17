@@ -12,7 +12,7 @@
     <fragment
         android:id="@+id/ticket_dialog_fragment"
         android:name="org.mhacks.app.events.widget.EventFragment"
-        android:label="@string/ticket_description" />
+        android:label="@string/title_ticket" />
 
     <fragment
         android:id="@+id/welcome_fragment"

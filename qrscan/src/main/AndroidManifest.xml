@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
+    xmlns:tools="http://schemas.android.com/tools"
     package="org.mhacks.app.qrscan">
 
     <application
@@ -10,7 +11,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MHacks">
+        android:theme="@style/Theme.MHacks"
+        tools:targetApi="o">
 
         <activity
             android:name=".ui.QRScanActivity"
@@ -23,7 +25,7 @@
 
     <dist:module
         dist:instant="false"
-        dist:title="@string/title_qrscan">
+        dist:title="@string/title_qr_scan">
         <dist:delivery>
             <dist:on-demand />
         </dist:delivery>

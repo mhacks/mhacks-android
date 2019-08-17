@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="admin_options">
-        <item>@string/scan_ticket</item>
-        <item>@string/post_announcements</item>
-        <item>@string/ticket</item>
+        <item>@string/title_qr_scan</item>
+        <item>@string/title_post_announcements</item>
+        <item>@string/title_ticket</item>
     </array>
 
     <array name="debug_options">

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import org.mhacks.app.core.ktx.showSnackBar
@@ -26,7 +27,14 @@ class SignInFragment : BaseFragment() {
 
     private var callback: Callback? = null
 
-    @Inject lateinit var viewModel: SignInViewModel
+    private val authRequest: AuthRequest
+        get() = AuthRequest(
+                binding.fragmentSignInEmailEditText.text.toString(),
+                binding.fragmentSignInPasswordEditText.text.toString()
+        )
+
+    @Inject
+    lateinit var viewModel: SignInViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -40,15 +48,20 @@ class SignInFragment : BaseFragment() {
                 .apply {
                     subscribeUi(viewModel)
                     fragmentSignInEmailSubmitButton.setOnClickListener {
-                        viewModel.postAuth(
-                                AuthRequest(
-                                        fragmentSignInEmailEditText.text.toString(),
-                                        fragmentSignInPasswordEditText.text.toString()))
+                        viewModel.postAuth(authRequest)
+
                     }
 
                     fragmentSignInNoThanksButton.setOnClickListener {
                         viewModel.skipAuth()
                     }
+                    fragmentSignInPasswordEditText.setOnEditorActionListener { _, actionId, _ ->
+                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+                            viewModel.postAuth(authRequest)
+                            return@setOnEditorActionListener true
+                        }
+                        false
+                    };
                     lifecycleOwner = this@SignInFragment
                     rootView = root
                 }

@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
                 android:imeActionLabel="@string/login"
-                android:imeOptions="actionUnspecified"
+                android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:textSize="15sp" />
