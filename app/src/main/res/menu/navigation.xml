@@ -4,27 +4,27 @@
 
     <item
         android:id="@id/welcome_fragment"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/ic_home_24dp"
         android:title="@string/title_home" />
 
     <item
         android:id="@id/announcement_fragment"
-        android:icon="@drawable/ic_rss_feed_black_24dp"
+        android:icon="@drawable/ic_rss_feed_24dp"
         android:title="@string/title_announcements" />
 
     <item
         android:id="@id/events_fragment"
-        android:icon="@drawable/ic_calendar_black_24dp"
+        android:icon="@drawable/ic_calendar_24dp"
         android:title="@string/title_events" />
 
     <item
         android:id="@id/map_view_fragment"
-        android:icon="@drawable/ic_map_black_24dp"
+        android:icon="@drawable/ic_map_24dp"
         android:title="@string/title_map" />
 
     <item
         android:id="@id/info_fragment"
-        android:icon="@drawable/ic_info_outline_black_24dp"
+        android:icon="@drawable/ic_info_outline_24dp"
         android:title="@string/title_info" />
     
 </menu>

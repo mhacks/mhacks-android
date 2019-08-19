@@ -73,12 +73,10 @@
             android:layout_gravity="bottom"
             android:background="?android:attr/windowBackground"
             app:itemHorizontalTranslationEnabled="false"
-            app:itemIconTint="@color/colorPrimary"
             app:itemTextColor="@color/colorPrimary"
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:menu="@menu/navigation" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

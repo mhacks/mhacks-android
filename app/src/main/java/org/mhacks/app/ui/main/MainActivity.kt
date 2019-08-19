@@ -35,6 +35,7 @@ private const val POST_ANNOUNCEMENT_FRAGMENT_TAG = "post_announcement_fragment"
  * feature fragments with a bottom navigation bar.
  */
 class MainActivity : NavigationActivity(), TicketDialogCallback {
+
     private lateinit var binding: ActivityMainBinding
 
     override val bottomNavigationView: BottomNavigationView
@@ -103,8 +104,17 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
         // Must be set after binding is set. The navigation fragment accesses abstract values that
         // require binding to be set.
         navController.setGraph(R.navigation.nav_main)
-        navController.navigate(R.id.welcome_fragment)
+        navigateFirst()
         setBottomNavigationColor(NavigationColor(R.color.colorPrimary, R.color.colorPrimaryDark))
+    }
+
+    private fun navigateFirst() {
+        val fragment = when (intent.action) {
+            EVENT_ACTION -> R.id.events_fragment
+            MAP_ACTION -> R.id.map_view_fragment
+            else -> R.id.welcome_fragment
+        }
+        navController.navigate(fragment)
     }
 
     private fun subscribeUi(binding: ActivityMainBinding) {
@@ -112,7 +122,6 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
             it?.let { isAdmin ->
                 val listener = if (isAdmin) {
                     View.OnClickListener {
-
                         showAdminOptions()
                     }
                 } else {
@@ -222,5 +231,13 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
     override fun onTicketUnauthorized() {
 
         startSignInActivity()
+    }
+
+    companion object {
+
+        const val MAP_ACTION = "org.mhacks.app.VIEW_MAP"
+
+        const val EVENT_ACTION = "org.mhacks.app.VIEW_EVENTS"
+        
     }
 }

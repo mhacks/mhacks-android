@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_calendar_24dp">
+
+        <categories android:name="android.shortcut.conversation" />
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list determines what the user sees when
+             they launch this shortcut. -->
+        <intent
+            android:action="org.mhacks.app.VIEW_EVENTS"
+            android:targetClass="org.mhacks.app.ui.main.MainActivity"
+            android:targetPackage="org.mhacks.app" />
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_map_24dp">
+
+        <categories android:name="android.shortcut.conversation" />
+        <intent
+            android:action="org.mhacks.app.VIEW_MAP"
+            android:targetClass="org.mhacks.app.ui.main.MainActivity"
+            android:targetPackage="org.mhacks.app" />
+    </shortcut>
+</shortcuts>
