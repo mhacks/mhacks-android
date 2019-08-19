@@ -19,4 +19,7 @@ interface AuthDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLogin(auth: Auth)
 
+    @Query("DELETE FROM auth")
+    fun deleteAuth()
+
 }

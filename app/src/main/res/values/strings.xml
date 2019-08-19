@@ -45,4 +45,8 @@
     <!--Admin-->
     <string name="admin">Admin</string>
 
+    <!--Settings-->
+    <string name="settings">Settings</string>
+    <string name="sign_out">Sign out</string>
+
 </resources>

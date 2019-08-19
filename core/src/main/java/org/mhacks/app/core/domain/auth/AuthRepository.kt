@@ -21,6 +21,8 @@ class AuthRepository(
 
     fun getCachedAuth() = authDao.getAuth()
 
+    fun deleteAuth() = Single.fromCallable { authDao.deleteAuth() }
+
     fun updateCachedAuth(auth: Auth) =
             Single.fromCallable {
                 authDao.insertLogin(auth)

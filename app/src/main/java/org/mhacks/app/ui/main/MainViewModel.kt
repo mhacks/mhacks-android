@@ -12,11 +12,13 @@ import org.mhacks.app.core.data.model.Outcome
 import org.mhacks.app.core.data.model.RetrofitException
 import org.mhacks.app.core.data.model.Text
 import org.mhacks.app.core.data.model.Text.*
+import org.mhacks.app.core.domain.auth.usecase.DeleteLocalAuthUseCase
 import timber.log.Timber
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
         private val getAuthUseCase: GetAuthUseCase,
+        private val deleteLocalAuthUseCase: DeleteLocalAuthUseCase,
         private val checkAdminAuthUseCase: IsUserAdminUseCase) : ViewModel() {
 
     private val checkLoginResult = getAuthUseCase.observe()
@@ -87,6 +89,10 @@ class MainViewModel @Inject constructor(
     }
 
     fun checkIfLoggedIn() {
+        getAuthUseCase(Unit)
+    }
+
+    fun signOut() {
         getAuthUseCase(Unit)
     }
 

@@ -4,6 +4,8 @@ import android.app.ActivityManager
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
 import androidx.databinding.DataBindingUtil
@@ -11,6 +13,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.room.Room
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.mhacks.app.BuildConfig
 import org.mhacks.app.MHacksApplication
@@ -228,6 +231,23 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_main_settings -> {
+                true
+            }
+            R.id.menu_main_sign_out -> {
+                mainViewModel.signOut()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
     override fun onTicketUnauthorized() {
 
         startSignInActivity()
@@ -238,6 +258,6 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
         const val MAP_ACTION = "org.mhacks.app.VIEW_MAP"
 
         const val EVENT_ACTION = "org.mhacks.app.VIEW_EVENTS"
-        
+
     }
 }
