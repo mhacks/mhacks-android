@@ -2,5 +2,6 @@
 <resources>
     <declare-styleable name="ValidatorTextInputLayout">
         <attr name="errorLabel" format="string" />
+        <attr name="textInputLayoutStyle" format="reference" />
     </declare-styleable>
 </resources>

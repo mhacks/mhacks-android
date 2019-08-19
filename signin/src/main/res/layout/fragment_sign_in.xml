@@ -82,6 +82,7 @@
         </org.mhacks.app.signin.ui.widget.validator.ValidatorTextInputLayout>
 
         <org.mhacks.app.signin.ui.widget.validator.ValidatorTextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:id="@+id/fragment_sign_in_username_text_input_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

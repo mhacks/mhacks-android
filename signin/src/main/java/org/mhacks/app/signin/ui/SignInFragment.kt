@@ -15,6 +15,7 @@ import org.mhacks.app.signin.databinding.FragmentSignInBinding
 import org.mhacks.app.signin.inject
 import org.mhacks.app.signin.ui.widget.validator.BlankValidator
 import org.mhacks.app.signin.ui.widget.validator.EmailValidator
+import org.mhacks.app.signin.ui.widget.validator.validate
 import org.mhacks.app.signin.usecase.AuthRequest
 import javax.inject.Inject
 import org.mhacks.app.core.R as coreR
@@ -110,11 +111,15 @@ class SignInFragment : BaseFragment() {
     }
 
     private fun validate() {
-        if (
-                binding.fragmentSignInUsernameTextInputLayout.validate() and
-                binding.fragmentSignInPasswordTextInputLayout.validate()
-        ) {
-            viewModel.postAuth(authRequest)
+        binding.apply {
+            val validatorViews =
+                    listOf(
+                            fragmentSignInUsernameTextInputLayout,
+                            fragmentSignInPasswordTextInputLayout
+                    )
+            if (validatorViews.validate()) {
+                viewModel.postAuth(authRequest)
+            }
         }
     }
 
