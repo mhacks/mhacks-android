@@ -119,7 +119,7 @@ private constructor() {
      * buffer.  We use byte buffers internally because this is a more efficient way to call into
      * native code later (avoids a potential copy).
      */
-    private val mBytesToByteBuffer = HashMap<ByteArray, ByteBuffer>()
+    private val mBytesToByteBuffer: MutableMap<ByteArray, ByteBuffer> = HashMap()
 
     @StringDef(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE, Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO, Camera.Parameters.FOCUS_MODE_AUTO, Camera.Parameters.FOCUS_MODE_EDOF, Camera.Parameters.FOCUS_MODE_FIXED, Camera.Parameters.FOCUS_MODE_INFINITY, Camera.Parameters.FOCUS_MODE_MACRO)
     @Retention(AnnotationRetention.SOURCE)

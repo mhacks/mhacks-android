@@ -27,7 +27,7 @@ class GraphicOverlay<T : GraphicOverlay.Graphic>(context: Context, attrs: Attrib
     var heightScaleFactor = 1.0f
         private set
     private var mFacing = CameraSource.CAMERA_FACING_BACK
-    private val mGraphics = HashSet<T>()
+    private val mGraphics: MutableSet<T> = HashSet()
 
     /**
      * Returns a copy (as a list) of the set of all active graphics.
