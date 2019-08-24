@@ -22,4 +22,16 @@
             android:targetClass="org.mhacks.app.ui.main.MainActivity"
             android:targetPackage="org.mhacks.app" />
     </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_rss_feed_24dp"
+        android:shortcutId="feed"
+        android:shortcutShortLabel="@string/title_announcements">
+
+        <intent
+            android:action="org.mhacks.app.VIEW_FEED"
+            android:targetClass="org.mhacks.app.ui.main.MainActivity"
+            android:targetPackage="org.mhacks.app" />
+    </shortcut>
 </shortcuts>

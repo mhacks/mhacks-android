@@ -2,7 +2,7 @@ package org.mhacks.app.events.usecase
 
 import io.reactivex.Single
 import org.mhacks.app.core.usecase.SingleUseCase
-import org.mhacks.app.data.model.Event
+import org.mhacks.app.events.data.model.Event
 import org.mhacks.app.events.EventRepository
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

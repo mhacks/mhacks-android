@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_announcements">Feed</string>-->
+    <string name="loading_announcements">Loading announcements…</string>
+    <string name="announcement_network_failure">Couldn\'t fetch announcements</string>
+</resources>

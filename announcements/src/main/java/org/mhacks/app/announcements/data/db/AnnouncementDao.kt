@@ -1,8 +1,8 @@
-package org.mhacks.app.data.room.dao
+package org.mhacks.app.announcements.data.db
 
 import androidx.room.*
 import io.reactivex.Single
-import org.mhacks.app.data.model.Announcement
+import org.mhacks.app.announcements.data.model.Announcement
 
 /**
  * Dao for Announcement model.

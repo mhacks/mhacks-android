@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import io.reactivex.Single
-import org.mhacks.app.data.model.Event
+import org.mhacks.app.events.data.model.Event
 
 /**
  * Dao for event model.

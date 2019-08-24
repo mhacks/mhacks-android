@@ -6,7 +6,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.mhacks.app.core.data.model.Text
-import org.mhacks.app.data.model.Event
+import org.mhacks.app.events.data.model.Event
 import org.mhacks.app.core.data.model.Outcome
 import org.mhacks.app.core.data.model.RetrofitException
 import org.mhacks.app.events.usecase.FavoriteEventUseCase

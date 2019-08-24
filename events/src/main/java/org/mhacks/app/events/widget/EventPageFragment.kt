@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import org.mhacks.app.data.model.Event
+import org.mhacks.app.events.data.model.Event
 import org.mhacks.app.event.databinding.FragmentEventPageBinding
 import org.mhacks.app.events.EventWithDay
 import org.mhacks.app.events.data.model.EventSectionModel

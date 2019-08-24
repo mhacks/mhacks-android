@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import org.mhacks.app.core.data.model.Outcome
 import org.mhacks.app.core.data.model.RetrofitException
 import org.mhacks.app.core.data.model.Text
-import org.mhacks.app.data.model.MapFloor
+import org.mhacks.app.maps.data.model.MapFloor
 import org.mhacks.app.maps.usecase.GetAndCacheMapResultUseCase
 import javax.inject.Inject
 import org.mhacks.app.core.R as coreR

@@ -15,7 +15,7 @@ android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
 
-    dynamicFeatures = [":events", ":maps", ":signin", ":ticket", ":qrscan", ":postannouncement"]
+    dynamicFeatures = [":events", ":maps", ":signin", ":ticket", ":qrscan", ":postannouncement", ":announcements"]
 
     dexOptions {
         javaMaxHeapSize "4g"

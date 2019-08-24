@@ -8,7 +8,6 @@
 
     <string name="login">login</string>
     <string name="title_home">Home</string>
-    <string name="title_announcements">Feed</string>
     <string name="welcome">Welcome</string>
 
 
@@ -33,6 +32,7 @@
 
     <!--Needed for navigation component and dynamic modules -->
     <string name="title_welcome">welcome</string>
+    <string name="title_announcements">Feed</string>
     <string name="title_maps">Maps</string>
     <string name="title_events">Events</string>
     <string name="title_map">Maps</string>

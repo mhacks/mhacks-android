@@ -1,7 +1,7 @@
 package org.mhacks.app.maps
 
 import org.mhacks.app.maps.data.service.GetImageFromUrlService
-import org.mhacks.app.data.model.MapFloor
+import org.mhacks.app.maps.data.model.MapFloor
 import org.mhacks.app.maps.data.db.MapFloorDao
 import org.mhacks.app.maps.data.service.MapService
 import javax.inject.Inject

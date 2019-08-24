@@ -1,4 +1,4 @@
-package org.mhacks.app.data.model
+package org.mhacks.app.events.data.model
 
 import androidx.room.*
 import android.os.Parcel

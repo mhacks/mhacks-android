@@ -1,4 +1,4 @@
-package org.mhacks.app.data.model
+package org.mhacks.app.maps.data.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import org.mhacks.app.data.model.Event
+import org.mhacks.app.events.data.model.Event
 
 @Database(entities = [Event::class], version = 1, exportSchema = false)
 abstract class EventDatabase : RoomDatabase() {

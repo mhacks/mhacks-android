@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import org.mhacks.app.data.model.MapFloor
+import org.mhacks.app.maps.data.model.MapFloor
 
 @Database(entities = [MapFloor::class], version = 1, exportSchema = false)
 abstract class MapDatabase : RoomDatabase() {

@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/announcement_fragment"
-        android:name="org.mhacks.app.events.widget.EventFragment"
+        android:name="org.mhacks.app.announcements.widget.AnnouncementFragment"
         android:label="@string/title_announcements" />
 
     <fragment

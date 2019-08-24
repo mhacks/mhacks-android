@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import io.reactivex.Single
-import org.mhacks.app.data.model.MapFloor
+import org.mhacks.app.maps.data.model.MapFloor
 
 /**
  * Dao for the map floor model.

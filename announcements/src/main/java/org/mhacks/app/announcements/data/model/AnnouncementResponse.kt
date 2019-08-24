@@ -1,4 +1,4 @@
-package org.mhacks.app.data.model
+package org.mhacks.app.announcements.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -1,7 +1,7 @@
 package org.mhacks.app.maps.data.service
 
 import io.reactivex.Single
-import org.mhacks.app.data.model.FloorResponse
+import org.mhacks.app.maps.data.model.FloorResponse
 import retrofit2.http.GET
 
 interface MapService {
