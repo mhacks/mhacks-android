@@ -25,7 +25,7 @@ class MainViewModel @Inject constructor(
 
     private val checkAdminResult = checkAdminAuthUseCase.observe()
 
-    private val _auth = MediatorLiveData<Auth>()
+    private val _auth = MediatorLiveData<Auth?>()
 
     val auth: LiveData<Auth?>
         get() = _auth
@@ -52,9 +52,7 @@ class MainViewModel @Inject constructor(
                     Timber.d("Going to the SignInActivity")
                     _auth.value = null
                 }
-
                 (it.exception as? RetrofitException)?.let { retrofitException ->
-
                     when (retrofitException.kind) {
                         RetrofitException.Kind.HTTP -> {
                             retrofitException.errorResponse?.let { errorResponse ->
@@ -93,7 +91,8 @@ class MainViewModel @Inject constructor(
     }
 
     fun signOut() {
-        getAuthUseCase(Unit)
+        deleteLocalAuthUseCase(Unit)
+        _auth.value = null
     }
 
     private fun checkIfAdmin() {
