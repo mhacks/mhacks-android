@@ -32,7 +32,7 @@ abstract class AddressableFragment {
         return try {
             Class.forName(className)
             true
-        } catch (e: ClassNotFoundException) {
+        } catch (e: Throwable) {
             false
         }
     }
@@ -57,6 +57,10 @@ object Activities {
 
     object QRScan : AddressableActivity {
         override val className = "$PACKAGE_NAME.qrscan.ui.QRScanActivity"
+    }
+
+    object Preference : AddressableActivity {
+        override val className = "$PACKAGE_NAME.pref.PrefActivity"
     }
 }
 

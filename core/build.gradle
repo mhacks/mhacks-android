@@ -47,6 +47,8 @@ dependencies {
     api deps.googlePlay.maps
     api deps.googlePlay.vision
 
+    api deps.androidx.preference
+
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
     implementation 'com.squareup.okhttp3:okhttp:4.0.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.10'

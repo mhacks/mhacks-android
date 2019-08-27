@@ -161,6 +161,11 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
         startActivity(intent)
     }
 
+    private fun startPrefActivity() {
+        val intent = intentTo(Activities.Preference)
+        startActivity(intent)
+    }
+
     private fun showSingleInstanceDialogFragment(addressableFragment: AddressableFragment, tag: String) {
         val ft = supportFragmentManager.beginTransaction()
         val prev = supportFragmentManager.findFragmentByTag(tag)
@@ -240,6 +245,7 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_main_settings -> {
+                startPrefActivity()
                 true
             }
             R.id.menu_main_sign_out -> {

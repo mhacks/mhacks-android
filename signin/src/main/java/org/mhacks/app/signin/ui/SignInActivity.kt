@@ -11,7 +11,7 @@ class SignInActivity : BaseActivity(), SignInFragment.Callback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(appR.style.Theme_MHacks)
+        setTheme(appR.style.Theme_MHacks_NoActionBar)
         setStatusBarTransparent()
         setContentView(R.layout.activity_signin)
     }

@@ -9,10 +9,23 @@
         <item name="colorControlActivated">@color/colorAccent</item>
     </style>
 
-    <style name="Theme.MHacks" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.MHacks.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="android:textColorSecondary">@color/white</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="editTextStyle">@style/MHacksEditText</item>
+        <item name="android:textColorHint">@color/colorPrimaryDark</item>
+        <item name="android:actionOverflowButtonStyle">@style/Theme.MHacks.OverFlowButton</item>
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="Theme.MHacks.ActionBar" parent="Theme.MaterialComponents.DayNight">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="editTextStyle">@style/MHacksEditText</item>
         <item name="android:textColorHint">@color/colorPrimaryDark</item>

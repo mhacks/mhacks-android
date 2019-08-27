@@ -9,7 +9,7 @@
         <item name="colorControlActivated">@color/colorAccent</item>
     </style>
 
-    <style name="Theme.MHacks" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.MHacks.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
