@@ -3,8 +3,8 @@ package org.mhacks.app.events.widget
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import org.mhacks.app.events.data.model.Event
-import org.mhacks.app.events.EventWithDay
+import org.mhacks.app.eventlibrary.data.model.Event
+import org.mhacks.app.eventlibrary.EventWithDay
 
 /**
  * Pager adapter for events.

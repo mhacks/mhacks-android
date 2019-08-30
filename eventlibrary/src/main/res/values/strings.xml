@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Eventlibrary</string>
+
+    <!-- Event based -->
+    <string name="loading_events">Loading event…</string>
+    <string name="events_network_failure">Couldn\'t fetch event.</string>
+    <string name="like">Like</string>
+    <string name="title_events">Events</string>
+</resources>

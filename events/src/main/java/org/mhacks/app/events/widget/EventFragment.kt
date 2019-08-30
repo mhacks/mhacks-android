@@ -9,11 +9,11 @@ import androidx.lifecycle.Observer
 import com.jakewharton.threetenabp.AndroidThreeTen
 import org.mhacks.app.core.ktx.showSnackBar
 import org.mhacks.app.core.widget.NavigationFragment
-import org.mhacks.app.events.data.model.Event
+import org.mhacks.app.eventlibrary.data.model.Event
 import org.mhacks.app.core.data.model.RetrofitException
 import org.mhacks.app.event.R
 import org.mhacks.app.event.databinding.FragmentEventBinding
-import org.mhacks.app.events.EventViewModel
+import org.mhacks.app.eventlibrary.EventViewModel
 import org.mhacks.app.events.di.inject
 import timber.log.Timber
 import javax.inject.Inject

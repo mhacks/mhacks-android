@@ -23,9 +23,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':app')
     implementation project(':core')
-
-    implementation "com.jakewharton.threetenabp:threetenabp:1.2.1"
-    implementation 'com.github.vipulasri:timelineview:1.0.5'
+    implementation project(':eventlibrary')
 
     implementation deps.androidx.constraintlayout
 }

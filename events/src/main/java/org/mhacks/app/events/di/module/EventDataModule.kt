@@ -4,8 +4,8 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import org.mhacks.app.core.di.module.FeatureScope
-import org.mhacks.app.events.data.db.EventDatabase
-import org.mhacks.app.events.data.service.EventService
+import org.mhacks.app.eventlibrary.data.db.EventDatabase
+import org.mhacks.app.eventlibrary.data.service.EventService
 import retrofit2.Retrofit
 
 @Module

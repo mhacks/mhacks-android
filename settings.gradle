@@ -1,4 +1,4 @@
-include ':app', ':events', ':core', ':maps', ':announcements', ':pref'
+include ':app', ':events', ':core', ':maps', ':announcements', ':pref', ':welcome', ':eventlibrary'
 include ':signin'
 include ':ticket'
 include ':qrscan'

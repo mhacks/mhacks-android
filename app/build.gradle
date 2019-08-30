@@ -15,7 +15,7 @@ android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
 
-    dynamicFeatures = [":events", ":maps", ":signin", ":ticket", ":qrscan", ":postannouncement", ":announcements", ":pref"]
+    dynamicFeatures = [":events", ":maps", ":signin", ":ticket", ":qrscan", ":postannouncement", ":announcements", ":pref", ":welcome"]
 
     dexOptions {
         javaMaxHeapSize "4g"
@@ -92,6 +92,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':core')
+    implementation project(':eventlibrary')
 
     implementation 'com.google.android.material:material:1.1.0-alpha09'
 
