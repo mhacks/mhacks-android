@@ -22,7 +22,7 @@ data class EventWithDay(
         val event: Event
 )
 
-class EventViewModel @Inject constructor(
+class EventViewModel constructor(
         private val getAndCacheEventsUseCase: GetAndCacheEventsUseCase,
         private val favoriteEventUseCase: FavoriteEventUseCase,
         private val getFavoriteCachedEventsUseCase: GetFavoriteCachedEventsUseCase

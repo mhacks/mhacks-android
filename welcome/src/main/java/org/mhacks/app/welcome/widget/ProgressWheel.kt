@@ -9,9 +9,18 @@ import android.graphics.RectF
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
+import androidx.databinding.BindingAdapter
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import org.mhacks.app.welcome.R
+import org.mhacks.app.core.data.model.Text
 
+@BindingAdapter("android:text")
+fun setText(view: ProgressWheel, text: Text) {
+    when (text) {
+        is Text.Res -> view.setCenterText(view.context.getString(text.textResId))
+        is Text.TextString -> view.setCenterText(text.text)
+    }
+}
 class ProgressWheel : View {
 
     //Sizes (with defaults)
@@ -83,11 +92,6 @@ class ProgressWheel : View {
         barPaint.style = Paint.Style.STROKE
         barPaint.strokeWidth = barWidth
         barPaint.strokeCap = Paint.Cap.ROUND
-
-//        circlePaint.color = rimColor
-//        circlePaint.isAntiAlias = true
-//        circlePaint.style = Paint.Style.STROKE
-//        circlePaint.strokeWidth = barWidth
 
         countTextPaint.color = countTextColor
         countTextPaint.flags = Paint.ANTI_ALIAS_FLAG

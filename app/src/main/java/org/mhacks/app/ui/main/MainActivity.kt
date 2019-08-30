@@ -8,12 +8,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
+import androidx.annotation.IdRes
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.room.Room
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.mhacks.app.BuildConfig
 import org.mhacks.app.MHacksApplication
@@ -145,6 +145,10 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
         mainViewModel.text.observe(this, Observer {
             binding.root.showSnackBar(it)
         })
+    }
+
+    fun navigate(@IdRes fragment: Int) {
+        navController.navigate(fragment)
     }
 
     override fun onSupportNavigateUp() =

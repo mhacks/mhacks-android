@@ -1,10 +1,10 @@
-//package org.mhacks.app.di.component
+//package org.mhacks.app.org.mhacks.app.eventlibrary.di.component
 //
 //import android.app.Application
 //import com.mhacks.app.MHacksApplication
 //import com.mhacks.app.data.DataModule
-//import org.mhacks.app.di.ViewModelModule
-//import org.mhacks.app.di.module.*
+//import org.mhacks.app.org.mhacks.app.eventlibrary.di.ViewModelModule
+//import org.mhacks.app.org.mhacks.app.eventlibrary.di.module.*
 //import dagger.BindsInstance
 //import dagger.Component
 //import dagger.android.AndroidInjector

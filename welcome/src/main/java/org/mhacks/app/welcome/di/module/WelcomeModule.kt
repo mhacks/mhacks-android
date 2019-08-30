@@ -19,9 +19,4 @@ abstract class WelcomeModule {
     @ViewModelKey(WelcomeViewModel::class)
     abstract fun bindWelcomeViewModel(welcomeViewModel: WelcomeViewModel): ViewModel
 
-    @Binds
-    @IntoMap
-    @ViewModelKey(EventViewModel::class)
-    abstract fun bindEventViewModel(eventsViewModel: EventViewModel): ViewModel
-
 }

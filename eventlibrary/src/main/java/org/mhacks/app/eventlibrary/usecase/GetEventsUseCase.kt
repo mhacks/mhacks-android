@@ -8,8 +8,8 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class GetAndCacheEventsUseCase @Inject constructor(
-        private val eventsRepository: EventRepository)
-    : SingleUseCase<Unit, List<Event>>() {
+        private val eventsRepository: EventRepository
+) : SingleUseCase<Unit, List<Event>>() {
 
     override fun getSingle(parameters: Unit) =
             eventsRepository

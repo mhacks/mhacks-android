@@ -12,10 +12,10 @@
 //import com.jakewharton.threetenabp.AndroidThreeTen
 //import com.mhacks.app.data.network.fcm.RegistrationIntentService
 //import com.mhacks.app.data.network.services.FireBaseService
-//import org.mhacks.app.di.component.*
-//import org.mhacks.app.di.module.AuthModule
-//import org.mhacks.app.di.module.RetrofitModule
-//import org.mhacks.app.di.module.RoomModule
+//import org.mhacks.app.org.mhacks.app.eventlibrary.di.component.*
+//import org.mhacks.app.org.mhacks.app.eventlibrary.di.module.AuthModule
+//import org.mhacks.app.org.mhacks.app.eventlibrary.di.module.RetrofitModule
+//import org.mhacks.app.org.mhacks.app.eventlibrary.di.module.RoomModule
 //import dagger.android.AndroidInjector
 //import dagger.android.support.DaggerApplication
 //import io.reactivex.android.schedulers.AndroidSchedulers

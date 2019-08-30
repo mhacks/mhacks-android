@@ -36,7 +36,7 @@
                 android:paddingBottom="16dp"
                 android:background="?colorPrimary">
 
-                <com.mhacks.app.ui.common.ProgressWheel
+                <org.mhacks.app.welcome.widget.ProgressWheel
                     android:id="@+id/welcome_fragment_progressbar_counter"
                     android:layout_width="175dp"
                     android:layout_height="match_parent"
