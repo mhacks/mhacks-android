@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/welcome_fragment"
-        android:name="org.mhacks.app.events.widget.EventFragment"
+        android:name="org.mhacks.app.welcome.widget.WelcomeFragment"
         android:label="@string/welcome" />
 
     <fragment

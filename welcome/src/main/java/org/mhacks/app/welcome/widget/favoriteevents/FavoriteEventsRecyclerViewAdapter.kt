@@ -7,18 +7,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.github.vipulasri.timelineview.TimelineView
 
-import com.mhacks.app.data.models.Event
-import com.mhacks.app.ui.events.EventsViewModel
-import com.mhacks.app.ui.events.model.EventSectionModel
-import com.mhacks.app.ui.events.widget.EventTimeLineItem
-
+import org.mhacks.app.eventlibrary.data.model.Event
+import org.mhacks.app.eventlibrary.data.model.EventSectionModel
+import org.mhacks.app.eventlibrary.EventWithDay
+import org.mhacks.app.eventlibrary.widget.EventTimeLineItem
 import org.mhacks.app.welcome.R
+import org.mhacks.app.R as mainR
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 
 class FavoriteEventsRecyclerViewAdapter(
-        eventsMap: Map<String, List<EventsViewModel.EventWithDay>>,
+        eventsMap: Map<String, List<EventWithDay>>,
         private val eventsCallback: ((
                 event: Event,
                 isChecked: Boolean) -> Unit)?
@@ -73,7 +73,7 @@ class FavoriteEventsRecyclerViewAdapter(
 
             val eventHeaderTextView =
                     LayoutInflater.from(parent.context)
-                            .inflate(R.layout.events_header_item, parent, false)
+                            .inflate(mainR.layout.events_header_item, parent, false)
             viewHolder = EventHeaderViewHolder(eventHeaderTextView)
         } else {
             viewHolder =

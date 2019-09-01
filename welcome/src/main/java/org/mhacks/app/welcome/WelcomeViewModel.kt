@@ -15,6 +15,7 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
+import org.mhacks.app.core.R as coreR
 
 class WelcomeViewModel @Inject constructor(
         private val getAndCacheConfigUseCase: GetAndCacheConfigUseCase): ViewModel() {
@@ -74,11 +75,11 @@ class WelcomeViewModel @Inject constructor(
                         }
                         RetrofitException.Kind.UNEXPECTED -> {
                             _snackBarMessage.value =
-                                    Text.Res(R.string.unknown_error)
+                                    Text.Res(coreR.string.unknown_error)
                         }
                         RetrofitException.Kind.UNAUTHORIZED -> {
                             _snackBarMessage.value =
-                                    Text.Res(R.string.unauthorized_error)
+                                    Text.Res(coreR.string.unauthorized_error)
                         }
                     }
                 }
@@ -110,7 +111,7 @@ class WelcomeViewModel @Inject constructor(
             }
             else -> {
                 _firstTimerProgress.value = 100
-                _timerText.value = Text.Res(R.string.done)
+                _timerText.value = Text.Res(coreR.string.done)
             }
         }
     }
@@ -153,7 +154,7 @@ class WelcomeViewModel @Inject constructor(
 
         override fun onFinish() {
             _timerProgress.value = 100
-            _timerText.value = Text.Res(R.string.done)
+            _timerText.value = Text.Res(coreR.string.done)
         }
     }
 

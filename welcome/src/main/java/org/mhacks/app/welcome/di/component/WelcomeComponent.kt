@@ -4,7 +4,7 @@ import dagger.Component
 import org.mhacks.app.core.di.BaseFragmentComponent
 import org.mhacks.app.core.di.CoreComponent
 import org.mhacks.app.core.di.module.FeatureScope
-import org.mhacks.app.eventlibrary.di.EventComponent
+import org.mhacks.app.eventlibrary.di.EventLibraryComponent
 import org.mhacks.app.welcome.di.module.WelcomeDataModule
 import org.mhacks.app.welcome.di.module.WelcomeModule
 import org.mhacks.app.welcome.widget.WelcomeFragment
@@ -14,7 +14,7 @@ import org.mhacks.app.welcome.widget.WelcomeFragment
  */
 @Component(
         modules = [WelcomeModule::class, WelcomeDataModule::class],
-        dependencies = [CoreComponent::class, EventComponent::class]
+        dependencies = [CoreComponent::class, EventLibraryComponent::class]
 )
 @FeatureScope
 interface WelcomeComponent : BaseFragmentComponent<WelcomeFragment> {
@@ -24,7 +24,7 @@ interface WelcomeComponent : BaseFragmentComponent<WelcomeFragment> {
 
         fun coreComponent(component: CoreComponent): Builder
 
-        fun eventComponent(component: EventComponent): Builder
+        fun eventLibraryComponent(component: EventLibraryComponent): Builder
 
         fun build(): WelcomeComponent
     }
