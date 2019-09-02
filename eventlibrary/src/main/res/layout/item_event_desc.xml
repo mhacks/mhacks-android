@@ -28,7 +28,7 @@
 
         <TextView
             android:id="@+id/item_event_description_desc_text_view"
-            style="@style/SubHeaderTextView"
+            style="app/@style/SubHeaderTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
@@ -40,7 +40,7 @@
 
         <TextView
             android:id="@+id/item_event_description_title"
-            style="@style/HeaderTextView"
+            style="app/@style/HeaderTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"

@@ -15,7 +15,7 @@ import org.mhacks.app.events.widget.EventFragment
  */
 @Component(
         modules = [EventModule::class, EventDataModule::class],
-        dependencies = [CoreComponent::class, EventLibraryComponent::class]
+        dependencies = [CoreComponent::class]
 )
 @FeatureScope
 interface EventComponent : BaseFragmentComponent<EventFragment> {
@@ -25,8 +25,6 @@ interface EventComponent : BaseFragmentComponent<EventFragment> {
     @Component.Builder
     interface Builder {
         fun coreComponent(component: CoreComponent): Builder
-
-        fun eventLibraryComponent(component: EventLibraryComponent): Builder
 
         fun build(): EventComponent
 
