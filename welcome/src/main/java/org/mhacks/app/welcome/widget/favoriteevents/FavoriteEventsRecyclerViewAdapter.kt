@@ -24,19 +24,21 @@ class FavoriteEventsRecyclerViewAdapter(
                 isChecked: Boolean) -> Unit)?
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private val dateFormatter by lazy {
+        DateTimeFormatter.ofPattern("h:mm a")
+    }
+
     private val eventFlatList by lazy {
 
         val eventFlatArrayList = ArrayList<EventFlatList>()
-
         eventsMap.forEach {
-
             eventFlatArrayList.add(
                     EventFlatList(
                             it.key,
                             null,
-                            EVENT_HEADER_VIEW_TYPE)
+                            EVENT_HEADER_VIEW_TYPE
+                    )
             )
-
             val groupedEvent = it.value
                     .asSequence()
                     .map { eventWithDay ->
@@ -46,7 +48,6 @@ class FavoriteEventsRecyclerViewAdapter(
                     }
 
             groupedEvent.let { groupEvent ->
-
                 groupEvent.asSequence().forEachIndexed { i, group ->
                     val (time, value) = group
                     eventFlatArrayList.add(
@@ -62,24 +63,16 @@ class FavoriteEventsRecyclerViewAdapter(
         eventFlatArrayList
     }
 
-    private val dateFormatter by lazy {
-        DateTimeFormatter.ofPattern("h:mm a")
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             : RecyclerView.ViewHolder{
         val viewHolder: RecyclerView.ViewHolder
         if (viewType == EVENT_HEADER_VIEW_TYPE) {
-
             val eventHeaderTextView =
                     LayoutInflater.from(parent.context)
                             .inflate(mainR.layout.events_header_item, parent, false)
             viewHolder = EventHeaderViewHolder(eventHeaderTextView)
         } else {
-            viewHolder =
-                    FavoriteEventsRecyclerViewAdapter.EventViewHolder(
-                            EventTimeLineItem(parent.context)
-                    )
+            viewHolder = EventViewHolder(EventTimeLineItem(parent.context))
             viewHolder.eventTimeLineItem.timeLineType = viewType
             viewHolder.eventTimeLineItem.onEventClicked = eventsCallback
         }
@@ -88,8 +81,8 @@ class FavoriteEventsRecyclerViewAdapter(
 
     override fun onBindViewHolder(
             viewHolder: RecyclerView.ViewHolder,
-            position: Int) {
-
+            position: Int
+    ) {
         val eventFlatListItem = eventFlatList[position]
 
         (viewHolder as? EventHeaderViewHolder)?.let { eventHeaderViewHolder ->
@@ -97,7 +90,6 @@ class FavoriteEventsRecyclerViewAdapter(
                 eventHeaderViewHolder.bind(it)
             }
         }
-
         (viewHolder as? EventViewHolder)?.let { eventHeaderViewHolder ->
             eventFlatListItem.eventSectionModel?.let { eventSectionModel ->
                 val localTime =

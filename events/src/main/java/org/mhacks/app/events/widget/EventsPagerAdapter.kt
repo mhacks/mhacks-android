@@ -3,8 +3,8 @@ package org.mhacks.app.events.widget
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import org.mhacks.app.eventlibrary.data.model.Event
 import org.mhacks.app.eventlibrary.EventWithDay
+import org.mhacks.app.eventlibrary.data.model.Event
 
 /**
  * Pager adapter for events.
@@ -14,9 +14,10 @@ class EventsPagerAdapter(
         listWithDays: Map<
                 String,
                 List<EventWithDay>>,
-        private val eventsCallback: (event: Event, isChecked: Boolean) -> Unit) : FragmentPagerAdapter(fm) {
+        private val eventsCallback: (event: Event, isChecked: Boolean) -> Unit)
+    : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
-    val list = listWithDays.toList()
+    private val list = listWithDays.toList()
 
     override fun getItem(position: Int): Fragment {
         val (days, events) = list[position]

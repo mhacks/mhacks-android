@@ -63,7 +63,8 @@ class EventFragment : NavigationFragment() {
                 val adapter = EventsPagerAdapter(
                         childFragmentManager,
                         eventMap,
-                        ::onEventsClicked)
+                        ::onEventsClicked
+                )
                 binding.eventsPager.adapter = adapter
             }
             showMainContent()
@@ -98,10 +99,5 @@ class EventFragment : NavigationFragment() {
         viewModel.insertFavoriteEvent(event)
     }
 
-    companion object {
-
-        val instance: EventFragment
-            get() = EventFragment()
-    }
 }
 
