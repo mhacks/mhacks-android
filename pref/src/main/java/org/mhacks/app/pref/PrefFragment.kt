@@ -22,7 +22,6 @@ class PrefFragment : PreferenceFragmentCompat() {
                 i.putExtra(Intent.EXTRA_EMAIL, arrayOf("recipient@example.com"))
                 i.putExtra(Intent.EXTRA_SUBJECT, "MHacks Android Feedback")
                 i.putExtra(Intent.EXTRA_TEXT, """
-                    
                     |
                     |
                     |Device: ${Build.MODEL}
