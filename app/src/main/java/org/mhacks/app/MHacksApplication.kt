@@ -15,6 +15,7 @@ import org.mhacks.app.core.di.AppModule
 import org.mhacks.app.core.di.CoreComponent
 import org.mhacks.app.core.di.DaggerCoreComponent
 import org.mhacks.app.ui.main.MainActivity
+import org.mhacks.ratingmanager.rate.RatingManager
 
 private const val MHACKS_GROUP = "MHacks Group"
 
@@ -30,6 +31,7 @@ class MHacksApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        RatingManager.with(this)
         val nightMode =
                 if (BuildCompat.isAtLeastQ()) MODE_NIGHT_FOLLOW_SYSTEM
                 else MODE_NIGHT_AUTO_BATTERY

@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <SwitchPreferenceCompat
-        app:key="notifications"
+        app:key="@string/pref_notification"
         app:title="Enable message notifications"/>
 
     <Preference
-        app:key="feedback"
+        app:key="@string/pref_feedback"
         app:title="Send feedback"
         app:summary="Report technical issues or suggest new features"/>
 

@@ -27,6 +27,7 @@ import org.mhacks.app.core.ktx.showSnackBar
 import org.mhacks.app.core.widget.NavigationActivity
 import org.mhacks.app.core.widget.NavigationColor
 import org.mhacks.app.databinding.ActivityMainBinding
+import org.mhacks.ratingmanager.rate.RatingManager
 import javax.inject.Inject
 
 private const val TICKET_DIALOG_FRAGMENT_TAG = "ticket_dialog_fragment"
@@ -62,6 +63,9 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        RatingManager
+                .showRateDialogIfMeetsConditions(this)
         inject()
         subscribeNonUi()
         checkIfInstantApp()
@@ -259,6 +263,7 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
     override fun onTicketUnauthorized() {
 
         startSignInActivity()
