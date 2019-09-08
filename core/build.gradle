@@ -44,16 +44,16 @@ dependencies {
     implementation deps.androidx.navigation
     implementation deps.androidx.navigationKtx
 
-    api deps.googlePlay.maps
-    api deps.googlePlay.vision
+    api "com.google.android.gms:play-services-maps:17.0.0"
+    api "com.google.android.gms:play-services-vision:18.0.0"
 
     api deps.androidx.preference
 
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
-    implementation 'com.squareup.okhttp3:okhttp:4.0.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.10'
+    implementation 'com.squareup.okhttp3:okhttp:4.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.12'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.0.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.1.0'
     implementation 'com.squareup.retrofit2:converter-moshi:2.6.1'
 
     implementation deps.dagger.dagger
