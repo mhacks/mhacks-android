@@ -120,6 +120,7 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
             EVENT_ACTION -> R.id.events_fragment
             MAP_ACTION -> R.id.map_view_fragment
             FEED_ACTION -> R.id.announcement_fragment
+            INFO_ACTION -> R.id.info_fragment
             else -> R.id.welcome_fragment
         }
         navController.navigate(fragment)
@@ -276,6 +277,8 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
         const val EVENT_ACTION = "org.mhacks.app.VIEW_EVENTS"
 
         const val FEED_ACTION = "org.mhacks.app.VIEW_FEED"
+
+        const val INFO_ACTION = "org.mhacks.app.VIEW_INFO"
 
     }
 }

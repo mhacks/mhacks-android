@@ -2,4 +2,8 @@
     <style name="TitleDialog" parent="@style/ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="android:windowNoTitle">false</item>
     </style>
+    <declare-styleable name="CollapsibleCard">
+        <attr name="cardTitle" format="string" />
+        <attr name="cardDescription" format="string" />
+    </declare-styleable>
 </resources>

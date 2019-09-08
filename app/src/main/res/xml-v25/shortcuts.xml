@@ -34,4 +34,17 @@
             android:targetClass="org.mhacks.app.ui.main.MainActivity"
             android:targetPackage="org.mhacks.app" />
     </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_info_outline_24dp"
+        android:shortcutId="info"
+        android:shortcutShortLabel="@string/title_info">
+
+        <intent
+            android:action="org.mhacks.app.VIEW_INFO"
+            android:targetClass="org.mhacks.app.ui.main.MainActivity"
+            android:targetPackage="org.mhacks.app" />
+    </shortcut>
+
 </shortcuts>

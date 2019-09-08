@@ -26,9 +26,4 @@
         <attr name="valuePercentage"    format="integer"/>
     </declare-styleable>
 
-    <declare-styleable name="CollapsibleCard">
-        <attr name="cardTitle" format="string" />
-        <attr name="cardDescription" format="string" />
-    </declare-styleable>
-
 </resources>

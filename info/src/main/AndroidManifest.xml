@@ -1,0 +1,15 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    package="org.mhacks.app.info">
+
+    <dist:module
+        dist:instant="false"
+        dist:title="@string/title_info">
+        <dist:delivery>
+            <dist:install-time />
+        </dist:delivery>
+        <dist:fusing dist:include="true" />
+    </dist:module>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+</manifest>
+

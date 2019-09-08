@@ -36,7 +36,7 @@
 
     <fragment
         android:id="@+id/info_fragment"
-        android:name="org.mhacks.app.events.widget.EventFragment"
+        android:name="org.mhacks.app.info.widget.InfoFragment"
         android:label="@string/title_info" />
 
 </navigation>
