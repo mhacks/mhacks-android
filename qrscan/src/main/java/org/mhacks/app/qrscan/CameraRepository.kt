@@ -3,11 +3,13 @@ package org.mhacks.app.qrscan
 import javax.inject.Inject
 
 class CameraRepository @Inject constructor(
-        private val cameraPreferencesManager: CameraPreferencesManager) {
+        private val QRScanPrefProvider: QRScanPrefProvider) {
 
-    fun getCameraSettings() =
-            cameraPreferencesManager.getCameraSettingsRx()
+    fun getCameraSettings() = QRScanPrefProvider.cameraSetting
 
-    fun putCameraSettings(settings: Pair<Boolean, Boolean>) =
-            cameraPreferencesManager.putCameraSettingsRx(settings)
+    fun putCameraSettings(cameraSetting: CameraSetting): CameraSetting {
+        QRScanPrefProvider.cameraSetting = cameraSetting
+        return cameraSetting
+    }
+
 }

@@ -3,8 +3,7 @@ package org.mhacks.app.welcome.di.component
 import dagger.Component
 import org.mhacks.app.core.di.BaseFragmentComponent
 import org.mhacks.app.core.di.CoreComponent
-import org.mhacks.app.core.di.module.FeatureScope
-import org.mhacks.app.eventlibrary.di.EventLibraryComponent
+import org.mhacks.app.core.di.scope.FeatureScope
 import org.mhacks.app.eventlibrary.di.module.EventDataModule
 import org.mhacks.app.eventlibrary.di.module.EventModule
 import org.mhacks.app.welcome.di.module.WelcomeDataModule

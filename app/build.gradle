@@ -106,6 +106,10 @@ dependencies {
 
     api project(':ratingmanager')
 
+    debugImplementation deps.facebook.flipper
+    debugImplementation deps.facebook.soLoader
+    releaseImplementation deps.facebook.flipperNoOp
+
     // Networking
     implementation 'com.squareup.retrofit2:converter-moshi:2.6.1'
 
@@ -125,4 +129,5 @@ apply plugin: "com.google.gms.google-services"
 
 repositories {
     mavenCentral()
+    jcenter()
 }

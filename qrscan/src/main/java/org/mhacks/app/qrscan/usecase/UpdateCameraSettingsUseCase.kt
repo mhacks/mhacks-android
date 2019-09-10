@@ -1,7 +1,9 @@
 package org.mhacks.app.qrscan.usecase
 
+import io.reactivex.Single
 import org.mhacks.app.core.usecase.SingleUseCase
 import org.mhacks.app.qrscan.CameraRepository
+import org.mhacks.app.qrscan.CameraSetting
 import javax.inject.Inject
 
 /**
@@ -10,11 +12,10 @@ import javax.inject.Inject
  * Toggles the camera settings.
  **/
 class UpdateCameraSettingsUseCase @Inject constructor(
-        private val cameraRepository: CameraRepository) :
-        SingleUseCase<Pair<Boolean, Boolean>, Pair<Boolean, Boolean>>() {
+        private val cameraRepository: CameraRepository)
+    : SingleUseCase<CameraSetting, CameraSetting>() {
 
-    override fun getSingle(parameters:
-                           Pair<Boolean, Boolean>) =
-            cameraRepository.putCameraSettings(parameters)
+    override fun getSingle(parameters: CameraSetting) =
+            Single.just(cameraRepository.putCameraSettings(parameters))
 
 }

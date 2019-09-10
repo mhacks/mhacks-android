@@ -1,24 +1,22 @@
-package org.mhacks.app.ticket
+package org.mhacks.app.pref.di.component
 
 import dagger.Component
 import org.mhacks.app.core.di.BaseFragmentComponent
 import org.mhacks.app.core.di.CoreComponent
 import org.mhacks.app.core.di.scope.FeatureScope
+import org.mhacks.app.pref.di.module.PrefModule
+import org.mhacks.app.pref.ui.PrefFragment
 
-/**
- * Component binding injections for the :events feature module.
- */
+@FeatureScope
 @Component(
-        modules = [TicketModule::class],
+        modules = [PrefModule::class],
         dependencies = [CoreComponent::class]
 )
-@FeatureScope
-interface TicketComponent : BaseFragmentComponent<TicketDialogFragment> {
+interface PrefComponent : BaseFragmentComponent<PrefFragment> {
 
     @Component.Builder
     interface Builder {
         fun coreComponent(component: CoreComponent): Builder
-        fun build(): TicketComponent
-
+        fun build(): PrefComponent
     }
 }

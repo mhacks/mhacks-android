@@ -3,7 +3,7 @@ package org.mhacks.app.maps.di.module
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import org.mhacks.app.core.di.module.FeatureScope
+import org.mhacks.app.core.di.scope.FeatureScope
 import org.mhacks.app.maps.data.db.MapDatabase
 import org.mhacks.app.maps.data.service.GetImageFromUrlService
 import org.mhacks.app.maps.data.service.MapService

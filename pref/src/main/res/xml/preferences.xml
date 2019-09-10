@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <SwitchPreferenceCompat
+        app:defaultValue="true"
         app:key="@string/pref_notification"
-        app:title="Enable message notifications"/>
+        app:summary="@string/pref_notification_summary"
+        app:title="@string/pref_notification" />
 
     <Preference
-        app:key="@string/pref_feedback"
-        app:title="Send feedback"
-        app:summary="Report technical issues or suggest new features"/>
+        android:key="@string/pref_feedback"
+        android:summary="@string/pref_feedback_summary"
+        android:title="@string/pref_feedback" />
 
 </PreferenceScreen>
 

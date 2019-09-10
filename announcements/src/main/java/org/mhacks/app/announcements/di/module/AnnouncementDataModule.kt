@@ -3,7 +3,7 @@ package org.mhacks.app.announcements.di.module
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import org.mhacks.app.core.di.module.FeatureScope
+import org.mhacks.app.core.di.scope.FeatureScope
 import org.mhacks.app.announcements.data.db.AnnouncementDatabase
 import org.mhacks.app.announcements.data.service.AnnouncementService
 import retrofit2.Retrofit

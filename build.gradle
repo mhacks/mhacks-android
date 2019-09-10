@@ -11,6 +11,8 @@ buildscript {
             'appcompat'       : '1.1.0-rc01',
             'androidx'        : '1.0.0',
             'androidxArch'    : '2.0.0',
+            'flipper'         : '0.23.5',
+            'flipperSoVersion': '0.6.0',
             'constraintLayout': '2.0.0-alpha2',
             'coreKtx'         : '1.0.0',
             'coroutines'      : '1.1.1',

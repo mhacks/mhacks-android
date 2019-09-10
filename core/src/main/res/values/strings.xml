@@ -11,4 +11,8 @@
     <string name="disconnected">Disconnected</string>
     <string name="device_offline">Device Offline</string>
     <string name="unknown_error">Unknown error</string>
+
+    <string name="dark">Dark</string>
+    <string name="light">Light</string>
+    <string name="system_auto">Use System (Auto)</string>
 </resources>

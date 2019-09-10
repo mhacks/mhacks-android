@@ -20,7 +20,7 @@ import org.mhacks.app.core.R as coreR
 class QRScanViewModel @Inject constructor(
         private val verifyTicketUseCase: VerifyTicketUseCase,
         private val getCameraSettingsUseCase: GetCameraSettingsUseCase,
-        private val updateCameraSettingsUseCase: UpdateCameraSettingsUseCase): ViewModel() {
+        private val updateCameraSettingsUseCase: UpdateCameraSettingsUseCase) : ViewModel() {
 
     private val verifyTicketResult = verifyTicketUseCase.observe()
 
@@ -34,7 +34,7 @@ class QRScanViewModel @Inject constructor(
     val snackBarMessage: LiveData<Text>
         get() = _snackBarMessage
 
-    private val _cameraSettings = MediatorLiveData<Pair<Boolean, Boolean>>()
+    private val _cameraSettings = MediatorLiveData<CameraSetting>()
 
     private val getCameraSettingsResult = getCameraSettingsUseCase.observe()
 
@@ -77,13 +77,10 @@ class QRScanViewModel @Inject constructor(
         _cameraSettings.addSource(putCameraSettingsResult, ::updateCameraSettings)
     }
 
-
-    private fun updateCameraSettings(result: Outcome<Pair<Boolean, Boolean>>?) {
+    private fun updateCameraSettings(result: Outcome<CameraSetting>?) {
         if (result is Outcome.Success) {
-            result.let { settings ->
-                Timber.d("Updated camera settings")
-                _cameraSettings.value = settings.data
-            }
+            Timber.d("Updated camera settings")
+            _cameraSettings.value = result.data
         }
     }
 
@@ -98,12 +95,13 @@ class QRScanViewModel @Inject constructor(
     fun changeCameraSettings(settingChanged: Int) {
         // Pair is <AUTO_FOCUSED_ENABLED, FLASH_ENABLED>
 
-        var cameraSettings = _cameraSettings.value ?: Pair(false, false)
+        var cameraSettings = _cameraSettings.value
+                ?: CameraSetting(autoFocusEnabled = false, flashEnabled = false)
 
         with(cameraSettings) {
             cameraSettings = when (settingChanged) {
-                AUTO_FOCUS -> Pair(first, !second)
-                FLASH -> Pair(!first, second)
+                AUTO_FOCUS -> CameraSetting(autoFocusEnabled, !flashEnabled)
+                FLASH -> CameraSetting(!autoFocusEnabled, flashEnabled)
                 else -> {
                     Timber.e("Use constants in Companion to update camera settings")
                     return

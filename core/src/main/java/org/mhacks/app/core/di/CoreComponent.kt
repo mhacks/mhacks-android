@@ -1,6 +1,9 @@
 package org.mhacks.app.core.di
 
+import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
+import dagger.BindsInstance
 import dagger.Component
 import org.mhacks.app.core.di.module.DataModule
 import org.mhacks.app.core.di.module.DomainModule
@@ -19,7 +22,6 @@ import javax.inject.Singleton
         modules = [
             AppModule::class,
             DataModule::class,
-            DataModule::class,
             DomainModule::class,
             ViewModelModule::class
         ])
@@ -33,10 +35,12 @@ interface CoreComponent {
 
     fun userRepository(): UserRepository
 
+    fun sharedPreferences(): SharedPreferences
+
     @Component.Builder
     interface Builder {
 
-        fun appModule(appModule: AppModule): Builder
+        @BindsInstance fun application(application: Application): Builder
 
         fun build(): CoreComponent
     }

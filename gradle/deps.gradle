@@ -8,6 +8,12 @@ def androidx = [
         preferenceKtx   : "androidx.preference:preference-ktx:${versions.preference}"
 ]
 
+def facebook = [
+        flipper    : "com.facebook.flipper:flipper:${versions.flipper}",
+        flipperNoOp: "com.facebook.flipper:flipper-noop:${versions.flipper}",
+        soLoader   : "com.facebook.soloader:soloader:${versions.flipperSoVersion}"
+]
+
 def google = [
         material: "com.google.android.material:material:${versions.material}"
 ]
@@ -34,6 +40,7 @@ def thirdParty = [
 ext.deps = [
         'androidx'  : androidx,
         'dagger'    : dagger,
+        'facebook'  : facebook,
         'google'    : google,
         'kotlin'    : kotlin,
         'googlePlay': googlePlay,

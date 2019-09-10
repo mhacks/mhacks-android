@@ -1,8 +1,6 @@
 package org.mhacks.app.ui.main
 
-import android.app.ActivityManager
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -16,7 +14,6 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.mhacks.app.BuildConfig
-import org.mhacks.app.MHacksApplication
 import org.mhacks.app.R
 import org.mhacks.app.core.Activities
 import org.mhacks.app.core.AddressableFragment
@@ -29,6 +26,13 @@ import org.mhacks.app.core.widget.NavigationColor
 import org.mhacks.app.databinding.ActivityMainBinding
 import org.mhacks.ratingmanager.rate.RatingManager
 import javax.inject.Inject
+import com.facebook.flipper.plugins.inspector.DescriptorMapping
+import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
+import com.facebook.flipper.android.AndroidFlipperClient
+import com.facebook.flipper.android.utils.FlipperUtils
+import com.facebook.soloader.SoLoader
+
+
 
 private const val TICKET_DIALOG_FRAGMENT_TAG = "ticket_dialog_fragment"
 
@@ -63,10 +67,9 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        inject()
         RatingManager
                 .showRateDialogIfMeetsConditions(this)
-        inject()
         subscribeNonUi()
         checkIfInstantApp()
     }
@@ -102,7 +105,6 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
         )
                 .apply {
                     subscribeUi(this)
-                    initDebug(this)
                     mainActivityNavigation.menu.getItem(0).setTitle(R.string.title_home)
                     setSupportActionBar(mainActivityToolbar)
                     setupBottomNavBar(mainActivityNavigation)
@@ -225,27 +227,6 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
                 }.show()
     }
 
-    private fun initDebug(activityMainBinding: ActivityMainBinding) {
-        if (BuildConfig.DEBUG) {
-            activityMainBinding.mainActivityDebugMenuButton.visibility = View.VISIBLE
-            activityMainBinding.mainActivityDebugMenuButton.setOnClickListener {
-                AlertDialog.Builder(this)
-                        .setTitle("Debug")
-                        .setItems(R.array.debug_options) { _, which ->
-                            when (which) {
-                                0 -> (application as MHacksApplication).toggleDarkMode(this)
-
-                                1 -> {
-                                    (getSystemService(ACTIVITY_SERVICE) as ActivityManager)
-                                            .clearApplicationUserData()
-                                    startActivity(Intent(this, this::class.java))
-                                }
-                            }
-                        }.show()
-            }
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
@@ -254,6 +235,7 @@ class MainActivity : NavigationActivity(), TicketDialogCallback {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_main_settings -> {
+
                 startPrefActivity()
                 true
             }

@@ -3,7 +3,7 @@ package org.mhacks.app.postannouncement.di
 import dagger.Module
 import dagger.Provides
 import org.mhacks.app.postannouncement.usecase.PostAnnouncementService
-import org.mhacks.app.core.di.module.FeatureScope
+import org.mhacks.app.core.di.scope.FeatureScope
 import retrofit2.Retrofit
 
 /**

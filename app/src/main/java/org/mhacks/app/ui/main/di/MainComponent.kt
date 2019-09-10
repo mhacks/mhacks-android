@@ -3,7 +3,7 @@ package org.mhacks.app.ui.main.di
 import dagger.Component
 import org.mhacks.app.core.di.BaseActivityComponent
 import org.mhacks.app.core.di.CoreComponent
-import org.mhacks.app.core.di.module.FeatureScope
+import org.mhacks.app.core.di.scope.FeatureScope
 import org.mhacks.app.ui.main.MainActivity
 import org.mhacks.app.ui.main.di.module.MainDataModule
 import org.mhacks.app.ui.main.di.module.MainModule

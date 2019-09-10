@@ -3,7 +3,7 @@ package org.mhacks.app.welcome.di.module
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import org.mhacks.app.core.di.module.FeatureScope
+import org.mhacks.app.core.di.scope.FeatureScope
 
 import org.mhacks.app.welcome.data.db.ConfigDatabase
 import org.mhacks.app.welcome.data.service.ConfigService

@@ -4,7 +4,7 @@ import dagger.Component
 import org.mhacks.app.postannouncement.ui.PostAnnouncementDialogFragment
 import org.mhacks.app.core.di.BaseFragmentComponent
 import org.mhacks.app.core.di.CoreComponent
-import org.mhacks.app.core.di.module.FeatureScope
+import org.mhacks.app.core.di.scope.FeatureScope
 
 /**
  * Component binding injections for the :qrscan feature module.

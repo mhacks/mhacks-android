@@ -9,19 +9,6 @@
         android:layout_height="match_parent"
         tools:context="com.mhacks.app.ui.main.MainActivity">
 
-        <Button
-            android:id="@+id/main_activity_debug_menu_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Debug Menu"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="HardcodedText"
-            tools:visibility="visible" />
-
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
