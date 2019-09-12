@@ -1,6 +1,7 @@
 package org.mhacks.app.core.di.module
 
 import android.content.Context
+import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -40,6 +41,7 @@ class DataModule {
         val client = OkHttpClient.Builder()
                 .cache(cache)
                 .connectTimeout(10, TimeUnit.SECONDS)
+                .addInterceptor(FlipperOkhttpInterceptor())
         if (BuildConfig.DEBUG)
             client.addInterceptor(
                     HttpLoggingInterceptor().apply {

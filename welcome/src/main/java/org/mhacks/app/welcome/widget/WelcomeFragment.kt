@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.threetenabp.AndroidThreeTen
+import org.mhacks.app.core.Activities
+import org.mhacks.app.core.intentTo
 import org.mhacks.app.core.ktx.showSnackBar
 import org.mhacks.app.core.widget.NavigationFragment
 import org.mhacks.app.eventlibrary.EventViewModel
@@ -48,10 +50,13 @@ class WelcomeFragment : NavigationFragment() {
             savedInstanceState: Bundle?): View? {
         AndroidThreeTen.init(context)
         inject()
-
         binding = FragmentWelcomeBinding.inflate(inflater, container, false)
                 .apply {
                     viewModel = welcomeViewModel
+                    welcomeFragmentSimHacksCardView.setOnClickListener {
+                        val intent = intentTo(Activities.Game)
+                        startActivity(intent)
+                    }
                     subscribeEventsUi(eventsViewModel, this)
                     subscribeUi(welcomeViewModel, this)
                     welcomeViewModel.getAndCacheConfig()

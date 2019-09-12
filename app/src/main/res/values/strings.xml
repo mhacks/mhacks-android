@@ -49,5 +49,6 @@
     <string name="settings">Settings</string>
     <string name="sign_out">Sign out</string>
     <string name="title_pref">Pref</string>
+    <string name="title_game">Game</string>
 
 </resources>

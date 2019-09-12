@@ -7,11 +7,11 @@
 
     <fragment
         android:id="@+id/create_announcement_dialog_fragment"
-        android:name="org.mhacks.app.events.widget.EventFragment" />
+        android:name="org.mhacks.app.game.widget.GameActivity" />
 
     <fragment
         android:id="@+id/ticket_dialog_fragment"
-        android:name="org.mhacks.app.events.widget.EventFragment"
+        android:name="org.mhacks.app.game.widget.GameActivity"
         android:label="@string/title_ticket" />
 
     <fragment
@@ -26,7 +26,7 @@
 
     <fragment
         android:id="@+id/events_fragment"
-        android:name="org.mhacks.app.events.widget.EventFragment"
+        android:name="org.mhacks.app.game.widget.GameActivity"
         android:label="@string/title_events" />
 
     <fragment

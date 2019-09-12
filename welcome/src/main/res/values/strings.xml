@@ -6,4 +6,5 @@
         <string name="welcome_network_failure">Couldn\'t get configuration…</string>
         <string name="add_favorited_events">Add favorite event</string>
         <string name="timer_placeholder">---</string>
+    <string name="try_simshacks">Try SimsHacks</string>
 </resources>

@@ -62,6 +62,11 @@ object Activities {
     object Preference : AddressableActivity {
         override val className = "$PACKAGE_NAME.pref.PrefActivity"
     }
+
+    object Game : AddressableActivity {
+        override val className = "$PACKAGE_NAME.game.widget.GameActivity"
+    }
+
 }
 
 /**
