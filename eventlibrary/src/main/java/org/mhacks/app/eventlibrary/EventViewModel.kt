@@ -12,7 +12,6 @@ import org.mhacks.app.core.data.model.RetrofitException
 import org.mhacks.app.eventlibrary.usecase.FavoriteEventUseCase
 import org.mhacks.app.eventlibrary.usecase.GetAndCacheEventsUseCase
 import org.mhacks.app.eventlibrary.usecase.GetFavoriteCachedEventsUseCase
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject

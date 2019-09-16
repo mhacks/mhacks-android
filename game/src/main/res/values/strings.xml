@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="game_points">%s points</string>
+    <string name="quest">Quests</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="scan">Scan</string>
+</resources>

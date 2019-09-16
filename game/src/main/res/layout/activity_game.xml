@@ -1,14 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
         android:orientation="vertical">
 
-        <TextView
+        <Button
+            android:id="@+id/activity_game_questions_scan_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/scan"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/activity_game_questions_quests_header_text_view"
+            style="@style/GameHeaderTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/quest"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/activity_game_questions_guideline" />
+
+        <TextView
+            android:id="@+id/activity_game_questions_leadership_header_text_view"
+            style="@style/GameHeaderTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/leaderboard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="@dimen/card_radius"
+            app:layout_constraintBottom_toTopOf="@id/activity_game_questions_quests_header_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/activity_game_questions_leadership_header_text_view">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_game_scores_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorAccent" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/activity_game_questions_guideline"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            app:layout_constraintGuide_percent=".45" />
+
+
+        <com.github.rubensousa.gravitysnaphelper.GravitySnapRecyclerView
+            android:id="@+id/activity_game_questions_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:clipToPadding="false"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/activity_game_questions_scan_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/activity_game_questions_quests_header_text_view"
+            app:snapEnabled="true"
+            app:snapGravity="center"
+            app:snapLastItem="true"
+            app:snapMaxFlingSizeFraction="0.5"
+            app:snapScrollMsPerInch="50"
+            app:snapToPadding="true"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_game_quest" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

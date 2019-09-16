@@ -2,8 +2,6 @@ apply from: 'gradle/deps.gradle'
 apply from: 'gradle/test-deps.gradle'
 
 buildscript {
-    ext.kotlin_version = '1.3.50'
-    ext.kotlin_version = '1.3.41'
     ext.versions = [
             'compileSdk'      : 29,
             'minSdk'          : 23,
@@ -40,6 +38,7 @@ buildscript {
             'qrGen'           : '2.2.0',
             'preference'      : '1.1.0-rc01',
             'crashlytics'     : '2.10.1'
+            'gravitySnapHelper': '2.2.0'
     ]
 
     repositories {
@@ -58,7 +57,7 @@ buildscript {
         classpath "io.fabric.tools:gradle:${versions.fabric}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:${versions.kotlin}"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
     }
 }
 
