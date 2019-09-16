@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper
+import com.google.android.material.snackbar.Snackbar
+import org.mhacks.app.core.data.model.showSnackBar
 import org.mhacks.app.game.GameViewModel
 import org.mhacks.app.game.R
 import org.mhacks.app.game.databinding.ActivityGameBinding
@@ -116,6 +118,9 @@ class GameActivity : AppCompatActivity() {
         })
         gameViewModel.errorLiveData.observe(this, Observer {
             Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+        })
+        gameViewModel.snackBarMessage.observe(this, Observer {
+            it.showSnackBar(binding.root, Snackbar.LENGTH_SHORT)
         })
     }
 
