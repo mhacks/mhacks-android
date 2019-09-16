@@ -19,7 +19,7 @@ class ScoreAdapter
             )
 
     override fun onBindViewHolder(holder: ScoreViewHolder, position: Int) =
-            holder.bind(position, getItem(position))
+            holder.bind(position + 1, getItem(position))
 
     inner class ScoreViewHolder(private val binding: ItemGameScoreBinding)
         : RecyclerView.ViewHolder(binding.root) {
