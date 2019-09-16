@@ -79,21 +79,21 @@
             android:value=".SearchResultsActivity" />
 
         <service
-            android:name=".data.network.fcm.RegistrationIntentService"
+            android:name=".data.network.registration.RegistrationIntentService"
             android:exported="false" />
-        <service android:name=".data.network.fcm.FCMMessageHandler">
+        <service android:name=".data.network.registration.FCMMessageHandler">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <service android:name=".data.network.fcm.FCMMessageHandler">
+        <service android:name=".data.network.registration.FCMMessageHandler">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <service
-            android:name=".data.network.fcm.RegistrationIntentService"
+            android:name=".data.network.registration.RegistrationIntentService"
             android:exported="false" />
 
     </application>

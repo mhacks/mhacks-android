@@ -2,7 +2,7 @@ package org.mhacks.app.core.domain.auth
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import io.reactivex.Single
 import org.mhacks.app.core.Constants
 import org.mhacks.app.core.domain.auth.data.dao.AuthDao

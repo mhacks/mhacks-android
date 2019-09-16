@@ -1,4 +1,4 @@
-package org.mhacks.app.data.network.fcm
+package org.mhacks.app.data.network.registration
 
 import android.app.Notification
 import android.content.Intent

@@ -2,6 +2,7 @@ package org.mhacks.app
 
 import android.app.Activity
 import android.app.Application
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
@@ -23,8 +24,6 @@ import org.mhacks.app.core.di.CoreComponent
 import org.mhacks.app.core.di.DaggerCoreComponent
 import org.mhacks.ratingmanager.rate.RatingManager
 import javax.inject.Inject
-
-private const val MHACKS_GROUP = "MHacks Group"
 
 class MHacksApplication : Application() {
 
@@ -96,6 +95,9 @@ fun Activity.coreComponent() = MHacksApplication.coreComponent(this)
 
 // Will throw exception if context is not initialized.
 fun Fragment.coreComponent() = MHacksApplication.coreComponent(requireContext().applicationContext)
+
+// Will throw exception if context is not initialized.
+fun Service.coreComponent() = MHacksApplication.coreComponent(application.applicationContext)
 
 fun Fragment.setDarkMode(darkModeType: DarkModeType, targetActivity: Class<*>) {
     (activity?.application as? MHacksApplication)

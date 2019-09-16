@@ -104,6 +104,8 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.media:media:1.1.0'
 
+    implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
+
     api project(':ratingmanager')
 
     debugImplementation deps.facebook.flipper

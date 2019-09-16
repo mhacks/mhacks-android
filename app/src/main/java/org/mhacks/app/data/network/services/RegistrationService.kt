@@ -8,10 +8,13 @@ import retrofit2.http.*
  * Serivce for posting FireBase Token.
  */
 
-interface FireBaseService {
+interface RegistrationService {
 
     @FormUrlEncoded
     @POST("device")
-    fun postFireBaseToken(@Field("push_id") pushId: String, @Header("Authorization") authToken: String): Single<FcmDevice>
+    fun postFireBaseToken(
+            @Field("push_id") pushId: String,
+            @Header("Authorization") authToken: String
+    ): Single<FcmDevice>
 
 }
