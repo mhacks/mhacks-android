@@ -36,7 +36,7 @@ def dagger = [
 
 def thirdParty = [
         'qrGen': "com.github.kenglxn.QRGen:android:${versions.qrGen}",
-        'crashlytics': "com.crashlytics.sdk.android:crashlytics:${versions.crashlytics}"
+        'crashlytics': "com.crashlytics.sdk.android:crashlytics:${versions.crashlytics}",
         'gravitySnapHelper': "com.github.rubensousa:gravitysnaphelper:${versions.gravitySnapHelper}"
 ]
 

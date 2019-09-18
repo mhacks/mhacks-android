@@ -37,7 +37,7 @@ buildscript {
             'googlePlayMaps'  : '17.0.0',
             'qrGen'           : '2.2.0',
             'preference'      : '1.1.0-rc01',
-            'crashlytics'     : '2.10.1'
+            'crashlytics'     : '2.10.1',
             'gravitySnapHelper': '2.2.0'
     ]
 
