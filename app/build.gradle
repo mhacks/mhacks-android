@@ -49,7 +49,7 @@ android {
 
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
-        versionName "11.0.0"
+        versionName "12.0.0"
 
         buildConfigField "String", "FIXED_START_DATE", "\"2019-10-11T00:00:00\""
         buildConfigField "String", "INSTANT_APP_URL", "\"schedule\""

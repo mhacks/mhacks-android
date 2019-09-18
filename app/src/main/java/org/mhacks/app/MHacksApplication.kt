@@ -12,17 +12,11 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import androidx.core.os.BuildCompat
 import androidx.fragment.app.Fragment
-import com.crashlytics.android.Crashlytics
-import com.facebook.flipper.android.AndroidFlipperClient
-import com.facebook.flipper.android.utils.FlipperUtils
-import com.facebook.flipper.plugins.inspector.DescriptorMapping
-import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
-import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin
-import com.facebook.soloader.SoLoader
 import org.mhacks.app.core.DarkModeType
 import org.mhacks.app.core.ThemePrefProvider
 import org.mhacks.app.core.di.CoreComponent
 import org.mhacks.app.core.di.DaggerCoreComponent
+import org.mhacks.app.util.FlipperHelper
 import org.mhacks.ratingmanager.rate.RatingManager
 import javax.inject.Inject
 
@@ -68,13 +62,7 @@ class MHacksApplication : Application() {
     }
 
     private fun initFlipper() {
-        SoLoader.init(this, false)
-        if (BuildConfig.DEBUG && FlipperUtils.shouldEnableFlipper(this)) {
-            val client = AndroidFlipperClient.getInstance(this)
-            client.addPlugin(InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()))
-            client.addPlugin(SharedPreferencesFlipperPlugin(this))
-            client.start()
-        }
+        FlipperHelper.init(this)
     }
 
     private fun inject() {

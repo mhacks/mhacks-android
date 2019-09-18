@@ -26,13 +26,6 @@ import org.mhacks.app.core.widget.NavigationColor
 import org.mhacks.app.databinding.ActivityMainBinding
 import org.mhacks.ratingmanager.rate.RatingManager
 import javax.inject.Inject
-import com.facebook.flipper.plugins.inspector.DescriptorMapping
-import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
-import com.facebook.flipper.android.AndroidFlipperClient
-import com.facebook.flipper.android.utils.FlipperUtils
-import com.facebook.soloader.SoLoader
-
-
 
 private const val TICKET_DIALOG_FRAGMENT_TAG = "ticket_dialog_fragment"
 
