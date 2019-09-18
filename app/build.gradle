@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'io.fabric'
+
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-android-extensions"
 apply plugin: "kotlin-kapt"
@@ -119,6 +121,8 @@ dependencies {
 
     implementation deps.androidx.navigation
     implementation deps.androidx.navigationKtx
+
+    implementation deps.thirdParty.crashlytics
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import androidx.core.os.BuildCompat
 import androidx.fragment.app.Fragment
+import com.crashlytics.android.Crashlytics
 import com.facebook.flipper.android.AndroidFlipperClient
 import com.facebook.flipper.android.utils.FlipperUtils
 import com.facebook.flipper.plugins.inspector.DescriptorMapping
@@ -40,6 +41,7 @@ class MHacksApplication : Application() {
         super.onCreate()
         inject()
         RatingManager.with(this)
+//        Crashlytics.getInstance().crash()
         initFlipper()
         setDarkMode(themePrefProvider.darkModeType)
     }
