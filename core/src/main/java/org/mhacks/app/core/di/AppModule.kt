@@ -25,4 +25,5 @@ class AppModule {
     @Singleton
     fun provideThemePrefProvider(sharedPreferences: SharedPreferences) =
             ThemePrefProvider(sharedPreferences)
+
 }

@@ -8,7 +8,6 @@ import javax.inject.Inject
 class EventRepository @Inject constructor(
         private val eventService: EventService,
         private val eventDao: EventDao
-
 ) {
 
     fun getEventCache() = eventDao.getEvents()

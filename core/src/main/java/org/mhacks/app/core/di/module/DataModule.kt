@@ -2,11 +2,11 @@ package org.mhacks.app.core.di.module
 
 import android.content.Context
 import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
+import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import org.mhacks.app.core.BuildConfig
 import org.mhacks.app.core.data.interceptor.AuthInterceptor
 import org.mhacks.app.core.domain.auth.data.dao.AuthDao
@@ -22,37 +22,44 @@ class DataModule {
 
     @Provides
     @Singleton
-    internal fun provideHttpCache(context: Context): Cache {
+    fun provideHttpCache(context: Context): Cache {
         val cacheSize = 10 * 1024 * 1024
         return Cache(context.cacheDir, cacheSize.toLong())
     }
 
     @Provides
     @Singleton
-    internal fun provideAuthDao(authComponent: AuthComponent) = authComponent.authDao()
+    fun provideAuthDao(authComponent: AuthComponent) = authComponent.authDao()
 
     @Provides
     @Singleton
-    internal fun provideAuthInterceptor(autoDao: AuthDao) = AuthInterceptor(autoDao)
+    fun provideAuthInterceptor(autoDao: AuthDao) = AuthInterceptor(autoDao)
+
 
     @Provides
     @Singleton
-    internal fun provideOkHttpClient(cache: Cache, interceptor: AuthInterceptor): OkHttpClient {
+    fun provideNetworkFlipperPlugin(): NetworkFlipperPlugin = NetworkFlipperPlugin()
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(
+            cache: Cache,
+            interceptor: AuthInterceptor,
+            networkFlipperPlugin: NetworkFlipperPlugin
+    ): OkHttpClient {
         val client = OkHttpClient.Builder()
                 .cache(cache)
                 .connectTimeout(10, TimeUnit.SECONDS)
-                .addInterceptor(FlipperOkhttpInterceptor())
         if (BuildConfig.DEBUG)
             client.addInterceptor(
-                    HttpLoggingInterceptor().apply {
-                        level = HttpLoggingInterceptor.Level.BODY
-                    })
+                    FlipperOkhttpInterceptor(networkFlipperPlugin)
+            )
         return client.addInterceptor(interceptor).build()
     }
 
     @Provides
     @Singleton
-    internal fun provideRetrofit(okHttpClient: OkHttpClient) =
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
             Retrofit.Builder()
                     .addConverterFactory(MoshiConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

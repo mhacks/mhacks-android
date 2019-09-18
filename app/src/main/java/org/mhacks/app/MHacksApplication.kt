@@ -29,6 +29,9 @@ class MHacksApplication : Application() {
     }
 
     @Inject
+    lateinit var networkFlipperPlugin: NetworkFlipperPlugin
+
+    @Inject
     lateinit var themePrefProvider: ThemePrefProvider
 
     override fun onCreate() {
@@ -38,27 +41,6 @@ class MHacksApplication : Application() {
 //        Crashlytics.getInstance().crash()
         initFlipper()
         setDarkMode(themePrefProvider.darkModeType)
-    }
-
-    fun setDarkMode(darkModeType: DarkModeType, activity: Activity, targetActivity: Class<*>) {
-        setDarkMode(darkModeType)
-        startActivity(Intent(activity, targetActivity).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_HISTORY
-        })
-        activity.finish()
-    }
-
-    private fun setDarkMode(darkModeType: DarkModeType) {
-        val nightMode =
-                when (darkModeType) {
-                    DarkModeType.DARK -> MODE_NIGHT_YES
-                    DarkModeType.LIGHT -> MODE_NIGHT_NO
-                    DarkModeType.SYSTEM_AUTO -> {
-                        if (BuildCompat.isAtLeastQ()) MODE_NIGHT_FOLLOW_SYSTEM
-                        else MODE_NIGHT_AUTO_BATTERY
-                    }
-                }
-        setDefaultNightMode(nightMode)
     }
 
     private fun initFlipper() {
@@ -89,11 +71,23 @@ fun Fragment.coreComponent() = MHacksApplication.coreComponent(requireContext().
 // Will throw exception if context is not initialized.
 fun Service.coreComponent() = MHacksApplication.coreComponent(application.applicationContext)
 
-fun Fragment.setDarkMode(darkModeType: DarkModeType, targetActivity: Class<*>) {
-    (activity?.application as? MHacksApplication)
-            ?.setDarkMode(
-                    darkModeType,
-                    requireActivity(),
-                    targetActivity
-            )
+private fun setDarkMode(darkModeType: DarkModeType) {
+    val nightMode =
+            when (darkModeType) {
+                DarkModeType.DARK -> MODE_NIGHT_YES
+                DarkModeType.LIGHT -> MODE_NIGHT_NO
+                DarkModeType.SYSTEM_AUTO -> {
+                    if (BuildCompat.isAtLeastQ()) MODE_NIGHT_FOLLOW_SYSTEM
+                    else MODE_NIGHT_AUTO_BATTERY
+                }
+            }
+    setDefaultNightMode(nightMode)
+}
+
+fun Application.setDarkMode(darkModeType: DarkModeType, activity: Activity, targetActivity: Class<*>) {
+    setDarkMode(darkModeType)
+    startActivity(Intent(activity, targetActivity).apply {
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_HISTORY
+    })
+    activity.finish()
 }

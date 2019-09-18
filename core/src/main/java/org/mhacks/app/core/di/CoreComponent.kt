@@ -3,6 +3,7 @@ package org.mhacks.app.core.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import dagger.BindsInstance
 import dagger.Component
 import org.mhacks.app.core.di.module.DataModule
@@ -36,6 +37,8 @@ interface CoreComponent {
     fun userRepository(): UserRepository
 
     fun sharedPreferences(): SharedPreferences
+
+    fun networkFlipperPlugin(): NetworkFlipperPlugin
 
     @Component.Builder
     interface Builder {
