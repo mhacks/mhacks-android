@@ -35,6 +35,7 @@
                 android:layout_alignParentTop="true"
                 android:paddingTop="24dp"
                 android:paddingBottom="8dp"
+                android:theme="@style/Theme.MHacks.ToolBar"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -58,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="?android:attr/windowBackground"
+            android:background="@color/white"
             app:itemHorizontalTranslationEnabled="false"
             app:itemTextColor="@color/colorPrimary"
             app:labelVisibilityMode="labeled"
