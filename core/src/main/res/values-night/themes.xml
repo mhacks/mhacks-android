@@ -23,15 +23,7 @@
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
     </style>
-
-
-<!--    <color name="colorPrimary">#212B3A</color>-->
-<!--    <color name="colorPrimaryDark">#121212</color>-->
-<!--    <color name="colorPrimaryDisabled">#712936</color>-->
-<!--    <color name="colorAccent">#CC4059</color>-->
-<!--    <color name="black">#000</color>-->
-<!--    -->
-
+    
     <style name="Theme.MHacks.ActionBar" parent="Theme.MaterialComponents.DayNight">
         <item name="colorPrimary">@color/white</item>
         <item name="colorControlNormal">@color/white</item>

@@ -10,6 +10,6 @@
     <color name="colorAccent">#CC4059</color>
     <color name="black">#000</color>
 
-    <!--Map Fragment 72212B3A -->
-    <color name="semiColorPrimary">#9643384D</color>
+    <!--Map Fragment-->
+    <color name="semiColorPrimary">#72212B3A</color>
 </resources>
