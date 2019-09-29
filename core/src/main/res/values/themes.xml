@@ -43,4 +43,7 @@
         <item name="android:layout_height">45dip</item>
     </style>
 
+    <style name="Theme.MHacks.ToolBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:textColorSecondary">@color/black</item>
+    </style>
 </resources>

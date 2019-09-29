@@ -16,6 +16,7 @@
 
             <ImageView
                 android:id="@+id/item_info_icon_image_view"
+                android:tint="?android:attr/textColorPrimary"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginTop="8dp"
@@ -32,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="?android:attr/textColorPrimary"
                 app:layout_constraintStart_toEndOf="@+id/item_info_icon_image_view"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/item_info_icon_image_view"
@@ -44,7 +45,7 @@
                 android:id="@+id/item_info_sub_header_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="?android:attr/textColorPrimary"
                 android:layout_marginTop="4dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
@@ -59,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingBottom="8dp"
-
+                android:textColor="?android:attr/textColorPrimary"
                 app:layout_constraintTop_toBottomOf="@id/item_info_sub_header_text_view"
                 tools:text="@string/info_wifi_desc" />
 
