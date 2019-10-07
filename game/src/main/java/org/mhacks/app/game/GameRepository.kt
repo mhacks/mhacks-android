@@ -1,48 +1,49 @@
 package org.mhacks.app.game
 
 import io.reactivex.Single
-import org.mhacks.app.game.data.model.Quest
-import org.mhacks.app.game.data.model.Score
+import org.mhacks.app.game.data.db.GameStateDao
+import org.mhacks.app.game.data.db.LeaderboardDao
+import org.mhacks.app.game.data.db.QuestionDao
+import org.mhacks.app.game.data.model.*
 import org.mhacks.app.game.data.service.GameService
-import org.mhacks.app.game.data.service.Payload
 import javax.inject.Inject
 
 class GameRepository @Inject constructor(
-        private val gameService: GameService
+        private val gameService: GameService,
+        private val gamestateDao: GameStateDao,
+        private val leaderboardDao: LeaderboardDao,
+        private val questionDao: QuestionDao
 ) {
 
-    // TODO: Replace with retrofit service implementation.
+    fun getGameStateRemote() = gameService.getGameState().map { it.state }
 
-    //    fun getQuests() = gameService.getQuests()
-    fun getQuestions() = Single.just(
-            Payload(
-                    true,
-                    listOf(
-                            Quest("gksdfgjksdfglad;kfjgsdflkjg", 500),
-                            Quest("kfjgsdflkjg", 300),
-                            Quest("kfjgsdflkjg", 300),
-                            Quest("kfjgsdflkjg", 300)
-                    )
-            ))
+    fun getGameStateCache() = gamestateDao.getGameState().map { it }
 
-    // TODO: Don't know what this looks like
-    fun scanQuest(quest: Quest): Single<Quest> {
-        return Single.just(Quest("", 400))
-//        return gameService.scanQuest(quest)
-    }
+    fun putGameStateCache(gamestate: GameState) =
+            Single.fromCallable {
+                gamestateDao.updateGameState(gamestate)
+                return@fromCallable gamestate
+            }
 
-    // TODO: Don't know what this looks like
-//    fun getScores() : Single<List<Score>> {
-//        return gameService.getScores()
-//    }
-    fun getScores(): Single<List<Score>> {
-        return Single.just(
-                listOf(
-                        Score("jeffrey", 100),
-                        Score("jeffrey2", 200),
-                        Score("jeffrey3", 300)
-                )
-        )
-    }
+    fun getLeaderboardRemote() = gameService.getLeaderboard().map { it.leaderboard }
 
+    fun getLeaderboardCache() = leaderboardDao.getLeaderboard()
+
+    fun putLeaderboardCache(leaderboard: List<Player>) =
+            Single.fromCallable {
+                leaderboardDao.updateLeaderboard(leaderboard)
+                return@fromCallable leaderboard
+            }
+
+    fun scanQuest(postScan: PostScan) = gameService.scanQuest(postScan)
+
+    fun getQuestionsRemote() = gameService.getQuestions().map { it.questions }
+
+    fun getQuestionsCache() = questionDao.getQuestions()
+
+    fun putQuestionsCache(questions: List<Question>) =
+            Single.fromCallable {
+                questionDao.updateQuestions(questions)
+                return@fromCallable questions
+            }
 }

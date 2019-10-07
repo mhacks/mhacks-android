@@ -1,6 +1,7 @@
 @file:Suppress("DEPRECATION", "unused")
 
 package org.mhacks.app.qrscan.ui.widget.camera
+//     *
 
 /**
  * Camera Source that wraps around the Camera API provided by a Google Sample.
@@ -354,7 +355,6 @@ private constructor() {
 
     /**
      * Closes the camera and stops sending frames to the underlying frame detector.
-     *
      *
      * This camera source may be restarted again by calling [.start] or
      * [.start].
@@ -861,7 +861,7 @@ private constructor() {
         // should guarantee that there will be an array to work with.
         val byteArray = ByteArray(bufferSize)
         val buffer = ByteBuffer.wrap(byteArray)
-        if (!buffer.hasArray() || !buffer.array()!!.contentEquals(byteArray)) {
+        if (!buffer.hasArray() || !buffer.array().contentEquals(byteArray)) {
             // I don't think that this will ever happen.  But if it does, then we wouldn't be
             // passing the preview content to the underlying detector later.
             throw IllegalStateException("Failed to create valid buffer for camera source.")

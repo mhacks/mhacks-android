@@ -2,9 +2,12 @@ apply from: 'gradle/deps.gradle'
 apply from: 'gradle/test-deps.gradle'
 
 buildscript {
+    ext {
+        kotlin_version = '1.3.50'
+    }
     ext.versions = [
             'compileSdk'      : 29,
-            'minSdk'          : 23,
+            'minSdk'          : 24,
             'targetSdk'       : 29,
             'buildTools'      : '29.0.0',
             'appcompat'       : '1.1.0-rc01',

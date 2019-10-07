@@ -2,7 +2,6 @@ package org.mhacks.app.game.di.component
 
 import dagger.Component
 import org.mhacks.app.core.di.BaseActivityComponent
-import org.mhacks.app.core.di.BaseFragmentComponent
 import org.mhacks.app.core.di.CoreComponent
 import org.mhacks.app.core.di.scope.FeatureScope
 import org.mhacks.app.game.widget.GameActivity

@@ -15,6 +15,6 @@ class PostAnnouncementDataModule {
     @Provides
     @FeatureScope
     fun providePostAnnouncementService(retrofit: Retrofit) =
-            retrofit.create(PostAnnouncementService::class.java)!!
+            retrofit.create(PostAnnouncementService::class.java)
 
 }

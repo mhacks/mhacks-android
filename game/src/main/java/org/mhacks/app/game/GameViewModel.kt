@@ -7,28 +7,31 @@ import androidx.lifecycle.ViewModel
 import org.mhacks.app.core.data.model.Outcome
 import org.mhacks.app.core.data.model.RetrofitException
 import org.mhacks.app.core.data.model.Text
-import org.mhacks.app.game.data.model.Quest
-import org.mhacks.app.game.data.model.Score
-import org.mhacks.app.game.usecase.GetQuestsUseCase
-import org.mhacks.app.game.usecase.GetScoresUseCase
+import org.mhacks.app.game.data.model.*
+import org.mhacks.app.game.usecase.GetGameStateUseCase
+import org.mhacks.app.game.usecase.GetLeaderboardUseCase
 import org.mhacks.app.game.usecase.ScanQuestUseCase
 import javax.inject.Inject
 import org.mhacks.app.core.R as coreR
 
 class GameViewModel @Inject constructor(
-        private val getQuestsUseCase: GetQuestsUseCase,
+        private val getGameStateUseCase: GetGameStateUseCase,
         private val scanQuestUseCase: ScanQuestUseCase,
-        private val getScoresUseCase: GetScoresUseCase
-) : ViewModel() {
+        private val getLeaderboardUseCase: GetLeaderboardUseCase) : ViewModel() {
 
-    private val getQuestsResult = getQuestsUseCase.observe()
 
-    private val _questsLiveData = MediatorLiveData<List<Quest>>()
+    private val _scanQuestLiveData = MediatorLiveData<GameState>()
+    private val scanQuestResult = scanQuestUseCase.observe()
+    val scanQuestLiveData
+        get() = _scanQuestLiveData
+
+    private val _questsLiveData = MediatorLiveData<GameState>()
+    private val getQuestsResult = getGameStateUseCase.observe()
     val questLiveData get() = _questsLiveData
 
-    private val _scoresLiveData = MediatorLiveData<List<Score>>()
-    private val getScoresResult = getScoresUseCase.observe()
-    val scoresLiveData get() = _scoresLiveData
+    private val _leaderboardLiveData = MediatorLiveData<List<Player>>()
+    private val getLeaderboardsResult = getLeaderboardUseCase.observe()
+    val leaderboardLiveData get() = _leaderboardLiveData
 
     private val _snackBarMessage: MutableLiveData<Text> = MutableLiveData()
     val snackBarMessage: LiveData<Text> get() = _snackBarMessage
@@ -40,7 +43,7 @@ class GameViewModel @Inject constructor(
         _questsLiveData.addSource(getQuestsResult) {
             if (it is Outcome.Success) {
                 it.let { quests ->
-                    _questsLiveData.value = quests.data
+                     _questsLiveData.value = quests.data
                 }
             } else if (it is Outcome.Error<*>) {
                 (it.exception as? RetrofitException)?.let { retrofitException ->
@@ -67,17 +70,16 @@ class GameViewModel @Inject constructor(
                 }
             }
         }
-        _scoresLiveData.addSource(getScoresResult) {
+        _leaderboardLiveData.addSource(getLeaderboardsResult) {
             if (it is Outcome.Success) {
-                it.let { scores ->
-                    _scoresLiveData.value = scores.data
+                it.let { leaderboard ->
+                    _leaderboardLiveData.value = leaderboard.data
                 }
             } else if (it is Outcome.Error<*>) {
                 (it.exception as? RetrofitException)?.let { retrofitException ->
                     when (retrofitException.kind) {
                         RetrofitException.Kind.HTTP -> {
                             retrofitException.errorResponse?.let { errorResponse ->
-
                                         Text.TextString(errorResponse.message)
                             }
                         }
@@ -97,21 +99,53 @@ class GameViewModel @Inject constructor(
                 }
             }
         }
-        getQuestsUseCase(Unit)
-        getScoresUseCase(Unit)
+
+        _scanQuestLiveData.addSource(scanQuestResult) {
+            if (it is Outcome.Success) {
+                it.let { result ->
+                    _scanQuestLiveData.value = result.data
+                    println(_scanQuestLiveData.value)
+                    _questsLiveData.value = result.data
+                }
+            } else if (it is Outcome.Error<*>) {
+                (it.exception as? RetrofitException)?.let { retrofitException ->
+                    when (retrofitException.kind) {
+                        RetrofitException.Kind.HTTP -> {
+                            retrofitException.errorResponse?.let { errorResponse ->
+                                _snackBarMessage.value =
+                                        Text.TextString(errorResponse.message)
+                            }
+                        }
+                        RetrofitException.Kind.NETWORK -> {
+                            _snackBarMessage.value =
+                                    Text.TextString(retrofitException.exception.toString())
+                        }
+                        RetrofitException.Kind.UNEXPECTED -> {
+                            _snackBarMessage.value =
+                                    Text.Res(coreR.string.unknown_error)
+                        }
+                        RetrofitException.Kind.UNAUTHORIZED -> {
+                            _snackBarMessage.value =
+                                    Text.Res(coreR.string.unknown_error)
+                        }
+                    }
+                }
+            }
+        }
+
+        getGameStateUseCase(Unit)
+        getLeaderboardUseCase(Unit)
     }
 
-    fun scanQuest(quest: Quest?) {
-        if (quest != null) {
-            scanQuestUseCase(quest)
-        }
+    fun scanQuest(email:String, quest: String) {
+        println("SENDING POST: " + email + " with quest: " + quest)
+         scanQuestUseCase.execute(PostScan(email, quest))
     }
 
     override fun onCleared() {
         super.onCleared()
-        getQuestsUseCase.onCleared()
+        getGameStateUseCase.onCleared()
         scanQuestUseCase.onCleared()
-        getScoresUseCase.onCleared()
+        getLeaderboardUseCase.onCleared()
     }
-
 }

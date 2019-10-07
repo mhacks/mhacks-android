@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="@string/scan"
+            android:backgroundTint="@color/buttonColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -51,7 +52,7 @@
             app:layout_constraintTop_toBottomOf="@+id/activity_game_questions_leadership_header_text_view">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/activity_game_scores_recycler_view"
+                android:id="@+id/activity_game_leaderboard_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorAccent" />

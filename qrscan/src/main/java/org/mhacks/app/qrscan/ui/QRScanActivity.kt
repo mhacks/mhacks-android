@@ -37,12 +37,13 @@ import org.mhacks.app.qrscan.QRScanViewModel
 import org.mhacks.app.qrscan.R
 import org.mhacks.app.qrscan.databinding.ActivityQrScanBinding
 import org.mhacks.app.qrscan.inject
+
 import org.mhacks.app.qrscan.ui.widget.BarcodeGraphic
 import org.mhacks.app.qrscan.ui.widget.BarcodeGraphicTracker
-import org.mhacks.app.qrscan.ui.widget.BarcodeTrackerFactory
 import org.mhacks.app.qrscan.ui.widget.camera.CameraSource
 import org.mhacks.app.qrscan.ui.widget.camera.CameraSourcePreview
 import org.mhacks.app.qrscan.ui.widget.camera.GraphicOverlay
+import org.mhacks.app.qrscan.ui.widget.BarcodeTrackerFactory
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
@@ -278,7 +279,7 @@ class QRScanActivity : BaseActivity(), BarcodeGraphicTracker.BarcodeUpdateListen
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Timber.w("Camera permission granted - initialize the camera source")
             createCameraSource()
-            qrScanViewModel?.getCameraSettings()
+            qrScanViewModel.getCameraSettings()
             return
         }
 
@@ -357,7 +358,7 @@ class QRScanActivity : BaseActivity(), BarcodeGraphicTracker.BarcodeUpdateListen
         best?.let {
             if (Patterns.EMAIL_ADDRESS.matcher(best.displayValue).matches()) {
                 binding.activityCameraSourceIdTextView.text = best.displayValue
-                qrScanViewModel?.verifyTicket(best.displayValue)
+                qrScanViewModel.verifyTicket(best.displayValue)
             } else showToast(R.string.not_valid_email)
             return true
         }

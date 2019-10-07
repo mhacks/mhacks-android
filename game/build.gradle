@@ -20,8 +20,10 @@ android {
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':app')
     implementation project(':core')
+    implementation 'com.journeyapps:zxing-android-embedded:4.0.0'
 
     implementation deps.thirdParty.gravitySnapHelper
 }

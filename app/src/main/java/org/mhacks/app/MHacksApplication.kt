@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import androidx.core.os.BuildCompat
 import androidx.fragment.app.Fragment
+import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import org.mhacks.app.core.DarkModeType
 import org.mhacks.app.core.ThemePrefProvider
 import org.mhacks.app.core.di.CoreComponent

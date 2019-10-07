@@ -1,5 +1,6 @@
 package org.mhacks.app.game.widget
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.Toast
@@ -11,19 +12,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper
 import com.google.android.material.snackbar.Snackbar
+import com.google.zxing.integration.android.IntentIntegrator
+import com.google.zxing.integration.android.IntentResult
 import org.mhacks.app.core.data.model.showSnackBar
 import org.mhacks.app.game.GameViewModel
 import org.mhacks.app.game.R
+import org.mhacks.app.game.data.model.PostScan
 import org.mhacks.app.game.databinding.ActivityGameBinding
 import org.mhacks.app.game.di.inject
 import org.mhacks.app.game.widget.quest.LinearEdgeDecoration
 import org.mhacks.app.game.widget.quest.QuestAdapter
-import org.mhacks.app.game.widget.score.ScoreAdapter
+import org.mhacks.app.game.widget.player.PlayerAdapter
 import javax.inject.Inject
 
 class GameActivity : AppCompatActivity() {
 
-    private var lastSnapPosition: Int = -1
+    private var lastSnapPosition: Int = 0
 
     private lateinit var snapHelper: GravitySnapHelper
 
@@ -31,8 +35,8 @@ class GameActivity : AppCompatActivity() {
         QuestAdapter()
     }
 
-    private val scoreAdapter: ScoreAdapter by lazy {
-        ScoreAdapter()
+    private val playerAdapter: PlayerAdapter by lazy {
+        PlayerAdapter()
     }
 
     private lateinit var binding: ActivityGameBinding
@@ -50,14 +54,35 @@ class GameActivity : AppCompatActivity() {
                 .apply {
                     subscribeUi(viewModel)
                     activityGameQuestionsScanButton.setOnClickListener {
-                        val quest = questAdapter.getQuest(lastSnapPosition)
-                        viewModel.scanQuest(quest)
+
+                        run {
+                            IntentIntegrator(this@GameActivity)
+                                    .setBeepEnabled(false)
+                                    .setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+                                    .setPrompt(getString(R.string.scan_prompt))
+                                    .setBarcodeImageEnabled(true)
+                                    .initiateScan()
+                        }
                     }
                     lifecycleOwner = this@GameActivity
                 }
 
         initQuests()
         initScores()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val result: IntentResult? = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+
+        if (result != null && result.contents != null) {
+            val quest = questAdapter.getQuest(lastSnapPosition)
+            val email = result.contents
+            if (quest != null) {
+                viewModel.scanQuest(email, quest.question)
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     private fun initQuests() {
@@ -93,9 +118,9 @@ class GameActivity : AppCompatActivity() {
 
     private fun initScores() {
         binding.apply {
-            activityGameScoresRecyclerView.apply {
+            activityGameLeaderboardRecyclerView.apply {
                 layoutManager = LinearLayoutManager(this@GameActivity)
-                adapter = scoreAdapter
+                adapter = playerAdapter
                 addItemDecoration(
                         DividerItemDecoration(
                                 this@GameActivity,
@@ -111,10 +136,13 @@ class GameActivity : AppCompatActivity() {
 
     private fun subscribeUi(gameViewModel: GameViewModel) {
         gameViewModel.questLiveData.observe(this, Observer {
-            questAdapter.submitList(it)
+            questAdapter.submitList(it.quests)
         })
-        gameViewModel.scoresLiveData.observe(this, Observer {
-            scoreAdapter.submitList(it)
+        gameViewModel.leaderboardLiveData.observe(this, Observer {
+            playerAdapter.submitList(it)
+        })
+        gameViewModel.scanQuestLiveData.observe(this, Observer {
+            Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show()
         })
         gameViewModel.errorLiveData.observe(this, Observer {
             Toast.makeText(this, it, Toast.LENGTH_LONG).show()

@@ -8,8 +8,8 @@
         android:layout_height="wrap_content">
 
         <TextView
-            style="@style/GameScoresTextView"
-            android:id="@+id/item_game_score_order_text_view"
+            style="@style/GameLeaderboardTextView"
+            android:id="@+id/item_game_leaderboard_order_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -17,8 +17,8 @@
             tools:text="3" />
 
         <TextView
-            style="@style/GameScoresTextView"
-            android:id="@+id/item_game_score_name_text_view"
+            style="@style/GameLeaderboardTextView"
+            android:id="@+id/item_game_leaderboard_name_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -27,8 +27,8 @@
             tools:text="Username" />
 
         <TextView
-            style="@style/GameScoresTextView"
-            android:id="@+id/item_game_score_points_text_view"
+            style="@style/GameLeaderboardTextView"
+            android:id="@+id/item_game_leaderboard_points_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"

@@ -41,7 +41,7 @@ class QuestAdapter
         }
 
         fun bind(quest: Quest) = with(binding) {
-            itemGameQuestTextView.text = quest.quests
+            itemGameQuestTextView.text = quest.questionText
             itemGameQuestPointsTextView.text = root.context.getString(
                     R.string.game_points,
                     quest.points.toString()
@@ -53,7 +53,7 @@ class QuestAdapter
         override fun areItemsTheSame(
                 oldItem: Quest,
                 newItem: Quest
-        ): Boolean = oldItem.quests == newItem.quests
+        ): Boolean = oldItem.questionText == newItem.questionText
 
         override fun areContentsTheSame(
                 oldItem: Quest,
