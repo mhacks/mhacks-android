@@ -19,6 +19,7 @@ import org.mhacks.app.core.di.CoreComponent
 import org.mhacks.app.core.di.DaggerCoreComponent
 import org.mhacks.app.util.FlipperHelper
 import org.mhacks.ratingmanager.rate.RatingManager
+import timber.log.Timber
 import javax.inject.Inject
 
 class MHacksApplication : Application() {
@@ -39,8 +40,11 @@ class MHacksApplication : Application() {
         super.onCreate()
         inject()
         RatingManager.with(this)
-//        Crashlytics.getInstance().crash()
         initFlipper()
+        if (BuildConfig.DEBUG) {
+            Timber.uprootAll()
+            Timber.plant(Timber.DebugTree())
+        }
         setDarkMode(themePrefProvider.darkModeType)
     }
 
