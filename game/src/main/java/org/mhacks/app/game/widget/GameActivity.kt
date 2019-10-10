@@ -145,7 +145,7 @@ class GameActivity : AppCompatActivity() {
             playerAdapter.submitList(it)
         })
         gameViewModel.scanQuestLiveData.observe(this, Observer {
-            questAdapter.submitList(it.quests)
+            Toast.makeText(this, "Just scanned a user!", Toast.LENGTH_LONG).show()
         })
         gameViewModel.errorLiveData.observe(this, Observer { error ->
             val message = error.name + " - Please sign in to play SiMHacks!"
