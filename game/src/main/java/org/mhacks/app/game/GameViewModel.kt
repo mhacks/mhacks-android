@@ -44,7 +44,8 @@ class GameViewModel @Inject constructor(
             if (it is Outcome.Success) {
                 it.let { gamestate ->
                     _scanQuestLiveData.value = gamestate.data
-                     getGameStateUseCase.execute(Unit)
+                    getGameStateUseCase.execute(Unit)
+                    getLeaderboardUseCase.execute(Unit)
                 }
             } else if (it is Outcome.Error<*>) {
                 (it.exception as? RetrofitException)?.let { retrofitException ->

@@ -14,7 +14,9 @@ import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper
 import com.google.android.material.snackbar.Snackbar
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
+import org.mhacks.app.core.Activities
 import org.mhacks.app.core.data.model.showSnackBar
+import org.mhacks.app.core.intentTo
 import org.mhacks.app.game.GameViewModel
 import org.mhacks.app.game.R
 import org.mhacks.app.game.databinding.ActivityGameBinding
@@ -146,7 +148,12 @@ class GameActivity : AppCompatActivity() {
             questAdapter.submitList(it.quests)
         })
         gameViewModel.errorLiveData.observe(this, Observer { error ->
-            Toast.makeText(this, error.name, Toast.LENGTH_LONG).show()
+            val message = error.name + " - Please sign in to play SiMHacks!"
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+
+            val intent = intentTo(Activities.SignIn)
+            startActivity(intent)
+            finish()
         })
         gameViewModel.snackBarMessage.observe(this, Observer {
             it.showSnackBar(binding.root, Snackbar.LENGTH_SHORT)
