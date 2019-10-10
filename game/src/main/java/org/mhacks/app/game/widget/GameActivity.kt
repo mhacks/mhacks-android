@@ -22,6 +22,7 @@ import org.mhacks.app.game.di.inject
 import org.mhacks.app.game.widget.quest.LinearEdgeDecoration
 import org.mhacks.app.game.widget.quest.QuestAdapter
 import org.mhacks.app.game.widget.player.PlayerAdapter
+import timber.log.Timber
 import javax.inject.Inject
 
 class GameActivity : AppCompatActivity() {
@@ -74,6 +75,7 @@ class GameActivity : AppCompatActivity() {
         val result: IntentResult? = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
 
         if (result != null && result.contents != null) {
+            Timber.d("Captured string: %s", result.contents)
             val quest = questAdapter.getQuest(lastSnapPosition)
             val email = result.contents
             if (quest != null) {
