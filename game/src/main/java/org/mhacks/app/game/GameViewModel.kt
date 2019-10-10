@@ -21,9 +21,8 @@ class GameViewModel @Inject constructor(
 
 
     private val _scanQuestLiveData = MediatorLiveData<GameState>()
-    private val scanQuestResult = scanQuestUseCase.observe()
-    val scanQuestLiveData
-        get() = _scanQuestLiveData
+    private val getScanQuestResult = scanQuestUseCase.observe()
+    val scanQuestLiveData get() = _scanQuestLiveData
 
     private val _questsLiveData = MediatorLiveData<GameState>()
     private val getQuestsResult = getGameStateUseCase.observe()
@@ -36,10 +35,44 @@ class GameViewModel @Inject constructor(
     private val _snackBarMessage: MutableLiveData<Text> = MutableLiveData()
     val snackBarMessage: LiveData<Text> get() = _snackBarMessage
 
-    private val _errorLiveData = MutableLiveData<String>()
-    val errorLiveData: LiveData<String> get() = _errorLiveData
+    private val _errorLiveData: MutableLiveData<RetrofitException.Kind> = MutableLiveData()
+    val errorLiveData: LiveData<RetrofitException.Kind>
+        get() = _errorLiveData
 
     init {
+        _scanQuestLiveData.addSource(getScanQuestResult) {
+            if (it is Outcome.Success) {
+                it.let { gamestate ->
+                    _scanQuestLiveData.value = gamestate.data
+                     getGameStateUseCase.execute(Unit)
+                }
+            } else if (it is Outcome.Error<*>) {
+                (it.exception as? RetrofitException)?.let { retrofitException ->
+                    when (retrofitException.kind) {
+                        RetrofitException.Kind.HTTP -> {
+                            retrofitException.errorResponse?.let { errorResponse ->
+                                _snackBarMessage.value =
+                                        Text.TextString(errorResponse.message)
+                            }
+                        }
+                        RetrofitException.Kind.NETWORK -> {
+                            _snackBarMessage.value =
+                                    Text.TextString(retrofitException.exception.toString())
+                        }
+                        RetrofitException.Kind.UNEXPECTED -> {
+                            _snackBarMessage.value =
+                                    Text.Res(coreR.string.unknown_error)
+                        }
+                        RetrofitException.Kind.UNAUTHORIZED -> {
+                            _snackBarMessage.value =
+                                    Text.Res(coreR.string.unknown_error)
+                            _errorLiveData.value = RetrofitException.Kind.UNAUTHORIZED
+                        }
+                    }
+                }
+            }
+        }
+
         _questsLiveData.addSource(getQuestsResult) {
             if (it is Outcome.Success) {
                 it.let { quests ->
@@ -65,6 +98,7 @@ class GameViewModel @Inject constructor(
                         RetrofitException.Kind.UNAUTHORIZED -> {
                             _snackBarMessage.value =
                                     Text.Res(coreR.string.unknown_error)
+                            _errorLiveData.value = RetrofitException.Kind.UNAUTHORIZED
                         }
                     }
                 }
@@ -94,51 +128,19 @@ class GameViewModel @Inject constructor(
                         RetrofitException.Kind.UNAUTHORIZED -> {
                             _snackBarMessage.value =
                                     Text.Res(coreR.string.unknown_error)
+                            _errorLiveData.value = RetrofitException.Kind.UNAUTHORIZED
                         }
                     }
                 }
             }
         }
 
-        _scanQuestLiveData.addSource(scanQuestResult) {
-            if (it is Outcome.Success) {
-                it.let { result ->
-                    _scanQuestLiveData.value = result.data
-                    println(_scanQuestLiveData.value)
-                    _questsLiveData.value = result.data
-                }
-            } else if (it is Outcome.Error<*>) {
-                (it.exception as? RetrofitException)?.let { retrofitException ->
-                    when (retrofitException.kind) {
-                        RetrofitException.Kind.HTTP -> {
-                            retrofitException.errorResponse?.let { errorResponse ->
-                                _snackBarMessage.value =
-                                        Text.TextString(errorResponse.message)
-                            }
-                        }
-                        RetrofitException.Kind.NETWORK -> {
-                            _snackBarMessage.value =
-                                    Text.TextString(retrofitException.exception.toString())
-                        }
-                        RetrofitException.Kind.UNEXPECTED -> {
-                            _snackBarMessage.value =
-                                    Text.Res(coreR.string.unknown_error)
-                        }
-                        RetrofitException.Kind.UNAUTHORIZED -> {
-                            _snackBarMessage.value =
-                                    Text.Res(coreR.string.unknown_error)
-                        }
-                    }
-                }
-            }
-        }
 
         getGameStateUseCase(Unit)
         getLeaderboardUseCase(Unit)
     }
 
     fun scanQuest(email:String, quest: String) {
-        println("SENDING POST: " + email + " with quest: " + quest)
          scanQuestUseCase.execute(PostScan(email, quest))
     }
 

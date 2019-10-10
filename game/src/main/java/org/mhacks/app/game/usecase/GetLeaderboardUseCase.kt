@@ -3,6 +3,7 @@ package org.mhacks.app.game.usecase
 import io.reactivex.Single
 import org.mhacks.app.core.usecase.SingleUseCase
 import org.mhacks.app.game.GameRepository
+import org.mhacks.app.game.data.model.LeaderboardResponse
 import java.util.concurrent.TimeUnit
 import org.mhacks.app.game.data.model.Player
 import org.mhacks.app.game.data.model.UserInfo
@@ -13,17 +14,5 @@ class GetLeaderboardUseCase @Inject constructor(
 ) : SingleUseCase<Unit, List<Player>>() {
 
     override fun getSingle(parameters: Unit): Single<List<Player>> =
-            gameRepository
-                    .getLeaderboardCache()
-                    .delay(400, TimeUnit.MILLISECONDS)
-                    .flatMap {
-                        if (it.isEmpty()) {
-                            gameRepository.getLeaderboardRemote()
-                        } else {
-                            Single.just(it)
-                        }
-                    }
-                    .doOnSuccess {
-                        gameRepository.putLeaderboardCache(it)
-                    }
+            gameRepository.getLeaderboardRemote().map { leaderboardResponse -> leaderboardResponse.leaderboard }
 }

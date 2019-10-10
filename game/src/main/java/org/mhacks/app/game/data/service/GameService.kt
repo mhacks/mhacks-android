@@ -2,20 +2,24 @@ package org.mhacks.app.game.data.service
 
 import io.reactivex.Single
 import org.mhacks.app.game.data.model.*
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface GameService {
 
     @POST("game/scan/")
-    fun scanQuest(postScan: PostScan) : Single<GameStateResponse>
+    @FormUrlEncoded
+    fun scanQuest(@Field("email") email: String,
+                  @Field("quest") quest: String) : Single<GameStateResponse>
 
     @GET("game/")
-    fun getGameState(): Single<GameStateResponse>
+    fun getGameStateResponse(): Single<GameStateResponse>
 
     @GET("game/leaderboard/")
-    fun getLeaderboard(): Single<LeaderboardResponse>
+    fun getLeaderboardResponse(): Single<LeaderboardResponse>
 
     @GET("game/questions/")
-    fun getQuestions(): Single<QuestionResponse>
+    fun getQuestionResponse(): Single<QuestionResponse>
 }

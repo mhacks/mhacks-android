@@ -7,7 +7,6 @@ import org.mhacks.app.game.GameRepository
 import org.mhacks.app.game.data.model.GameState
 import org.mhacks.app.game.data.model.PostScan
 import org.mhacks.app.game.data.model.Question
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ScanQuestUseCase @Inject constructor(
@@ -15,23 +14,8 @@ class ScanQuestUseCase @Inject constructor(
 ) : SingleUseCase<PostScan, GameState>() {
 
     override fun getSingle(parameters: PostScan): Single<GameState> {
-        val receivedGameState = gameRepository
-                .scanQuest(parameters).map { it.state }
-                .doOnSuccess {
-                    gameRepository.putGameStateCache(it)
-                }
-
-        val receivedQuestions = gameRepository.getQuestionsCache()
-                .delay(400, TimeUnit.MILLISECONDS)
-                .flatMap {
-                    if (it.isEmpty()) {
-                        gameRepository.getQuestionsRemote()
-                    } else {
-                        Single.just(it)
-                    }
-                }.doOnSuccess{
-                    gameRepository.putQuestionsCache(it)
-                }
+        val receivedGameState = gameRepository.scanQuest(parameters).map { it.state }
+        val receivedQuestions = gameRepository.getQuestionsRemote().map { it.questions }
 
         return Single.zip(
                 receivedGameState,
@@ -39,8 +23,6 @@ class ScanQuestUseCase @Inject constructor(
                 BiFunction<GameState, List<Question>, GameState> {
                     gameState, questionList -> handler(gameState, questionList)
                 })
-
-
     }
 
     private fun handler(gameState: GameState, questions: List<Question> ) : GameState {

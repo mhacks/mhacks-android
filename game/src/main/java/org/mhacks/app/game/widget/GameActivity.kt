@@ -17,7 +17,6 @@ import com.google.zxing.integration.android.IntentResult
 import org.mhacks.app.core.data.model.showSnackBar
 import org.mhacks.app.game.GameViewModel
 import org.mhacks.app.game.R
-import org.mhacks.app.game.data.model.PostScan
 import org.mhacks.app.game.databinding.ActivityGameBinding
 import org.mhacks.app.game.di.inject
 import org.mhacks.app.game.widget.quest.LinearEdgeDecoration
@@ -27,7 +26,7 @@ import javax.inject.Inject
 
 class GameActivity : AppCompatActivity() {
 
-    private var lastSnapPosition: Int = 0
+    private var lastSnapPosition: Int = -1
 
     private lateinit var snapHelper: GravitySnapHelper
 
@@ -142,10 +141,10 @@ class GameActivity : AppCompatActivity() {
             playerAdapter.submitList(it)
         })
         gameViewModel.scanQuestLiveData.observe(this, Observer {
-            Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show()
+            questAdapter.submitList(it.quests)
         })
-        gameViewModel.errorLiveData.observe(this, Observer {
-            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+        gameViewModel.errorLiveData.observe(this, Observer { error ->
+            Toast.makeText(this, error.name, Toast.LENGTH_LONG).show()
         })
         gameViewModel.snackBarMessage.observe(this, Observer {
             it.showSnackBar(binding.root, Snackbar.LENGTH_SHORT)

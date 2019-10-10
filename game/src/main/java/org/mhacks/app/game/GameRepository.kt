@@ -15,9 +15,9 @@ class GameRepository @Inject constructor(
         private val questionDao: QuestionDao
 ) {
 
-    fun getGameStateRemote() = gameService.getGameState().map { it.state }
+    fun getGameStateRemote() = gameService.getGameStateResponse()
 
-    fun getGameStateCache() = gamestateDao.getGameState().map { it }
+    fun getGameStateCache() = gamestateDao.getGameState()
 
     fun putGameStateCache(gamestate: GameState) =
             Single.fromCallable {
@@ -25,7 +25,7 @@ class GameRepository @Inject constructor(
                 return@fromCallable gamestate
             }
 
-    fun getLeaderboardRemote() = gameService.getLeaderboard().map { it.leaderboard }
+    fun getLeaderboardRemote() = gameService.getLeaderboardResponse()
 
     fun getLeaderboardCache() = leaderboardDao.getLeaderboard()
 
@@ -35,9 +35,9 @@ class GameRepository @Inject constructor(
                 return@fromCallable leaderboard
             }
 
-    fun scanQuest(postScan: PostScan) = gameService.scanQuest(postScan)
+    fun scanQuest(postScan: PostScan) = gameService.scanQuest(postScan.email, postScan.quest)
 
-    fun getQuestionsRemote() = gameService.getQuestions().map { it.questions }
+    fun getQuestionsRemote() = gameService.getQuestionResponse()
 
     fun getQuestionsCache() = questionDao.getQuestions()
 
