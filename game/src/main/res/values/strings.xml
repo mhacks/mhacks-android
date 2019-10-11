@@ -5,4 +5,5 @@
     <string name="leaderboard">Leaderboard</string>
     <string name="scan">Scan</string>
     <string name="scan_prompt">Scan a hacker\'s QR code!</string>
+    <string name="game_network_failure">Couldn\'t fetch SiMHacks data.</string>
 </resources>

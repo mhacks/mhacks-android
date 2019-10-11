@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import org.mhacks.app.core.Activities
+import org.mhacks.app.core.data.model.RetrofitException
 import org.mhacks.app.core.data.model.showSnackBar
 import org.mhacks.app.core.intentTo
 import org.mhacks.app.game.GameViewModel
@@ -148,15 +149,26 @@ class GameActivity : AppCompatActivity() {
             Toast.makeText(this, "Just scanned a user!", Toast.LENGTH_LONG).show()
         })
         gameViewModel.errorLiveData.observe(this, Observer { error ->
-            val message = error.name + " - Please sign in to play SiMHacks!"
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 
-            val intent = intentTo(Activities.SignIn)
-            startActivity(intent)
-            finish()
+            when (error) {
+                RetrofitException.Kind.NETWORK -> {
+                    Toast.makeText(this, R.string.game_network_failure, Toast.LENGTH_LONG).show()
+                }
+                RetrofitException.Kind.UNAUTHORIZED -> {
+                    val message = error.name + " - Please sign in to play SiMHacks!"
+                    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+                    val intent = intentTo(Activities.SignIn)
+                    startActivity(intent)
+                    finish()
+                }
+
+                else -> {
+                    Toast.makeText(this, R.string.game_network_failure, Toast.LENGTH_LONG).show()
+                }
+            }
         })
         gameViewModel.snackBarMessage.observe(this, Observer {
-            it.showSnackBar(binding.root, Snackbar.LENGTH_SHORT)
+            // it.showSnackBar(binding.root, Snackbar.LENGTH_SHORT)
         })
     }
 

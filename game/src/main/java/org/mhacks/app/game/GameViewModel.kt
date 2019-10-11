@@ -52,17 +52,19 @@ class GameViewModel @Inject constructor(
                     when (retrofitException.kind) {
                         RetrofitException.Kind.HTTP -> {
                             retrofitException.errorResponse?.let { errorResponse ->
-                                _snackBarMessage.value =
-                                        Text.TextString(errorResponse.message)
+                                Text.TextString(errorResponse.message)
                             }
+                            _errorLiveData.value = RetrofitException.Kind.HTTP
                         }
                         RetrofitException.Kind.NETWORK -> {
                             _snackBarMessage.value =
                                     Text.TextString(retrofitException.exception.toString())
+                            _errorLiveData.value = RetrofitException.Kind.NETWORK
                         }
                         RetrofitException.Kind.UNEXPECTED -> {
                             _snackBarMessage.value =
                                     Text.Res(coreR.string.unknown_error)
+                            _errorLiveData.value = RetrofitException.Kind.UNEXPECTED
                         }
                         RetrofitException.Kind.UNAUTHORIZED -> {
                             _snackBarMessage.value =
@@ -84,17 +86,19 @@ class GameViewModel @Inject constructor(
                     when (retrofitException.kind) {
                         RetrofitException.Kind.HTTP -> {
                             retrofitException.errorResponse?.let { errorResponse ->
-                                _snackBarMessage.value =
-                                        Text.TextString(errorResponse.message)
+                                Text.TextString(errorResponse.message)
                             }
+                            _errorLiveData.value = RetrofitException.Kind.HTTP
                         }
                         RetrofitException.Kind.NETWORK -> {
                             _snackBarMessage.value =
                                     Text.TextString(retrofitException.exception.toString())
+                            _errorLiveData.value = RetrofitException.Kind.NETWORK
                         }
                         RetrofitException.Kind.UNEXPECTED -> {
                             _snackBarMessage.value =
                                     Text.Res(coreR.string.unknown_error)
+                            _errorLiveData.value = RetrofitException.Kind.UNEXPECTED
                         }
                         RetrofitException.Kind.UNAUTHORIZED -> {
                             _snackBarMessage.value =
@@ -117,14 +121,17 @@ class GameViewModel @Inject constructor(
                             retrofitException.errorResponse?.let { errorResponse ->
                                         Text.TextString(errorResponse.message)
                             }
+                            _errorLiveData.value = RetrofitException.Kind.HTTP
                         }
                         RetrofitException.Kind.NETWORK -> {
                             _snackBarMessage.value =
                                     Text.TextString(retrofitException.exception.toString())
+                            _errorLiveData.value = RetrofitException.Kind.NETWORK
                         }
                         RetrofitException.Kind.UNEXPECTED -> {
                             _snackBarMessage.value =
                                     Text.Res(coreR.string.unknown_error)
+                            _errorLiveData.value = RetrofitException.Kind.UNEXPECTED
                         }
                         RetrofitException.Kind.UNAUTHORIZED -> {
                             _snackBarMessage.value =
