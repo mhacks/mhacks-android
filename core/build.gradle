@@ -15,7 +15,6 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
-
     }
 
     buildTypes {
@@ -47,9 +46,13 @@ dependencies {
     api "com.google.android.gms:play-services-maps:17.0.0"
     api "com.google.android.gms:play-services-vision:18.0.0"
 
+
     api deps.androidx.preference
 
-    debugImplementation deps.facebook.flipper
+    implementation deps.facebook.flipper
+    debugImplementation deps.facebook.soLoader
+//    releaseImplementation deps.facebook.flipperNoOp
+
 
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
     implementation 'com.squareup.okhttp3:okhttp:4.1.0'

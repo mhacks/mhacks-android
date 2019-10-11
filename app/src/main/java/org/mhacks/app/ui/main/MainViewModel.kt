@@ -47,7 +47,7 @@ class MainViewModel @Inject constructor(
                 _auth.value = it.data
                 checkIfAdmin()
             } else if (it is Outcome.Error<*>) {
-                Timber.d("Auth Failure")
+                Timber.d("Auth Failure  ")
                 if (it.exception is EmptyResultSetException) {
                     Timber.d("Going to the SignInActivity")
                     _auth.value = null

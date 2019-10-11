@@ -12,7 +12,7 @@ import org.mhacks.app.core.widget.NavigationFragment
 import org.mhacks.app.eventlibrary.data.model.Event
 import org.mhacks.app.core.data.model.RetrofitException
 import org.mhacks.app.event.R
-import org.mhacks.app.event.databinding.FragmentEventBinding
+import org.mhacks.app.event.databinding.FragmentEvent2Binding
 import org.mhacks.app.eventlibrary.EventViewModel
 import org.mhacks.app.events.di.inject
 import timber.log.Timber
@@ -29,7 +29,7 @@ class EventFragment : NavigationFragment() {
 
     override var rootView: View? = null
 
-    private lateinit var binding: FragmentEventBinding
+    private lateinit var binding: FragmentEvent2Binding
 
     @Inject lateinit var viewModel: EventViewModel
 
@@ -39,7 +39,7 @@ class EventFragment : NavigationFragment() {
             savedInstanceState: Bundle?): View? {
         AndroidThreeTen.init(context)
         inject()
-        binding = FragmentEventBinding.inflate(inflater, container, false)
+        binding = FragmentEvent2Binding.inflate(inflater, container, false)
                 .apply {
                     eventPagerTabStrip.tabIndicatorColor = Color.WHITE
 

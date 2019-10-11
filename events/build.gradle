@@ -11,6 +11,10 @@ android {
         enabled = true
     }
 
+    lintOptions {
+        abortOnError false
+        checkReleaseBuilds false
+    }
     defaultConfig {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk

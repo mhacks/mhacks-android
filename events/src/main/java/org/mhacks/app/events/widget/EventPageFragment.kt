@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import org.mhacks.app.event.databinding.FragmentEventPage2Binding
 import org.mhacks.app.eventlibrary.data.model.Event
-import org.mhacks.app.event.databinding.FragmentEventPageBinding
 import org.mhacks.app.eventlibrary.EventWithDay
 import org.mhacks.app.eventlibrary.data.model.EventSectionModel
 
@@ -16,7 +16,7 @@ import org.mhacks.app.eventlibrary.data.model.EventSectionModel
  */
 class EventPageFragment : Fragment() {
 
-    private lateinit var binding: FragmentEventPageBinding
+    private lateinit var binding: FragmentEventPage2Binding
 
     var onEventsClicked: ((event: Event, isChecked: Boolean) -> Unit)? = null
 
@@ -25,7 +25,7 @@ class EventPageFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentEventPageBinding.inflate(
+        binding = FragmentEventPage2Binding.inflate(
                 LayoutInflater.from(container?.context),
                 container,
                 false

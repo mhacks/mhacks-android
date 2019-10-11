@@ -30,12 +30,18 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    lintOptions {
+        abortOnError false
+        checkReleaseBuilds false
+    }
     signingConfigs {
         release {
             storeFile file("mhacks-release-key.keystore")
             keyAlias "mykey"
 
             def console = System.console()
+            storePassword 'w0mbatAndroid'
+            keyPassword 'w0mbatAndroid'
 
             if (console != null) {
                 def password = new String(console.readPassword("\n> Enter keystore password: "))
@@ -110,9 +116,8 @@ dependencies {
 
     api project(':ratingmanager')
 
-    debugImplementation deps.facebook.flipper
+    implementation deps.facebook.flipper
     debugImplementation deps.facebook.soLoader
-    releaseImplementation deps.facebook.flipperNoOp
 
     // Networking
     implementation 'com.squareup.retrofit2:converter-moshi:2.6.1'

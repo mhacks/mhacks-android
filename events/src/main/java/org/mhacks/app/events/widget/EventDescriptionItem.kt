@@ -4,8 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import org.mhacks.app.event.databinding.ItemEventDesc2Binding
 import org.mhacks.app.eventlibrary.data.model.Event
-import org.mhacks.app.event.databinding.ItemEventDescBinding
 
 /**
  * Add events descriptions within a Linear Layout
@@ -13,8 +13,8 @@ import org.mhacks.app.event.databinding.ItemEventDescBinding
 class EventDescriptionItem(context: Context, attrs: AttributeSet?)
     : ConstraintLayout(context, attrs) {
 
-    private var binding: ItemEventDescBinding =
-            ItemEventDescBinding.inflate(LayoutInflater.from(context), this, true)
+    private var binding: ItemEventDesc2Binding =
+            ItemEventDesc2Binding.inflate(LayoutInflater.from(context), this, true)
 
     init {
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)

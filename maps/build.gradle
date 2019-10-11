@@ -20,6 +20,12 @@ android {
         buildConfigField 'double', 'LAT', '42.2694'
         buildConfigField 'double', 'LNG', '-83.7425'
     }
+    android {
+        lintOptions {
+            abortOnError false
+        }
+    }
+
 }
 
 dependencies {
