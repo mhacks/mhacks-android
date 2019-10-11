@@ -155,8 +155,7 @@ class GameActivity : AppCompatActivity() {
                     Toast.makeText(this, R.string.game_network_failure, Toast.LENGTH_LONG).show()
                 }
                 RetrofitException.Kind.UNAUTHORIZED -> {
-                    val message = error.name + " - Please sign in to play SiMHacks!"
-                    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, R.string.unauthorized_access, Toast.LENGTH_LONG).show()
                     val intent = intentTo(Activities.SignIn)
                     startActivity(intent)
                     finish()
