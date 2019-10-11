@@ -1,4 +1,14 @@
-<vector android:height="108dp" android:viewportHeight="140"
-    android:viewportWidth="140" android:width="108dp" xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="#fff" android:pathData="M51.24,17.84l-45.91,104.33l42.4,-5.97l9.84,-29.01l15.19,17.94l18.38,-15.27l11.29,18.65l30.79,-4.34l-34.62,-65.69l-18.43,16.3l-28.93,-36.94z"/>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="130dp"
+    android:viewportWidth="140"
+    android:viewportHeight="168">
+    <group
+        android:name="translate"
+        android:translateY="15">
+        <path
+            android:fillColor="#fff"
+            android:pathData="M51.24,17.84l-45.91,104.33l42.4,-5.97l9.84,-29.01l15.19,17.94l18.38,-15.27l11.29,18.65l30.79,-4.34l-34.62,-65.69l-18.43,16.3l-28.93,-36.94z" />
+    </group>
+
 </vector>
